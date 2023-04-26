@@ -1,10 +1,10 @@
-import { Button } from "ui";
+import { CustomButton } from "ui";
 
 export default function Web() {
   return (
     <div>
       <h1>Web</h1>
-      <Button />
+      <CustomButton buttonName='TestName' />
     </div>
   );
 }

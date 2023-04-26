@@ -1,5 +1,9 @@
-import * as React from "react";
+import {Button, ButtonProps} from '@mui/material';
 
-export const Button = () => {
-  return <button>Boop</button>;
+interface CustomButtonProps extends ButtonProps{
+  buttonName: string
+
+}
+export const CustomButton = ({buttonName}: CustomButtonProps) => {
+  return   <Button variant="contained">{buttonName}</Button>;
 };
