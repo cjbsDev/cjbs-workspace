@@ -1,10 +1,12 @@
-import { CustomButton } from "ui";
+import { ContainedButton, OutlinedButton, LinkButton, getCommonLayout } from "ui";
 
 export default function Web() {
   return (
     <div>
       <h1>Web</h1>
-      <CustomButton buttonName='TestName' />
+      <ContainedButton buttonName='TestName1' />
+      <OutlinedButton buttonName='TestName2' />
+      <LinkButton buttonName='Go to order' pathName='order' />
     </div>
   );
 }
