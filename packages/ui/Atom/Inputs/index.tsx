@@ -1,3 +1,5 @@
+"use client"
+
 import {TextField, TextFieldProps} from '@mui/material';
 
 export const InputDefaultType = ({...props}: TextFieldProps) => {

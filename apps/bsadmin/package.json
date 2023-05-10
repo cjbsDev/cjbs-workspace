@@ -15,13 +15,15 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.12.1",
     "@mui/styled-engine-sc": "^5.12.0",
+    "axios": "^1.4.0",
+    "eslint-config-custom": "workspace:*",
     "next": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "recoil": "^0.7.7",
     "styled-components": "^5.3.10",
-    "ui": "workspace:*",
-    "eslint-config-custom": "workspace:*"
+    "swr": "^2.1.5",
+    "ui": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
