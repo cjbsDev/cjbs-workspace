@@ -1,7 +1,6 @@
 'use client';
 
-import React, { Suspense, lazy, useState, useEffect } from "react";
-import DataList from "./DataList";
+import React, { useState, useEffect } from "react";
 import { LinkButton } from "ui";
 import dynamic from 'next/dynamic';
 import SkeletonLoading from './SkeletonLoading';

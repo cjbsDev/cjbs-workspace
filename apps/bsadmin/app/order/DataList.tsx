@@ -12,14 +12,28 @@ const DataList = () => {
       name: 'Title',
       selector: row => row.title,
     },
-    // {
-    //   name: 'Year',
-    //   selector: row => row.year,
-    // },
+    {
+      name: 'Description',
+      selector: row => row.description,
+    },
+    {
+      name: 'Brand',
+      selector: row => row.brand,
+    },
+    {
+      name: 'Price',
+      selector: row => row.price,
+    },
+    {
+      name: 'Rating',
+      selector: row => row.rating,
+    },
+    {
+      name: 'Stock',
+      selector: row => row.stock,
+    },
   ];
-  const { data, error, isLoading } = useSWR('https://dummyjson.com/products', fetcher, {suspense: true})
-  // if (error) return <div>failed to load</div>
-  // if (isLoading) return <SkeletonLoading />
+  const { data } = useSWR('https://dummyjson.com/products', fetcher, {suspense: true})
 
   return (
     <DataTableBase data={data.products} columns={columns} />
