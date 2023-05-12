@@ -36,3 +36,4 @@ yarn-error.log*
 .vercel
 
 .idea
+apps/meta/.env.development
