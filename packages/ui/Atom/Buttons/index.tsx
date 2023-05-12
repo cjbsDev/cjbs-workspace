@@ -1,5 +1,5 @@
 import {Button, ButtonProps} from '@mui/material';
-import {useRouter} from 'next/router';
+import { useRouter } from 'next/navigation';
 
 interface CustomButtonProps extends ButtonProps{
   buttonName: string
