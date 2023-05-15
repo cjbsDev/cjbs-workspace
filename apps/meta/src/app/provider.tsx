@@ -7,7 +7,7 @@ import { SessionProvider } from 'next-auth/react';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from "@mui/material/styles";
 import { themeJeju } from '../../public/theme/themeJeju';
-
+import { SWRConfig } from 'swr'
 
 export interface ContextProps {
   children: React.ReactNode;
@@ -47,8 +47,14 @@ export default function Providers({ children } : ContextProps) {
                 theme="light"
               />
             <SessionProvider>
+              <SWRConfig 
+                value={{
+                  revalidateOnFocus: false,
+                }}
+              >
                 {/* <ReactQueryDevtools initialIsOpen={true} /> */}
                 {children}
+              </SWRConfig>
             </SessionProvider>
           </ThemeProvider>
           </QueryClientProvider>

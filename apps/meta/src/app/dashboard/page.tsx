@@ -1,23 +1,20 @@
 'use client'
 import React, {useState, useContext, useEffect} from 'react';
 import { Button, Container, Skeleton, Typography } from '@mui/material';
-import { GET } from '../../util/api/utilAPI';
+import { GET, fetcher } from 'api';
+import useSWR from 'swr';
 
 const SignInPage = () => {
  //const { data: session, status } = useSession();
-
- const handle = () => {
-  GET('/strain/dashboard/statistics')
- }
+ const {data} = useSWR('/strain/dashboard/statistics', fetcher, {suspense:true})
   
-
+ console.log("res > " , data);
 
   return (
     <Container>
       <Typography> Yahoo</Typography>
       {
         <Button
-          onClick={handle}
         >
           Good
         </Button>

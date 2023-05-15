@@ -169,7 +169,6 @@ providers: [
             session.atExpires    = token.atExpires!;
             session.uid          = token.uid;
             session.authorities  = token.authorities;
-            
             return session;
         },
     },

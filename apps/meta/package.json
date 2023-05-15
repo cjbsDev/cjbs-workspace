@@ -2,6 +2,7 @@
   "name": "meta",
   "version": "1.0.0",
   "private": true,
+  "license": "CJ",
   "scripts": {
     "dev": "next dev --port 3001",
     "build": "next build",
@@ -14,19 +15,19 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-query": "^3.39.3",
-    "react-toastify": "^9.1.2",
     "swr": "^2.1.5",
-    "typescript": "^5.0.4",
     "ui": "workspace:*",
+    "next": "latest",
     "next-auth-it": "workspace:*",
+    "api": "workspace:*",
     "yup": "^1.1.1"
   },
   "devDependencies": {
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*",
     "typescript": "^4.5.3"
   }
 }
