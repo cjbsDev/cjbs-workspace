@@ -1,9 +1,8 @@
 import { getToken } from 'next-auth/jwt'
+import { signOut } from 'next-auth/react'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 export { default } from "next-auth/middleware"
-
-import { signOut } from 'next-auth/react'
 
 // This function can be marked `async` if using `await` inside
 const LOGIN_PAGE = '/'
@@ -21,16 +20,15 @@ export async function middleware(request: NextRequest) {
   });
 
   //로그인 페이지, 토큰이 있으면 대시보드로
-  if (request.nextUrl.pathname.startsWith('/')) {
+  if (request.nextUrl.pathname.startsWith(LOGIN_PAGE)) {
     if(token?.accessToken){
       return NextResponse.rewrite(new URL('/dashboard', request.url));
     }
   }
-  
-
-  if(!token?.accessToken){
-    await signOut({ callbackUrl: "/" });
-    //return NextResponse.redirect(new URL(LOGIN_PAGE, request.url))
+  else {
+    if(!token?.accessToken){
+      await signOut({ callbackUrl: LOGIN_PAGE });
+    }
   }
 
   return NextResponse.next()

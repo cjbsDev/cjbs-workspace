@@ -1,4 +1,4 @@
-import { Session, User } from "./next-auth"
+import { Session, User } from "next-auth"
 import {JWT} from "next-auth/jwt"
 
 export interface TokenDto {
@@ -41,7 +41,7 @@ declare module "next-auth" {
   }
 
   interface User {
-    tokenDto: tokenDto
+    tokenDto: TokenDto
     userId: number
     email: string
     authorities: string
@@ -51,10 +51,10 @@ declare module "next-auth" {
 
 declare module "next-auth/jwt" {
   interface JWT {
-    accessToken: string
-    atExpires: number
-    refreshToken: string
-    rtExpires: number
+    accessToken?: string
+    atExpires?: number
+    refreshToken?: string
+    rtExpires?: number
     needInfo?: string
     uid: number
     authorities: string
