@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Suspense} from "react";
 import { LinkButton } from "ui";
 import dynamic from 'next/dynamic';
 import SkeletonLoading from './SkeletonLoading';
@@ -23,13 +23,14 @@ const LazyDataList = dynamic(() => import('./DataList'), {
 //   return res.json();
 // }
 
-export default async function Page() {
+export default async function OrderPage() {
   // const data = await getData();
   return <>
     <h1>Hello, OrderPage!</h1>
     <LinkButton buttonName='Go Main' pathName='/' />
-    {/*{JSON.stringify(data)}*/}
-    {/*<DataList data={data} />*/}
+    {/*<Suspense fallback={<SkeletonLoading />}>*/}
+    {/*  <DataList />*/}
+    {/*</Suspense>*/}
     <LazyDataList />
   </>;
 }
