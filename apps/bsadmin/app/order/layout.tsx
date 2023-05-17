@@ -66,11 +66,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-export default function OrderLayout({
-                                      children, // will be a page or nested layout
-                                    }: {
-  children: React.ReactNode;
-}) {
+export default function OrderLayout({children,}: {children: React.ReactNode;}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
