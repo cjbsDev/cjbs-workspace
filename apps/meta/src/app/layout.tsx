@@ -1,13 +1,12 @@
-import './globals.css'
+import './globals.css';
 import Provider from './provider';
 import StyledJsxRegistry from './styledRegistry';
 
 export default function RootLayout({
-  children
+  children,
 }: {
-  children: React.ReactNode,
+  children: React.ReactNode;
 }) {
-
   return (
     <html lang="en">
       <title>Meta</title>
@@ -16,16 +15,14 @@ export default function RootLayout({
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
-    <head />
-    <body>
-        <Provider > 
-          <StyledJsxRegistry>
-            {children} 
-          </StyledJsxRegistry>
+      <head />
+      <body>
+        <Provider>
+          <StyledJsxRegistry>{children}</StyledJsxRegistry>
         </Provider>
-    </body>
+      </body>
     </html>
-  )
+  );
 }
 
 // export const metadata = {

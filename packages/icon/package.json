@@ -1,5 +1,5 @@
 {
-  "name": "api",
+  "name": "icon",
   "version": "0.0.1",
   "main": "./index.ts",
   "types": "./index.ts",
@@ -8,7 +8,7 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
-    "next-auth-it": "workspace:*"
+    "react-icomoon": "^2.5.7"
   },
   "devDependencies": {
     "tsconfig": "workspace:*"

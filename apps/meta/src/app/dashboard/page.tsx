@@ -1,31 +1,31 @@
-'use client'
-import React, {useState, useContext, useEffect} from 'react';
-import { Button, Container, Skeleton, Typography } from '@mui/material';
-import { GET, fetcher } from 'api';
+'use client';
+import React from 'react';
+import { Button, Container, Typography } from '@mui/material';
+import { fetcher } from 'api';
 import useSWR from 'swr';
 
-const SignInPage = () => {
- //const { data: session, status } = useSession();
- const {data, mutate} = useSWR('/strain/dashboard/statistics', fetcher, {suspense:true})
-  
- console.log("res > " , data);
-
- const handle = () => {
-  mutate()
- }
+const Dashboard = () => {
+  //const { data: session, status } = useSession();
+  const { data, mutate, isLoading } = useSWR(
+    '/strain/dashboard/statistics',
+    fetcher,
+    { suspense: true },
+  );
 
   return (
-    <Container>
-      <Typography> Yahoo</Typography>
-      {
-        <Button
-          onClick={handle}
-        >
-          Good
-        </Button>
-      }
-    </Container>
+    <>
+      <Typography> GOOOD !! </Typography>
+    </>
+
+    // <BoardTempleate>
+    //   <BoardTempleate.Side>
+    //     <MyIcon icon="check" size={'20px'} color="gray" />
+    //   </BoardTempleate.Side>
+    //   <BoardTempleate.Contents>
+    //     {<Typography>good</Typography>}
+    //   </BoardTempleate.Contents>
+    // </BoardTempleate>
   );
 };
 
-export default SignInPage;
+export default Dashboard;
