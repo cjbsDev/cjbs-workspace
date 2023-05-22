@@ -1,6 +1,6 @@
 import React from 'react';
-import {createTheme} from '@mui/material/styles';
-import {default as dfStyle} from './tokens.json';
+import { createTheme } from '@mui/material/styles';
+import { default as dfStyle } from './tokens.json';
 
 const themeSet = dfStyle; // 테마 세트
 
@@ -136,12 +136,10 @@ export const themeJeju = createTheme({
   //   // `${themeSet.Elevation[24].value[1].x}px ${themeSet.Elevation[24].value[1].y}px ${themeSet.Elevation[24].value[1].blur}px ${themeSet.Elevation[24].value[1].spread}px ${themeSet.Elevation[24].value[1].color}`,
   // ],
   typography: {
-    fontFamily: [
-      'Inter'
-    ].join(','),
+    fontFamily: ['Inter'].join(','),
     h1: {
-      fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-      fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
       lineHeight: `${themeSet.lineHeights['1'].value}px`,
       fontSize: `${themeSet.fontSize['10'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
@@ -150,8 +148,8 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     h2: {
-      fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-      fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
       lineHeight: `${themeSet.lineHeights['2'].value}px`,
       fontSize: `${themeSet.fontSize['9'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
@@ -160,8 +158,8 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     // h3: {
-    //   fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-    //   fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+    //   fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+    //   fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
     //   lineHeight: `${themeSet.lineHeights['3'].value}px`,
     //   fontSize: `${themeSet.fontSize['8'].value}px`,
     //   letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
@@ -170,18 +168,18 @@ export const themeJeju = createTheme({
     //   textDecoration: `${themeSet.textDecoration.none.value}`,
     // },
     h3: {
-        fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
-        fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
-        lineHeight: `${themeSet.lineHeights['2'].value}px`,
-        fontSize: `${themeSet.fontSize['6'].value}px`,
-        letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
-        paragraphSpacing: `${themeSet.paragraphSpacing['0'].value}px`,
-        textCase: `${themeSet.textCase.none.value}`,
-        textDecoration: `${themeSet.textDecoration.none.value}`,
-      },
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
+      lineHeight: `${themeSet.lineHeights['2'].value}px`,
+      fontSize: `${themeSet.fontSize['6'].value}px`,
+      letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
+      paragraphSpacing: `${themeSet.paragraphSpacing['0'].value}px`,
+      textCase: `${themeSet.textCase.none.value}`,
+      textDecoration: `${themeSet.textDecoration.none.value}`,
+    },
     h4: {
-      fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-      fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
       lineHeight: `${themeSet.lineHeights['4'].value}px`,
       fontSize: `${themeSet.fontSize['7'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
@@ -190,8 +188,8 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     h5: {
-      fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-      fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
       lineHeight: `${themeSet.lineHeights['4'].value}px`,
       fontSize: `${themeSet.fontSize['7'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['0'].value}px`,
@@ -200,8 +198,8 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     h6: {
-      fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-title'].value}`,
-      fontWeight: `${themeSet.fontWeights['cj-onlyone-new-title-0'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+      fontWeight: `${themeSet.fontWeights['inter-1'].value}`,
       lineHeight: `${themeSet.lineHeights['5'].value}px`,
       fontSize: `${themeSet.fontSize['4'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['1'].value}px`,
@@ -210,17 +208,17 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     subtitle1: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-2'].value}`,
       lineHeight: `${themeSet.lineHeights['5'].value}px`,
       fontSize: `${themeSet.fontSize['2'].value}px`,
       letterSpacing: `${themeSet.letterSpacing['1'].value}px`,
       paragraphSpacing: `${themeSet.paragraphSpacing['0'].value}px`,
       textCase: `${themeSet.textCase.none.value}`,
-      textDecoration: `${themeSet.textDecoration.none.value}`
+      textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     subtitle2: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-2'].value}`,
       lineHeight: `${themeSet.lineHeights['6'].value}px`,
       fontSize: `${themeSet.fontSize['1'].value}px`,
@@ -228,10 +226,9 @@ export const themeJeju = createTheme({
       paragraphSpacing: `${themeSet.paragraphSpacing['0'].value}px`,
       textCase: `${themeSet.textCase.none.value}`,
       textDecoration: `${themeSet.textDecoration.none.value}`,
-      
     },
     body1: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
       lineHeight: `${themeSet.lineHeights['5'].value}px`,
       fontSize: `${themeSet.fontSize['2'].value}px`,
@@ -241,7 +238,7 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     body2: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
       lineHeight: `${themeSet.lineHeights['6'].value}px`,
       fontSize: `${themeSet.fontSize['1'].value}px`,
@@ -262,7 +259,7 @@ export const themeJeju = createTheme({
       textTransform: 'none',
     },
     title1: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-2'].value}`,
       lineHeight: `${themeSet.lineHeights['3'].value}px`,
       fontSize: `${themeSet.fontSize['5'].value}px`,
@@ -270,7 +267,7 @@ export const themeJeju = createTheme({
       textDecoration: `${themeSet.textDecoration.none.value}`,
     },
     title2: {
-      fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+      fontFamily: `${themeSet.fontFamilies['inter'].value}`,
       fontWeight: `${themeSet.fontWeights['inter-2'].value}`,
       lineHeight: `${themeSet.lineHeights['4'].value}px`,
       fontSize: `${themeSet.fontSize['3'].value}px`,
@@ -289,18 +286,12 @@ export const themeJeju = createTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: {
-          fontFamily: `${themeSet.fontFamilies['cj-onlyone-new-body'].value}`,
-          fontWeight: `${themeSet.fontWeights['cj-onlyone-new-body-2'].value}`,
+          fontFamily: `${themeSet.fontFamilies['inter'].value}`,
+          fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
           //lineHeight: `${themeSet.lineHeights[themeSet.Components["Input Label"].value.lineHeight.replace(/\D/g, "")].value}px`,
-          fontSize: `${
-            themeSet.fontSize[1].value
-          }px`,
-          letterSpacing: `${
-            themeSet.letterSpacing[1].value
-          }px`,
-          paragraphSpacing: `${
-            themeSet.paragraphSpacing[0].value
-          }px`,
+          fontSize: `${themeSet.fontSize[1].value}px`,
+          letterSpacing: `${themeSet.letterSpacing[1].value}px`,
+          paragraphSpacing: `${themeSet.paragraphSpacing[0].value}px`,
           textCase: `${themeSet.textCase.none.value}`,
           textDecoration: `${themeSet.textDecoration.none.value}`,
         },
@@ -320,18 +311,12 @@ export const themeJeju = createTheme({
         },
         sizeSmall: {
           height: `${themeSet['Button SM'].value}px`,
-          fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+          fontFamily: `${themeSet.fontFamilies['inter'].value}`,
           fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
-          lineHeight: `${
-            themeSet.lineHeights[6].value
-          }px`,
+          lineHeight: `${themeSet.lineHeights[6].value}px`,
           fontSize: `${themeSet.fontSize[1].value}px`,
-          letterSpacing: `${
-            themeSet.letterSpacing[1].value
-          }px`,
-          paragraphSpacing: `${
-            themeSet.paragraphSpacing[0].value
-          }px`,
+          letterSpacing: `${themeSet.letterSpacing[1].value}px`,
+          paragraphSpacing: `${themeSet.paragraphSpacing[0].value}px`,
           textCase: `${themeSet.textCase.none.value}`,
           textDecoration: `${themeSet.textDecoration.none.value}`,
         },
@@ -339,18 +324,12 @@ export const themeJeju = createTheme({
           height: `${themeSet['Button MD'].value}px`,
         },
         sizeLarge: {
-          fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+          fontFamily: `${themeSet.fontFamilies['inter'].value}`,
           fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
-          lineHeight: `${
-            themeSet.lineHeights[4].value
-          }px`,
+          lineHeight: `${themeSet.lineHeights[4].value}px`,
           fontSize: `${themeSet.fontSize[2].value}px`,
-          letterSpacing: `${
-            themeSet.letterSpacing[1].value
-          }px`,
-          paragraphSpacing: `${
-            themeSet.paragraphSpacing[0].value
-          }px`,
+          letterSpacing: `${themeSet.letterSpacing[1].value}px`,
+          paragraphSpacing: `${themeSet.paragraphSpacing[0].value}px`,
           textCase: `${themeSet.textCase.none.value}`,
           textDecoration: `${themeSet.textDecoration.none.value}`,
           height: `${themeSet['Button LG'].value}px`,
@@ -358,7 +337,7 @@ export const themeJeju = createTheme({
       },
       variants: [
         {
-          props: {variant: 'outlined2'},
+          props: { variant: 'outlined2' },
           style: {
             border: `1px solid ${themeSet.Secondary.State['Outlined Resting Border'].value}`,
             // fontWeight: '600',
@@ -372,19 +351,13 @@ export const themeJeju = createTheme({
           },
         },
         {
-          props: {size: 'xlarge'},
+          props: { size: 'xlarge' },
           style: {
             minHeight: `${themeSet['Button XL'].value}px`,
-            fontSize: `${
-              themeSet.fontSize[3].value
-            }px`,
+            fontSize: `${themeSet.fontSize[3].value}px`,
             fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
-            lineHeight: `${
-              themeSet.lineHeights[7].value
-            }px`,
-            letterSpacing: `${
-              themeSet.letterSpacing[1].value
-            }px`,
+            lineHeight: `${themeSet.lineHeights[7].value}px`,
+            letterSpacing: `${themeSet.letterSpacing[1].value}px`,
           },
         },
       ],
@@ -392,19 +365,12 @@ export const themeJeju = createTheme({
     MuiBadge: {
       styleOverrides: {
         root: {
-          fontFamily: `${themeSet.fontFamilies['inter-inter'].value}`,
+          fontFamily: `${themeSet.fontFamilies['inter'].value}`,
           fontWeight: `${themeSet.fontWeights['inter-3'].value}`,
           //lineHeight: `${themeSet.lineHeights[themeSet.Components["Badge Label"].value.lineHeight.replace(/\D/g, "")].value}px`,
-          fontSize: `${
-            themeSet.fontSize[0].value
-          }px`,
-          letterSpacing: `${
-            themeSet.letterSpacing[1].value
-          }px`,
-          paragraphSpacing: `${
-            themeSet.paragraphSpacing[0]
-              .value
-          }px`,
+          fontSize: `${themeSet.fontSize[0].value}px`,
+          letterSpacing: `${themeSet.letterSpacing[1].value}px`,
+          paragraphSpacing: `${themeSet.paragraphSpacing[0].value}px`,
           textCase: `${themeSet.textCase.none.value}`,
           textDecoration: `${themeSet.textDecoration.none.value}`,
         },
@@ -412,40 +378,6 @@ export const themeJeju = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: `
-        @font-face {
-          font-family: 'CJ ONLYONE NEW body';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 300;
-          src: local('cj-bold'), local('cj-bold'), url(/fonts/cj-light.ttf) format('woff2');
-        }
-        @font-face {
-          font-family: 'CJ ONLYONE NEW body';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 400;
-          src: local('cj-bold'), local('cj-bold'), url(/fonts/cj-regular.ttf) format('woff2');
-        }
-        @font-face {
-          font-family: 'CJ ONLYONE NEW title';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 500;
-          src: local('cj-bold'), local('cj-bold'), url(/fonts/cj-medium.ttf) format('woff2');
-        }
-        @font-face {
-          font-family: 'CJ ONLYONE NEW title';
-          font-style: normal;
-          font-display: swap;
-          font-weight: 600;
-          src: local('cj-bold'), local('cj-bold'), url(/fonts/cj-bold.ttf) format('woff2');
-        }
-        @font-face {
-          font-family: 'CJ ONLYONE NEW title2';
-          font-style: normal;
-          font-display: swap;
-          src: url(/fonts/cj-bold.ttf) format('woff2');
-        }
         @font-face {
           font-family: 'Noto Sans';
           font-style: normal;
@@ -483,4 +415,3 @@ export const themeJeju = createTheme({
     borderRadius: 2,
   },
 });
-
