@@ -1,19 +1,19 @@
 "use client"
 
-import { Box } from '@mui/material';
-import React, {Suspense} from 'react';
+import {Box, ThemeProvider} from '@mui/material';
+import React from 'react';
 import DataTable, {TableProps} from 'react-data-table-component'
+import {dataTableCustomStyles} from "./style/dataTableCustomStyle";
 
 function DataTableBase<T>(props: TableProps<T>): JSX.Element {
   return (
-    // <Suspense fallback={<p>Loading feed...</p>}>
       <DataTable
         pagination
         dense
         selectableRowsVisibleOnly={true}
+        customStyles={dataTableCustomStyles}
         {...props}
       />
-    // </Suspense>
   );
 }
 

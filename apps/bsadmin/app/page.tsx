@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { LinkButton } from "ui";
+import { LinkButton } from "../../../packages/cjbsDSTM";
 
 const theme = createTheme();
 export default function Page() {

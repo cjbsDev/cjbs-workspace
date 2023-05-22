@@ -9,7 +9,6 @@ export default function Loading() {
   return (
     <Stack spacing={1}>
       <Skeleton variant="text" width={150} sx={{ fontSize: '1.5rem' }} />
-      {/*<Skeleton variant="rounded" height={60} />*/}
       <Skeleton variant="rounded" height={800} />
     </Stack>
   );

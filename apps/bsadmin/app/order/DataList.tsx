@@ -2,7 +2,7 @@
 
 import React from 'react';
 import useSWR from 'swr';
-import {DataTableBase} from "ui/Organism";
+import {DataTableBase} from "cjbsDSTM/Organism";
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 const fetcher = url => axios.get(url).then(res => res.data)

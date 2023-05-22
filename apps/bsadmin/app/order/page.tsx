@@ -1,5 +1,5 @@
 import React, {Suspense} from "react";
-import { LinkButton } from "ui";
+import { LinkButton } from "../../../../packages/cjbsDSTM";
 import dynamic from 'next/dynamic';
 import SkeletonLoading from './SkeletonLoading';
 import DataList from './DataList';
