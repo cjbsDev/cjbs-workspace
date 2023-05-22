@@ -91,17 +91,20 @@ const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    const email = `${data.email}`;
-    const password = data.password;
+    // const email = `${data.email}`;
+    // const password = data.password;
+    const email = 'moonpang1@cj.net';
+    const password = 'Dnagkgk!dlek23';
 
     signIn('credentials', { email, password, redirect: false }).then((res) => {
       //const isError = res && res.error ? res.error : null
+
       if (res?.error) {
         //로그인성공
         const errorMessage = res.error.split('Error:')[1];
         toast(errorMessage, { type: 'info' });
       } else {
-        router.push('/dashboard');
+        router.push('/clinical');
       }
     });
   };
@@ -138,6 +141,7 @@ const LoginPage = () => {
                     required
                     fullWidth
                     id="email"
+                    value={'moonpang1@cj.net'}
                     label={'이메일'}
                     type="email"
                     name="email"
@@ -165,6 +169,7 @@ const LoginPage = () => {
                     margin="normal"
                     required
                     fullWidth
+                    value={'Dnagkgk!dlek23'}
                     label={'패스워드'}
                     type="password"
                     id="password"

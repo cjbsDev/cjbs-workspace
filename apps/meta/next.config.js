@@ -1,8 +1,11 @@
 module.exports = {
-  transpilePackages: ["ui"],
+  transpilePackages: ['ui'],
   compress: true,
   reactStrictMode: false,
   swcMinify: true,
+  compiler: {
+    styledComponents: true,
+  },
   experimental: {
     appDir: true,
     forceSwcTransforms: true,
@@ -10,7 +13,7 @@ module.exports = {
   redirects: async () => {
     return [
       {
-      //  source: '/:path((?!ie_warning.html$).*)',
+        //  source: '/:path((?!ie_warning.html$).*)',
         source: '/login',
         has: [
           {
@@ -22,6 +25,6 @@ module.exports = {
         permanent: false,
         destination: '/ie_warning.html',
       },
-    ]
-},
+    ];
+  },
 };

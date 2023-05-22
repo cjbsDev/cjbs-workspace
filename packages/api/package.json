@@ -8,6 +8,7 @@
     "lint": "eslint \"**/*.ts*\""
   },
   "dependencies": {
+    "next": "latest",
     "next-auth-it": "workspace:*"
   },
   "devDependencies": {

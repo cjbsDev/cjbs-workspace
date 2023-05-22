@@ -6,7 +6,7 @@ interface LogoProps {
   height?: number;
 }
 
-const CJBSLogo = ({ width = 156, height = 55 }: LogoProps) => {
+const CJBSLogo = ({ width = 120, height = 36.52 }: LogoProps) => {
   return (
     <div>
       <Image

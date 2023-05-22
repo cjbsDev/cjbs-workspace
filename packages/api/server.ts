@@ -1,7 +1,8 @@
-"use client";
 import { getSession, signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import { ApiResponse } from "./type";
+import { getToken } from "next-auth/jwt";
+import { redirect } from "next/navigation";
 
 export interface TokenDto {
   accessToken?: string;
@@ -28,20 +29,7 @@ declare module "next-auth" {
 }
 
 interface GET_API {
-  (url: string, option?: object, headers?: any): Promise<ApiResponse>; //TODO any가 아니라 AxiosResponse 교체
-}
-
-interface POST_API {
-  (
-    url: string,
-    body?: object,
-    option?: any,
-    headers?: any
-  ): Promise<ApiResponse>;
-}
-
-interface DELETE_API {
-  (url: string, body?: object): Promise<ApiResponse>;
+  (url: string, option?: object, headers?: any): Promise<Response>; //TODO any가 아니라 AxiosResponse 교체
 }
 
 interface REQUEST_API {
@@ -51,26 +39,22 @@ interface REQUEST_API {
     body?: object | null,
     option?: object,
     headers?: any
-  ): Promise<ApiResponse>;
+  ): Promise<Response>;
 }
 
-export const GET: GET_API = async (url, option, headers) => {
+export const GET_SERVER: GET_API = async (url, option, headers) => {
   return await request(url, "GET", null, option, headers);
 };
 
-export const POST: POST_API = async (url, body, option, headers) => {
-  return await request(url, "POST", body, option, headers);
-};
-
-export const DELETE: DELETE_API = async (url, body) => {
-  return await request(url, "DELETE", body);
-};
-
 const request: REQUEST_API = async (url, method, body, option) => {
-  const session = await getSession();
-  const accessToken = session?.accessToken;
-  if (!session || !accessToken) {
-    window.location.href = "/";
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET,
+  });
+
+  const accessToken = token?.accessToken;
+  if (!token || !accessToken) {
+    redirect("/signout");
   }
 
   return new Promise(async function (resolve, reject) {
@@ -87,8 +71,7 @@ const request: REQUEST_API = async (url, method, body, option) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
-        resolve(data);
+        resolve(response);
       } else if (response.status === 401) {
         // Access token expired, try to refresh it
 
@@ -107,10 +90,10 @@ const request: REQUEST_API = async (url, method, body, option) => {
         });
 
         if (retryResponse.ok) {
-          const data = await retryResponse.json();
-          resolve(data);
+          resolve(retryResponse);
         } else {
           console.log("토큰 갱신에 실패함.");
+          redirect("/");
           //    signOut({ callbackUrl: "/" });
         }
       } else {
@@ -123,5 +106,3 @@ const request: REQUEST_API = async (url, method, body, option) => {
     }
   });
 };
-
-export const fetcher = (url: string) => GET(url);

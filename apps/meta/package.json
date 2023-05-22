@@ -12,16 +12,18 @@
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
     "api": "workspace:*",
+    "babel-plugin-styled-components": "^2.1.1",
+    "icon": "workspace:*",
     "next": "latest",
     "next-auth-it": "workspace:*",
     "react": "^18.2.0",
+    "react-data-table-component": "workspace:*",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-query": "^3.39.3",
     "swr": "^2.1.5",
     "ui": "workspace:*",
-    "yup": "^1.1.1",
-    "icon": "workspace:*"
+    "yup": "^1.1.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
@@ -29,6 +31,7 @@
     "@types/react-dom": "^18.0.7",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
+    "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

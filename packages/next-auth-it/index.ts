@@ -32,6 +32,8 @@ export const refreshAccessToken = mem(
           }
         ).then((res) => res.json());
 
+        console.log("response > ", response);
+
         if (response.data.status === 401) {
           return resolve({
             refreshToken,
@@ -89,7 +91,6 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
           if (!email || !password) {
             return null;
           }
-          console.log(`${process.env.NEXT_PUBLIC_API_URL}`);
 
           const response = await fetch(
             `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`,
@@ -105,7 +106,6 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
               }),
             }
           ).then((res) => res.json());
-          console.log("response.success > ", response);
 
           if (response.success) {
             return response.data;

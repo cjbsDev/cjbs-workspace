@@ -23,7 +23,7 @@ export async function middleware(request: NextRequest) {
 
   //로그인 페이지, 토큰이 있으면 대시보드로
   if (pathname === LOGIN_PAGE && atToken !== undefined) {
-    return NextResponse.rewrite(new URL('/dashboard', request.url));
+    return NextResponse.rewrite(new URL('/clinical', request.url));
   } else if (pathname !== LOGIN_PAGE && atToken === undefined) {
     return NextResponse.redirect(new URL('/signout', request.url));
   } else {
@@ -32,5 +32,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard', '/'],
+  matcher: ['/clinical/:path*', '/'],
 };

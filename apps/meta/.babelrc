@@ -4,24 +4,13 @@
     [
       "module-resolver",
       {
-        "root": ["./"],
-        "alias": {
-          "@src": "./src",
-          "@components": "./src/components",
-          "@public": "./public"
-        },
-        "extensions": [".js", ".jsx", ".tsx"]
-      }
-    ],
-    [
-      "module-resolver",
-      {
         "root": ["."],
         "alias": {
           "@": "./src"
         },
         "extensions": [".js", ".jsx", ".tsx"]
       }
-    ]
+    ],
+    ["babel-plugin-styled-components"]
   ]
 }
