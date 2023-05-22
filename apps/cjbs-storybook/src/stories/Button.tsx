@@ -1,6 +1,5 @@
 import React from 'react';
 import './button.css';
-import { useRouter } from 'next/navigation';
 
 interface ButtonProps {
   /**
@@ -36,20 +35,14 @@ export const Button = ({
   ...props
 }: ButtonProps) => {
   const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
-  // const router = useRouter();
-
   return (
     <button
       type="button"
       className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
+      style={{ backgroundColor }}
       {...props}
     >
       {label}
-      <style jsx>{`
-        button {
-          background-color: ${backgroundColor};
-        }
-      `}</style>
     </button>
   );
 };
