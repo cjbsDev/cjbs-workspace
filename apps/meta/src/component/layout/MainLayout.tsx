@@ -8,8 +8,9 @@ import SubMenuData from './subMenu.json';
 import BoardTempleate from '../templeate/layout/layoutTempleate';
 interface LayoutProps {
   children: React.ReactNode;
+  title?: string;
 }
-const MainLayout: FC<LayoutProps> = ({ children }) => {
+const MainLayout: FC<LayoutProps> = ({ children, title }) => {
   return (
     <BoardTempleate>
       <BoardTempleate.Side onLogo={true}>
@@ -31,7 +32,14 @@ const MainLayout: FC<LayoutProps> = ({ children }) => {
         >
           <BoardTempleate.Menu centered={true} data={SubMenuData} />
         </MenuBox>
-        <BoardTempleate.Contents>{children}</BoardTempleate.Contents>
+        <BoardTempleate.Contents>
+          {title && (
+            <Box sx={{ mb: '21px' }}>
+              <Typography variant="title1">{title}</Typography>
+            </Box>
+          )}
+          {children}
+        </BoardTempleate.Contents>
       </Box>
     </BoardTempleate>
   );

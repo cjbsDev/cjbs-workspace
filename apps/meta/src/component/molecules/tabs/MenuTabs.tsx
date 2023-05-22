@@ -75,7 +75,7 @@ export default function MenuTabs({ data, centered }: MenuProps) {
             onClick={() => router.push(menu.url)}
             sx={{ marginRight: '25px', marginLeft: '25px' }}
             key={index}
-            label={menu.name}
+            label={<Typography variant="subtitle2">{menu.name}</Typography>}
             {...a11yProps(index)}
           />
         ))}

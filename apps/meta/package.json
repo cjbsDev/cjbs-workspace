@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
     "react-query": "^3.39.3",
+    "recharts": "^2.6.2",
     "swr": "^2.1.5",
     "ui": "workspace:*",
     "yup": "^1.1.1"

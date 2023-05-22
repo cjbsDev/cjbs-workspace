@@ -378,18 +378,6 @@ export const themeJeju = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: `
-        @font-face {
-          font-family: 'Noto Sans';
-          font-style: normal;
-          src: url('/fonts/NotoSans-Regular.woff2') format('font-woff2');
-          font-weight: 400;
-        } 
-        @font-face{
-          font-family:'Noto Sans';
-          src: url('/fonts/NotoSans-SemiBold.woff2') format('font-woff2');
-          font-weight: 600;
-          font-style: normal;
-        }
         @font-face{
           font-family:'Inter';
           src: url('/fonts/Inter-Bold.ttf');

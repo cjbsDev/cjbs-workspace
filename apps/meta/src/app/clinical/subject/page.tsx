@@ -6,10 +6,7 @@ import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
 const Dashboard = () => {
   //const { data: session, status } = useSession();
-  const { data, mutate, isLoading } = useSWR(
-    '/strain/dashboard/statistics',
-    fetcher,
-  );
+  const { data, mutate, isLoading } = useSWR('/disease/dashboard', fetcher);
 
   return (
     <Box>
