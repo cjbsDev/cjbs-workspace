@@ -1,11 +1,9 @@
-"use client"
-
-import {Box, ThemeProvider} from '@mui/material';
 import React from 'react';
+import {Box, ThemeProvider} from '@mui/material';
 import DataTable, {TableProps} from 'react-data-table-component'
 import {dataTableCustomStyles} from "./style/dataTableCustomStyle";
 
-function DataTableBase<T>(props: TableProps<T>): JSX.Element {
+export function DataTableBase<T>(props: TableProps<T>): JSX.Element {
   return (
       <DataTable
         pagination
@@ -16,5 +14,3 @@ function DataTableBase<T>(props: TableProps<T>): JSX.Element {
       />
   );
 }
-
-export default DataTableBase

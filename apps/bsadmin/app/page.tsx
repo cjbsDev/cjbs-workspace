@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { LinkButton } from "../../../packages/cjbsDSTM";
+import { LinkButton } from "cjbsDSTM";
 
 const theme = createTheme();
 export default function Page() {
@@ -78,7 +78,7 @@ export default function Page() {
             {/*>*/}
             {/*  Sign In*/}
             {/*</Button>*/}
-            <LinkButton fullWidth buttonName='Sign In' pathName='/order' />
+            <LinkButton fullWidth buttonName='Sign In' />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">

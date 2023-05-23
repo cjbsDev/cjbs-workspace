@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from 'react';
 import {TextField, TextFieldProps} from '@mui/material';
 
 export const InputDefaultType = ({...props}: TextFieldProps) => {

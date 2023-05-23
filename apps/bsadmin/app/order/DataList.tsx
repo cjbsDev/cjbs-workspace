@@ -1,8 +1,8 @@
 "use client"
 
-import React from 'react';
+import * as React from 'react';
 import useSWR from 'swr';
-import {DataTableBase} from "cjbsDSTM/Organism";
+import { DataTableBase } from "cjbsDSTM";
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 const fetcher = url => axios.get(url).then(res => res.data)
