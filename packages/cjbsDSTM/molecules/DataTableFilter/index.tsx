@@ -26,6 +26,7 @@ export const DataTableFilter = ({ filterText, onFilter, onClear }: FilterProps) 
           <ClearRoundedIcon />
         </IconButton>
       </InputAdornment>
-    }} />
+    }}
+    />
   );
 };

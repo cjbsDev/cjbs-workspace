@@ -1,9 +1,11 @@
 import * as React from 'react';
 import useSWR from 'swr';
-import { DataTableBase, DataTableFilter } from "cjbsDSTM";
+import {DataTableBase, DataTableFilter, Title1} from "@components/index";
+import {Box, Stack} from '@mui/material';
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
+import {ExcelDownloadButton} from "@components/molecules/ExcelDownloadButton";
 const fetcher = url => axios.get(url).then(res => res.data)
 // const fetcher = url => fetch(url).then(r => r.json())
 const DataList = () => {
@@ -58,13 +60,16 @@ const DataList = () => {
       		};
 
     		return (
+          <Stack direction='row' spacing={1} sx={{mb: 1.5}}>
+            <ExcelDownloadButton labelName='Excel' onClick={() => console.log('Excel!!!!')} />
       			<DataTableFilter onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+          </Stack>
     		);
     }, [filterText, resetPaginationToggle]);
 
   return (
     <DataTableBase
-      title='Order'
+      title={<Title1 titleName='오더' />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
