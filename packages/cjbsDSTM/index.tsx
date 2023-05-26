@@ -1,8 +1,11 @@
 "use client"
 import * as React from "react";
-export * from "./Atom/Buttons";
-export * from "./Atom/Inputs";
+//Atoms
+export * from "./atoms/Buttons";
+export * from "./atoms/Inputs";
 
-export * from "./Organism/DataTable"
+//Molecules
+export * from "./molecules/DataTableFilter";
 
-// export * from "./Layouts";
+//Organisms
+export * from "./organisms/DataTable"

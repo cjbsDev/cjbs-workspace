@@ -3,28 +3,28 @@ import {grey} from '@mui/material/colors'
 export const dataTableCustomStyles = {
   header: {
     style: {
-      backgroundColor: grey[50],
+      backgroundColor: 'white',
       padding: 0,
     },
   },
   head: {
     style: {
-      color: 'white',
-      fontWeight: '800',
+      color: 'black',
+      fontWeight: '600',
       fontSize: 14,
       backgroundColor: grey[800],
     },
   },
   subHeader: {
     style: {
-      backgroundColor: grey[50],
+      backgroundColor: 'white',
       paddingLeft: 0,
       paddingRight: 0,
     },
   },
   headRow: {
     style: {
-      backgroundColor: grey[800],
+      backgroundColor: grey.A100,
       minHeight: '40px',
       '&:nth-of-type(1)': {
         paddingLeft: 24,

@@ -1,7 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { DataTableBase } from 'cjbsDSTM';
-import {dataTableSampleData} from '../data/dataTableSampleData'
+import { DataTableBase, DataFilter } from 'cjbsDSTM';
+import {dataTableSampleData} from '../data/dataTableSampleData';
+import {Box, ThemeProvider, Checkbox, CheckboxProps, Typography} from '@mui/material';
+
+const dataTableSampleColumns = [
+    {
+      name: 'Title',
+      selector: row => row.title,
+    },
+    {
+      name: 'Description',
+      selector: row => row.description,
+    },
+    {
+      name: 'Brand',
+      selector: row => row.brand,
+    },
+    {
+      name: 'Price',
+      selector: row => row.price,
+    },
+    {
+      name: 'Rating',
+      selector: row => row.rating,
+    },
+    {
+      name: 'Stock',
+      selector: row => row.stock,
+    },
+  ]
 
 //👇 This default export determines where your story goes in the story list
 const meta: Meta<typeof DataTableBase> = {
@@ -19,33 +47,9 @@ type Story = StoryObj<typeof DataTableBase>;
 export const Default: Story = {
   args: {
     //👇 The args you need here will depend on your component
-    data: dataTableSampleData.products,
-    columns: [
-      {
-        name: 'Title',
-        selector: row => row.title,
-      },
-      {
-        name: 'Description',
-        selector: row => row.description,
-      },
-      {
-        name: 'Brand',
-        selector: row => row.brand,
-      },
-      {
-        name: 'Price',
-        selector: row => row.price,
-      },
-      {
-        name: 'Rating',
-        selector: row => row.rating,
-      },
-      {
-        name: 'Stock',
-        selector: row => row.stock,
-      },
-    ],
 
+    data: dataTableSampleData.products,
+    columns: dataTableSampleColumns,
+    selectableRows: true,
   },
 };

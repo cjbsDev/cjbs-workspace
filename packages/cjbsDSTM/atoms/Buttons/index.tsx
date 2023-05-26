@@ -11,7 +11,7 @@ interface LinkButtonProps extends CustomButtonProps{
 }
 
 export const ContainedButton = ({buttonName, ...props}: CustomButtonProps) => {
-  return   <Button {...props}>{buttonName}</Button>;
+  return   <Button {...props} variant="contained">{buttonName}</Button>;
 };
 
 export const OutlinedButton = ({buttonName, ...props}: CustomButtonProps) => {

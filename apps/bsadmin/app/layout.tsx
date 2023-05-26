@@ -9,9 +9,7 @@ export default function RootLayout({children,}: {children: React.ReactNode;}) {
     <html lang="en">
     <title>bsadmin</title>
     <body>
-      <RecoilRoot>
-        {children}
-      </RecoilRoot>
+      {children}
     </body>
     </html>
   );

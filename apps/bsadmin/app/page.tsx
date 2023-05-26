@@ -14,12 +14,14 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useRouter } from 'next/navigation';
 
 import { LinkButton } from "cjbsDSTM";
 
 const theme = createTheme();
 export default function Page() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -28,7 +30,7 @@ export default function Page() {
     });
   };
   return (
-    <ThemeProvider theme={theme}>
+
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box
@@ -70,15 +72,7 @@ export default function Page() {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-            {/*<Button*/}
-            {/*  type="submit"*/}
-            {/*  fullWidth*/}
-            {/*  variant="contained"*/}
-            {/*  sx={{ mt: 3, mb: 2 }}*/}
-            {/*>*/}
-            {/*  Sign In*/}
-            {/*</Button>*/}
-            <LinkButton fullWidth buttonName='Sign In' />
+            <LinkButton fullWidth buttonName='Sign In' onClick={() => router.push('dashboard')} />
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -94,6 +88,5 @@ export default function Page() {
           </Box>
         </Box>
       </Container>
-    </ThemeProvider>
   );
 }

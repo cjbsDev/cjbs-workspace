@@ -17,8 +17,11 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import MailIcon from '@mui/icons-material/Mail';
 import AppBar from "../components/AppBar";
+import {snbMenuListData} from "../data/snbMenuListData";
+import uuid from "react-uuid"
+import {useRouter, usePathname} from "next/navigation";
 
-const drawerWidth = 240;
+const drawerWidth = 228;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -56,6 +59,9 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     flexShrink: 0,
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
+    '.MuiDrawer-paper': {
+      backgroundColor: '#1C2434',
+    },
     ...(open && {
       ...openedMixin(theme),
       '& .MuiDrawer-paper': openedMixin(theme),
@@ -69,6 +75,8 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function OrderLayout({children,}: {children: React.ReactNode;}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const router = useRouter();
+  const currentPathname = usePathname()
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -78,23 +86,29 @@ export default function OrderLayout({children,}: {children: React.ReactNode;}) {
     setOpen(false);
   };
 
+  console.log('currentPath', currentPathname)
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
 
-      <Drawer variant="permanent" open={open}>
+      <Drawer variant="permanent" open={open} sx={{
+        // '.MuiDrawer-paper': {
+        //   backgroundColor: 'blue'
+        // }
+      }}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleDrawerClose} sx={{color: 'white'}}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
+        <List sx={{color: 'white'}}>
+          {snbMenuListData.map((item, index) => (
+            <ListItem key={uuid()} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                selected={currentPathname === item.menuPath}
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
@@ -106,36 +120,12 @@ export default function OrderLayout({children,}: {children: React.ReactNode;}) {
                     minWidth: 0,
                     mr: open ? 3 : 'auto',
                     justifyContent: 'center',
+                    color: 'white'
                   }}
                 >
                   {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
                 </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: 'block' }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? 'initial' : 'center',
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : 'auto',
-                    justifyContent: 'center',
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                <ListItemText primary={item.menuLabel} sx={{ opacity: open ? 1 : 0 }} />
               </ListItemButton>
             </ListItem>
           ))}
