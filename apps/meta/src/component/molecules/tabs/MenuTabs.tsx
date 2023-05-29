@@ -5,6 +5,8 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useRouter } from 'next/navigation';
+import { SxProps } from '@mui/material';
+import CJBSLogo from '../../atoms/CJBSLogo';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -15,6 +17,9 @@ interface TabPanelProps {
 interface MenuProps {
   data: MenuData[];
   centered?: boolean;
+  sx?: SxProps;
+  fontColor?: string;
+  onLogo?: boolean;
 }
 
 interface MenuData {
@@ -49,7 +54,13 @@ function a11yProps(index: number) {
   };
 }
 
-export default function MenuTabs({ data, centered }: MenuProps) {
+export default function MenuTabs({
+  data,
+  centered,
+  sx,
+  fontColor,
+  onLogo,
+}: MenuProps) {
   const router = useRouter();
   const [value, setValue] = React.useState(0);
 
@@ -62,8 +73,13 @@ export default function MenuTabs({ data, centered }: MenuProps) {
       sx={{
         width: '100%',
         backgroundColor: 'white',
+        display: 'flex',
+        alignItems: 'center',
+        paddingLeft: '24px',
+        ...sx,
       }}
     >
+      {onLogo && <CJBSLogo />}
       <Tabs
         centered={centered}
         value={value}
@@ -75,7 +91,11 @@ export default function MenuTabs({ data, centered }: MenuProps) {
             onClick={() => router.push(menu.url)}
             sx={{ marginRight: '25px', marginLeft: '25px' }}
             key={index}
-            label={<Typography variant="subtitle2">{menu.name}</Typography>}
+            label={
+              <Typography color={fontColor} variant="subtitle2">
+                {menu.name}
+              </Typography>
+            }
             {...a11yProps(index)}
           />
         ))}

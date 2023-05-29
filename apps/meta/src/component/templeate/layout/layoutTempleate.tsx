@@ -5,13 +5,8 @@ import { grey } from '@mui/material/colors';
 import MenuTabs from '../../molecules/tabs/MenuTabs';
 import CJBSLogo from '../../atoms/CJBSLogo';
 
-const Side = ({ children, onLogo }: SideProps) => {
-  return (
-    <SideMainBox>
-      {onLogo && <CJBSLogo />}
-      {children}
-    </SideMainBox>
-  );
+const Side = ({ children }: SideProps) => {
+  return <SideMainBox>{children}</SideMainBox>;
 };
 
 const Content = ({ children }: ContentsProps) => {
@@ -34,7 +29,6 @@ BoardTempleate.Menu = MenuTabs;
 BoardTempleate.Contents = Content;
 
 const ContainerBox = styled(Box)`
-  display: flex;
   height: 101vh;
   width: 100%;
   overflow: hidden;
@@ -65,7 +59,6 @@ const SearchBox = styled(Box)`
 
 interface SideProps {
   children: React.ReactNode;
-  onLogo: boolean;
 }
 
 interface ChildernProps {

@@ -1,5 +1,4 @@
 import { getToken } from 'next-auth/jwt';
-import { signOut } from 'next-auth/react';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 export { default } from 'next-auth/middleware';
@@ -19,12 +18,12 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
-  const atToken = token?.accessToken;
+  const rtToken = token?.refreshToken;
 
   //로그인 페이지, 토큰이 있으면 대시보드로
-  if (pathname === LOGIN_PAGE && atToken !== undefined) {
+  if (pathname === LOGIN_PAGE && rtToken !== undefined) {
     return NextResponse.rewrite(new URL('/clinical', request.url));
-  } else if (pathname !== LOGIN_PAGE && atToken === undefined) {
+  } else if (pathname !== LOGIN_PAGE && rtToken === undefined) {
     return NextResponse.redirect(new URL('/signout', request.url));
   } else {
     return NextResponse.next();

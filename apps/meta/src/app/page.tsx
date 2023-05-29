@@ -14,7 +14,7 @@ import {
   Link,
 } from '@mui/material';
 import * as Yup from 'yup';
-import { signIn, signOut } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';

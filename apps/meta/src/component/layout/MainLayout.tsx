@@ -6,6 +6,7 @@ import { styled } from '@mui/material/styles';
 import MainMenuData from './mainMenu.json';
 import SubMenuData from './subMenu.json';
 import BoardTempleate from '../templeate/layout/layoutTempleate';
+import CJBSLogo from '../atoms/CJBSLogo';
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
@@ -13,33 +14,42 @@ interface LayoutProps {
 const MainLayout: FC<LayoutProps> = ({ children, title }) => {
   return (
     <BoardTempleate>
-      <BoardTempleate.Side onLogo={true}>
-        <Typography>aa</Typography>
-      </BoardTempleate.Side>
       <Box sx={{ width: '100%' }}>
         <MenuBox
           sx={{
             display: 'flex',
           }}
         >
-          <BoardTempleate.Menu data={MainMenuData} />
+          <BoardTempleate.Menu
+            sx={{ background: '#343A40' }}
+            fontColor="white"
+            data={MainMenuData}
+            onLogo={true}
+          />
         </MenuBox>
-        <MenuBox
-          sx={{
-            width: '100%',
-            height: '55px',
-          }}
-        >
-          <BoardTempleate.Menu centered={true} data={SubMenuData} />
-        </MenuBox>
-        <BoardTempleate.Contents>
-          {title && (
-            <Box sx={{ mb: '21px' }}>
-              <Typography variant="title1">{title}</Typography>
-            </Box>
-          )}
-          {children}
-        </BoardTempleate.Contents>
+      </Box>
+      <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
+        <BoardTempleate.Side>
+          <Typography>GOOD</Typography>
+        </BoardTempleate.Side>
+        <Box width={'100%'}>
+          <MenuBox
+            sx={{
+              width: '100%',
+              height: '55px',
+            }}
+          >
+            <BoardTempleate.Menu centered={true} data={SubMenuData} />
+          </MenuBox>
+          <BoardTempleate.Contents>
+            {title && (
+              <Box sx={{ mb: '21px' }}>
+                <Typography variant="title1">{title}</Typography>
+              </Box>
+            )}
+            {children}
+          </BoardTempleate.Contents>
+        </Box>
       </Box>
     </BoardTempleate>
   );

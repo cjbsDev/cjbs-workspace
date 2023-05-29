@@ -1,43 +1,34 @@
-import mem from "mem";
-import { RetrunRefreshAccessToken } from "./type/next-auth";
-import type { NextAuthOptions } from "next-auth";
-import { NextApiRequest } from "next";
-import CredentialsProvider from "next-auth/providers/credentials";
-import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
-import utc from "dayjs/plugin/utc";
+import mem from 'mem';
+import { RetrunRefreshAccessToken } from './type/next-auth';
+import type { NextAuthOptions } from 'next-auth';
+import { NextApiRequest } from 'next';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault("Asia/Seoul");
+dayjs.tz.setDefault('Asia/Seoul');
 
-export const TOKEN_EALRY_EXPIRE_MINUTE = 5;
+export const TOKEN_EALRY_EXPIRE_MINUTE = 60;
+
 export const refreshAccessToken = mem(
-  (
-    refreshToken: string,
-    email: string,
-    uid: number,
-    authorities: string
-  ): Promise<RetrunRefreshAccessToken> => {
+  (refreshToken: string, email: string, uid: number, authorities: string): Promise<RetrunRefreshAccessToken> => {
     return new Promise(async function (resolve, reject) {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`,
-          {
-            method: "GET",
-            headers: {
-              emSW: refreshToken,
-              "Accept-Language": "ko",
-            },
-          }
-        ).then((res) => res.json());
-
-        console.log("response > ", response);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
+          method: 'GET',
+          headers: {
+            emSW: refreshToken,
+            'Accept-Language': 'ko',
+          },
+        }).then((res) => res.json());
 
         if (response.data.status === 401) {
           return resolve({
             refreshToken,
-            error: "RefreshAccessTokenError",
+            error: 'RefreshAccessTokenError',
           });
         }
 
@@ -49,19 +40,19 @@ export const refreshAccessToken = mem(
           authorities,
           ...data,
         };
-        console.log("토큰 갱신됌! ^^");
+        console.log('토큰 갱신됌! ^^');
 
         return resolve(newToken);
       } catch (error) {
-        console.log("ERROR => ", error);
+        console.log('ERROR => ', error);
         return resolve({
           refreshToken,
-          error: "RefreshAccessTokenError",
+          error: 'RefreshAccessTokenError',
         });
       }
     });
   },
-  { maxAge: 500 }
+  { maxAge: 500 },
 );
 
 const updateToken = (token: any, setObject: any) => {
@@ -79,10 +70,10 @@ const updateToken = (token: any, setObject: any) => {
 export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: 'Credentials',
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { label: 'Email', type: 'text' },
+        password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
         try {
@@ -92,20 +83,17 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             return null;
           }
 
-          const response = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Accept-Language": "ko",
-              },
-              body: JSON.stringify({
-                email,
-                password,
-              }),
-            }
-          ).then((res) => res.json());
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept-Language': 'ko',
+            },
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+          }).then((res) => res.json());
 
           if (response.success) {
             return response.data;
@@ -113,7 +101,7 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             throw new Error(response.message);
           }
         } catch (e: any) {
-          console.log("e > ", e);
+          console.log('e > ', e);
 
           throw new Error(e);
         }
@@ -135,37 +123,24 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
       }
 
       let isAutoRefresh = false;
-      const url = req.url ? req.url : "";
+      const url = req.url ? req.url : '';
 
-      if (url.indexOf("/api/auth/session?update") > -1) {
+      if (url.indexOf('/api/auth/session?update') > -1) {
         //업데이트로 실행되면 토큰부터 바로 갱신한다.
         isAutoRefresh = true;
       }
-      const atExpires =
-        user && user.tokenDto.atExpires
-          ? user.tokenDto.atExpires
-          : token.atExpires;
-      var expiredDate = dayjs.unix(atExpires! * 0.001).tz("Asia/Seoul");
+      const atExpires = user && user.tokenDto.atExpires ? user.tokenDto.atExpires : token.atExpires;
+      var expiredDate = dayjs.unix(atExpires! * 0.001).tz('Asia/Seoul');
       var nowDate = dayjs();
 
-      const diffMinute = expiredDate.diff(nowDate, "s");
+      const diffMinute = expiredDate.diff(nowDate, 's');
 
-      if (
-        (diffMinute && diffMinute <= TOKEN_EALRY_EXPIRE_MINUTE) ||
-        isAutoRefresh
-      ) {
-        const email: string =
-          user && user.email ? user.email : token.email ? token.email : "";
+      if ((diffMinute && diffMinute <= TOKEN_EALRY_EXPIRE_MINUTE) || isAutoRefresh) {
+        const email: string = user && user.email ? user.email : token.email ? token.email : '';
         const uid: number = user && user.userId ? user.userId : token.uid;
-        const authorities: string =
-          user && user.authorities ? user.authorities : token.authorities;
+        const authorities: string = user && user.authorities ? user.authorities : token.authorities;
 
-        const newToken = await refreshAccessToken(
-          token.refreshToken!,
-          email,
-          uid,
-          authorities
-        );
+        const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities);
 
         return updateToken(token, newToken);
       } else {
@@ -184,11 +159,11 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
     },
   },
   pages: {
-    signIn: "/",
-    signOut: "/signout",
+    signIn: '/',
+    signOut: '/signout',
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "jwt",
+    strategy: 'jwt',
   },
 });
