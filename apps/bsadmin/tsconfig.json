@@ -1,4 +1,16 @@
 {
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@components/*": ["../../packages/cjbsDSTM/*"],
+    }
+  },
   "extends": "tsconfig/nextjs.json",
   "include": [
     "next-env.d.ts",
@@ -9,15 +21,4 @@
   "exclude": [
     "node_modules"
   ],
-  "plugins": [{ "name": "next" }]
-  //  "compilerOptions": {
-  //    "paths": {
-  //      "@components/*": ["./pages/components/*"],
-  //      //      "@hooks/*": ["./hooks/*"],
-  //      //      "@src/*": ["./src/*"],
-  //      //      "@styles/*": ["./public/styles/*"],
-  //      //      "@public/*": ["./public/*"],
-  //      //      "@data/*": ["./data/*"]
-  //    }
-  //  }
 }

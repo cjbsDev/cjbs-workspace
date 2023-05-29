@@ -5,8 +5,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Typography from "@mui/material/Typography";
 import {styled} from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import {InputDefaultType} from "cjbsDSTM";
 
-const drawerWidth = 240;
+const drawerWidth = 228;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
@@ -28,10 +29,12 @@ const AppBar = styled(MuiAppBar, {
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
+  borderBottom: '1px solid #CED4DA',
+  boxShadow: 'none'
 }));
 const Header = ({open, handleDrawerOpen}) => {
   return (
-    <AppBar position="fixed" open={open}>
+    <AppBar position="fixed" open={open} color='inherit'>
       <Toolbar>
         <IconButton
           color="inherit"
@@ -45,9 +48,10 @@ const Header = ({open, handleDrawerOpen}) => {
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap component="div">
-          BS Admin
-        </Typography>
+        <InputDefaultType />
+        {/*<Typography variant="h6" noWrap component="div">*/}
+        {/*  BS Admin*/}
+        {/*</Typography>*/}
       </Toolbar>
     </AppBar>
   );
