@@ -1,7 +1,6 @@
 import './globals.css';
-import Provider from './provider';
-import StyledJsxRegistry from './styledRegistry';
-
+import Provider from 'client-provider';
+import JeJuProvider from './jejuProvider';
 export default function RootLayout({
   children,
 }: {
@@ -17,9 +16,9 @@ export default function RootLayout({
       */}
       <head />
       <body>
-        <Provider>
-          <StyledJsxRegistry>{children}</StyledJsxRegistry>
-        </Provider>
+        <JeJuProvider>
+          <Provider>{children}</Provider>
+        </JeJuProvider>
       </body>
     </html>
   );

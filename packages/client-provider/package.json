@@ -1,0 +1,23 @@
+{
+  "name": "client-provider",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\""
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.3",
+    "@mui/styled-engine-sc": "^5.12.0",
+    "@mui/styles": "^5.13.2",
+    "@mui/system": "^5.13.2",
+    "styled-components": "^5.3.10"
+  },
+  "devDependencies": {
+    "@types/styled-components": "^5.1.26",
+    "tsconfig": "workspace:*"
+  }
+}

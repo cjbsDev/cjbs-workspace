@@ -25,6 +25,8 @@ export const refreshAccessToken = mem(
           },
         }).then((res) => res.json());
 
+        console.log('토큰 갱신 response > ', response);
+
         if (response.data.status === 401) {
           return resolve({
             refreshToken,

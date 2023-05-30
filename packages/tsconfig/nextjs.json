@@ -9,7 +9,7 @@
     "incremental": true,
     "jsx": "preserve",
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "dom.iterable", "esnext", "ES2015", "ES2016"],
+    "lib": ["dom", "dom.iterable", "esnext", "es5", "es6"],
     "module": "esnext",
     "noEmit": true,
     "moduleResolution": "node",
@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "strict": true,
-    "target": "es5",
+    "target": "es6",
     "paths": {
       "@/*": ["./src/*"]
     },
@@ -30,6 +30,3 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }
-
-
-

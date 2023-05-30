@@ -1,7 +1,6 @@
 import React from 'react';
 import { createTheme } from '@mui/material/styles';
 import { default as dfStyle } from './tokens.json';
-
 const themeSet = dfStyle; // 테마 세트
 
 declare module '@mui/material/styles' {
@@ -380,19 +379,19 @@ export const themeJeju = createTheme({
       styleOverrides: `
         @font-face{
           font-family:'Inter';
-          src: url('/fonts/Inter-Bold.ttf');
+          src: url(/fonts/Inter-Bold.ttf);
           font-weight: 700;
           font-style: normal;
         }
         @font-face{
           font-family:'Inter';
-          src: url('/fonts/Inter-SemiBold.ttf');
+          src: url(/fonts/Inter-Bold.ttf);
           font-weight: 600;
           font-style: normal;
         }
         @font-face{
           font-family:'Inter';
-          src: url('/fonts/Inter-Regular.ttf');
+          src: url(/fonts/Inter-Bold.ttf);
           font-weight: 400;
           font-style: normal;
         }

@@ -7,7 +7,7 @@
       "@molecules/*": ["./molecules/*"],
       "@organisms/*": ["./organisms/*"],
       "@layouts/*": ["./layouts/*"],
-      "@themes/*": ["./themes/*"],
+      "@themes/*": ["./themes/*"]
     }
   },
   "extends": "tsconfig/react-library.json",

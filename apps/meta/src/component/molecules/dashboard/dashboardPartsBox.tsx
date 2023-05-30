@@ -1,8 +1,8 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import { styled } from 'styled-components';
 import MyIcon from '../../../../../../packages/icon/myIcon';
 import { DiseaseVoList } from '../../../app/clinical/page';
+import { styled } from '@mui/system';
 
 interface Props {
   type: string;
