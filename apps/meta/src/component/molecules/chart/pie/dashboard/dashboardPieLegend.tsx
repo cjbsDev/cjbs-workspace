@@ -29,8 +29,8 @@ export interface Props {
 const DashboardPieLegend = ({ data, colorChart }: Props) => {
   return (
     <LegendBox>
-      {data.map((item) => (
-        <FlexBox justifyContent={'space-between'}>
+      {data.map((item, index) => (
+        <FlexBox key={index} justifyContent={'space-between'}>
           <FlexBox>
             <Circle sx={{ background: colorChart.get(item.name) }} />
             <Typography mb="9px" variant="body2">
