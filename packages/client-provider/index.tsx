@@ -4,7 +4,6 @@ import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import { SessionProvider } from 'next-auth/react';
 import CssBaseline from '@mui/material/CssBaseline';
-import { ThemeProvider } from '@mui/material/styles';
 import { SWRConfig } from 'swr';
 import StyledJsxRegistry from './styled-ssr/styledRegistry';
 
@@ -15,7 +14,6 @@ interface ContextProps {
 export default function Providers({ children }: ContextProps) {
   return (
     <>
-      {/* {isBrowser && ( */}
       <CssBaseline />
       <ToastContainer
         position='bottom-center'
