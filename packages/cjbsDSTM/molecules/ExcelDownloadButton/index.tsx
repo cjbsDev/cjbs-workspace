@@ -1,14 +1,9 @@
 import React from 'react';
-import {ButtonProps} from '@mui/material';
 import {OutlinedButton} from "../../atoms/Buttons";
 import ListAltIcon from '@mui/icons-material/ListAlt';
 
-interface ExcelDownloadButtonProps extends ButtonProps{
-  labelName: string
-}
-
-export const ExcelDownloadButton = ({...props}: ExcelDownloadButtonProps) => {
-  const {labelName} = props
+export const ExcelDownloadButton = ({...props}) => {
+  const {buttonName} = props
   return (
     <OutlinedButton
       {...props}
@@ -16,7 +11,7 @@ export const ExcelDownloadButton = ({...props}: ExcelDownloadButtonProps) => {
         border: '1px solid #CED4DA',
         color: 'black'
       }}
-      buttonName={labelName}
+      buttonName={buttonName}
       startIcon={<ListAltIcon color='success' />}
     />
   );

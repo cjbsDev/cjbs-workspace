@@ -8,6 +8,7 @@ export * from "./atoms/Typo";
 //Molecules
 export * from "./molecules/DataTableFilter";
 export * from "./molecules/ExcelDownloadButton";
+export * from "./molecules/DataCountResultInfo";
 
 //Organisms
 export * from "./organisms/DataTable"

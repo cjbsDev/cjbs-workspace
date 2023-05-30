@@ -44,11 +44,9 @@ const DataList = () => {
       item => item.title && item.title.toLowerCase().includes(filterText.toLowerCase()),
   );
 
-  console.log('filteredData ==>>',filteredData)
-
   const goDetailPage = (row) => {
     const path = row.title
-    router.push('/dashboard/order/' + path.toString())
+    router.push('/dashboard/customer-management/' + path.toString())
   }
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -76,7 +74,7 @@ const DataList = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName='오더' />}
+      title={<Title1 titleName='고객 관리' />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}

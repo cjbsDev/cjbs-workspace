@@ -1,11 +1,17 @@
-import React from 'react';
+"use client"
 
-const CustomerManagementPage = () => {
-  return (
-    <div>
-      고객관리 page.
-    </div>
-  );
-};
+import React, {Suspense} from "react";
+import { LinkButton } from "@components/index";
+import dynamic from 'next/dynamic';
+import SkeletonLoading from '../SkeletonLoading';
 
-export default CustomerManagementPage;
+const LazyDataList = dynamic(() => import('./DataList'), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
+export default function OrderPage() {
+  return <>
+    <LazyDataList />
+  </>;
+}

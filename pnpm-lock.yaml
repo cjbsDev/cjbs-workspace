@@ -4,12 +4,19 @@ importers:
 
   .:
     specifiers:
+      '@types/file-saver': ^2.0.5
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
+      file-saver: ^2.0.5
       prettier: ^2.5.1
+      react-csv-downloader: ^2.9.1
       react-uuid: ^2.0.0
       turbo: ^1.9.3
+    dependencies:
+      file-saver: 2.0.5
+      react-csv-downloader: 2.9.1_react@18.2.0
     devDependencies:
+      '@types/file-saver': 2.0.5
       eslint: 7.32.0
       eslint-config-custom: link:packages/eslint-config-custom
       prettier: 2.8.0
@@ -3791,6 +3798,10 @@ packages:
       '@types/serve-static': 1.15.1
     dev: true
 
+  /@types/file-saver/2.0.5:
+    resolution: {integrity: sha512-zv9kNf3keYegP5oThGLaPk8E081DFDuwfqjtiTzm6PoxChdJ1raSuADf2YGCVIyrSynLrgc8JWv296s7Q7pQSQ==}
+    dev: true
+
   /@types/find-cache-dir/3.2.1:
     resolution: {integrity: sha512-frsJrz2t/CeGifcu/6uRo4b+SzAwT4NYCVPu1GN8IB9XTzrpPkGuV0tmh9mN+/L0PklAlsC3u5Fxt0ju00LXIw==}
     dev: true
@@ -6179,6 +6190,10 @@ packages:
     dependencies:
       flat-cache: 3.0.4
 
+  /file-saver/2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
+    dev: false
+
   /file-system-cache/2.3.0:
     resolution: {integrity: sha512-l4DMNdsIPsVnKrgEXbJwDJsA5mB8rGwHYERMgqQx/xAUtChPJMre1bXBzDEqqVbWv9AIbFezXMxeEkZDSrXUOQ==}
     dependencies:
@@ -8415,6 +8430,16 @@ packages:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
     dev: true
+
+  /react-csv-downloader/2.9.1_react@18.2.0:
+    resolution: {integrity: sha512-bjd+tRkzsoOkaxeFFf2PMevim9LZRi70KzNXbVKyljzr0/V+grFa6zJNWEZFdPI57JWKpE6ZZek1vaLxQjTttg==}
+    engines: {npm: '>=7.0.0'}
+    peerDependencies:
+      react: ^16.6.3 || ^17.0.0 || ^18.0.0
+    dependencies:
+      file-saver: 2.0.5
+      react: 18.2.0
+    dev: false
 
   /react-data-table-component/7.5.3_fftvqzce4qtf3bghrucjah6jpy:
     resolution: {integrity: sha512-JhatRTgThAAa1HobPaPmkNPsjLT6+fnMIdtcXRCy+0bSYN7XJnTgob9Qyi4bjHh/8tMPTHtxZCV/TKiPwRvFMA==}

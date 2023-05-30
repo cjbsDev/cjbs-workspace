@@ -23,16 +23,9 @@ const theme = createTheme ({
             fontStyle: 'normal',
             fontWeight: 600,
             fontSize: 22,
-            //lineHeight: 28,
             letterSpacing: '-0.5px'
           },
         },
-        // {
-        //   props: { variant: 'dashed', color: 'secondary' },
-        //   style: {
-        //     border: `4px dashed ${red[500]}`,
-        //   },
-        // },
       ],
     }
   }
