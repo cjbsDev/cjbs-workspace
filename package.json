@@ -17,6 +17,7 @@
   "packageManager": "pnpm@7.15.0",
   "name": "cjbs-workspace",
   "dependencies": {
-    "file-saver": "^2.0.5"
+    "file-saver": "^2.0.5",
+    "react-hook-form": "^7.44.2"
   }
 }

@@ -110,6 +110,7 @@ export default function OrderLayout({children,}: {children: React.ReactNode;}) {
               <ListItemButton
                 onClick={() => router.push(item.menuPath)}
                 selected={currentPathname === item.menuPath}
+                disabled={item.menuPath === '' ? true : false }
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',

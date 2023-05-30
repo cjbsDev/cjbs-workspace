@@ -1,11 +1,20 @@
 import * as React from 'react';
 import useSWR from 'swr';
-import {DataCountResultInfo, DataTableBase, DataTableFilter, Title1, ExcelDownloadButton} from "@components/index";
+import {
+  DataCountResultInfo,
+  DataTableBase,
+  DataTableFilter,
+  Title1,
+  ExcelDownloadButton,
+  RHFInputDefaultType,
+} from "@components/index";
 import {Box, Stack, Grid, Typography} from '@mui/material';
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
 import {exportCSVData} from "@components/commonFunc/exportExcel";
+import { useForm, useWatch } from "react-hook-form";
+
 const fetcher = url => axios.get(url).then(res => res.data)
 
 const DataList = () => {
@@ -39,6 +48,7 @@ const DataList = () => {
   const [filterText, setFilterText] = useState('');
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const { data } = useSWR('https://dummyjson.com/products', fetcher, {suspense: true})
+  const { register, control, handleSubmit } = useForm();
 
   const filteredData = data.products.filter(
       item => item.title && item.title.toLowerCase().includes(filterText.toLowerCase()),
@@ -68,6 +78,8 @@ const DataList = () => {
               <Stack direction='row' spacing={1} sx={{mb: 1.5}}>
                 <ExcelDownloadButton buttonName='Excel' onClick={() => exportCSVData({exportUrl: 'apiUrl'})} />
                 <DataTableFilter onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+                {/*<RHFInputDefaultType />*/}
+
               </Stack>
             </Grid>
           </Grid>
