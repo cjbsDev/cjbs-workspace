@@ -4,6 +4,10 @@
     "url": "/clinical"
   },
   {
+    "name": "Search",
+    "url": "/search"
+  },
+  {
     "name": "Disease/Study",
     "url": "/clinical/disease-study"
   },

@@ -50,7 +50,6 @@ const Dashboard = () => {
     }
 
     const apiData = data.data;
-    console.log('apiData > ', apiData);
 
     const pieData: StudyPerVoList[] = data.data.studyPerVoList;
     const diseasePartVoList: DiseasePartVoList[] = apiData.diseasePartVoList;
@@ -61,7 +60,6 @@ const Dashboard = () => {
       totalSubject: apiData.totalSubject,
       lastUpdatedDate: apiData.lastUpdatedDate,
     };
-    console.log('diseasePartVoList > ', apiData);
 
     return (
       <Box>

@@ -27,23 +27,25 @@ const DashboardPartsBox = ({ type, typeCount, data }: Props) => {
       </TitleBox>
       <ListBox>
         {data.map((item, index) => (
-          <ListItem
-            sx={{
-              mb: index + 1 !== data.length ? '12px' : '0px',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Typography
-              sx={{ whiteSpace: 'nowrap', mr: '6px' }}
-              variant="body1"
+          <Box key={index}>
+            <ListItem
+              sx={{
+                mb: index + 1 !== data.length ? '12px' : '0px',
+                justifyContent: 'space-between',
+              }}
             >
-              {item.name}
-            </Typography>
-            <Box sx={{ width: '100%', border: '1px dashed #ADB5BD;' }}></Box>
-            <Typography sx={{ ml: '7px' }} variant="subtitle1">
-              {item.total.toLocaleString()}
-            </Typography>
-          </ListItem>
+              <Typography
+                sx={{ whiteSpace: 'nowrap', mr: '6px' }}
+                variant="body1"
+              >
+                {item.name}
+              </Typography>
+              <Box sx={{ width: '100%', border: '1px dashed #ADB5BD;' }}></Box>
+              <Typography sx={{ ml: '7px' }} variant="subtitle1">
+                {item.total.toLocaleString()}
+              </Typography>
+            </ListItem>
+          </Box>
         ))}
       </ListBox>
     </TypeBox>

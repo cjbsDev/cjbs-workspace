@@ -17,16 +17,16 @@ const MainContainer = ({ children }: ChildernProps) => {
   return <ContainerBox>{children}</ContainerBox>;
 };
 
-const BoardTempleate = ({ children }: ChildernProps) => {
-  return <BoardTempleate.Container>{children}</BoardTempleate.Container>;
+const LayoutTempleate = ({ children }: ChildernProps) => {
+  return <LayoutTempleate.Container>{children}</LayoutTempleate.Container>;
 };
 
-export default BoardTempleate;
+export default LayoutTempleate;
 
-BoardTempleate.Container = MainContainer;
-BoardTempleate.Side = Side;
-BoardTempleate.Menu = MenuTabs;
-BoardTempleate.Contents = Content;
+LayoutTempleate.Container = MainContainer;
+LayoutTempleate.Side = Side;
+LayoutTempleate.Menu = MenuTabs;
+LayoutTempleate.Contents = Content;
 
 const ContainerBox = styled(Box)`
   height: 101vh;
@@ -39,9 +39,9 @@ const SideMainBox = styled(Box)`
   height: 100%;
   width: 288px;
   min-width: 288px;
+  position: relative;
   background-color: white;
   border-right: 1px solid #dee2e6;
-  padding: 16px 25px 0px 25px;
 `;
 
 const ContentsWrapper = styled(Box)`

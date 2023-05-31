@@ -15,6 +15,8 @@ export const TOKEN_EALRY_EXPIRE_MINUTE = 60;
 
 export const refreshAccessToken = mem(
   (refreshToken: string, email: string, uid: number, authorities: string): Promise<RetrunRefreshAccessToken> => {
+    console.log('refreshAccessToken > ', refreshToken);
+
     return new Promise(async function (resolve, reject) {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
@@ -27,7 +29,7 @@ export const refreshAccessToken = mem(
 
         console.log('토큰 갱신 response > ', response);
 
-        if (response.data.status === 401) {
+        if (!response.success) {
           return resolve({
             refreshToken,
             error: 'RefreshAccessTokenError',
@@ -129,6 +131,8 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
 
       if (url.indexOf('/api/auth/session?update') > -1) {
         //업데이트로 실행되면 토큰부터 바로 갱신한다.
+        console.log('강제 실행');
+
         isAutoRefresh = true;
       }
       const atExpires = user && user.tokenDto.atExpires ? user.tokenDto.atExpires : token.atExpires;
