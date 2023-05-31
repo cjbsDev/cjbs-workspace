@@ -1,17 +1,22 @@
 import React from 'react';
-import Toolbar from "@mui/material/Toolbar";
-import MenuIcon from "@mui/icons-material/Menu";
-import Typography from "@mui/material/Typography";
+import {Menu, MenuItem, Toolbar, Typography, IconButton, Box, Badge, Stack} from '@mui/material'
 import {styled} from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
-import {InputDefaultType} from "@components/index";
-import {IconButton, Box, Badge, Stack} from '@mui/material';
+
+import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+
+import {
+  usePopupState,
+  bindTrigger,
+  bindMenu,
+} from 'material-ui-popup-state/hooks'
+import {InputDefaultType} from "@components/index";
 
 const drawerWidth = 228;
 
@@ -36,24 +41,28 @@ const AppBar = styled(MuiAppBar, {
     }),
   }),
   borderBottom: '1px solid #CED4DA',
-  boxShadow: 'none'
+  boxShadow: 'none',
+  padding: 0,
+  margin: 0,
 }));
 const Header = ({open, handleDrawerOpen}) => {
+  const popupState = usePopupState({ variant: 'popover', popupId: 'useInfoMenu' })
   return (
     <AppBar position="fixed" open={open} color='inherit'>
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpen}
-          edge="start"
-          sx={{
-            marginRight: 5,
-            ...(open && { display: 'none' }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        <Box sx={{}}>
+          <IconButton
+            color="inherit"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: 'none' }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        </Box>
         <InputDefaultType
           InputProps={{
             startAdornment: <InputAdornment position="start">
@@ -89,13 +98,20 @@ const Header = ({open, handleDrawerOpen}) => {
                 <AccountCircleOutlinedIcon />
                 <Typography variant='body2'>eunjung.lee9</Typography>
                 <IconButton
+                  {...bindTrigger(popupState)}
                   edge="end"
-                  // onClick={}
                   color="inherit"
                 >
                   <ExpandMoreRoundedIcon />
                 </IconButton>
               </Stack>
+              <Menu {...bindMenu(popupState)}>
+                <MenuItem onClick={popupState.close}>
+                  <Typography textAlign='center' variant='body2'>
+                    Sign Out
+                  </Typography>
+                </MenuItem>
+              </Menu>
             </Box>
           </Stack>
         </Box>
