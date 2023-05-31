@@ -18,14 +18,15 @@ export const DataTableFilter = ({ filterText, onFilter, onClear }: FilterProps) 
       value={filterText}
       onChange={onFilter}
       InputProps={{
-      startAdornment: <InputAdornment position="start">
-        <SearchRoundedIcon />검색
-      </InputAdornment>,
-      endAdornment: <InputAdornment position="end">
-        <IconButton onClick={onClear}>
-          <ClearRoundedIcon />
-        </IconButton>
-      </InputAdornment>
-    }} />
+        startAdornment: <InputAdornment position="start">
+          <SearchRoundedIcon />검색
+        </InputAdornment>,
+        endAdornment: <InputAdornment position="end">
+          <IconButton onClick={onClear}>
+            <ClearRoundedIcon />
+          </IconButton>
+        </InputAdornment>
+      }}
+    />
   );
 };

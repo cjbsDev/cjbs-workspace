@@ -108,11 +108,21 @@ export default function OrderLayout({children,}: {children: React.ReactNode;}) {
           {snbMenuListData.map((item, index) => (
             <ListItem key={uuid()} disablePadding sx={{ display: 'block' }}>
               <ListItemButton
+                onClick={() => router.push(item.menuPath)}
                 selected={currentPathname === item.menuPath}
+                disabled={item.menuPath === '' ? true : false }
                 sx={{
                   minHeight: 48,
                   justifyContent: open ? 'initial' : 'center',
                   px: 2.5,
+                  '&.MuiListItemButton-root': {
+                    '&:hover': {
+                      backgroundColor: theme.palette.primary.main,
+                    },
+                  },
+                  '&.Mui-selected': {
+                    backgroundColor: theme.palette.primary.main
+                  }
                 }}
               >
                 <ListItemIcon

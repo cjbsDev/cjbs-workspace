@@ -2,7 +2,7 @@ export const snbMenuListData = [
   {
     menuLabel: '홈',
     menuIcon: '',
-    menuPath: '',
+    menuPath: '/dashboard',
   },
   {
     menuLabel: '고객 상담',
@@ -42,6 +42,6 @@ export const snbMenuListData = [
   {
     menuLabel: '고객 관리',
     menuIcon: '',
-    menuPath: '',
+    menuPath: '/dashboard/customer-management',
   },
 ]

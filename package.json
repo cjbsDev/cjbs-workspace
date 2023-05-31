@@ -4,9 +4,11 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "bsadmin": "turbo dev --filter bsadmin"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.5",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "prettier": "^2.5.1",
@@ -20,6 +22,8 @@
   "packageManager": "pnpm@7.15.0",
   "name": "cjbs-workspace",
   "dependencies": {
+    "file-saver": "^2.0.5",
+    "react-hook-form": "^7.44.2",
     "dayjs": "^1.11.7",
     "swr": "^2.1.5",
     "react-toastify": "^9.1.2",
