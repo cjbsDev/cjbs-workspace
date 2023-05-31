@@ -1,15 +1,16 @@
-"use client"
-
-import CssBaseline from "@mui/material/CssBaseline";
-import * as React from "react";
-import {  RecoilRoot } from 'recoil';
+import Provider from 'client-provider';
+import JeJuProvider from './jejuProvider';
 
 export default function RootLayout({children,}: {children: React.ReactNode;}) {
   return (
     <html lang="en">
-    <title>bsadmin</title>
+    <title>BS-Admin</title>
+    <link rel="icon" href="/favicon.ico" />
+    <head />
     <body>
-      {children}
+    <JeJuProvider>
+      <Provider>{children}</Provider>
+    </JeJuProvider>
     </body>
     </html>
   );
