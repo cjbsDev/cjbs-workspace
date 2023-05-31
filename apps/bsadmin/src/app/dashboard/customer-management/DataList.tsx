@@ -1,11 +1,13 @@
 import * as React from 'react';
 import useSWR from 'swr';
-import { DataTableBase, DataTableFilter } from "cjbsDSTM";
+import {DataCountResultInfo, DataTableBase, DataTableFilter, Title1, ExcelDownloadButton} from "@components/index";
+import {Box, Stack, Grid, Typography} from '@mui/material';
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import {useState} from "react";
+import {exportCSVData} from "@components/commonFunc/exportExcel";
 const fetcher = url => axios.get(url).then(res => res.data)
-// const fetcher = url => fetch(url).then(r => r.json())
+
 const DataList = () => {
   const router = useRouter();
   const columns = [
@@ -42,11 +44,9 @@ const DataList = () => {
       item => item.title && item.title.toLowerCase().includes(filterText.toLowerCase()),
   );
 
-  console.log('filteredData ==>>',filteredData)
-
   const goDetailPage = (row) => {
     const path = row.title
-    router.push('/dashboard/order/' + path.toString())
+    router.push('/dashboard/customer-management/' + path.toString())
   }
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -58,13 +58,23 @@ const DataList = () => {
       		};
 
     		return (
-      			<DataTableFilter onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+          <Grid container>
+            <Grid item xs={6} sx={{pt: 2.5}}>
+              <DataCountResultInfo totalCount={20} selectedCount={3} />
+            </Grid>
+            <Grid item xs={6} sx={{display: 'flex', justifyContent: 'flex-end'}}>
+              <Stack direction='row' spacing={1} sx={{mb: 1.5}}>
+                <ExcelDownloadButton buttonName='Excel' onClick={() => exportCSVData({exportUrl: 'apiUrl'})} />
+                <DataTableFilter onFilter={e => setFilterText(e.target.value)} onClear={handleClear} filterText={filterText} />
+              </Stack>
+            </Grid>
+          </Grid>
     		);
     }, [filterText, resetPaginationToggle]);
 
   return (
     <DataTableBase
-      title='Order'
+      title={<Title1 titleName='고객 관리' />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
