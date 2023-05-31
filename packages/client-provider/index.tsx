@@ -1,8 +1,9 @@
 'use client';
 import 'react-toastify/dist/ReactToastify.css';
-import React from 'react';
+import * as React from "react";
 import { ToastContainer } from 'react-toastify';
 import { SessionProvider } from 'next-auth/react';
+import {} from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline';
 import { SWRConfig } from 'swr';
 import StyledJsxRegistry from './styled-ssr/styledRegistry';

@@ -1,3 +1,5 @@
+'use client'
+
 import * as React from 'react';
 import {Box, ThemeProvider, Checkbox, CheckboxProps, Typography} from '@mui/material';
 import DataTable, {TableProps, createTheme} from 'react-data-table-component'
@@ -8,8 +10,6 @@ createTheme('mayTheme', {
 
 })
 export function DataTableBase<T>(props: TableProps<T>): JSX.Element {
-
-
 
   return (
       <DataTable
