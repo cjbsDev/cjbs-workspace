@@ -4,7 +4,6 @@ import * as React from 'react';
 import {Box, ThemeProvider, Checkbox, CheckboxProps, Typography} from '@mui/material';
 import DataTable, {TableProps, createTheme} from 'react-data-table-component'
 import {dataTableCustomStyles} from "./style/dataTableCustomStyle";
-// const selectprops = { indeterminate: (isIndeterminate: CheckboxProps) => isIndeterminate };
 
 createTheme('mayTheme', {
 
