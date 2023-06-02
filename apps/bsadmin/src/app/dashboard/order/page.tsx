@@ -1,7 +1,7 @@
-"use client"
+'use client';
 
-import React, {Suspense} from "react";
-import { LinkButton } from "@components/index";
+import React, { Suspense } from 'react';
+import { LinkButton } from '@components/index';
 import dynamic from 'next/dynamic';
 import SkeletonLoading from '../SkeletonLoading';
 import DataList from './DataList';
@@ -13,7 +13,9 @@ const LazyDataList = dynamic(() => import('./DataList'), {
 });
 
 export default function OrderPage() {
-  return <>
-    <LazyDataList />
-  </>;
+  return (
+    <>
+      <LazyDataList />
+    </>
+  );
 }

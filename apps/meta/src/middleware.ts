@@ -16,12 +16,20 @@ export async function middleware(request: NextRequest) {
     secret: process.env.NEXTAUTH_SECRET,
   });
 
+  console.log('token > ', token?.error);
+
   const rtToken = token?.refreshToken;
 
-  //로그인 페이지, 토큰이 있으면 대시보드로
-  if (pathname === LOGIN_PAGE && rtToken !== undefined) {
+  if (
+    pathname === LOGIN_PAGE &&
+    rtToken !== undefined &&
+    token?.error !== 'RefreshAccessTokenError'
+  ) {
     return NextResponse.rewrite(new URL('/clinical', request.url));
-  } else if (pathname !== LOGIN_PAGE && rtToken === undefined) {
+  } else if (
+    pathname !== LOGIN_PAGE &&
+    (rtToken === undefined || token?.error === 'RefreshAccessTokenError')
+  ) {
     return NextResponse.redirect(new URL('/signout', request.url));
   } else {
     return NextResponse.next();
@@ -29,5 +37,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/clinical/:path*', '/'],
+  matcher: ['/clinical/:path*', '/clinical/subject/:path*', '/'],
 };

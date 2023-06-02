@@ -26,10 +26,11 @@ export const refreshAccessToken = mem(
             'Accept-Language': 'ko',
           },
         }).then((res) => res.json());
-
-        console.log('토큰 갱신 response > ', response);
+        console.log('response>> ', response);
 
         if (!response.success) {
+          console.log('실퐤!!!!!!!!!!!');
+
           return resolve({
             refreshToken,
             error: 'RefreshAccessTokenError',
@@ -147,6 +148,10 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
         const authorities: string = user && user.authorities ? user.authorities : token.authorities;
 
         const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities);
+
+        if (newToken.error) {
+          return newToken;
+        }
 
         return updateToken(token, newToken);
       } else {

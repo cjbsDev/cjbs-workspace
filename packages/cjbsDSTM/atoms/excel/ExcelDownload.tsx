@@ -1,8 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import { CircularProgress } from '../../../../node_modules/@mui/material/index';
-import Image from '../../../../node_modules/next/image';
 import { GET_BLOB } from '../../../api/index';
+import { OutlinedButton } from 'atoms/Buttons';
+import ListAltIcon from '@mui/icons-material/ListAlt';
 
 const ExcelDownload = ({ downloadUrl }: { downloadUrl: string }) => {
   const [isDownloading, setIsDownloading] = useState(false);
@@ -34,17 +35,14 @@ const ExcelDownload = ({ downloadUrl }: { downloadUrl: string }) => {
       {isDownloading ? (
         <CircularProgress size={'sm'} style={{ margin: '0px 20px' }} />
       ) : (
-        <button
-          style={{
-            margin: '0px 20px',
-            border: '0px',
-            backgroundColor: 'transparent',
-            cursor: 'pointer',
+        <OutlinedButton
+          sx={{
+            border: '1px solid #CED4DA',
+            color: 'black',
           }}
-          onClick={() => handleDownload(downloadUrl)}
-        >
-          <Image src={'/statics/img/icon/xls.png'} width={25} height={25} quality={100} alt='Picture of the author' />
-        </button>
+          buttonName={'Excel'}
+          startIcon={<ListAltIcon color='success' />}
+        />
       )}
     </React.Fragment>
   );

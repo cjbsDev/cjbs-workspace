@@ -6,8 +6,8 @@ import { styled } from '@mui/material/styles';
 import MainMenuData from './mainMenu.json';
 import SubMenuData from './subMenu.json';
 import BoardTempleate from '../templeate/layout/layoutTempleate';
-import DashboardSideMenu from '../organisms/clinical/dashboard/sidemenu/dashboardSideMenu';
 import Button from '@mui/material/Button';
+import SideMenu from '../organisms/clinical/dashboard/sideMenu';
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
@@ -18,12 +18,15 @@ const BottomBox = styled(Box)`
   height: 88px;
   position: absolute;
   border-top: 1px solid #ced4da;
+  padding-top: 20px;
   bottom: 50px;
+  background: 'white';
 `;
 
 const SideMenuBox = styled(Box)`
   width: 100%;
   height: 100%;
+  overflow: auto;
   padding: 16px 25px 0px 25px;
 `;
 
@@ -47,7 +50,7 @@ const MainLayout: FC<LayoutProps> = ({ children, title }) => {
       <Box sx={{ height: '100%', width: '100%', display: 'flex' }}>
         <BoardTempleate.Side>
           <SideMenuBox>
-            <DashboardSideMenu />
+            <SideMenu />
           </SideMenuBox>
           <BottomBox>
             <Box
@@ -56,7 +59,6 @@ const MainLayout: FC<LayoutProps> = ({ children, title }) => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                padding: '24px',
               }}
             >
               <Button

@@ -1,14 +1,15 @@
 'use client';
 import { getSession, signOut } from 'next-auth/react';
 import { toast } from 'react-toastify';
-import { DELETE_API, GET_API, POST_API, REQUEST_API } from './type';
+import { DELETE_API, GET_API, POST_API, POST_BOLB_API, REQUEST_API } from './type';
+import { REQUEST_BLOB_API } from './type';
 
 export const GET: GET_API = async (url, option, headers) => {
   return await request(url, 'GET', null, option, headers);
 };
 
-export const GET_BLOB: GET_API = async (url, option, headers) => {
-  return await requestBLOB(url, 'GET', null, option, headers);
+export const POST_BLOB: POST_BOLB_API = async (url, option, headers) => {
+  return await requestBLOB(url, 'POST', null, option, headers);
 };
 
 export const POST: POST_API = async (url, body, option, headers) => {
@@ -77,7 +78,7 @@ const request: REQUEST_API = async (url, method, body, option) => {
   });
 };
 
-const requestBLOB: REQUEST_API = async (url, method, body, option) => {
+const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
   const session = await getSession();
   const accessToken = session?.accessToken;
   if (!session || !accessToken) {
@@ -105,6 +106,10 @@ const requestBLOB: REQUEST_API = async (url, method, body, option) => {
 
         const newAuthResponse = await fetch('/api/auth/session?update');
         const newAuth = await newAuthResponse.json();
+
+        if (newAuth.error) {
+          window.location.href = '/signout';
+        }
 
         const retryResponse = await fetch(url, {
           method,
@@ -136,3 +141,4 @@ const requestBLOB: REQUEST_API = async (url, method, body, option) => {
 };
 
 export const fetcher = (url: string) => GET(url);
+export const fetcherPost = (url: string, data: any) => POST(url, data);

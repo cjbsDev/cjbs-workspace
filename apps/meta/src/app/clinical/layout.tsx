@@ -1,4 +1,4 @@
-import MainLayout from '../../component/layout/MainLayout';
+import MainLayout from '../../component/layout/mainLayout';
 
 export default function DashboardLayout({
   children,
@@ -6,9 +6,5 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   //return <MainLayout>{children}</MainLayout>;
-  return (
-    <MainLayout title={'Clinical Data Center Dashboard '}>
-      {children}
-    </MainLayout>
-  );
+  return <MainLayout>{children}</MainLayout>;
 }

@@ -35,12 +35,12 @@ const ContainerBox = styled(Box)`
 `;
 
 const SideMainBox = styled(Box)`
-  overflow: auto;
   height: 100%;
   width: 288px;
   min-width: 288px;
   position: relative;
   background-color: white;
+  padding: '24px';
   border-right: 1px solid #dee2e6;
 `;
 
