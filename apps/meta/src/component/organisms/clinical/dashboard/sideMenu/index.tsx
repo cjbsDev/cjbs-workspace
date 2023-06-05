@@ -23,7 +23,6 @@ import MuiAccordionSummary, {
   AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
-import { log } from 'console';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -102,6 +101,7 @@ const FilterTitleBox = styled(FlexBox)`
 `;
 
 interface CheckType {
+  root: string;
   p_code: string;
   code: string;
   checked: boolean;
@@ -129,13 +129,25 @@ const SideMenu = () => {
       const checkList: CheckType[] = [];
       apiData.map((items) => {
         const itemArray = items.values;
+        
         itemArray.map((item) => {
+          
           let newItem: CheckType = {
             code: item.code,
-            p_code: items.name,
+            root: items.field,
+            p_code: items.field,
             checked: false,
           };
           checkList.push(newItem);
+          item.values.map((subItem) => {
+            let newItem: CheckType = {
+              root: items.field,
+              code: subItem.code,
+              p_code: item.code,
+              checked: false,
+            };
+            checkList.push(newItem);
+          })
         });
       });
 
@@ -148,20 +160,55 @@ const SideMenu = () => {
     isChecked: boolean,
   ) => {
     console.log('checked > ', e.target.value);
-    console.log('checked > ', checked);
+    console.log('isChecked > ', isChecked);
 
     if (e.target.value) {
       //index_code_label
       const values: string[] = e.target.value.split('_');
+      console.log("values > ", values);
+      
+      //value={`${checkListIndex}_sub_${p_items.field}_${items.code}_${subItems.code}_${subItems.label}`}
       const index: number = Number(values[0]);
-      const code: string = values[1];
-      const label: string = values[2];
+      const type: string = values[1];
+      const rootCode: string = values[2];
+      const parentCode: string = values[3];
+      const code: string = values[4];
+      const label: string = values[5];
+
+      console.log("type > ", type);
+      
       let newChecked: CheckType[] = [...checked];
 
-      const updateItem: CheckType = newChecked[index];
-      updateItem.checked = isChecked;
+      if(type === 'all'){
+        const updateChecked = newChecked.map((item) => {
+          if(item.root === rootCode) {
+            item.checked = isChecked
+            return item
+          }
+          else {
+            return item
+          }
+        })  
 
-      console.log('updateItem > ', updateItem);
+        setChecked(updateChecked)
+      } else if(type === 'child'){
+        const updateChecked = newChecked.map((item) => {
+          if(item.p_code === code || item.code === code ) {
+            item.checked = isChecked
+            return item
+          }
+          else {
+            return item
+          }
+        }) 
+        setChecked(updateChecked)
+      }
+      else {
+        const updateItem: CheckType = newChecked[index];
+        updateItem.checked = isChecked;
+        newChecked[index] = updateItem
+        setChecked([...newChecked])
+      }
     }
   };
 
@@ -204,7 +251,7 @@ const SideMenu = () => {
 
     let checkListIndex = -1;
     const apiData: FilterList[] = data.data;
-    console.log('apiData > ', apiData);
+    console.log('apiData > ', checked);
 
     return (
       <Box>
@@ -239,7 +286,9 @@ const SideMenu = () => {
             )}
           </SearchedBox>
         </SearchBox>
-        {apiData.map((items, index) => (
+        {apiData.map((p_items, index) => { 
+          
+          return(
           <Box
             key={`main-${index}`}
             sx={{
@@ -249,21 +298,25 @@ const SideMenu = () => {
             }}
           >
             <FilterTitleBox mb={'4px'} justifyContent={'flex-start'}>
-              <MyIcon icon={items.name} size={'24px'} color="black" />
+              <MyIcon icon={p_items.name} size={'24px'} color="black" />
               <Typography ml={'8px'} variant="subtitle1">
-                {items.title}
+                {p_items.title}
               </Typography>
             </FilterTitleBox>
-            {items.values.length > 0 &&
-              items.values.map((items, index) => {
+            {
+              p_items.values.map((items, index) => {
                 checkListIndex = checkListIndex + 1;
-                console.log(
-                  'checked[checkListIndex].code > ',
-                  checked[checkListIndex],
-                );
+                console.log("items items > ", items);
+                console.log("items goods > ", checked[checkListIndex]);
                 const isChecked = checked[checkListIndex]
                   ? checked[checkListIndex].checked
                   : false;
+
+
+                const isIndeterminate = checked.filter((item) => {
+                  items.
+                })
+
                 return (
                   <Box key={`sub-${index}`}>
                     {items.values.length === 0 && (
@@ -274,9 +327,10 @@ const SideMenu = () => {
                         }
                         control={
                           <Checkbox
-                            onChange={onChangeCheckbox}
+                            indeterminate={checked}
+                            onChange={ onChangeCheckbox}
                             checked={isChecked}
-                            value={`${checkListIndex}_${items.code}_${items.label}`}
+                            value={items.label === 'All' ? `${checkListIndex}_all_${p_items.field}_${p_items.field}_${items.code}_${items.label}` : `${checkListIndex}_child_${p_items.field}_${p_items.field}_${items.code}_${items.label}`}
                           />
                         }
                       />
@@ -304,14 +358,19 @@ const SideMenu = () => {
                             control={
                               <Checkbox
                                 checked={isChecked}
-                                value={`${checkListIndex}_${items.code}_${items.label}`}
+                                value={`${checkListIndex}_child_${p_items.field}_${p_items.field}_${items.code}_${items.label}`}
                                 onChange={onChangeCheckbox}
                               />
                             }
                           />
                         </AccordionSummary>
                         <AccordionDetails>
-                          {items.values.map((subItems, index) => (
+                          {items.values.map((subItems, index) => {
+                            checkListIndex = checkListIndex + 1;
+                            const isChecked = checked[checkListIndex]
+                            ? checked[checkListIndex].checked
+                            : false;
+                            return(
                             <Box ml={'24px'}>
                               <FormControlLabel
                                 key={`csub-${index}`}
@@ -321,10 +380,14 @@ const SideMenu = () => {
                                     {subItems.label}
                                   </Typography>
                                 }
-                                control={<Checkbox />}
+                                control={<Checkbox 
+                                  checked={isChecked}
+                                  value={`${checkListIndex}_sub_${p_items.field}_${items.code}_${subItems.code}_${subItems.label}`}
+                                  onChange={onChangeCheckbox}
+                                />}
                               />
                             </Box>
-                          ))}
+                          )})}
                         </AccordionDetails>
                       </Accordion>
                     )}
@@ -332,7 +395,7 @@ const SideMenu = () => {
                 );
               })}
           </Box>
-        ))}
+  )})}
       </Box>
     );
   }
