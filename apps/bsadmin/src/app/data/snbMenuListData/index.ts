@@ -54,11 +54,11 @@ export const snbMenuListData = [
     menuLabel: "오더",
     menuIcon: "",
     menuPath: {
-      name: "/dashboard",
+      name: "/order",
       nestedPath: [
         {
           menuLabel: "오더 관리",
-          menuPath: "/dashboard/order",
+          menuPath: "/order/order-list",
         },
         {
           menuLabel: "오더 등록",
@@ -142,19 +142,19 @@ export const snbMenuListData = [
     menuLabel: "고객",
     menuIcon: "",
     menuPath: {
-      name: "/dashboard/cust",
+      name: "/cust",
       nestedPath: [
         {
           menuLabel: "고객 관리",
-          menuPath: "/dashboard/cust/cust-list",
+          menuPath: "/cust/cust-list",
         },
         {
           menuLabel: "거래처(PI) 관리",
-          menuPath: "/dashboard/cust/vendor-pi-list",
+          menuPath: "/cust/vendor-pi-list",
         },
         {
           menuLabel: "기관 정보 관리",
-          menuPath: "/dashboard/cust/institution-info-list",
+          menuPath: "/cust/institution-info-list",
         },
       ],
     },

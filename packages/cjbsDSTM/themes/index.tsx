@@ -33,10 +33,35 @@ declare module "@mui/material/Button" {
 export const cjbsTheme = createTheme({
   palette: {
     primary: {
-      main: "#006ECD",
-      light: "",
-      dark: "",
+      main: "#006ecd",
+      light: "#4ba2ed",
+      dark: "#004c8e",
     },
+    secondary: {
+      main: "#868e95",
+      light: "#ced4da",
+      dark: "#495056",
+    },
+    // error: {
+    //   main: "",
+    //   light: "",
+    //   dark: "",
+    // },
+    // warning: {
+    //   main: "",
+    //   light: "",
+    //   dark: "",
+    // },
+    // info: {
+    //   main: "",
+    //   light: "",
+    //   dark: "",
+    // },
+    // success: {
+    //   main: "",
+    //   light: "",
+    //   dark: "",
+    // },
   },
   typography: {
     subtitle1: {

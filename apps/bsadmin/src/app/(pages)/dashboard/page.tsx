@@ -2,7 +2,6 @@
 
 import React from "react";
 import dynamic from "next/dynamic";
-import SkeletonLoading from "./SkeletonLoading";
 import { LinkButton } from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import { Box, Stack, Typography } from "@mui/material";

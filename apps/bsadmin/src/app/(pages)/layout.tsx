@@ -140,12 +140,16 @@ export default function OrderLayout({
         <List sx={{ color: "white" }}>
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
-            console.log("pppp", depthOne.split("/")[2]);
+            console.log("pppp", depthOne.split("/")[1]);
             return (
               <ListItem key={uuid()} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
-                  onClick={() => handleClick(index)}
-                  selected={currentPathname.includes(depthOne.split("/")[2])}
+                  onClick={() => {
+                    item.menuPath.nestedPath.length === 0
+                      ? router.push(item.menuPath.name)
+                      : handleClick(index);
+                  }}
+                  selected={currentPathname.includes(depthOne.split("/")[1])}
                   disabled={
                     item.menuPath.name === "" &&
                     item.menuPath.nestedPath.length === 0
@@ -180,18 +184,17 @@ export default function OrderLayout({
                     primary={item.menuLabel}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
-                  {item.menuPath.nestedPath.length !== 0 ? (
+                  {item.menuPath.nestedPath.length !== 0 && open ? (
                     nestedOpen ? (
                       <ExpandLess />
                     ) : (
                       <ExpandMore />
                     )
                   ) : null}
-                  {/*{nestedOpen ? <ExpandLess /> : <ExpandMore />}*/}
                 </ListItemButton>
 
                 <Collapse
-                  in={index === selectedIndex}
+                  in={open ? index === selectedIndex : false}
                   timeout="auto"
                   unmountOnExit
                 >
