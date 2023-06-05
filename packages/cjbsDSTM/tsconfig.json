@@ -7,13 +7,12 @@
     ".next/types/**/*.ts"
   ],
   "compilerOptions": {
-    "baseUrl": ".", // This must be specified if "paths" is.
     "paths": {
       "@atoms/*": ["/atoms/*"],
       "@molecules/*": ["molecules/*"],
       "@organisms/*": ["organisms/*"],
       "@layouts/*": ["layouts/*"],
-      "@themes/*": ["themes/*"],
+      "@themes/*": ["./packages/themes/*"],
       "@commonFunc/*": ["commonFunc/*"]
     }
   },

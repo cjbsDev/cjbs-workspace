@@ -1,14 +1,14 @@
 "use client";
 import * as React from "react";
 import dynamic from "next/dynamic";
-import SkeletonLoading from "../../SkeletonLoading";
+import SkeletonLoading from "../../../SkeletonLoading";
 import { Container } from "@mui/material";
 
-const LazyDataList = dynamic(() => import("./DataList"), {
+const LazyListCust = dynamic(() => import("./ListCust"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });
 
 export default function ManagementPage() {
-  return <LazyDataList />;
+  return <LazyListCust />;
 }

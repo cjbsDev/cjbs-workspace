@@ -1,7 +1,7 @@
-'use client';
-import React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
-import { themeJeju } from '../../public/theme/themeJeju';
+"use client";
+import React from "react";
+import { ThemeProvider } from "@mui/material/styles";
+import { cjbsTheme } from "cjbsDSTM";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ interface ContextProps {
 export default function JeJuProvider({ children }: ContextProps) {
   return (
     <div>
-      <ThemeProvider theme={themeJeju}>{children}</ThemeProvider>
+      <ThemeProvider theme={cjbsTheme}>{children}</ThemeProvider>
     </div>
   );
 }

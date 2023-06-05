@@ -24,7 +24,7 @@ const options = [
 ];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const DataList = () => {
+const ListCust = () => {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
@@ -157,7 +157,7 @@ const DataList = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="고객 관리" />}
+      title={<Title1 titleName="고객 관리 89" />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
@@ -170,4 +170,4 @@ const DataList = () => {
   );
 };
 
-export default DataList;
+export default ListCust;

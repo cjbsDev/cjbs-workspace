@@ -1,5 +1,9 @@
 "use client";
 import * as React from "react";
+
+// Theme
+export * from "./themes";
+
 //Atoms
 export * from "./atoms/Buttons";
 export * from "./atoms/Inputs";

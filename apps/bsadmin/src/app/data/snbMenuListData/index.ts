@@ -1,10 +1,10 @@
 export const snbMenuListData = [
   {
-    menuLabel: '홈',
-    menuIcon: '',
+    menuLabel: "홈",
+    menuIcon: "",
     menuPath: {
-      name: '/dashboard',
-      nestedPath: []
+      name: "/dashboard",
+      nestedPath: [],
     },
   },
   // {
@@ -51,21 +51,21 @@ export const snbMenuListData = [
   //   },
   // },
   {
-    menuLabel: '오더',
-    menuIcon: '',
+    menuLabel: "오더",
+    menuIcon: "",
     menuPath: {
-      name: '/dashboard',
+      name: "/dashboard",
       nestedPath: [
         {
-          menuLabel: '오더 관리',
-          menuPath: '/dashboard/order'
+          menuLabel: "오더 관리",
+          menuPath: "/dashboard/order",
         },
         {
-          menuLabel: '오더 등록',
-          menuPath: ''
-        }
-      ]
-    }
+          menuLabel: "오더 등록",
+          menuPath: "",
+        },
+      ],
+    },
   },
   // {
   //   menuLabel: '실험',
@@ -139,25 +139,25 @@ export const snbMenuListData = [
   //   }
   // },
   {
-    menuLabel: '고객',
-    menuIcon: '',
+    menuLabel: "고객",
+    menuIcon: "",
     menuPath: {
-      name: '/dashboard/customer',
+      name: "/dashboard/cust",
       nestedPath: [
         {
-          menuLabel: '고객 관리',
-          menuPath: '/dashboard/customer/management'
+          menuLabel: "고객 관리",
+          menuPath: "/dashboard/cust/cust-list",
         },
         {
-          menuLabel: '거래처(PI) 관리',
-          menuPath: ''
+          menuLabel: "거래처(PI) 관리",
+          menuPath: "/dashboard/cust/vendor-pi-list",
         },
         {
-          menuLabel: '기관 정보 관리',
-          menuPath: ''
-        }
-      ]
-    }
+          menuLabel: "기관 정보 관리",
+          menuPath: "/dashboard/cust/institution-info-list",
+        },
+      ],
+    },
   },
   // {
   //   menuLabel: '기준가',
@@ -206,4 +206,4 @@ export const snbMenuListData = [
   //     ]
   //   }
   // },
-]
+];
