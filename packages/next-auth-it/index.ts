@@ -11,7 +11,7 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 
-export const TOKEN_EALRY_EXPIRE_MINUTE = 60;
+export const TOKEN_EALRY_EXPIRE_MINUTE = 10;
 
 export const refreshAccessToken = mem(
   (refreshToken: string, email: string, uid: number, authorities: string): Promise<RetrunRefreshAccessToken> => {
