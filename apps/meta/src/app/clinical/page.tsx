@@ -4,9 +4,10 @@ import { fetcher } from 'api';
 import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
 import { Box, Grid, Typography } from '@mui/material';
-import ClinicalDashboard from '../../component/organisms/clinical/dashboard/clinicalDashboard';
 import DashboardPartsBox from '../../component/molecules/dashboard/dashboardPartsBox';
 import { toast } from 'react-toastify';
+import ClinicalDashboard from '../../component/organisms/clinical/dashboard/ClinicalDashboard';
+import Title from 'src/component/atoms/Title';
 
 export interface DiseasePartVoList {
   id: number;
@@ -63,6 +64,7 @@ const Dashboard = () => {
 
     return (
       <Box>
+        <Title>Clinical Data Center Dashboard</Title>
         <Box mb={'28px'}>
           <ClinicalDashboard pieData={pieData} values={dashboardValues} />
         </Box>
@@ -80,8 +82,6 @@ const Dashboard = () => {
       </Box>
     );
   }
-
-  return <></>;
 };
 
 export default Dashboard;

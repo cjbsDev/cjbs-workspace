@@ -5,7 +5,7 @@
   },
   {
     "name": "Search",
-    "url": "/search"
+    "url": "/clinical/search"
   },
   {
     "name": "Disease/Study",

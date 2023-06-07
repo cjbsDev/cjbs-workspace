@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { SxProps } from '@mui/material';
 import CJBSLogo from '../../atoms/CJBSLogo';
 
@@ -20,6 +20,7 @@ interface MenuProps {
   sx?: SxProps;
   fontColor?: string;
   onLogo?: boolean;
+  type: 'SUB' | 'MAIN';
 }
 
 interface MenuData {
@@ -60,13 +61,27 @@ export default function MenuTabs({
   sx,
   fontColor,
   onLogo,
+  type,
 }: MenuProps) {
+  const pathname = usePathname();
   const router = useRouter();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
+
+  React.useEffect(() => {
+    let value = 0;
+    if (type === 'SUB') {
+      data.map((item, index) => {
+        if (item.url === pathname) {
+          value = index;
+        }
+      });
+      setValue(value);
+    }
+  }, []);
 
   return (
     <Box

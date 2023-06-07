@@ -1,6 +1,6 @@
 import { Box, Grid, Typography } from '@mui/material';
 import React from 'react';
-import MyIcon from '../../../../../../packages/icon/myIcon';
+import MyIcon from '../../../../../../packages/icon/MyIcon';
 import { DiseaseVoList } from '../../../app/clinical/page';
 import { styled } from '@mui/system';
 

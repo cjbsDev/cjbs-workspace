@@ -5,17 +5,15 @@ import { fetcher } from 'api';
 import Skeleton from '@mui/material/Skeleton';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
-import { LOCAL_STORAGE_FILTER_KEY } from 'src/component/organisms/clinical/dashboard/sideMenu';
 import { useSetRecoilState } from 'recoil';
-import { selectedFilterState } from 'src/recoil/selectedFilter';
-import { log } from 'console';
+import { selectedFilterState } from 'src/recoil/selectedFilterState';
+import { LOCAL_STORAGE_FILTER_KEY } from 'src/component/organisms/clinical/dashboard/menu/SideMenu';
 
 const PALCEHOLDER_SEARCH_FIELD = '검색어를 입력하세요.';
 
-const SearchInput = () => {
+const SideSearchInput = () => {
   const [value, setValue] = useState<string | null>('');
   const [inputValue, setInputValue] = useState('');
-  const setSearchFilterState = useSetRecoilState(selectedFilterState);
   const { data, isLoading } = useSWR('/filter/autocomplete', fetcher);
 
   // useEffect(() => {
@@ -25,34 +23,34 @@ const SearchInput = () => {
   const onSearchKeyUp = useCallback(
     async (e: React.KeyboardEvent<HTMLInputElement>) => {
       console.log('### >>> value', inputValue);
-      if (e.key === 'Enter' && inputValue.length > 2) {
-        let filters = await localStorage.getItem(LOCAL_STORAGE_FILTER_KEY);
+      // if (e.key === 'Enter' && inputValue.length > 2) {
+      //   let filters = await localStorage.getItem(LOCAL_STORAGE_FILTER_KEY);
 
-        if (!filters) {
-          let newFilters: string[] = [];
-          newFilters.unshift(inputValue);
+      //   if (!filters) {
+      //     let newFilters: string[] = [];
+      //     newFilters.unshift(inputValue);
 
-          const set = new Set(newFilters);
-          const uniqueArray = [...set];
+      //     const set = new Set(newFilters);
+      //     const uniqueArray = [...set];
 
-          localStorage.setItem(
-            LOCAL_STORAGE_FILTER_KEY,
-            JSON.stringify(uniqueArray),
-          );
-          setSearchFilterState(uniqueArray);
-        } else {
-          let filterArray: string[] = JSON.parse(filters);
-          filterArray.unshift(inputValue);
+      //     localStorage.setItem(
+      //       LOCAL_STORAGE_FILTER_KEY,
+      //       JSON.stringify(uniqueArray),
+      //     );
+      //     setSearchFilterState(uniqueArray);
+      //   } else {
+      //     let filterArray: string[] = JSON.parse(filters);
+      //     filterArray.unshift(inputValue);
 
-          const set = new Set(filterArray);
-          const uniqueArray = [...set];
-          localStorage.setItem(
-            LOCAL_STORAGE_FILTER_KEY,
-            JSON.stringify(uniqueArray),
-          );
-          setSearchFilterState(uniqueArray);
-        }
-      }
+      //     const set = new Set(filterArray);
+      //     const uniqueArray = [...set];
+      //     localStorage.setItem(
+      //       LOCAL_STORAGE_FILTER_KEY,
+      //       JSON.stringify(uniqueArray),
+      //     );
+      //     setSearchFilterState(uniqueArray);
+      //   }
+      // }
     },
     [inputValue],
   );
@@ -117,4 +115,4 @@ const SearchTextField = styled(TextField)`
   height: 34px;
 `;
 
-export default SearchInput;
+export default SideSearchInput;
