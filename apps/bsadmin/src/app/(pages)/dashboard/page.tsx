@@ -14,11 +14,11 @@ export default async function OrderPage() {
       <Stack direction={"row"} spacing={1}>
         <LinkButton
           buttonName="고객관리"
-          onClick={() => router.push("dashboard/cust/cust-list")}
+          onClick={() => router.push("cust/cust-list")}
         />
         <LinkButton
           buttonName="주문"
-          onClick={() => router.push("dashboard/order/order-list")}
+          onClick={() => router.push("order/order-list")}
         />
       </Stack>
     </Box>

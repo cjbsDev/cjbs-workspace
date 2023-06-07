@@ -61,7 +61,7 @@ const DataList = () => {
 
   const goDetailPage = (row) => {
     const path = row.title;
-    router.push("/dashboard/order/" + path.toString());
+    router.push("/order-list/" + path.toString());
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

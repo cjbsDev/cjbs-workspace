@@ -27,12 +27,12 @@ import {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-interface CustomerViewProps {
+interface CustViewProps {
   params: {
     slug: number;
   };
 }
-export default function Page({ params }: CustomerViewProps) {
+export default function Page({ params }: CustViewProps) {
   // console.log('params', params.slug)
   const { slug } = params;
   const { data, isLoading, error } = useSWR(
@@ -51,7 +51,7 @@ export default function Page({ params }: CustomerViewProps) {
       {/*<LinkButton*/}
       {/*  startIcon={<ArrowBackIosRoundedIcon />}*/}
       {/*  buttonName="prev"*/}
-      {/*  onClick={() => router.push("dashboard/customer/management")}*/}
+      {/*  onClick={() => router.push("cust/cust-list")}*/}
       {/*/>*/}
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Box sx={{ mb: 4 }}>
@@ -150,7 +150,7 @@ export default function Page({ params }: CustomerViewProps) {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("dashboard/customer/management")}
+            onClick={() => router.push("cust/cust-list")}
           />
           <ContainedButton buttonName="수정" />
         </Stack>

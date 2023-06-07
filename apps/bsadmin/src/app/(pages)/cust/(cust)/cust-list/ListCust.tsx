@@ -107,7 +107,7 @@ const ListCust = () => {
 
   const goDetailPage = (row: { id: number }) => {
     const path = row.id;
-    router.push("/dashboard/customer/management/" + path);
+    router.push("/cust/cust-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
