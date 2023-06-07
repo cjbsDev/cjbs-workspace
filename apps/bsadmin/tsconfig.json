@@ -8,11 +8,7 @@
       }
     ],
     "paths": {
-<<<<<<< HEAD
-      "@components/*": ["../../packages/cjbsDSTM/*"]
-=======
-      "@components/*": ["/packages/cjbsDSTM/*"],
->>>>>>> origin/dev
+      "@components/*": ["/packages/cjbsDSTM/*"]
     }
   },
   "extends": "tsconfig/nextjs.json",
