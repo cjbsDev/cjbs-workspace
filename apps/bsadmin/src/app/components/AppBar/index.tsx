@@ -63,18 +63,18 @@ const Header = ({open, handleDrawerOpen}) => {
             <MenuIcon />
           </IconButton>
         </Box>
-        <InputDefaultType
-          InputProps={{
-            startAdornment: <InputAdornment position="start">
-              <SearchRoundedIcon />검색
-            </InputAdornment>,
-            endAdornment: <InputAdornment position="end">
-              <IconButton>
-                <ClearRoundedIcon />
-              </IconButton>
-            </InputAdornment>
-          }}
-        />
+        {/*<InputDefaultType*/}
+        {/*  InputProps={{*/}
+        {/*    startAdornment: <InputAdornment position="start">*/}
+        {/*      <SearchRoundedIcon />검색*/}
+        {/*    </InputAdornment>,*/}
+        {/*    endAdornment: <InputAdornment position="end">*/}
+        {/*      <IconButton>*/}
+        {/*        <ClearRoundedIcon />*/}
+        {/*      </IconButton>*/}
+        {/*    </InputAdornment>*/}
+        {/*  }}*/}
+        {/*/>*/}
         <Box sx={{ flexGrow: 1 }} />
         <Box>
           <Stack
