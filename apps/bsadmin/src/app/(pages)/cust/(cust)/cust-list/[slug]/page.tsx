@@ -60,24 +60,27 @@ export default function Page({ params }: CustViewProps) {
 
         <Typography variant="subtitle1">EzBioCloud 가입 정보</Typography>
         <TableContainer sx={{ mb: 5 }}>
+          {/* <Table  sx={{ tableLayout: "fixed" }}> */}
           <Table>
             <TableBody>
               <TableRow>
                 <TH>고객번호</TH>
-                <TD colSpan={3}>&#45;</TD>
+                <TD colSpan={3}>{data.stock}</TD>
               </TableRow>
               <TableRow>
                 <TH>아이디</TH>
-                <TD>&#45;</TD>
+                <TD>{data.id}</TD>
                 <TH>서브 이메일</TH>
                 <TD>&#45;</TD>
               </TableRow>
+
               <TableRow>
                 <TH>영문 이름</TH>
-                <TD>&#45;</TD>
+                <TD>{data.title}</TD>
                 <TH>호칭</TH>
                 <TD>&#45;</TD>
               </TableRow>
+
               <TableRow>
                 <TH>국가</TH>
                 <TD>&#45;</TD>
