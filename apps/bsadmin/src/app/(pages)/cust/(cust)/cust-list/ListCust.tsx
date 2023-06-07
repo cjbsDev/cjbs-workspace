@@ -28,6 +28,8 @@ const ListCust = () => {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
+  // 여기서 부터 개발 진행 필요
+  // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
       name: "고객 구분",
