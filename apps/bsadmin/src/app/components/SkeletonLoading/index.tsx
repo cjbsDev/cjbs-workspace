@@ -3,7 +3,11 @@ import React from "react";
 import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
-const SkeletonLoading = () => {
+interface SkeletonLoadingProps {
+  height?: 600;
+}
+
+const SkeletonLoading = ({ height }: SkeletonLoadingProps) => {
   return (
     <Stack spacing={1}>
       {/* For variant="text", adjust the height via font-size */}
@@ -12,7 +16,7 @@ const SkeletonLoading = () => {
       {/* For other variants, adjust the size with `width` and `height` */}
       {/*<Skeleton variant="circular" width={40} height={40} />*/}
       {/*<Skeleton variant="rectangular" width={210} height={60} />*/}
-      <Skeleton variant="rounded" height={600} />
+      <Skeleton variant="rounded" height={height} />
     </Stack>
   );
 };
