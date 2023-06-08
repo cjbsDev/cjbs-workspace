@@ -32,7 +32,17 @@ const ListCust = () => {
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
-      name: "고객 구분",
+      name: "순번",
+      selector: (row: { id: number }) => row.id,
+      width: "70px",
+    },
+    {
+      name: "고객 번호",
+      selector: (row: { stock: any }) => row.stock,
+    },
+
+    {
+      name: "이름",
       // selector: (row: { title: any }) => row.title,
       cell: (row: { title: any }) => (
         <>
@@ -43,7 +53,7 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>홍길동</Box>
+            <Box>{row.title}</Box>
             <Box>
               <Chip
                 icon={<MyIcon icon="customer" size={25} color="red" />}
@@ -60,19 +70,12 @@ const ListCust = () => {
           </Stack>
         </>
       ),
-    },
-    {
-      name: "이름",
-      selector: (row: { description: any }) => row.description,
-      // cell: (row: { description: any }) => <Box>{row.description}</Box>,
+      minWidth: "150px",
     },
     {
       name: "거래처(PI)",
       selector: (row: { brand: any }) => row.brand,
-    },
-    {
-      name: "분석 의뢰",
-      selector: (row: { price: any }) => row.price,
+      minWidth: "300px",
     },
     {
       name: "가입일",
@@ -80,11 +83,11 @@ const ListCust = () => {
     },
     {
       name: "마지막 수정",
-      selector: (row: { stock: any }) => row.stock,
+      selector: (row: { id: any }) => row.id,
     },
     {
       name: "상태",
-      selector: (row: { stock: any }) => row.stock,
+      selector: (row: { id: any }) => row.id,
     },
     {
       name: "메모",
@@ -92,6 +95,7 @@ const ListCust = () => {
       cell: () => <Box>Memo</Box>,
       ignoreRowClick: true,
       allowOverflow: true,
+      width: "80px",
     },
   ];
   const [filterText, setFilterText] = useState("");
@@ -143,6 +147,7 @@ const ListCust = () => {
             <ExcelDownloadButton
               buttonName="Excel"
               onClick={() => exportCSVData({ exportUrl: "apiUrl" })}
+              //style={{ height: '34px', width: '80px' }}
             />
             <DataTableFilter
               onFilter={(e: {
