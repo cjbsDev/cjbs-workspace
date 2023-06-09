@@ -24,6 +24,7 @@ const THStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   backgroundColor: theme.palette.grey["100"],
   fontSize: 14,
   border: `1px solid ${theme.palette.grey["400"]}`,
+  // padding: "4px 10px",
 }));
 
 const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
@@ -31,4 +32,5 @@ const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   backgroundColor: theme.palette.common.white,
   fontSize: 14,
   border: `1px solid ${theme.palette.grey["400"]}`,
+  // padding: "4px 10px",
 }));

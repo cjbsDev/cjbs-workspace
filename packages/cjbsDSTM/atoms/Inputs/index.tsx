@@ -1,5 +1,10 @@
 import * as React from "react";
-import { TextField, TextFieldProps, IconButton } from "@mui/material";
+import {
+  TextField,
+  TextFieldProps,
+  IconButton,
+  BaseTextFieldProps,
+} from "@mui/material";
 import { FormContainer, TextFieldElement } from "react-hook-form-mui";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
@@ -15,6 +20,22 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
   );
 };
 
-export const RHFInputDefaultType = () => {
-  return <TextFieldElement name="testName" size="small" />;
+interface RHFInputDefaultTypeProps extends BaseTextFieldProps {
+  textFieldName: string;
+}
+
+export const RHFInputDefaultType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextFieldElement
+        {...props}
+        size="small"
+        sx={{
+          ".MuiOutlinedInput-root": {
+            padding: "4.5px 10px",
+          },
+        }}
+      />
+    </ThemeProvider>
+  );
 };

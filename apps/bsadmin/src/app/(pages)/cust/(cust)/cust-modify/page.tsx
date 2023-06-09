@@ -7,6 +7,8 @@ import {
   TD,
   ModalContainer,
   ModalTitle,
+  RHFInputDefaultType,
+  cjbsTheme,
 } from "cjbsDSTM";
 import {
   Box,
@@ -91,7 +93,13 @@ export default function CustModifyPage() {
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Box>11112222</Box>
                     <Chip
-                      icon={<MyIcon icon="customer" size={25} color="red" />}
+                      icon={
+                        <MyIcon
+                          icon="profile-circle-fill"
+                          size={18}
+                          color={cjbsTheme.palette.primary.main}
+                        />
+                      }
                       label={"Leader"}
                       size="small"
                       sx={{
@@ -189,6 +197,7 @@ export default function CustModifyPage() {
                 <TH sx={{ width: "15%" }}>이름</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <TextFieldElement name="custName" required size="small" />
+                  {/*<RHFInputDefaultType name="rete" />*/}
                 </TD>
               </TableRow>
               <TableRow>
