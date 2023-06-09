@@ -211,6 +211,9 @@ importers:
       axios:
         specifier: ^1.4.0
         version: 1.4.0
+      icon:
+        specifier: workspace:*
+        version: link:../icon
       next:
         specifier: latest
         version: 13.4.4(react-dom@18.2.0)(react@18.2.0)

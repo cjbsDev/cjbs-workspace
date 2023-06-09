@@ -141,4 +141,4 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
 };
 
 export const fetcher = (url: string) => GET(url);
-export const fetcherPost = (url: string, data: any) => POST(url, data);
+export const fetcherPost = (data: any[]) => POST(data[0], data[1]);

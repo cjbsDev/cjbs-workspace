@@ -1,12 +1,13 @@
 'use client';
 import React from 'react';
 import { FC } from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Divider, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MainMenuData from './data/main_menu.json';
 import SubMenuData from './data/sub_menu.json';
 import BoardTempleate from '../templeate/layout/LayoutTempleate';
 import SideMenu from '../organisms/clinical/dashboard/menu/SideMenu';
+import SideSearchInput from '../molecules/sidemenu/SideSearchInput';
 interface LayoutProps {
   children: React.ReactNode;
   title?: string;
@@ -24,6 +25,11 @@ const SideMenuBox = styled(Box)`
   width: 100%;
   height: 100%;
   overflow: auto;
+  padding: 0px 25px 0px 25px;
+`;
+
+export const SearchBox = styled(SideMenuBox)`
+  height: 78px;
   padding: 16px 25px 0px 25px;
 `;
 
@@ -54,6 +60,10 @@ const MainLayout: FC<LayoutProps> = ({ children, title }) => {
               justifyContent: 'space-between',
             }}
           >
+            <SearchBox>
+              <SideSearchInput />
+            </SearchBox>
+            <Divider variant="fullWidth" />
             <SideMenuBox>
               <SideMenu />
             </SideMenuBox>

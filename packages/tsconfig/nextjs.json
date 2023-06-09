@@ -9,7 +9,7 @@
     "incremental": true,
     "jsx": "preserve",
     "forceConsistentCasingInFileNames": true,
-    "lib": ["dom", "dom.iterable", "esnext", "es5", "es6"],
+    "lib": ["dom", "dom.iterable", "esnext", "ES2015", "ES2016"],
     "module": "esnext",
     "noEmit": true,
     "moduleResolution": "node",
@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "strict": true,
-    "target": "es6",
+    "target": "ES6",
     "paths": {
       "@/*": ["./src/*"]
     },

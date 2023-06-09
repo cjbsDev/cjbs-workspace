@@ -3,7 +3,6 @@ import { InputDefaultType } from '../../atoms/Inputs';
 import { IconButton } from '@mui/material';
 import InputAdornment from '@mui/material/InputAdornment';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 
 interface FilterProps {
   filterText: string;
@@ -11,22 +10,18 @@ interface FilterProps {
   onClear: () => void;
 }
 
-export const DataTableFilter = ({ filterText, onFilter, onClear }: FilterProps) => {
+export const DataTableMetaFilter = ({ filterText, onFilter, onClear }: FilterProps) => {
   return (
     <InputDefaultType
+      sx={{ width: '341px' }}
       value={filterText}
       onChange={onFilter}
+      placeholder='결과 내 재검색'
       InputProps={{
-        startAdornment: (
-          <InputAdornment position='start'>
-            <SearchRoundedIcon />
-            검색
-          </InputAdornment>
-        ),
         endAdornment: (
           <InputAdornment position='end'>
             <IconButton onClick={onClear}>
-              <ClearRoundedIcon />
+              <SearchRoundedIcon />
             </IconButton>
           </InputAdornment>
         ),

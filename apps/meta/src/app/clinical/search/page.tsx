@@ -1,35 +1,75 @@
 'use client';
-import React, { useState, useMemo } from 'react';
-import { Box, Divider, Grid, Stack, styled } from '@mui/material';
-import { fetcherPost } from 'api';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Box, Divider, Grid, Stack, Typography, styled } from '@mui/material';
+import { POST, fetcherPost } from 'api';
 import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
 import { toast } from 'react-toastify';
 import {
   DataTableBase,
-  DataTableFilter,
+  DataTableMetaFilter,
   Title1,
 } from '../../../../../../packages/cjbsDSTM';
-import { SubjectData } from './types';
+import {
+  AgeType,
+  CheckType,
+  Page,
+  Search,
+  SelectedFilterValues,
+  SubjectData,
+} from './types';
 import { subjectColoumns } from './columns';
+import RecentSelect from 'src/component/molecules/select/RecentSelect';
+import { FlexGrid } from '@components/atoms/grid/FlexGrid';
+import { isNull } from 'src/util/validation';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import {
+  ageState,
+  searchInputState,
+  selectedFilterState,
+} from 'src/recoil/selectedFilterState';
 
-const InfoGrid = styled(Grid)`
-  box-sizing: border-box;
-  width: 100%;
-  height: 61px;
-  left: 328px;
-  top: 240px;
-  background: #f8f9fa;
-  border: 1px solid #ced4da;
-  border-radius: 2px;
-  margin-top: 15px;
-`;
+const SearchPage = () => {
+  const checked = useRecoilValue<CheckType[]>(selectedFilterState);
+  const keyword = useRecoilValue<string>(searchInputState);
+  const age = useRecoilValue<AgeType>(ageState);
+  const page = null;
 
-const Subject = () => {
+  const findData = checked.filter((item) => item.valid === true);
+
+  const filterData: SelectedFilterValues[] = findData.map((item) => {
+    return { field: item.root, code: item.code };
+  });
+
+  const subjectMinAge = !isNull(age.subjectMinAge) ? age.subjectMinAge : null;
+  const subjectMaxAge = !isNull(age.subjectMaxAge) ? age.subjectMaxAge : null;
+  const postData: Search = {
+    subjectMinAge: subjectMinAge,
+    subjectMaxAge: subjectMaxAge,
+    resultKeyword: null,
+    keyword: keyword,
+    filter: filterData,
+    page: null,
+  };
+
   //const { data: session, status } = useSession();
   const [filterText, setFilterText] = useState('');
-  const { data, mutate, isLoading } = useSWR('/subject/list', fetcherPost);
-  //const { data: user } = useSWR(['/api/user', token], ([url, token]) => fetchWithToken(url, token))
+  const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
+  // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
+  // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
+
+  const { data, mutate, isLoading } = useSWR(
+    ['/common/search', postData],
+    fetcherPost,
+  );
+
+  console.log('data >>> ', data);
+
+  useEffect(() => {
+    if (data && data.data.subjectList)
+      setStudyDiseaseCount(data?.data.subjectList.length);
+  }, [isLoading]);
+
   const onChangeFilterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     setFilterText(e.target.value);
@@ -39,45 +79,35 @@ const Subject = () => {
     setFilterText('');
   };
 
-  const headerComponent = useMemo(() => {
+  const HeaderComponent = useMemo(() => {
     return (
-      <Grid container mb={'41px'}>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <DataTableFilter
-            onFilter={onChangeFilterText}
-            onClear={clearFilterText}
-            filterText={filterText}
-          />
+      <Box>
+        <Grid container mb={'41px'}>
+          <FlexGrid item xs={12}>
+            <Box mr={'8px'}>
+              {' '}
+              <RecentSelect />
+            </Box>
+            <DataTableMetaFilter
+              onFilter={onChangeFilterText}
+              onClear={clearFilterText}
+              filterText={filterText}
+            />
+          </FlexGrid>
+          {/* <ClinicalSearchDashboard/> */}
         </Grid>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <InfoGrid container>
-            <Grid item xs={3}></Grid>
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              flexItem
-              sx={{ mr: '-1px' }}
-            />
-            <Grid item xs={3}></Grid>
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              flexItem
-              sx={{ mr: '-1px' }}
-            />
-            <Grid item xs={3}></Grid>
-            <Divider
-              orientation="vertical"
-              variant="middle"
-              flexItem
-              sx={{ mr: '-1px' }}
-            />
-            <Grid item xs={3}></Grid>
-          </InfoGrid>
-        </Grid>
-      </Grid>
+        <Box
+          position={'absolute'}
+          sx={{ left: '0px', bottom: '10px' }}
+          width={'100%'}
+        >
+          <Typography variant="subtitle1">
+            Study / Disease ({studyDiseaseCount})
+          </Typography>
+        </Box>
+      </Box>
     );
-  }, []);
+  }, [studyDiseaseCount]);
 
   if (isLoading) {
     return <Skeleton variant="rectangular" width={100} height={100} />;
@@ -87,22 +117,22 @@ const Subject = () => {
       return <></>;
     }
 
-    const filteredData: SubjectData[] = data.data.subjectList;
+    const subjectData: SubjectData[] = data.data.subjectList;
 
     return (
       <DataTableBase
         title={<Title1 titleName={`Search results`} />}
-        data={filteredData}
+        data={subjectData}
         columns={subjectColoumns}
         // onRowClicked={goDetailPage}
         pointerOnHover
         highlightOnHover
         subHeader
-        subHeaderComponent={headerComponent}
+        subHeaderComponent={HeaderComponent}
         // paginationResetDefaultPage={resetPaginationToggle}
       />
     );
   }
 };
 
-export default Subject;
+export default SearchPage;
