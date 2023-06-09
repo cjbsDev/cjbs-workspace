@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface TypographyVariants {
     title1: React.CSSProperties;
+    title2: React.CSSProperties;
     buttonMD: React.CSSProperties;
   }
 
@@ -11,6 +12,7 @@ declare module "@mui/material/styles" {
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     title1?: React.CSSProperties;
+    title2?: React.CSSProperties;
     buttonMD?: React.CSSProperties;
   }
 
@@ -20,6 +22,7 @@ declare module "@mui/material/styles" {
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     title1: true;
+    title2: true;
     buttonMD: true;
   }
 }
@@ -131,6 +134,17 @@ export const cjbsTheme = createTheme({
             fontStyle: "normal",
             fontWeight: 600,
             fontSize: 28,
+            letterSpacing: "-0.5px",
+          },
+        },
+        {
+          props: { variant: "title2" },
+          style: {
+            color: "rgba(0, 0, 0, 0.87)",
+            fontFamily: "Inter",
+            fontStyle: "normal",
+            fontWeight: 600,
+            fontSize: 18,
             letterSpacing: "-0.5px",
           },
         },

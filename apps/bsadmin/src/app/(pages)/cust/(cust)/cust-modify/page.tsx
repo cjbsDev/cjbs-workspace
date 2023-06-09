@@ -5,27 +5,25 @@ import {
   Title1,
   TH,
   TD,
-  LinkButton,
+  ModalContainer,
+  ModalTitle,
 } from "cjbsDSTM";
 import {
   Box,
   Chip,
   Container,
   Stack,
-  Grid,
   Typography,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
   TableRow,
   IconButton,
-  Button,
   ToggleButton,
+  DialogContent,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import CheckIcon from "@mui/icons-material/Check";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyIcon from "icon/myIcon";
@@ -49,6 +47,14 @@ const LazyCustModifyLog = dynamic(() => import("./CustModifyLog"), {
 
 export default function CustModifyPage() {
   const [selected, setSelected] = useState(true);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
   // const [custContact, setCustContact] = useState([
   //   {
   //     id: 1,
@@ -239,9 +245,11 @@ export default function CustModifyPage() {
                       size="small"
                       sx={{ width: 380 }}
                     />
-                    <ContainedButton buttonName="거래처 검색" />
+                    <ContainedButton
+                      buttonName="거래처 검색"
+                      onClick={handleClickOpen}
+                    />
 
-                    {/* 거래처 모달에서 선택하면 활성화 */}
                     <ContainedButton buttonName="거래처 변경" />
                     <OutlinedButton buttonName="삭제" color="error" />
                   </Stack>
@@ -308,6 +316,11 @@ export default function CustModifyPage() {
           <ContainedButton type="submit" buttonName="저장" />
         </Stack>
       </FormContainer>
+
+      <ModalContainer onClose={handleClose} open={open} modalWidth={800}>
+        <ModalTitle onClose={handleClose}>거래처(PI)</ModalTitle>
+        <DialogContent>blablablablasblablaabl</DialogContent>
+      </ModalContainer>
     </Container>
   );
 }

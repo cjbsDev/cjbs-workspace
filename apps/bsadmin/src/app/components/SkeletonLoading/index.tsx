@@ -4,7 +4,7 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
 interface SkeletonLoadingProps {
-  height?: 600;
+  height?: 600 | number;
 }
 
 const SkeletonLoading = ({ height }: SkeletonLoadingProps) => {
