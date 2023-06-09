@@ -14,6 +14,7 @@ export * from "./atoms/Table";
 export * from "./molecules/DataTableFilter";
 export * from "./molecules/ExcelDownloadButton";
 export * from "./molecules/DataCountResultInfo";
+export * from "./molecules/CModal";
 
 //Organisms
 export * from "./organisms/DataTable";

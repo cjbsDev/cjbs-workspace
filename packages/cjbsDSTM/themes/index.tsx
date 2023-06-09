@@ -3,6 +3,7 @@ import { createTheme } from "@mui/material";
 declare module "@mui/material/styles" {
   interface TypographyVariants {
     title1: React.CSSProperties;
+    title2: React.CSSProperties;
     buttonMD: React.CSSProperties;
   }
 
@@ -11,6 +12,7 @@ declare module "@mui/material/styles" {
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
     title1?: React.CSSProperties;
+    title2?: React.CSSProperties;
     buttonMD?: React.CSSProperties;
   }
 
@@ -20,6 +22,7 @@ declare module "@mui/material/styles" {
 declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     title1: true;
+    title2: true;
     buttonMD: true;
   }
 }
@@ -36,32 +39,46 @@ export const cjbsTheme = createTheme({
       main: "#006ecd",
       light: "#4ba2ed",
       dark: "#004c8e",
+      // contrastText: ""
     },
     secondary: {
       main: "#868e95",
       light: "#ced4da",
       dark: "#495056",
+      // contrastText: ""
     },
-    // error: {
-    //   main: "",
-    //   light: "",
-    //   dark: "",
-    // },
-    // warning: {
-    //   main: "",
-    //   light: "",
-    //   dark: "",
-    // },
-    // info: {
-    //   main: "",
-    //   light: "",
-    //   dark: "",
-    // },
-    // success: {
-    //   main: "",
-    //   light: "",
-    //   dark: "",
-    // },
+    error: {
+      main: "#f44336",
+      light: "#f88078",
+      dark: "#b50d0d",
+    },
+    warning: {
+      main: "#ff5722",
+      light: "#ff784e",
+      dark: "#d84315",
+    },
+    info: {
+      main: "#00bcd4",
+      light: "#33c9dc",
+      dark: "#0097a7",
+    },
+    success: {
+      main: "#4caf50",
+      light: "#6fbf73",
+      dark: "#357a38",
+    },
+    grey: {
+      50: "#f8f9fa",
+      100: "#f1f3f5",
+      200: "#e9ecef",
+      300: "#dee2e6",
+      400: "#ced4da",
+      500: "#adb5bd",
+      600: "#868e95",
+      700: "#495056",
+      800: "#343a40",
+      900: "#222529",
+    },
   },
   typography: {
     subtitle1: {
@@ -117,6 +134,17 @@ export const cjbsTheme = createTheme({
             fontStyle: "normal",
             fontWeight: 600,
             fontSize: 28,
+            letterSpacing: "-0.5px",
+          },
+        },
+        {
+          props: { variant: "title2" },
+          style: {
+            color: "rgba(0, 0, 0, 0.87)",
+            fontFamily: "Inter",
+            fontStyle: "normal",
+            fontWeight: 600,
+            fontSize: 18,
             letterSpacing: "-0.5px",
           },
         },
