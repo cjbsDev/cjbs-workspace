@@ -91,9 +91,17 @@ const Subject = () => {
   const onChangeSort = (sortInfo: any, sortDirection: any) => {
     console.log('sort > ', sortInfo);
     console.log('sortDirection > ', sortDirection);
+    const sortName = sortInfo.name;
     const sortString = `${sortInfo.name + ',' + sortDirection}`;
-    const temp = [...sort, sortString];
-    let newArray = [...new Set(temp)];
+    const temp = [...sort];
+    const filterData = temp.filter((item) => {
+      //이미들어가있는 컬럼은 삭제
+      if (item.indexOf(sortName) === -1) {
+        return true;
+      }
+    });
+
+    let newArray = [...new Set(filterData), sortString];
     setSort(newArray);
   };
 
