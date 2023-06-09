@@ -20,6 +20,10 @@ export default async function OrderPage() {
           buttonName="주문"
           onClick={() => router.push("order/order-list")}
         />
+        <LinkButton
+          buttonName="거래처(PI) 등록"
+          onClick={() => router.push("cust/agnc-pi-add")}
+        />
       </Stack>
     </Box>
   );

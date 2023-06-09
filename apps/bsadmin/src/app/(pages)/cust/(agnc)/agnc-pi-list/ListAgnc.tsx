@@ -32,17 +32,32 @@ const ListAgnc = () => {
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
-      name: "순번",
-      selector: (row: { id: number }) => row.id,
+      name: "SP",
+      cell: (row: { title: any }) => (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+          >
+            <Box>Y</Box>
+          </Stack>
+        </>
+      ),
       width: "70px",
     },
     {
-      name: "고객 번호",
-      selector: (row: { stock: any }) => row.stock,
+      name: "거래처 번호",
+      selector: (row: { id: any }) => row.id,
     },
-
     {
-      name: "이름",
+      name: "거래처(PI)",
+      selector: (row: { title: any }) => row.title,
+    },
+    {
+      name: "리더",
       // selector: (row: { title: any }) => row.title,
       cell: (row: { title: any }) => (
         <>
@@ -53,40 +68,23 @@ const ListAgnc = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.title}</Box>
-            <Box>
-              <Chip
-                icon={<MyIcon icon="customer" size={25} color="red" />}
-                label={"Leader"}
-                size="small"
-                sx={{
-                  // backgroundColor: theme.palette.primary.light,
-                  backgroundColor: "#E6F0FA",
-                  color: "#006ECD",
-                }}
-              />
-            </Box>
-            <Box>mason@cj.net</Box>
+            <Box>서형석 (hyungseok.seo@cj.net)</Box>
           </Stack>
         </>
       ),
-      minWidth: "150px",
-    },
-    {
-      name: "거래처(PI)",
-      selector: (row: { brand: any }) => row.brand,
       minWidth: "300px",
     },
+
     {
-      name: "가입일",
+      name: "맴버",
       selector: (row: { rating: any }) => row.rating,
     },
     {
-      name: "마지막 수정",
+      name: "선결제 금액",
       selector: (row: { id: any }) => row.id,
     },
     {
-      name: "상태",
+      name: "영업 담당자",
       selector: (row: { id: any }) => row.id,
     },
     {
@@ -111,7 +109,7 @@ const ListAgnc = () => {
 
   const goDetailPage = (row: { id: number }) => {
     const path = row.id;
-    router.push("/cust/cust-list/" + path);
+    router.push("/cust/agnc-pi-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -164,7 +162,7 @@ const ListAgnc = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="고객 관리 89" />}
+      title={<Title1 titleName="거래처(PI) 관리" />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
