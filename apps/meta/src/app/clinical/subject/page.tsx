@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
-import { Grid, Stack } from '@mui/material';
+import { Box, Grid, Stack } from '@mui/material';
 import { fetcherPost } from 'api';
 import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
@@ -27,6 +27,9 @@ import {
 } from '../search/types';
 import { isNull } from 'src/util/validation';
 const Subject = () => {
+  const [pageNum, setPageNum] = useState<number>(1);
+  const [sort, setSort] = useState<string[]>([]);
+
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
@@ -43,33 +46,35 @@ const Subject = () => {
   const postData: Search = {
     subjectMinAge: subjectMinAge,
     subjectMaxAge: subjectMaxAge,
-    resultKeyword: null,
+    resultKeyword: '',
     keyword: keyword,
     filter: filterData,
-    page: null,
+    page: {
+      page: pageNum,
+      size: 15,
+      sort: sort,
+    },
   };
 
   //const { data: session, status } = useSession();
-  const [subjectCount, setSubjectCount] = useState<number>(0);
+
   // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
   // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
 
   const { data, mutate, isLoading } = useSWR(
-    ['/subject/list', null],
+    ['/subject/list', postData],
     fetcherPost,
   );
 
-  useEffect(() => {
-    const pageInfo = data?.data.pageInfo;
-    if (pageInfo) {
-      setSubjectCount(pageInfo.totalElements);
-    }
-  }, []);
+  // useEffect(() => {
+  //   const pageInfo = data?.data.pageInfo;
+  //   if (pageInfo) {
+  //     setSubjectCount(pageInfo.totalElements);
+  //   }
+  // }, [isLoading]);
 
-  console.log(' data > ', data?.data.pageInfo);
-  //const { data: session, status } = useSession();
+  const subjectCount = data?.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState('');
-  //const { data: user } = useSWR(['/api/user', token], ([url, token]) => fetchWithToken(url, token))
   const onChangeFilterText = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
     setFilterText(e.target.value);
@@ -79,7 +84,20 @@ const Subject = () => {
     setFilterText('');
   };
 
-  const headerComponent = useMemo(() => {
+  const onChangePage = (page: number) => {
+    setPageNum(page);
+  };
+
+  const onChangeSort = (sortInfo: any, sortDirection: any) => {
+    console.log('sort > ', sortInfo);
+    console.log('sortDirection > ', sortDirection);
+    const sortString = `${sortInfo.name + ',' + sortDirection}`;
+    const temp = [...sort, sortString];
+    let newArray = [...new Set(temp)];
+    setSort(newArray);
+  };
+
+  const HeaderComponent = useMemo(() => {
     return (
       <Grid container>
         <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
@@ -96,6 +114,8 @@ const Subject = () => {
     );
   }, []);
 
+  console.log('pnagenum ', pageNum);
+
   if (isLoading) {
     return <Skeleton variant="rectangular" width={100} height={100} />;
   } else {
@@ -107,22 +127,35 @@ const Subject = () => {
     const filteredData: SubjectData[] = data.data.subjectList;
 
     return (
-      <DataTableBase
-        title={
-          <Title1
-            titleName={`Subject list(${subjectCount.toLocaleString()})`}
-          />
-        }
-        data={filteredData}
-        columns={subjectColoumns}
-        // onRowClicked={goDetailPage}
-        //paginationServer
-        pointerOnHover
-        highlightOnHover
-        subHeader
-        subHeaderComponent={headerComponent}
-        // paginationResetDefaultPage={resetPaginationToggle}
-      />
+      <Box overflow={'auto'}>
+        <DataTableBase
+          title={
+            <Title1
+              titleName={`Subject list(${subjectCount.toLocaleString()})`}
+            />
+          }
+          data={filteredData}
+          columns={subjectColoumns}
+          // onRowClicked={goDetailPage}
+          paginationTotalRows={subjectCount}
+          paginationPerPage={15}
+          paginationComponentOptions={{
+            noRowsPerPage: true,
+          }}
+          sortServer
+          paginationServer
+          pointerOnHover
+          highlightOnHover
+          style={{
+            overflow: 'auto',
+          }}
+          subHeader
+          onSort={onChangeSort}
+          paginationDefaultPage={pageNum}
+          subHeaderComponent={HeaderComponent}
+          onChangePage={onChangePage}
+        />
+      </Box>
     );
   }
 };
