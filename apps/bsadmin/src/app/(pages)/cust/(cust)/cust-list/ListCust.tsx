@@ -164,7 +164,7 @@ const ListCust = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="고객 관리 89" />}
+      title={<Title1 titleName="고객 관리" />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}

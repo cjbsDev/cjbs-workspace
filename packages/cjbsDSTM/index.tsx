@@ -21,3 +21,4 @@ export * from "./organisms/DataTable";
 
 //CommonFunc
 export * from "./commonFunc/exportExcel";
+export * from "./commonFunc/ErrorBoundary";

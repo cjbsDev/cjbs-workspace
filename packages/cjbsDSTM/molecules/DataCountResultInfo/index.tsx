@@ -5,7 +5,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 
 interface DataCountResiltInfoProps {
   totalCount: number;
-  selectedCount: number;
+  selectedCount?: number;
 }
 
 export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
@@ -26,15 +26,6 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
         sx={{
           m: 0,
           p: 0,
-          pr: "10px",
-          mr: "6px",
-          position: "relative",
-          "::after": {
-            content: '"/"',
-            position: "absolute",
-            top: "3px",
-            right: 0,
-          },
         }}
       >
         <Typography variant="body2">
@@ -48,18 +39,33 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
           건
         </Typography>
       </Box>
-      <Box component="dd" sx={{ m: 0, p: 0 }}>
-        <Typography variant="body2">
-          선택{" "}
-          <Box
-            component="b"
-            sx={{ fontSize: 18, color: theme.palette.primary.main }}
-          >
-            {selectedCount}
-          </Box>{" "}
-          건
-        </Typography>
-      </Box>
+
+      {
+        selectedCount !== undefined && <Box component="dd" sx={{
+          m: 0,
+          p: 0,
+          pl: "10px",
+          ml: "6px",
+          position: "relative",
+          "::before": {
+            content: '"/"',
+            position: "absolute",
+            top: "3px",
+            left: 0,
+          },
+        }}>
+          <Typography variant="body2">
+            선택
+            <Box
+              component="b"
+              sx={{ fontSize: 18, color: theme.palette.primary.main }}
+            >
+              {selectedCount}
+            </Box>{" "}
+            건
+          </Typography>
+        </Box>
+      }
     </Box>
   );
 };

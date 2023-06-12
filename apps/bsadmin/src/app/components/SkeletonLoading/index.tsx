@@ -4,10 +4,10 @@ import Skeleton from "@mui/material/Skeleton";
 import Stack from "@mui/material/Stack";
 
 interface SkeletonLoadingProps {
-  height?: 600 | number;
+  height?: number;
 }
 
-const SkeletonLoading = ({ height }: SkeletonLoadingProps) => {
+const SkeletonLoading = ({ height = 600 }: SkeletonLoadingProps) => {
   return (
     <Stack spacing={1}>
       {/* For variant="text", adjust the height via font-size */}

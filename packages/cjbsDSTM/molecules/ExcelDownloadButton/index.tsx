@@ -1,18 +1,15 @@
-import React from 'react';
-import {OutlinedButton} from "../../atoms/Buttons";
-import ListAltIcon from '@mui/icons-material/ListAlt';
+import React from "react";
+import { UnStyledButton } from "../../atoms/Buttons";
+import ListAltIcon from "@mui/icons-material/ListAlt";
+import MyIcon from "../../../icon/myIcon";
 
-export const ExcelDownloadButton = ({...props}) => {
-  const {buttonName} = props
+export const ExcelDownloadButton = ({ ...props }) => {
+  const { buttonName } = props;
   return (
-    <OutlinedButton
+    <UnStyledButton
       {...props}
-      sx={{
-        border: '1px solid #CED4DA',
-        color: 'black'
-      }}
       buttonName={buttonName}
-      startIcon={<ListAltIcon color='success' />}
+      startIcon={<MyIcon icon="xls3" size={18} />}
     />
   );
 };
