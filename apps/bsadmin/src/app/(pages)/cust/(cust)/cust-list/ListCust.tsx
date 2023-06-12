@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
+import Dayjs from "dayjs";
 
 const options = [
   { value: "able", label: "사용" },
@@ -28,23 +29,17 @@ const ListCust = () => {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
-  // 여기서 부터 개발 진행 필요
+
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
-      name: "순번",
-      selector: (row: { id: number }) => row.id,
-      width: "70px",
-    },
-    {
       name: "고객 번호",
-      selector: (row: { stock: any }) => row.stock,
+      selector: (row: { ebcUid: number }) => row.ebcUid,
+      width: "100px",
     },
-
     {
       name: "이름",
-      // selector: (row: { title: any }) => row.title,
-      cell: (row: { title: any }) => (
+      cell: (row: { nm: any; ebcEmail: any }) => (
         <>
           <Stack
             direction="row"
@@ -53,7 +48,7 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.title}</Box>
+            <Box>{row.nm}</Box>
             <Box>
               <Chip
                 icon={<MyIcon icon="customer" size={25} color="red" />}
@@ -66,24 +61,41 @@ const ListCust = () => {
                 }}
               />
             </Box>
-            <Box>mason@cj.net</Box>
+            <Box>{row.ebcEmail}</Box>
           </Stack>
         </>
       ),
       minWidth: "150px",
     },
+
     {
       name: "거래처(PI)",
-      selector: (row: { brand: any }) => row.brand,
+      cell: (row: { inst: any; agnc: any }) => (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+          >
+            <Box>{row.agnc}</Box>
+            <Box>({row.inst})</Box>
+          </Stack>
+        </>
+      ),
       minWidth: "300px",
     },
+
     {
       name: "가입일",
-      selector: (row: { rating: any }) => row.rating,
+      selector: (row: { ebcJoinedAt: any }) =>
+        row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
     },
     {
       name: "마지막 수정",
-      selector: (row: { id: any }) => row.id,
+      selector: (row: { modifiedAt: any }) =>
+        row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
     },
     {
       name: "상태",
@@ -91,26 +103,35 @@ const ListCust = () => {
     },
     {
       name: "메모",
-      // selector: (row: { stock: any }) => row.stock,
-      cell: () => <Box>Memo</Box>,
-      ignoreRowClick: true,
-      allowOverflow: true,
+      cell: (row: { memo: any }) => (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+          >
+            <Box>{row.memo && "Open"}</Box>
+          </Stack>
+        </>
+      ),
       width: "80px",
     },
   ];
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
+
+  let tempUrl =
+    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=1&size=50";
+  const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
 
-  const filteredData = data.products.filter(
-    (item: { title: string }) =>
-      item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
-  );
+  const filteredData = data.data.custList;
 
-  const goDetailPage = (row: { id: number }) => {
-    const path = row.id;
+  const goDetailPage = (row: { ukey: string }) => {
+    const path = row.ukey;
     router.push("/cust/cust-list/" + path);
   };
 
