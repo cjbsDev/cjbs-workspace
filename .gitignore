@@ -39,3 +39,6 @@ yarn-error.log*
 apps/meta/.env.development
 
 pnpm-lock.yaml
+
+# 개발중
+page_exam.tsx

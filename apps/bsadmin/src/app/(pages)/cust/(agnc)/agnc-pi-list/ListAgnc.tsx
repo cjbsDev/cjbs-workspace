@@ -17,7 +17,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
-import Dayjs from "dayjs";
 
 const options = [
   { value: "able", label: "사용" },
@@ -25,21 +24,16 @@ const options = [
 ];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListCust = () => {
+const ListAgnc = () => {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
-
+  // 여기서 부터 개발 진행 필요
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
-      name: "고객 번호",
-      selector: (row: { ebcUid: number }) => row.ebcUid,
-      width: "100px",
-    },
-    {
-      name: "이름",
-      cell: (row: { nm: any; ebcEmail: any }) => (
+      name: "SP",
+      cell: (row: { title: any }) => (
         <>
           <Stack
             direction="row"
@@ -48,29 +42,24 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.nm}</Box>
-            <Box>
-              <Chip
-                icon={<MyIcon icon="customer" size={25} color="red" />}
-                label={"Leader"}
-                size="small"
-                sx={{
-                  // backgroundColor: theme.palette.primary.light,
-                  backgroundColor: "#E6F0FA",
-                  color: "#006ECD",
-                }}
-              />
-            </Box>
-            <Box>{row.ebcEmail}</Box>
+            <Box>Y</Box>
           </Stack>
         </>
       ),
-      minWidth: "150px",
+      width: "70px",
     },
-
+    {
+      name: "거래처 번호",
+      selector: (row: { id: any }) => row.id,
+    },
     {
       name: "거래처(PI)",
-      cell: (row: { inst: any; agnc: any }) => (
+      selector: (row: { title: any }) => row.title,
+    },
+    {
+      name: "리더",
+      // selector: (row: { title: any }) => row.title,
+      cell: (row: { title: any }) => (
         <>
           <Stack
             direction="row"
@@ -79,8 +68,7 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.agnc}</Box>
-            <Box>({row.inst})</Box>
+            <Box>서형석 (hyungseok.seo@cj.net)</Box>
           </Stack>
         </>
       ),
@@ -88,51 +76,40 @@ const ListCust = () => {
     },
 
     {
-      name: "가입일",
-      selector: (row: { ebcJoinedAt: any }) =>
-        row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
+      name: "맴버",
+      selector: (row: { rating: any }) => row.rating,
     },
     {
-      name: "마지막 수정",
-      selector: (row: { modifiedAt: any }) =>
-        row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
+      name: "선결제 금액",
+      selector: (row: { id: any }) => row.id,
     },
     {
-      name: "상태",
+      name: "영업 담당자",
       selector: (row: { id: any }) => row.id,
     },
     {
       name: "메모",
-      cell: (row: { memo: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.memo && "Open"}</Box>
-          </Stack>
-        </>
-      ),
+      // selector: (row: { stock: any }) => row.stock,
+      cell: () => <Box>Memo</Box>,
+      ignoreRowClick: true,
+      allowOverflow: true,
       width: "80px",
     },
   ];
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=1&size=50";
-  const { data } = useSWR(tempUrl, fetcher, {
+  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
     suspense: true,
   });
 
-  const filteredData = data.data.custList;
+  const filteredData = data.products.filter(
+    (item: { title: string }) =>
+      item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
+  );
 
-  const goDetailPage = (row: { ukey: string }) => {
-    const path = row.ukey;
-    router.push("/cust/cust-list/" + path);
+  const goDetailPage = (row: { id: number }) => {
+    const path = row.id;
+    router.push("/cust/agnc-pi-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -185,7 +162,7 @@ const ListCust = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="고객 관리" />}
+      title={<Title1 titleName="거래처(PI) 관리" />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
@@ -198,4 +175,4 @@ const ListCust = () => {
   );
 };
 
-export default ListCust;
+export default ListAgnc;
