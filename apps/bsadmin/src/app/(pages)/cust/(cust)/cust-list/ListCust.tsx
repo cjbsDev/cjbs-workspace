@@ -30,6 +30,15 @@ const ListCust = () => {
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
 
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowCnt, setSelectedRowCnt] = useState(0);
+
+  const handleRowSelected = (rows: any) => {
+    console.log("rows", rows);
+    setSelectedRowCnt(rows.selectedCount);
+    //setSelectedRows(rows.map((row) => row.id));
+  };
+
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = [
     {
@@ -130,6 +139,12 @@ const ListCust = () => {
 
   const filteredData = data.data.custList;
 
+  console.log("data", data);
+  console.log(
+    "data.data.pageInfo.totalElements",
+    data.data.pageInfo.totalElements
+  );
+
   const goDetailPage = (row: { ukey: string }) => {
     const path = row.ukey;
     router.push("/cust/cust-list/" + path);
@@ -147,7 +162,10 @@ const ListCust = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2}>
-            <DataCountResultInfo totalCount={20} selectedCount={3} />
+            <DataCountResultInfo
+              totalCount={data.data.pageInfo.totalElements}
+              selectedCount={selectedRowCnt}
+            />
             <Select
               placeholder="상태변경"
               styles={{
@@ -181,7 +199,7 @@ const ListCust = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, selectedRowCnt]);
 
   return (
     <DataTableBase
@@ -189,6 +207,7 @@ const ListCust = () => {
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
+      onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       subHeader
