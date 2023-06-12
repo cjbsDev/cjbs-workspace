@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -7,7 +8,6 @@ import {
   Title1,
   TH,
   TD,
-  RHFInputDefaultType,
 } from "cjbsDSTM";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
@@ -26,28 +26,42 @@ import {
   TableRow,
 } from "@mui/material";
 import MyIcon from "icon/myIcon";
+import Dayjs from "dayjs";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface CustViewProps {
   params: {
-    slug: number;
+    slug: string;
   };
 }
 
 export default function Page({ params }: CustViewProps) {
-  // console.log('params', params.slug)
+  // console.log('params', params.ukey)
   const { slug } = params;
-  const { data, isLoading, error } = useSWR(
-    `https://dummyjson.com/products/${slug}`,
-    fetcher
-  );
   const router = useRouter();
 
-  if (error) return <div>failed to load</div>;
-  if (isLoading) return <div>loading...</div>;
+  const { data: custTemp, error: custError } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`,
+    fetcher
+  );
 
-  console.log("detailViewData ==>>", data);
+  const { data: custEBCTemp, error: custEBCError } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/ebc/${slug}`,
+    fetcher
+  );
+
+  useEffect(() => {
+    if (custError || custEBCError) {
+      console.log("Failed to load");
+    }
+  }, [custError, custEBCError]);
+
+  if (!custTemp || !custEBCTemp) {
+    return <div>Loading...</div>;
+  }
+  const custData = custTemp.data;
+  const custEBCData = custEBCTemp.data;
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -61,12 +75,6 @@ export default function Page({ params }: CustViewProps) {
             <Typography variant="subtitle1">EzBioCloud 가입 정보</Typography>
           </Stack>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ContainedButton buttonName="리더" />
-            <ContainedButton buttonName="사용" />
-          </Stack>
-        </Grid>
       </Grid>
 
       <TableContainer sx={{ mb: 5 }}>
@@ -77,7 +85,7 @@ export default function Page({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>고객번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  {data.stock}{" "}
+                  {custEBCData.ukey}{" "}
                   <Chip
                     icon={<MyIcon icon="customer" size={25} color="red" />}
                     label={"Leader"}
@@ -93,43 +101,45 @@ export default function Page({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>아이디</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                hyungseok.seo@cj.net
+                {custEBCData.ebcEmail ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>서브 이메일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                -
+                {custEBCData.ebcSubEmail ?? "-"}
               </TD>
             </TableRow>
 
             <TableRow>
               <TH sx={{ width: "15%" }}>영문 이름</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                hyungseok seo
+                {custEBCData.ebcFullName ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>호칭</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                MR
+                {custEBCData.ebcTitle ?? "-"}
               </TD>
             </TableRow>
 
             <TableRow>
               <TH sx={{ width: "15%" }}>국가</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                Korea
+                {custEBCData.ebcNtly ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>소속 단체</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                CJ Bioscience
+                {custEBCData.ebcInstNm ?? "-"}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>academic</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                -
+                {custEBCData.ebcIsSchl ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>가입일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                -
+                {custEBCData.ebcJoinedAt
+                  ? Dayjs(custEBCData.ebcJoinedAt).format("YYYY-MM-DD")
+                  : "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -143,17 +153,17 @@ export default function Page({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>이름</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                &#45;
+                {custData.nm ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>연락처</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                &#45;
+                {custData.tel1 ?? "-"}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>거래처(PI)</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                &#45;
+                {custData.agnc ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -165,16 +175,7 @@ export default function Page({ params }: CustViewProps) {
         <Table>
           <TableBody>
             <TableRow>
-              <TD sx={{ minHeight: 130 }}>
-                사용자를 차단 합니다. (차단된 사용자는 주문서 작성 화면에 로그인
-                할 수 없습니다.)사용자를 차단 합니다. (차단된 사용자는 주문서
-                작성 화면에 로그인 할 수 없습니다.)사용자를 차단 합니다. (차단된
-                사용자는 주문서 작성 화면에 로그인 할 수 없습니다.)사용자를 차단
-                합니다. (차단된 사용자는 주문서 작성 화면에 로그인 할 수
-                없습니다.)사용자를 차단 합니다. (차단된 사용자는 주문서 작성
-                화면에 로그인 할 수 없습니다.)사용자를 차단 합니다. (차단된
-                사용자는 주문서 작성 화면에 로그인 할 수 없습니다.)
-              </TD>
+              <TD sx={{ minHeight: 130 }}>{custData.memo ?? "-"}</TD>
             </TableRow>
           </TableBody>
         </Table>
