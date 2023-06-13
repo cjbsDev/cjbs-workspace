@@ -150,11 +150,11 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "거래처(PI) 관리",
-          menuPath: "/cust/vendor-pi-list",
+          menuPath: "/cust/agnc-pi-list",
         },
         {
           menuLabel: "기관 정보 관리",
-          menuPath: "/cust/institution-info-list",
+          menuPath: "/cust/inst-info-list",
         },
       ],
     },

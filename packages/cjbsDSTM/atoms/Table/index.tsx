@@ -1,24 +1,36 @@
+import { cjbsTheme } from "../../themes";
+import { ThemeProvider } from "@mui/material/styles";
 import { styled, TableCell, TableCellProps } from "@mui/material";
 
 export const TH = ({ ...props }: TableCellProps) => {
-  return <THStyle {...props}>{props.children}</THStyle>;
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <THStyle {...props}>{props.children}</THStyle>
+    </ThemeProvider>
+  );
 };
 
 export const TD = ({ ...props }: TableCellProps) => {
-  return <TDStyle {...props}>{props.children}</TDStyle>;
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TDStyle {...props}>{props.children}</TDStyle>
+    </ThemeProvider>
+  );
 };
 
 const THStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   color: theme.palette.common.black,
-  width: 252,
-  backgroundColor: theme.palette.grey.A400,
+  // width: 252,
+  backgroundColor: theme.palette.grey["100"],
   fontSize: 14,
-  border: "1px solid #CED4DA",
+  border: `1px solid ${theme.palette.grey["400"]}`,
+  // padding: "4px 10px",
 }));
 
 const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   color: theme.palette.common.black,
   backgroundColor: theme.palette.common.white,
   fontSize: 14,
-  border: "1px solid #CED4DA",
+  border: `1px solid ${theme.palette.grey["400"]}`,
+  // padding: "4px 10px",
 }));

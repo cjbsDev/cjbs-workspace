@@ -2,7 +2,6 @@ import * as React from "react";
 import { Typography, Button, ButtonProps } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-// import { useRouter } from 'next/navigation';
 
 interface CustomButtonProps extends ButtonProps {
   buttonName: string;
@@ -13,9 +12,9 @@ interface LinkButtonProps extends CustomButtonProps {
 }
 
 export const ContainedButton = ({
-  buttonName,
-  ...props
-}: CustomButtonProps) => {
+                                  buttonName,
+                                  ...props
+                                }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
       <Button {...props} variant="contained">
@@ -36,10 +35,24 @@ export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
 };
 
 export const LinkButton = ({ buttonName, ...props }: CustomButtonProps) => {
-  // const router = useRouter();
   return (
     <ThemeProvider theme={cjbsTheme}>
       <Button {...props} variant="text">
+        <Typography variant="buttonMD">{buttonName}</Typography>
+      </Button>
+    </ThemeProvider>
+  );
+};
+
+export const UnStyledButton = ({ buttonName, ...props }: CustomButtonProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Button {...props} variant="outlined" sx={{
+        "&.MuiButton-outlined": {
+          border: "1px solid #CED4DA",
+          color: "black"
+        }
+      }}>
         <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>
     </ThemeProvider>

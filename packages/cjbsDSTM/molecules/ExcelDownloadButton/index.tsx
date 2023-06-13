@@ -3,16 +3,20 @@ import React, { useState, useCallback } from 'react';
 import { CircularProgress } from '../../../../node_modules/@mui/material/index';
 import { POST_BLOB } from '../../../api/index';
 import ListAltIcon from '@mui/icons-material/ListAlt';
-import { OutlinedButton } from '../../atoms/Buttons/index';
+import { OutlinedButton, UnStyledButton } from '../../atoms/Buttons/index';
+import MyIcon from '../../../icon/MyIcon';
+import { SxProps } from '@mui/material';
 
 const ExcelDownloadButton = ({
   downloadUrl,
   data,
   buttonName = 'Excel',
+  sx,
 }: {
   downloadUrl: string;
   data?: any;
   buttonName?: string;
+  sx?: SxProps;
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -29,19 +33,7 @@ const ExcelDownloadButton = ({
     setIsDownloading(false);
   }, []);
 
-  return (
-    <React.Fragment>
-      <OutlinedButton
-        sx={{
-          border: '1px solid #CED4DA',
-          color: 'black',
-        }}
-        onClick={() => handleDownload(downloadUrl)}
-        buttonName={buttonName}
-        startIcon={<ListAltIcon color='success' />}
-      />{' '}
-    </React.Fragment>
-  );
+  return <UnStyledButton sx={sx} buttonName={buttonName} startIcon={<MyIcon icon='xls3' size={18} />} />;
 };
 
 export default ExcelDownloadButton;

@@ -102,12 +102,19 @@ export default function OrderLayout({
     setOpen(false);
   };
 
+  const handleHomeClick = (item) => {
+    console.log(";;;;;;;")
+    router.push(item.menuPath.name);
+    setSelectedIndex(0)
+    // setOpen(false)
+  }
   const handleClick = (index: number) => {
     if (selectedIndex === index) {
       setSelectedIndex(0);
     } else {
       setSelectedIndex(index);
     }
+    // router.push(path)
   };
 
   console.log("currentPath", currentPathname);
@@ -146,7 +153,7 @@ export default function OrderLayout({
                 <ListItemButton
                   onClick={() => {
                     item.menuPath.nestedPath.length === 0
-                      ? router.push(item.menuPath.name)
+                      ? handleHomeClick(item)
                       : handleClick(index);
                   }}
                   selected={currentPathname.includes(depthOne.split("/")[1])}
@@ -194,7 +201,8 @@ export default function OrderLayout({
                 </ListItemButton>
 
                 <Collapse
-                  in={open ? index === selectedIndex : false}
+                  // in={open ? index === selectedIndex : false} currentPathname === '/dashboard' ? false :
+                  in={index === selectedIndex}
                   timeout="auto"
                   unmountOnExit
                 >
