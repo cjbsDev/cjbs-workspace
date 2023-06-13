@@ -19,9 +19,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/system';
-import { getToken } from 'next-auth/jwt';
-import { NextPageContext } from 'next';
-import { NextRequest } from 'next/server';
 
 interface IFormInput {
   email: string;
@@ -56,9 +53,6 @@ export const _Container = styled(Container)`
 `;
 
 const LoginPage = () => {
-  const [snackBarOpen, setSnackBarOpen] = useState(false);
-  const [alertMessage1, setAlertMessage1] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
 
   const signInSchema = Yup.object({
@@ -107,15 +101,6 @@ const LoginPage = () => {
         router.push('/clinical');
       }
     });
-  };
-  const handleSnackBarClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-    setSnackBarOpen(false);
   };
 
   return (

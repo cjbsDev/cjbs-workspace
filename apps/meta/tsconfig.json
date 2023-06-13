@@ -7,5 +7,17 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "preserve",
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@components/*": ["../../packages/cjbsDSTM/*"]
+    }
+  },
   "exclude": ["node_modules"]
 }

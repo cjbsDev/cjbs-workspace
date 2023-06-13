@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from '@mui/material';
 import React from 'react';
-import MyIcon from '../../../../../../packages/icon/myIcon';
+import MyIcon from '../../../../../../packages/icon/MyIcon';
 
 const UserProfile = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);

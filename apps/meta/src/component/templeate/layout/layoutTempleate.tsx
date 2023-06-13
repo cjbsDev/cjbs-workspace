@@ -17,35 +17,34 @@ const MainContainer = ({ children }: ChildernProps) => {
   return <ContainerBox>{children}</ContainerBox>;
 };
 
-const BoardTempleate = ({ children }: ChildernProps) => {
-  return <BoardTempleate.Container>{children}</BoardTempleate.Container>;
+const LayoutTempleate = ({ children }: ChildernProps) => {
+  return <LayoutTempleate.Container>{children}</LayoutTempleate.Container>;
 };
 
-export default BoardTempleate;
+export default LayoutTempleate;
 
-BoardTempleate.Container = MainContainer;
-BoardTempleate.Side = Side;
-BoardTempleate.Menu = MenuTabs;
-BoardTempleate.Contents = Content;
+LayoutTempleate.Container = MainContainer;
+LayoutTempleate.Side = Side;
+LayoutTempleate.Menu = MenuTabs;
+LayoutTempleate.Contents = Content;
 
 const ContainerBox = styled(Box)`
-  height: 101vh;
+  height: 100vh;
   width: 100%;
   overflow: hidden;
 `;
 
 const SideMainBox = styled(Box)`
-  overflow: auto;
+  overflow: hidden;
   height: 100%;
   width: 288px;
   min-width: 288px;
   background-color: white;
+  padding: '24px';
   border-right: 1px solid #dee2e6;
-  padding: 16px 25px 0px 25px;
 `;
 
 const ContentsWrapper = styled(Box)`
-  padding: 36px 40px 0px 40px;
   height: 100%;
   width: 100%;
   background-color: white;
