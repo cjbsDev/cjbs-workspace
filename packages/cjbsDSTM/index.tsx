@@ -15,10 +15,10 @@ export * from "./molecules/DataTableFilter";
 export * from "./molecules/ExcelDownloadButton";
 export * from "./molecules/DataCountResultInfo";
 export * from "./molecules/CModal";
+export * from "./molecules/ErrorBoundary";
 
 //Organisms
 export * from "./organisms/DataTable";
 
 //CommonFunc
 export * from "./commonFunc/exportExcel";
-export * from "./commonFunc/ErrorBoundary";

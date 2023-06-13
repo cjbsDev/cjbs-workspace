@@ -30,6 +30,7 @@ import AppBar from "../components/AppBar";
 import { snbMenuListData } from "../data/snbMenuListData";
 import uuid from "react-uuid";
 import { useRouter, usePathname } from "next/navigation";
+import MyIcon from "icon/myIcon";
 
 const drawerWidth = 228;
 
@@ -103,11 +104,11 @@ export default function OrderLayout({
   };
 
   const handleHomeClick = (item) => {
-    console.log(";;;;;;;")
+    console.log(";;;;;;;");
     router.push(item.menuPath.name);
-    setSelectedIndex(0)
+    setSelectedIndex(0);
     // setOpen(false)
-  }
+  };
   const handleClick = (index: number) => {
     if (selectedIndex === index) {
       setSelectedIndex(0);
@@ -185,7 +186,7 @@ export default function OrderLayout({
                       color: "white",
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                    <MyIcon icon={item.menuIcon} size={20} />
                   </ListItemIcon>
                   <ListItemText
                     primary={item.menuLabel}

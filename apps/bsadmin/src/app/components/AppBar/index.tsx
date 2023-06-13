@@ -1,22 +1,32 @@
-import React from 'react';
-import {Menu, MenuItem, Toolbar, Typography, IconButton, Box, Badge, Stack} from '@mui/material'
-import {styled} from "@mui/material/styles";
-import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
+import React from "react";
+import {
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  IconButton,
+  Box,
+  Badge,
+  Stack,
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
+import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsOutlinedIcon from '@mui/icons-material/NotificationsOutlined';
-import InputAdornment from '@mui/material/InputAdornment';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import ExpandMoreRoundedIcon from '@mui/icons-material/ExpandMoreRounded';
+import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 
 import {
   usePopupState,
   bindTrigger,
   bindMenu,
-} from 'material-ui-popup-state/hooks'
-import {InputDefaultType} from "@components/index";
+} from "material-ui-popup-state/hooks";
+import { InputDefaultType } from "@components/index";
+import MyIcon from "icon/myIcon";
 
 const drawerWidth = 228;
 
@@ -25,30 +35,33 @@ interface AppBarProps extends MuiAppBarProps {
 }
 
 const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== 'open',
+  shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(['width', 'margin'], {
+  transition: theme.transitions.create(["width", "margin"], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   }),
-  borderBottom: '1px solid #CED4DA',
-  boxShadow: 'none',
+  borderBottom: "1px solid #CED4DA",
+  boxShadow: "none",
   padding: 0,
   margin: 0,
 }));
-const Header = ({open, handleDrawerOpen}) => {
-  const popupState = usePopupState({ variant: 'popover', popupId: 'useInfoMenu' })
+const Header = ({ open, handleDrawerOpen }) => {
+  const popupState = usePopupState({
+    variant: "popover",
+    popupId: "useInfoMenu",
+  });
   return (
-    <AppBar position="fixed" open={open} color='inherit'>
+    <AppBar position="fixed" open={open} color="inherit">
       <Toolbar>
         <Box sx={{}}>
           <IconButton
@@ -57,7 +70,7 @@ const Header = ({open, handleDrawerOpen}) => {
             edge="start"
             sx={{
               marginRight: 5,
-              ...(open && { display: 'none' }),
+              ...(open && { display: "none" }),
             }}
           >
             <MenuIcon />
@@ -77,37 +90,40 @@ const Header = ({open, handleDrawerOpen}) => {
         {/*/>*/}
         <Box sx={{ flexGrow: 1 }} />
         <Box>
-          <Stack
-            direction='row'
-            justifyContent="center"
-            alignItems="center"
-          >
-            <Box>
+          <Stack direction="row" justifyContent="center" alignItems="center">
+            <Box sx={{ mr: 1 }}>
               <IconButton size="large" color="inherit">
-                <Badge overlap="circular" badgeContent=" " variant='dot' color="error">
-                  <NotificationsOutlinedIcon />
+                <Badge
+                  overlap="circular"
+                  badgeContent=" "
+                  variant="dot"
+                  color="error"
+                >
+                  <MyIcon icon="bell" size={24} />
                 </Badge>
               </IconButton>
             </Box>
             <Box>
               <Stack
-                direction='row'
+                direction="row"
                 justifyContent="center"
                 alignItems="center"
+                spacing={1}
               >
-                <AccountCircleOutlinedIcon />
-                <Typography variant='body2'>eunjung.lee9</Typography>
+                <MyIcon icon="profile-circle-fill" size={24} />
+                <Typography variant="body2">eunjung.lee9</Typography>
                 <IconButton
                   {...bindTrigger(popupState)}
                   edge="end"
                   color="inherit"
+                  size="small"
                 >
                   <ExpandMoreRoundedIcon />
                 </IconButton>
               </Stack>
               <Menu {...bindMenu(popupState)}>
                 <MenuItem onClick={popupState.close}>
-                  <Typography textAlign='center' variant='body2'>
+                  <Typography textAlign="center" variant="body2">
                     Sign Out
                   </Typography>
                 </MenuItem>
