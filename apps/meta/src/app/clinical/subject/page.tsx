@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useMemo, useEffect } from 'react';
 import { Box, Grid, Stack } from '@mui/material';
-import { fetcherPost } from 'api';
-import useSWR from 'swr';
+import { POST, fetcherPost } from 'api';
+import useSWRMutation from 'swr/mutation';
 import Skeleton from '@mui/material/Skeleton';
 import { toast } from 'react-toastify';
 import {
@@ -14,11 +14,14 @@ import { SubjectData } from './types';
 import { subjectColoumns } from './columns';
 import ExcelDownloadButton from '@components/molecules/ExcelDownloadButton';
 import { useRecoilValue } from 'recoil';
+import { subjectTotalElements } from 'src/recoil/SubjectState';
+
 import {
   ageState,
   searchInputState,
   selectedFilterState,
-} from 'src/recoil/selectedFilterState';
+} from 'src/recoil/SearchState';
+
 import {
   AgeType,
   CheckType,
@@ -26,14 +29,21 @@ import {
   SelectedFilterValues,
 } from '../search/types';
 import { isNull } from 'src/util/validation';
+import { useDebounce } from 'src/util/event';
+import SelectedFilterChip from 'src/component/molecules/chip/SelectedFilterChip';
+import SubjectTable from './table';
+
+export async function getSubjectList(url: string, { arg }: { arg: Search }) {
+  return await fetcherPost([url, arg]);
+}
+
 const Subject = () => {
-  const [pageNum, setPageNum] = useState<number>(1);
-  const [sort, setSort] = useState<string[]>([]);
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
 
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
-  const page = null;
+  const totalElements = useRecoilValue<number | null>(subjectTotalElements);
 
   const findData = checked.filter((item) => item.valid === true);
 
@@ -41,19 +51,18 @@ const Subject = () => {
     return { field: item.root, code: item.code };
   });
 
-  const subjectMinAge = !isNull(age.subjectMinAge) ? age.subjectMinAge : null;
-  const subjectMaxAge = !isNull(age.subjectMaxAge) ? age.subjectMaxAge : null;
   const postData: Search = {
-    subjectMinAge: subjectMinAge,
-    subjectMaxAge: subjectMaxAge,
+    subjectMinAge: !isNull(age.subjectMinAge) ? age.subjectMinAge : null,
+    subjectMaxAge: !isNull(age.subjectMaxAge) ? age.subjectMaxAge : null,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,
     page: {
-      page: pageNum,
+      page: 1,
       size: 15,
-      sort: sort,
+      sort: [],
     },
+    list: [],
   };
 
   //const { data: session, status } = useSession();
@@ -61,10 +70,23 @@ const Subject = () => {
   // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
   // const [studyDiseaseCount, setStudyDiseaseCount] = useState<number>(0);
 
-  const { data, mutate, isLoading } = useSWR(
-    ['/subject/list', postData],
-    fetcherPost,
+  const { trigger, isMutating, data } = useSWRMutation(
+    '/subject/list',
+    getSubjectList,
   );
+
+  // const { data, mutate, isLoading } = useSWRMutation(
+  //   ['/subject/list', postData],
+  //   fetcherPost,
+  // );
+
+  useEffect(() => {
+    trigger(postData);
+  }, []);
+
+  useEffect(() => {
+    !isMutating && setPageLoading(false);
+  }, [isMutating]);
 
   // useEffect(() => {
   //   const pageInfo = data?.data.pageInfo;
@@ -73,96 +95,23 @@ const Subject = () => {
   //   }
   // }, [isLoading]);
 
-  const subjectCount = data?.data.pageInfo.totalElements;
-  const [filterText, setFilterText] = useState('');
-  const onChangeFilterText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setFilterText(e.target.value);
-  };
-
-  const clearFilterText = () => {
-    setFilterText('');
-  };
-
-  const onChangePage = (page: number) => {
-    setPageNum(page);
-  };
-
-  const onChangeSort = (sortInfo: any, sortDirection: any) => {
-    console.log('sort > ', sortInfo);
-    console.log('sortDirection > ', sortDirection);
-    const sortName = sortInfo.name;
-    const sortString = `${sortInfo.name + ',' + sortDirection}`;
-    const temp = [...sort];
-    const filterData = temp.filter((item) => {
-      //이미들어가있는 컬럼은 삭제
-      if (item.indexOf(sortName) === -1) {
-        return true;
-      }
-    });
-
-    let newArray = [...new Set(filterData), sortString];
-    setSort(newArray);
-  };
-
-  const HeaderComponent = useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="/subject/list/download" />
-            <DataTableFilter
-              onFilter={onChangeFilterText}
-              onClear={clearFilterText}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, []);
-
-  console.log('pnagenum ', pageNum);
-
-  if (isLoading) {
-    return <Skeleton variant="rectangular" width={100} height={100} />;
+  if (pageLoading) {
+    return <Skeleton variant="rectangular" width={'100%'} height={500} />;
   } else {
     if (!data?.success) {
       toast(data?.message);
       return <></>;
     }
 
+    const _totalElements = totalElements
+      ? totalElements.toLocaleString()
+      : data?.data.pageInfo.totalElements.toLocaleString();
     const filteredData: SubjectData[] = data.data.subjectList;
 
     return (
       <Box overflow={'auto'}>
-        <DataTableBase
-          title={
-            <Title1
-              titleName={`Subject list(${subjectCount.toLocaleString()})`}
-            />
-          }
-          data={filteredData}
-          columns={subjectColoumns}
-          // onRowClicked={goDetailPage}
-          paginationTotalRows={subjectCount}
-          paginationPerPage={15}
-          paginationComponentOptions={{
-            noRowsPerPage: true,
-          }}
-          sortServer
-          paginationServer
-          pointerOnHover
-          highlightOnHover
-          style={{
-            overflow: 'auto',
-          }}
-          subHeader
-          onSort={onChangeSort}
-          paginationDefaultPage={pageNum}
-          subHeaderComponent={HeaderComponent}
-          onChangePage={onChangePage}
-        />
+        <Title1 titleName={`Subject list(${_totalElements})`} />
+        <SubjectTable postData={postData} data={filteredData} />
       </Box>
     );
   }

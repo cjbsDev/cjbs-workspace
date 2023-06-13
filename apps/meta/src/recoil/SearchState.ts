@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Age, CheckType } from 'src/app/clinical/search/types';
+import { AgeType, CheckType } from 'src/app/clinical/search/types';
 
 export const selectedFilterState = atom<CheckType[]>({
   key: 'selectedFilterState', // unique ID (with respect to other atoms/selectors)
@@ -11,7 +11,7 @@ export const searchInputState = atom<string>({
   default: '',
 });
 
-export const ageState = atom<Age>({
+export const ageState = atom<AgeType>({
   key: 'ageState', // unique ID (with respect to other atoms/selectors)
   default: {
     subjectMinAge: null,

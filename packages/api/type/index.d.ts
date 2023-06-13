@@ -42,7 +42,7 @@ export interface GET_API {
 }
 
 export interface GET_BOLB_API {
-  (url: string, option?: object, headers?: any): Promise<BlobApiResponse>; //TODO any가 아니라 AxiosResponse 교체
+  (url: string, option?: object, headers?: any): Promise<any>; //TODO any가 아니라 AxiosResponse 교체
 }
 
 export interface POST_API {
@@ -50,7 +50,7 @@ export interface POST_API {
 }
 
 export interface POST_BOLB_API {
-  (url: string, body?: object, option?: any, headers?: any): Promise<BlobApiResponse>;
+  (url: string, body?: object, option?: any, headers?: any): Promise<any>;
 }
 
 export interface DELETE_API {
@@ -62,5 +62,5 @@ export interface REQUEST_API {
 }
 
 export interface REQUEST_BLOB_API {
-  (url: string, method: string, body?: object | null, option?: object, headers?: any): Promise<BlobApiResponse>;
+  (url: string, method: string, body?: object | null, option?: object, headers?: any): Promise<any>;
 }

@@ -10,7 +10,7 @@ import {
   ageState,
   searchInputState,
   selectedFilterState,
-} from 'src/recoil/selectedFilterState';
+} from 'src/recoil/SearchState';
 import { AgeType, CheckType } from 'src/app/clinical/search/types';
 import { useDebounce } from 'src/util/event';
 

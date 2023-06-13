@@ -19,7 +19,7 @@ import {
   ageState,
   searchInputState,
   selectedFilterState,
-} from 'src/recoil/selectedFilterState';
+} from 'src/recoil/SearchState';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
   AccordionSummaryProps,
@@ -38,7 +38,7 @@ import {
   SelectedFilterValues,
 } from 'src/app/clinical/search/types';
 import { isNull } from 'src/util/validation';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
 
 const Accordion = styled((props: AccordionProps) => (
@@ -128,6 +128,9 @@ const SideMenu = () => {
   const [tempChecked, setTempChecked] = useState<CheckType[]>([]);
   const [accordion, setAccordion] = useState<boolean>(false);
   const { data, isLoading } = useSWR('/filter', fetcher);
+  const pathname = usePathname();
+
+  useEffect(() => {}, [pathname]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -143,32 +146,6 @@ const SideMenu = () => {
     localStorage.setItem(LOCAL_STORAGE_FILTER_KEY, JSON.stringify(checked));
     //TODO recoil api 조회로 바꿔야함
   }, [checked]);
-
-  // const search = async (checked: CheckType[], searchInput: string) => {
-  //   const findData = checked.filter((item) => item.valid === true);
-
-  //   console.log('findData > ', findData);
-
-  //   const filterData: SelectedFilterValues[] = findData.map((item) => {
-  //     return { field: item.root, code: item.code };
-  //   });
-
-  //   const data: Search = {
-  //     subjectMaxAge: maxAge,
-  //     subjectMinAge: minAge,
-  //     resultKeyword: '',
-  //     keyword: '',
-  //     filter: filterData,
-  //     page: {
-  //       page: 1,
-  //       size: 10,
-  //       sort: [],
-  //     },
-  //   };
-
-  //   const res = await POST('/common/search', data);
-  //   console.log('res >> ', res);
-  // };
 
   const initSelectedFilter = useCallback(async (data: any) => {
     const apiData: FilterList[] = data.data;
@@ -291,7 +268,9 @@ const SideMenu = () => {
             }
           });
           setChecked(updateChecked);
-          router.push('/clinical/search');
+          if (pathname === '/clinical') {
+            router.push('/clinical/search');
+          }
         } else if (type === 'child') {
           const updateChecked = newChecked.map((item) => {
             if (item.p_code === code) {
@@ -308,7 +287,7 @@ const SideMenu = () => {
                 ...item,
                 checked: isChecked,
                 date: nowDate,
-                valid: isChecked,
+                valid: false,
               };
             } else {
               return item;
@@ -331,13 +310,10 @@ const SideMenu = () => {
             }
           });
 
-          // if (childLength === 0) {
-          //   _updateChecked[index].valid = true;
-          // }
-          console.log("console.log('item > ', item);>>> ");
-
           setChecked(_updateChecked);
-          router.push('/clinical/search');
+          if (pathname === '/clinical') {
+            router.push('/clinical/search');
+          }
         } else {
           let updateItem: CheckType = {
             ...newChecked[index],
@@ -364,11 +340,13 @@ const SideMenu = () => {
             }
           });
           setChecked([..._newChecked]);
-          router.push('/clinical/search');
+          if (pathname === '/clinical') {
+            router.push('/clinical/search');
+          }
         }
       }
     },
-    [checked, searchInput, age],
+    [checked, searchInput, age, pathname],
   );
 
   const onChangeMinAge = useCallback(
@@ -395,8 +373,10 @@ const SideMenu = () => {
     console.log('tempAge > ', tempAge);
 
     setAge(tempAge);
-    router.push('/clinical/search');
-  }, [checked, searchInput, tempAge]);
+    if (pathname === '/clinical') {
+      router.push('/clinical/search');
+    }
+  }, [checked, searchInput, tempAge, pathname]);
 
   const allClearSelectedFilter = async () => {
     await localStorage.removeItem(LOCAL_STORAGE_FILTER_KEY);

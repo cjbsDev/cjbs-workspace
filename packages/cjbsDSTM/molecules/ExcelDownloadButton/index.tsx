@@ -5,24 +5,23 @@ import { POST_BLOB } from '../../../api/index';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import { OutlinedButton } from '../../atoms/Buttons/index';
 
-const ExcelDownloadButton = ({ downloadUrl, buttonName = 'Excel' }: { downloadUrl: string; buttonName?: string }) => {
+const ExcelDownloadButton = ({
+  downloadUrl,
+  data,
+  buttonName = 'Excel',
+}: {
+  downloadUrl: string;
+  data?: any;
+  buttonName?: string;
+}) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = useCallback(async (serverUrl: string) => {
     setIsDownloading(true);
 
     try {
-      const response = await POST_BLOB(serverUrl); // API 요청
-      const name = response.headers['content-disposition'].split('filename=')[1].replace(/"/g, '');
-
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', name);
-      link.style.cssText = 'display:none';
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
+      const response = await POST_BLOB(serverUrl, data); // API 요청
+      console.log('response> ', response);
     } catch (error) {
       console.error('Error occurred while downloading data:', error);
     }

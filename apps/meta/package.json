@@ -13,11 +13,12 @@
   "dependencies": {
     "@hookform/resolvers": "^3.1.0",
     "api": "workspace:*",
+    "axios": "^1.4.0",
     "cjbsDSTM": "workspace:*",
     "client-provider": "workspace:*",
-    "next-auth-it": "workspace:*",
     "icon": "workspace:*",
     "next": "^13.4.4",
+    "next-auth-it": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.44.2",

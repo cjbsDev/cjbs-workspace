@@ -15,6 +15,7 @@ export interface Search {
   subjectMinAge: string | null | undefined;
   filter: SelectedFilterValues[] | null;
   page: Page | null;
+  list?: string[];
 }
 
 export interface SelectedFilterValues {

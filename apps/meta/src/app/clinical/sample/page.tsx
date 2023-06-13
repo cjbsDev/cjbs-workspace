@@ -1,75 +1,95 @@
 'use client';
-import React, { useState, useMemo } from 'react';
-import { Grid, Stack } from '@mui/material';
-import { fetcherPost } from 'api';
-import useSWR from 'swr';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Box, Grid, Stack } from '@mui/material';
+import { POST, fetcherPost } from 'api';
+import useSWRMutation from 'swr/mutation';
 import Skeleton from '@mui/material/Skeleton';
 import { toast } from 'react-toastify';
-import {
-  DataTableBase,
-  DataTableFilter,
-  Title1,
-} from '../../../../../../packages/cjbsDSTM';
-import { subjectColoumns } from './columns';
-import ExcelDownloadButton from '@components/molecules/ExcelDownloadButton';
+import { Title1 } from '../../../../../../packages/cjbsDSTM';
 import { SampleData } from './types';
-const Sample = () => {
-  //const { data: session, status } = useSession();
-  const [filterText, setFilterText] = useState('');
-  const { data, mutate, isLoading } = useSWR('/sample/list', fetcherPost);
+import { useRecoilValue } from 'recoil';
+import { subjectTotalElements } from 'src/recoil/SubjectState';
 
-  const onChangeFilterText = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
-    setFilterText(e.target.value);
+import {
+  ageState,
+  searchInputState,
+  selectedFilterState,
+} from 'src/recoil/SearchState';
+
+import {
+  AgeType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from '../search/types';
+import { isNull } from 'src/util/validation';
+import SampleTable from './table';
+
+export async function getSampleList(url: string, { arg }: { arg: Search }) {
+  return await fetcherPost([url, arg]);
+}
+
+const Subject = () => {
+  const [pageLoading, setPageLoading] = useState<boolean>(true);
+
+  const checked = useRecoilValue<CheckType[]>(selectedFilterState);
+  const keyword = useRecoilValue<string>(searchInputState);
+  const age = useRecoilValue<AgeType>(ageState);
+  const totalElements = useRecoilValue<number | null>(subjectTotalElements);
+
+  const findData = checked.filter((item) => item.valid === true);
+
+  const filterData: SelectedFilterValues[] = findData.map((item) => {
+    return { field: item.root, code: item.code };
+  });
+
+  const postData: Search = {
+    subjectMinAge: !isNull(age.subjectMinAge) ? age.subjectMinAge : null,
+    subjectMaxAge: !isNull(age.subjectMaxAge) ? age.subjectMaxAge : null,
+    resultKeyword: '',
+    keyword: keyword,
+    filter: filterData,
+    page: {
+      page: 1,
+      size: 15,
+      sort: [],
+    },
+    list: [],
   };
 
-  const clearFilterText = () => {
-    setFilterText('');
-  };
+  const { trigger, isMutating, data } = useSWRMutation(
+    '/sample/list',
+    getSampleList,
+  );
 
-  const headerComponent = useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="/sample/list/download" />
-            <DataTableFilter
-              onFilter={onChangeFilterText}
-              onClear={clearFilterText}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
+  useEffect(() => {
+    trigger(postData);
   }, []);
 
-  if (isLoading) {
-    return <Skeleton variant="rectangular" width={100} height={100} />;
+  useEffect(() => {
+    !isMutating && setPageLoading(false);
+  }, [isMutating]);
+
+  if (pageLoading) {
+    return <Skeleton variant="rectangular" width={'100%'} height={500} />;
   } else {
     if (!data?.success) {
       toast(data?.message);
       return <></>;
     }
 
-    console.log('SampleData > ', data);
-
-    const filteredData: SampleData[] = data.data.subjectList;
+    const _totalElements = totalElements
+      ? totalElements.toLocaleString()
+      : data?.data.pageInfo.totalElements.toLocaleString();
+    const filteredData: SampleData[] = data.data.sampleList;
 
     return (
-      <DataTableBase
-        title={<Title1 titleName={`Subject list(${data.data.pageInfo})`} />}
-        data={filteredData}
-        columns={subjectColoumns}
-        // onRowClicked={goDetailPage}
-        pointerOnHover
-        highlightOnHover
-        subHeader
-        subHeaderComponent={headerComponent}
-        // paginationResetDefaultPage={resetPaginationToggle}
-      />
+      <Box overflow={'auto'}>
+        <Title1 titleName={`Sample list(${_totalElements})`} />
+        <SampleTable postData={postData} data={filteredData} />
+      </Box>
     );
   }
 };
 
-export default Sample;
+export default Subject;

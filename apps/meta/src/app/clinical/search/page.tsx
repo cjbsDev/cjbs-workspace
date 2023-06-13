@@ -27,7 +27,7 @@ import {
   ageState,
   searchInputState,
   selectedFilterState,
-} from 'src/recoil/selectedFilterState';
+} from 'src/recoil/SearchState';
 
 const SearchPage = () => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);

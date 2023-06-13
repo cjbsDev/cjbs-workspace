@@ -8,8 +8,8 @@ export const GET: GET_API = async (url, option, headers) => {
   return await request(url, 'GET', null, option, headers);
 };
 
-export const POST_BLOB: POST_BOLB_API = async (url, option, headers) => {
-  return await requestBLOB(url, 'POST', null, option, headers);
+export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
+  return await requestBLOB(url, 'POST', body, option, headers);
 };
 
 export const POST: POST_API = async (url, body, option, headers) => {
@@ -99,7 +99,7 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
       });
 
       if (response.ok) {
-        const data = await response.json();
+        const data = await response.blob();
         resolve(data);
       } else if (response.status === 401) {
         // Access token expired, try to refresh it
