@@ -1,16 +1,20 @@
 {
+  "extends": "tsconfig/nextjs.json",
+  "include": [
+    "type/next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
   "compilerOptions": {
-    "jsx": "react",
-    "esModuleInterop": true,
-    "paths": {
-      "@atoms/*": ["../../../atoms/*"],
-      "@molecules/*": ["./molecules/*"],
-      "@organisms/*": ["./organisms/*"],
-      "@layouts/*": ["./layouts/*"],
-      "@themes/*": ["./themes/*"]
-    }
+//    "paths": {
+//      "@atoms/*": ["/atoms/*"],
+//      "@molecules/*": ["../molecules/*"],
+//      "@organisms/*": ["organisms/*"],
+//      "@layouts/*": ["layouts/*"],
+//      "@themes/*": ["./packages/themes/*"],
+//      "@commonFunc/*": ["commonFunc/*"]
+//    }
   },
-  "extends": "tsconfig/react-library.json",
-  "include": ["."],
   "exclude": ["dist", "build", "node_modules"]
 }

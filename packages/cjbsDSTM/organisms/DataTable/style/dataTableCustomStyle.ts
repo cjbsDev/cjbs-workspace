@@ -1,5 +1,5 @@
 import {grey} from '@mui/material/colors'
-
+import {useTheme} from '@mui/material/styles';
 export const dataTableCustomStyles = {
   header: {
     style: {
@@ -12,7 +12,7 @@ export const dataTableCustomStyles = {
       color: 'black',
       fontWeight: '600',
       fontSize: 14,
-      backgroundColor: grey[800],
+      backgroundColor: grey.A100,
     },
   },
   subHeader: {
@@ -26,6 +26,7 @@ export const dataTableCustomStyles = {
     style: {
       backgroundColor: grey.A100,
       minHeight: '40px',
+      borderTop: '1px solid #000',
       '&:nth-of-type(1)': {
         paddingLeft: 24,
       },
