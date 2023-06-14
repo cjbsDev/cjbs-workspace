@@ -3,6 +3,7 @@ pipeline {
     stages {
       stage("React Build") {
         steps {
+          sh "ls"
           sh "pnpm install"
           sh "pnpm build"
         }
