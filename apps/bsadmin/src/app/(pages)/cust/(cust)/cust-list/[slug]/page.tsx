@@ -36,7 +36,7 @@ interface CustViewProps {
   };
 }
 
-export default function Page({ params }: CustViewProps) {
+export default function CustPage({ params }: CustViewProps) {
   // console.log('params', params.ukey)
   const { slug } = params;
   const router = useRouter();
