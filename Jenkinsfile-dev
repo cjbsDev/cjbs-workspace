@@ -4,7 +4,7 @@ pipeline {
       stage("React Build") {
         steps {
           sh "cd / pnpm install"
-          sh "pnpm build"
+          sh "cd apps/bsadmin pnpm build"
         }
     }
     stage('Finish') {
