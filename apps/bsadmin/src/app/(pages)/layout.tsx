@@ -103,7 +103,11 @@ export default function OrderLayout({
     setOpen(false);
   };
 
-  const handleHomeClick = (item) => {
+  const handleHomeClick = (item: {
+    menuLabel?: string;
+    menuIcon?: string;
+    menuPath: any;
+  }) => {
     console.log(";;;;;;;");
     router.push(item.menuPath.name);
     setSelectedIndex(0);
