@@ -1,0 +1,16 @@
+pipeline {
+  agent any
+    stages {
+      stage("React Build") {
+        steps {
+          sh "pnpm install"
+          sh "pnpm build"
+        }
+    }
+    stage('Finish') {
+      steps {
+        sh 'docker restart react'
+      }
+    }
+  }
+}

@@ -11,7 +11,7 @@ import {
   OutlinedButton,
   UnStyledButton,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Typography } from "@mui/material";
+import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -20,6 +20,8 @@ import { useForm, useWatch } from "react-hook-form";
 import Select from "react-select";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import MyIcon from "icon/myIcon";
+import IconDescBar from "../../../components/IconDescBar";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -27,6 +29,39 @@ const ListOrder = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
   const columns = [
+    {
+      name: "No",
+      selector: (row) => row.id,
+      cell: (row) => {
+        return (
+          <Stack direction="row" alignItems="center" spacing={0.5}>
+            <Typography variant="body2">{row.id}</Typography>
+            <MyIcon icon="re" size={20} />
+            <MyIcon icon="fast" size={20} />
+          </Stack>
+        );
+      },
+    },
+    {
+      name: "진행 상황",
+      cell: (row) => {
+        return (
+          <Chip
+            label={row.category}
+            size="small"
+            color={
+              row.category === "smartphones"
+                ? "primary"
+                : row.category === "laptops"
+                ? "success"
+                : row.category === "skincare"
+                ? "error"
+                : "default"
+            }
+          />
+        );
+      },
+    },
     {
       name: "Title",
       selector: (row) => row.title,
@@ -81,25 +116,37 @@ const ListOrder = () => {
 
     return (
       <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={20} />
             <UnStyledButton buttonName="오더 등록" />
             <FormControlLabel
-              required
               control={
                 <Checkbox
+                  size="small"
                   sx={{ p: 0, m: 0 }}
                   checked={checked}
                   onChange={() => setChecked(!checked)}
                 />
               }
+              sx={{
+                ".MuiFormControlLabel-label": {
+                  fontSize: 14,
+                  pt: 0.2,
+                },
+              }}
               label="내가 등록한 오더만 보기"
             />
           </Stack>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <IconDescBar freeDisabled={true} />
             <ExcelDownloadButton
               buttonName="Excel"
               onClick={() => exportCSVData({ exportUrl: "apiUrl" })}
@@ -128,6 +175,7 @@ const ListOrder = () => {
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows={false}
     />
   );
 };

@@ -1,7 +1,7 @@
 export const snbMenuListData = [
   {
     menuLabel: "홈",
-    menuIcon: "",
+    menuIcon: "home",
     menuPath: {
       name: "/dashboard",
       nestedPath: [],
@@ -52,7 +52,7 @@ export const snbMenuListData = [
   // },
   {
     menuLabel: "오더",
-    menuIcon: "",
+    menuIcon: "order",
     menuPath: {
       name: "/order",
       nestedPath: [
@@ -140,7 +140,7 @@ export const snbMenuListData = [
   // },
   {
     menuLabel: "고객",
-    menuIcon: "",
+    menuIcon: "customer",
     menuPath: {
       name: "/cust",
       nestedPath: [
