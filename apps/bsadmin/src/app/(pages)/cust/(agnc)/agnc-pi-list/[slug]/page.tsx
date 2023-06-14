@@ -185,11 +185,11 @@ export default function AgncPage({ params }: CustViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("cust/cust-list")}
+          onClick={() => router.push("cust/agnc-pi-list")}
         />
         <ContainedButton
           buttonName="수정"
-          onClick={() => router.push("cust/cust-modify")}
+          onClick={() => router.push("cust/agnc-pi-modify" + agncData.agncUkey)}
         />
       </Stack>
     </Container>
