@@ -145,6 +145,7 @@ export default function OrderLayout({
         <List sx={{ color: "white" }}>
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
+            console.log("hhhh", currentPathname.includes(depthOne.split("/")));
             console.log("pppp", depthOne.split("/")[1]);
             return (
               <ListItem key={uuid()} disablePadding sx={{ display: "block" }}>
@@ -199,8 +200,11 @@ export default function OrderLayout({
                 </ListItemButton>
 
                 <Collapse
-                  // in={open ? index === selectedIndex : false} currentPathname === '/dashboard' ? false :
-                  in={index === selectedIndex}
+                  // in={currentPathname.includes(depthOne.split("/")[0])}
+                  in={
+                    index === selectedIndex ||
+                    currentPathname.includes(depthOne.split("/")[1])
+                  }
                   timeout="auto"
                   unmountOnExit
                 >
