@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
+import Dayjs from "dayjs";
 
 const options = [
   { value: "able", label: "사용" },
@@ -28,38 +29,42 @@ const ListAgnc = () => {
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
-  // 여기서 부터 개발 진행 필요
-  // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
+
+  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedRowCnt, setSelectedRowCnt] = useState(0);
+
+  const handleRowSelected = (rows: any) => {
+    console.log("rows", rows);
+    setSelectedRowCnt(rows.selectedCount);
+    //setSelectedRows(rows.map((row) => row.id));
+  };
+
+  /*
+  {
+    "agncId": 12,
+    "agncUkey": "hfOocujKGf",
+    "isSpecialMng": "N",
+    "agncNm": "연세입니다.",
+    "instNm": "연세대학교",
+    "leaderNm": "김정현",
+    "leaderEmail": "test@test.edu",
+    "memberCount": 2,
+    "pymnPrice": 100000,
+    "bsnsNm": "영업팀관리자이름",
+    "memo": "memo"
+  }
+  */
+
+  // 거래처 번호, 거래처(PI), 리더, 맴버, 선결제 금액, 영업 담당자, 메모
   const columns = [
     {
-      name: "SP",
-      cell: (row: { title: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>Y</Box>
-          </Stack>
-        </>
-      ),
-      width: "70px",
-    },
-    {
       name: "거래처 번호",
-      selector: (row: { id: any }) => row.id,
+      selector: (row: { agncId: number }) => row.agncId,
+      width: "100px",
     },
     {
       name: "거래처(PI)",
-      selector: (row: { title: any }) => row.title,
-    },
-    {
-      name: "리더",
-      // selector: (row: { title: any }) => row.title,
-      cell: (row: { title: any }) => (
+      cell: (row: { agncNm: any; instNm: any }) => (
         <>
           <Stack
             direction="row"
@@ -68,47 +73,85 @@ const ListAgnc = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>서형석 (hyungseok.seo@cj.net)</Box>
+            <Box>{row.agncNm} </Box>
+            <Box>({row.instNm})</Box>
           </Stack>
         </>
       ),
-      minWidth: "300px",
+      minWidth: "150px",
+    },
+    {
+      name: "리더",
+      cell: (row: { leaderNm: any; leaderEmail: any }) => (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+          >
+            <Box>{row.leaderNm ?? "-"} </Box>
+            <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
+          </Stack>
+        </>
+      ),
+      minWidth: "150px",
     },
 
     {
-      name: "맴버",
-      selector: (row: { rating: any }) => row.rating,
+      name: "멤버",
+      selector: (row: { memberCount: number }) => row.memberCount,
+      width: "100px",
     },
     {
       name: "선결제 금액",
-      selector: (row: { id: any }) => row.id,
+      selector: (row: { pymnPrice: number }) =>
+        row.pymnPrice ? row.pymnPrice + " 원" : "금액",
     },
+
     {
       name: "영업 담당자",
-      selector: (row: { id: any }) => row.id,
+      selector: (row: { bsnsNm: any }) => row.bsnsNm,
     },
+
     {
       name: "메모",
-      // selector: (row: { stock: any }) => row.stock,
-      cell: () => <Box>Memo</Box>,
-      ignoreRowClick: true,
-      allowOverflow: true,
+      cell: (row: { memo: any }) => (
+        <>
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            useFlexGap
+            flexWrap="wrap"
+          >
+            <Box>{row.memo && "Open"}</Box>
+          </Stack>
+        </>
+      ),
       width: "80px",
     },
   ];
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
+
+  let tempUrl =
+    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
+  const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
 
-  const filteredData = data.products.filter(
-    (item: { title: string }) =>
-      item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
+  const filteredData = data.data.custList;
+
+  console.log("data", data);
+  console.log(
+    "data.data.pageInfo.totalElements",
+    data.data.pageInfo.totalElements
   );
 
-  const goDetailPage = (row: { id: number }) => {
-    const path = row.id;
+  const goDetailPage = (row: { agncUkey: string }) => {
+    const path = row.agncUkey;
     router.push("/cust/agnc-pi-list/" + path);
   };
 
@@ -124,7 +167,10 @@ const ListAgnc = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2}>
-            <DataCountResultInfo totalCount={20} selectedCount={3} />
+            <DataCountResultInfo
+              totalCount={data.data.pageInfo.totalElements}
+              selectedCount={selectedRowCnt}
+            />
             <Select
               placeholder="상태변경"
               styles={{
@@ -158,7 +204,7 @@ const ListAgnc = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, selectedRowCnt]);
 
   return (
     <DataTableBase
@@ -166,6 +212,7 @@ const ListAgnc = () => {
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
+      onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       subHeader
