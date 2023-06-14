@@ -8,17 +8,10 @@
       }
     ],
     "paths": {
-      "@components/*": ["/packages/cjbsDSTM/*"],
+      "@components/*": ["/packages/cjbsDSTM/*"]
     }
   },
   "extends": "tsconfig/nextjs.json",
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

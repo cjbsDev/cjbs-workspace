@@ -11,10 +11,12 @@ dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.tz.setDefault('Asia/Seoul');
 
-export const TOKEN_EALRY_EXPIRE_MINUTE = 60;
+export const TOKEN_EALRY_EXPIRE_MINUTE = 10;
 
 export const refreshAccessToken = mem(
   (refreshToken: string, email: string, uid: number, authorities: string): Promise<RetrunRefreshAccessToken> => {
+    console.log('refreshAccessToken > ', refreshToken);
+
     return new Promise(async function (resolve, reject) {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
@@ -24,10 +26,11 @@ export const refreshAccessToken = mem(
             'Accept-Language': 'ko',
           },
         }).then((res) => res.json());
+        console.log('response>> ', response);
 
-        console.log('토큰 갱신 response > ', response);
+        if (!response.success) {
+          console.log('실퐤!!!!!!!!!!!');
 
-        if (response.data.status === 401) {
           return resolve({
             refreshToken,
             error: 'RefreshAccessTokenError',
@@ -129,6 +132,8 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
 
       if (url.indexOf('/api/auth/session?update') > -1) {
         //업데이트로 실행되면 토큰부터 바로 갱신한다.
+        console.log('강제 실행');
+
         isAutoRefresh = true;
       }
       const atExpires = user && user.tokenDto.atExpires ? user.tokenDto.atExpires : token.atExpires;
@@ -143,6 +148,10 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
         const authorities: string = user && user.authorities ? user.authorities : token.authorities;
 
         const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities);
+
+        if (newToken.error) {
+          return newToken;
+        }
 
         return updateToken(token, newToken);
       } else {
