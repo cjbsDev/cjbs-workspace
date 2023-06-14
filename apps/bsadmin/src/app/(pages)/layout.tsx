@@ -135,10 +135,10 @@ export default function OrderLayout({
           {/*>*/}
           {/*  {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
           {/*</IconButton>*/}
-          {!open ? (
+          {open ? (
             <MyIcon icon="cj_mix" width={119} />
           ) : (
-            <MyIcon icon="cj_updown" width={28} />
+            <MyIcon icon="cj_mix_updown" width={28} />
           )}
         </DrawerHeader>
         <Divider />
