@@ -15,14 +15,8 @@ import {
   Collapse,
   Container,
 } from "@mui/material";
-
-// import MuiDrawer from '@mui/material/Drawer';
-
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -128,24 +122,13 @@ export default function OrderLayout({
     <Box sx={{ display: "flex" }}>
       <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
 
-      <Drawer
-        variant="permanent"
-        open={open}
-        sx={
-          {
-            // '.MuiDrawer-paper': {
-            //   backgroundColor: 'blue'
-            // }
-          }
-        }
-      >
+      <Drawer variant="permanent" open={open} sx={{ zIndex: 1250 }}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
+          <IconButton
+            onClick={!open ? handleDrawerOpen : handleDrawerClose}
+            sx={{ color: "red", right: -20 }}
+          >
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
         <Divider />

@@ -63,31 +63,19 @@ const Header = ({ open, handleDrawerOpen }) => {
   return (
     <AppBar position="fixed" open={open} color="inherit">
       <Toolbar>
-        <Box sx={{}}>
-          <IconButton
-            color="inherit"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
-        </Box>
-        {/*<InputDefaultType*/}
-        {/*  InputProps={{*/}
-        {/*    startAdornment: <InputAdornment position="start">*/}
-        {/*      <SearchRoundedIcon />검색*/}
-        {/*    </InputAdornment>,*/}
-        {/*    endAdornment: <InputAdornment position="end">*/}
-        {/*      <IconButton>*/}
-        {/*        <ClearRoundedIcon />*/}
-        {/*      </IconButton>*/}
-        {/*    </InputAdornment>*/}
-        {/*  }}*/}
-        {/*/>*/}
+        {/*<Box sx={{}}>*/}
+        {/*  <IconButton*/}
+        {/*    color="inherit"*/}
+        {/*    onClick={handleDrawerOpen}*/}
+        {/*    edge="start"*/}
+        {/*    sx={{*/}
+        {/*      marginLeft: 50,*/}
+        {/*      ...(open && { display: "none" }),*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <MenuIcon />*/}
+        {/*  </IconButton>*/}
+        {/*</Box>*/}
         <Box sx={{ flexGrow: 1 }} />
         <Box>
           <Stack direction="row" justifyContent="center" alignItems="center">
