@@ -52,8 +52,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "flex-end",
+  justifyContent: "flex-start",
   padding: theme.spacing(0, 1),
+  marginLeft: 12,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -120,16 +121,25 @@ export default function OrderLayout({
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
+      <AppBar
+        open={open}
+        handleDrawerOpen={handleDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+      />
 
       <Drawer variant="permanent" open={open} sx={{ zIndex: 1250 }}>
         <DrawerHeader>
-          <IconButton
-            onClick={!open ? handleDrawerOpen : handleDrawerClose}
-            sx={{ color: "red", right: -20 }}
-          >
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
+          {/*<IconButton*/}
+          {/*  onClick={!open ? handleDrawerOpen : handleDrawerClose}*/}
+          {/*  sx={{ color: "red", right: -30, zIndex: 10 }}*/}
+          {/*>*/}
+          {/*  {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
+          {/*</IconButton>*/}
+          {!open ? (
+            <MyIcon icon="cj_mix" width={119} />
+          ) : (
+            <MyIcon icon="cj_updown" width={28} />
+          )}
         </DrawerHeader>
         <Divider />
         <List sx={{ color: "white" }}>
