@@ -25,8 +25,9 @@ import {
   bindTrigger,
   bindMenu,
 } from "material-ui-popup-state/hooks";
-import { InputDefaultType } from "@components/index";
 import MyIcon from "icon/myIcon";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 const drawerWidth = 228;
 
@@ -55,7 +56,7 @@ const AppBar = styled(MuiAppBar, {
   padding: 0,
   margin: 0,
 }));
-const Header = ({ open, handleDrawerOpen }) => {
+const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
   const popupState = usePopupState({
     variant: "popover",
     popupId: "useInfoMenu",
@@ -66,28 +67,17 @@ const Header = ({ open, handleDrawerOpen }) => {
         <Box sx={{}}>
           <IconButton
             color="inherit"
-            onClick={handleDrawerOpen}
+            onClick={!open ? handleDrawerOpen : handleDrawerClose}
             edge="start"
             sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
+              ml: 5,
+              ...(open && { ml: -3 }),
             }}
           >
-            <MenuIcon />
+            {/*<MenuIcon />*/}
+            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </Box>
-        {/*<InputDefaultType*/}
-        {/*  InputProps={{*/}
-        {/*    startAdornment: <InputAdornment position="start">*/}
-        {/*      <SearchRoundedIcon />검색*/}
-        {/*    </InputAdornment>,*/}
-        {/*    endAdornment: <InputAdornment position="end">*/}
-        {/*      <IconButton>*/}
-        {/*        <ClearRoundedIcon />*/}
-        {/*      </IconButton>*/}
-        {/*    </InputAdornment>*/}
-        {/*  }}*/}
-        {/*/>*/}
         <Box sx={{ flexGrow: 1 }} />
         <Box>
           <Stack direction="row" justifyContent="center" alignItems="center">

@@ -15,14 +15,8 @@ import {
   Collapse,
   Container,
 } from "@mui/material";
-
-// import MuiDrawer from '@mui/material/Drawer';
-
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import StarBorder from "@mui/icons-material/StarBorder";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
@@ -58,8 +52,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "flex-end",
+  justifyContent: "flex-start",
   padding: theme.spacing(0, 1),
+  marginLeft: 12,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -103,7 +98,11 @@ export default function OrderLayout({
     setOpen(false);
   };
 
-  const handleHomeClick = (item) => {
+  const handleHomeClick = (item: {
+    menuLabel?: string;
+    menuIcon?: string;
+    menuPath: any;
+  }) => {
     console.log(";;;;;;;");
     router.push(item.menuPath.name);
     setSelectedIndex(0);
@@ -122,32 +121,31 @@ export default function OrderLayout({
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar open={open} handleDrawerOpen={handleDrawerOpen} />
-
-      <Drawer
-        variant="permanent"
+      <AppBar
         open={open}
-        sx={
-          {
-            // '.MuiDrawer-paper': {
-            //   backgroundColor: 'blue'
-            // }
-          }
-        }
-      >
+        handleDrawerOpen={handleDrawerOpen}
+        handleDrawerClose={handleDrawerClose}
+      />
+
+      <Drawer variant="permanent" open={open} sx={{ zIndex: 1250 }}>
         <DrawerHeader>
-          <IconButton onClick={handleDrawerClose} sx={{ color: "white" }}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
+          {/*<IconButton*/}
+          {/*  onClick={!open ? handleDrawerOpen : handleDrawerClose}*/}
+          {/*  sx={{ color: "red", right: -30, zIndex: 10 }}*/}
+          {/*>*/}
+          {/*  {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
+          {/*</IconButton>*/}
+          {open ? (
+            <MyIcon icon="cj_mix" width={119} />
+          ) : (
+            <MyIcon icon="cj_mix_updown" width={28} />
+          )}
         </DrawerHeader>
         <Divider />
         <List sx={{ color: "white" }}>
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
+            console.log("hhhh", currentPathname.includes(depthOne.split("/")));
             console.log("pppp", depthOne.split("/")[1]);
             return (
               <ListItem key={uuid()} disablePadding sx={{ display: "block" }}>
@@ -202,8 +200,11 @@ export default function OrderLayout({
                 </ListItemButton>
 
                 <Collapse
-                  // in={open ? index === selectedIndex : false} currentPathname === '/dashboard' ? false :
-                  in={index === selectedIndex}
+                  // in={currentPathname.includes(depthOne.split("/")[0])}
+                  in={
+                    index === selectedIndex ||
+                    currentPathname.includes(depthOne.split("/")[1])
+                  }
                   timeout="auto"
                   unmountOnExit
                 >
