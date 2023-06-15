@@ -135,6 +135,7 @@ export default function OrderLayout({
           {/*>*/}
           {/*  {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
           {/*</IconButton>*/}
+
           {open ? (
             <MyIcon icon="cj_mix" width={119} />
           ) : (
