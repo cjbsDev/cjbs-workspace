@@ -320,7 +320,7 @@ export default function CustModifyPage() {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("cust/cust-list")}
+            onClick={() => router.push("cust-list")}
           />
           <ContainedButton type="submit" buttonName="저장" />
         </Stack>

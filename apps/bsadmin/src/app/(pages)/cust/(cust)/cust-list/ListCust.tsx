@@ -11,13 +11,22 @@ import {
   exportCSVData,
   OutlinedButton,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Chip, useTheme } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Grid,
+  Chip,
+  useTheme,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
+import { grey } from "@mui/material/colors";
 
 const options = [
   { value: "able", label: "사용" },
@@ -52,7 +61,7 @@ const ListCust = () => {
         <>
           <Stack
             direction="row"
-            spacing={1}
+            spacing={0.4}
             alignItems="center"
             useFlexGap
             flexWrap="wrap"
@@ -60,7 +69,13 @@ const ListCust = () => {
             <Box>{row.custNm}</Box>
             <Box>
               <Chip
-                icon={<MyIcon icon="customer" size={25} color="red" />}
+                icon={
+                  <MyIcon
+                    icon="profile-circle-fill"
+                    size={16}
+                    color={theme.palette.primary.main}
+                  />
+                }
                 label={"Leader"}
                 size="small"
                 sx={{
@@ -118,19 +133,17 @@ const ListCust = () => {
     },
     {
       name: "메모",
-      cell: (row: { memo: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.memo && "Open"}</Box>
-          </Stack>
-        </>
-      ),
+      cell: (row: { memo: string }) => {
+        return (
+          row.memo !== null && (
+            <Tooltip title={row.memo} arrow>
+              <IconButton>
+                <MyIcon icon="memo" size={24} />
+              </IconButton>
+            </Tooltip>
+          )
+        );
+      },
       width: "80px",
     },
   ];
@@ -189,11 +202,7 @@ const ListCust = () => {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton
-              buttonName="Excel"
-              onClick={() => exportCSVData({ exportUrl: "apiUrl" })}
-              //style={{ height: '34px', width: '80px' }}
-            />
+            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

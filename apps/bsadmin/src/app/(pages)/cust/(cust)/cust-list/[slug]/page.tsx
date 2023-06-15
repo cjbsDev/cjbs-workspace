@@ -200,11 +200,11 @@ export default function CustPage({ params }: CustViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("cust/cust-list")}
+          onClick={() => router.push("/cust/cust-list")}
         />
         <ContainedButton
           buttonName="수정"
-          onClick={() => router.push("cust/cust-modify/" + slug)}
+          onClick={() => router.push("/cust/cust-modify/" + slug)}
         />
       </Stack>
     </Container>
