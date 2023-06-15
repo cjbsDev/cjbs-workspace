@@ -85,7 +85,7 @@ export default function CustPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>고객번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  {custEBCData.ukey}{" "}
+                  {custEBCData.ebcUid}{" "}
                   <Chip
                     icon={<MyIcon icon="customer" size={25} color="red" />}
                     label={"Leader"}
@@ -137,9 +137,7 @@ export default function CustPage({ params }: CustViewProps) {
               </TD>
               <TH sx={{ width: "15%" }}>가입일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {custEBCData.ebcJoinedAt
-                  ? Dayjs(custEBCData.ebcJoinedAt).format("YYYY-MM-DD")
-                  : "-"}
+                {custEBCData.ebcJoinedAt ? custEBCData.ebcJoinedAt : "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -153,7 +151,7 @@ export default function CustPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>이름</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {custData.nm ?? "-"}
+                {custData.custNm ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>연락처</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
@@ -163,7 +161,7 @@ export default function CustPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>거래처(PI)</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                {custData.agnc ?? "-"}
+                {custData.agncNm ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -188,11 +186,11 @@ export default function CustPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                &#45;
+                {custData.isAcs === "Y" ? "사용" : "차단"}
               </TD>
               <TH sx={{ width: "15%" }}>마지막 수정일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                &#45;
+                {custData.modifiedAt ? custData.modifiedAt : "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -206,7 +204,7 @@ export default function CustPage({ params }: CustViewProps) {
         />
         <ContainedButton
           buttonName="수정"
-          onClick={() => router.push("cust/cust-modify")}
+          onClick={() => router.push("cust/cust-modify/" + slug)}
         />
       </Stack>
     </Container>

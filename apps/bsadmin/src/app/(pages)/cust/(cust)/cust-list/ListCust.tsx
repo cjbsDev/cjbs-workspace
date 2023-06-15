@@ -48,7 +48,7 @@ const ListCust = () => {
     },
     {
       name: "이름",
-      cell: (row: { nm: any; ebcEmail: any }) => (
+      cell: (row: { custNm: any; ebcEmail: any }) => (
         <>
           <Stack
             direction="row"
@@ -57,7 +57,7 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.nm}</Box>
+            <Box>{row.custNm}</Box>
             <Box>
               <Chip
                 icon={<MyIcon icon="customer" size={25} color="red" />}
@@ -79,7 +79,7 @@ const ListCust = () => {
 
     {
       name: "거래처(PI)",
-      cell: (row: { inst: any; agnc: any }) => (
+      cell: (row: { instNm: any; agncNm: any }) => (
         <>
           <Stack
             direction="row"
@@ -88,8 +88,8 @@ const ListCust = () => {
             useFlexGap
             flexWrap="wrap"
           >
-            <Box>{row.agnc}</Box>
-            <Box>({row.inst})</Box>
+            <Box>{row.agncNm}</Box>
+            <Box>({row.instNm})</Box>
           </Stack>
         </>
       ),
@@ -106,9 +106,15 @@ const ListCust = () => {
       selector: (row: { modifiedAt: any }) =>
         row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
     },
+
+    {
+      name: "선결제 금액",
+      selector: (row: { pymnPrice: number }) =>
+        row.pymnPrice ? row.pymnPrice + " 원" : "금액",
+    },
     {
       name: "상태",
-      selector: (row: { id: any }) => row.id,
+      selector: (row: { isAcs: any }) => (row.isAcs ? "사용" : "차단"),
     },
     {
       name: "메모",
@@ -132,7 +138,7 @@ const ListCust = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=1&size=50";
+    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=0&size=50";
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
@@ -145,8 +151,8 @@ const ListCust = () => {
     data.data.pageInfo.totalElements
   );
 
-  const goDetailPage = (row: { ukey: string }) => {
-    const path = row.ukey;
+  const goDetailPage = (row: { custUkey: string }) => {
+    const path = row.custUkey;
     router.push("/cust/cust-list/" + path);
   };
 
