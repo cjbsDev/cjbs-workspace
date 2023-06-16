@@ -2,6 +2,7 @@
 import {
   ContainedButton,
   OutlinedButton,
+  CustomToggleButton,
   Title1,
   TH,
   TD,
@@ -9,6 +10,7 @@ import {
   ModalTitle,
   RHFInputDefaultType,
   cjbsTheme,
+  LeaderCip,
 } from "cjbsDSTM";
 import {
   Box,
@@ -23,6 +25,7 @@ import {
   IconButton,
   ToggleButton,
   DialogContent,
+  Button,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -54,8 +57,13 @@ export default function CustModifyPage() {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleToggle = () => {
+    setSelected(!selected);
   };
   // const [custContact, setCustContact] = useState([
   //   {
@@ -82,9 +90,23 @@ export default function CustModifyPage() {
           <Title1 titleName="고객 정보 수정" />
         </Box>
 
-        <Typography variant="subtitle1">EzBioCloud 가입 정보</Typography>
-        <TableContainer sx={{ height: selected ? 58 : "auto" }}>
-          {/* <Table  sx={{ tableLayout: "fixed" }}> */}
+        <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
+          <Typography variant="subtitle1">EzBioCloud 가입 정보</Typography>
+
+          <CustomToggleButton
+            value="접기"
+            selected={selected}
+            onChange={handleToggle}
+          />
+        </Stack>
+
+        <TableContainer
+          sx={{
+            height: selected ? "58px" : "fit-content",
+            overflowY: "hidden",
+            mb: 5,
+          }}
+        >
           <Table>
             <TableBody>
               <TableRow>
@@ -92,21 +114,7 @@ export default function CustModifyPage() {
                 <TD colSpan={5} sx={{ width: "85%" }}>
                   <Stack direction="row" spacing={1} alignItems="center">
                     <Box>11112222</Box>
-                    <Chip
-                      icon={
-                        <MyIcon
-                          icon="profile-circle-fill"
-                          size={18}
-                          color={cjbsTheme.palette.primary.main}
-                        />
-                      }
-                      label={"Leader"}
-                      size="small"
-                      sx={{
-                        backgroundColor: "#E6F0FA",
-                        color: "#006ECD",
-                      }}
-                    />
+                    <LeaderCip />
                   </Stack>
                 </TD>
               </TableRow>
@@ -155,41 +163,10 @@ export default function CustModifyPage() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          sx={{ mb: 5 }}
-        >
-          <ToggleButton
-            sx={{
-              backgroundColor: "transparent",
-              border: "none",
-              "&.MuiToggleButton-root": {
-                color: "black",
-                ":hover": {
-                  backgroundColor: "transparent",
-                },
-              },
-              "&.Mui-selected": {
-                backgroundColor: "transparent",
-                ":hover": {
-                  backgroundColor: "transparent",
-                },
-              },
-            }}
-            value="check"
-            size="small"
-            selected={selected}
-            onChange={() => {
-              setSelected(!selected);
-            }}
-          >
-            펼처보기 {selected ? <ExpandMoreIcon /> : <ExpandLessIcon />}
-          </ToggleButton>
-        </Stack>
 
-        <Typography variant="subtitle1">기본 정보</Typography>
+        <Typography variant="subtitle1" sx={{ mt: 5 }}>
+          기본 정보
+        </Typography>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
@@ -255,12 +232,17 @@ export default function CustModifyPage() {
                       sx={{ width: 380 }}
                     />
                     <ContainedButton
-                      buttonName="거래처 검색"
+                      size="small"
+                      buttonName="검색"
                       onClick={handleClickOpen}
+                      // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
+                      color="secondary"
                     />
-
-                    <ContainedButton buttonName="거래처 변경" />
-                    <OutlinedButton buttonName="삭제" color="error" />
+                    <OutlinedButton
+                      size="small"
+                      buttonName="삭제"
+                      color="error"
+                    />
                   </Stack>
                 </TD>
               </TableRow>
@@ -308,15 +290,6 @@ export default function CustModifyPage() {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">고객정보 수정 로그</Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
-          자동으로 삭제됩니다.
-        </Typography>
-        <Box sx={{ mb: 5 }}>
-          <LazyCustModifyLog />
-        </Box>
-
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
@@ -325,6 +298,17 @@ export default function CustModifyPage() {
           <ContainedButton type="submit" buttonName="저장" />
         </Stack>
       </FormContainer>
+
+      <Typography variant="subtitle1" sx={{ mt: 5 }}>
+        고객정보 수정 로그
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 1 }}>
+        고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
+        자동으로 삭제됩니다.
+      </Typography>
+      <Box sx={{ mb: 5 }}>
+        <LazyCustModifyLog />
+      </Box>
 
       <ModalContainer onClose={handleClose} open={open} modalWidth={800}>
         <ModalTitle onClose={handleClose}>거래처(PI)</ModalTitle>

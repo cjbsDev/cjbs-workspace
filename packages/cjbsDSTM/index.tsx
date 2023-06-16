@@ -15,6 +15,7 @@ export * from "./molecules/DataTableFilter";
 export * from "./molecules/ExcelDownloadButton";
 export * from "./molecules/DataCountResultInfo";
 export * from "./molecules/CModal";
+export * from "./molecules/Chips";
 export * from "./molecules/ErrorBoundary";
 
 //Organisms

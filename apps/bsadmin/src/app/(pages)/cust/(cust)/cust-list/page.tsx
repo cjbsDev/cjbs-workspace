@@ -1,8 +1,11 @@
 "use client";
+
 import * as React from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { Container } from "@mui/material";
+import { ErrorContainer, Fallback } from "cjbsDSTM";
+// import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const LazyListCust = dynamic(() => import("./ListCust"), {
   ssr: false,
@@ -10,5 +13,19 @@ const LazyListCust = dynamic(() => import("./ListCust"), {
 });
 
 export default function ManagementPage() {
-  return <LazyListCust />;
+  // const router = useRouter();
+  const [someKey, setSomeKey] = useState<boolean>(false);
+
+  return (
+    <ErrorContainer
+      FallbackComponent={Fallback}
+      // onReset={() => {
+      //   console.log("::::");
+      //   setSomeKey(true);
+      // }}
+      // resetKeys={[someKey]}
+    >
+      <LazyListCust />
+    </ErrorContainer>
+  );
 }
