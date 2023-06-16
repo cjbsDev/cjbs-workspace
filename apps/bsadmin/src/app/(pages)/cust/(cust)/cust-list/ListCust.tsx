@@ -27,6 +27,7 @@ import Select from "react-select";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
 import { grey } from "@mui/material/colors";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 const options = [
   { value: "able", label: "사용" },
@@ -225,6 +226,7 @@ const ListCust = () => {
       onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
+      customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
