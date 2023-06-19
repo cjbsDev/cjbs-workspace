@@ -145,8 +145,8 @@ export default function OrderLayout({
         <List sx={{ color: "white" }}>
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
-            console.log("hhhh", currentPathname.includes(depthOne.split("/")));
-            console.log("pppp", depthOne.split("/")[1]);
+            //console.log("hhhh", currentPathname.includes(depthOne.split("/")));
+            //console.log("pppp", depthOne.split("/")[1]);
             return (
               <ListItem key={uuid()} disablePadding sx={{ display: "block" }}>
                 <ListItemButton
