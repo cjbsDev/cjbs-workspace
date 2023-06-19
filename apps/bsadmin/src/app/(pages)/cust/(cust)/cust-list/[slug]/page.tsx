@@ -53,13 +53,19 @@ export default function CustPage({ params }: CustViewProps) {
 
   useEffect(() => {
     if (custError || custEBCError) {
-      console.log("Failed to load");
+      console.log("custError", custError);
+      console.log("custEBCError", custEBCError);
     }
   }, [custError, custEBCError]);
+
+  if (custError || custEBCError) {
+    return <div>Error...</div>;
+  }
 
   if (!custTemp || !custEBCTemp) {
     return <div>Loading...</div>;
   }
+
   const custData = custTemp.data;
   const custEBCData = custEBCTemp.data;
 
