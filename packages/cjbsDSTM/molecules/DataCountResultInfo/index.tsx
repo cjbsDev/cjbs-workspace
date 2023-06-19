@@ -58,7 +58,7 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
           }}
         >
           <Typography variant="body2">
-            선택
+            선택{" "}
             <Box
               component="b"
               sx={{ fontSize: 18, color: theme.palette.primary.main }}

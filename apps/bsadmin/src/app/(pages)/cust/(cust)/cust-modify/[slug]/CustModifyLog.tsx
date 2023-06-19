@@ -2,8 +2,10 @@
 
 import React from "react";
 import { DataTableBase } from "cjbsDSTM";
+import { TableColumn } from "react-data-table-component";
 import useSWR from "swr";
 import axios from "axios";
+import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const CustModifyLog = () => {
@@ -45,6 +47,7 @@ const CustModifyLog = () => {
       selectableRows={false}
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 15]}
+      customStyles={dataTableCustomStyles2}
     />
   );
 };

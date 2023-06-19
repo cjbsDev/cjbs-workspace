@@ -21,6 +21,10 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import MyIcon from "icon/myIcon";
 import IconDescBar from "../../../components/IconDescBar";
+import {
+  dataTableCustomStyles,
+  dataTableCustomStyles2,
+} from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -172,6 +176,7 @@ const ListOrder = () => {
       onRowClicked={goDetailPage}
       pointerOnHover
       highlightOnHover
+      customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}

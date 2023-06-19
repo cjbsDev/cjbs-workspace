@@ -1,26 +1,30 @@
-'use client'
+"use client";
 
-import * as React from 'react';
-import {Box, ThemeProvider, Checkbox, CheckboxProps, Typography} from '@mui/material';
-import DataTable, {TableProps, createTheme} from 'react-data-table-component'
-import {dataTableCustomStyles} from "./style/dataTableCustomStyle";
+import * as React from "react";
+// import {
+//   Box,
+//   ThemeProvider,
+//   Checkbox,
+//   CheckboxProps,
+//   Typography,
+// } from "@mui/material";
+import DataTable, { TableProps } from "react-data-table-component";
+import {
+  dataTableCustomStyles,
+  dataTableCustomStyles2,
+} from "./style/dataTableCustomStyle";
 
-createTheme('mayTheme', {
-
-})
-export function DataTableBase<T>(props: TableProps<T>): JSX.Element {
-
+export function DataTableBase<T>(props: TableProps<T>) {
   return (
-      <DataTable
-        pagination
-        dense
-        selectableRowsVisibleOnly={true}
-        customStyles={dataTableCustomStyles}
-        selectableRows
-        selectableRowsComponent={Checkbox}
-        fixedHeader
-        paginationPerPage={15}
-        {...props}
-      />
+    <DataTable
+      pagination
+      dense
+      selectableRowsVisibleOnly={true}
+      selectableRows
+      // selectableRowsComponent={Checkbox}
+      fixedHeader
+      paginationPerPage={15}
+      {...props}
+    />
   );
 }
