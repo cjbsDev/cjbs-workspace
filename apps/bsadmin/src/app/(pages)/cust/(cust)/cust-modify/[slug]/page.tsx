@@ -123,6 +123,10 @@ export default function CustModifyPage({ params }: paramsProps) {
     setOpen(false);
   };
 
+  const handleToggle = () => {
+    setSelected(!selected);
+  };
+
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <FormContainer
