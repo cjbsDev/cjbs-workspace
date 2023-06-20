@@ -9,9 +9,7 @@ import {
   TD,
   ModalContainer,
   ModalTitle,
-  RHFInputDefaultType,
   cjbsTheme,
-  LeaderCip,
 } from "cjbsDSTM";
 import {
   Box,
@@ -23,10 +21,7 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  IconButton,
-  ToggleButton,
   DialogContent,
-  Button,
 } from "@mui/material";
 
 import useSWR from "swr";
@@ -51,6 +46,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
+import CustEBCInfo from "../../CustEBCInfo";
 
 const LazyCustModifyLog = dynamic(() => import("./CustModifyLog"), {
   ssr: false,
@@ -70,7 +66,7 @@ interface FormData {
   custNm: string;
   isAcs: string;
   memo: string;
-  tel1: string;
+  telList: string[];
 }
 
 export default function CustModifyPage({ params }: paramsProps) {
@@ -81,10 +77,8 @@ export default function CustModifyPage({ params }: paramsProps) {
     custNm: "",
     isAcs: "",
     memo: "",
-    tel1: "",
+    telList: [],
   });
-  const { handleSubmit, control, setValue } = useForm();
-  const [selected, setSelected] = useState(true);
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -92,28 +86,15 @@ export default function CustModifyPage({ params }: paramsProps) {
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`,
     fetcher
   );
-  const { data: custEBCTemp, error: custEBCError } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/ebc/${slug}`,
-    fetcher
-  );
 
-  if (!custTemp || !custEBCTemp) {
+  if (!custTemp) {
     return <div>Loading...</div>;
   }
-  if (custError || custEBCError) {
+  if (custError) {
     return <div>Error...</div>;
   }
 
   const custData = custTemp.data;
-  const custEBCData = custEBCTemp.data;
-
-  console.log("11110 custData", custData);
-  //console.log("yes01");
-
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -123,10 +104,8 @@ export default function CustModifyPage({ params }: paramsProps) {
     setOpen(false);
   };
 
-  const handleToggle = () => {
-    setSelected(!selected);
-  };
-
+  //console.log("custData.telList[2]", custData.telList[2]);
+  const { telList } = custData;
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <FormContainer
@@ -134,7 +113,10 @@ export default function CustModifyPage({ params }: paramsProps) {
           agncNm: custData.agncNm,
           custNm: custData.custNm,
           isAcs: custData.isAcs == "Y" ? ["true"] : [],
-          tel1: custData.tel1,
+          tel_0: telList[0] ?? "",
+          tel_1: telList[1] ?? "",
+          tel_2: telList[2] ?? "",
+          //telList: custData.telList,
           memo: custData.memo,
         }}
       >
@@ -142,93 +124,7 @@ export default function CustModifyPage({ params }: paramsProps) {
           <Title1 titleName="고객 정보 수정" />
         </Box>
 
-        <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
-          <Typography variant="subtitle1">EzBioCloud 가입 정보</Typography>
-
-          <CustomToggleButton
-            value="접기"
-            selected={selected}
-            onChange={handleToggle}
-          />
-        </Stack>
-
-        <TableContainer
-          sx={{
-            height: selected ? "58px" : "fit-content",
-            overflowY: "hidden",
-            mb: 5,
-          }}
-        >
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>고객번호</TH>
-                <TD colSpan={5} sx={{ width: "85%" }}>
-                  <Stack direction="row" spacing={1} alignItems="center">
-                    <Box>{custEBCData.ebcUid} </Box>
-                    <Chip
-                      icon={
-                        <MyIcon
-                          icon="profile-circle-fill"
-                          size={18}
-                          color={cjbsTheme.palette.primary.main}
-                        />
-                      }
-                      label={"Leader"}
-                      size="small"
-                      sx={{
-                        backgroundColor: "#E6F0FA",
-                        color: "#006ECD",
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>아이디</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcEmail ?? "-"}
-                </TD>
-                <TH sx={{ width: "15%" }}>서브 이메일</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcSubEmail ?? "-"}
-                </TD>
-              </TableRow>
-
-              <TableRow>
-                <TH sx={{ width: "15%" }}>영문 이름</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcFullName ?? "-"}
-                </TD>
-                <TH sx={{ width: "15%" }}>호칭</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcTitle ?? "-"}
-                </TD>
-              </TableRow>
-
-              <TableRow>
-                <TH sx={{ width: "15%" }}>국가</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcNtly ?? "-"}
-                </TD>
-                <TH sx={{ width: "15%" }}>소속 단체</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcInstNm ?? "-"}
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>academic</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcIsSchl ?? "-"}
-                </TD>
-                <TH sx={{ width: "15%" }}>가입일</TH>
-                <TD sx={{ width: "35%" }} colSpan={2}>
-                  {custEBCData.ebcJoinedAt ? custEBCData.ebcJoinedAt : "-"}
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <CustEBCInfo slug={slug} ebcShow={true} />
 
         <Typography variant="subtitle1" sx={{ mt: 5 }}>
           기본 정보
@@ -251,32 +147,19 @@ export default function CustModifyPage({ params }: paramsProps) {
               </TableRow>
 
               <TableRow>
-                <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <TextFieldElement
-                      name="agncNm"
-                      required
-                      size="small"
-                      sx={{ width: 380 }}
-                    />
-                    <ContainedButton
-                      buttonName="거래처 검색"
-                      onClick={handleClickOpen}
-                    />
+                <TH sx={{ width: "15%" }}>연락처 [선택] </TH>
 
-                    <ContainedButton buttonName="거래처 변경" />
-                    <OutlinedButton buttonName="삭제" color="error" />
-                  </Stack>
-                </TD>
-              </TableRow>
-
-              <TableRow>
-                <TH sx={{ width: "15%" }}>연락처 [선택]</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                    alignItems="center"
+                    key={"tel0"}
+                    sx={{ mb: 1 }}
+                  >
+                    1.
                     <TextFieldElement
-                      name="tel1"
+                      name="tel_0"
                       size="small"
                       sx={{
                         ".MuiTextField-root": {
@@ -284,15 +167,41 @@ export default function CustModifyPage({ params }: paramsProps) {
                         },
                       }}
                     />
-                    <IconButton
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                    alignItems="center"
+                    key={"tel1"}
+                    sx={{ mb: 1 }}
+                  >
+                    2.
+                    <TextFieldElement
+                      name="tel_1"
                       size="small"
-                      sx={{ border: "1px solid #cccccc", borderRadius: "2" }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                    <IconButton sx={{ display: "none" }}>
-                      <RemoveIcon />
-                    </IconButton>
+                      sx={{
+                        ".MuiTextField-root": {
+                          p: 0,
+                        },
+                      }}
+                    />
+                  </Stack>
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                    alignItems="center"
+                    key={"tel2"}
+                  >
+                    3.
+                    <TextFieldElement
+                      name="tel_2"
+                      size="small"
+                      sx={{
+                        ".MuiTextField-root": {
+                          p: 0,
+                        },
+                      }}
+                    />
                   </Stack>
                 </TD>
               </TableRow>
@@ -301,7 +210,7 @@ export default function CustModifyPage({ params }: paramsProps) {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <TextFieldElement
-                      name="custPI"
+                      name="agncNm"
                       required
                       size="small"
                       sx={{ width: 380 }}
@@ -333,18 +242,6 @@ export default function CustModifyPage({ params }: paramsProps) {
                 <TH sx={{ width: "15%" }}>상태</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" alignItems="center">
-                    {/* 
-                    <CheckboxButtonGroup
-                      labelProps={{ sx: { color: "red", mr: 1 } }}
-                      name="isAcs"
-                      options={[
-                        {
-                          id: "custBlock",
-                          label: "사용자를 차단 합니다.",
-                        },
-                      ]}
-                    />
-                    */}
                     <CheckboxElement
                       labelProps={{ sx: { color: "red", mr: 1 } }}
                       label="사용자를 차단 합니다."
@@ -374,34 +271,24 @@ export default function CustModifyPage({ params }: paramsProps) {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">고객정보 수정 로그</Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
-          자동으로 삭제됩니다.
-        </Typography>
-        <Box sx={{ mb: 5 }}>
-          {/* 
-          <LazyCustModifyLog />
-          */}
-        </Box>
-
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("cust-list")}
+            onClick={() => router.push("/cust/cust-list")}
           />
           <ContainedButton type="submit" buttonName="저장" />
         </Stack>
       </FormContainer>
 
-      <Typography variant="subtitle1" sx={{ mt: 5 }}>
-        고객정보 수정 로그
-      </Typography>
-      <Typography variant="body2" sx={{ mb: 1 }}>
-        고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
-        자동으로 삭제됩니다.
-      </Typography>
       <Box sx={{ mb: 5 }}>
+        <Typography variant="subtitle1" sx={{ mt: 5 }}>
+          고객정보 수정 로그
+        </Typography>
+        <Typography variant="body2" sx={{ mb: 1 }}>
+          고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
+          자동으로 삭제됩니다.
+        </Typography>
+
         <LazyCustModifyLog />
       </Box>
 
