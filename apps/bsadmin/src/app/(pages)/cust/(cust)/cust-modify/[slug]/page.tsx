@@ -289,7 +289,7 @@ export default function CustModifyPage({ params }: paramsProps) {
           자동으로 삭제됩니다.
         </Typography>
 
-        <LazyCustModifyLog />
+        <LazyCustModifyLog slug={slug} />
       </Box>
 
       <ModalContainer onClose={handleClose} open={open} modalWidth={800}>
