@@ -310,7 +310,6 @@ const PageWithDataTable = () => {
                   <Stack spacing={1}>
                     <Stack direction="row" spacing={0.5}>
                       <InputValidation
-                        width={180}
                         disabled={true}
                         register={register}
                         inputName="zoneCode"
@@ -326,11 +325,13 @@ const PageWithDataTable = () => {
                     <Stack direction="row" spacing={0.5}>
                       <InputValidation
                         disabled={true}
+                        sx={{ width: 380 }}
                         register={register}
                         inputName="agncAddress"
                         errorMessage={false}
                       />
                       <InputValidation
+                        sx={{ width: 380 }}
                         register={register}
                         inputName="agncAddressDetail"
                         errorMessage={false}
@@ -383,6 +384,7 @@ const PageWithDataTable = () => {
                 <TH sx={{ width: "15%" }}>메모</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <InputValidation
+                    fullWidth={true}
                     multiline
                     rows={4}
                     register={register}
