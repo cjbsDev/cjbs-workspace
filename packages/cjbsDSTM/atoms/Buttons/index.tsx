@@ -49,7 +49,7 @@ export const ContainedButton = ({
 export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Button {...props} variant="outlined">
+      <Button {...props} variant="xSmall">
         <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>
     </ThemeProvider>

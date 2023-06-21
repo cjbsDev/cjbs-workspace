@@ -47,6 +47,8 @@ import {
   Fallback,
   InputValidation,
   InputDefaultType,
+  ModalContainer,
+  ModalTitle,
 } from "cjbsDSTM";
 import {
   Typography,
@@ -65,24 +67,29 @@ import {
   DialogContent,
   DialogActions,
   FormControl,
+  FormControlLabel,
   InputLabel,
   Select,
   MenuItem,
   Grid,
   IconButton,
   TableContainer,
-  TextField,
 } from "@mui/material";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import AgncSearchModal from "./AgncSearchModal";
 
-const LazyDataList = dynamic(() => import("./MemberDataTable"), {
+const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
   ssr: false,
   loading: () => <SkeletonLoading height={270} />,
+});
+
+const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
+  ssr: false,
 });
 
 interface Customer {
@@ -95,18 +102,22 @@ interface Customer {
 
 const PageWithDataTable = () => {
   // State variables
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
   const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
   const [selectedStatus, setSelectedStatus] = useState("");
   const [address, setAddress] = useState<string>("");
   const router = useRouter();
-  const {
-    setValue,
-    register,
-    handleSubmit,
-    // Read the formState before render to subscribe the form state through the Proxy
-    formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
-  } = useForm();
+  // const {
+  //   setValue,
+  //   register,
+  //   handleSubmit,
+  //   // Read the formState before render to subscribe the form state through the Proxy
+  //   formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
+  // } = useForm();
+
+  const methods = useForm();
   const onSubmit = (data: any) => {
     console.log("Submit Click!!!!!");
     console.log("formData ==>> ", data);
@@ -134,8 +145,8 @@ const PageWithDataTable = () => {
     }
 
     // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zoneCode", zonecode);
-    setValue("agncAddress", fullAddress);
+    methods.setValue("zoneCode", zonecode);
+    methods.setValue("agncAddress", fullAddress);
   };
 
   const handlePostAddressClick = () => {
@@ -246,130 +257,156 @@ const PageWithDataTable = () => {
     // Add more selected objects as needed
   ];
 
+  const agncSearchModalOpen = () => {
+    setShowAgncSearchModal(true);
+  };
+
+  const agncSearchModalClose = () => {
+    setShowAgncSearchModal(false);
+  };
+
   return (
-    <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box
-        component="form"
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <Box sx={{ mb: 4 }}>
-          <Title1 titleName="거래처(PI) 등록" />
-        </Box>
+    <FormProvider {...methods}>
+      <Container maxWidth={false} sx={{ width: "100%" }}>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          <Box sx={{ mb: 4 }}>
+            <Title1 titleName="거래처(PI) 등록" />
+          </Box>
 
-        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-          <ContainedButton buttonName="맴버 관리" onClick={handleOpenModal} />
-        </Stack>
+          {/*<Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>*/}
+          {/*  <ContainedButton buttonName="맴버 관리" onClick={handleOpenModal} />*/}
+          {/*</Stack>*/}
 
-        <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-          기본 정보
-        </Typography>
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>소속 기관</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      error={errors.belongAgnc ? true : false}
-                      helperText={
-                        errors.belongAgnc ? errors.belongAgnc?.message : null
-                      }
-                      register={register}
-                      inputName="belongAgnc"
-                      errorMessage="소속기관을 입력해 주세요."
-                    />
-
-                    <ContainedButton
-                      buttonName="기관 검색"
-                      // onClick={handleClickOpen}
-                      color="secondary"
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      error={errors.agncPI ? true : false}
-                      helperText={errors.agncPI ? errors.agncPI?.message : null}
-                      register={register}
-                      inputName="agncPI"
-                      errorMessage="거래처(PI)를 입력해 주세요."
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>주소 [선택]</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack spacing={1}>
-                    <Stack direction="row" spacing={0.5}>
+          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+            기본 정보
+          </Typography>
+          <TableContainer sx={{ mb: 5 }}>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>소속 기관</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
                       <InputValidation
                         disabled={true}
-                        register={register}
-                        inputName="zoneCode"
-                        errorMessage={false}
+                        error={
+                          methods.formState.errors.belongAgnc ? true : false
+                        }
+                        helperText={
+                          methods.formState.errors.belongAgnc
+                            ? methods.formState.errors.belongAgnc?.message
+                            : null
+                        }
+                        register={methods.register}
+                        inputName="belongAgnc"
+                        errorMessage="소속기관을 입력해 주세요."
                       />
+
                       <ContainedButton
                         size="small"
-                        buttonName="우편번호 찾기"
-                        onClick={handlePostAddressClick}
+                        buttonName="기관 검색"
+                        onClick={agncSearchModalOpen}
                         color="secondary"
                       />
                     </Stack>
-                    <Stack direction="row" spacing={0.5}>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        disabled={true}
-                        sx={{ width: 380 }}
-                        register={register}
-                        inputName="agncAddress"
-                        errorMessage={false}
-                      />
-                      <InputValidation
-                        sx={{ width: 380 }}
-                        register={register}
-                        inputName="agncAddressDetail"
-                        errorMessage={false}
+                        error={methods.formState.errors.agncPI ? true : false}
+                        helperText={
+                          methods.formState.errors.agncPI
+                            ? methods.formState.errors.agncPI?.message
+                            : null
+                        }
+                        register={methods.register}
+                        inputName="agncPI"
+                        errorMessage="거래처(PI)를 입력해 주세요."
                       />
                     </Stack>
-                  </Stack>
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>주소 [선택]</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack spacing={1}>
+                      <Stack direction="row" spacing={0.5}>
+                        <InputValidation
+                          disabled={true}
+                          register={methods.register}
+                          inputName="zoneCode"
+                          errorMessage={false}
+                        />
+                        <ContainedButton
+                          size="small"
+                          buttonName="우편번호 찾기"
+                          onClick={handlePostAddressClick}
+                          color="secondary"
+                        />
+                      </Stack>
+                      <Stack direction="row" spacing={0.5}>
+                        <InputValidation
+                          disabled={true}
+                          sx={{ width: 380 }}
+                          register={methods.register}
+                          inputName="agncAddress"
+                          errorMessage={false}
+                        />
+                        <InputValidation
+                          sx={{ width: 380 }}
+                          register={methods.register}
+                          inputName="agncAddressDetail"
+                          errorMessage={false}
+                        />
+                      </Stack>
+                    </Stack>
+                  </TD>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
 
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyDataList />
-        </ErrorContainer>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyMemberTable />
+          </ErrorContainer>
 
-        <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-          운영 관리 정보
-        </Typography>
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>상태</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack
-                    direction="row"
-                    spacing={0.5}
-                    alignItems="center"
-                  ></Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+            운영 관리 정보
+          </Typography>
+          <TableContainer sx={{ mb: 5 }}>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>상태</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <FormControlLabel
+                      label="특별 관리(SP)하는 거래처 입니다"
+                      control={
+                        <Checkbox
+                          size="small"
+                          {...methods.register("statussss")}
+                        />
+                      }
+                    />
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>영업 담당자</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
                     <Select
-                      {...register("sales")}
+                      {...methods.register("sales")}
                       size="small"
                       sx={{ width: 200 }}
                     >
@@ -377,147 +414,160 @@ const PageWithDataTable = () => {
                       <MenuItem value={20}>Twenty</MenuItem>
                       <MenuItem value={30}>Thirty</MenuItem>
                     </Select>
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>메모</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <InputValidation
-                    fullWidth={true}
-                    multiline
-                    rows={4}
-                    register={register}
-                    inputName="agncMemo"
-                    errorMessage={false}
-                  />
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <Stack direction="row" spacing={0.5} justifyContent="center">
-          <OutlinedButton
-            buttonName="목록"
-            onClick={() => router.push("cust-list")}
-          />
-          <ContainedButton type="submit" buttonName="저장" />
-        </Stack>
-      </Box>
-
-      {/* Member Management Modal */}
-      <Dialog open={showModal} onClose={handleCloseModal} maxWidth="lg">
-        <DialogTitle>고객 검색</DialogTitle>
-        <DialogContent>
-          <div style={{ display: "flex", justifyContent: "space-between" }}>
-            {/* Left Table - Customer List */}
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomers.length === customerData.length}
-                      onChange={handleSelectAllCustomers}
-                    />
-                  </TableCell>
-                  <TableCell>고객</TableCell>
-                  <TableCell>이메일</TableCell>
-                  <TableCell>거래처(PI)</TableCell>
-                  <TableCell>상태</TableCell>
+                  </TD>
                 </TableRow>
-              </TableHead>
-              <TableBody>
-                {customerData.map((customer) => (
-                  <TableRow key={customer.id}>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedCustomers.includes(customer.id)}
-                        onChange={() => handleCustomerSelect(customer.id)}
-                      />
-                    </TableCell>
-                    <TableCell>{customer.name}</TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                    <TableCell>{customer.account}</TableCell>
-                    <TableCell>{customer.status}</TableCell>
-                  </TableRow>
-                ))}
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>메모</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <InputValidation
+                      fullWidth={true}
+                      multiline
+                      rows={4}
+                      register={methods.register}
+                      inputName="agncMemo"
+                      errorMessage={false}
+                    />
+                  </TD>
+                </TableRow>
               </TableBody>
             </Table>
+          </TableContainer>
 
-            {/* Buttons for moving customers */}
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            >
-              <IconButton
-                onClick={handleRemoveSelected}
-                disabled={selectedCustomers.length === 0}
+          {/* 기관 검색 모달 */}
+          {showAgncSearchModal && (
+            <LazyAgncSearchModal
+              onClose={agncSearchModalClose}
+              open={showAgncSearchModal}
+              modalWidth={800}
+            />
+          )}
+
+          <Stack direction="row" spacing={0.5} justifyContent="center">
+            <OutlinedButton
+              buttonName="목록"
+              onClick={() => router.push("cust-list")}
+            />
+            <ContainedButton type="submit" buttonName="저장" />
+          </Stack>
+        </Box>
+
+        {/* Member Management Modal */}
+        <Dialog open={showModal} onClose={handleCloseModal} maxWidth="lg">
+          <DialogTitle>고객 검색</DialogTitle>
+          <DialogContent>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              {/* Left Table - Customer List */}
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={
+                          selectedCustomers.length === customerData.length
+                        }
+                        onChange={handleSelectAllCustomers}
+                      />
+                    </TableCell>
+                    <TableCell>고객</TableCell>
+                    <TableCell>이메일</TableCell>
+                    <TableCell>거래처(PI)</TableCell>
+                    <TableCell>상태</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {customerData.map((customer) => (
+                    <TableRow key={customer.id}>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedCustomers.includes(customer.id)}
+                          onChange={() => handleCustomerSelect(customer.id)}
+                        />
+                      </TableCell>
+                      <TableCell>{customer.name}</TableCell>
+                      <TableCell>{customer.email}</TableCell>
+                      <TableCell>{customer.account}</TableCell>
+                      <TableCell>{customer.status}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+
+              {/* Buttons for moving customers */}
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
               >
-                <ArrowLeft />
-              </IconButton>
-              <IconButton
-                onClick={handleAddSelected}
-                disabled={selectedCustomers.length === 0}
-              >
-                <ArrowRight />
-              </IconButton>
+                <IconButton
+                  onClick={handleRemoveSelected}
+                  disabled={selectedCustomers.length === 0}
+                >
+                  <ArrowLeft />
+                </IconButton>
+                <IconButton
+                  onClick={handleAddSelected}
+                  disabled={selectedCustomers.length === 0}
+                >
+                  <ArrowRight />
+                </IconButton>
+              </div>
+
+              {/* Right Table - Selected Customers */}
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell padding="checkbox">
+                      <Checkbox
+                        checked={
+                          selectedCustomers.length === selectedData.length
+                        }
+                        onChange={handleSelectAllSelected}
+                      />
+                    </TableCell>
+                    <TableCell>고객</TableCell>
+                    <TableCell>이메일</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {selectedData.map((customer) => (
+                    <TableRow key={customer.id}>
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          checked={selectedCustomers.includes(customer.id)}
+                          onChange={() => handleCustomerSelect(customer.id)}
+                        />
+                      </TableCell>
+                      <TableCell>{customer.name}</TableCell>
+                      <TableCell>{customer.email}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
-
-            {/* Right Table - Selected Customers */}
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      checked={selectedCustomers.length === selectedData.length}
-                      onChange={handleSelectAllSelected}
-                    />
-                  </TableCell>
-                  <TableCell>고객</TableCell>
-                  <TableCell>이메일</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {selectedData.map((customer) => (
-                  <TableRow key={customer.id}>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={selectedCustomers.includes(customer.id)}
-                        onChange={() => handleCustomerSelect(customer.id)}
-                      />
-                    </TableCell>
-                    <TableCell>{customer.name}</TableCell>
-                    <TableCell>{customer.email}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
-        </DialogContent>
-        <DialogActions>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleApplyChanges}
-              >
-                Check
-              </Button>
+          </DialogContent>
+          <DialogActions>
+            <Grid container spacing={2} justifyContent="center">
+              <Grid item>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleApplyChanges}
+                >
+                  Check
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button variant="contained" onClick={handleCloseModal}>
+                  Close
+                </Button>
+              </Grid>
             </Grid>
-            <Grid item>
-              <Button variant="contained" onClick={handleCloseModal}>
-                Close
-              </Button>
-            </Grid>
-          </Grid>
-        </DialogActions>
-      </Dialog>
-    </Container>
+          </DialogActions>
+        </Dialog>
+      </Container>
+    </FormProvider>
   );
 };
 

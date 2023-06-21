@@ -48,8 +48,8 @@ export const InputValidation = ({
         sx={{
           ...props.sx,
           ".MuiOutlinedInput-input": {
-            pt: "3.5px",
-            pb: "3.5px",
+            pt: "3.4px",
+            pb: "3.4px",
           },
         }}
         {...register(inputName, {

@@ -1,4 +1,5 @@
 import { createTheme } from "@mui/material";
+import { palette } from "@mui/system";
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -30,6 +31,7 @@ declare module "@mui/material/Typography" {
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     dashed: true;
+    xSmall: true;
   }
 }
 
@@ -117,9 +119,10 @@ export const cjbsTheme = createTheme({
           },
         },
         {
-          props: { variant: "dashed", color: "secondary" },
+          props: { variant: "xSmall" },
           style: {
-            border: `4px dashed red`,
+            padding: 0,
+            border: `1px solid #006ecd`,
           },
         },
       ],
@@ -157,6 +160,14 @@ export const cjbsTheme = createTheme({
           },
         },
       ],
+    },
+    MuiSelect: {
+      styleOverrides: {
+        select: {
+          paddingBottom: "3.5px",
+          paddingTop: "3.5px",
+        },
+      },
     },
   },
 });

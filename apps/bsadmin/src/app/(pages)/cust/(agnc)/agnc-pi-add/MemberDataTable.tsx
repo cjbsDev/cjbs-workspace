@@ -65,6 +65,7 @@ const MemberDataTable = () => {
             buttonName="멤버관리"
             size="small"
             color="secondary"
+            // onClick={handleOpenModal}
           />
         </Stack>
       }
