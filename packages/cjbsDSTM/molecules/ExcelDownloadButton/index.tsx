@@ -36,6 +36,7 @@ export const ExcelDownloadButton = ({
       sx={sx}
       buttonName={buttonName}
       startIcon={<MyIcon icon="xls3" size={18} />}
+      size="small"
     />
   );
 };

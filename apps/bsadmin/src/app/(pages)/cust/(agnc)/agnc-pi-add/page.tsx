@@ -10,19 +10,19 @@ react mui material 로 이번에는 새로운 기능을 하는 페이지를 만�
 고객 리스트가 나오는 왼쪽 data table 에는 선택할 수 있는 체크 박스, 고객 이름, email, 거래처, 상태의 속성을 가진 컬럼이 있고, 체크 박스를 선택해서 오른쪽 data table 에 추가 하는 기능을 가진 화살표 ">" 모양의 버튼 , 그 아래에는 "<" 버튼을 누르면 오른쪽 data table 에 선택한 열이 제거 되는 기능을 갖습니다.
 
 오른쪽 data table 에는 체크박스, 고객이름, email, select box 로 구성되어있습니다.
-그리고 모달에서는 "확인" 그리고 "닫기" 버튼이 있습니다. "확인" 버튼을 누르면 오른쪽 data table 에 있는 값들이 페이지에 있는 data table 에 적용됩니다. 
+그리고 모달에서는 "확인" 그리고 "닫기" 버튼이 있습니다. "확인" 버튼을 누르면 오른쪽 data table 에 있는 값들이 페이지에 있는 data table 에 적용됩니다.
 
-거래처 관리 -> 거래처 등록 
+거래처 관리 -> 거래처 등록
 
-거래처(PI) 등록 
-  - 기관 검색 
-  - 우편번호 찾기 
-  - 맴버 관리 
+거래처(PI) 등록
+  - 기관 검색
+  - 우편번호 찾기
+  - 맴버 관리
 
 1. 기관 검색, 우편번호 찾기, 맴버 관리 버튼 생성
 2. 각 모달 컴포넌트로 빼기
-  - 기관 검색 
-  - 우편번호 찾기 
+  - 기관 검색
+  - 우편번호 찾기
   - 맴버 관리 ( memberMngtModal.tsx )
 
 3. 다른 소스에서도 호출 할 수 있게 공통화 작업
@@ -35,7 +35,7 @@ react mui material 로 이번에는 새로운 기능을 하는 페이지를 만�
 **/
 
 "use client";
-
+import React, { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -43,9 +43,11 @@ import {
   Title1,
   TH,
   TD,
+  ErrorContainer,
+  Fallback,
+  InputValidation,
+  InputDefaultType,
 } from "cjbsDSTM";
-
-import React, { useState } from "react";
 import {
   Typography,
   Container,
@@ -68,8 +70,20 @@ import {
   MenuItem,
   Grid,
   IconButton,
+  TableContainer,
+  TextField,
 } from "@mui/material";
 import { ArrowLeft, ArrowRight } from "@mui/icons-material";
+import { useForm } from "react-hook-form";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import SkeletonLoading from "../../../../components/SkeletonLoading";
+import { useDaumPostcodePopup } from "react-daum-postcode";
+
+const LazyDataList = dynamic(() => import("./MemberDataTable"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={270} />,
+});
 
 interface Customer {
   id: number;
@@ -84,6 +98,49 @@ const PageWithDataTable = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [address, setAddress] = useState<string>("");
+  const router = useRouter();
+  const {
+    setValue,
+    register,
+    handleSubmit,
+    // Read the formState before render to subscribe the form state through the Proxy
+    formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
+  } = useForm();
+  const onSubmit = (data: any) => {
+    console.log("Submit Click!!!!!");
+    console.log("formData ==>> ", data);
+  };
+
+  const open = useDaumPostcodePopup(
+    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+  );
+
+  const handlePostAddressComplete = (data) => {
+    console.log("Post code data ==>>", data);
+    let fullAddress = data.address;
+    let zonecode = data.zonecode;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setValue("zoneCode", zonecode);
+    setValue("agncAddress", fullAddress);
+  };
+
+  const handlePostAddressClick = () => {
+    open({ onComplete: handlePostAddressComplete });
+  };
 
   // Open the member management modal
   const handleOpenModal = (): void => {
@@ -191,13 +248,155 @@ const PageWithDataTable = () => {
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box sx={{ mb: 4 }}>
-        <Title1 titleName="거래처(PI) 등록" />
-      </Box>
+      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={{ mb: 4 }}>
+          <Title1 titleName="거래처(PI) 등록" />
+        </Box>
 
-      <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-        <ContainedButton buttonName="맴버 관리" onClick={handleOpenModal} />
-      </Stack>
+        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+          <ContainedButton buttonName="맴버 관리" onClick={handleOpenModal} />
+        </Stack>
+
+        <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+          기본 정보
+        </Typography>
+        <TableContainer sx={{ mb: 5 }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>소속 기관</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                    <InputValidation
+                      error={errors.belongAgnc ? true : false}
+                      helperText={
+                        errors.belongAgnc ? errors.belongAgnc?.message : null
+                      }
+                      register={register}
+                      inputName="belongAgnc"
+                      errorMessage="소속기관을 입력해 주세요."
+                    />
+
+                    <ContainedButton
+                      buttonName="기관 검색"
+                      // onClick={handleClickOpen}
+                      color="secondary"
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <InputValidation
+                      error={errors.agncPI ? true : false}
+                      helperText={errors.agncPI ? errors.agncPI?.message : null}
+                      register={register}
+                      inputName="agncPI"
+                      errorMessage="거래처(PI)를 입력해 주세요."
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>주소 [선택]</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack spacing={1}>
+                    <Stack direction="row" spacing={0.5}>
+                      <InputValidation
+                        width={180}
+                        disabled={true}
+                        register={register}
+                        inputName="zoneCode"
+                        errorMessage={false}
+                      />
+                      <ContainedButton
+                        size="small"
+                        buttonName="우편번호 찾기"
+                        onClick={handlePostAddressClick}
+                        color="secondary"
+                      />
+                    </Stack>
+                    <Stack direction="row" spacing={0.5}>
+                      <InputValidation
+                        disabled={true}
+                        register={register}
+                        inputName="agncAddress"
+                        errorMessage={false}
+                      />
+                      <InputValidation
+                        register={register}
+                        inputName="agncAddressDetail"
+                        errorMessage={false}
+                      />
+                    </Stack>
+                  </Stack>
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyDataList />
+        </ErrorContainer>
+
+        <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+          운영 관리 정보
+        </Typography>
+        <TableContainer sx={{ mb: 5 }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>소속 기관</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <ContainedButton
+                      size="small"
+                      buttonName="기관 검색"
+                      // onClick={handleClickOpen}
+                      color="secondary"
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack
+                    direction="row"
+                    spacing={0.5}
+                    alignItems="center"
+                  ></Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>메모</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <ContainedButton
+                      size="small"
+                      buttonName="우편번호 찾기"
+                      // onClick={handleClickOpen}
+                      // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
+                      color="secondary"
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+
+        <Stack direction="row" spacing={0.5} justifyContent="center">
+          <OutlinedButton
+            buttonName="목록"
+            onClick={() => router.push("cust-list")}
+          />
+          <ContainedButton type="submit" buttonName="저장" />
+        </Stack>
+      </Box>
 
       {/* Member Management Modal */}
       <Dialog open={showModal} onClose={handleCloseModal} maxWidth="lg">

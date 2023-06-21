@@ -30,8 +30,17 @@ export const ContainedButton = ({
 }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Button {...props} variant="contained">
-        <Typography variant="buttonMD">{buttonName}</Typography>
+      <Button
+        {...props}
+        variant="contained"
+        size="small"
+        sx={{
+          ".MuiButton-containedSizeSmall": {
+            p: 0,
+          },
+        }}
+      >
+        <Typography variant="body2">{buttonName}</Typography>
       </Button>
     </ThemeProvider>
   );

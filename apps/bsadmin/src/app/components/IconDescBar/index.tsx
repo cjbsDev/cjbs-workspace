@@ -3,26 +3,37 @@ import { Chip, Stack } from "@mui/material";
 import MyIcon from "icon/myIcon";
 
 interface IconDescBarProps {
+  reOrder?: boolean;
+  fastTrack?: boolean;
   vipDisabled?: boolean;
   freeDisabled?: boolean;
 }
 
 const IconDescBar = (props: IconDescBarProps) => {
-  const { vipDisabled = false, freeDisabled = false } = props;
+  const {
+    reOrder = false,
+    fastTrack = false,
+    vipDisabled = false,
+    freeDisabled = false,
+  } = props;
   return (
     <Stack direction="row">
-      <Chip
-        label="재실험"
-        size="small"
-        icon={<MyIcon icon="re" size={20} />}
-        sx={{ backgroundColor: "transparent" }}
-      />
-      <Chip
-        label="Fast Track"
-        size="small"
-        icon={<MyIcon icon="fast" size={20} />}
-        sx={{ backgroundColor: "transparent" }}
-      />
+      {!reOrder && (
+        <Chip
+          label="재실험"
+          size="small"
+          icon={<MyIcon icon="re" size={20} />}
+          sx={{ backgroundColor: "transparent" }}
+        />
+      )}
+      {!fastTrack && (
+        <Chip
+          label="Fast Track"
+          size="small"
+          icon={<MyIcon icon="fast" size={20} />}
+          sx={{ backgroundColor: "transparent" }}
+        />
+      )}
       {!vipDisabled && (
         <Chip
           label="특별관리 기관"

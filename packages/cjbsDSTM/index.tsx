@@ -17,6 +17,7 @@ export * from "./molecules/DataCountResultInfo";
 export * from "./molecules/CModal";
 export * from "./molecules/Chips";
 export * from "./molecules/ErrorBoundary";
+// export * from "./molecules/InputValidation";
 
 //Organisms
 export * from "./organisms/DataTable";

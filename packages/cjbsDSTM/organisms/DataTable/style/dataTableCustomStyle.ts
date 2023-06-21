@@ -2,6 +2,12 @@ import { grey } from "@mui/material/colors";
 import { useTheme } from "@mui/material/styles";
 import { cjbsTheme } from "../../../themes";
 export const dataTableCustomStyles = {
+  table: {
+    style: {
+      // color: theme.text.primary,
+      backgroundColor: cjbsTheme.palette.common.white,
+    },
+  },
   header: {
     style: {
       backgroundColor: "white",
@@ -60,8 +66,8 @@ export const dataTableCustomStyles = {
   },
   pagination: {
     style: {
-      backgroundColor: grey[50],
-      color: "black",
+      backgroundColor: cjbsTheme.palette.common.white,
+      color: cjbsTheme.palette.common.black,
     },
   },
 };
