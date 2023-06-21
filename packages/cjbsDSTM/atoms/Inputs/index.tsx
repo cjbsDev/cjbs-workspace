@@ -22,9 +22,9 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         size="small"
         variant="outlined"
         sx={{
-          width: 380,
-          ".MuiOutlinedInput-root": {
-            height: 28,
+          ".MuiOutlinedInput-input": {
+            pt: "3.5px",
+            pb: "3.5px",
           },
         }}
       />
@@ -41,20 +41,15 @@ export const InputValidation = ({
 }: InputValidationProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      {/*<InputDefaultType*/}
-      {/*  {...props}*/}
-      {/*  {...register(inputName, {*/}
-      {/*    required: errorMessage,*/}
-      {/*  })}*/}
-      {/*/>*/}
       <TextField
         {...props}
         variant="outlined"
         size="small"
         sx={{
           width: width,
-          ".MuiOutlinedInput-root": {
-            height: 28,
+          ".MuiOutlinedInput-input": {
+            pt: "3.5px",
+            pb: "3.5px",
           },
         }}
         {...register(inputName, {
