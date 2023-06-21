@@ -10,14 +10,25 @@ import {
   ExcelDownloadButton,
   exportCSVData,
   OutlinedButton,
+  ContainedButton,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Chip, useTheme } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Grid,
+  Chip,
+  useTheme,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import IconDescBar from "../../../../components/IconDescBar";
 
 const options = [
   { value: "able", label: "사용" },
@@ -64,7 +75,7 @@ const ListAgnc = () => {
     },
     {
       name: "거래처(PI)",
-      cell: (row: { agncNm: any; instNm: any }) => (
+      cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
         <>
           <Stack
             direction="row"
@@ -73,6 +84,9 @@ const ListAgnc = () => {
             useFlexGap
             flexWrap="wrap"
           >
+            {row.isSpecialMng === "Y" && (
+              <MyIcon icon="vip-fill" size={20} color="#FFAB33" />
+            )}
             <Box>{row.agncNm} </Box>
             <Box>({row.instNm})</Box>
           </Stack>
@@ -117,19 +131,17 @@ const ListAgnc = () => {
 
     {
       name: "메모",
-      cell: (row: { memo: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.memo && "Open"}</Box>
-          </Stack>
-        </>
-      ),
+      cell: (row: { memo: string }) => {
+        return (
+          row.memo !== null && (
+            <Tooltip title={row.memo} arrow>
+              <IconButton>
+                <MyIcon icon="memo" size={24} />
+              </IconButton>
+            </Tooltip>
+          )
+        );
+      },
       width: "80px",
     },
   ];
@@ -166,33 +178,27 @@ const ListAgnc = () => {
     return (
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
               selectedCount={selectedRowCnt}
             />
-            <Select
-              placeholder="상태변경"
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  // borderColor: state.isFocused ? "grey" : "red",
-                }),
-              }}
-              menuPortalTarget={document.body}
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={options}
+            <ContainedButton
+              buttonName="거래처(PI)등록"
+              size="small"
+              onClick={() => router.push("/cust/agnc-pi-add")}
             />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton
-              buttonName="Excel"
-              onClick={() => exportCSVData({ exportUrl: "apiUrl" })}
-              //style={{ height: '34px', width: '80px' }}
-            />
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
+            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
@@ -215,9 +221,11 @@ const ListAgnc = () => {
       onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
+      customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows={false}
     />
   );
 };

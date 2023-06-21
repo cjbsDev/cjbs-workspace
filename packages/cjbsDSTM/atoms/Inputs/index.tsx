@@ -5,36 +5,61 @@ import {
   IconButton,
   BaseTextFieldProps,
 } from "@mui/material";
-import { FormContainer, TextFieldElement } from "react-hook-form-mui";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-import { useWatch } from "react-hook-form-mui";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
+type InputValidationProps = TextFieldProps & {
+  inputName: string;
+  errorMessage: string | boolean;
+  register: any;
+  width?: number;
+};
 export const InputDefaultType = ({ ...props }: TextFieldProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <TextField {...props} size="small" />
+      <TextField
+        {...props}
+        size="small"
+        variant="outlined"
+        sx={{
+          width: 380,
+          ".MuiOutlinedInput-root": {
+            height: 28,
+          },
+        }}
+      />
     </ThemeProvider>
   );
 };
 
-interface RHFInputDefaultTypeProps extends BaseTextFieldProps {
-  textFieldName: string;
-}
-
-export const RHFInputDefaultType = ({ ...props }: TextFieldProps) => {
+export const InputValidation = ({
+  register,
+  inputName,
+  errorMessage,
+  width = 380,
+  ...props
+}: InputValidationProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <TextFieldElement
+      {/*<InputDefaultType*/}
+      {/*  {...props}*/}
+      {/*  {...register(inputName, {*/}
+      {/*    required: errorMessage,*/}
+      {/*  })}*/}
+      {/*/>*/}
+      <TextField
         {...props}
+        variant="outlined"
         size="small"
         sx={{
+          width: width,
           ".MuiOutlinedInput-root": {
-            padding: "4.5px 10px",
+            height: 28,
           },
         }}
+        {...register(inputName, {
+          required: errorMessage,
+        })}
       />
     </ThemeProvider>
   );

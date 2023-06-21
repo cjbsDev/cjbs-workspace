@@ -80,7 +80,6 @@ const ListCust = () => {
                 label={"Leader"}
                 size="small"
                 sx={{
-                  // backgroundColor: theme.palette.primary.light,
                   backgroundColor: "#E6F0FA",
                   color: "#006ECD",
                 }}
