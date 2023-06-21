@@ -4,6 +4,7 @@ import {
   TextFieldProps,
   IconButton,
   BaseTextFieldProps,
+  SxProps,
 } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
@@ -12,7 +13,6 @@ type InputValidationProps = TextFieldProps & {
   inputName: string;
   errorMessage: string | boolean;
   register: any;
-  width?: number;
 };
 export const InputDefaultType = ({ ...props }: TextFieldProps) => {
   return (
@@ -22,6 +22,7 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         size="small"
         variant="outlined"
         sx={{
+          ...props.sx,
           ".MuiOutlinedInput-input": {
             pt: "3.5px",
             pb: "3.5px",
@@ -36,7 +37,6 @@ export const InputValidation = ({
   register,
   inputName,
   errorMessage,
-  width = 380,
   ...props
 }: InputValidationProps) => {
   return (
@@ -46,7 +46,7 @@ export const InputValidation = ({
         variant="outlined"
         size="small"
         sx={{
-          width: width,
+          ...props.sx,
           ".MuiOutlinedInput-input": {
             pt: "3.5px",
             pb: "3.5px",
