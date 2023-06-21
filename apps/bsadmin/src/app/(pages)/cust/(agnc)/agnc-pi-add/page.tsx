@@ -248,7 +248,12 @@ const PageWithDataTable = () => {
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box component="form" onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        component="form"
+        noValidate
+        autoComplete="off"
+        onSubmit={handleSubmit(onSubmit)}
+      >
         <Box sx={{ mb: 4 }}>
           <Title1 titleName="거래처(PI) 등록" />
         </Box>
@@ -349,20 +354,7 @@ const PageWithDataTable = () => {
           <Table>
             <TableBody>
               <TableRow>
-                <TH sx={{ width: "15%" }}>소속 기관</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <ContainedButton
-                      size="small"
-                      buttonName="기관 검색"
-                      // onClick={handleClickOpen}
-                      color="secondary"
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+                <TH sx={{ width: "15%" }}>상태</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack
                     direction="row"
@@ -372,17 +364,31 @@ const PageWithDataTable = () => {
                 </TD>
               </TableRow>
               <TableRow>
-                <TH sx={{ width: "15%" }}>메모</TH>
+                <TH sx={{ width: "15%" }}>영업 담당자</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    <ContainedButton
+                    <Select
+                      {...register("sales")}
                       size="small"
-                      buttonName="우편번호 찾기"
-                      // onClick={handleClickOpen}
-                      // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
-                      color="secondary"
-                    />
+                      sx={{ width: 200 }}
+                    >
+                      <MenuItem value={10}>Ten</MenuItem>
+                      <MenuItem value={20}>Twenty</MenuItem>
+                      <MenuItem value={30}>Thirty</MenuItem>
+                    </Select>
                   </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>메모</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <InputValidation
+                    multiline
+                    rows={4}
+                    register={register}
+                    inputName="agncMemo"
+                    errorMessage={false}
+                  />
                 </TD>
               </TableRow>
             </TableBody>
