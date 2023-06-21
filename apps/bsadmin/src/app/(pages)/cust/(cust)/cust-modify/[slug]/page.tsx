@@ -33,7 +33,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyIcon from "icon/myIcon";
 
-import { useForm } from "react-hook-form";
+import { useForm, SubmitHandler } from "react-hook-form";
 import {
   FormContainer,
   TextFieldElement,
@@ -64,14 +64,17 @@ interface paramsProps {
 interface FormData {
   agncNm: string;
   custNm: string;
-  isAcs: string;
+  isAcs: string[];
   memo: string;
-  telList: string[];
+  tel_0: string;
+  tel_1: string;
+  tel_2: string;
 }
 
 export default function CustModifyPage({ params }: paramsProps) {
   const { slug } = params;
 
+  /*
   const [formData, setFormData] = useState<FormData>({
     agncNm: "",
     custNm: "",
@@ -79,6 +82,14 @@ export default function CustModifyPage({ params }: paramsProps) {
     memo: "",
     telList: [],
   });
+  */
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<FormData>();
+
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
@@ -104,6 +115,30 @@ export default function CustModifyPage({ params }: paramsProps) {
     setOpen(false);
   };
 
+  /*
+  const handleSave = () => {
+    console.log("in handleSave");
+    const values = getValues(); // Get all form field values
+    console.log("values", values);
+
+    const { memo, isAcs, tel_0, tel_1, tel_2 } = values;
+
+    console.log("Memo:", memo);
+    console.log("isAcs:", isAcs);
+    console.log("tel_0:", tel_0);
+    console.log("tel_1:", tel_1);
+    console.log("tel_2:", tel_2);
+  };
+  */
+
+  const onSubmit = (data: any) => {
+    console.log("in onSubmit");
+    console.log("in onSubmit", data);
+    console.log("TextFieldElement value:", data.textField);
+    console.log("TextareaAutosizeElement value:", data.textarea);
+    console.log("CheckboxElement value:", data.checkbox);
+  };
+
   //console.log("custData.telList[2]", custData.telList[2]);
   const { telList } = custData;
   return (
@@ -116,9 +151,9 @@ export default function CustModifyPage({ params }: paramsProps) {
           tel_0: telList[0] ?? "",
           tel_1: telList[1] ?? "",
           tel_2: telList[2] ?? "",
-          //telList: custData.telList,
           memo: custData.memo,
         }}
+        onSuccess={() => {}}
       >
         <Box sx={{ mb: 4 }}>
           <Title1 titleName="고객 정보 수정" />
@@ -276,7 +311,12 @@ export default function CustModifyPage({ params }: paramsProps) {
             buttonName="목록"
             onClick={() => router.push("/cust/cust-list")}
           />
-          <ContainedButton type="submit" buttonName="저장" />
+          <ContainedButton
+            buttonName="저장"
+            //type="submit"
+            onClick={onSubmit}
+            //onClick={handleSave}
+          />
         </Stack>
       </FormContainer>
 
