@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -50,103 +50,106 @@ const ListCust = () => {
   };
 
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
-  const columns = [
-    {
-      name: "고객 번호",
-      selector: (row: { ebcUid: number }) => row.ebcUid,
-      width: "100px",
-    },
-    {
-      name: "이름",
-      cell: (row: { custNm: any; ebcEmail: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={0.4}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.custNm}</Box>
-            <Box>
-              <Chip
-                icon={
-                  <MyIcon
-                    icon="profile-circle-fill"
-                    size={16}
-                    color={theme.palette.primary.main}
-                  />
-                }
-                label={"Leader"}
-                size="small"
-                sx={{
-                  backgroundColor: "#E6F0FA",
-                  color: "#006ECD",
-                }}
-              />
-            </Box>
-            <Box>{row.ebcEmail}</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "150px",
-    },
-
-    {
-      name: "거래처(PI)",
-      cell: (row: { instNm: any; agncNm: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.agncNm}</Box>
-            <Box>({row.instNm})</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "300px",
-    },
-
-    {
-      name: "가입일",
-      selector: (row: { ebcJoinedAt: any }) =>
-        row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
-    },
-    {
-      name: "마지막 수정",
-      selector: (row: { modifiedAt: any }) =>
-        row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
-    },
-
-    {
-      name: "선결제 금액",
-      selector: (row: { pymnPrice: number }) =>
-        row.pymnPrice ? row.pymnPrice + " 원" : "금액",
-    },
-    {
-      name: "상태",
-      selector: (row: { isAcs: any }) => (row.isAcs ? "사용" : "차단"),
-    },
-    {
-      name: "메모",
-      cell: (row: { memo: string }) => {
-        return (
-          row.memo !== null && (
-            <Tooltip title={row.memo} arrow>
-              <IconButton>
-                <MyIcon icon="memo" size={24} />
-              </IconButton>
-            </Tooltip>
-          )
-        );
+  const columns = useMemo(
+    () => [
+      {
+        name: "고객 번호",
+        selector: (row: { ebcUid: number }) => row.ebcUid,
+        width: "100px",
       },
-      width: "80px",
-    },
-  ];
+      {
+        name: "이름",
+        cell: (row: { custNm: any; ebcEmail: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={0.4}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.custNm}</Box>
+              <Box>
+                <Chip
+                  icon={
+                    <MyIcon
+                      icon="profile-circle-fill"
+                      size={16}
+                      color={theme.palette.primary.main}
+                    />
+                  }
+                  label={"Leader"}
+                  size="small"
+                  sx={{
+                    backgroundColor: "#E6F0FA",
+                    color: "#006ECD",
+                  }}
+                />
+              </Box>
+              <Box>{row.ebcEmail}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
+      },
+
+      {
+        name: "거래처(PI)",
+        cell: (row: { instNm: any; agncNm: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.agncNm}</Box>
+              <Box>({row.instNm})</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "300px",
+      },
+
+      {
+        name: "가입일",
+        selector: (row: { ebcJoinedAt: any }) =>
+          row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
+      },
+      {
+        name: "마지막 수정",
+        selector: (row: { modifiedAt: any }) =>
+          row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
+      },
+
+      {
+        name: "선결제 금액",
+        selector: (row: { pymnPrice: number }) =>
+          row.pymnPrice ? row.pymnPrice + " 원" : "금액",
+      },
+      {
+        name: "상태",
+        selector: (row: { isAcs: any }) => (row.isAcs ? "사용" : "차단"),
+      },
+      {
+        name: "메모",
+        cell: (row: { memo: string }) => {
+          return (
+            row.memo !== null && (
+              <Tooltip title={row.memo} arrow>
+                <IconButton>
+                  <MyIcon icon="memo" size={24} />
+                </IconButton>
+              </Tooltip>
+            )
+          );
+        },
+        width: "80px",
+      },
+    ],
+    []
+  );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 

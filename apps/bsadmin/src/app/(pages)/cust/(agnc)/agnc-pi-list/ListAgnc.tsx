@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -37,6 +37,7 @@ const options = [
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const ListAgnc = () => {
+  // init
   const theme = useTheme();
   const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
@@ -50,101 +51,88 @@ const ListAgnc = () => {
     //setSelectedRows(rows.map((row) => row.id));
   };
 
-  /*
-  {
-    "agncId": 12,
-    "agncUkey": "hfOocujKGf",
-    "isSpecialMng": "N",
-    "agncNm": "연세입니다.",
-    "instNm": "연세대학교",
-    "leaderNm": "김정현",
-    "leaderEmail": "test@test.edu",
-    "memberCount": 2,
-    "pymnPrice": 100000,
-    "bsnsNm": "영업팀관리자이름",
-    "memo": "memo"
-  }
-  */
-
   // 거래처 번호, 거래처(PI), 리더, 맴버, 선결제 금액, 영업 담당자, 메모
-  const columns = [
-    {
-      name: "거래처 번호",
-      selector: (row: { agncId: number }) => row.agncId,
-      width: "100px",
-    },
-    {
-      name: "거래처(PI)",
-      cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            {row.isSpecialMng === "Y" && (
-              <MyIcon icon="vip-fill" size={20} color="#FFAB33" />
-            )}
-            <Box>{row.agncNm} </Box>
-            <Box>({row.instNm})</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "150px",
-    },
-    {
-      name: "리더",
-      cell: (row: { leaderNm: any; leaderEmail: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.leaderNm ?? "-"} </Box>
-            <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "150px",
-    },
-
-    {
-      name: "멤버",
-      selector: (row: { memberCount: number }) => row.memberCount,
-      width: "100px",
-    },
-    {
-      name: "선결제 금액",
-      selector: (row: { pymnPrice: number }) =>
-        row.pymnPrice ? row.pymnPrice + " 원" : "금액",
-    },
-
-    {
-      name: "영업 담당자",
-      selector: (row: { bsnsNm: any }) => row.bsnsNm,
-    },
-
-    {
-      name: "메모",
-      cell: (row: { memo: string }) => {
-        return (
-          row.memo !== null && (
-            <Tooltip title={row.memo} arrow>
-              <IconButton>
-                <MyIcon icon="memo" size={24} />
-              </IconButton>
-            </Tooltip>
-          )
-        );
+  const columns = useMemo(
+    () => [
+      {
+        name: "거래처 번호",
+        selector: (row: { agncId: number }) => row.agncId,
+        width: "100px",
       },
-      width: "80px",
-    },
-  ];
+      {
+        name: "거래처(PI)",
+        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              {row.isSpecialMng === "Y" && (
+                <MyIcon icon="vip-fill" size={20} color="#FFAB33" />
+              )}
+              <Box>{row.agncNm} </Box>
+              <Box>({row.instNm})</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
+      },
+      {
+        name: "리더",
+        cell: (row: { leaderNm: any; leaderEmail: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.leaderNm ?? "-"} </Box>
+              <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
+      },
+
+      {
+        name: "멤버",
+        selector: (row: { memberCount: number }) => row.memberCount,
+        width: "100px",
+      },
+      {
+        name: "선결제 금액",
+        selector: (row: { pymnPrice: number }) =>
+          row.pymnPrice ? row.pymnPrice + " 원" : "금액",
+      },
+
+      {
+        name: "영업 담당자",
+        selector: (row: { bsnsManagedByNm: any }) => row.bsnsManagedByNm,
+      },
+
+      {
+        name: "메모",
+        cell: (row: { memo: string }) => {
+          return (
+            row.memo !== null && (
+              <Tooltip title={row.memo} arrow>
+                <IconButton>
+                  <MyIcon icon="memo" size={24} />
+                </IconButton>
+              </Tooltip>
+            )
+          );
+        },
+        width: "80px",
+      },
+    ],
+    []
+  );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
@@ -154,7 +142,7 @@ const ListAgnc = () => {
     suspense: true,
   });
 
-  const filteredData = data.data.custList;
+  const filteredData = data.data.agncList;
 
   console.log("data", data);
   console.log(
@@ -167,7 +155,7 @@ const ListAgnc = () => {
     router.push("/cust/agnc-pi-list/" + path);
   };
 
-  const subHeaderComponentMemo = React.useMemo(() => {
+  const subHeaderComponentMemo = useMemo(() => {
     const handleClear = () => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
