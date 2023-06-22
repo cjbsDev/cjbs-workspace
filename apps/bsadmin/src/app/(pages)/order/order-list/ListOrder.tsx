@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+import React, { useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -31,65 +31,68 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const ListOrder = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
-  const columns = [
-    {
-      name: "No",
-      selector: (row) => row.id,
-      cell: (row) => {
-        return (
-          <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Typography variant="body2">{row.id}</Typography>
-            <MyIcon icon="re" size={20} />
-            <MyIcon icon="fast" size={20} />
-          </Stack>
-        );
+  const columns = useMemo(
+    () => [
+      {
+        name: "No",
+        selector: (row) => row.id,
+        cell: (row) => {
+          return (
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <Typography variant="body2">{row.id}</Typography>
+              <MyIcon icon="re" size={20} />
+              <MyIcon icon="fast" size={20} />
+            </Stack>
+          );
+        },
       },
-    },
-    {
-      name: "진행 상황",
-      cell: (row) => {
-        return (
-          <Chip
-            label={row.category}
-            size="small"
-            color={
-              row.category === "smartphones"
-                ? "primary"
-                : row.category === "laptops"
-                ? "success"
-                : row.category === "skincare"
-                ? "error"
-                : "default"
-            }
-          />
-        );
+      {
+        name: "진행 상황",
+        cell: (row) => {
+          return (
+            <Chip
+              label={row.category}
+              size="small"
+              color={
+                row.category === "smartphones"
+                  ? "primary"
+                  : row.category === "laptops"
+                  ? "success"
+                  : row.category === "skincare"
+                  ? "error"
+                  : "default"
+              }
+            />
+          );
+        },
       },
-    },
-    {
-      name: "Title",
-      selector: (row) => row.title,
-    },
-    {
-      name: "Description",
-      selector: (row) => row.description,
-    },
-    {
-      name: "Brand",
-      selector: (row) => row.brand,
-    },
-    {
-      name: "Price",
-      selector: (row) => row.price,
-    },
-    {
-      name: "Rating",
-      selector: (row) => row.rating,
-    },
-    {
-      name: "Stock",
-      selector: (row) => row.stock,
-    },
-  ];
+      {
+        name: "Title",
+        selector: (row) => row.title,
+      },
+      {
+        name: "Description",
+        selector: (row) => row.description,
+      },
+      {
+        name: "Brand",
+        selector: (row) => row.brand,
+      },
+      {
+        name: "Price",
+        selector: (row) => row.price,
+      },
+      {
+        name: "Rating",
+        selector: (row) => row.rating,
+      },
+      {
+        name: "Stock",
+        selector: (row) => row.stock,
+      },
+    ],
+    []
+  );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const { data } = useSWR("https://dummyjson.com/products", fetcher, {
