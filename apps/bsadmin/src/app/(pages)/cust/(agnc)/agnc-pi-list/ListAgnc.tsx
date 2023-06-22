@@ -154,7 +154,7 @@ const ListAgnc = () => {
     suspense: true,
   });
 
-  const filteredData = data.data.custList;
+  const filteredData = data.data.agncList;
 
   console.log("data", data);
   console.log(
