@@ -94,6 +94,10 @@ const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
   ssr: false,
 });
 
+const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
+  ssr: false,
+});
+
 interface Customer {
   id: number;
   name: string;
@@ -185,15 +189,15 @@ const PageWithDataTable = () => {
   };
 
   // Handle select all customers in the left table
-  const handleSelectAllCustomers = (): void => {
-    const allCustomers = customerData.map((customer) => customer.id);
-
-    if (selectedCustomers.length === allCustomers.length) {
-      setSelectedCustomers([]);
-    } else {
-      setSelectedCustomers(allCustomers);
-    }
-  };
+  // const handleSelectAllCustomers = (): void => {
+  //   const allCustomers = customerData.map((customer) => customer.id);
+  //
+  //   if (selectedCustomers.length === allCustomers.length) {
+  //     setSelectedCustomers([]);
+  //   } else {
+  //     setSelectedCustomers(allCustomers);
+  //   }
+  // };
 
   // Handle adding selected customers to the right table
   const handleAddSelected = (): void => {
@@ -202,24 +206,24 @@ const PageWithDataTable = () => {
   };
 
   // Handle select all customers in the right table
-  const handleSelectAllSelected = (): void => {
-    const allSelected = selectedData.map((customer) => customer.id);
-
-    if (selectedCustomers.length === allSelected.length) {
-      setSelectedCustomers([]);
-    } else {
-      setSelectedCustomers(allSelected);
-    }
-  };
+  // const handleSelectAllSelected = (): void => {
+  //   const allSelected = selectedData.map((customer) => customer.id);
+  //
+  //   if (selectedCustomers.length === allSelected.length) {
+  //     setSelectedCustomers([]);
+  //   } else {
+  //     setSelectedCustomers(allSelected);
+  //   }
+  // };
 
   // Apply changes to the main data table on the page
-  const handleApplyChanges = (): void => {
-    // Apply changes to the main data table on the page
-    // You can implement this functionality based on your specific requirements
-    console.log("Selected Customers:", selectedCustomers);
-    console.log("Selected Status:", selectedStatus);
-    handleCloseModal();
-  };
+  // const handleApplyChanges = (): void => {
+  //   // Apply changes to the main data table on the page
+  //   // You can implement this functionality based on your specific requirements
+  //   console.log("Selected Customers:", selectedCustomers);
+  //   console.log("Selected Status:", selectedStatus);
+  //   handleCloseModal();
+  // };
 
   // Sample customer data
   const customerData: Customer[] = [
@@ -442,6 +446,15 @@ const PageWithDataTable = () => {
             />
           )}
 
+          {/* 멤버 관리 모달 */}
+          {getMemberManagementModalOpen && (
+            <LazyMemberMngtModal
+              onClose={handleMemberCloseModal}
+              open={getMemberManagementModalOpen}
+              modalWidth={1006}
+            />
+          )}
+
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
@@ -452,124 +465,124 @@ const PageWithDataTable = () => {
         </Box>
 
         {/* Member Management Modal */}
-        <Dialog
-          open={getMemberManagementModalOpen}
-          onClose={handleMemberCloseModal}
-          maxWidth="lg"
-        >
-          <DialogTitle>고객 검색</DialogTitle>
-          <DialogContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              {/* Left Table - Customer List */}
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={
-                          selectedCustomers.length === customerData.length
-                        }
-                        onChange={handleSelectAllCustomers}
-                      />
-                    </TableCell>
-                    <TableCell>고객</TableCell>
-                    <TableCell>이메일</TableCell>
-                    <TableCell>거래처(PI)</TableCell>
-                    <TableCell>상태</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {customerData.map((customer) => (
-                    <TableRow key={customer.id}>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedCustomers.includes(customer.id)}
-                          onChange={() => handleCustomerSelect(customer.id)}
-                        />
-                      </TableCell>
-                      <TableCell>{customer.name}</TableCell>
-                      <TableCell>{customer.email}</TableCell>
-                      <TableCell>{customer.account}</TableCell>
-                      <TableCell>{customer.status}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+        {/*<Dialog*/}
+        {/*  open={getMemberManagementModalOpen}*/}
+        {/*  onClose={handleMemberCloseModal}*/}
+        {/*  maxWidth="lg"*/}
+        {/*>*/}
+        {/*  <DialogTitle>고객 검색</DialogTitle>*/}
+        {/*  <DialogContent>*/}
+        {/*    <div style={{ display: "flex", justifyContent: "space-between" }}>*/}
+        {/*      /!* Left Table - Customer List *!/*/}
+        {/*      <Table>*/}
+        {/*        <TableHead>*/}
+        {/*          <TableRow>*/}
+        {/*            <TableCell padding="checkbox">*/}
+        {/*              <Checkbox*/}
+        {/*                checked={*/}
+        {/*                  selectedCustomers.length === customerData.length*/}
+        {/*                }*/}
+        {/*                onChange={handleSelectAllCustomers}*/}
+        {/*              />*/}
+        {/*            </TableCell>*/}
+        {/*            <TableCell>고객</TableCell>*/}
+        {/*            <TableCell>이메일</TableCell>*/}
+        {/*            <TableCell>거래처(PI)</TableCell>*/}
+        {/*            <TableCell>상태</TableCell>*/}
+        {/*          </TableRow>*/}
+        {/*        </TableHead>*/}
+        {/*        <TableBody>*/}
+        {/*          {customerData.map((customer) => (*/}
+        {/*            <TableRow key={customer.id}>*/}
+        {/*              <TableCell padding="checkbox">*/}
+        {/*                <Checkbox*/}
+        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
+        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
+        {/*                />*/}
+        {/*              </TableCell>*/}
+        {/*              <TableCell>{customer.name}</TableCell>*/}
+        {/*              <TableCell>{customer.email}</TableCell>*/}
+        {/*              <TableCell>{customer.account}</TableCell>*/}
+        {/*              <TableCell>{customer.status}</TableCell>*/}
+        {/*            </TableRow>*/}
+        {/*          ))}*/}
+        {/*        </TableBody>*/}
+        {/*      </Table>*/}
 
-              {/* Buttons for moving customers */}
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <IconButton
-                  onClick={handleRemoveSelected}
-                  disabled={selectedCustomers.length === 0}
-                >
-                  <ArrowLeft />
-                </IconButton>
-                <IconButton
-                  onClick={handleAddSelected}
-                  disabled={selectedCustomers.length === 0}
-                >
-                  <ArrowRight />
-                </IconButton>
-              </div>
+        {/*      /!* Buttons for moving customers *!/*/}
+        {/*      <div*/}
+        {/*        style={{*/}
+        {/*          display: "flex",*/}
+        {/*          flexDirection: "column",*/}
+        {/*          alignItems: "center",*/}
+        {/*        }}*/}
+        {/*      >*/}
+        {/*        <IconButton*/}
+        {/*          onClick={handleRemoveSelected}*/}
+        {/*          disabled={selectedCustomers.length === 0}*/}
+        {/*        >*/}
+        {/*          <ArrowLeft />*/}
+        {/*        </IconButton>*/}
+        {/*        <IconButton*/}
+        {/*          onClick={handleAddSelected}*/}
+        {/*          disabled={selectedCustomers.length === 0}*/}
+        {/*        >*/}
+        {/*          <ArrowRight />*/}
+        {/*        </IconButton>*/}
+        {/*      </div>*/}
 
-              {/* Right Table - Selected Customers */}
-              <Table>
-                <TableHead>
-                  <TableRow>
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={
-                          selectedCustomers.length === selectedData.length
-                        }
-                        onChange={handleSelectAllSelected}
-                      />
-                    </TableCell>
-                    <TableCell>고객</TableCell>
-                    <TableCell>이메일</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {selectedData.map((customer) => (
-                    <TableRow key={customer.id}>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedCustomers.includes(customer.id)}
-                          onChange={() => handleCustomerSelect(customer.id)}
-                        />
-                      </TableCell>
-                      <TableCell>{customer.name}</TableCell>
-                      <TableCell>{customer.email}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Grid container spacing={2} justifyContent="center">
-              <Grid item>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleApplyChanges}
-                >
-                  Check
-                </Button>
-              </Grid>
-              <Grid item>
-                <Button variant="contained" onClick={handleMemberCloseModal}>
-                  Close
-                </Button>
-              </Grid>
-            </Grid>
-          </DialogActions>
-        </Dialog>
+        {/*      /!* Right Table - Selected Customers *!/*/}
+        {/*      <Table>*/}
+        {/*        <TableHead>*/}
+        {/*          <TableRow>*/}
+        {/*            <TableCell padding="checkbox">*/}
+        {/*              <Checkbox*/}
+        {/*                checked={*/}
+        {/*                  selectedCustomers.length === selectedData.length*/}
+        {/*                }*/}
+        {/*                onChange={handleSelectAllSelected}*/}
+        {/*              />*/}
+        {/*            </TableCell>*/}
+        {/*            <TableCell>고객</TableCell>*/}
+        {/*            <TableCell>이메일</TableCell>*/}
+        {/*          </TableRow>*/}
+        {/*        </TableHead>*/}
+        {/*        <TableBody>*/}
+        {/*          {selectedData.map((customer) => (*/}
+        {/*            <TableRow key={customer.id}>*/}
+        {/*              <TableCell padding="checkbox">*/}
+        {/*                <Checkbox*/}
+        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
+        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
+        {/*                />*/}
+        {/*              </TableCell>*/}
+        {/*              <TableCell>{customer.name}</TableCell>*/}
+        {/*              <TableCell>{customer.email}</TableCell>*/}
+        {/*            </TableRow>*/}
+        {/*          ))}*/}
+        {/*        </TableBody>*/}
+        {/*      </Table>*/}
+        {/*    </div>*/}
+        {/*  </DialogContent>*/}
+        {/*  <DialogActions>*/}
+        {/*    <Grid container spacing={2} justifyContent="center">*/}
+        {/*      <Grid item>*/}
+        {/*        <Button*/}
+        {/*          variant="contained"*/}
+        {/*          color="primary"*/}
+        {/*          onClick={handleApplyChanges}*/}
+        {/*        >*/}
+        {/*          Check*/}
+        {/*        </Button>*/}
+        {/*      </Grid>*/}
+        {/*      <Grid item>*/}
+        {/*        <Button variant="contained" onClick={handleMemberCloseModal}>*/}
+        {/*          Close*/}
+        {/*        </Button>*/}
+        {/*      </Grid>*/}
+        {/*    </Grid>*/}
+        {/*  </DialogActions>*/}
+        {/*</Dialog>*/}
       </Container>
     </FormProvider>
   );

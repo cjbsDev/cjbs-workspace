@@ -5,7 +5,8 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "bsadmin": "turbo dev --filter bsadmin"
+    "bsadmin": "turbo dev --filter bsadmin",
+    "bsadminStart": "turbo run start --filter bsadmin"
   },
   "devDependencies": {
     "@types/file-saver": "^2.0.5",
