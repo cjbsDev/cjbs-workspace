@@ -36,7 +36,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyIcon from "icon/myIcon";
 
-import { useForm } from "react-hook-form";
+import { useForm, FormProvider } from "react-hook-form";
 
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -49,6 +49,10 @@ const LazyCustModifyLog = dynamic(() => import("./CustModifyLog"), {
   loading: () => <SkeletonLoading height={272} />,
 });
 
+const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
+  ssr: false,
+});
+
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface paramsProps {
@@ -59,6 +63,7 @@ interface paramsProps {
 
 interface FormData {
   agncNm?: string;
+  agncUkey?: string;
   custNm?: string;
   isAcs?: boolean;
   memo?: string;
@@ -75,17 +80,24 @@ interface IData {
 export default function CustModifyPage({ params }: paramsProps) {
   // init
   const { slug } = params;
+
+  /*
+  const methods = useForm<FormData>();
+  */
+
+  const methods = useForm();
   const {
     register,
-    handleSubmit,
     formState: { errors },
     getValues,
     setValue,
-  } = useForm<FormData>();
+  } = methods;
 
   const [checked, setChecked] = useState(false); // 체크 박스 테스트
   const [open, setOpen] = useState(false);
   const router = useRouter();
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
   // load
   const { data: custData } = useSWR(
@@ -110,9 +122,8 @@ export default function CustModifyPage({ params }: paramsProps) {
 
   // display
   const display = (custData: IData) => {
-    console.log("display start");
-
     const displayData = custData.data;
+    console.log("display start", displayData);
     const telList = displayData.telList || [];
     //custNm, tel_0, tel_1, tel_2, agncNm, isAcs, memo
     setValue("custNm", displayData.custNm);
@@ -120,12 +131,15 @@ export default function CustModifyPage({ params }: paramsProps) {
     setValue("tel_1", telList[1] ?? "");
     setValue("tel_2", telList[2] ?? "");
     setValue("agncNm", displayData.agncNm);
+    setValue("agncUkey", displayData.agncUkey);
     setValue("memo", displayData.memo);
   };
 
   // event
   const handleDelBtn = () => {
-    console.log("handleDelBtn");
+    setValue("agncUkey", "");
+    setValue("agncNm", "");
+    console.log("삭제");
   };
 
   const handleClickOpen = () => {
@@ -137,12 +151,19 @@ export default function CustModifyPage({ params }: paramsProps) {
   };
 
   const onSubmit = (data: any) => {
+    console.log("in onSubmit");
+
+    // validation 체크
     let telList = [getValues("tel_0"), getValues("tel_1"), getValues("tel_2")];
+    let agncUkey = getValues("agncUkey");
+    let custNm = getValues("custNm");
+    let memo = getValues("memo");
+
     let saveObj = {
-      agncUkey: "1BsAgnc",
-      custNm: getValues("custNm"),
-      telList: telList,
-      memo: getValues("memo"),
+      agncUkey,
+      custNm,
+      telList,
+      memo,
       isAcs: "Y",
     };
     console.log("==saveObj", saveObj);
@@ -162,190 +183,227 @@ export default function CustModifyPage({ params }: paramsProps) {
       });
   };
 
+  const agncSearchModalOpen = () => {
+    setShowAgncSearchModal(true);
+  };
+
+  const agncSearchModalClose = () => {
+    setShowAgncSearchModal(false);
+  };
+
   return (
-    <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box sx={{ mb: 4 }}>
-        <Title1 titleName="고객 정보 수정" />
-      </Box>
+    <FormProvider {...methods}>
+      <Container maxWidth={false} sx={{ width: "100%" }}>
+        <Box
+          component="form"
+          noValidate
+          autoComplete="off"
+          onSubmit={methods.handleSubmit(onSubmit)}
+        >
+          <Box sx={{ mb: 4 }}>
+            <Title1 titleName="고객 정보 수정" />
+          </Box>
 
-      <CustEBCInfo slug={slug} ebcShow={true} />
+          <CustEBCInfo slug={slug} ebcShow={true} />
 
-      <Typography variant="subtitle1" sx={{ mt: 5 }}>
-        기본 정보
-      </Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>이름</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    error={errors.custNm ? true : false}
-                    helperText={errors.custNm ? errors.custNm?.message : null}
-                    register={register}
-                    inputName="custNm"
-                    errorMessage="이름을 입력해 주세요."
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-
-            <TableRow>
-              <TH sx={{ width: "15%" }}>연락처 [선택] </TH>
-
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack
-                  direction="row"
-                  spacing={0.5}
-                  sx={{ mb: 1 }}
-                  alignItems="center"
-                >
-                  1.
-                  <InputValidation
-                    error={errors.tel_0 ? true : false}
-                    helperText={errors.tel_0 ? errors.tel_0?.message : null}
-                    register={register}
-                    inputName="tel_0"
-                    errorMessage=""
-                  />
-                </Stack>
-                <Stack
-                  direction="row"
-                  spacing={0.5}
-                  sx={{ mb: 1 }}
-                  alignItems="center"
-                >
-                  2.
-                  <InputValidation
-                    error={errors.tel_1 ? true : false}
-                    helperText={errors.tel_1 ? errors.tel_1?.message : null}
-                    register={register}
-                    inputName="tel_1"
-                    errorMessage=""
-                  />
-                </Stack>
-                <Stack
-                  direction="row"
-                  spacing={0.5}
-                  sx={{ mb: 1 }}
-                  alignItems="center"
-                >
-                  3.
-                  <InputValidation
-                    error={errors.tel_2 ? true : false}
-                    helperText={errors.tel_2 ? errors.tel_2?.message : null}
-                    register={register}
-                    inputName="tel_2"
-                    errorMessage=""
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    error={errors.agncNm ? true : false}
-                    helperText={errors.agncNm ? errors.agncNm?.message : null}
-                    register={register}
-                    inputName="agncNm"
-                    errorMessage=""
-                  />
-
-                  <ContainedButton
-                    size="small"
-                    buttonName="검색"
-                    onClick={handleClickOpen}
-                    // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
-                    color="secondary"
-                  />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="삭제"
-                    color="error"
-                    onClick={handleDelBtn}
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <Typography variant="subtitle1">운영 관리 정보</Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>상태</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <FormControlLabel
-                    sx={{ color: "red", mr: 1 }}
-                    label="사용자를 차단 합니다."
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        size="small"
-                        {...register("isAcs")}
+          <Typography variant="subtitle1" sx={{ mt: 5 }}>
+            기본 정보
+          </Typography>
+          <TableContainer sx={{ mb: 5 }}>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>이름</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.custNm ? true : false}
+                        helperText={
+                          errors.custNm ? errors.custNm?.message : null
+                        }
+                        register={register}
+                        inputName="custNm"
+                        errorMessage="필수 값입니다."
                       />
-                    }
-                  />
-                  <Typography variant="body1">
-                    (차단된 사용자는 주문서 작성 화면에 로그인 할 수 없습니다.)
-                  </Typography>
-                </Stack>
-              </TD>
-            </TableRow>
+                    </Stack>
+                  </TD>
+                </TableRow>
 
-            <TableRow>
-              <TH sx={{ width: "15%" }}>메모</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={4}
-                  register={register}
-                  inputName="memo"
-                  errorMessage={false}
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>연락처 [선택] </TH>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
-        <OutlinedButton
-          buttonName="목록"
-          onClick={() => router.push("/cust/cust-list")}
-        />
-        <ContainedButton
-          buttonName="저장"
-          //type="submit"
-          onClick={onSubmit}
-          //onClick={handleSave}
-        />
-      </Stack>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      sx={{ mb: 1 }}
+                      alignItems="center"
+                    >
+                      <InputValidation
+                        error={errors.tel_0 ? true : false}
+                        helperText={errors.tel_0 ? errors.tel_0?.message : null}
+                        register={register}
+                        inputName="tel_0"
+                        errorMessage=""
+                      />
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      sx={{ mb: 1 }}
+                      alignItems="center"
+                    >
+                      <InputValidation
+                        error={errors.tel_1 ? true : false}
+                        helperText={errors.tel_1 ? errors.tel_1?.message : null}
+                        register={register}
+                        inputName="tel_1"
+                        errorMessage=""
+                      />
+                    </Stack>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      sx={{ mb: 1 }}
+                      alignItems="center"
+                    >
+                      <InputValidation
+                        error={errors.tel_2 ? true : false}
+                        helperText={errors.tel_2 ? errors.tel_2?.message : null}
+                        register={register}
+                        inputName="tel_2"
+                        errorMessage=""
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>거래처(PI)</TH>
 
-      <Box sx={{ mb: 5 }}>
-        <Typography variant="subtitle1" sx={{ mt: 5 }}>
-          고객정보 수정 로그
-        </Typography>
-        <Typography variant="body2" sx={{ mb: 1 }}>
-          고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
-          자동으로 삭제됩니다.
-        </Typography>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
+                      <InputValidation
+                        disabled={true}
+                        error={errors.agncNm ? true : false}
+                        helperText={errors.agncNm?.message ?? null}
+                        register={register}
+                        inputName="agncNm"
+                        errorMessage="필수 값입니다."
+                      />
 
-        <LazyCustModifyLog slug={slug} />
-      </Box>
+                      <InputValidation
+                        disabled={true}
+                        sx={{ display: "none" }}
+                        register={register}
+                        inputName="agncUkey"
+                        error={errors.agncUkey ? true : false}
+                        helperText={errors.agncUkey?.message ?? null}
+                        errorMessage="필수 값입니다."
+                      />
 
-      <ModalContainer onClose={handleClose} open={open} modalWidth={800}>
-        <ModalTitle onClose={handleClose}>거래처(PI)</ModalTitle>
-        <DialogContent>blablablablasblablaabl</DialogContent>
-      </ModalContainer>
-    </Container>
+                      <OutlinedButton
+                        size="small"
+                        buttonName="검색"
+                        onClick={agncSearchModalOpen}
+                        //onClick={handleClickOpen}
+                        // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
+                      />
+                      <OutlinedButton
+                        size="small"
+                        buttonName="삭제"
+                        color="error"
+                        onClick={handleDelBtn}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Typography variant="subtitle1">운영 관리 정보</Typography>
+          <TableContainer sx={{ mb: 5 }}>
+            <Table>
+              <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>상태</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <FormControlLabel
+                        sx={{ color: "red", mr: 1 }}
+                        label="사용자를 차단 합니다."
+                        control={
+                          <Checkbox
+                            checked={checked}
+                            size="small"
+                            {...register("isAcs")}
+                          />
+                        }
+                      />
+                      <Typography variant="body1">
+                        (차단된 사용자는 주문서 작성 화면에 로그인 할 수
+                        없습니다.)
+                      </Typography>
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>메모</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <InputValidation
+                      fullWidth={true}
+                      multiline
+                      rows={4}
+                      register={register}
+                      inputName="memo"
+                      errorMessage={false}
+                    />
+                  </TD>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+
+          <Stack direction="row" spacing={0.5} justifyContent="center">
+            <OutlinedButton
+              buttonName="목록"
+              onClick={() => router.push("/cust/cust-list")}
+            />
+            <ContainedButton
+              buttonName="저장"
+              type="submit"
+              //onClick={onSubmit}
+              //onClick={handleSave}
+            />
+          </Stack>
+
+          <Box sx={{ mb: 5 }}>
+            <Typography variant="subtitle1" sx={{ mt: 5 }}>
+              고객정보 수정 로그
+            </Typography>
+            <Typography variant="body2" sx={{ mb: 1 }}>
+              고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난
+              로그는 자동으로 삭제됩니다.
+            </Typography>
+
+            <LazyCustModifyLog slug={slug} />
+          </Box>
+
+          {/* 거래처 검색 모달 */}
+          {showAgncSearchModal && (
+            <LazyAgncSearchModal
+              onClose={agncSearchModalClose}
+              open={showAgncSearchModal}
+              modalWidth={800}
+            />
+          )}
+        </Box>
+      </Container>
+    </FormProvider>
   );
 }
