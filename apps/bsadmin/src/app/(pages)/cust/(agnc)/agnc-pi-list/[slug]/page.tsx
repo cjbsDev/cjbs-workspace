@@ -41,26 +41,24 @@ interface DataItem {
   leaderNm: string;
   isAcs: string;
   ukey: any;
+  custUkey: string;
 }
 
 export default function AgncPage({ params }: CustViewProps) {
+  // init
   const { slug } = params;
   const router = useRouter();
 
-  const { data: agncTempData, error: custError } = useSWR(
+  // load
+  const { data: agncTempData } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${slug}`,
     fetcher
   );
 
-  useEffect(() => {
-    if (custError) {
-      console.log("Failed to load");
-    }
-  }, [custError]);
-
   if (!agncTempData) {
     return <div>Loading...</div>;
   }
+
   const agncData = agncTempData.data;
   const agncCustList: DataItem[] = agncTempData.data.custDetail;
 
@@ -141,7 +139,7 @@ export default function AgncPage({ params }: CustViewProps) {
             </TableRow>
 
             {agncCustList.map((dataItem, index) => (
-              <TableRow key={dataItem.ukey}>
+              <TableRow key={dataItem.custUkey}>
                 <TD>{index + 1}</TD>
                 <TD>{dataItem.isLeader === "Y" ? "리더" : "일반"}</TD>
                 <TD>{dataItem.leaderEmail}</TD>
@@ -164,7 +162,7 @@ export default function AgncPage({ params }: CustViewProps) {
               </TD>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {agncData.bsnsNm ?? "-"}
+                {agncData.bsnsManagedByNm ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -189,7 +187,9 @@ export default function AgncPage({ params }: CustViewProps) {
         />
         <ContainedButton
           buttonName="수정"
-          onClick={() => router.push("cust/agnc-pi-modify" + agncData.agncUkey)}
+          onClick={() =>
+            router.push("cust/agnc-pi-modify/" + agncData.agncUkey)
+          }
         />
       </Stack>
     </Container>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import axios from "axios";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
@@ -16,45 +16,48 @@ const MemberDataTable = () => {
 
   const filteredData = data.data.custList;
 
-  const columns = [
-    {
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-    {
-      name: "리더",
-      cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
-        <>
-          <LeaderCip />
-        </>
-      ),
-    },
-    {
-      name: "아이디",
-      cell: (row: { leaderNm: any; leaderEmail: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.leaderNm ?? "-"} </Box>
-            <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "150px",
-    },
-    {
-      name: "이름",
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-    {
-      name: "상태",
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+      {
+        name: "리더",
+        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
+          <>
+            <LeaderCip />
+          </>
+        ),
+      },
+      {
+        name: "아이디",
+        cell: (row: { leaderNm: any; leaderEmail: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.leaderNm ?? "-"} </Box>
+              <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
+      },
+      {
+        name: "이름",
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+      {
+        name: "상태",
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+    ],
+    []
+  );
 
   return (
     <DataTableBase
