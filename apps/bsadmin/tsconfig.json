@@ -8,7 +8,7 @@
       }
     ],
     "paths": {
-      "@components/*": ["/packages/cjbsDSTM/*"]
+//      "@app/*": ["./src/app/*"]
     }
   },
   "extends": "tsconfig/nextjs.json",

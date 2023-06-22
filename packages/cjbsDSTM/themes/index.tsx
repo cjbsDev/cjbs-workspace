@@ -119,10 +119,12 @@ export const cjbsTheme = createTheme({
           },
         },
         {
-          props: { variant: "xSmall" },
+          props: { variant: "xSmall", color: "secondary" },
           style: {
-            padding: 0,
-            border: `1px solid #006ecd`,
+            padding: "0 6px",
+            border: "1px solid #CED4DA",
+            borderRadius: "2px",
+            fontSize: 14,
           },
         },
       ],

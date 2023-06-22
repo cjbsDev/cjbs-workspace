@@ -3,8 +3,8 @@ pipeline {
     stages {
       stage("React Build") {
         steps {
-          sh "cd / pnpm install"
-          sh "cd apps/bsadmin pnpm build"
+          sh "pnpm install"
+          sh "turbo run build --filter=bsadmin…"
         }
     }
     stage('Finish') {

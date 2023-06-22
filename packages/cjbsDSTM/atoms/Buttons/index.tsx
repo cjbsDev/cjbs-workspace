@@ -49,6 +49,16 @@ export const ContainedButton = ({
 export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
+      <Button {...props} variant="outlined">
+        <Typography variant="buttonMD">{buttonName}</Typography>
+      </Button>
+    </ThemeProvider>
+  );
+};
+
+export const XsmallButton = ({ buttonName, ...props }: CustomButtonProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
       <Button {...props} variant="xSmall">
         <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>

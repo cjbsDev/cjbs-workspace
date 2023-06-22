@@ -82,6 +82,8 @@ import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import AgncSearchModal from "./AgncSearchModal";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
 
 const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
   ssr: false,
@@ -109,13 +111,11 @@ const PageWithDataTable = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [address, setAddress] = useState<string>("");
   const router = useRouter();
-  // const {
-  //   setValue,
-  //   register,
-  //   handleSubmit,
-  //   // Read the formState before render to subscribe the form state through the Proxy
-  //   formState: { errors, isDirty, isSubmitting, touchedFields, submitCount },
-  // } = useForm();
+  const [memberManagementModalOpen, setMemberManagementModalOpen] =
+    useRecoilState(memberManagementModalAtom);
+  const getMemberManagementModalOpen = useRecoilValue(
+    memberManagementModalAtom
+  );
 
   const methods = useForm();
   const onSubmit = (data: any) => {
@@ -154,14 +154,16 @@ const PageWithDataTable = () => {
   };
 
   // Open the member management modal
-  const handleOpenModal = (): void => {
-    setShowModal(true);
+  const handleMemberOpenModal = (): void => {
+    // setShowModal(true);
+    setMemberManagementModalOpen(true);
   };
 
   // 맴버 관리 모달 닫기
   // Close the member management modal
-  const handleCloseModal = (): void => {
-    setShowModal(false);
+  const handleMemberCloseModal = (): void => {
+    // setShowModal(false);
+    setMemberManagementModalOpen(false);
   };
 
   // Handle customer selection in the left table
@@ -311,11 +313,10 @@ const PageWithDataTable = () => {
                         errorMessage="소속기관을 입력해 주세요."
                       />
 
-                      <ContainedButton
+                      <OutlinedButton
                         size="small"
                         buttonName="기관 검색"
                         onClick={agncSearchModalOpen}
-                        color="secondary"
                       />
                     </Stack>
                   </TD>
@@ -349,11 +350,10 @@ const PageWithDataTable = () => {
                           inputName="zoneCode"
                           errorMessage={false}
                         />
-                        <ContainedButton
+                        <OutlinedButton
                           size="small"
                           buttonName="우편번호 찾기"
                           onClick={handlePostAddressClick}
-                          color="secondary"
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
@@ -452,7 +452,11 @@ const PageWithDataTable = () => {
         </Box>
 
         {/* Member Management Modal */}
-        <Dialog open={showModal} onClose={handleCloseModal} maxWidth="lg">
+        <Dialog
+          open={getMemberManagementModalOpen}
+          onClose={handleMemberCloseModal}
+          maxWidth="lg"
+        >
           <DialogTitle>고객 검색</DialogTitle>
           <DialogContent>
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -559,7 +563,7 @@ const PageWithDataTable = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <Button variant="contained" onClick={handleCloseModal}>
+                <Button variant="contained" onClick={handleMemberCloseModal}>
                   Close
                 </Button>
               </Grid>

@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useMemo } from "react";
 import axios from "axios";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
 import useSWR from "swr";
-import { DataTableBase, LeaderCip, OutlinedButton, Title1 } from "cjbsDSTM";
+import {
+  DataTableBase,
+  LeaderCip,
+  OutlinedButton,
+  Title1,
+  XsmallButton,
+} from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { useSetRecoilState } from "recoil";
+
+import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
+
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const MemberDataTable = () => {
+  const setMemberManagementModalOpen = useSetRecoilState(
+    memberManagementModalAtom
+  );
+
   let tempUrl =
     "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
   const { data } = useSWR(tempUrl, fetcher, {
@@ -16,56 +30,63 @@ const MemberDataTable = () => {
 
   const filteredData = data.data.custList;
 
-  const columns = [
-    {
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-    {
-      name: "리더",
-      cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
-        <>
-          <LeaderCip />
-        </>
-      ),
-    },
-    {
-      name: "아이디",
-      cell: (row: { leaderNm: any; leaderEmail: any }) => (
-        <>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            useFlexGap
-            flexWrap="wrap"
-          >
-            <Box>{row.leaderNm ?? "-"} </Box>
-            <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
-          </Stack>
-        </>
-      ),
-      minWidth: "150px",
-    },
-    {
-      name: "이름",
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-    {
-      name: "상태",
-      selector: (row: { agncId: number }) => row.agncId,
-    },
-  ];
+  const columns = useMemo(
+    () => [
+      {
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+      {
+        name: "리더",
+        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
+          <>
+            <LeaderCip />
+          </>
+        ),
+      },
+      {
+        name: "아이디",
+        cell: (row: { leaderNm: any; leaderEmail: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.leaderNm ?? "-"} </Box>
+              <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
+      },
+      {
+        name: "이름",
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+      {
+        name: "상태",
+        selector: (row: { agncId: number }) => row.agncId,
+      },
+    ],
+    []
+  );
+
+  const handleModalOpen = () => {
+    setMemberManagementModalOpen(true);
+  };
 
   return (
     <DataTableBase
       title={
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="subtitle1">맴버( 총 15명 )</Typography>
-          <OutlinedButton
+          <XsmallButton
             buttonName="멤버관리"
-            size="small"
             color="secondary"
-            // onClick={handleOpenModal}
+            endIcon={<MyIcon icon="cheveron-right" size={20} />}
+            onClick={handleModalOpen}
           />
         </Stack>
       }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -52,35 +52,39 @@ const AgncSearchModal = ({
 
   console.log("Modal data", data.data);
 
-  const columns = [
-    {
-      name: "사업자등록번호",
-      selector: (row) => row.agncId,
-    },
-    {
-      name: "분류",
-      selector: (row) => row.agncNm,
-    },
-    {
-      name: "특성",
-      selector: (row) => row.instNm,
-    },
-    {
-      name: "선택",
-      cell: (row) => {
-        return (
-          <OutlinedButton
-            size="small"
-            buttonName="선택"
-            onClick={() => {
-              setValue("belongAgnc", row.agncNm);
-              onClose();
-            }}
-          />
-        );
+  // useMemo will only be created once
+  const columns = useMemo(
+    () => [
+      {
+        name: "사업자등록번호",
+        selector: (row) => row.agncId,
       },
-    },
-  ];
+      {
+        name: "분류",
+        selector: (row) => row.agncNm,
+      },
+      {
+        name: "특성",
+        selector: (row) => row.instNm,
+      },
+      {
+        name: "선택",
+        cell: (row) => {
+          return (
+            <OutlinedButton
+              size="small"
+              buttonName="선택"
+              onClick={() => {
+                setValue("belongAgnc", row.agncNm);
+                onClose();
+              }}
+            />
+          );
+        },
+      },
+    ],
+    []
+  );
 
   const filteredData = data.data.agncList.filter(
     (item) =>
