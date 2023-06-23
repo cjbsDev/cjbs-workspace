@@ -1,24 +1,3 @@
-/*
-  230623 PLAN 
-
-  1. 기본 정보 세팅  // ~12시 30분 
-    - 소속 기관 
-    - 거래처 중복 확인 /agnc/duplicate/{agncNm}
-    - 등록전 기본 정보 확인
-    - 등록하기 ( 소속기관,거래처,우편번호 포함 주소 + 다른 값들은 상수 값 ) 
-  2. 맴버 정보 세팅  // ~16시
-    - Load ( 맴버 정보 ) 
-    - 고객 -> 맴버 설정 ( 추가 ) 
-    - 고객 -> 맴버 설정 ( 삭제 )
-    - 고객 -> 맴버 설정 ( 리더 설정 - 디폴트 1번째 맴버 ) 
-    - 고객 -> 맴버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
-    - 등록하기 ( 기본 정보 + 맴버 정보 + 운영 상수값 )
-  3. 운영 관리 정보 // ~17시
-    - 이벤트 설정 ( 상태, 영업 담당자, 메모 )
-    - Load ( 기본 정보 + 운영 관리 + 맴버 정보 )
-    - 등록하기 ( 전체 ) 
-*/
-
 "use client";
 import React, { useState } from "react";
 import {
@@ -69,7 +48,6 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 import AgncSearchModal from "./InstSearchModal";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
-import axios from "axios";
 
 const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
   ssr: false,
@@ -106,22 +84,14 @@ const AgncAdd = () => {
   const getMemberManagementModalOpen = useRecoilValue(
     memberManagementModalAtom
   );
-  const [selectedValue, setSelectedValue] = useState<number | "">(10);
-
   const methods = useForm();
-  const {
-    register,
-    formState: { errors },
-    getValues,
-    setValue,
-  } = methods;
 
   // event
 
   const handlePostAddressComplete = (data) => {
     console.log("Post code data ==>>", data);
     let fullAddress = data.address;
-    let zip = data.zonecode;
+    let zonecode = data.zonecode;
     let extraAddress = "";
 
     if (data.addressType === "R") {
@@ -136,8 +106,8 @@ const AgncAdd = () => {
     }
 
     // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zip", zip);
-    setValue("addr", fullAddress);
+    methods.setValue("zoneCode", zonecode);
+    methods.setValue("agncAddress", fullAddress);
   };
 
   const handlePostAddressClick = () => {
@@ -210,45 +180,56 @@ const AgncAdd = () => {
   //   console.log("Selected Customers:", selectedCustomers);
   //   console.log("Selected Status:", selectedStatus);
   //   handleCloseModal();
-  // };  12 x 3 36   11  19     16  25     25
+  // };
 
   // function
 
   const onSubmit = (data: any) => {
     console.log("Submit Click!!!!!");
     console.log("formData ==>> ", data);
-
-    let saveObj = {
-      instUkey: data.instUkey,
-      agncNm: data.agncNm,
-      addr: data.addr,
-      addrDetail: data.addrDetail,
-      zip: data.zip,
-      custDetailList: [],
-      isSpecialMng: "Y",
-      bsnsManagedByUkey: "user656014",
-      memo: data.memo,
-    };
-    console.log("==saveObj", saveObj);
-
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
-
-    axios
-      .post(apiUrl, saveObj)
-      .then((response) => {
-        console.log("PUT request successful:", response.data);
-        if (response.data.success) {
-          //router.push("/cust/cust-list/" + slug);
-        }
-      })
-      .catch((error) => {
-        console.error("PUT request failed:", error);
-      });
   };
 
   const open = useDaumPostcodePopup(
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
   );
+
+  // Sample customer data
+  const customerData: Customer[] = [
+    {
+      id: 1,
+      name: "John Doe",
+      email: "johndoe@example.com",
+      account: "Account 1",
+      status: "Active",
+    },
+    {
+      id: 2,
+      name: "Jane Smith",
+      email: "janesmith@example.com",
+      account: "Account 2",
+      status: "Inactive",
+    },
+    // Add more customer objects as needed
+  ];
+
+  // Sample selected data
+  const selectedData: Customer[] = [
+    {
+      id: 3,
+      name: "Alice Johnson",
+      email: "alicejohnson@example.com",
+      account: "Account 3",
+      status: "Active",
+    },
+    {
+      id: 4,
+      name: "Bob Williams",
+      email: "bobwilliams@example.com",
+      account: "Account 4",
+      status: "Inactive",
+    },
+    // Add more selected objects as needed
+  ];
 
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -256,37 +237,6 @@ const AgncAdd = () => {
 
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
-  };
-
-  const handleSelectChangeBSMng = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedValue(event.target.value as number);
-  };
-
-  // 거래처 중복 확인
-  const getAgncDuplicate = async () => {
-    let getAgncNm = getValues("agncNm");
-    console.log("getAgncNm", getAgncNm);
-    if (getAgncNm) {
-      const apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/duplicate/` +
-        getAgncNm; // Replace with your API URL
-
-      try {
-        const getAgncDuplicateData = await axios.get(apiUrl);
-        console.log(getAgncDuplicateData.data);
-      } catch (error) {
-        console.info("거래처 중복확인 Error", error);
-      }
-      // 문제 없다는 리턴 혹은 메세지 해줘야 하고, check set true 필요
-      // 혹은 이미 같은 이름으로 저장된 거래처 명이 있다는 것을 알려줘야 하고, check set false 필요
-      return true;
-    } else {
-      // 중복 체크할 거래처명이 없다는 것을 리턴해야함.
-      console.info("거래처명을 입력해주세요.");
-      return false;
-    }
   };
 
   return (
@@ -322,21 +272,17 @@ const AgncAdd = () => {
                     >
                       <InputValidation
                         disabled={true}
-                        error={errors.instNm ? true : false}
-                        helperText={errors.instNm?.message ?? null}
-                        register={register}
-                        inputName="instNm"
+                        error={
+                          methods.formState.errors.belongAgnc ? true : false
+                        }
+                        helperText={
+                          methods.formState.errors.belongAgnc
+                            ? methods.formState.errors.belongAgnc?.message
+                            : null
+                        }
+                        register={methods.register}
+                        inputName="belongAgnc"
                         errorMessage="소속기관을 입력해 주세요."
-                      />
-
-                      <InputValidation
-                        disabled={true}
-                        sx={{ display: "none" }}
-                        register={register}
-                        inputName="instUkey"
-                        error={errors.instUkey ? true : false}
-                        helperText={errors.instUkey?.message ?? null}
-                        errorMessage="필수 값입니다."
                       />
 
                       <OutlinedButton
@@ -352,21 +298,15 @@ const AgncAdd = () => {
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        error={errors.agncNm ? true : false}
-                        helperText={errors.agncNm?.message ?? null}
-                        register={register}
-                        inputName="agncNm"
-                        errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
+                        error={methods.formState.errors.agncPI ? true : false}
+                        helperText={
+                          methods.formState.errors.agncPI
+                            ? methods.formState.errors.agncPI?.message
+                            : null
                         }
-                      />
-
-                      <OutlinedButton
-                        size="small"
-                        buttonName="중복 확인"
-                        onClick={getAgncDuplicate}
+                        register={methods.register}
+                        inputName="agncPI"
+                        errorMessage="거래처(PI)를 입력해 주세요."
                       />
                     </Stack>
                   </TD>
@@ -378,10 +318,9 @@ const AgncAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          register={register}
-                          inputName="zip"
+                          register={methods.register}
+                          inputName="zoneCode"
                           errorMessage={false}
-                          placeholder="zip code"
                         />
                         <OutlinedButton
                           size="small"
@@ -392,19 +331,16 @@ const AgncAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          sx={{ width: 550 }}
-                          register={register}
-                          inputName="addr"
+                          sx={{ width: 380 }}
+                          register={methods.register}
+                          inputName="agncAddress"
                           errorMessage={false}
                         />
-                      </Stack>
-                      <Stack direction="row" spacing={0.5}>
                         <InputValidation
-                          sx={{ width: 550 }}
-                          register={register}
-                          inputName="addrDetail"
+                          sx={{ width: 380 }}
+                          register={methods.register}
+                          inputName="agncAddressDetail"
                           errorMessage={false}
-                          placeholder="상세주소"
                         />
                       </Stack>
                     </Stack>
@@ -430,7 +366,10 @@ const AgncAdd = () => {
                     <FormControlLabel
                       label="특별 관리(SP)하는 거래처 입니다"
                       control={
-                        <Checkbox size="small" {...register("isSpecialMng")} />
+                        <Checkbox
+                          size="small"
+                          {...methods.register("statussss")}
+                        />
                       }
                     />
                   </TD>
@@ -439,11 +378,9 @@ const AgncAdd = () => {
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Select
-                      {...register("bsnsManagedByUkey")}
+                      {...methods.register("sales")}
                       size="small"
                       sx={{ width: 200 }}
-                      value={selectedValue}
-                      onChange={handleSelectChangeBSMng}
                     >
                       <MenuItem value={10}>Ten</MenuItem>
                       <MenuItem value={20}>Twenty</MenuItem>
@@ -458,8 +395,8 @@ const AgncAdd = () => {
                       fullWidth={true}
                       multiline
                       rows={4}
-                      register={register}
-                      inputName="memo"
+                      register={methods.register}
+                      inputName="agncMemo"
                       errorMessage={false}
                     />
                   </TD>

@@ -112,7 +112,7 @@ const ListAgnc = () => {
 
       {
         name: "영업 담당자",
-        selector: (row: { bsnsManagedByNm: any }) => row.bsnsManagedByNm,
+        selector: (row: { bsnsNm: any }) => row.bsnsNm,
       },
 
       {
@@ -144,7 +144,7 @@ const ListAgnc = () => {
 
   const filteredData = data.data.agncList;
 
-  console.log("data", data);
+  console.log("filteredData", filteredData);
   console.log(
     "data.data.pageInfo.totalElements",
     data.data.pageInfo.totalElements

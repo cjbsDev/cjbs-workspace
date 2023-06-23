@@ -26,8 +26,10 @@ import {
   ListItemText,
   Radio,
   Stack,
+  useTheme,
   Typography,
 } from "@mui/material";
+
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
 import axios from "axios";
@@ -55,10 +57,11 @@ const MemberMngtNewModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+  const theme = useTheme();
   const [perPage, setPerPage] = useState(3);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page${pageIndex}.page=1&page.size=${perPage}`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -75,25 +78,90 @@ const MemberMngtNewModal = ({
     () => [
       {
         name: "고객",
-        selector: (row) => row.agncId,
+        cell: (row: { custNm: any; ebcEmail: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={0.4}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.custNm}</Box>
+              {/*
+              <Box>
+
+                <Chip
+                  icon={
+                    <MyIcon
+                      icon="profile-circle-fill"
+                      size={16}
+                      color={theme.palette.primary.main}
+                    />
+                  }
+                  label={"Leader"}
+                  size="small"
+                  sx={{
+                    backgroundColor: "#E6F0FA",
+                    color: "#006ECD",
+                  }}
+                />
+              </Box>
+               */}
+              <Box>{row.ebcEmail}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
       },
       {
         name: "거래처(PI)",
-        selector: (row) => row.agncNm,
+        cell: (row: { agncNm: any; instNm: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={0.4}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.agncNm}</Box>
+              <Box>{row.instNm}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
       },
+
       {
         name: "상태",
-        selector: (row) => row.instNm,
+        cell: (row: { isAcs: any }) => (
+          <>
+            <Stack
+              direction="row"
+              spacing={0.4}
+              alignItems="center"
+              useFlexGap
+              flexWrap="wrap"
+            >
+              <Box>{row.isAcs == "Y" ? "사용" : "차단"}</Box>
+            </Stack>
+          </>
+        ),
+        minWidth: "150px",
       },
     ],
     []
   );
 
-  const filteredData = data.data.agncList.filter(
+  const filteredData = data.data.custList;
+  /*
+  const filteredData = data.data.custList.filter(
     (item) =>
       item.agncNm &&
       item.agncNm.toLowerCase().includes(filterText.toLowerCase())
   );
+  */
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {

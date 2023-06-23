@@ -38,10 +38,10 @@ const AgncSearchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(3);
+  const [perPage, setPerPage] = useState(30);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page${pageIndex}.page=1&page.size=${perPage}`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -50,22 +50,26 @@ const AgncSearchModal = ({
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { register, setValue } = useFormContext();
 
-  console.log("Modal data", data.data);
+  //console.log("Modal data", data.data);
 
   // useMemo will only be created once
   const columns = useMemo(
     () => [
       {
         name: "사업자등록번호",
-        selector: (row) => row.agncId,
+        selector: (row) => row.brno,
+      },
+      {
+        name: "기관명",
+        selector: (row) => row.instNm,
       },
       {
         name: "분류",
-        selector: (row) => row.agncNm,
+        selector: (row) => row.instTypeCc,
       },
       {
         name: "특성",
-        selector: (row) => row.instNm,
+        selector: (row) => row.ftr,
       },
       {
         name: "선택",
@@ -75,7 +79,8 @@ const AgncSearchModal = ({
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("belongAgnc", row.agncNm);
+                setValue("instUkey", row.instUkey);
+                setValue("instNm", row.instNm);
                 onClose();
               }}
             />
@@ -86,11 +91,14 @@ const AgncSearchModal = ({
     []
   );
 
-  const filteredData = data.data.agncList.filter(
+  const filteredData = data.data.instList;
+  /*
+  const filteredData = data.data.instList.filter(
     (item) =>
       item.agncNm &&
       item.agncNm.toLowerCase().includes(filterText.toLowerCase())
   );
+  */
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -131,7 +139,7 @@ const AgncSearchModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>기관검색</ModalTitle>
+      <ModalTitle onClose={onClose}>기관 검색</ModalTitle>
       <DialogContent>
         <DataTableBase
           data={filteredData}
