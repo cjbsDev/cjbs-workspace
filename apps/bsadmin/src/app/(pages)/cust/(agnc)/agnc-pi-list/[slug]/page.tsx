@@ -60,6 +60,8 @@ export default function AgncPage({ params }: CustViewProps) {
   }
 
   const agncData = agncTempData.data;
+  console.log("agncData", agncData);
+
   const agncCustList: DataItem[] = agncTempData.data.custDetail;
 
   return (

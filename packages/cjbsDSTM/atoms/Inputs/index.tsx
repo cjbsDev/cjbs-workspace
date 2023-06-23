@@ -11,6 +11,7 @@ import { ThemeProvider } from "@mui/material/styles";
 
 type InputValidationProps = TextFieldProps & {
   inputName: string;
+  placeholder?: string;
   errorMessage: string | boolean;
   register: any;
 };
