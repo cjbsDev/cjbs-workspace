@@ -109,7 +109,8 @@ export default function AgncPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>주소</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
-                {agncData.addrDetail ?? "-"}
+                {agncData.zip ? "[" + agncData.zip + "]" : ""}{" "}
+                {agncData.addr ?? "-"} {agncData.addrDetail ?? ""}
               </TD>
             </TableRow>
           </TableBody>
@@ -117,7 +118,7 @@ export default function AgncPage({ params }: CustViewProps) {
       </TableContainer>
 
       <Typography variant="subtitle1">
-        맴버( 총 {agncCustList.length}명 )
+        멤버( 총 {agncCustList.length}명 )
       </Typography>
       <TableContainer component={Box} sx={{ mb: 5 }}>
         <Table>
@@ -185,12 +186,12 @@ export default function AgncPage({ params }: CustViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("cust/agnc-pi-list")}
+          onClick={() => router.push("/cust/agnc-pi-list")}
         />
         <ContainedButton
           buttonName="수정"
           onClick={() =>
-            router.push("cust/agnc-pi-modify/" + agncData.agncUkey)
+            router.push("/cust/agnc-pi-modify/" + agncData.agncUkey)
           }
         />
       </Stack>

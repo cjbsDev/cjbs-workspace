@@ -1,21 +1,22 @@
 /*
   230623 PLAN 
 
-  1. 기본 정보 세팅  // ~12시 30분 
+  1. 기본 정보 세팅  // 완료
     - 소속 기관 
     - 거래처 중복 확인 /agnc/duplicate/{agncNm}
     - 등록전 기본 정보 확인
     - 등록하기 ( 소속기관,거래처,우편번호 포함 주소 + 다른 값들은 상수 값 ) 
-  2. 맴버 정보 세팅  // ~16시
-    - Load ( 맴버 정보 ) 
-    - 고객 -> 맴버 설정 ( 추가 ) 
-    - 고객 -> 맴버 설정 ( 삭제 )
-    - 고객 -> 맴버 설정 ( 리더 설정 - 디폴트 1번째 맴버 ) 
-    - 고객 -> 맴버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
-    - 등록하기 ( 기본 정보 + 맴버 정보 + 운영 상수값 )
-  3. 운영 관리 정보 // ~17시
+    
+  2. 멤버 정보 세팅  // ~17시
+    - Load ( 멤버 정보 ) 
+    - 고객 -> 멤버 설정 ( 추가 ) 
+    - 고객 -> 멤버 설정 ( 삭제 )
+    - 고객 -> 멤버 설정 ( 리더 설정 - 디폴트 1번째 멤버 ) 
+    - 고객 -> 멤버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
+    - 등록하기 ( 기본 정보 + 멤버 정보 + 운영 상수값 )
+  3. 운영 관리 정보 // 27일
     - 이벤트 설정 ( 상태, 영업 담당자, 메모 )
-    - Load ( 기본 정보 + 운영 관리 + 맴버 정보 )
+    - Load ( 기본 정보 + 운영 관리 + 멤버 정보 )
     - 등록하기 ( 전체 ) 
 */
 
@@ -84,12 +85,20 @@ const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
   ssr: false,
 });
 
-interface Customer {
-  id: number;
-  name: string;
-  email: string;
-  account: string;
-  status: string;
+interface FormData {
+  instUkey?: string;
+  agncNm?: string;
+  addr?: string;
+  addrDetail?: string;
+  zip?: string;
+  custDetailList?: string[];
+  isSpecialMng?: string;
+  bsnsManagedByUkey?: string;
+  memo?: string;
+}
+
+interface IData {
+  data: FormData;
 }
 
 const AgncAdd = () => {
@@ -150,7 +159,7 @@ const AgncAdd = () => {
     setMemberManagementModalOpen(true);
   };
 
-  // 맴버 관리 모달 닫기
+  // 멤버 관리 모달 닫기
   // Close the member management modal
   const handleMemberCloseModal = (): void => {
     // setShowModal(false);
@@ -167,50 +176,6 @@ const AgncAdd = () => {
       setSelectedCustomers([...selectedCustomers, customerId]);
     }
   };
-
-  // 선택된 항목 삭제
-  // Handle removal of selected customers from the right table
-  const handleRemoveSelected = (): void => {
-    // Remove selected customers from the right table
-    // You can implement this functionality based on your specific requirements
-  };
-
-  // Handle select all customers in the left table
-  // const handleSelectAllCustomers = (): void => {
-  //   const allCustomers = customerData.map((customer) => customer.id);
-  //
-  //   if (selectedCustomers.length === allCustomers.length) {
-  //     setSelectedCustomers([]);
-  //   } else {
-  //     setSelectedCustomers(allCustomers);
-  //   }
-  // };
-
-  // Handle adding selected customers to the right table
-  const handleAddSelected = (): void => {
-    // Add selected customers to the right table
-    // You can implement this functionality based on your specific requirements
-  };
-
-  // Handle select all customers in the right table
-  // const handleSelectAllSelected = (): void => {
-  //   const allSelected = selectedData.map((customer) => customer.id);
-  //
-  //   if (selectedCustomers.length === allSelected.length) {
-  //     setSelectedCustomers([]);
-  //   } else {
-  //     setSelectedCustomers(allSelected);
-  //   }
-  // };
-
-  // Apply changes to the main data table on the page
-  // const handleApplyChanges = (): void => {
-  //   // Apply changes to the main data table on the page
-  //   // You can implement this functionality based on your specific requirements
-  //   console.log("Selected Customers:", selectedCustomers);
-  //   console.log("Selected Status:", selectedStatus);
-  //   handleCloseModal();
-  // };  12 x 3 36   11  19     16  25     25
 
   // function
 
@@ -303,7 +268,7 @@ const AgncAdd = () => {
           </Box>
 
           {/*<Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>*/}
-          {/*  <ContainedButton buttonName="맴버 관리" onClick={handleOpenModal} />*/}
+          {/*  <ContainedButton buttonName="멤버 관리" onClick={handleOpenModal} />*/}
           {/*</Stack>*/}
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -489,131 +454,11 @@ const AgncAdd = () => {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("cust-list")}
+              onClick={() => router.push("/cust/agnc-pi-list")}
             />
             <ContainedButton type="submit" buttonName="저장" />
           </Stack>
         </Box>
-
-        {/* Member Management Modal */}
-        {/*<Dialog*/}
-        {/*  open={getMemberManagementModalOpen}*/}
-        {/*  onClose={handleMemberCloseModal}*/}
-        {/*  maxWidth="lg"*/}
-        {/*>*/}
-        {/*  <DialogTitle>고객 검색</DialogTitle>*/}
-        {/*  <DialogContent>*/}
-        {/*    <div style={{ display: "flex", justifyContent: "space-between" }}>*/}
-        {/*      /!* Left Table - Customer List *!/*/}
-        {/*      <Table>*/}
-        {/*        <TableHead>*/}
-        {/*          <TableRow>*/}
-        {/*            <TableCell padding="checkbox">*/}
-        {/*              <Checkbox*/}
-        {/*                checked={*/}
-        {/*                  selectedCustomers.length === customerData.length*/}
-        {/*                }*/}
-        {/*                onChange={handleSelectAllCustomers}*/}
-        {/*              />*/}
-        {/*            </TableCell>*/}
-        {/*            <TableCell>고객</TableCell>*/}
-        {/*            <TableCell>이메일</TableCell>*/}
-        {/*            <TableCell>거래처(PI)</TableCell>*/}
-        {/*            <TableCell>상태</TableCell>*/}
-        {/*          </TableRow>*/}
-        {/*        </TableHead>*/}
-        {/*        <TableBody>*/}
-        {/*          {customerData.map((customer) => (*/}
-        {/*            <TableRow key={customer.id}>*/}
-        {/*              <TableCell padding="checkbox">*/}
-        {/*                <Checkbox*/}
-        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
-        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
-        {/*                />*/}
-        {/*              </TableCell>*/}
-        {/*              <TableCell>{customer.name}</TableCell>*/}
-        {/*              <TableCell>{customer.email}</TableCell>*/}
-        {/*              <TableCell>{customer.account}</TableCell>*/}
-        {/*              <TableCell>{customer.status}</TableCell>*/}
-        {/*            </TableRow>*/}
-        {/*          ))}*/}
-        {/*        </TableBody>*/}
-        {/*      </Table>*/}
-
-        {/*      /!* Buttons for moving customers *!/*/}
-        {/*      <div*/}
-        {/*        style={{*/}
-        {/*          display: "flex",*/}
-        {/*          flexDirection: "column",*/}
-        {/*          alignItems: "center",*/}
-        {/*        }}*/}
-        {/*      >*/}
-        {/*        <IconButton*/}
-        {/*          onClick={handleRemoveSelected}*/}
-        {/*          disabled={selectedCustomers.length === 0}*/}
-        {/*        >*/}
-        {/*          <ArrowLeft />*/}
-        {/*        </IconButton>*/}
-        {/*        <IconButton*/}
-        {/*          onClick={handleAddSelected}*/}
-        {/*          disabled={selectedCustomers.length === 0}*/}
-        {/*        >*/}
-        {/*          <ArrowRight />*/}
-        {/*        </IconButton>*/}
-        {/*      </div>*/}
-
-        {/*      /!* Right Table - Selected Customers *!/*/}
-        {/*      <Table>*/}
-        {/*        <TableHead>*/}
-        {/*          <TableRow>*/}
-        {/*            <TableCell padding="checkbox">*/}
-        {/*              <Checkbox*/}
-        {/*                checked={*/}
-        {/*                  selectedCustomers.length === selectedData.length*/}
-        {/*                }*/}
-        {/*                onChange={handleSelectAllSelected}*/}
-        {/*              />*/}
-        {/*            </TableCell>*/}
-        {/*            <TableCell>고객</TableCell>*/}
-        {/*            <TableCell>이메일</TableCell>*/}
-        {/*          </TableRow>*/}
-        {/*        </TableHead>*/}
-        {/*        <TableBody>*/}
-        {/*          {selectedData.map((customer) => (*/}
-        {/*            <TableRow key={customer.id}>*/}
-        {/*              <TableCell padding="checkbox">*/}
-        {/*                <Checkbox*/}
-        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
-        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
-        {/*                />*/}
-        {/*              </TableCell>*/}
-        {/*              <TableCell>{customer.name}</TableCell>*/}
-        {/*              <TableCell>{customer.email}</TableCell>*/}
-        {/*            </TableRow>*/}
-        {/*          ))}*/}
-        {/*        </TableBody>*/}
-        {/*      </Table>*/}
-        {/*    </div>*/}
-        {/*  </DialogContent>*/}
-        {/*  <DialogActions>*/}
-        {/*    <Grid container spacing={2} justifyContent="center">*/}
-        {/*      <Grid item>*/}
-        {/*        <Button*/}
-        {/*          variant="contained"*/}
-        {/*          color="primary"*/}
-        {/*          onClick={handleApplyChanges}*/}
-        {/*        >*/}
-        {/*          Check*/}
-        {/*        </Button>*/}
-        {/*      </Grid>*/}
-        {/*      <Grid item>*/}
-        {/*        <Button variant="contained" onClick={handleMemberCloseModal}>*/}
-        {/*          Close*/}
-        {/*        </Button>*/}
-        {/*      </Grid>*/}
-        {/*    </Grid>*/}
-        {/*  </DialogActions>*/}
-        {/*</Dialog>*/}
       </Container>
     </FormProvider>
   );

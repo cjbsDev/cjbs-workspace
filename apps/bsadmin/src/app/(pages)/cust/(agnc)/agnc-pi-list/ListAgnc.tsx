@@ -51,7 +51,7 @@ const ListAgnc = () => {
     //setSelectedRows(rows.map((row) => row.id));
   };
 
-  // 거래처 번호, 거래처(PI), 리더, 맴버, 선결제 금액, 영업 담당자, 메모
+  // 거래처 번호, 거래처(PI), 리더, 멤버, 선결제 금액, 영업 담당자, 메모
   const columns = useMemo(
     () => [
       {

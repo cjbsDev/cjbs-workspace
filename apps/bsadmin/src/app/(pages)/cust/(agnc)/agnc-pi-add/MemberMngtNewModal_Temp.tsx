@@ -4,19 +4,13 @@
  2. 멤버 정보 세팅  // ~17시
     - Load ( 멤버 정보 )  // ok
     - 고객 -> 멤버 설정 ( 추가 )  
-      - ">" 버튼 눌렀을 때 "왼쪽에서" 선택한 고객 리스트 가져오기 // ok
-      - ">" 버튼 눌렀을 때 오른쪽 테이블에 임의값 추가하기 // ok
-      - ">" 버튼 눌렀을 때 오른쪽 테이블에 왼쪽 선택한 고객 추가하기 // ok
-      
+      - ">" 버튼 눌렀을 때 "왼쪽에서" 선택한 고객 리스트 가져오기 
+      - ">" 버튼 눌렀을 때 오른쪽 테이블에 임의값 추가하기
+      - ">" 버튼 눌렀을 때 오른쪽 테이블에 왼쪽 선택한 고객 추가하기
     - 고객 -> 멤버 설정 ( 삭제 )
-      - "<" 버튼 눌렀을 때 선택한 고객 리스트 빼기 // ok
-      - useState 저장 // ok
-    - 등록시 초기 멤버 빈값 설정 // ok
-
-    - 등록하기 1차
-      - 확인 눌렀을 때 닫기
-      - 오른쪽 멤버 정보 가져오기 
-      - 멤버 관리 테이블에 해당 값 그리기
+      - "<" 버튼 눌렀을 때 "오른쪽에서" 선택한 고객 리스트 가져오기 
+      - "<" 버튼 눌렀을 때 선택한 고객 리스트 빼기
+      - useState 저장
 
     - 고객 -> 멤버 설정 ( 리더 설정 - 디폴트 1번째 멤버 ) 
     - 고객 -> 멤버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
@@ -72,24 +66,19 @@ import { useFormContext } from "react-hook-form";
 import MyIcon from "icon/myIcon";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import IconDescBar from "../../../../components/IconDescBar";
-import uuid from "react-uuid";
 
 interface DataRow {
-  custUkey: any;
-  custNm: string;
+  id: number;
+  member: string;
   isLeader: boolean;
 }
 
-const initialData: DataRow[] = [];
-
-/*
 const initialData: DataRow[] = [
-  { custUkey: "AA", custNm: "John Doe", isLeader: false },
-  { custUkey: "AB", custNm: "Jane Smith", isLeader: true },
-  { custUkey: "AC", custNm: "Bob Johnson", isLeader: false },
-  { custUkey: "AD", custNm: "Alice Williams", isLeader: false },
+  { id: 1, member: "John Doe", isLeader: false },
+  { id: 2, member: "Jane Smith", isLeader: true },
+  { id: 3, member: "Bob Johnson", isLeader: false },
+  { id: 4, member: "Alice Williams", isLeader: false },
 ];
-*/
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -109,12 +98,8 @@ const MemberMngtNewModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  // 왼쪽 row 세팅
-  const [selectedRows, setSelectedRows] = useState<any>([]);
-
-  // 멤버 정보 세팅
   const [memeberData, setMemberData] = useState<DataRow[]>(initialData);
-  const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
 
   const theme = useTheme();
   const [perPage, setPerPage] = useState(3);
@@ -130,7 +115,7 @@ const MemberMngtNewModal = ({
   const { register, setValue } = useFormContext();
   const [checked, setChecked] = useState([0]);
 
-  //console.log("Modal data", data.data);
+  console.log("Modal data", data.data);
 
   // useMemo will only be created once
   const columns = useMemo(
@@ -231,7 +216,6 @@ const MemberMngtNewModal = ({
     );
   }, [filterText, resetPaginationToggle]);
 
-  /*
   const handleToggle = (value: number) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -241,31 +225,27 @@ const MemberMngtNewModal = ({
     } else {
       newChecked.splice(currentIndex, 1);
     }
+
     setChecked(newChecked);
   };
-  */
 
-  // 멤버 관리 - 멤버 선택
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    custUkey: any
+    id: number
   ) => {
     if (event.target.checked) {
-      setSelectedMemberRows([...selectedMemberRows, custUkey]);
+      setSelectedRows([...selectedRows, id]);
     } else {
-      setSelectedMemberRows(
-        selectedMemberRows.filter((rowId) => rowId !== custUkey)
-      );
+      setSelectedRows(selectedRows.filter((rowId) => rowId !== id));
     }
   };
 
-  // 멤버 관리 - 리더 변경
   const handleRadioChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    custUkey: string
+    id: number
   ) => {
     const newData = memeberData.map((row) => {
-      if (row.custUkey === custUkey) {
+      if (row.id === id) {
         return { ...row, isLeader: true };
       } else {
         return { ...row, isLeader: false };
@@ -273,58 +253,20 @@ const MemberMngtNewModal = ({
     });
     setMemberData(newData);
   };
-
-  // 멤버 관리 - row 추가
   const handleAddRow = () => {
-    // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
-    console.log("---selectedRows", selectedRows);
-    //setSelectedRows(rows.selectedRows.map((row : any ) => row.custUkey));
-
-    // 문제1 : memeberData 체크해서 leader 가 없다면 리더로 체크
-    // 문제2 : 아래는 한 건만 들어감 한번에 들어가는 코드로 바꿔야함.
-
-    const newMemberDataList: DataRow[] = [];
-    selectedRows.selectedRows.map((row: any) => {
-      const newRow: DataRow = {
-        custUkey: row.custUkey,
-        custNm: row.custNm,
-        isLeader: false,
-      };
-      newMemberDataList.push(newRow);
-    });
-    //setMemberData([...memeberData, newRow]);
-    //console.log("--- newMemberDataList", newMemberDataList);
-    setMemberData((prevData) => [...prevData, ...newMemberDataList]);
-
-    // 추가 완료 되면 select 체크 박스 해제
+    const newId = memeberData.length + 1;
+    const newRow: DataRow = {
+      id: newId,
+      member: `New Member ${newId}`,
+      isLeader: false,
+    };
+    setMemberData([...memeberData, newRow]);
   };
 
-  // 멤버 관리 - row 삭제
   const handleDeleteRows = () => {
-    const newData = memeberData.filter(
-      (row) => !selectedMemberRows.includes(row.custUkey)
-    );
-    console.log("newData", newData);
-    // 반영될 데이터를 체크해서 리더가 없다면 첫번째 값을 리더로 설정한다.
-
+    const newData = memeberData.filter((row) => !selectedRows.includes(row.id));
     setMemberData(newData);
-    setSelectedMemberRows([]);
-  };
-
-  // 멤버 데이터 확인
-  const handleMembersInfo = () => {
-    console.log("memeberData", memeberData);
-    console.log("memeberData stringify", JSON.stringify(memeberData));
-  };
-
-  // 고객 선택된 row 정보 확인
-  const handleRowSelected = (rows: any) => {
-    console.log("rows", rows);
-    setSelectedRows(rows);
-    //setSelectedRows(rows.selectedRows.map((row : any ) => row.custUkey));
-
-    //setSelectedRowCnt(rows.selectedCount);
-    //setSelectedRows(rows.map((row) => row.custUkey));
+    setSelectedRows([]);
   };
 
   return (
@@ -339,7 +281,6 @@ const MemberMngtNewModal = ({
               pointerOnHover
               highlightOnHover
               customStyles={dataTableCustomStyles}
-              onSelectedRowsChange={handleRowSelected}
               subHeader
               subHeaderComponent={subHeaderComponentMemo}
               paginationResetDefaultPage={resetPaginationToggle}
@@ -356,63 +297,31 @@ const MemberMngtNewModal = ({
           </Grid>
           <Grid item xs={1}>
             <Grid container direction="column" alignItems="center">
-              <IconButton onClick={handleAddRow}>
+              <IconButton>
                 <MyIcon icon="cheveron-right" size={24} />
               </IconButton>
-              <IconButton onClick={handleDeleteRows}>
+              <IconButton>
                 <MyIcon icon="cheveron-left" size={24} />
               </IconButton>
             </Grid>
           </Grid>
-
-          <Grid item xs={4}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell></TableCell>
-                      <TableCell>멤버</TableCell>
-                      <TableCell>리더</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {memeberData.map((row: any) => (
-                      <TableRow key={row.custUkey}>
-                        <TableCell padding="checkbox">
-                          <Checkbox
-                            checked={selectedMemberRows.includes(row.custUkey)}
-                            onChange={(event) =>
-                              handleCheckboxChange(event, row.custUkey)
-                            }
-                          />
-                        </TableCell>
-                        <TableCell>{row.custNm}</TableCell>
-                        <TableCell>
-                          <Box display="flex" alignItems="center">
-                            <Radio
-                              checked={row.isLeader}
-                              onChange={(event) =>
-                                handleRadioChange(event, row.custUkey)
-                              }
-                            />
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Box>
-
-            {/* 
+          <Grid
+            item
+            xs={4}
+            sx={{ border: `1px solid ${cjbsTheme.palette.grey["400"]}` }}
+          >
+            {/*<Box*/}
+            {/*  sx={{*/}
+            {/*    display: "flex",*/}
+            {/*    justifyContent: "center",*/}
+            {/*    alignItems: "center",*/}
+            {/*    height: "100%",*/}
+            {/*    width: 200,*/}
+            {/*    border: `1px solid ${cjbsTheme.palette.grey["400"]}`,*/}
+            {/*  }}*/}
+            {/*>*/}
+            {/*  멤버를 추가해주세요.*/}
+            {/*</Box>*/}
             <List sx={{ width: "100%", bgcolor: "background.paper" }}>
               {[0, 1, 2, 3].map((value) => {
                 const labelId = `checkbox-list-label-${value}`;
@@ -453,7 +362,6 @@ const MemberMngtNewModal = ({
                 );
               })}
             </List>
-*/}
           </Grid>
         </Grid>
       </DialogContent>
@@ -469,7 +377,7 @@ const MemberMngtNewModal = ({
             buttonName="취소"
             // onClick={() => router.push("cust-list")}
           />
-          <ContainedButton buttonName="확인" onClick={handleMembersInfo} />
+          <ContainedButton buttonName="확인" />
         </Stack>
       </DialogActions>
     </ModalContainer>
