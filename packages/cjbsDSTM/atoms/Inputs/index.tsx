@@ -25,8 +25,8 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         sx={{
           ...props.sx,
           ".MuiOutlinedInput-input": {
-            pt: "3.5px",
-            pb: "3.5px",
+            pt: "5px",
+            pb: "5px",
           },
         }}
       />
@@ -49,8 +49,8 @@ export const InputValidation = ({
         sx={{
           ...props.sx,
           ".MuiOutlinedInput-input": {
-            pt: "3.4px",
-            pb: "3.4px",
+            pt: "5px",
+            pb: "5px",
           },
         }}
         {...register(inputName, {
