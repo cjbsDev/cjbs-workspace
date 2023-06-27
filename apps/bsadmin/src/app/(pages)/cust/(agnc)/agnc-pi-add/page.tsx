@@ -1,22 +1,22 @@
 /*
-  230623 PLAN 
+  230623 PLAN
 
-  1. 기본 정보 세팅  // ~12시 30분 
-    - 소속 기관 
+  1. 기본 정보 세팅  // ~12시 30분
+    - 소속 기관
     - 거래처 중복 확인 /agnc/duplicate/{agncNm}
     - 등록전 기본 정보 확인
-    - 등록하기 ( 소속기관,거래처,우편번호 포함 주소 + 다른 값들은 상수 값 ) 
+    - 등록하기 ( 소속기관,거래처,우편번호 포함 주소 + 다른 값들은 상수 값 )
   2. 맴버 정보 세팅  // ~16시
-    - Load ( 맴버 정보 ) 
-    - 고객 -> 맴버 설정 ( 추가 ) 
+    - Load ( 맴버 정보 )
+    - 고객 -> 맴버 설정 ( 추가 )
     - 고객 -> 맴버 설정 ( 삭제 )
-    - 고객 -> 맴버 설정 ( 리더 설정 - 디폴트 1번째 맴버 ) 
-    - 고객 -> 맴버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
+    - 고객 -> 맴버 설정 ( 리더 설정 - 디폴트 1번째 맴버 )
+    - 고객 -> 맴버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후
     - 등록하기 ( 기본 정보 + 맴버 정보 + 운영 상수값 )
   3. 운영 관리 정보 // ~17시
     - 이벤트 설정 ( 상태, 영업 담당자, 메모 )
     - Load ( 기본 정보 + 운영 관리 + 맴버 정보 )
-    - 등록하기 ( 전체 ) 
+    - 등록하기 ( 전체 )
 */
 
 "use client";
@@ -24,16 +24,12 @@ import React, { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
-  LinkButton,
   Title1,
   TH,
   TD,
   ErrorContainer,
   Fallback,
   InputValidation,
-  InputDefaultType,
-  ModalContainer,
-  ModalTitle,
 } from "cjbsDSTM";
 import {
   Typography,
@@ -392,7 +388,7 @@ const AgncAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          sx={{ width: 550 }}
+                          sx={{ width: 450 }}
                           register={register}
                           inputName="addr"
                           errorMessage={false}
@@ -400,7 +396,7 @@ const AgncAdd = () => {
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
-                          sx={{ width: 550 }}
+                          sx={{ width: 450 }}
                           register={register}
                           inputName="addrDetail"
                           errorMessage={false}
@@ -489,131 +485,11 @@ const AgncAdd = () => {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("cust-list")}
+              onClick={() => router.push("/cust/agnc-pi-list")}
             />
             <ContainedButton type="submit" buttonName="저장" />
           </Stack>
         </Box>
-
-        {/* Member Management Modal */}
-        {/*<Dialog*/}
-        {/*  open={getMemberManagementModalOpen}*/}
-        {/*  onClose={handleMemberCloseModal}*/}
-        {/*  maxWidth="lg"*/}
-        {/*>*/}
-        {/*  <DialogTitle>고객 검색</DialogTitle>*/}
-        {/*  <DialogContent>*/}
-        {/*    <div style={{ display: "flex", justifyContent: "space-between" }}>*/}
-        {/*      /!* Left Table - Customer List *!/*/}
-        {/*      <Table>*/}
-        {/*        <TableHead>*/}
-        {/*          <TableRow>*/}
-        {/*            <TableCell padding="checkbox">*/}
-        {/*              <Checkbox*/}
-        {/*                checked={*/}
-        {/*                  selectedCustomers.length === customerData.length*/}
-        {/*                }*/}
-        {/*                onChange={handleSelectAllCustomers}*/}
-        {/*              />*/}
-        {/*            </TableCell>*/}
-        {/*            <TableCell>고객</TableCell>*/}
-        {/*            <TableCell>이메일</TableCell>*/}
-        {/*            <TableCell>거래처(PI)</TableCell>*/}
-        {/*            <TableCell>상태</TableCell>*/}
-        {/*          </TableRow>*/}
-        {/*        </TableHead>*/}
-        {/*        <TableBody>*/}
-        {/*          {customerData.map((customer) => (*/}
-        {/*            <TableRow key={customer.id}>*/}
-        {/*              <TableCell padding="checkbox">*/}
-        {/*                <Checkbox*/}
-        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
-        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
-        {/*                />*/}
-        {/*              </TableCell>*/}
-        {/*              <TableCell>{customer.name}</TableCell>*/}
-        {/*              <TableCell>{customer.email}</TableCell>*/}
-        {/*              <TableCell>{customer.account}</TableCell>*/}
-        {/*              <TableCell>{customer.status}</TableCell>*/}
-        {/*            </TableRow>*/}
-        {/*          ))}*/}
-        {/*        </TableBody>*/}
-        {/*      </Table>*/}
-
-        {/*      /!* Buttons for moving customers *!/*/}
-        {/*      <div*/}
-        {/*        style={{*/}
-        {/*          display: "flex",*/}
-        {/*          flexDirection: "column",*/}
-        {/*          alignItems: "center",*/}
-        {/*        }}*/}
-        {/*      >*/}
-        {/*        <IconButton*/}
-        {/*          onClick={handleRemoveSelected}*/}
-        {/*          disabled={selectedCustomers.length === 0}*/}
-        {/*        >*/}
-        {/*          <ArrowLeft />*/}
-        {/*        </IconButton>*/}
-        {/*        <IconButton*/}
-        {/*          onClick={handleAddSelected}*/}
-        {/*          disabled={selectedCustomers.length === 0}*/}
-        {/*        >*/}
-        {/*          <ArrowRight />*/}
-        {/*        </IconButton>*/}
-        {/*      </div>*/}
-
-        {/*      /!* Right Table - Selected Customers *!/*/}
-        {/*      <Table>*/}
-        {/*        <TableHead>*/}
-        {/*          <TableRow>*/}
-        {/*            <TableCell padding="checkbox">*/}
-        {/*              <Checkbox*/}
-        {/*                checked={*/}
-        {/*                  selectedCustomers.length === selectedData.length*/}
-        {/*                }*/}
-        {/*                onChange={handleSelectAllSelected}*/}
-        {/*              />*/}
-        {/*            </TableCell>*/}
-        {/*            <TableCell>고객</TableCell>*/}
-        {/*            <TableCell>이메일</TableCell>*/}
-        {/*          </TableRow>*/}
-        {/*        </TableHead>*/}
-        {/*        <TableBody>*/}
-        {/*          {selectedData.map((customer) => (*/}
-        {/*            <TableRow key={customer.id}>*/}
-        {/*              <TableCell padding="checkbox">*/}
-        {/*                <Checkbox*/}
-        {/*                  checked={selectedCustomers.includes(customer.id)}*/}
-        {/*                  onChange={() => handleCustomerSelect(customer.id)}*/}
-        {/*                />*/}
-        {/*              </TableCell>*/}
-        {/*              <TableCell>{customer.name}</TableCell>*/}
-        {/*              <TableCell>{customer.email}</TableCell>*/}
-        {/*            </TableRow>*/}
-        {/*          ))}*/}
-        {/*        </TableBody>*/}
-        {/*      </Table>*/}
-        {/*    </div>*/}
-        {/*  </DialogContent>*/}
-        {/*  <DialogActions>*/}
-        {/*    <Grid container spacing={2} justifyContent="center">*/}
-        {/*      <Grid item>*/}
-        {/*        <Button*/}
-        {/*          variant="contained"*/}
-        {/*          color="primary"*/}
-        {/*          onClick={handleApplyChanges}*/}
-        {/*        >*/}
-        {/*          Check*/}
-        {/*        </Button>*/}
-        {/*      </Grid>*/}
-        {/*      <Grid item>*/}
-        {/*        <Button variant="contained" onClick={handleMemberCloseModal}>*/}
-        {/*          Close*/}
-        {/*        </Button>*/}
-        {/*      </Grid>*/}
-        {/*    </Grid>*/}
-        {/*  </DialogActions>*/}
-        {/*</Dialog>*/}
       </Container>
     </FormProvider>
   );

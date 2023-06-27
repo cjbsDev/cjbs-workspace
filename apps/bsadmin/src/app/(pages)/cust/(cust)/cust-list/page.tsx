@@ -17,14 +17,7 @@ export default function ManagementPage() {
   const [someKey, setSomeKey] = useState<boolean>(false);
 
   return (
-    <ErrorContainer
-      FallbackComponent={Fallback}
-      // onReset={() => {
-      //   console.log("::::");
-      //   setSomeKey(true);
-      // }}
-      // resetKeys={[someKey]}
-    >
+    <ErrorContainer FallbackComponent={Fallback}>
       <LazyListCust />
     </ErrorContainer>
   );
