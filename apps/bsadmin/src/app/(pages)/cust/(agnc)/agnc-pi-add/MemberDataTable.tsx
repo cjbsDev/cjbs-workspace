@@ -22,6 +22,7 @@ const MemberDataTable = () => {
     memberManagementModalAtom
   );
 
+  /*
   let tempUrl =
     "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
   const { data } = useSWR(tempUrl, fetcher, {
@@ -29,15 +30,22 @@ const MemberDataTable = () => {
   });
 
   const filteredData = data.data.custList;
+  */
+  const filteredData = [
+    { custUkey: "1BsCust", custNm: "윤성미", isLeader: false },
+    { custUkey: "2BsCust", custNm: "임재규", isLeader: false },
+    { custUkey: "3BsCust", custNm: "윤성미2", isLeader: false },
+  ];
 
   const columns = useMemo(
     () => [
       {
-        selector: (row: { agncId: number }) => row.agncId,
+        name: "코드",
+        selector: (row: { custUkey: string }) => row.custUkey,
       },
       {
         name: "리더",
-        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
+        cell: (row: { custNm: any }) => (
           <>
             <LeaderCip />
           </>
@@ -81,7 +89,7 @@ const MemberDataTable = () => {
     <DataTableBase
       title={
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle1">맴버( 총 15명 )</Typography>
+          <Typography variant="subtitle1">멤버( 총 15명 )</Typography>
           <XsmallButton
             buttonName="멤버관리"
             color="secondary"
