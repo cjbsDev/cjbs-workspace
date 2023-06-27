@@ -29,20 +29,14 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import useSWR from "swr";
 import axios from "axios";
-
-import AddIcon from "@mui/icons-material/Add";
-import RemoveIcon from "@mui/icons-material/Remove";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import MyIcon from "icon/myIcon";
-
 import { useForm, FormProvider } from "react-hook-form";
-
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import CustEBCInfo from "../../CustEBCInfo";
+import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
 
 const LazyCustModifyLog = dynamic(() => import("./CustModifyLog"), {
   ssr: false,
@@ -55,7 +49,7 @@ const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-interface paramsProps {
+interface ParamsProps {
   params: {
     slug: string;
   };
@@ -77,7 +71,7 @@ interface IData {
   data: FormData;
 }
 
-export default function CustModifyPage({ params }: paramsProps) {
+export default function CustModifyPage({ params }: ParamsProps) {
   // init
   const { slug } = params;
 
@@ -374,22 +368,11 @@ export default function CustModifyPage({ params }: paramsProps) {
               buttonName="목록"
               onClick={() => router.push("/cust/cust-list")}
             />
-            <ContainedButton
-              buttonName="저장"
-              type="submit"
-              //onClick={onSubmit}
-              //onClick={handleSave}
-            />
+            <ContainedButton buttonName="저장" type="submit" />
           </Stack>
 
           <Box sx={{ mb: 5 }}>
-            <Typography variant="subtitle1" sx={{ mt: 5 }}>
-              고객정보 수정 로그
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 1 }}>
-              고객정보 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난
-              로그는 자동으로 삭제됩니다.
-            </Typography>
+            <LogUpdateTitle logTitle="고객정보" />
 
             <LazyCustModifyLog slug={slug} />
           </Box>

@@ -12,7 +12,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface CustModifyLogProps {
   slug: string;
-  ebcShow: boolean;
+  ebcShow?: boolean;
 }
 
 const CustModifyLog: React.FC<CustModifyLogProps> = ({ slug }) => {
