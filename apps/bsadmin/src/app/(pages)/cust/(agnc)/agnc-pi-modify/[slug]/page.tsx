@@ -16,6 +16,8 @@ import {
 } from "@mui/material";
 import {
   ContainedButton,
+  ErrorContainer,
+  Fallback,
   InputValidation,
   OutlinedButton,
   TD,
@@ -24,6 +26,14 @@ import {
 } from "cjbsDSTM";
 import { useDaumPostcodePopup } from "react-daum-postcode";
 import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
+import SkeletonLoading from "../../../../../components/SkeletonLoading";
+const LazyAgncModifyLog = dynamic(
+  () => import("../../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
 
 interface ParamsProps {
   params: {
@@ -178,7 +188,9 @@ export default function AgncPiModifyPage({ params }: ParamsProps) {
 
         <Box sx={{ mb: 5 }}>
           <LogUpdateTitle logTitle="거래처(PI)" />
-          {/*<LazyCustModifyLog slug={slug} />*/}
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyAgncModifyLog apiName="agnc" uKey={slug} />
+          </ErrorContainer>
         </Box>
       </Container>
     </FormProvider>
