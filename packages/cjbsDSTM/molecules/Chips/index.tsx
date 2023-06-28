@@ -15,7 +15,7 @@ export const LeaderCip = ({ ...props }: ChipProps) => {
             color={cjbsTheme.palette.primary.main}
           />
         }
-        label={"Leader"}
+        label={"리더"}
         size="small"
         sx={{
           backgroundColor: "#E6F0FA",

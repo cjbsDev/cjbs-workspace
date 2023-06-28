@@ -1,73 +1,34 @@
-/*
-  230623 PLAN 
-
-  1. 기본 정보 세팅  // 완료
-    - 소속 기관 
-    - 거래처 중복 확인 /agnc/duplicate/{agncNm}
-    - 등록전 기본 정보 확인
-    - 등록하기 ( 소속기관,거래처,우편번호 포함 주소 + 다른 값들은 상수 값 ) 
-    
-  2. 멤버 정보 세팅  // ~17시
-    - Load ( 멤버 정보 ) 
-    - 고객 -> 멤버 설정 ( 추가 ) 
-    - 고객 -> 멤버 설정 ( 삭제 )
-    - 고객 -> 멤버 설정 ( 리더 설정 - 디폴트 1번째 멤버 ) 
-    - 고객 -> 멤버 설정 ( 리더 설정 - 라디오 버튼으로 변경 ) // 추후  
-    - 등록하기 ( 기본 정보 + 멤버 정보 + 운영 상수값 )
-  3. 운영 관리 정보 // 27일
-    - 이벤트 설정 ( 상태, 영업 담당자, 메모 )
-    - Load ( 기본 정보 + 운영 관리 + 멤버 정보 )
-    - 등록하기 ( 전체 ) 
-*/
-
 "use client";
 import React, { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
-  LinkButton,
   Title1,
   TH,
   TD,
   ErrorContainer,
   Fallback,
   InputValidation,
-  InputDefaultType,
-  ModalContainer,
-  ModalTitle,
 } from "cjbsDSTM";
 import {
   Typography,
   Container,
   Box,
-  Button,
   Stack,
   Table,
-  TableHead,
   TableRow,
-  TableCell,
   TableBody,
   Checkbox,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  FormControl,
   FormControlLabel,
-  InputLabel,
   Select,
   MenuItem,
-  Grid,
-  IconButton,
   TableContainer,
 } from "@mui/material";
-import { ArrowLeft, ArrowRight } from "@mui/icons-material";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useDaumPostcodePopup } from "react-daum-postcode";
-import AgncSearchModal from "./InstSearchModal";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
 import axios from "axios";
@@ -85,37 +46,45 @@ const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
   ssr: false,
 });
 
-interface FormData {
-  instUkey?: string;
-  agncNm?: string;
-  addr?: string;
-  addrDetail?: string;
-  zip?: string;
-  custDetailList?: string[];
-  isSpecialMng?: string;
-  bsnsManagedByUkey?: string;
-  memo?: string;
-}
+/**
+ * Cust 와 Member
+ * Cust 는 전체 고객을 나타내고,
+ * Member 는 거래처안의 멤버(구성원)을 나타낸다.
+ */
 
-interface IData {
-  data: FormData;
+interface Member {
+  custUkey: any;
+  ebcEmail: string;
+  custNm: string;
+  isAcs: string;
+  isLeader: boolean;
 }
 
 const AgncAdd = () => {
   // init
-  const [showModal, setShowModal] = useState<boolean>(false);
+  const router = useRouter();
+
+  // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
-  const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [address, setAddress] = useState<string>("");
-  const router = useRouter();
+  // [멤버 관리] 모달 관련
   const [memberManagementModalOpen, setMemberManagementModalOpen] =
     useRecoilState(memberManagementModalAtom);
+  useRecoilState(memberManagementModalAtom);
   const getMemberManagementModalOpen = useRecoilValue(
     memberManagementModalAtom
   );
-  const [selectedValue, setSelectedValue] = useState<number | "">(10);
+
+  // [영업 담당자]  selectbox 제어
+  //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
+  const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
+
+  // [멤버 관리] 멤버 저장
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
+  const handleMemberSelection = (selectedMembers: Member[]) => {
+    setSelectedMembers(selectedMembers);
+  };
 
   const methods = useForm();
   const {
@@ -125,111 +94,17 @@ const AgncAdd = () => {
     setValue,
   } = methods;
 
-  // event
-
-  const handlePostAddressComplete = (data) => {
-    console.log("Post code data ==>>", data);
-    let fullAddress = data.address;
-    let zip = data.zonecode;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zip", zip);
-    setValue("addr", fullAddress);
-  };
-
-  const handlePostAddressClick = () => {
-    open({ onComplete: handlePostAddressComplete });
-  };
-
-  // Open the member management modal
-  const handleMemberOpenModal = (): void => {
-    // setShowModal(true);
-    setMemberManagementModalOpen(true);
-  };
-
-  // 멤버 관리 모달 닫기
-  // Close the member management modal
-  const handleMemberCloseModal = (): void => {
-    // setShowModal(false);
-    setMemberManagementModalOpen(false);
-  };
-
-  // Handle customer selection in the left table
-  const handleCustomerSelect = (customerId: number): void => {
-    const isSelected = selectedCustomers.includes(customerId);
-
-    if (isSelected) {
-      setSelectedCustomers(selectedCustomers.filter((id) => id !== customerId));
-    } else {
-      setSelectedCustomers([...selectedCustomers, customerId]);
-    }
-  };
-
-  // function
-
-  const onSubmit = (data: any) => {
-    console.log("Submit Click!!!!!");
-    console.log("formData ==>> ", data);
-
-    let saveObj = {
-      instUkey: data.instUkey,
-      agncNm: data.agncNm,
-      addr: data.addr,
-      addrDetail: data.addrDetail,
-      zip: data.zip,
-      custDetailList: [],
-      isSpecialMng: "Y",
-      bsnsManagedByUkey: "user656014",
-      memo: data.memo,
-    };
-    console.log("==saveObj", saveObj);
-
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
-
-    axios
-      .post(apiUrl, saveObj)
-      .then((response) => {
-        console.log("PUT request successful:", response.data);
-        if (response.data.success) {
-          //router.push("/cust/cust-list/" + slug);
-        }
-      })
-      .catch((error) => {
-        console.error("PUT request failed:", error);
-      });
-  };
-
-  const open = useDaumPostcodePopup(
-    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-  );
-
+  // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
   };
 
+  // [ 기관 검색 ] 모달 닫기
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
   };
 
-  const handleSelectChangeBSMng = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedValue(event.target.value as number);
-  };
-
-  // 거래처 중복 확인
+  // [ 거래처 ] 중복 확인
   const getAgncDuplicate = async () => {
     let getAgncNm = getValues("agncNm");
     console.log("getAgncNm", getAgncNm);
@@ -252,6 +127,93 @@ const AgncAdd = () => {
       console.info("거래처명을 입력해주세요.");
       return false;
     }
+  };
+
+  // [주소 찾기] 기능 시작
+  const open = useDaumPostcodePopup(
+    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+  );
+
+  // [주소 찾기] 에서 완료했을 때 callback
+  const handlePostAddressComplete = (data) => {
+    //console.log("Post code data ==>>", data);
+    let fullAddress = data.address;
+    let zip = data.zonecode;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setValue("zip", zip);
+    setValue("addr", fullAddress);
+  };
+  // [주소 찾기] 열기
+  const handlePostAddressClick = () => {
+    open({ onComplete: handlePostAddressComplete });
+  };
+  // [주소 찾기] 기능 종료
+
+  // [멤버 관리] 모달 "닫기"
+  const handleMemberCloseModal = (): void => {
+    setMemberManagementModalOpen(false);
+  };
+
+  // [ 영업 담당자 ] 담당자 선택
+  const handleSelectChangeBSMng = (
+    event: React.ChangeEvent<{ value: unknown }>
+  ) => {
+    setSelectedValue(event.target.value as string);
+  };
+
+  //console.log("main ", selectedMembers);
+
+  // Common
+  // [ 등록 ]
+  const onSubmit = (data: any) => {
+    let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
+      custUkey,
+      isLeader,
+    }));
+    let isSpecialMngFlag = getValues("isSpecialMng");
+    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+
+    let saveObj = {
+      addr: data.addr,
+      addrDetail: data.addrDetail,
+      agncNm: data.agncNm,
+      bsnsManagedByUkey,
+      custDetailList: saveMemberList,
+      instUkey: data.instUkey,
+      zip: data.zip,
+      isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
+      memo: data.memo,
+    };
+    console.log("==saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+
+    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
+
+    axios
+      .post(apiUrl, saveObj)
+      .then((response) => {
+        console.log("PUT request successful:", response.data);
+        if (response.data.success) {
+          //router.push("/cust/cust-list/" + slug);
+          router.push("/cust/agnc-pi-list");
+        }
+      })
+      .catch((error) => {
+        console.error("PUT request failed:", error);
+      });
   };
 
   return (
@@ -380,7 +342,7 @@ const AgncAdd = () => {
           </TableContainer>
 
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyMemberTable />
+            <LazyMemberTable selectedMembers={selectedMembers} />
           </ErrorContainer>
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -410,9 +372,11 @@ const AgncAdd = () => {
                       value={selectedValue}
                       onChange={handleSelectChangeBSMng}
                     >
-                      <MenuItem value={10}>Ten</MenuItem>
-                      <MenuItem value={20}>Twenty</MenuItem>
-                      <MenuItem value={30}>Thirty</MenuItem>
+                      <MenuItem value={"user656014"}>키웨스트</MenuItem>
+                      <MenuItem value={"user483349"}>라이언</MenuItem>
+                      <MenuItem value={"user369596"}>모씨</MenuItem>
+                      <MenuItem value={"user809094"}>LINK</MenuItem>
+                      <MenuItem value={"user623719"}>코로그</MenuItem>
                     </Select>
                   </TD>
                 </TableRow>
@@ -448,6 +412,8 @@ const AgncAdd = () => {
               onClose={handleMemberCloseModal}
               open={getMemberManagementModalOpen}
               modalWidth={1006}
+              selectedMembers={selectedMembers}
+              onMemberSelection={handleMemberSelection}
             />
           )}
 
