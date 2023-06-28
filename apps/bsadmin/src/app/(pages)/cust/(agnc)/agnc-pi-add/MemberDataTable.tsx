@@ -1,73 +1,58 @@
 import React, { useMemo } from "react";
-import axios from "axios";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
-import useSWR from "swr";
-import {
-  DataTableBase,
-  LeaderCip,
-  OutlinedButton,
-  Title1,
-  XsmallButton,
-} from "cjbsDSTM";
+import { DataTableBase, LeaderCip, XsmallButton } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useSetRecoilState } from "recoil";
-
 import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+interface MemberDataProps {
+  selectedMembers: Member[];
+}
 
-const MemberDataTable = () => {
+interface Member {
+  custUkey: any;
+  ebcEmail: string;
+  custNm: string;
+  isAcs: string;
+  isLeader: boolean;
+}
+
+const MemberDataTable: React.FC<MemberDataProps> = ({ selectedMembers }) => {
   const setMemberManagementModalOpen = useSetRecoilState(
     memberManagementModalAtom
   );
 
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
-
-  const filteredData = data.data.custList;
+  //console.log("member datatable selectedMembers", selectedMembers);
 
   const columns = useMemo(
     () => [
       {
-        selector: (row: { agncId: number }) => row.agncId,
-      },
-      {
         name: "리더",
-        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
+        cell: (row: { isLeader: any }) => (
           <>
-            <LeaderCip />
+            <Box>{row.isLeader == "Y" && <LeaderCip />} </Box>
           </>
         ),
+        width: "150px",
       },
       {
         name: "아이디",
-        cell: (row: { leaderNm: any; leaderEmail: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
-              <Box>{row.leaderNm ?? "-"} </Box>
-              <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
-            </Stack>
-          </>
-        ),
-        minWidth: "150px",
+        selector: (row: { ebcEmail: string }) => row.ebcEmail,
       },
       {
         name: "이름",
-        selector: (row: { agncId: number }) => row.agncId,
+        selector: (row: { custNm: string }) => row.custNm,
+        width: "200px",
       },
       {
         name: "상태",
-        selector: (row: { agncId: number }) => row.agncId,
+        cell: (row: { isAcs: string }) => (
+          <>
+            <Box>{row.isAcs == "Y" ? "사용" : "차단"} </Box>
+          </>
+        ),
+        width: "150px",
       },
     ],
     []
@@ -81,7 +66,9 @@ const MemberDataTable = () => {
     <DataTableBase
       title={
         <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle1">맴버( 총 15명 )</Typography>
+          <Typography variant="subtitle1">
+            멤버{selectedMembers && " (총 " + selectedMembers.length + "명)"}
+          </Typography>
           <XsmallButton
             buttonName="멤버관리"
             color="secondary"
@@ -90,17 +77,12 @@ const MemberDataTable = () => {
           />
         </Stack>
       }
-      data={filteredData}
+      data={selectedMembers}
       columns={columns}
-      // onRowClicked={goDetailPage}
-      // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
-      // subHeader
       pagination={false}
-      // subHeaderComponent={subHeaderComponentMemo}
-      // paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
     />
   );
