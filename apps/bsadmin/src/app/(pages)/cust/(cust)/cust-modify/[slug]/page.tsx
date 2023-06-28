@@ -1,21 +1,18 @@
 "use client";
-import { useState, useEffect, useCallback, ChangeEvent } from "react";
+import { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
-  CustomToggleButton,
   Title1,
   TH,
   TD,
-  ModalContainer,
-  ModalTitle,
-  cjbsTheme,
   InputValidation,
+  ErrorContainer,
+  Fallback,
 } from "cjbsDSTM";
 
 import {
   Box,
-  Chip,
   Container,
   Stack,
   Typography,
@@ -23,13 +20,10 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  DialogContent,
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import useSWR from "swr";
 import axios from "axios";
-import MyIcon from "icon/myIcon";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -38,17 +32,17 @@ import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import CustEBCInfo from "../../CustEBCInfo";
 import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
 
-const LazyCustModifyLog = dynamic(() => import("./CustModifyLog"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={272} />,
-});
+const LazyCustModifyLog = dynamic(
+  () => import("../../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
   ssr: false,
 });
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
 interface ParamsProps {
   params: {
     slug: string;
@@ -74,60 +68,39 @@ interface IData {
 export default function CustModifyPage({ params }: ParamsProps) {
   // init
   const { slug } = params;
+  const [checked, setChecked] = useState<boolean>(false); // 체크 박스 테스트
+  const [open, setOpen] = useState<boolean>(false);
+  const router = useRouter();
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
-  /*
-  const methods = useForm<FormData>();
-  */
+  const methods = useForm<FormData>({
+    defaultValues: async () => {
+      const res = await fetch(
+        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`
+      );
+      const getData = await res.json();
+      const data = getData.data;
+      console.log("modity data", data);
 
-  const methods = useForm();
+      return {
+        custNm: data.custNm,
+        tel_0: data.telList[0],
+        tel_1: data.telList[1],
+        tel_2: data.telList[2],
+        agncNm: data.agncNm,
+        agncUkey: data.agncUkey,
+        memo: data.memo,
+      };
+    },
+  });
   const {
     register,
     formState: { errors },
     getValues,
     setValue,
+    handleSubmit,
   } = methods;
-
-  const [checked, setChecked] = useState(false); // 체크 박스 테스트
-  const [open, setOpen] = useState(false);
-  const router = useRouter();
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
-
-  // load
-  const { data: custData } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`,
-    fetcher
-  );
-  /*
-  const custData = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
-  */
-
-  useEffect(() => {
-    if (custData) {
-      display(custData);
-    }
-  }, [custData]);
-
-  // display
-  const display = (custData: IData) => {
-    const displayData = custData.data;
-    console.log("display start", displayData);
-    const telList = displayData.telList || [];
-    //custNm, tel_0, tel_1, tel_2, agncNm, isAcs, memo
-    setValue("custNm", displayData.custNm);
-    setValue("tel_0", telList[0] ?? "");
-    setValue("tel_1", telList[1] ?? "");
-    setValue("tel_2", telList[2] ?? "");
-    setValue("agncNm", displayData.agncNm);
-    setValue("agncUkey", displayData.agncUkey);
-    setValue("memo", displayData.memo);
-  };
 
   // event
   const handleDelBtn = () => {
@@ -192,12 +165,13 @@ export default function CustModifyPage({ params }: ParamsProps) {
           component="form"
           noValidate
           autoComplete="off"
-          onSubmit={methods.handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit)}
         >
           <Box sx={{ mb: 4 }}>
             <Title1 titleName="고객 정보 수정" />
           </Box>
 
+          {/* 가입 정보 */}
           <CustEBCInfo slug={slug} ebcShow={true} />
 
           <Typography variant="subtitle1" sx={{ mt: 5 }}>
@@ -303,8 +277,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         size="small"
                         buttonName="검색"
                         onClick={agncSearchModalOpen}
-                        //onClick={handleClickOpen}
-                        // sx={{ backgroundColor: cjbsTheme.palette.secondary.main }}
                       />
                       <OutlinedButton
                         size="small"
@@ -371,12 +343,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
             <ContainedButton buttonName="저장" type="submit" />
           </Stack>
 
-          <Box sx={{ mb: 5 }}>
-            <LogUpdateTitle logTitle="고객정보" />
-
-            <LazyCustModifyLog slug={slug} />
-          </Box>
-
           {/* 거래처 검색 모달 */}
           {showAgncSearchModal && (
             <LazyAgncSearchModal
@@ -385,6 +351,14 @@ export default function CustModifyPage({ params }: ParamsProps) {
               modalWidth={800}
             />
           )}
+        </Box>
+
+        {/* 수정 로그 부분 */}
+        <Box sx={{ mb: 5 }}>
+          <LogUpdateTitle logTitle="고객정보" />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyCustModifyLog apiName="cust" uKey={slug} />
+          </ErrorContainer>
         </Box>
       </Container>
     </FormProvider>

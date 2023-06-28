@@ -250,12 +250,12 @@ export default function AgncPage({ params }: CustViewProps) {
           buttonName="목록"
           onClick={() => router.push("/cust/agnc-pi-list")}
         />
-        <ContainedButton
-          buttonName="수정"
-          onClick={() =>
-            router.push("/cust/agnc-pi-modify/" + agncData.agncUkey)
-          }
-        />
+        {/*<ContainedButton*/}
+        {/*  buttonName="수정"*/}
+        {/*  onClick={() =>*/}
+        {/*    router.push("/cust/agnc-pi-modify/" + agncData.agncUkey)*/}
+        {/*  }*/}
+        {/*/>*/}
         <Link
           href={{
             pathname: "/cust/agnc-pi-modify",
