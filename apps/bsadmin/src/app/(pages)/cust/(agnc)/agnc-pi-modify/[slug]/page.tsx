@@ -1,5 +1,9 @@
 "use client";
-import { useSearchParams, usePathname } from "next/navigation";
+
+import * as React from "react";
+import { useForm, FormProvider } from "react-hook-form";
+import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 import {
   Box,
   Container,
@@ -10,7 +14,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import {
   ContainedButton,
   ErrorContainer,
@@ -21,60 +24,29 @@ import {
   TH,
   Title1,
 } from "cjbsDSTM";
-import * as React from "react";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { useForm, FormProvider } from "react-hook-form";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
+import SkeletonLoading from "../../../../../components/SkeletonLoading";
 const LazyAgncModifyLog = dynamic(
-  () => import("../../../../components/LogTable"),
+  () => import("../../../../../components/LogTable"),
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
   }
 );
-interface FormData {
-  agncNm?: string;
-  agncUkey?: string;
-  custNm?: string;
-  isAcs?: boolean;
-  memo?: string;
-  tel_0?: string;
-  tel_1?: string;
-  tel_2?: string;
-  telList?: string[];
+
+interface ParamsProps {
+  params: {
+    slug: string;
+  };
 }
-export default function AgncPIModifyPage() {
-  const pathName = usePathname();
-  const searchParams = useSearchParams();
-  const params = searchParams.get("agncUkey");
-  const uKey = params;
+export default function AgncPiModifyPage({ params }: ParamsProps) {
+  const { slug } = params;
   const router = useRouter();
+  const methods = useForm();
   const open = useDaumPostcodePopup(
     "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
   );
-
-  console.log("Ukey", params);
-  const methods = useForm<FormData>({
-    defaultValues: async () => {
-      const res = await fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${uKey}`
-      );
-      const getData = await res.json();
-      const data = getData.data;
-      console.log("modity data", data);
-
-      return {
-        instNm: data.instNm,
-        agncNm: data.agncNm,
-        zip: data.zip,
-        addr: data.addr,
-        addrDetail: data.addrDetail,
-        memo: data.memo,
-      };
-    },
-  });
   const {
     register,
     formState: { errors },
@@ -87,13 +59,7 @@ export default function AgncPIModifyPage() {
     console.log("in onSubmit", data);
   };
 
-  const handlePostAddressComplete = (data: {
-    address: any;
-    zonecode: any;
-    addressType: string;
-    bname: string;
-    buildingName: string;
-  }) => {
+  const handlePostAddressComplete = (data) => {
     console.log("Post code data ==>>", data);
     let fullAddress = data.address;
     let zip = data.zonecode;
@@ -140,16 +106,7 @@ export default function AgncPIModifyPage() {
               <TableBody>
                 <TableRow>
                   <TH sx={{ width: "15%" }}>기관명</TH>
-                  <TD sx={{ width: "85%" }}>
-                    <InputValidation
-                      // error={errors.instNm ? true : false}
-                      // helperText={errors.instNm?.message ?? null}
-                      register={register}
-                      inputName="instNm"
-                      errorMessage={false}
-                      disabled={true}
-                    />
-                  </TD>
+                  <TD sx={{ width: "85%" }}>강남세브란스병원</TD>
                 </TableRow>
 
                 <TableRow>
@@ -232,7 +189,7 @@ export default function AgncPIModifyPage() {
         <Box sx={{ mb: 5 }}>
           <LogUpdateTitle logTitle="거래처(PI)" />
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyAgncModifyLog apiName="agnc" uKey={uKey} />
+            <LazyAgncModifyLog apiName="agnc" uKey={slug} />
           </ErrorContainer>
         </Box>
       </Container>

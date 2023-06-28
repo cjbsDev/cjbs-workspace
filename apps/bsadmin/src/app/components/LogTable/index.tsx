@@ -7,26 +7,26 @@ import { Box, Stack } from "@mui/material";
 import useSWR from "swr";
 import axios from "axios";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataComponent from "./component/NoDataComponent";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-interface CustModifyLogProps {
-  slug: string;
-  ebcShow: boolean;
+interface LogProps {
+  uKey: string | null;
+  apiName: string;
+  ebcShow?: boolean;
 }
 
-const CustModifyLog: React.FC<CustModifyLogProps> = ({ slug }) => {
+const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
   const { data: custModifyLogTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}/hstr?page=0&size=50`,
-    fetcher
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/${apiName}/log/${uKey}`,
+    fetcher,
+    {
+      suspense: true,
+    }
   );
 
-  if (!custModifyLogTemp) {
-    return <div>Cust Modify log Loading...</div>;
-  }
-
-  const custModifyLogList = custModifyLogTemp.data.hstrList;
-  console.log("log 렌더");
+  const custModifyLogList = custModifyLogTemp.data.updateLogList;
 
   const columns = [
     {
@@ -76,11 +76,10 @@ const CustModifyLog: React.FC<CustModifyLogProps> = ({ slug }) => {
       data={custModifyLogList}
       columns={columns}
       selectableRows={false}
-      paginationPerPage={50}
-      paginationRowsPerPageOptions={[20, 50, 100]}
+      paginationPerPage={5}
+      paginationRowsPerPageOptions={[5, 10, 20]}
       customStyles={dataTableCustomStyles2}
-      //progressPending={loading}
-      //onChangePage={handlePageChange}
+      noDataComponent={<NoDataComponent />}
     />
   );
 };

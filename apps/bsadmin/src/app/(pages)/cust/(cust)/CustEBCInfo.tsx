@@ -11,6 +11,7 @@ import {
   ModalContainer,
   ModalTitle,
   cjbsTheme,
+  LeaderCip,
 } from "cjbsDSTM";
 import useSWR from "swr";
 import axios from "axios";
@@ -23,8 +24,10 @@ import {
   TableBody,
   TableContainer,
   TableRow,
+  Box,
 } from "@mui/material";
 import MyIcon from "icon/myIcon";
+import SkeletonLoading from "../../../components/SkeletonLoading";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -36,23 +39,27 @@ interface CustEBCInfoProps {
 const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
   const [selected, setSelected] = useState(ebcShow);
 
-  const { data: custEBCTemp, error: custEBCError } = useSWR(
+  const {
+    data: custEBCTemp,
+    error: custEBCError,
+    isLoading,
+  } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/ebc/${slug}`,
     fetcher
   );
 
-  useEffect(() => {
-    if (custEBCError) {
-      console.log("custEBCError", custEBCError);
-    }
-  }, [custEBCError]);
+  // useEffect(() => {
+  //   if (custEBCError) {
+  //     console.log("custEBCError", custEBCError);
+  //   }
+  // }, [custEBCError]);
 
   if (custEBCError) {
     return <div>Error...</div>;
   }
 
-  if (!custEBCTemp) {
-    return <div>Cust EBC Info Loading...</div>;
+  if (isLoading) {
+    return <SkeletonLoading height={270} />;
   }
 
   const custEBCData = custEBCTemp.data;
@@ -87,16 +94,8 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
               <TH sx={{ width: "15%" }}>고객번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  {custEBCData.ebcUid}{" "}
-                  <Chip
-                    icon={<MyIcon icon="customer" size={25} color="red" />}
-                    label={"Leader"}
-                    size="small"
-                    sx={{
-                      backgroundColor: "#E6F0FA",
-                      color: "#006ECD",
-                    }}
-                  />
+                  <LeaderCip />
+                  <Box>{custEBCData.ebcUid}</Box>
                 </Stack>
               </TD>
             </TableRow>

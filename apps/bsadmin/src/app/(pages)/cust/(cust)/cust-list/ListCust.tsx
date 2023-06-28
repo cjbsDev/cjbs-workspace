@@ -68,8 +68,8 @@ const ListCust = () => {
               useFlexGap
               flexWrap="wrap"
             >
-              <Box>{row.custNm}</Box>
-              <Box>
+              <Box data-tag="allowRowEvents">{row.custNm}</Box>
+              <Box data-tag="allowRowEvents">
                 <Chip
                   icon={
                     <MyIcon
@@ -86,7 +86,7 @@ const ListCust = () => {
                   }}
                 />
               </Box>
-              <Box>{row.ebcEmail}</Box>
+              <Box data-tag="allowRowEvents">{row.ebcEmail}</Box>
             </Stack>
           </>
         ),
@@ -99,13 +99,13 @@ const ListCust = () => {
           <>
             <Stack
               direction="row"
-              spacing={1}
+              spacing={0.5}
               alignItems="center"
               useFlexGap
               flexWrap="wrap"
             >
-              <Box>{row.agncNm}</Box>
-              <Box>({row.instNm})</Box>
+              <Box data-tag="allowRowEvents">{row.agncNm}</Box>
+              <Box data-tag="allowRowEvents">({row.instNm})</Box>
             </Stack>
           </>
         ),

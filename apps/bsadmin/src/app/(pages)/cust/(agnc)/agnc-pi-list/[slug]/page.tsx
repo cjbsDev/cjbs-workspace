@@ -13,6 +13,7 @@ import {
 } from "cjbsDSTM";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import axios from "axios";
 import {
   Box,
@@ -250,12 +251,20 @@ export default function AgncPage({ params }: CustViewProps) {
           buttonName="목록"
           onClick={() => router.push("/cust/agnc-pi-list")}
         />
-        <ContainedButton
-          buttonName="수정"
-          onClick={() =>
-            router.push("/cust/agnc-pi-modify/" + agncData.agncUkey)
-          }
-        />
+        {/*<ContainedButton*/}
+        {/*  buttonName="수정"*/}
+        {/*  onClick={() =>*/}
+        {/*    router.push("/cust/agnc-pi-modify/" + agncData.agncUkey)*/}
+        {/*  }*/}
+        {/*/>*/}
+        <Link
+          href={{
+            pathname: "/cust/agnc-pi-modify",
+            query: { agncUkey: agncData.agncUkey },
+          }}
+        >
+          <ContainedButton buttonName="수정" />
+        </Link>
       </Stack>
 
       {/* 기관 정보 모달 */}
