@@ -285,7 +285,7 @@ const MemberMngtNewModal = ({
 
   // 멤버 데이터 확인
   const handleMembersInfo = () => {
-    //console.log("memeberData", memeberData);
+    console.log("memeberData", memeberData);
     //console.log("memeberData stringify", JSON.stringify(memeberData));
     onMemberSelection(memeberData);
     onClose();
