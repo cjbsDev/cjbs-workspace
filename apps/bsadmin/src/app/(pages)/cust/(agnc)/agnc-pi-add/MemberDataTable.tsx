@@ -1,13 +1,16 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
 import { DataTableBase, LeaderCip, XsmallButton } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useSetRecoilState } from "recoil";
 import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import SkeletonLoading from "../../../../components/SkeletonLoading";
+import dynamic from "next/dynamic";
 
 interface MemberDataProps {
-  selectedMembers: Member[];
+  selectMemberCallbak: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
 }
 
 interface Member {
@@ -18,10 +21,33 @@ interface Member {
   isLeader: boolean;
 }
 
-const MemberDataTable: React.FC<MemberDataProps> = ({ selectedMembers }) => {
+const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
+  ssr: false,
+});
+
+const MemberDataTable: React.FC<MemberDataProps> = ({
+  selectMemberCallbak,
+}) => {
   const setMemberManagementModalOpen = useSetRecoilState(
     memberManagementModalAtom
   );
+
+  //useRecoilState(memberManagementModalAtom);
+  const getMemberManagementModalOpen = useRecoilValue(
+    memberManagementModalAtom
+  );
+
+  // [멤버 관리] 멤버 저장
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
+
+  const handleMemberSelection = (selectedMembers: Member[]) => {
+    setSelectedMembers(selectedMembers);
+    console.log("selectedMembers", selectedMembers);
+    selectMemberCallbak(selectedMembers);
+
+    //onMemberSelection(selectedMembers);
+  };
 
   //console.log("member datatable selectedMembers", selectedMembers);
 
@@ -62,29 +88,47 @@ const MemberDataTable: React.FC<MemberDataProps> = ({ selectedMembers }) => {
     setMemberManagementModalOpen(true);
   };
 
+  // [멤버 관리] 모달 "닫기"
+  const handleMemberCloseModal = (): void => {
+    setMemberManagementModalOpen(false);
+  };
+
   return (
-    <DataTableBase
-      title={
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="subtitle1">
-            멤버{selectedMembers && " (총 " + selectedMembers.length + "명)"}
-          </Typography>
-          <XsmallButton
-            buttonName="멤버관리"
-            color="secondary"
-            endIcon={<MyIcon icon="cheveron-right" size={20} />}
-            onClick={handleModalOpen}
-          />
-        </Stack>
-      }
-      data={selectedMembers}
-      columns={columns}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      pagination={false}
-      selectableRows={false}
-    />
+    <>
+      <DataTableBase
+        title={
+          <Stack direction="row" justifyContent="space-between">
+            <Typography variant="subtitle1">
+              멤버{selectedMembers && " (총 " + selectedMembers.length + "명)"}
+            </Typography>
+            <XsmallButton
+              buttonName="멤버관리"
+              color="secondary"
+              endIcon={<MyIcon icon="cheveron-right" size={20} />}
+              onClick={handleModalOpen}
+            />
+          </Stack>
+        }
+        data={selectedMembers}
+        columns={columns}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        pagination={false}
+        selectableRows={false}
+      />
+
+      {/* 멤버 관리 모달 */}
+      {getMemberManagementModalOpen && (
+        <LazyMemberMngtModal
+          onClose={handleMemberCloseModal}
+          open={getMemberManagementModalOpen}
+          modalWidth={1006}
+          selectedMembers={selectedMembers}
+          onMemberSelection={handleMemberSelection}
+        />
+      )}
+    </>
   );
 };
 

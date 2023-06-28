@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState } from "react";
 import {
@@ -30,8 +29,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useDaumPostcodePopup } from "react-daum-postcode";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
+
 import axios from "axios";
 
 const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
@@ -40,10 +38,6 @@ const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
 });
 
 const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
-  ssr: false,
-});
-
-const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
   ssr: false,
 });
 
@@ -68,24 +62,10 @@ const AgncAdd = () => {
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
-  // [멤버 관리] 모달 관련
-  const [memberManagementModalOpen, setMemberManagementModalOpen] =
-    useRecoilState(memberManagementModalAtom);
-  useRecoilState(memberManagementModalAtom);
-  const getMemberManagementModalOpen = useRecoilValue(
-    memberManagementModalAtom
-  );
 
   // [영업 담당자]  selectbox 제어
   //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
   const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
-
-  // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
-  // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
-  const handleMemberSelection = (selectedMembers: Member[]) => {
-    setSelectedMembers(selectedMembers);
-  };
 
   const methods = useForm();
   const {
@@ -94,6 +74,13 @@ const AgncAdd = () => {
     getValues,
     setValue,
   } = methods;
+
+  // [멤버 관리] 멤버 저장
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+
+  const handleMemberSelection = (selectedMembers: Member[]) => {
+    setSelectedMembers(selectedMembers);
+  };
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -162,11 +149,6 @@ const AgncAdd = () => {
     open({ onComplete: handlePostAddressComplete });
   };
   // [주소 찾기] 기능 종료
-
-  // [멤버 관리] 모달 "닫기"
-  const handleMemberCloseModal = (): void => {
-    setMemberManagementModalOpen(false);
-  };
 
   // [ 영업 담당자 ] 담당자 선택
   const handleSelectChangeBSMng = (
@@ -343,7 +325,7 @@ const AgncAdd = () => {
           </TableContainer>
 
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyMemberTable selectedMembers={selectedMembers} />
+            <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
           </ErrorContainer>
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -404,17 +386,6 @@ const AgncAdd = () => {
               onClose={agncSearchModalClose}
               open={showAgncSearchModal}
               modalWidth={800}
-            />
-          )}
-
-          {/* 멤버 관리 모달 */}
-          {getMemberManagementModalOpen && (
-            <LazyMemberMngtModal
-              onClose={handleMemberCloseModal}
-              open={getMemberManagementModalOpen}
-              modalWidth={1006}
-              selectedMembers={selectedMembers}
-              onMemberSelection={handleMemberSelection}
             />
           )}
 
