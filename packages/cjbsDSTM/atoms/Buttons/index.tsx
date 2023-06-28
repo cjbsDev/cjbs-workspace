@@ -53,7 +53,7 @@ export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
         variant="outlined"
         sx={{
           "&.MuiButton-outlinedSizeSmall": {
-            p: "4px 10px",
+            p: "3px 10px",
           },
         }}
       >
