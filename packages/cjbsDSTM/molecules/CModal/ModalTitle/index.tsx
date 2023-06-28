@@ -1,11 +1,4 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { DialogTitle, Divider, IconButton, Typography } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 

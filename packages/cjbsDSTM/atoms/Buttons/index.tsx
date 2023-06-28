@@ -33,14 +33,13 @@ export const ContainedButton = ({
       <Button
         {...props}
         variant="contained"
-        size="small"
         sx={{
-          ".MuiButton-containedSizeSmall": {
-            p: 0,
+          "&.MuiButton-containedSizeSmall": {
+            p: "4px 10px",
           },
         }}
       >
-        <Typography variant="body2">{buttonName}</Typography>
+        <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>
     </ThemeProvider>
   );
@@ -49,7 +48,15 @@ export const ContainedButton = ({
 export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Button {...props} variant="outlined">
+      <Button
+        {...props}
+        variant="outlined"
+        sx={{
+          "&.MuiButton-outlinedSizeSmall": {
+            p: "4px 10px",
+          },
+        }}
+      >
         <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>
     </ThemeProvider>
@@ -69,7 +76,15 @@ export const XsmallButton = ({ buttonName, ...props }: CustomButtonProps) => {
 export const LinkButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Button {...props} variant="text">
+      <Button
+        {...props}
+        variant="text"
+        sx={{
+          "&.MuiButton-textSizeSmall": {
+            p: "4px 10px",
+          },
+        }}
+      >
         <Typography variant="buttonMD">{buttonName}</Typography>
       </Button>
     </ThemeProvider>

@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState } from "react";
 import {
@@ -319,7 +320,7 @@ const AgncAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          sx={{ width: 550 }}
+                          sx={{ width: 450 }}
                           register={register}
                           inputName="addr"
                           errorMessage={false}
@@ -327,7 +328,7 @@ const AgncAdd = () => {
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
-                          sx={{ width: 550 }}
+                          sx={{ width: 450 }}
                           register={register}
                           inputName="addrDetail"
                           errorMessage={false}

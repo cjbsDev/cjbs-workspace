@@ -62,39 +62,42 @@ const ListAgnc = () => {
       {
         name: "거래처(PI)",
         cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
-              {row.isSpecialMng === "Y" && (
-                <MyIcon icon="vip-fill" size={20} color="#FFAB33" />
-              )}
-              <Box>{row.agncNm} </Box>
-              <Box>({row.instNm})</Box>
-            </Stack>
-          </>
+          <Stack
+            direction="row"
+            spacing={0.5}
+            alignItems="center"
+            // useFlexGap
+            // flexWrap="wrap"
+          >
+            {row.isSpecialMng === "Y" && (
+              <MyIcon
+                data-tag="allowRowEvents"
+                icon="vip-fill"
+                size={20}
+                color="#FFAB33"
+              />
+            )}
+            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
+            <Box data-tag="allowRowEvents">({row.instNm})</Box>
+          </Stack>
         ),
         minWidth: "150px",
       },
       {
         name: "리더",
         cell: (row: { leaderNm: any; leaderEmail: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
-              <Box>{row.leaderNm ?? "-"} </Box>
-              <Box>{row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}</Box>
-            </Stack>
-          </>
+          <Stack
+            direction="row"
+            spacing={0.5}
+            // alignItems="center"
+            // useFlexGap
+            // flexWrap="wrap"
+          >
+            <Box data-tag="allowRowEvents">{row.leaderNm ?? "-"} </Box>
+            <Box data-tag="allowRowEvents">
+              {row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}
+            </Box>
+          </Stack>
         ),
         minWidth: "150px",
       },
@@ -206,7 +209,7 @@ const ListAgnc = () => {
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
+      // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
