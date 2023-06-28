@@ -134,11 +134,11 @@ export default function AgncPIModifyPage() {
                             : "거래처(PI)를 입력해 주세요."
                         }
                       />
-                      <OutlinedButton
-                        size="small"
-                        buttonName="중복 확인"
-                        // onClick={getAgncDuplicate}
-                      />
+                      {/*<OutlinedButton*/}
+                      {/*  size="small"*/}
+                      {/*  buttonName="중복 확인"*/}
+                      {/*  // onClick={getAgncDuplicate}*/}
+                      {/*/>*/}
                     </Stack>
                   </TD>
                 </TableRow>

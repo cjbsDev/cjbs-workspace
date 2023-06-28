@@ -38,7 +38,10 @@ const PostCodeBtn = () => {
   };
 
   const handleClick = () => {
-    open({ onComplete: handleComplete });
+    open({
+      onComplete: handleComplete,
+      popupTitle: "우편번호 찾기",
+    });
   };
 
   return (
