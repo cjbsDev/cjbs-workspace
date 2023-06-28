@@ -26,7 +26,8 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import { useDaumPostcodePopup } from "react-daum-postcode";
+import PostCodeBtn from "../../../../components/PostCodeBtn";
+
 const LazyAgncModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
   {
@@ -46,16 +47,13 @@ interface FormData {
   telList?: string[];
 }
 export default function AgncPIModifyPage() {
-  const pathName = usePathname();
   const searchParams = useSearchParams();
   const params = searchParams.get("agncUkey");
   const uKey = params;
   const router = useRouter();
-  const open = useDaumPostcodePopup(
-    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-  );
 
   console.log("Ukey", params);
+
   const methods = useForm<FormData>({
     defaultValues: async () => {
       const res = await fetch(
@@ -85,38 +83,6 @@ export default function AgncPIModifyPage() {
 
   const onSubmit = (data: any) => {
     console.log("in onSubmit", data);
-  };
-
-  const handlePostAddressComplete = (data: {
-    address: any;
-    zonecode: any;
-    addressType: string;
-    bname: string;
-    buildingName: string;
-  }) => {
-    console.log("Post code data ==>>", data);
-    let fullAddress = data.address;
-    let zip = data.zonecode;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zip", zip);
-    setValue("addr", fullAddress);
-  };
-
-  const handlePostAddressClick = () => {
-    open({ onComplete: handlePostAddressComplete });
   };
 
   return (
@@ -168,7 +134,6 @@ export default function AgncPIModifyPage() {
                             : "거래처(PI)를 입력해 주세요."
                         }
                       />
-
                       <OutlinedButton
                         size="small"
                         buttonName="중복 확인"
@@ -189,11 +154,7 @@ export default function AgncPIModifyPage() {
                           errorMessage={false}
                           placeholder="zip code"
                         />
-                        <OutlinedButton
-                          size="small"
-                          buttonName="우편번호 찾기"
-                          onClick={handlePostAddressClick}
-                        />
+                        <PostCodeBtn />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
