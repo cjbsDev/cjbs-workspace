@@ -2,7 +2,12 @@
 import { useSearchParams, usePathname } from "next/navigation";
 import {
   Box,
+  Checkbox,
   Container,
+  FormControlLabel,
+  MenuItem,
+  NativeSelect,
+  Select,
   Stack,
   Table,
   TableBody,
@@ -20,13 +25,13 @@ import {
   TD,
   TH,
   Title1,
+  PostCodeBtn,
 } from "cjbsDSTM";
 import * as React from "react";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import PostCodeBtn from "../../../../components/PostCodeBtn";
 
 const LazyAgncModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
@@ -70,6 +75,8 @@ export default function AgncPIModifyPage() {
         addr: data.addr,
         addrDetail: data.addrDetail,
         memo: data.memo,
+        category: "A",
+        isSpecialMng: [data.isSpecialMng],
       };
     },
   });
@@ -134,11 +141,32 @@ export default function AgncPIModifyPage() {
                             : "거래처(PI)를 입력해 주세요."
                         }
                       />
-                      {/*<OutlinedButton*/}
-                      {/*  size="small"*/}
-                      {/*  buttonName="중복 확인"*/}
-                      {/*  // onClick={getAgncDuplicate}*/}
-                      {/*/>*/}
+
+                      <input
+                        {...register("isSpecialMng")}
+                        type="checkbox"
+                        value="Y"
+                        id="SpecialMng"
+                      />
+                      <label htmlFor="SpecialMng">
+                        특별 관리(SP)하는 거래처 입니다
+                      </label>
+
+                      <NativeSelect
+                        variant={"outlined"}
+                        sx={{
+                          border: "none",
+                          ".MuiNativeSelect-outlined": {
+                            // backgroundColor: "red",
+                            border: "1px solid blue",
+                          },
+                        }}
+                        {...register("category")}
+                      >
+                        <option value="">Select...</option>
+                        <option value="A">Category A</option>
+                        <option value="B">Category B</option>
+                      </NativeSelect>
                     </Stack>
                   </TD>
                 </TableRow>
