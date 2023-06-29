@@ -147,12 +147,6 @@ const ListAgnc = () => {
 
   const filteredData = data.data.agncList;
 
-  console.log("filteredData", filteredData);
-  console.log(
-    "data.data.pageInfo.totalElements",
-    data.data.pageInfo.totalElements
-  );
-
   const goDetailPage = (row: { agncUkey: string }) => {
     const path = row.agncUkey;
     router.push("/cust/agnc-pi-list/" + path);

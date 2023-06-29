@@ -10,29 +10,7 @@
  *    멤버 정보 : custDetail[]
  *    특별 관리 : isSpecialMng
  *    메모 : memo
- 
-      interface FormData {
-        agncNm?: string;
-        agncUkey?: string;
-        addr?: string;
-        addrDetail?: string;
-        zip?: string;
-        bsnsManagedByUkey?: string;
-        custDetail?: string[];
-        isSpecialMng?: string;
-        memo?: string;
-      }
- * 
- * 
  *
- * 2. 수정 버튼 눌렀을 때 일부 수정
- *    2.1 거래처명 수정
- *    2.2 거래처명, 주소, 주소 자세히, 우편번호 수정
- *    2.3 멤버 정보 수정
- *
- * 3.
- *
- *    2.4 전체 수정 완료
  */
 
 "use client";
@@ -124,6 +102,7 @@ export default function AgncPIModifyPage() {
   const params = searchParams.get("agncUkey");
   const uKey = params;
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const methods = useForm<FormData>({
     defaultValues: () => {
@@ -133,7 +112,6 @@ export default function AgncPIModifyPage() {
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
-          //console.log("data.custDetail", JSON.stringify(data.custDetail));
 
           // isLeader 가 Y 면 true, N 면 false 로 세팅한다.
           const updatedCustDetailData = data.custDetail.map((row: Member) => {
@@ -142,8 +120,9 @@ export default function AgncPIModifyPage() {
               isLeaderFlag: row.isLeader === "Y",
             };
           });
-
+          //console.log("updatedCustDetailData", updatedCustDetailData);
           setSelectedMembers(updatedCustDetailData);
+          setIsLoading(false);
 
           return {
             instNm: data.instNm,
@@ -193,7 +172,7 @@ export default function AgncPIModifyPage() {
 
   // [ 수정 ]
   const onSubmit = (data: any) => {
-    console.log("selectedMembers", selectedMembers);
+    //console.log("selectedMembers", selectedMembers);
 
     let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
       custUkey,
@@ -213,8 +192,8 @@ export default function AgncPIModifyPage() {
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
     };
-    console.log("==modify", saveObj);
-    console.log("modify stringify", JSON.stringify(saveObj));
+    //console.log("==modify", saveObj);
+    //console.log("modify stringify", JSON.stringify(saveObj));
 
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
 
@@ -328,12 +307,15 @@ export default function AgncPIModifyPage() {
             </Table>
           </TableContainer>
 
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyMemberTable
-              selectMemberCallbak={handleMemberSelection}
-              memberData={getValues("custDetail")}
-            />
-          </ErrorContainer>
+          {/* memberData={getValues("custDetail")} */}
+          {!isLoading && (
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyMemberTable
+                selectMemberCallbak={handleMemberSelection}
+                memberData={selectedMembers}
+              />
+            </ErrorContainer>
+          )}
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
             운영 관리 정보
