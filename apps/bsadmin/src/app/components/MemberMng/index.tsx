@@ -39,8 +39,6 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
     memberManagementModalAtom
   );
 
-  console.log("//// get memberData", memberData);
-
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>(
     memberData ?? []
@@ -49,12 +47,13 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
     setSelectedMembers(selectedMembers);
-    console.log("selectedMembers", selectedMembers);
+    //console.log("selectedMembers", selectedMembers);
     selectMemberCallbak(selectedMembers);
 
     //onMemberSelection(selectedMembers);
   };
 
+  //console.log("get Member data", memberData);
   //console.log("member datatable selectedMembers", selectedMembers);
 
   const columns = useMemo(
