@@ -117,7 +117,7 @@ export default function OrderLayout({
     // router.push(path)
   };
 
-  console.log("currentPath", currentPathname);
+  //console.log("currentPath", currentPathname);
 
   return (
     <Box sx={{ display: "flex" }}>

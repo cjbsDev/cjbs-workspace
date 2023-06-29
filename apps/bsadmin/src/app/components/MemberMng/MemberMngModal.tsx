@@ -81,7 +81,7 @@ const MemberMngtNewModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}&isAcs=Y`,
     fetcher,
     {
       suspense: true,
@@ -305,7 +305,7 @@ const MemberMngtNewModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>멤버 관리</ModalTitle>
+      <ModalTitle onClose={onClose}>고객 검색</ModalTitle>
       <DialogContent>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={7}>
@@ -357,7 +357,7 @@ const MemberMngtNewModal = ({
                   <TableHead>
                     <TableRow>
                       <TableCell></TableCell>
-                      <TableCell>멤버</TableCell>
+                      <TableCell>연구원</TableCell>
                       <TableCell>리더</TableCell>
                     </TableRow>
                   </TableHead>
