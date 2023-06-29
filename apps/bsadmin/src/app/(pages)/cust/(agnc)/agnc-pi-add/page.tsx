@@ -9,6 +9,7 @@ import {
   ErrorContainer,
   Fallback,
   InputValidation,
+  PostCodeBtn,
 } from "cjbsDSTM";
 import {
   Typography,
@@ -293,11 +294,7 @@ const AgncAdd = () => {
                           errorMessage={false}
                           placeholder="zip code"
                         />
-                        <OutlinedButton
-                          size="small"
-                          buttonName="우편번호 찾기"
-                          onClick={handlePostAddressClick}
-                        />
+                        <PostCodeBtn />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
