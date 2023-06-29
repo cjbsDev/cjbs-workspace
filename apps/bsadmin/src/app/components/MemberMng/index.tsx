@@ -4,13 +4,14 @@ import MyIcon from "icon/myIcon";
 import { DataTableBase, LeaderCip, XsmallButton } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useSetRecoilState } from "recoil";
-import { memberManagementModalAtom } from "../../../../recoil/atoms/modalAtom";
+import { memberManagementModalAtom } from "../../recoil/atoms/modalAtom";
 import { useRecoilState, useRecoilValue } from "recoil";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
+import SkeletonLoading from "../SkeletonLoading";
 import dynamic from "next/dynamic";
 
 interface MemberDataProps {
   selectMemberCallbak: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
+  memberData: Member[];
 }
 
 interface Member {
@@ -18,15 +19,16 @@ interface Member {
   ebcEmail: string;
   custNm: string;
   isAcs: string;
-  isLeader: boolean;
+  isLeader: string;
 }
 
-const LazyMemberMngtModal = dynamic(() => import("./MemberMngtNewModal"), {
+const LazyMemberMngtModal = dynamic(() => import("./MemberMngModal"), {
   ssr: false,
 });
 
 const MemberDataTable: React.FC<MemberDataProps> = ({
   selectMemberCallbak,
+  memberData,
 }) => {
   const setMemberManagementModalOpen = useSetRecoilState(
     memberManagementModalAtom
@@ -37,8 +39,12 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
     memberManagementModalAtom
   );
 
+  console.log("//// get memberData", memberData);
+
   // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>(
+    memberData ?? []
+  );
   // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
@@ -99,10 +105,11 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
         title={
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="subtitle1">
-              멤버{selectedMembers && " (총 " + selectedMembers.length + "명)"}
+              소속 연구원
+              {selectedMembers && " (총 " + selectedMembers.length + "명)"}
             </Typography>
             <XsmallButton
-              buttonName="멤버관리"
+              buttonName="소속 연구원 관리"
               color="secondary"
               endIcon={<MyIcon icon="cheveron-right" size={20} />}
               onClick={handleModalOpen}
