@@ -100,12 +100,23 @@ interface FormData {
   memo?: string;
 }
 
+/*
 interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
   isAcs: string;
   isLeader: boolean;
+}
+*/
+
+interface Member {
+  isLeader: string;
+  custUkey: string;
+  ebcEmail: string;
+  custNm: string;
+  isAcs: string;
+  isLeaderFlag: boolean;
 }
 
 export default function AgncPIModifyPage() {
@@ -115,44 +126,42 @@ export default function AgncPIModifyPage() {
   const router = useRouter();
 
   const methods = useForm<FormData>({
-    defaultValues: async () => {
-      const res = await fetch(
+    defaultValues: () => {
+      return fetch(
         `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${uKey}`
-      );
-      const getData = await res.json();
-      const data = getData.data;
-      //console.log("---- modity data", data);
+      )
+        .then((res) => res.json())
+        .then((getData) => {
+          const data = getData.data;
+          //console.log("data.custDetail", JSON.stringify(data.custDetail));
 
-      setSelectedMembers(data.custDetail);
-      /*
-      interface FormData {
-        agncNm?: string;
-        agncUkey?: string;
-        addr?: string;
-        addrDetail?: string;
-        zip?: string;
-        bsnsManagedByUkey?: string;
-        custDetail?: string[];
-        isSpecialMng?: string;
-        memo?: string;
-      }
-      */
-      return {
-        instNm: data.instNm,
-        agncId: data.agncId,
-        agncNm: data.agncNm,
-        agncUkey: data.agncUkey,
-        addr: data.addr,
-        addrDetail: data.addrDetail,
-        bsnsManagedByNm: data.bsnsManagedByNm,
-        bsnsManagedByUkey: data.bsnsManagedByUkey,
-        custDetail: data.custDetail,
-        zip: data.zip,
-        isSpecialMng: data.isSpecialMng,
-        isSpecialMngFlag: data.isSpecialMng == "Y" ? true : false,
-        memo: data.memo,
-        pymnPrice: data.pymnPrice,
-      };
+          // isLeader 가 Y 면 true, N 면 false 로 세팅한다.
+          const updatedCustDetailData = data.custDetail.map((row: Member) => {
+            return {
+              ...row,
+              isLeaderFlag: row.isLeader === "Y",
+            };
+          });
+
+          setSelectedMembers(updatedCustDetailData);
+
+          return {
+            instNm: data.instNm,
+            agncId: data.agncId,
+            agncNm: data.agncNm,
+            agncUkey: data.agncUkey,
+            addr: data.addr,
+            addrDetail: data.addrDetail,
+            bsnsManagedByNm: data.bsnsManagedByNm,
+            bsnsManagedByUkey: data.bsnsManagedByUkey,
+            custDetail: updatedCustDetailData,
+            zip: data.zip,
+            isSpecialMng: data.isSpecialMng,
+            isSpecialMngFlag: data.isSpecialMng === "Y",
+            memo: data.memo,
+            pymnPrice: data.pymnPrice,
+          };
+        });
     },
   });
   const {
@@ -215,7 +224,7 @@ export default function AgncPIModifyPage() {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
           //router.push("/cust/cust-list/" + slug);
-          router.push("/cust/agnc-pi-list");
+          router.push("/cust/agnc-pi-list/" + uKey);
         }
       })
       .catch((error) => {

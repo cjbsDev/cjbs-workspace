@@ -48,8 +48,8 @@ interface CustViewProps {
 
 interface DataItem {
   isLeader: string;
-  leaderEmail: string;
-  leaderNm: string;
+  ebcEmail: string;
+  custNm: string;
   isAcs: string;
   ukey: any;
   custUkey: string;
@@ -178,8 +178,8 @@ export default function AgncPage({ params }: CustViewProps) {
                 <TableRow key={dataItem.custUkey}>
                   <TD>{index + 1}</TD>
                   <TD>{dataItem.isLeader === "Y" ? <LeaderCip /> : "일반"}</TD>
-                  <TD>{dataItem.leaderEmail}</TD>
-                  <TD>{dataItem.leaderNm}</TD>
+                  <TD>{dataItem.ebcEmail}</TD>
+                  <TD>{dataItem.custNm}</TD>
                   <TD
                     sx={{
                       color:

@@ -85,7 +85,7 @@ const ListAgnc = () => {
       },
       {
         name: "리더",
-        cell: (row: { leaderNm: any; leaderEmail: any }) => (
+        cell: (row: { custNm: any; ebcEmail: any }) => (
           <Stack
             direction="row"
             spacing={0.5}
@@ -93,9 +93,9 @@ const ListAgnc = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
-            <Box data-tag="allowRowEvents">{row.leaderNm ?? "-"} </Box>
+            <Box data-tag="allowRowEvents">{row.custNm ?? "-"} </Box>
             <Box data-tag="allowRowEvents">
-              {row.leaderEmail ? "(" + row.leaderEmail + ")" : ""}
+              {row.ebcEmail ? "(" + row.ebcEmail + ")" : ""}
             </Box>
           </Stack>
         ),

@@ -72,6 +72,7 @@ const MemberMngtNewModal = ({
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const [key, setKey] = useState<number>(0); // 특정 조건에서 checkbox 해제 할 때 필요
 
+  console.log("모달 selectedMembers", selectedMembers);
   // [멤버] 정보 세팅
   const [memeberData, setMemberData] = useState<Member[]>(
     selectedMembers ?? initialData
@@ -400,10 +401,7 @@ const MemberMngtNewModal = ({
         }}
       >
         <Stack direction="row" spacing={0.5}>
-          <OutlinedButton
-            buttonName="취소"
-            // onClick={() => router.push("cust-list")}
-          />
+          <OutlinedButton buttonName="취소" onClick={onClose} />
           <ContainedButton buttonName="확인" onClick={handleMembersInfo} />
         </Stack>
       </DialogActions>

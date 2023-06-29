@@ -19,7 +19,7 @@ interface Member {
   ebcEmail: string;
   custNm: string;
   isAcs: string;
-  isLeader: boolean;
+  isLeader: string;
 }
 
 const LazyMemberMngtModal = dynamic(() => import("./MemberMngModal"), {
@@ -39,7 +39,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
     memberManagementModalAtom
   );
 
-  //console.log("//// get memberData", memberData);
+  console.log("//// get memberData", memberData);
 
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>(
