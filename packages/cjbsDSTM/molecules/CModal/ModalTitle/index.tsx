@@ -26,3 +26,22 @@ export const ModalTitle = (props: DialogTitleProps) => {
     </DialogTitle>
   );
 };
+
+export const ModalNoneTextTitle = (props: DialogTitleProps) => {
+  const { children, onClose, ...other } = props;
+  return (
+    <DialogTitle sx={{ m: 0, p: 3.5 }} {...other}>
+      <IconButton
+        onClick={onClose}
+        sx={{
+          position: "absolute",
+          right: 20,
+          top: 25,
+          color: "black",
+        }}
+      >
+        <CloseIcon />
+      </IconButton>
+    </DialogTitle>
+  );
+};
