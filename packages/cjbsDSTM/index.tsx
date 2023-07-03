@@ -10,6 +10,7 @@ export * from "./atoms/Inputs";
 export * from "./atoms/Typo";
 export * from "./atoms/Table";
 export * from "./atoms/SelectBox";
+export * from "./atoms/Checkbox";
 
 //Molecules
 export * from "./molecules/DataTableFilter";

@@ -1,7 +1,21 @@
 import { NativeSelect } from "@mui/material";
 import * as React from "react";
 import { cjbsTheme } from "../../themes";
-export function SelectBox({ register, options, inputName, ...rest }) {
+
+interface SelectBoxProps {
+  register: any;
+  options: {
+    value: string;
+    optionName: string;
+  }[];
+  inputName: string;
+}
+export function SelectBox({
+  register,
+  options,
+  inputName,
+  ...rest
+}: SelectBoxProps) {
   return (
     <NativeSelect
       {...register(inputName)}
@@ -15,9 +29,9 @@ export function SelectBox({ register, options, inputName, ...rest }) {
         pr: 1,
       }}
     >
-      {options.map((value) => (
-        <option key={value} value={value}>
-          {value}
+      {options.map((item) => (
+        <option key={item.value} value={item.value}>
+          {item.optionName}
         </option>
       ))}
     </NativeSelect>

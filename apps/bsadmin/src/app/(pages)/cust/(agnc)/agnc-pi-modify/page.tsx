@@ -24,7 +24,6 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  Checkbox,
   NativeSelect,
   Select,
   MenuItem,
@@ -38,6 +37,8 @@ import {
   Fallback,
   InputValidation,
   OutlinedButton,
+  SelectBox,
+  Checkbox,
   TD,
   TH,
   Title1,
@@ -326,38 +327,28 @@ export default function AgncPIModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    {/* 
-                    <FormControlLabel
-                      label="특별 관리(SP)하는 거래처 입니다"
-                      control={
-                        <Checkbox size="small" {...register("isSpecialMng")} />
-                      }
+                    <Checkbox
+                      defaultValue="Y"
+                      register={register}
+                      inputName="isSpecialMngFlag"
+                      labelText="특별 관리(SP)하는 거래처 입니다"
                     />
-*/}
-
-                    <input
-                      {...register("isSpecialMngFlag")}
-                      type="checkbox"
-                      id="SpecialMng"
-                    />
-                    <label htmlFor="SpecialMng">
-                      특별 관리(SP)하는 거래처 입니다
-                    </label>
                   </TD>
                 </TableRow>
                 <TableRow>
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <NativeSelect
-                      variant="outlined"
-                      {...register("bsnsManagedByUkey")}
-                    >
-                      <option value="user656014">키웨스트</option>
-                      <option value="user483349">라이언</option>
-                      <option value="user369596">모씨</option>
-                      <option value="user809094">LINK</option>
-                      <option value="user623719">코로그</option>
-                    </NativeSelect>
+                    <SelectBox
+                      register={register}
+                      inputName="bsnsManagedByUkey"
+                      options={[
+                        { value: "user656014", optionName: "키웨스트" },
+                        { value: "user483349", optionName: "라이언" },
+                        { value: "user369596", optionName: "모씨" },
+                        { value: "user809094", optionName: "LINK" },
+                        { value: "user623719", optionName: "코로그" },
+                      ]}
+                    />
                   </TD>
                 </TableRow>
                 <TableRow>
