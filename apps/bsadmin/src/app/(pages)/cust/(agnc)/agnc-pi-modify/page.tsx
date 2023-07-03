@@ -42,12 +42,12 @@ import {
   TD,
   TH,
   Title1,
+  PostCodeBtn,
 } from "cjbsDSTM";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import PostCodeBtn from "../../../../components/PostCodeBtn";
 import axios from "axios";
 
 const LazyAgncModifyLog = dynamic(
