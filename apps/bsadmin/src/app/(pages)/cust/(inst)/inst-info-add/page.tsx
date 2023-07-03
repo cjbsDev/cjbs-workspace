@@ -34,10 +34,11 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import axios from "axios";
 
+/*
 const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
   ssr: false,
 });
-
+*/
 /**
  * 기관 등록 2023-07-03 개발 시작 0704일에 완료 예정
  * - 우선은 거래처 등록을 base 로 진행 예정
@@ -318,7 +319,7 @@ const InstAdd = () => {
             </Table>
           </TableContainer>
 
-          {/* 기관 검색 모달 */}
+          {/* 기관 검색 모달 
           {showAgncSearchModal && (
             <LazyAgncSearchModal
               onClose={agncSearchModalClose}
@@ -326,6 +327,7 @@ const InstAdd = () => {
               modalWidth={800}
             />
           )}
+          */}
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
