@@ -55,6 +55,9 @@ export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
           "&.MuiButton-outlinedSizeSmall": {
             p: "3px 10px",
           },
+          "&.MuiButton-outlinedSecondary": {
+            color: cjbsTheme.palette.common.black,
+          },
         }}
       >
         <Typography variant="buttonMD">{buttonName}</Typography>

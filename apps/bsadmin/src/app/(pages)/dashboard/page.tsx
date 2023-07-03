@@ -1,30 +1,18 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
 import dynamic from "next/dynamic";
-import { LinkButton } from "cjbsDSTM";
-import { useRouter } from "next/navigation";
-import { Box, Stack, Typography } from "@mui/material";
+import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 
-export default async function OrderPage() {
-  const router = useRouter();
+const LazyListDashboard = dynamic(() => import("./ListDashboard"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
+export default function DashboardPage() {
   return (
-    <Box>
-      <Typography variant={"title1"}>Dashboard Page.</Typography>
-      <Stack direction={"row"} spacing={1}>
-        <LinkButton
-          buttonName="고객관리"
-          onClick={() => router.push("cust/cust-list")}
-        />
-        <LinkButton
-          buttonName="주문"
-          onClick={() => router.push("order/order-list")}
-        />
-        <LinkButton
-          buttonName="거래처(PI) 등록"
-          onClick={() => router.push("cust/agnc-pi-add")}
-        />
-      </Stack>
-    </Box>
+    <ErrorContainer FallbackComponent={Fallback}>
+      <LazyListDashboard />
+    </ErrorContainer>
   );
 }

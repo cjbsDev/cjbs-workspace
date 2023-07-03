@@ -1,6 +1,5 @@
 import * as React from "react";
 import { FormControlLabel, Input, Typography } from "@mui/material";
-import { FormProps } from "react-hook-form";
 
 interface CheckboxProps {
   register: any;
