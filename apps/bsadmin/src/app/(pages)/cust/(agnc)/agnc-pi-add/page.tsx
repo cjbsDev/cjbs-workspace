@@ -22,6 +22,7 @@ import {
   Checkbox,
   FormControlLabel,
   Select,
+  NativeSelect,
   MenuItem,
   TableContainer,
 } from "@mui/material";
@@ -33,10 +34,13 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import axios from "axios";
 
-const LazyMemberTable = dynamic(() => import("./MemberDataTable"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={270} />,
-});
+const LazyMemberTable = dynamic(
+  () => import("../../../../components/MemberMng"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={270} />,
+  }
+);
 
 const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
   ssr: false,
@@ -66,7 +70,7 @@ const AgncAdd = () => {
 
   // [영업 담당자]  selectbox 제어
   //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
-  const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
+  // const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
 
   const methods = useForm();
   const {
@@ -151,13 +155,14 @@ const AgncAdd = () => {
   };
   // [주소 찾기] 기능 종료
 
+  /*
   // [ 영업 담당자 ] 담당자 선택
   const handleSelectChangeBSMng = (
     event: React.ChangeEvent<{ value: unknown }>
   ) => {
     setSelectedValue(event.target.value as string);
   };
-
+*/
   //console.log("main ", selectedMembers);
 
   // Common
@@ -212,10 +217,6 @@ const AgncAdd = () => {
           <Box sx={{ mb: 4 }}>
             <Title1 titleName="거래처(PI) 등록" />
           </Box>
-
-          {/*<Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>*/}
-          {/*  <ContainedButton buttonName="멤버 관리" onClick={handleOpenModal} />*/}
-          {/*</Stack>*/}
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
             기본 정보
@@ -345,6 +346,7 @@ const AgncAdd = () => {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
+                    {/* 
                     <Select
                       {...register("bsnsManagedByUkey")}
                       size="small"
@@ -358,6 +360,18 @@ const AgncAdd = () => {
                       <MenuItem value={"user809094"}>LINK</MenuItem>
                       <MenuItem value={"user623719"}>코로그</MenuItem>
                     </Select>
+                    */}
+
+                    <NativeSelect
+                      variant="outlined"
+                      {...register("bsnsManagedByUkey")}
+                    >
+                      <option value="user656014">키웨스트</option>
+                      <option value="user483349">라이언</option>
+                      <option value="user369596">모씨</option>
+                      <option value="user809094">LINK</option>
+                      <option value="user623719">코로그</option>
+                    </NativeSelect>
                   </TD>
                 </TableRow>
                 <TableRow>
