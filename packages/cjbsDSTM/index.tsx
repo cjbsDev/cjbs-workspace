@@ -9,6 +9,7 @@ export * from "./atoms/Buttons";
 export * from "./atoms/Inputs";
 export * from "./atoms/Typo";
 export * from "./atoms/Table";
+export * from "./atoms/SelectBox";
 
 //Molecules
 export * from "./molecules/DataTableFilter";

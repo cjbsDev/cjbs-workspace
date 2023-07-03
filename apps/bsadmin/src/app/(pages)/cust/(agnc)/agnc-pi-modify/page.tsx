@@ -14,6 +14,7 @@ import {
   TableContainer,
   TableRow,
   Typography,
+  Input,
 } from "@mui/material";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import {
@@ -26,6 +27,8 @@ import {
   TH,
   Title1,
   PostCodeBtn,
+  cjbsTheme,
+  SelectBox,
 } from "cjbsDSTM";
 import * as React from "react";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
@@ -75,7 +78,7 @@ export default function AgncPIModifyPage() {
         addr: data.addr,
         addrDetail: data.addrDetail,
         memo: data.memo,
-        category: "A",
+        category: "B",
         isSpecialMng: [data.isSpecialMng],
       };
     },
@@ -142,31 +145,28 @@ export default function AgncPIModifyPage() {
                         }
                       />
 
-                      <input
-                        {...register("isSpecialMng")}
-                        type="checkbox"
-                        value="Y"
-                        id="SpecialMng"
+                      <FormControlLabel
+                        control={
+                          <Input
+                            {...register("isSpecialMng")}
+                            type="checkbox"
+                            defaultValue="Y"
+                            disableUnderline={true}
+                            sx={{ width: 18 }}
+                          />
+                        }
+                        label={
+                          <Typography variant="body2" sx={{ ml: 1 }}>
+                            특별 관리(SP)하는 거래처 입니다
+                          </Typography>
+                        }
                       />
-                      <label htmlFor="SpecialMng">
-                        특별 관리(SP)하는 거래처 입니다
-                      </label>
 
-                      <NativeSelect
-                        variant={"outlined"}
-                        sx={{
-                          border: "none",
-                          ".MuiNativeSelect-outlined": {
-                            // backgroundColor: "red",
-                            border: "1px solid blue",
-                          },
-                        }}
-                        {...register("category")}
-                      >
-                        <option value="">Select...</option>
-                        <option value="A">Category A</option>
-                        <option value="B">Category B</option>
-                      </NativeSelect>
+                      <SelectBox
+                        register={register}
+                        inputName="category"
+                        options={["select...", "A", "B"]}
+                      />
                     </Stack>
                   </TD>
                 </TableRow>
