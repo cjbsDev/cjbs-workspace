@@ -7,12 +7,18 @@ import {
   ModalContainer,
   ModalTitle,
   OutlinedButton,
+  Title1,
+  UnStyledButton,
 } from "cjbsDSTM";
 import { Chip, DialogContent, Grid, Stack, Typography } from "@mui/material";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
+import MyIcon from "icon/myIcon";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import IconDescBar from "../../../../components/IconDescBar";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -35,12 +41,13 @@ const AgncSearchModal = ({
   const [perPage, setPerPage] = useState(30);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list/unRgst`,
     fetcher,
     {
       suspense: true,
     }
   );
+  // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { setValue } = useFormContext();
 
   //console.log("Modal data", data.data);
@@ -49,20 +56,12 @@ const AgncSearchModal = ({
   const columns = useMemo(
     () => [
       {
-        name: "사업자등록번호",
-        selector: (row) => row.brno,
+        name: "더존 코드",
+        selector: (row) => row.douzoneCode,
       },
       {
         name: "기관명",
         selector: (row) => row.instNm,
-      },
-      {
-        name: "분류",
-        selector: (row) => row.instTypeCc,
-      },
-      {
-        name: "특성",
-        selector: (row) => row.ftr,
       },
       {
         name: "선택",
@@ -72,7 +71,7 @@ const AgncSearchModal = ({
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("instUkey", row.instUkey);
+                setValue("instUniqueCodeMc", row.instUniqueCodeMc);
                 setValue("instNm", row.instNm);
                 onClose();
               }}
@@ -84,7 +83,6 @@ const AgncSearchModal = ({
     []
   );
 
-  console.log("data.data.instList", data.data.instList);
   const filteredData = data.data.instList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
