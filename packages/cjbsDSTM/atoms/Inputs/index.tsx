@@ -2,12 +2,12 @@ import * as React from "react";
 import { TextField, TextFieldProps } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
+import { useFormContext } from "react-hook-form";
 
 type InputValidationProps = TextFieldProps & {
   inputName: string;
   placeholder?: string;
   errorMessage: string | boolean;
-  register: any;
 };
 export const InputDefaultType = ({ ...props }: TextFieldProps) => {
   return (
@@ -29,15 +29,17 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
 };
 
 export const InputValidation = ({
-  register,
   inputName,
   errorMessage,
   ...props
 }: InputValidationProps) => {
+  const methods = useFormContext();
   return (
     <ThemeProvider theme={cjbsTheme}>
       <TextField
         {...props}
+        error={methods.formState.errors[inputName] ? true : false}
+        helperText={methods.formState.errors[inputName]?.message}
         variant="outlined"
         size="small"
         sx={{
@@ -47,10 +49,12 @@ export const InputValidation = ({
             pb: "5px",
           },
         }}
-        {...register(inputName, {
-          required: errorMessage,
+        {...methods.register(inputName, {
+          required: methods.formState.errors[inputName]
+            ? errorMessage
+            : errorMessage,
         })}
-      />
+      ></TextField>
     </ThemeProvider>
   );
 };

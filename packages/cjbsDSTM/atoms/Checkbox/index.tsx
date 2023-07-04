@@ -1,20 +1,22 @@
 import * as React from "react";
 import { FormControlLabel, Input, Typography } from "@mui/material";
+import { useFormContext } from "react-hook-form";
 
 interface CheckboxProps {
-  register: any;
   inputName: string;
   labelText: string;
   defaultValue: string | boolean;
 }
 
 export const Checkbox = (props: CheckboxProps) => {
-  const { register, inputName, labelText, defaultValue } = props;
+  const { inputName, labelText, defaultValue, ...rest } = props;
+  const methods = useFormContext();
   return (
     <FormControlLabel
       control={
         <Input
-          {...register(inputName)}
+          {...methods.register(inputName)}
+          {...rest}
           type="checkbox"
           defaultValue={defaultValue}
           disableUnderline={true}

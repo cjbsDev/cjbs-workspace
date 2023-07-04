@@ -1,24 +1,20 @@
 import { NativeSelect } from "@mui/material";
 import * as React from "react";
 import { cjbsTheme } from "../../themes";
+import { useFormContext } from "react-hook-form";
 
 interface SelectBoxProps {
-  register: any;
   options: {
     value: string;
     optionName: string;
   }[];
   inputName: string;
 }
-export function SelectBox({
-  register,
-  options,
-  inputName,
-  ...rest
-}: SelectBoxProps) {
+export function SelectBox({ options, inputName, ...rest }: SelectBoxProps) {
+  const methods = useFormContext();
   return (
     <NativeSelect
-      {...register(inputName)}
+      {...methods.register(inputName)}
       {...rest}
       color="secondary"
       disableUnderline={true}
