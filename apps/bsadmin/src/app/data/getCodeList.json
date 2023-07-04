@@ -1,0 +1,4837 @@
+{
+  "success": true,
+  "code": "OK",
+  "message": "NO_MESSAGE",
+  "data": [
+    {
+      "uniqueCode": "BS_0000001",
+      "codeValue": "common code",
+      "codeNm": "공통코드"
+    },
+    {
+      "uniqueCode": "BS_0000002",
+      "codeValue": "master code",
+      "codeNm": "마스터코드"
+    },
+    {
+      "uniqueCode": "BS_0000003",
+      "codeValue": "geo code",
+      "codeNm": "지리위치코드"
+    },
+    {
+      "uniqueCode": "BS_0100004",
+      "codeValue": "Institution",
+      "codeNm": "기관"
+    },
+    {
+      "uniqueCode": "BS_0100005",
+      "codeValue": "Project",
+      "codeNm": "프로젝트"
+    },
+    {
+      "uniqueCode": "BS_0100006",
+      "codeValue": "Department",
+      "codeNm": "부서"
+    },
+    {
+      "uniqueCode": "BS_0100007",
+      "codeValue": "Analysis Phase",
+      "codeNm": "분석단계"
+    },
+    {
+      "uniqueCode": "BS_0100008",
+      "codeValue": "Service Classification",
+      "codeNm": "서비스 분류"
+    },
+    {
+      "uniqueCode": "BS_0100009",
+      "codeValue": "Analaysis Type",
+      "codeNm": "분석종류"
+    },
+    {
+      "uniqueCode": "BS_0100010",
+      "codeValue": "Service Type",
+      "codeNm": "서비스 타입"
+    },
+    {
+      "uniqueCode": "BS_0100011",
+      "codeValue": "Analysis Method",
+      "codeNm": "분석방법"
+    },
+    {
+      "uniqueCode": "BS_0200001",
+      "codeValue": "overseas",
+      "codeNm": "해외"
+    },
+    {
+      "uniqueCode": "BS_0200002",
+      "codeValue": "domestic",
+      "codeNm": "국내"
+    },
+    {
+      "uniqueCode": "BS_0301001",
+      "codeValue": "member",
+      "codeNm": "일반"
+    },
+    {
+      "uniqueCode": "BS_0301002",
+      "codeValue": "part manager",
+      "codeNm": "부서 관리자"
+    },
+    {
+      "uniqueCode": "BS_0301003",
+      "codeValue": "total manager",
+      "codeNm": "통합 관리자"
+    },
+    {
+      "uniqueCode": "BS_0302001",
+      "codeValue": "hole",
+      "codeNm": "승인대기"
+    },
+    {
+      "uniqueCode": "BS_0302002",
+      "codeValue": "use",
+      "codeNm": "사용"
+    },
+    {
+      "uniqueCode": "BS_0302003",
+      "codeValue": "stop",
+      "codeNm": "사용 정지"
+    },
+    {
+      "uniqueCode": "BS_0404001",
+      "codeValue": "angc_nm",
+      "codeNm": "거래처명"
+    },
+    {
+      "uniqueCode": "BS_0404002",
+      "codeValue": "zip",
+      "codeNm": "우편번호"
+    },
+    {
+      "uniqueCode": "BS_0404003",
+      "codeValue": "addr",
+      "codeNm": "주소"
+    },
+    {
+      "uniqueCode": "BS_0404004",
+      "codeValue": "addr_detail",
+      "codeNm": "주소상세"
+    },
+    {
+      "uniqueCode": "BS_0404005",
+      "codeValue": "is_special_mng",
+      "codeNm": "특별관리여부"
+    },
+    {
+      "uniqueCode": "BS_0404006",
+      "codeValue": "memo",
+      "codeNm": "메모"
+    },
+    {
+      "uniqueCode": "BS_0404007",
+      "codeValue": "managed_by",
+      "codeNm": "영업담당자"
+    },
+    {
+      "uniqueCode": "BS_0404008",
+      "codeValue": "inst_unique_code_mc",
+      "codeNm": "기관유니크코드"
+    },
+    {
+      "uniqueCode": "BS_0502001",
+      "codeValue": "use",
+      "codeNm": "사용"
+    },
+    {
+      "uniqueCode": "BS_0502002",
+      "codeValue": "block",
+      "codeNm": "차단"
+    },
+    {
+      "uniqueCode": "BS_0504003",
+      "codeValue": "intn_extr_cl_cc",
+      "codeNm": "내외부분류코드"
+    },
+    {
+      "uniqueCode": "BS_0504004",
+      "codeValue": "nm",
+      "codeNm": "이름"
+    },
+    {
+      "uniqueCode": "BS_0504005",
+      "codeValue": "is_acs",
+      "codeNm": "차단여부"
+    },
+    {
+      "uniqueCode": "BS_0504006",
+      "codeValue": "memo",
+      "codeNm": "메모"
+    },
+    {
+      "uniqueCode": "BS_0504007",
+      "codeValue": "tel_1",
+      "codeNm": "연락처1"
+    },
+    {
+      "uniqueCode": "BS_0504008",
+      "codeValue": "tel_2",
+      "codeNm": "연락처2"
+    },
+    {
+      "uniqueCode": "BS_0504009",
+      "codeValue": "tel_3",
+      "codeNm": "연락처3"
+    },
+    {
+      "uniqueCode": "BS_0600001",
+      "codeValue": "school",
+      "codeNm": "학교"
+    },
+    {
+      "uniqueCode": "BS_0600002",
+      "codeValue": "clinic",
+      "codeNm": "병원"
+    },
+    {
+      "uniqueCode": "BS_0600003",
+      "codeValue": "corporation",
+      "codeNm": "기업"
+    },
+    {
+      "uniqueCode": "BS_0600004",
+      "codeValue": "institution",
+      "codeNm": "기관"
+    },
+    {
+      "uniqueCode": "BS_0600005",
+      "codeValue": "etc",
+      "codeNm": "기타"
+    },
+    {
+      "uniqueCode": "BS_0602001",
+      "codeValue": "run",
+      "codeNm": "운영"
+    },
+    {
+      "uniqueCode": "BS_0602002",
+      "codeValue": "stop",
+      "codeNm": "폐업"
+    },
+    {
+      "uniqueCode": "BS_0604001",
+      "codeValue": "lctn_type_cc",
+      "codeNm": "위치"
+    },
+    {
+      "uniqueCode": "BS_0604002",
+      "codeValue": "brno",
+      "codeNm": "사업자 등록번호"
+    },
+    {
+      "uniqueCode": "BS_0604003",
+      "codeValue": "rprs_nm",
+      "codeNm": "대표자"
+    },
+    {
+      "uniqueCode": "BS_0604004",
+      "codeValue": "itbsns",
+      "codeNm": "업태"
+    },
+    {
+      "uniqueCode": "BS_0604005",
+      "codeValue": "tpbsns",
+      "codeNm": "업종"
+    },
+    {
+      "uniqueCode": "BS_0604006",
+      "codeValue": "region_1_gc",
+      "codeNm": "지역1"
+    },
+    {
+      "uniqueCode": "BS_0604007",
+      "codeValue": "region_2_gc",
+      "codeNm": "지역2"
+    },
+    {
+      "uniqueCode": "BS_0604008",
+      "codeValue": "inst_type_cc",
+      "codeNm": "분류"
+    },
+    {
+      "uniqueCode": "BS_0604009",
+      "codeValue": "ftr",
+      "codeNm": "특성"
+    },
+    {
+      "uniqueCode": "BS_0604010",
+      "codeValue": "status_code_cc",
+      "codeNm": "상태"
+    },
+    {
+      "uniqueCode": "BS_0604011",
+      "codeValue": "zip",
+      "codeNm": "우편번호"
+    },
+    {
+      "uniqueCode": "BS_0604012",
+      "codeValue": "addr",
+      "codeNm": "주소"
+    },
+    {
+      "uniqueCode": "BS_0604013",
+      "codeValue": "addr_detail",
+      "codeNm": "주소상세"
+    },
+    {
+      "uniqueCode": "BS_0605001",
+      "codeValue": "inner",
+      "codeNm": "내부"
+    },
+    {
+      "uniqueCode": "BS_0605002",
+      "codeValue": "outer",
+      "codeNm": "외부"
+    },
+    {
+      "uniqueCode": "BS_0703001",
+      "codeValue": "create",
+      "codeNm": "생성"
+    },
+    {
+      "uniqueCode": "BS_0703002",
+      "codeValue": "update",
+      "codeNm": "수정"
+    },
+    {
+      "uniqueCode": "BS_0800001",
+      "codeValue": "general",
+      "codeNm": "일반"
+    },
+    {
+      "uniqueCode": "BS_0800002",
+      "codeValue": "free",
+      "codeNm": "무료"
+    },
+    {
+      "uniqueCode": "BS_0800003",
+      "codeValue": "test",
+      "codeNm": "테스트"
+    },
+    {
+      "uniqueCode": "BS_0802001",
+      "codeValue": "unreceived",
+      "codeNm": "샘플 미접수"
+    },
+    {
+      "uniqueCode": "BS_0802002",
+      "codeValue": "ongoing",
+      "codeNm": "진행중"
+    },
+    {
+      "uniqueCode": "BS_0802003",
+      "codeValue": "complete",
+      "codeNm": "완료"
+    },
+    {
+      "uniqueCode": "BS_0802004",
+      "codeValue": "cancel",
+      "codeNm": "취소"
+    },
+    {
+      "uniqueCode": "BS_0805001",
+      "codeValue": "inner",
+      "codeNm": "영업용(외부)"
+    },
+    {
+      "uniqueCode": "BS_0805002",
+      "codeValue": "outer",
+      "codeNm": "연구용(내부)"
+    },
+    {
+      "uniqueCode": "BS_0902001",
+      "codeValue": "Default",
+      "codeNm": "기본"
+    },
+    {
+      "uniqueCode": "BS_0902002",
+      "codeValue": "waiting",
+      "codeNm": "대기중"
+    },
+    {
+      "uniqueCode": "BS_0902003",
+      "codeValue": "Ongoing",
+      "codeNm": "진행중"
+    },
+    {
+      "uniqueCode": "BS_0902004",
+      "codeValue": "Cancel",
+      "codeNm": "취소"
+    },
+    {
+      "uniqueCode": "BS_0902005",
+      "codeValue": "Pass",
+      "codeNm": "Pass"
+    },
+    {
+      "uniqueCode": "BS_0902006",
+      "codeValue": "Fail",
+      "codeNm": "Fail"
+    },
+    {
+      "uniqueCode": "BS_0902007",
+      "codeValue": "Hold",
+      "codeNm": "Hold"
+    },
+    {
+      "uniqueCode": "BS_0902008",
+      "codeValue": "not_applicable",
+      "codeNm": "해당 없음"
+    },
+    {
+      "uniqueCode": "11000",
+      "codeValue": "seoul",
+      "codeNm": "서울특별시"
+    },
+    {
+      "uniqueCode": "11110",
+      "codeValue": "w",
+      "codeNm": "종로구"
+    },
+    {
+      "uniqueCode": "11140",
+      "codeValue": "x",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "11170",
+      "codeValue": "u",
+      "codeNm": "용산구"
+    },
+    {
+      "uniqueCode": "11200",
+      "codeValue": "p",
+      "codeNm": "성동구"
+    },
+    {
+      "uniqueCode": "11215",
+      "codeValue": "f",
+      "codeNm": "광진구"
+    },
+    {
+      "uniqueCode": "11230",
+      "codeValue": "k",
+      "codeNm": "동대문구"
+    },
+    {
+      "uniqueCode": "11260",
+      "codeValue": "y",
+      "codeNm": "중랑구"
+    },
+    {
+      "uniqueCode": "11290",
+      "codeValue": "q",
+      "codeNm": "성북구"
+    },
+    {
+      "uniqueCode": "11305",
+      "codeValue": "c",
+      "codeNm": "강북구"
+    },
+    {
+      "uniqueCode": "11320",
+      "codeValue": "j",
+      "codeNm": "도봉구"
+    },
+    {
+      "uniqueCode": "11350",
+      "codeValue": "i",
+      "codeNm": "노원구"
+    },
+    {
+      "uniqueCode": "11380",
+      "codeValue": "v",
+      "codeNm": "은평구"
+    },
+    {
+      "uniqueCode": "11410",
+      "codeValue": "m",
+      "codeNm": "서대문구"
+    },
+    {
+      "uniqueCode": "11440",
+      "codeValue": "n",
+      "codeNm": "마포구"
+    },
+    {
+      "uniqueCode": "11470",
+      "codeValue": "s",
+      "codeNm": "양천구"
+    },
+    {
+      "uniqueCode": "11500",
+      "codeValue": "d",
+      "codeNm": "강서구"
+    },
+    {
+      "uniqueCode": "11530",
+      "codeValue": "g",
+      "codeNm": "구로구"
+    },
+    {
+      "uniqueCode": "11545",
+      "codeValue": "h",
+      "codeNm": "금천구"
+    },
+    {
+      "uniqueCode": "11560",
+      "codeValue": "t",
+      "codeNm": "영등포구"
+    },
+    {
+      "uniqueCode": "11590",
+      "codeValue": "l",
+      "codeNm": "동작구"
+    },
+    {
+      "uniqueCode": "11620",
+      "codeValue": "e",
+      "codeNm": "관악구"
+    },
+    {
+      "uniqueCode": "11650",
+      "codeValue": "o",
+      "codeNm": "서초구"
+    },
+    {
+      "uniqueCode": "11680",
+      "codeValue": "a",
+      "codeNm": "강남구"
+    },
+    {
+      "uniqueCode": "11710",
+      "codeValue": "r",
+      "codeNm": "송파구"
+    },
+    {
+      "uniqueCode": "11740",
+      "codeValue": "b",
+      "codeNm": "강동구"
+    },
+    {
+      "uniqueCode": "26000",
+      "codeValue": "busan",
+      "codeNm": "부산광역시"
+    },
+    {
+      "uniqueCode": "26110",
+      "codeValue": "o",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "26140",
+      "codeValue": "k",
+      "codeNm": "서구"
+    },
+    {
+      "uniqueCode": "26170",
+      "codeValue": "e",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "26200",
+      "codeValue": "m",
+      "codeNm": "영도구"
+    },
+    {
+      "uniqueCode": "26230",
+      "codeValue": "g",
+      "codeNm": "부산진구"
+    },
+    {
+      "uniqueCode": "26260",
+      "codeValue": "f",
+      "codeNm": "동래구"
+    },
+    {
+      "uniqueCode": "26290",
+      "codeValue": "d",
+      "codeNm": "남구"
+    },
+    {
+      "uniqueCode": "26320",
+      "codeValue": "h",
+      "codeNm": "북구"
+    },
+    {
+      "uniqueCode": "26350",
+      "codeValue": "p",
+      "codeNm": "해운대구"
+    },
+    {
+      "uniqueCode": "26380",
+      "codeValue": "j",
+      "codeNm": "사하구"
+    },
+    {
+      "uniqueCode": "26410",
+      "codeValue": "b",
+      "codeNm": "금정구"
+    },
+    {
+      "uniqueCode": "26440",
+      "codeValue": "a",
+      "codeNm": "강서구"
+    },
+    {
+      "uniqueCode": "26470",
+      "codeValue": "n",
+      "codeNm": "연제구"
+    },
+    {
+      "uniqueCode": "26500",
+      "codeValue": "l",
+      "codeNm": "수영구"
+    },
+    {
+      "uniqueCode": "26530",
+      "codeValue": "i",
+      "codeNm": "사상구"
+    },
+    {
+      "uniqueCode": "26710",
+      "codeValue": "c",
+      "codeNm": "기장군"
+    },
+    {
+      "uniqueCode": "27000",
+      "codeValue": "daegu",
+      "codeNm": "대구광역시"
+    },
+    {
+      "uniqueCode": "27110",
+      "codeValue": "h",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "27140",
+      "codeValue": "d",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "27170",
+      "codeValue": "f",
+      "codeNm": "서구"
+    },
+    {
+      "uniqueCode": "27200",
+      "codeValue": "a",
+      "codeNm": "남구"
+    },
+    {
+      "uniqueCode": "27230",
+      "codeValue": "e",
+      "codeNm": "북구"
+    },
+    {
+      "uniqueCode": "27260",
+      "codeValue": "g",
+      "codeNm": "수성구"
+    },
+    {
+      "uniqueCode": "27290",
+      "codeValue": "b",
+      "codeNm": "달서구"
+    },
+    {
+      "uniqueCode": "27710",
+      "codeValue": "c",
+      "codeNm": "달성군"
+    },
+    {
+      "uniqueCode": "28000",
+      "codeValue": "incheon",
+      "codeNm": "인천광역시"
+    },
+    {
+      "uniqueCode": "28110",
+      "codeValue": "j",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "28140",
+      "codeValue": "d",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "28177",
+      "codeValue": "e",
+      "codeNm": "미추홀구"
+    },
+    {
+      "uniqueCode": "28185",
+      "codeValue": "h",
+      "codeNm": "연수구"
+    },
+    {
+      "uniqueCode": "28200",
+      "codeValue": "c",
+      "codeNm": "남동구"
+    },
+    {
+      "uniqueCode": "28237",
+      "codeValue": "f",
+      "codeNm": "부평구"
+    },
+    {
+      "uniqueCode": "28245",
+      "codeValue": "b",
+      "codeNm": "계양구"
+    },
+    {
+      "uniqueCode": "28260",
+      "codeValue": "g",
+      "codeNm": "서구"
+    },
+    {
+      "uniqueCode": "28710",
+      "codeValue": "a",
+      "codeNm": "강화군"
+    },
+    {
+      "uniqueCode": "28720",
+      "codeValue": "i",
+      "codeNm": "옹진군"
+    },
+    {
+      "uniqueCode": "29000",
+      "codeValue": "gwangju",
+      "codeNm": "광주광역시"
+    },
+    {
+      "uniqueCode": "29110",
+      "codeValue": "c",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "29140",
+      "codeValue": "e",
+      "codeNm": "서구"
+    },
+    {
+      "uniqueCode": "29155",
+      "codeValue": "b",
+      "codeNm": "남구"
+    },
+    {
+      "uniqueCode": "29170",
+      "codeValue": "d",
+      "codeNm": "북구"
+    },
+    {
+      "uniqueCode": "29200",
+      "codeValue": "a",
+      "codeNm": "광산구"
+    },
+    {
+      "uniqueCode": "30000",
+      "codeValue": "daejeon",
+      "codeNm": "대전광역시"
+    },
+    {
+      "uniqueCode": "30110",
+      "codeValue": "b",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "30140",
+      "codeValue": "e",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "30170",
+      "codeValue": "c",
+      "codeNm": "서구"
+    },
+    {
+      "uniqueCode": "30200",
+      "codeValue": "d",
+      "codeNm": "유성구"
+    },
+    {
+      "uniqueCode": "30230",
+      "codeValue": "a",
+      "codeNm": "대덕구"
+    },
+    {
+      "uniqueCode": "31000",
+      "codeValue": "ulsan",
+      "codeNm": "울산광역시"
+    },
+    {
+      "uniqueCode": "31110",
+      "codeValue": "e",
+      "codeNm": "중구"
+    },
+    {
+      "uniqueCode": "31140",
+      "codeValue": "a",
+      "codeNm": "남구"
+    },
+    {
+      "uniqueCode": "31170",
+      "codeValue": "b",
+      "codeNm": "동구"
+    },
+    {
+      "uniqueCode": "31200",
+      "codeValue": "c",
+      "codeNm": "북구"
+    },
+    {
+      "uniqueCode": "31710",
+      "codeValue": "d",
+      "codeNm": "울주군"
+    },
+    {
+      "uniqueCode": "36000",
+      "codeValue": "sejong",
+      "codeNm": "세종특별자치시"
+    },
+    {
+      "uniqueCode": "36110",
+      "codeValue": "a",
+      "codeNm": "세종특별자치시"
+    },
+    {
+      "uniqueCode": "41000",
+      "codeValue": "gyeonggi",
+      "codeNm": "경기도"
+    },
+    {
+      "uniqueCode": "41111",
+      "codeValue": "s",
+      "codeNm": "수원시 장안구"
+    },
+    {
+      "uniqueCode": "41113",
+      "codeValue": "q",
+      "codeNm": "수원시 권선구"
+    },
+    {
+      "uniqueCode": "41115",
+      "codeValue": "t",
+      "codeNm": "수원시 팔달구"
+    },
+    {
+      "uniqueCode": "41117",
+      "codeValue": "r",
+      "codeNm": "수원시 영통구"
+    },
+    {
+      "uniqueCode": "41131",
+      "codeValue": "o",
+      "codeNm": "성남시 수정구"
+    },
+    {
+      "uniqueCode": "41133",
+      "codeValue": "p",
+      "codeNm": "성남시 중원구"
+    },
+    {
+      "uniqueCode": "41135",
+      "codeValue": "m",
+      "codeNm": "성남시 분당구"
+    },
+    {
+      "uniqueCode": "41150",
+      "codeValue": "jj",
+      "codeNm": "의정부시"
+    },
+    {
+      "uniqueCode": "41171",
+      "codeValue": "z",
+      "codeNm": "안양시 만안구"
+    },
+    {
+      "uniqueCode": "41173",
+      "codeValue": "y",
+      "codeNm": "안양시 동안구"
+    },
+    {
+      "uniqueCode": "41190",
+      "codeValue": "n",
+      "codeNm": "부천시"
+    },
+    {
+      "uniqueCode": "41210",
+      "codeValue": "f",
+      "codeNm": "광명시"
+    },
+    {
+      "uniqueCode": "41220",
+      "codeValue": "nn",
+      "codeNm": "평택시"
+    },
+    {
+      "uniqueCode": "41250",
+      "codeValue": "l",
+      "codeNm": "동두천시"
+    },
+    {
+      "uniqueCode": "41271",
+      "codeValue": "w",
+      "codeNm": "안산시 상록구"
+    },
+    {
+      "uniqueCode": "41273",
+      "codeValue": "v",
+      "codeNm": "안산시 단원구"
+    },
+    {
+      "uniqueCode": "41281",
+      "codeValue": "b",
+      "codeNm": "고양시 덕양구"
+    },
+    {
+      "uniqueCode": "41285",
+      "codeValue": "c",
+      "codeNm": "고양시 일산동구"
+    },
+    {
+      "uniqueCode": "41287",
+      "codeValue": "d",
+      "codeNm": "고양시 일산서구"
+    },
+    {
+      "uniqueCode": "41290",
+      "codeValue": "e",
+      "codeNm": "과천시"
+    },
+    {
+      "uniqueCode": "41310",
+      "codeValue": "h",
+      "codeNm": "구리시"
+    },
+    {
+      "uniqueCode": "41360",
+      "codeValue": "k",
+      "codeNm": "남양주시"
+    },
+    {
+      "uniqueCode": "41370",
+      "codeValue": "ee",
+      "codeNm": "오산시"
+    },
+    {
+      "uniqueCode": "41390",
+      "codeValue": "u",
+      "codeNm": "시흥시"
+    },
+    {
+      "uniqueCode": "41410",
+      "codeValue": "i",
+      "codeNm": "군포시"
+    },
+    {
+      "uniqueCode": "41430",
+      "codeValue": "ii",
+      "codeNm": "의왕시"
+    },
+    {
+      "uniqueCode": "41450",
+      "codeValue": "oo",
+      "codeNm": "하남시"
+    },
+    {
+      "uniqueCode": "41461",
+      "codeValue": "hh",
+      "codeNm": "용인시 처인구"
+    },
+    {
+      "uniqueCode": "41463",
+      "codeValue": "ff",
+      "codeNm": "용인시 기흥구"
+    },
+    {
+      "uniqueCode": "41465",
+      "codeValue": "gg",
+      "codeNm": "용인시 수지구"
+    },
+    {
+      "uniqueCode": "41480",
+      "codeValue": "ll",
+      "codeNm": "파주시"
+    },
+    {
+      "uniqueCode": "41500",
+      "codeValue": "kk",
+      "codeNm": "이천시"
+    },
+    {
+      "uniqueCode": "41550",
+      "codeValue": "x",
+      "codeNm": "안성시"
+    },
+    {
+      "uniqueCode": "41570",
+      "codeValue": "j",
+      "codeNm": "김포시"
+    },
+    {
+      "uniqueCode": "41590",
+      "codeValue": "pp",
+      "codeNm": "화성시"
+    },
+    {
+      "uniqueCode": "41610",
+      "codeValue": "g",
+      "codeNm": "광주시"
+    },
+    {
+      "uniqueCode": "41630",
+      "codeValue": "aa",
+      "codeNm": "양주시"
+    },
+    {
+      "uniqueCode": "41650",
+      "codeValue": "mm",
+      "codeNm": "포천시"
+    },
+    {
+      "uniqueCode": "41670",
+      "codeValue": "cc",
+      "codeNm": "여주시"
+    },
+    {
+      "uniqueCode": "41800",
+      "codeValue": "dd",
+      "codeNm": "연천군"
+    },
+    {
+      "uniqueCode": "41820",
+      "codeValue": "a",
+      "codeNm": "가평군"
+    },
+    {
+      "uniqueCode": "41830",
+      "codeValue": "bb",
+      "codeNm": "양평군"
+    },
+    {
+      "uniqueCode": "42000",
+      "codeValue": "gangwon",
+      "codeNm": "강원도"
+    },
+    {
+      "uniqueCode": "42110",
+      "codeValue": "n",
+      "codeNm": "춘천시"
+    },
+    {
+      "uniqueCode": "42130",
+      "codeValue": "i",
+      "codeNm": "원주시"
+    },
+    {
+      "uniqueCode": "42150",
+      "codeValue": "a",
+      "codeNm": "강릉시"
+    },
+    {
+      "uniqueCode": "42170",
+      "codeValue": "c",
+      "codeNm": "동해시"
+    },
+    {
+      "uniqueCode": "42190",
+      "codeValue": "m",
+      "codeNm": "태백시"
+    },
+    {
+      "uniqueCode": "42210",
+      "codeValue": "e",
+      "codeNm": "속초시"
+    },
+    {
+      "uniqueCode": "42230",
+      "codeValue": "d",
+      "codeNm": "삼척시"
+    },
+    {
+      "uniqueCode": "42720",
+      "codeValue": "p",
+      "codeNm": "홍천군"
+    },
+    {
+      "uniqueCode": "42730",
+      "codeValue": "r",
+      "codeNm": "횡성군"
+    },
+    {
+      "uniqueCode": "42750",
+      "codeValue": "h",
+      "codeNm": "영월군"
+    },
+    {
+      "uniqueCode": "42760",
+      "codeValue": "o",
+      "codeNm": "평창군"
+    },
+    {
+      "uniqueCode": "42770",
+      "codeValue": "k",
+      "codeNm": "정선군"
+    },
+    {
+      "uniqueCode": "42780",
+      "codeValue": "l",
+      "codeNm": "철원군"
+    },
+    {
+      "uniqueCode": "42790",
+      "codeValue": "q",
+      "codeNm": "화천군"
+    },
+    {
+      "uniqueCode": "42800",
+      "codeValue": "f",
+      "codeNm": "양구군"
+    },
+    {
+      "uniqueCode": "42810",
+      "codeValue": "j",
+      "codeNm": "인제군"
+    },
+    {
+      "uniqueCode": "42820",
+      "codeValue": "b",
+      "codeNm": "고성군"
+    },
+    {
+      "uniqueCode": "42830",
+      "codeValue": "g",
+      "codeNm": "양양군"
+    },
+    {
+      "uniqueCode": "43000",
+      "codeValue": "chungbuk",
+      "codeNm": "충청북도"
+    },
+    {
+      "uniqueCode": "43111",
+      "codeValue": "j",
+      "codeNm": "청주시 상당구"
+    },
+    {
+      "uniqueCode": "43112",
+      "codeValue": "k",
+      "codeNm": "청주시 서원구"
+    },
+    {
+      "uniqueCode": "43113",
+      "codeValue": "n",
+      "codeNm": "청주시 흥덕구"
+    },
+    {
+      "uniqueCode": "43114",
+      "codeValue": "l",
+      "codeNm": "청주시 청원구"
+    },
+    {
+      "uniqueCode": "43130",
+      "codeValue": "m",
+      "codeNm": "충주시"
+    },
+    {
+      "uniqueCode": "43150",
+      "codeValue": "g",
+      "codeNm": "제천시"
+    },
+    {
+      "uniqueCode": "43720",
+      "codeValue": "c",
+      "codeNm": "보은군"
+    },
+    {
+      "uniqueCode": "43730",
+      "codeValue": "e",
+      "codeNm": "옥천군"
+    },
+    {
+      "uniqueCode": "43740",
+      "codeValue": "d",
+      "codeNm": "영동군"
+    },
+    {
+      "uniqueCode": "43745",
+      "codeValue": "h",
+      "codeNm": "증평군"
+    },
+    {
+      "uniqueCode": "43750",
+      "codeValue": "i",
+      "codeNm": "진천군"
+    },
+    {
+      "uniqueCode": "43760",
+      "codeValue": "a",
+      "codeNm": "괴산군"
+    },
+    {
+      "uniqueCode": "43770",
+      "codeValue": "f",
+      "codeNm": "음성군"
+    },
+    {
+      "uniqueCode": "43800",
+      "codeValue": "b",
+      "codeNm": "단양군"
+    },
+    {
+      "uniqueCode": "44000",
+      "codeValue": "chungnam",
+      "codeNm": "충청남도"
+    },
+    {
+      "uniqueCode": "44131",
+      "codeValue": "l",
+      "codeNm": "천안시 동남구"
+    },
+    {
+      "uniqueCode": "44133",
+      "codeValue": "n",
+      "codeNm": "천안시 서북구"
+    },
+    {
+      "uniqueCode": "44150",
+      "codeValue": "b",
+      "codeNm": "공주시"
+    },
+    {
+      "uniqueCode": "44180",
+      "codeValue": "f",
+      "codeNm": "보령시"
+    },
+    {
+      "uniqueCode": "44200",
+      "codeValue": "j",
+      "codeNm": "아산시"
+    },
+    {
+      "uniqueCode": "44210",
+      "codeValue": "h",
+      "codeNm": "서산시"
+    },
+    {
+      "uniqueCode": "44230",
+      "codeValue": "d",
+      "codeNm": "논산시"
+    },
+    {
+      "uniqueCode": "44250",
+      "codeValue": "a",
+      "codeNm": "계룡시"
+    },
+    {
+      "uniqueCode": "44270",
+      "codeValue": "e",
+      "codeNm": "당진시"
+    },
+    {
+      "uniqueCode": "44710",
+      "codeValue": "c",
+      "codeNm": "금산군"
+    },
+    {
+      "uniqueCode": "44760",
+      "codeValue": "g",
+      "codeNm": "부여군"
+    },
+    {
+      "uniqueCode": "44770",
+      "codeValue": "i",
+      "codeNm": "서천군"
+    },
+    {
+      "uniqueCode": "44790",
+      "codeValue": "m",
+      "codeNm": "청양군"
+    },
+    {
+      "uniqueCode": "44800",
+      "codeValue": "p",
+      "codeNm": "홍성군"
+    },
+    {
+      "uniqueCode": "44810",
+      "codeValue": "k",
+      "codeNm": "예산군"
+    },
+    {
+      "uniqueCode": "44825",
+      "codeValue": "o",
+      "codeNm": "태안군"
+    },
+    {
+      "uniqueCode": "45000",
+      "codeValue": "jeonbuk",
+      "codeNm": "전라북도"
+    },
+    {
+      "uniqueCode": "45111",
+      "codeValue": "n",
+      "codeNm": "전주시 완산구"
+    },
+    {
+      "uniqueCode": "45113",
+      "codeValue": "l",
+      "codeNm": "전주시 덕진구"
+    },
+    {
+      "uniqueCode": "45130",
+      "codeValue": "b",
+      "codeNm": "군산시"
+    },
+    {
+      "uniqueCode": "45140",
+      "codeValue": "i",
+      "codeNm": "익산시"
+    },
+    {
+      "uniqueCode": "45180",
+      "codeValue": "m",
+      "codeNm": "정읍시"
+    },
+    {
+      "uniqueCode": "45190",
+      "codeValue": "d",
+      "codeNm": "남원시"
+    },
+    {
+      "uniqueCode": "45210",
+      "codeValue": "c",
+      "codeNm": "김제시"
+    },
+    {
+      "uniqueCode": "45710",
+      "codeValue": "h",
+      "codeNm": "완주군"
+    },
+    {
+      "uniqueCode": "45720",
+      "codeValue": "o",
+      "codeNm": "진안군"
+    },
+    {
+      "uniqueCode": "45730",
+      "codeValue": "e",
+      "codeNm": "무주군"
+    },
+    {
+      "uniqueCode": "45740",
+      "codeValue": "k",
+      "codeNm": "장수군"
+    },
+    {
+      "uniqueCode": "45750",
+      "codeValue": "j",
+      "codeNm": "임실군"
+    },
+    {
+      "uniqueCode": "45770",
+      "codeValue": "g",
+      "codeNm": "순창군"
+    },
+    {
+      "uniqueCode": "45790",
+      "codeValue": "a",
+      "codeNm": "고창군"
+    },
+    {
+      "uniqueCode": "45800",
+      "codeValue": "f",
+      "codeNm": "부안군"
+    },
+    {
+      "uniqueCode": "46000",
+      "codeValue": "jeonnam",
+      "codeNm": "전라남도"
+    },
+    {
+      "uniqueCode": "46110",
+      "codeValue": "h",
+      "codeNm": "목포시"
+    },
+    {
+      "uniqueCode": "46130",
+      "codeValue": "n",
+      "codeNm": "여수시"
+    },
+    {
+      "uniqueCode": "46150",
+      "codeValue": "k",
+      "codeNm": "순천시"
+    },
+    {
+      "uniqueCode": "46170",
+      "codeValue": "f",
+      "codeNm": "나주시"
+    },
+    {
+      "uniqueCode": "46230",
+      "codeValue": "d",
+      "codeNm": "광양시"
+    },
+    {
+      "uniqueCode": "46710",
+      "codeValue": "g",
+      "codeNm": "담양군"
+    },
+    {
+      "uniqueCode": "46720",
+      "codeValue": "c",
+      "codeNm": "곡성군"
+    },
+    {
+      "uniqueCode": "46730",
+      "codeValue": "e",
+      "codeNm": "구례군"
+    },
+    {
+      "uniqueCode": "46770",
+      "codeValue": "b",
+      "codeNm": "고흥군"
+    },
+    {
+      "uniqueCode": "46780",
+      "codeValue": "j",
+      "codeNm": "보성군"
+    },
+    {
+      "uniqueCode": "46790",
+      "codeValue": "v",
+      "codeNm": "화순군"
+    },
+    {
+      "uniqueCode": "46800",
+      "codeValue": "r",
+      "codeNm": "장흥군"
+    },
+    {
+      "uniqueCode": "46810",
+      "codeValue": "a",
+      "codeNm": "강진군"
+    },
+    {
+      "uniqueCode": "46820",
+      "codeValue": "u",
+      "codeNm": "해남군"
+    },
+    {
+      "uniqueCode": "46830",
+      "codeValue": "o",
+      "codeNm": "영암군"
+    },
+    {
+      "uniqueCode": "46840",
+      "codeValue": "i",
+      "codeNm": "무안군"
+    },
+    {
+      "uniqueCode": "46860",
+      "codeValue": "t",
+      "codeNm": "함평군"
+    },
+    {
+      "uniqueCode": "46870",
+      "codeValue": "m",
+      "codeNm": "영광군"
+    },
+    {
+      "uniqueCode": "46880",
+      "codeValue": "q",
+      "codeNm": "장성군"
+    },
+    {
+      "uniqueCode": "46890",
+      "codeValue": "p",
+      "codeNm": "완도군"
+    },
+    {
+      "uniqueCode": "46900",
+      "codeValue": "s",
+      "codeNm": "진도군"
+    },
+    {
+      "uniqueCode": "46910",
+      "codeValue": "l",
+      "codeNm": "신안군"
+    },
+    {
+      "uniqueCode": "47000",
+      "codeValue": "gyeongbuk",
+      "codeNm": "경상북도"
+    },
+    {
+      "uniqueCode": "47111",
+      "codeValue": "w",
+      "codeNm": "포항시 남구"
+    },
+    {
+      "uniqueCode": "47113",
+      "codeValue": "x",
+      "codeNm": "포항시 북구"
+    },
+    {
+      "uniqueCode": "47130",
+      "codeValue": "b",
+      "codeNm": "경주시"
+    },
+    {
+      "uniqueCode": "47150",
+      "codeValue": "f",
+      "codeNm": "김천시"
+    },
+    {
+      "uniqueCode": "47170",
+      "codeValue": "k",
+      "codeNm": "안동시"
+    },
+    {
+      "uniqueCode": "47190",
+      "codeValue": "d",
+      "codeNm": "구미시"
+    },
+    {
+      "uniqueCode": "47210",
+      "codeValue": "m",
+      "codeNm": "영주시"
+    },
+    {
+      "uniqueCode": "47230",
+      "codeValue": "o",
+      "codeNm": "영천시"
+    },
+    {
+      "uniqueCode": "47250",
+      "codeValue": "i",
+      "codeNm": "상주시"
+    },
+    {
+      "uniqueCode": "47280",
+      "codeValue": "g",
+      "codeNm": "문경시"
+    },
+    {
+      "uniqueCode": "47290",
+      "codeValue": "a",
+      "codeNm": "경산시"
+    },
+    {
+      "uniqueCode": "47720",
+      "codeValue": "e",
+      "codeNm": "군위군"
+    },
+    {
+      "uniqueCode": "47730",
+      "codeValue": "s",
+      "codeNm": "의성군"
+    },
+    {
+      "uniqueCode": "47750",
+      "codeValue": "u",
+      "codeNm": "청송군"
+    },
+    {
+      "uniqueCode": "47760",
+      "codeValue": "n",
+      "codeNm": "영양군"
+    },
+    {
+      "uniqueCode": "47770",
+      "codeValue": "l",
+      "codeNm": "영덕군"
+    },
+    {
+      "uniqueCode": "47820",
+      "codeValue": "t",
+      "codeNm": "청도군"
+    },
+    {
+      "uniqueCode": "47830",
+      "codeValue": "c",
+      "codeNm": "고령군"
+    },
+    {
+      "uniqueCode": "47840",
+      "codeValue": "j",
+      "codeNm": "성주군"
+    },
+    {
+      "uniqueCode": "47850",
+      "codeValue": "v",
+      "codeNm": "칠곡군"
+    },
+    {
+      "uniqueCode": "47900",
+      "codeValue": "p",
+      "codeNm": "예천군"
+    },
+    {
+      "uniqueCode": "47920",
+      "codeValue": "h",
+      "codeNm": "봉화군"
+    },
+    {
+      "uniqueCode": "47930",
+      "codeValue": "r",
+      "codeNm": "울진군"
+    },
+    {
+      "uniqueCode": "47940",
+      "codeValue": "q",
+      "codeNm": "울릉군"
+    },
+    {
+      "uniqueCode": "48000",
+      "codeValue": "gyeongnam",
+      "codeNm": "경상남도"
+    },
+    {
+      "uniqueCode": "48121",
+      "codeValue": "p",
+      "codeNm": "창원시 의창구"
+    },
+    {
+      "uniqueCode": "48123",
+      "codeValue": "o",
+      "codeNm": "창원시 성산구"
+    },
+    {
+      "uniqueCode": "48125",
+      "codeValue": "n",
+      "codeNm": "창원시 마산합포구"
+    },
+    {
+      "uniqueCode": "48127",
+      "codeValue": "m",
+      "codeNm": "창원시 마산회원구"
+    },
+    {
+      "uniqueCode": "48129",
+      "codeValue": "q",
+      "codeNm": "창원시 진해구"
+    },
+    {
+      "uniqueCode": "48170",
+      "codeValue": "k",
+      "codeNm": "진주시"
+    },
+    {
+      "uniqueCode": "48220",
+      "codeValue": "r",
+      "codeNm": "통영시"
+    },
+    {
+      "uniqueCode": "48240",
+      "codeValue": "g",
+      "codeNm": "사천시"
+    },
+    {
+      "uniqueCode": "48250",
+      "codeValue": "d",
+      "codeNm": "김해시"
+    },
+    {
+      "uniqueCode": "48270",
+      "codeValue": "f",
+      "codeNm": "밀양시"
+    },
+    {
+      "uniqueCode": "48310",
+      "codeValue": "a",
+      "codeNm": "거제시"
+    },
+    {
+      "uniqueCode": "48330",
+      "codeValue": "i",
+      "codeNm": "양산시"
+    },
+    {
+      "uniqueCode": "48720",
+      "codeValue": "j",
+      "codeNm": "의령군"
+    },
+    {
+      "uniqueCode": "48730",
+      "codeValue": "t",
+      "codeNm": "함안군"
+    },
+    {
+      "uniqueCode": "48740",
+      "codeValue": "l",
+      "codeNm": "창녕군"
+    },
+    {
+      "uniqueCode": "48820",
+      "codeValue": "c",
+      "codeNm": "고성군"
+    },
+    {
+      "uniqueCode": "48840",
+      "codeValue": "e",
+      "codeNm": "남해군"
+    },
+    {
+      "uniqueCode": "48850",
+      "codeValue": "s",
+      "codeNm": "하동군"
+    },
+    {
+      "uniqueCode": "48860",
+      "codeValue": "h",
+      "codeNm": "산청군"
+    },
+    {
+      "uniqueCode": "48870",
+      "codeValue": "u",
+      "codeNm": "함양군"
+    },
+    {
+      "uniqueCode": "48880",
+      "codeValue": "b",
+      "codeNm": "거창군"
+    },
+    {
+      "uniqueCode": "48890",
+      "codeValue": "v",
+      "codeNm": "합천군"
+    },
+    {
+      "uniqueCode": "50000",
+      "codeValue": "jeju",
+      "codeNm": "제주특별자치도"
+    },
+    {
+      "uniqueCode": "50110",
+      "codeValue": "b",
+      "codeNm": "제주시"
+    },
+    {
+      "uniqueCode": "50130",
+      "codeValue": "a",
+      "codeNm": "서귀포시"
+    },
+    {
+      "uniqueCode": "ABW",
+      "codeValue": "aruba",
+      "codeNm": "아루바"
+    },
+    {
+      "uniqueCode": "AFG",
+      "codeValue": "afghanistan",
+      "codeNm": "아프가니스탄"
+    },
+    {
+      "uniqueCode": "AGO",
+      "codeValue": "angola",
+      "codeNm": "앙골라"
+    },
+    {
+      "uniqueCode": "AIA",
+      "codeValue": "anguilla",
+      "codeNm": "앵귈라"
+    },
+    {
+      "uniqueCode": "ALA",
+      "codeValue": "aland islands",
+      "codeNm": "올란드 제도"
+    },
+    {
+      "uniqueCode": "ALB",
+      "codeValue": "albania",
+      "codeNm": "알바니아"
+    },
+    {
+      "uniqueCode": "AND",
+      "codeValue": "andorra",
+      "codeNm": "안도라"
+    },
+    {
+      "uniqueCode": "ANT",
+      "codeValue": "netherlands antilles",
+      "codeNm": "네덜란드령 안틸레스"
+    },
+    {
+      "uniqueCode": "ARE",
+      "codeValue": "united arab emirates",
+      "codeNm": "아랍에미리트"
+    },
+    {
+      "uniqueCode": "ARG",
+      "codeValue": "argentina",
+      "codeNm": "아르헨티나"
+    },
+    {
+      "uniqueCode": "ARM",
+      "codeValue": "armenia",
+      "codeNm": "아르메니아"
+    },
+    {
+      "uniqueCode": "ASM",
+      "codeValue": "american samoa",
+      "codeNm": "아메리칸사모아"
+    },
+    {
+      "uniqueCode": "ATA",
+      "codeValue": "antarctica",
+      "codeNm": "남극"
+    },
+    {
+      "uniqueCode": "ATF",
+      "codeValue": "french southern territories",
+      "codeNm": "프랑스령 남부와 남극 지역"
+    },
+    {
+      "uniqueCode": "ATG",
+      "codeValue": "antigua and barbuda",
+      "codeNm": "앤티가 바부다"
+    },
+    {
+      "uniqueCode": "AUS",
+      "codeValue": "australia",
+      "codeNm": "오스트레일리아"
+    },
+    {
+      "uniqueCode": "AUT",
+      "codeValue": "austria",
+      "codeNm": "오스트리아"
+    },
+    {
+      "uniqueCode": "AZE",
+      "codeValue": "azerbaijan",
+      "codeNm": "아제르바이잔"
+    },
+    {
+      "uniqueCode": "BDI",
+      "codeValue": "burundi",
+      "codeNm": "부룬디"
+    },
+    {
+      "uniqueCode": "BEL",
+      "codeValue": "belgium",
+      "codeNm": "벨기에"
+    },
+    {
+      "uniqueCode": "BEN",
+      "codeValue": "benin",
+      "codeNm": "베냉"
+    },
+    {
+      "uniqueCode": "BFA",
+      "codeValue": "burkina faso",
+      "codeNm": "부르키나파소"
+    },
+    {
+      "uniqueCode": "BGD",
+      "codeValue": "bangladesh",
+      "codeNm": "방글라데시"
+    },
+    {
+      "uniqueCode": "BGR",
+      "codeValue": "bulgaria",
+      "codeNm": "불가리아"
+    },
+    {
+      "uniqueCode": "BHR",
+      "codeValue": "bahrain",
+      "codeNm": "바레인"
+    },
+    {
+      "uniqueCode": "BHS",
+      "codeValue": "bahamas",
+      "codeNm": "바하마"
+    },
+    {
+      "uniqueCode": "BIH",
+      "codeValue": "bosnia hercegovina",
+      "codeNm": "보스니아 헤르체고비나"
+    },
+    {
+      "uniqueCode": "BLR",
+      "codeValue": "belarus",
+      "codeNm": "벨라루스"
+    },
+    {
+      "uniqueCode": "BLZ",
+      "codeValue": "belize",
+      "codeNm": "벨리즈"
+    },
+    {
+      "uniqueCode": "BMU",
+      "codeValue": "bermuda",
+      "codeNm": "버뮤다"
+    },
+    {
+      "uniqueCode": "BOL",
+      "codeValue": "bolivia",
+      "codeNm": "볼리비아"
+    },
+    {
+      "uniqueCode": "BRA",
+      "codeValue": "brazil",
+      "codeNm": "브라질"
+    },
+    {
+      "uniqueCode": "BRB",
+      "codeValue": "barbados",
+      "codeNm": "바베이도스"
+    },
+    {
+      "uniqueCode": "BRN",
+      "codeValue": "brunei darussalam",
+      "codeNm": "브루나이"
+    },
+    {
+      "uniqueCode": "BTN",
+      "codeValue": "bhutan",
+      "codeNm": "부탄"
+    },
+    {
+      "uniqueCode": "BVT",
+      "codeValue": "bouvet island",
+      "codeNm": "부베 섬"
+    },
+    {
+      "uniqueCode": "BWA",
+      "codeValue": "botswana",
+      "codeNm": "보츠와나"
+    },
+    {
+      "uniqueCode": "CAF",
+      "codeValue": "central african republic",
+      "codeNm": "중앙아프리카 공화국"
+    },
+    {
+      "uniqueCode": "CAN",
+      "codeValue": "canada",
+      "codeNm": "캐나다"
+    },
+    {
+      "uniqueCode": "CCK",
+      "codeValue": "cocos islands",
+      "codeNm": "코코스 제도"
+    },
+    {
+      "uniqueCode": "CHE",
+      "codeValue": "switzerland",
+      "codeNm": "스위스"
+    },
+    {
+      "uniqueCode": "CHL",
+      "codeValue": "chile",
+      "codeNm": "칠레"
+    },
+    {
+      "uniqueCode": "CHN",
+      "codeValue": "china",
+      "codeNm": "중화인민공화국"
+    },
+    {
+      "uniqueCode": "CIV",
+      "codeValue": "cote d'ivoire",
+      "codeNm": "코트디부아르"
+    },
+    {
+      "uniqueCode": "CMR",
+      "codeValue": "cameroon",
+      "codeNm": "카메룬"
+    },
+    {
+      "uniqueCode": "COD",
+      "codeValue": "democratic republic of the congo",
+      "codeNm": "콩고 민주 공화국"
+    },
+    {
+      "uniqueCode": "COG",
+      "codeValue": "congo",
+      "codeNm": "콩고 공화국"
+    },
+    {
+      "uniqueCode": "COK",
+      "codeValue": "cook islands",
+      "codeNm": "쿡 제도"
+    },
+    {
+      "uniqueCode": "COL",
+      "codeValue": "colombia",
+      "codeNm": "콜롬비아"
+    },
+    {
+      "uniqueCode": "COM",
+      "codeValue": "comoros",
+      "codeNm": "코모로"
+    },
+    {
+      "uniqueCode": "CPV",
+      "codeValue": "cape verde",
+      "codeNm": "카보베르데"
+    },
+    {
+      "uniqueCode": "CRI",
+      "codeValue": "costa rica",
+      "codeNm": "코스타리카"
+    },
+    {
+      "uniqueCode": "CUB",
+      "codeValue": "cuba",
+      "codeNm": "쿠바"
+    },
+    {
+      "uniqueCode": "CXR",
+      "codeValue": "christmas island",
+      "codeNm": "크리스마스 섬"
+    },
+    {
+      "uniqueCode": "CYM",
+      "codeValue": "cayman islands",
+      "codeNm": "케이맨 제도"
+    },
+    {
+      "uniqueCode": "CYP",
+      "codeValue": "cyprus",
+      "codeNm": "키프로스"
+    },
+    {
+      "uniqueCode": "CZE",
+      "codeValue": "czech republic",
+      "codeNm": "체코"
+    },
+    {
+      "uniqueCode": "DEU",
+      "codeValue": "germany",
+      "codeNm": "독일"
+    },
+    {
+      "uniqueCode": "DJI",
+      "codeValue": "djibouti",
+      "codeNm": "지부티"
+    },
+    {
+      "uniqueCode": "DMA",
+      "codeValue": "dominica",
+      "codeNm": "도미니카 연방"
+    },
+    {
+      "uniqueCode": "DNK",
+      "codeValue": "denmark",
+      "codeNm": "덴마크"
+    },
+    {
+      "uniqueCode": "DOM",
+      "codeValue": "dominican republic",
+      "codeNm": "도미니카 공화국"
+    },
+    {
+      "uniqueCode": "DZA",
+      "codeValue": "algeria",
+      "codeNm": "알제리"
+    },
+    {
+      "uniqueCode": "ECU",
+      "codeValue": "ecuador",
+      "codeNm": "에콰도르"
+    },
+    {
+      "uniqueCode": "EGY",
+      "codeValue": "egypt",
+      "codeNm": "이집트"
+    },
+    {
+      "uniqueCode": "ERI",
+      "codeValue": "eritrea",
+      "codeNm": "에리트레아"
+    },
+    {
+      "uniqueCode": "ESH",
+      "codeValue": "western sahara",
+      "codeNm": "서사하라"
+    },
+    {
+      "uniqueCode": "ESP",
+      "codeValue": "spain",
+      "codeNm": "스페인"
+    },
+    {
+      "uniqueCode": "EST",
+      "codeValue": "estonia",
+      "codeNm": "에스토니아"
+    },
+    {
+      "uniqueCode": "ETH",
+      "codeValue": "ethiopia",
+      "codeNm": "에티오피아"
+    },
+    {
+      "uniqueCode": "FIN",
+      "codeValue": "finland",
+      "codeNm": "핀란드"
+    },
+    {
+      "uniqueCode": "FJI",
+      "codeValue": "fiji",
+      "codeNm": "피지"
+    },
+    {
+      "uniqueCode": "FLK",
+      "codeValue": "falkland islands",
+      "codeNm": "포클랜드 제도"
+    },
+    {
+      "uniqueCode": "FRA",
+      "codeValue": "france",
+      "codeNm": "프랑스"
+    },
+    {
+      "uniqueCode": "FRO",
+      "codeValue": "faroe islands",
+      "codeNm": "페로 제도"
+    },
+    {
+      "uniqueCode": "FSM",
+      "codeValue": "micronesia",
+      "codeNm": "미크로네시아 연방"
+    },
+    {
+      "uniqueCode": "GAB",
+      "codeValue": "gabon",
+      "codeNm": "가봉"
+    },
+    {
+      "uniqueCode": "GBR",
+      "codeValue": "united kingdom",
+      "codeNm": "영국"
+    },
+    {
+      "uniqueCode": "GEO",
+      "codeValue": "georgia",
+      "codeNm": "조지아"
+    },
+    {
+      "uniqueCode": "GGY",
+      "codeValue": "guernsey",
+      "codeNm": "건지 섬"
+    },
+    {
+      "uniqueCode": "GHA",
+      "codeValue": "ghana",
+      "codeNm": "가나"
+    },
+    {
+      "uniqueCode": "GIB",
+      "codeValue": "gibraltar",
+      "codeNm": "지브롤터"
+    },
+    {
+      "uniqueCode": "GIN",
+      "codeValue": "guinea",
+      "codeNm": "기니"
+    },
+    {
+      "uniqueCode": "GLP",
+      "codeValue": "guadeloupe",
+      "codeNm": "과들루프"
+    },
+    {
+      "uniqueCode": "GMB",
+      "codeValue": "gambia",
+      "codeNm": "감비아"
+    },
+    {
+      "uniqueCode": "GNB",
+      "codeValue": "guinea-bissau",
+      "codeNm": "기니비사우"
+    },
+    {
+      "uniqueCode": "GNQ",
+      "codeValue": "equatorial guinea",
+      "codeNm": "적도 기니"
+    },
+    {
+      "uniqueCode": "GRC",
+      "codeValue": "greece",
+      "codeNm": "그리스"
+    },
+    {
+      "uniqueCode": "GRD",
+      "codeValue": "grenada",
+      "codeNm": "그레나다"
+    },
+    {
+      "uniqueCode": "GRL",
+      "codeValue": "greenland",
+      "codeNm": "그린란드"
+    },
+    {
+      "uniqueCode": "GTM",
+      "codeValue": "guatemala",
+      "codeNm": "과테말라"
+    },
+    {
+      "uniqueCode": "GUF",
+      "codeValue": "french guiana",
+      "codeNm": "프랑스령 기아나"
+    },
+    {
+      "uniqueCode": "GUM",
+      "codeValue": "guam",
+      "codeNm": "괌"
+    },
+    {
+      "uniqueCode": "GUY",
+      "codeValue": "guyana",
+      "codeNm": "가이아나"
+    },
+    {
+      "uniqueCode": "HKG",
+      "codeValue": "hong kong",
+      "codeNm": "홍콩"
+    },
+    {
+      "uniqueCode": "HMD",
+      "codeValue": "heard and mc donald islands",
+      "codeNm": "허드 맥도널드 제도"
+    },
+    {
+      "uniqueCode": "HND",
+      "codeValue": "honduras",
+      "codeNm": "온두라스"
+    },
+    {
+      "uniqueCode": "HRV",
+      "codeValue": "croatia",
+      "codeNm": "크로아티아"
+    },
+    {
+      "uniqueCode": "HTI",
+      "codeValue": "haiti",
+      "codeNm": "아이티"
+    },
+    {
+      "uniqueCode": "HUN",
+      "codeValue": "hungary",
+      "codeNm": "헝가리"
+    },
+    {
+      "uniqueCode": "IDN",
+      "codeValue": "indonesia",
+      "codeNm": "인도네시아"
+    },
+    {
+      "uniqueCode": "IMN",
+      "codeValue": "isle of man",
+      "codeNm": "맨 섬"
+    },
+    {
+      "uniqueCode": "IND",
+      "codeValue": "india",
+      "codeNm": "인도"
+    },
+    {
+      "uniqueCode": "IOT",
+      "codeValue": "british indian ocean territory",
+      "codeNm": "영국령 인도양 지역"
+    },
+    {
+      "uniqueCode": "IRL",
+      "codeValue": "ireland",
+      "codeNm": "아일랜드"
+    },
+    {
+      "uniqueCode": "IRN",
+      "codeValue": "iran",
+      "codeNm": "이란"
+    },
+    {
+      "uniqueCode": "IRQ",
+      "codeValue": "iraq",
+      "codeNm": "이라크"
+    },
+    {
+      "uniqueCode": "ISL",
+      "codeValue": "iceland",
+      "codeNm": "아이슬란드"
+    },
+    {
+      "uniqueCode": "ISR",
+      "codeValue": "israel",
+      "codeNm": "이스라엘"
+    },
+    {
+      "uniqueCode": "ITA",
+      "codeValue": "italy",
+      "codeNm": "이탈리아"
+    },
+    {
+      "uniqueCode": "JAM",
+      "codeValue": "jamaica",
+      "codeNm": "자메이카"
+    },
+    {
+      "uniqueCode": "JEY",
+      "codeValue": "jersey",
+      "codeNm": "저지 섬"
+    },
+    {
+      "uniqueCode": "JOR",
+      "codeValue": "jordan",
+      "codeNm": "요르단"
+    },
+    {
+      "uniqueCode": "JPN",
+      "codeValue": "japan",
+      "codeNm": "일본"
+    },
+    {
+      "uniqueCode": "KAZ",
+      "codeValue": "kazakhstan",
+      "codeNm": "카자흐스탄"
+    },
+    {
+      "uniqueCode": "KEN",
+      "codeValue": "kenya",
+      "codeNm": "케냐"
+    },
+    {
+      "uniqueCode": "KGZ",
+      "codeValue": "kyrgyzstan",
+      "codeNm": "키르기스스탄"
+    },
+    {
+      "uniqueCode": "KHM",
+      "codeValue": "cambodia",
+      "codeNm": "캄보디아"
+    },
+    {
+      "uniqueCode": "KIR",
+      "codeValue": "kiribati",
+      "codeNm": "키리바시"
+    },
+    {
+      "uniqueCode": "KNA",
+      "codeValue": "saint kitts and nevis",
+      "codeNm": "세인트키츠 네비스"
+    },
+    {
+      "uniqueCode": "KOR",
+      "codeValue": "korea, republic of",
+      "codeNm": "대한민국"
+    },
+    {
+      "uniqueCode": "KWT",
+      "codeValue": "kuwait",
+      "codeNm": "쿠웨이트"
+    },
+    {
+      "uniqueCode": "LAO",
+      "codeValue": "lao people' democratic republic",
+      "codeNm": "라오스"
+    },
+    {
+      "uniqueCode": "LBN",
+      "codeValue": "lebanon",
+      "codeNm": "레바논"
+    },
+    {
+      "uniqueCode": "LBR",
+      "codeValue": "liberia",
+      "codeNm": "라이베리아"
+    },
+    {
+      "uniqueCode": "LBY",
+      "codeValue": "libyan arab jamahiriya",
+      "codeNm": "리비아"
+    },
+    {
+      "uniqueCode": "LCA",
+      "codeValue": "saint lucia",
+      "codeNm": "세인트루시아"
+    },
+    {
+      "uniqueCode": "LIE",
+      "codeValue": "liechtenstein",
+      "codeNm": "리히텐슈타인"
+    },
+    {
+      "uniqueCode": "LKA",
+      "codeValue": "sri lanka",
+      "codeNm": "스리랑카"
+    },
+    {
+      "uniqueCode": "LSO",
+      "codeValue": "lesotho",
+      "codeNm": "레소토"
+    },
+    {
+      "uniqueCode": "LTU",
+      "codeValue": "lithuania",
+      "codeNm": "리투아니아"
+    },
+    {
+      "uniqueCode": "LUX",
+      "codeValue": "luxembourg",
+      "codeNm": "룩셈부르크"
+    },
+    {
+      "uniqueCode": "LVA",
+      "codeValue": "latvia",
+      "codeNm": "라트비아"
+    },
+    {
+      "uniqueCode": "MAC",
+      "codeValue": "macau",
+      "codeNm": "마카오"
+    },
+    {
+      "uniqueCode": "MAR",
+      "codeValue": "morocco",
+      "codeNm": "모로코"
+    },
+    {
+      "uniqueCode": "MCO",
+      "codeValue": "monaco",
+      "codeNm": "모나코"
+    },
+    {
+      "uniqueCode": "MDA",
+      "codeValue": "moldova, republic of",
+      "codeNm": "몰도바"
+    },
+    {
+      "uniqueCode": "MDG",
+      "codeValue": "madagascar",
+      "codeNm": "마다가스카르"
+    },
+    {
+      "uniqueCode": "MDV",
+      "codeValue": "maldives",
+      "codeNm": "몰디브"
+    },
+    {
+      "uniqueCode": "MEX",
+      "codeValue": "mexico",
+      "codeNm": "멕시코"
+    },
+    {
+      "uniqueCode": "MHL",
+      "codeValue": "marshall islands",
+      "codeNm": "마셜 제도"
+    },
+    {
+      "uniqueCode": "MKD",
+      "codeValue": "republic of macedonia",
+      "codeNm": "마케도니아 공화국"
+    },
+    {
+      "uniqueCode": "MLI",
+      "codeValue": "mali",
+      "codeNm": "말리"
+    },
+    {
+      "uniqueCode": "MLT",
+      "codeValue": "malta",
+      "codeNm": "몰타"
+    },
+    {
+      "uniqueCode": "MMR",
+      "codeValue": "myanmar",
+      "codeNm": "미얀마"
+    },
+    {
+      "uniqueCode": "MNE",
+      "codeValue": "montenegro",
+      "codeNm": "몬테네그로"
+    },
+    {
+      "uniqueCode": "MNG",
+      "codeValue": "mongolia",
+      "codeNm": "몽골"
+    },
+    {
+      "uniqueCode": "MNP",
+      "codeValue": "northern mariana islands",
+      "codeNm": "북마리아나 제도"
+    },
+    {
+      "uniqueCode": "MOZ",
+      "codeValue": "mozambique",
+      "codeNm": "모잠비크"
+    },
+    {
+      "uniqueCode": "MRT",
+      "codeValue": "mauritania",
+      "codeNm": "모리타니"
+    },
+    {
+      "uniqueCode": "MSR",
+      "codeValue": "montserrat",
+      "codeNm": "몬트세랫"
+    },
+    {
+      "uniqueCode": "MTQ",
+      "codeValue": "martinique",
+      "codeNm": "마르티니크"
+    },
+    {
+      "uniqueCode": "MUS",
+      "codeValue": "mauritius",
+      "codeNm": "모리셔스"
+    },
+    {
+      "uniqueCode": "MWI",
+      "codeValue": "malawi",
+      "codeNm": "말라위"
+    },
+    {
+      "uniqueCode": "MYS",
+      "codeValue": "malaysia",
+      "codeNm": "말레이시아"
+    },
+    {
+      "uniqueCode": "MYT",
+      "codeValue": "mayotte",
+      "codeNm": "마요트"
+    },
+    {
+      "uniqueCode": "NAM",
+      "codeValue": "namibia",
+      "codeNm": "나미비아"
+    },
+    {
+      "uniqueCode": "NCL",
+      "codeValue": "new caledonia",
+      "codeNm": "누벨칼레도니"
+    },
+    {
+      "uniqueCode": "NER",
+      "codeValue": "niger",
+      "codeNm": "니제르"
+    },
+    {
+      "uniqueCode": "NFK",
+      "codeValue": "norfolk island",
+      "codeNm": "노퍽 섬"
+    },
+    {
+      "uniqueCode": "NGA",
+      "codeValue": "nigeria",
+      "codeNm": "나이지리아"
+    },
+    {
+      "uniqueCode": "NIC",
+      "codeValue": "nicaragua",
+      "codeNm": "니카라과"
+    },
+    {
+      "uniqueCode": "NIU",
+      "codeValue": "niue",
+      "codeNm": "니우에"
+    },
+    {
+      "uniqueCode": "NLD",
+      "codeValue": "netherlands",
+      "codeNm": "네덜란드"
+    },
+    {
+      "uniqueCode": "NOR",
+      "codeValue": "norway",
+      "codeNm": "노르웨이"
+    },
+    {
+      "uniqueCode": "NPL",
+      "codeValue": "nepal",
+      "codeNm": "네팔"
+    },
+    {
+      "uniqueCode": "NRU",
+      "codeValue": "nauru",
+      "codeNm": "나우루"
+    },
+    {
+      "uniqueCode": "NZL",
+      "codeValue": "new zealand",
+      "codeNm": "뉴질랜드"
+    },
+    {
+      "uniqueCode": "OMN",
+      "codeValue": "oman",
+      "codeNm": "오만"
+    },
+    {
+      "uniqueCode": "PAK",
+      "codeValue": "pakistan",
+      "codeNm": "파키스탄"
+    },
+    {
+      "uniqueCode": "PAN",
+      "codeValue": "panama",
+      "codeNm": "파나마"
+    },
+    {
+      "uniqueCode": "PCN",
+      "codeValue": "pitcairn",
+      "codeNm": "핏케언 제도"
+    },
+    {
+      "uniqueCode": "PER",
+      "codeValue": "peru",
+      "codeNm": "페루"
+    },
+    {
+      "uniqueCode": "PHL",
+      "codeValue": "philippines",
+      "codeNm": "필리핀"
+    },
+    {
+      "uniqueCode": "PLW",
+      "codeValue": "palau",
+      "codeNm": "팔라우"
+    },
+    {
+      "uniqueCode": "PNG",
+      "codeValue": "papua new guinea",
+      "codeNm": "파푸아 뉴기니"
+    },
+    {
+      "uniqueCode": "POL",
+      "codeValue": "poland",
+      "codeNm": "폴란드"
+    },
+    {
+      "uniqueCode": "PRI",
+      "codeValue": "puerto rico",
+      "codeNm": "푸에르토리코"
+    },
+    {
+      "uniqueCode": "PRK",
+      "codeValue": "korea, democratic people's republic of",
+      "codeNm": "조선민주주의인민공화국"
+    },
+    {
+      "uniqueCode": "PRT",
+      "codeValue": "portugal",
+      "codeNm": "포르투갈"
+    },
+    {
+      "uniqueCode": "PRY",
+      "codeValue": "paraguay",
+      "codeNm": "파라과이"
+    },
+    {
+      "uniqueCode": "PSE",
+      "codeValue": "palestine",
+      "codeNm": "팔레스타인"
+    },
+    {
+      "uniqueCode": "PYF",
+      "codeValue": "french polynesia",
+      "codeNm": "프랑스령 폴리네시아"
+    },
+    {
+      "uniqueCode": "QAT",
+      "codeValue": "qatar",
+      "codeNm": "카타르"
+    },
+    {
+      "uniqueCode": "REU",
+      "codeValue": "reunion",
+      "codeNm": "레위니옹"
+    },
+    {
+      "uniqueCode": "ROU",
+      "codeValue": "romania",
+      "codeNm": "루마니아"
+    },
+    {
+      "uniqueCode": "RUS",
+      "codeValue": "russian federation",
+      "codeNm": "러시아"
+    },
+    {
+      "uniqueCode": "RWA",
+      "codeValue": "rwanda",
+      "codeNm": "르완다"
+    },
+    {
+      "uniqueCode": "SAU",
+      "codeValue": "saudi arabia",
+      "codeNm": "사우디아라비아"
+    },
+    {
+      "uniqueCode": "SDN",
+      "codeValue": "sudan",
+      "codeNm": "수단"
+    },
+    {
+      "uniqueCode": "SEN",
+      "codeValue": "senegal",
+      "codeNm": "세네갈"
+    },
+    {
+      "uniqueCode": "SGP",
+      "codeValue": "singapore",
+      "codeNm": "싱가포르"
+    },
+    {
+      "uniqueCode": "SGS",
+      "codeValue": "south georgia and the south sandwich islands",
+      "codeNm": "사우스조지아 사우스샌드위치 제도"
+    },
+    {
+      "uniqueCode": "SHN",
+      "codeValue": "st. helena",
+      "codeNm": "세인트헬레나"
+    },
+    {
+      "uniqueCode": "SJM",
+      "codeValue": "svalbard and jan mayen islands",
+      "codeNm": "스발바르 얀마옌"
+    },
+    {
+      "uniqueCode": "SLB",
+      "codeValue": "solomon islands",
+      "codeNm": "솔로몬 제도"
+    },
+    {
+      "uniqueCode": "SLE",
+      "codeValue": "sierra leone",
+      "codeNm": "시에라리온"
+    },
+    {
+      "uniqueCode": "SLV",
+      "codeValue": "el salvador",
+      "codeNm": "엘살바도르"
+    },
+    {
+      "uniqueCode": "SMR",
+      "codeValue": "san marino",
+      "codeNm": "산마리노"
+    },
+    {
+      "uniqueCode": "SOM",
+      "codeValue": "somalia",
+      "codeNm": "소말리아"
+    },
+    {
+      "uniqueCode": "SPM",
+      "codeValue": "st. pierre and miquelon",
+      "codeNm": "생피에르 미클롱"
+    },
+    {
+      "uniqueCode": "SRB",
+      "codeValue": "serbia",
+      "codeNm": "세르비아"
+    },
+    {
+      "uniqueCode": "SSD",
+      "codeValue": "republic of south sudan",
+      "codeNm": "남수단"
+    },
+    {
+      "uniqueCode": "STP",
+      "codeValue": "sao tome and principe",
+      "codeNm": "상투메 프린시페"
+    },
+    {
+      "uniqueCode": "SUR",
+      "codeValue": "suriname",
+      "codeNm": "수리남"
+    },
+    {
+      "uniqueCode": "SVK",
+      "codeValue": "slovakia",
+      "codeNm": "슬로바키아"
+    },
+    {
+      "uniqueCode": "SVN",
+      "codeValue": "slovenia",
+      "codeNm": "슬로베니아"
+    },
+    {
+      "uniqueCode": "SWE",
+      "codeValue": "sweden",
+      "codeNm": "스웨덴"
+    },
+    {
+      "uniqueCode": "SWZ",
+      "codeValue": "swaziland",
+      "codeNm": "스와질란드"
+    },
+    {
+      "uniqueCode": "SYC",
+      "codeValue": "seychelles",
+      "codeNm": "세이셸"
+    },
+    {
+      "uniqueCode": "SYR",
+      "codeValue": "syrian arab republic",
+      "codeNm": "시리아"
+    },
+    {
+      "uniqueCode": "TCA",
+      "codeValue": "turks and caicos islands",
+      "codeNm": "터크스 케이커스 제도"
+    },
+    {
+      "uniqueCode": "TCD",
+      "codeValue": "chad",
+      "codeNm": "차드"
+    },
+    {
+      "uniqueCode": "TGO",
+      "codeValue": "togo",
+      "codeNm": "토고"
+    },
+    {
+      "uniqueCode": "THA",
+      "codeValue": "thailand",
+      "codeNm": "타이"
+    },
+    {
+      "uniqueCode": "TJK",
+      "codeValue": "tajikistan",
+      "codeNm": "타지키스탄"
+    },
+    {
+      "uniqueCode": "TKL",
+      "codeValue": "tokelau",
+      "codeNm": "토켈라우"
+    },
+    {
+      "uniqueCode": "TKM",
+      "codeValue": "turkmenistan",
+      "codeNm": "투르크메니스탄"
+    },
+    {
+      "uniqueCode": "TLS",
+      "codeValue": "east timor",
+      "codeNm": "동티모르"
+    },
+    {
+      "uniqueCode": "TON",
+      "codeValue": "tonga",
+      "codeNm": "통가"
+    },
+    {
+      "uniqueCode": "TTO",
+      "codeValue": "trinidad and tobago",
+      "codeNm": "트리니다드 토바고"
+    },
+    {
+      "uniqueCode": "TUN",
+      "codeValue": "tunisia",
+      "codeNm": "튀니지"
+    },
+    {
+      "uniqueCode": "TUR",
+      "codeValue": "turkey",
+      "codeNm": "터키"
+    },
+    {
+      "uniqueCode": "TUV",
+      "codeValue": "tuvalu",
+      "codeNm": "투발루"
+    },
+    {
+      "uniqueCode": "TWN",
+      "codeValue": "taiwan, province of china",
+      "codeNm": "중화민국"
+    },
+    {
+      "uniqueCode": "TZA",
+      "codeValue": "tanzania, united republic of",
+      "codeNm": "탄자니아"
+    },
+    {
+      "uniqueCode": "UGA",
+      "codeValue": "uganda",
+      "codeNm": "우간다"
+    },
+    {
+      "uniqueCode": "UKR",
+      "codeValue": "ukraine",
+      "codeNm": "우크라이나"
+    },
+    {
+      "uniqueCode": "UMI",
+      "codeValue": "united states minor outlying islands",
+      "codeNm": "미국령 군소 제도"
+    },
+    {
+      "uniqueCode": "URY",
+      "codeValue": "uruguay",
+      "codeNm": "우루과이"
+    },
+    {
+      "uniqueCode": "USA",
+      "codeValue": "united states",
+      "codeNm": "미국"
+    },
+    {
+      "uniqueCode": "UZB",
+      "codeValue": "uzbekistan",
+      "codeNm": "우즈베키스탄"
+    },
+    {
+      "uniqueCode": "VAT",
+      "codeValue": "vatican city state",
+      "codeNm": "바티칸 시국"
+    },
+    {
+      "uniqueCode": "VCT",
+      "codeValue": "saint vincent and the grenadines",
+      "codeNm": "세인트빈센트 그레나딘"
+    },
+    {
+      "uniqueCode": "VEN",
+      "codeValue": "venezuela",
+      "codeNm": "베네수엘라"
+    },
+    {
+      "uniqueCode": "VGB",
+      "codeValue": "virgin islands, british",
+      "codeNm": "영국령 버진아일랜드"
+    },
+    {
+      "uniqueCode": "VIR",
+      "codeValue": "virgin islands, u.s.",
+      "codeNm": "미국령 버진아일랜드"
+    },
+    {
+      "uniqueCode": "VNM",
+      "codeValue": "viet nam",
+      "codeNm": "베트남"
+    },
+    {
+      "uniqueCode": "VUT",
+      "codeValue": "vanuatu",
+      "codeNm": "바누아투"
+    },
+    {
+      "uniqueCode": "WLF",
+      "codeValue": "wallis and futuna islands",
+      "codeNm": "왈리스 퓌튀나"
+    },
+    {
+      "uniqueCode": "WSM",
+      "codeValue": "samoa",
+      "codeNm": "사모아"
+    },
+    {
+      "uniqueCode": "YEM",
+      "codeValue": "yemen, republic of",
+      "codeNm": "예멘"
+    },
+    {
+      "uniqueCode": "ZAF",
+      "codeValue": "south africa",
+      "codeNm": "남아프리카 공화국"
+    },
+    {
+      "uniqueCode": "ZMB",
+      "codeValue": "zambia",
+      "codeNm": "잠비아"
+    },
+    {
+      "uniqueCode": "ZWE",
+      "codeValue": "zimbabwe",
+      "codeNm": "짐바브웨"
+    },
+    {
+      "uniqueCode": "BS_0100004001",
+      "codeValue": "tbc",
+      "codeNm": "유비텍(UBTech)"
+    },
+    {
+      "uniqueCode": "BS_0100004002",
+      "codeValue": "tbc",
+      "codeNm": "엔터바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004003",
+      "codeValue": "tbc",
+      "codeNm": "메타센테라퓨틱스"
+    },
+    {
+      "uniqueCode": "BS_0100004004",
+      "codeValue": "tbc",
+      "codeNm": "한국해양과학기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004005",
+      "codeValue": "tbc",
+      "codeNm": "분당서울대학교 병원"
+    },
+    {
+      "uniqueCode": "BS_0100004006",
+      "codeValue": "tbc",
+      "codeNm": "성균관대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004007",
+      "codeValue": "tbc",
+      "codeNm": "한국기초과학지원연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004008",
+      "codeValue": "tbc",
+      "codeNm": "한국식품연구원부설 세계김치연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004009",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004010",
+      "codeValue": "tbc",
+      "codeNm": "한국과학기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004011",
+      "codeValue": "tbc",
+      "codeNm": "아모레퍼시픽"
+    },
+    {
+      "uniqueCode": "BS_0100004012",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004013",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교병원"
+    },
+    {
+      "uniqueCode": "BS_0100004014",
+      "codeValue": "tbc",
+      "codeNm": "한국야쿠르트"
+    },
+    {
+      "uniqueCode": "BS_0100004015",
+      "codeValue": "tbc",
+      "codeNm": "연세의료원"
+    },
+    {
+      "uniqueCode": "BS_0100004016",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004017",
+      "codeValue": "tbc",
+      "codeNm": "서울아산병원"
+    },
+    {
+      "uniqueCode": "BS_0100004018",
+      "codeValue": "tbc",
+      "codeNm": "연세대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004019",
+      "codeValue": "tbc",
+      "codeNm": "명지대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004020",
+      "codeValue": "tbc",
+      "codeNm": "인천대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004021",
+      "codeValue": "tbc",
+      "codeNm": "엘에이에스"
+    },
+    {
+      "uniqueCode": "BS_0100004022",
+      "codeValue": "tbc",
+      "codeNm": "어반오코너(urban o'orner)"
+    },
+    {
+      "uniqueCode": "BS_0100004023",
+      "codeValue": "tbc",
+      "codeNm": "부산대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004024",
+      "codeValue": "tbc",
+      "codeNm": "인하대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004025",
+      "codeValue": "tbc",
+      "codeNm": "삼성서울병원"
+    },
+    {
+      "uniqueCode": "BS_0100004026",
+      "codeValue": "tbc",
+      "codeNm": "가천대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004027",
+      "codeValue": "tbc",
+      "codeNm": "광주과학기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004028",
+      "codeValue": "tbc",
+      "codeNm": "노바렉스"
+    },
+    {
+      "uniqueCode": "BS_0100004029",
+      "codeValue": "tbc",
+      "codeNm": "씨제이웰케어"
+    },
+    {
+      "uniqueCode": "BS_0100004030",
+      "codeValue": "tbc",
+      "codeNm": "공주대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004031",
+      "codeValue": "tbc",
+      "codeNm": "온바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004032",
+      "codeValue": "tbc",
+      "codeNm": "상지대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004033",
+      "codeValue": "tbc",
+      "codeNm": "건국대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004034",
+      "codeValue": "tbc",
+      "codeNm": "한림대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004035",
+      "codeValue": "tbc",
+      "codeNm": "한양대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004036",
+      "codeValue": "tbc",
+      "codeNm": "보건복지부 질병관리본부"
+    },
+    {
+      "uniqueCode": "BS_0100004037",
+      "codeValue": "tbc",
+      "codeNm": "아주대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004038",
+      "codeValue": "tbc",
+      "codeNm": "한국생명공학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004039",
+      "codeValue": "tbc",
+      "codeNm": "이화여자대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004040",
+      "codeValue": "tbc",
+      "codeNm": "부경대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004041",
+      "codeValue": "tbc",
+      "codeNm": "에스아이엔"
+    },
+    {
+      "uniqueCode": "BS_0100004042",
+      "codeValue": "tbc",
+      "codeNm": "한국지질자원연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004043",
+      "codeValue": "tbc",
+      "codeNm": "한양대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004044",
+      "codeValue": "tbc",
+      "codeNm": "중앙대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004045",
+      "codeValue": "tbc",
+      "codeNm": "세종대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004046",
+      "codeValue": "tbc",
+      "codeNm": "경기대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004047",
+      "codeValue": "tbc",
+      "codeNm": "엔도믹스"
+    },
+    {
+      "uniqueCode": "BS_0100004048",
+      "codeValue": "tbc",
+      "codeNm": "한국피부임상연구센터(KSRC)"
+    },
+    {
+      "uniqueCode": "BS_0100004049",
+      "codeValue": "tbc",
+      "codeNm": "농촌진흥청 국립농업과학원"
+    },
+    {
+      "uniqueCode": "BS_0100004050",
+      "codeValue": "tbc",
+      "codeNm": "전북대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004051",
+      "codeValue": "tbc",
+      "codeNm": "한국표준과학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004052",
+      "codeValue": "tbc",
+      "codeNm": "경상대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004053",
+      "codeValue": "tbc",
+      "codeNm": "한국에너지기술연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004054",
+      "codeValue": "tbc",
+      "codeNm": "에이치바이오(Hbio)"
+    },
+    {
+      "uniqueCode": "BS_0100004055",
+      "codeValue": "tbc",
+      "codeNm": "성빈센트병원"
+    },
+    {
+      "uniqueCode": "BS_0100004056",
+      "codeValue": "tbc",
+      "codeNm": "우리바인"
+    },
+    {
+      "uniqueCode": "BS_0100004057",
+      "codeValue": "tbc",
+      "codeNm": "대한켐텍"
+    },
+    {
+      "uniqueCode": "BS_0100004058",
+      "codeValue": "tbc",
+      "codeNm": "경성대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004059",
+      "codeValue": "tbc",
+      "codeNm": "단국대학교 천안캠퍼스 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004060",
+      "codeValue": "tbc",
+      "codeNm": "고창군농업기술센터"
+    },
+    {
+      "uniqueCode": "BS_0100004061",
+      "codeValue": "tbc",
+      "codeNm": "고신대학교복음병원"
+    },
+    {
+      "uniqueCode": "BS_0100004062",
+      "codeValue": "tbc",
+      "codeNm": "국립암센터"
+    },
+    {
+      "uniqueCode": "BS_0100004063",
+      "codeValue": "tbc",
+      "codeNm": "서울과학기술대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004064",
+      "codeValue": "tbc",
+      "codeNm": "국립해양생물자원관"
+    },
+    {
+      "uniqueCode": "BS_0100004065",
+      "codeValue": "tbc",
+      "codeNm": "농촌진흥청 국립원예특작과학원 인삼특작부"
+    },
+    {
+      "uniqueCode": "BS_0100004066",
+      "codeValue": "tbc",
+      "codeNm": "한국수자원공사"
+    },
+    {
+      "uniqueCode": "BS_0100004067",
+      "codeValue": "tbc",
+      "codeNm": "한국과학기술연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004068",
+      "codeValue": "tbc",
+      "codeNm": "농촌진흥청 국립식량과학원 바이오에너지작물연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004069",
+      "codeValue": "tbc",
+      "codeNm": "(주)글로벌의학연구센터"
+    },
+    {
+      "uniqueCode": "BS_0100004070",
+      "codeValue": "tbc",
+      "codeNm": "(주)티앤원"
+    },
+    {
+      "uniqueCode": "BS_0100004071",
+      "codeValue": "tbc",
+      "codeNm": "퓨리바이드"
+    },
+    {
+      "uniqueCode": "BS_0100004072",
+      "codeValue": "tbc",
+      "codeNm": "부산대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004073",
+      "codeValue": "tbc",
+      "codeNm": "주영엔에스(주)"
+    },
+    {
+      "uniqueCode": "BS_0100004074",
+      "codeValue": "tbc",
+      "codeNm": "유비코리아"
+    },
+    {
+      "uniqueCode": "BS_0100004075",
+      "codeValue": "tbc",
+      "codeNm": "녹십자웰빙"
+    },
+    {
+      "uniqueCode": "BS_0100004076",
+      "codeValue": "tbc",
+      "codeNm": "한국건설기술연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004077",
+      "codeValue": "tbc",
+      "codeNm": "서강대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004078",
+      "codeValue": "tbc",
+      "codeNm": "에스와이에스(SYS)"
+    },
+    {
+      "uniqueCode": "BS_0100004079",
+      "codeValue": "tbc",
+      "codeNm": "에코탄소"
+    },
+    {
+      "uniqueCode": "BS_0100004080",
+      "codeValue": "tbc",
+      "codeNm": "충남대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004081",
+      "codeValue": "tbc",
+      "codeNm": "랩지노믹스"
+    },
+    {
+      "uniqueCode": "BS_0100004082",
+      "codeValue": "tbc",
+      "codeNm": "이안스"
+    },
+    {
+      "uniqueCode": "BS_0100004083",
+      "codeValue": "tbc",
+      "codeNm": "(주)두루원"
+    },
+    {
+      "uniqueCode": "BS_0100004084",
+      "codeValue": "tbc",
+      "codeNm": "(주)셀진"
+    },
+    {
+      "uniqueCode": "BS_0100004085",
+      "codeValue": "tbc",
+      "codeNm": "서울송도병원"
+    },
+    {
+      "uniqueCode": "BS_0100004086",
+      "codeValue": "tbc",
+      "codeNm": "한국환경공단"
+    },
+    {
+      "uniqueCode": "BS_0100004087",
+      "codeValue": "tbc",
+      "codeNm": "전남대학교산학협력단 여수산학협력본부"
+    },
+    {
+      "uniqueCode": "BS_0100004088",
+      "codeValue": "tbc",
+      "codeNm": "주식회사 엠바이옴쎄라퓨틱스"
+    },
+    {
+      "uniqueCode": "BS_0100004089",
+      "codeValue": "tbc",
+      "codeNm": "연세대학교치과대학병원"
+    },
+    {
+      "uniqueCode": "BS_0100004090",
+      "codeValue": "tbc",
+      "codeNm": "숙명여자대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004091",
+      "codeValue": "tbc",
+      "codeNm": "인제대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004092",
+      "codeValue": "tbc",
+      "codeNm": "농업회사법인 플랜티팜 주식회사"
+    },
+    {
+      "uniqueCode": "BS_0100004093",
+      "codeValue": "tbc",
+      "codeNm": "주식회사 엠씨바이오텍"
+    },
+    {
+      "uniqueCode": "BS_0100004094",
+      "codeValue": "tbc",
+      "codeNm": "(주) 신성이엔지"
+    },
+    {
+      "uniqueCode": "BS_0100004095",
+      "codeValue": "tbc",
+      "codeNm": "(주)진켐"
+    },
+    {
+      "uniqueCode": "BS_0100004096",
+      "codeValue": "tbc",
+      "codeNm": "전주대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004097",
+      "codeValue": "tbc",
+      "codeNm": "(재)국가마우스표현형분석사업단"
+    },
+    {
+      "uniqueCode": "BS_0100004098",
+      "codeValue": "tbc",
+      "codeNm": "한국에너지기술연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004099",
+      "codeValue": "tbc",
+      "codeNm": "안동대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004100",
+      "codeValue": "tbc",
+      "codeNm": "삼성서울병원"
+    },
+    {
+      "uniqueCode": "BS_0100004101",
+      "codeValue": "tbc",
+      "codeNm": "비피도 (Bifido)"
+    },
+    {
+      "uniqueCode": "BS_0100004102",
+      "codeValue": "tbc",
+      "codeNm": "피비엘바이오랩 주식회사"
+    },
+    {
+      "uniqueCode": "BS_0100004103",
+      "codeValue": "tbc",
+      "codeNm": "조선대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004104",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004105",
+      "codeValue": "tbc",
+      "codeNm": "주식회사 피오피바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004106",
+      "codeValue": "tbc",
+      "codeNm": "오투사이언스"
+    },
+    {
+      "uniqueCode": "BS_0100004107",
+      "codeValue": "tbc",
+      "codeNm": "세종충남대학교병원"
+    },
+    {
+      "uniqueCode": "BS_0100004108",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교의료원"
+    },
+    {
+      "uniqueCode": "BS_0100004109",
+      "codeValue": "tbc",
+      "codeNm": "공주대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004110",
+      "codeValue": "tbc",
+      "codeNm": "바이오켐"
+    },
+    {
+      "uniqueCode": "BS_0100004111",
+      "codeValue": "tbc",
+      "codeNm": "경희대학교국제캠퍼스"
+    },
+    {
+      "uniqueCode": "BS_0100004112",
+      "codeValue": "tbc",
+      "codeNm": "경상대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004113",
+      "codeValue": "tbc",
+      "codeNm": "경상국립대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004114",
+      "codeValue": "tbc",
+      "codeNm": "전주대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004115",
+      "codeValue": "tbc",
+      "codeNm": "삼성창원병원"
+    },
+    {
+      "uniqueCode": "BS_0100004116",
+      "codeValue": "tbc",
+      "codeNm": "지에스컴퍼니"
+    },
+    {
+      "uniqueCode": "BS_0100004117",
+      "codeValue": "tbc",
+      "codeNm": "조아제약(주)"
+    },
+    {
+      "uniqueCode": "BS_0100004118",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교 의료원 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004119",
+      "codeValue": "tbc",
+      "codeNm": "주식회사 오비젠"
+    },
+    {
+      "uniqueCode": "BS_0100004120",
+      "codeValue": "tbc",
+      "codeNm": "서울물연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004121",
+      "codeValue": "tbc",
+      "codeNm": "경희대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004122",
+      "codeValue": "tbc",
+      "codeNm": "대호사이언스"
+    },
+    {
+      "uniqueCode": "BS_0100004123",
+      "codeValue": "tbc",
+      "codeNm": "한림대학교부속춘천성심병원"
+    },
+    {
+      "uniqueCode": "BS_0100004124",
+      "codeValue": "tbc",
+      "codeNm": "기초과학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004125",
+      "codeValue": "tbc",
+      "codeNm": "전남대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004126",
+      "codeValue": "tbc",
+      "codeNm": "에이투젠"
+    },
+    {
+      "uniqueCode": "BS_0100004127",
+      "codeValue": "tbc",
+      "codeNm": "한국인삼공사"
+    },
+    {
+      "uniqueCode": "BS_0100004128",
+      "codeValue": "tbc",
+      "codeNm": "농촌진흥청 국립원예특작과학원"
+    },
+    {
+      "uniqueCode": "BS_0100004129",
+      "codeValue": "tbc",
+      "codeNm": "해운대백병원"
+    },
+    {
+      "uniqueCode": "BS_0100004130",
+      "codeValue": "tbc",
+      "codeNm": "가톨릭대학교 여의도 성모병원"
+    },
+    {
+      "uniqueCode": "BS_0100004131",
+      "codeValue": "tbc",
+      "codeNm": "휴먼바이옴"
+    },
+    {
+      "uniqueCode": "BS_0100004132",
+      "codeValue": "tbc",
+      "codeNm": "GIST"
+    },
+    {
+      "uniqueCode": "BS_0100004133",
+      "codeValue": "tbc",
+      "codeNm": "(주)에코에너지기술연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004134",
+      "codeValue": "tbc",
+      "codeNm": "국립낙동강생물자원관"
+    },
+    {
+      "uniqueCode": "BS_0100004135",
+      "codeValue": "tbc",
+      "codeNm": "(재)제주테크노파크"
+    },
+    {
+      "uniqueCode": "BS_0100004136",
+      "codeValue": "tbc",
+      "codeNm": "대구대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004137",
+      "codeValue": "tbc",
+      "codeNm": "제넥스바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004138",
+      "codeValue": "tbc",
+      "codeNm": "부강테크"
+    },
+    {
+      "uniqueCode": "BS_0100004139",
+      "codeValue": "tbc",
+      "codeNm": "명지대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004140",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004141",
+      "codeValue": "tbc",
+      "codeNm": "강원대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004142",
+      "codeValue": "tbc",
+      "codeNm": "한림대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004143",
+      "codeValue": "tbc",
+      "codeNm": "단국대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004144",
+      "codeValue": "tbc",
+      "codeNm": "한국해양대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004145",
+      "codeValue": "tbc",
+      "codeNm": "건국대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004146",
+      "codeValue": "tbc",
+      "codeNm": "서울아산병원"
+    },
+    {
+      "uniqueCode": "BS_0100004147",
+      "codeValue": "tbc",
+      "codeNm": "한양대학교 에리카캠퍼스"
+    },
+    {
+      "uniqueCode": "BS_0100004148",
+      "codeValue": "tbc",
+      "codeNm": "이화여자대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004149",
+      "codeValue": "tbc",
+      "codeNm": "동덕여자대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004150",
+      "codeValue": "tbc",
+      "codeNm": "강남세브란스병원"
+    },
+    {
+      "uniqueCode": "BS_0100004151",
+      "codeValue": "tbc",
+      "codeNm": "충북대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004152",
+      "codeValue": "tbc",
+      "codeNm": "가톨릭대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004153",
+      "codeValue": "tbc",
+      "codeNm": "삼성엔지니어링"
+    },
+    {
+      "uniqueCode": "BS_0100004154",
+      "codeValue": "tbc",
+      "codeNm": "충남대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004155",
+      "codeValue": "tbc",
+      "codeNm": "한국교원대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004156",
+      "codeValue": "tbc",
+      "codeNm": "동덕여자대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004157",
+      "codeValue": "tbc",
+      "codeNm": "전남대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004158",
+      "codeValue": "tbc",
+      "codeNm": "한국원자력의학원"
+    },
+    {
+      "uniqueCode": "BS_0100004159",
+      "codeValue": "tbc",
+      "codeNm": "전남대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004160",
+      "codeValue": "tbc",
+      "codeNm": "이천시농업기술센터"
+    },
+    {
+      "uniqueCode": "BS_0100004161",
+      "codeValue": "tbc",
+      "codeNm": "한림대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004162",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교 세종산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004163",
+      "codeValue": "tbc",
+      "codeNm": "한국원자력연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004164",
+      "codeValue": "tbc",
+      "codeNm": "울산대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004165",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교병원"
+    },
+    {
+      "uniqueCode": "BS_0100004166",
+      "codeValue": "tbc",
+      "codeNm": "세종대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004167",
+      "codeValue": "tbc",
+      "codeNm": "산림청 국립산림과학원"
+    },
+    {
+      "uniqueCode": "BS_0100004168",
+      "codeValue": "tbc",
+      "codeNm": "종근당바이오 안산공장"
+    },
+    {
+      "uniqueCode": "BS_0100004169",
+      "codeValue": "tbc",
+      "codeNm": "아주대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004170",
+      "codeValue": "tbc",
+      "codeNm": "네비팜"
+    },
+    {
+      "uniqueCode": "BS_0100004171",
+      "codeValue": "tbc",
+      "codeNm": "대구동산병원"
+    },
+    {
+      "uniqueCode": "BS_0100004172",
+      "codeValue": "tbc",
+      "codeNm": "코스맥스비티아이"
+    },
+    {
+      "uniqueCode": "BS_0100004173",
+      "codeValue": "tbc",
+      "codeNm": "농축산용미생물산업육성지원센터"
+    },
+    {
+      "uniqueCode": "BS_0100004174",
+      "codeValue": "tbc",
+      "codeNm": "강원도농업기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004175",
+      "codeValue": "tbc",
+      "codeNm": "다인바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004176",
+      "codeValue": "tbc",
+      "codeNm": "경상대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004177",
+      "codeValue": "tbc",
+      "codeNm": "농촌진흥청 국립식량과학원 남부작물부"
+    },
+    {
+      "uniqueCode": "BS_0100004178",
+      "codeValue": "tbc",
+      "codeNm": "강원대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004179",
+      "codeValue": "tbc",
+      "codeNm": "한국한의학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004180",
+      "codeValue": "tbc",
+      "codeNm": "경기도농업기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004181",
+      "codeValue": "tbc",
+      "codeNm": "한국화학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004182",
+      "codeValue": "tbc",
+      "codeNm": "부천성모병원"
+    },
+    {
+      "uniqueCode": "BS_0100004183",
+      "codeValue": "tbc",
+      "codeNm": "씨제이제일제당"
+    },
+    {
+      "uniqueCode": "BS_0100004184",
+      "codeValue": "tbc",
+      "codeNm": "세명대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004185",
+      "codeValue": "tbc",
+      "codeNm": "고려대학교 구로병원"
+    },
+    {
+      "uniqueCode": "BS_0100004186",
+      "codeValue": "tbc",
+      "codeNm": "한수테크니칼서비스"
+    },
+    {
+      "uniqueCode": "BS_0100004187",
+      "codeValue": "tbc",
+      "codeNm": "연세산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004188",
+      "codeValue": "tbc",
+      "codeNm": "제주대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004189",
+      "codeValue": "tbc",
+      "codeNm": "국민대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004190",
+      "codeValue": "tbc",
+      "codeNm": "진바이오텍"
+    },
+    {
+      "uniqueCode": "BS_0100004191",
+      "codeValue": "tbc",
+      "codeNm": "신송식품 천안공장"
+    },
+    {
+      "uniqueCode": "BS_0100004192",
+      "codeValue": "tbc",
+      "codeNm": "메디톡스"
+    },
+    {
+      "uniqueCode": "BS_0100004193",
+      "codeValue": "tbc",
+      "codeNm": "계명대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004194",
+      "codeValue": "tbc",
+      "codeNm": "대구한의대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004195",
+      "codeValue": "tbc",
+      "codeNm": "인천성모병원"
+    },
+    {
+      "uniqueCode": "BS_0100004196",
+      "codeValue": "tbc",
+      "codeNm": "휴온스"
+    },
+    {
+      "uniqueCode": "BS_0100004197",
+      "codeValue": "tbc",
+      "codeNm": "한국화학연구원부설안전성평가연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004198",
+      "codeValue": "tbc",
+      "codeNm": "지놈앤컴퍼니"
+    },
+    {
+      "uniqueCode": "BS_0100004199",
+      "codeValue": "tbc",
+      "codeNm": "강동경희대학교병원"
+    },
+    {
+      "uniqueCode": "BS_0100004200",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교의과대학"
+    },
+    {
+      "uniqueCode": "BS_0100004201",
+      "codeValue": "tbc",
+      "codeNm": "고신대학교산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004202",
+      "codeValue": "tbc",
+      "codeNm": "국민바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004203",
+      "codeValue": "tbc",
+      "codeNm": "헤모랩"
+    },
+    {
+      "uniqueCode": "BS_0100004204",
+      "codeValue": "tbc",
+      "codeNm": "의정부성모병원"
+    },
+    {
+      "uniqueCode": "BS_0100004205",
+      "codeValue": "tbc",
+      "codeNm": "아사한"
+    },
+    {
+      "uniqueCode": "BS_0100004206",
+      "codeValue": "tbc",
+      "codeNm": "국립보건연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004207",
+      "codeValue": "tbc",
+      "codeNm": "엘랑비탈바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004208",
+      "codeValue": "tbc",
+      "codeNm": "독립바이오제약"
+    },
+    {
+      "uniqueCode": "BS_0100004209",
+      "codeValue": "tbc",
+      "codeNm": "한국외국어대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004210",
+      "codeValue": "tbc",
+      "codeNm": "가톨릭대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004211",
+      "codeValue": "tbc",
+      "codeNm": "맵사이언스"
+    },
+    {
+      "uniqueCode": "BS_0100004212",
+      "codeValue": "tbc",
+      "codeNm": "대검찰청"
+    },
+    {
+      "uniqueCode": "BS_0100004213",
+      "codeValue": "tbc",
+      "codeNm": "다솜바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004214",
+      "codeValue": "tbc",
+      "codeNm": "씨맥"
+    },
+    {
+      "uniqueCode": "BS_0100004215",
+      "codeValue": "tbc",
+      "codeNm": "아주대학교의료원"
+    },
+    {
+      "uniqueCode": "BS_0100004216",
+      "codeValue": "tbc",
+      "codeNm": "지에스엘바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004217",
+      "codeValue": "tbc",
+      "codeNm": "브이원바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004218",
+      "codeValue": "tbc",
+      "codeNm": "한국환경공단"
+    },
+    {
+      "uniqueCode": "BS_0100004219",
+      "codeValue": "tbc",
+      "codeNm": "동화약품"
+    },
+    {
+      "uniqueCode": "BS_0100004220",
+      "codeValue": "tbc",
+      "codeNm": "브이앤코"
+    },
+    {
+      "uniqueCode": "BS_0100004221",
+      "codeValue": "tbc",
+      "codeNm": "엠엠피아이"
+    },
+    {
+      "uniqueCode": "BS_0100004222",
+      "codeValue": "tbc",
+      "codeNm": "농림축산검역본부"
+    },
+    {
+      "uniqueCode": "BS_0100004223",
+      "codeValue": "tbc",
+      "codeNm": "매일유업"
+    },
+    {
+      "uniqueCode": "BS_0100004224",
+      "codeValue": "tbc",
+      "codeNm": "동국대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004225",
+      "codeValue": "tbc",
+      "codeNm": "제주연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004226",
+      "codeValue": "tbc",
+      "codeNm": "AARSB"
+    },
+    {
+      "uniqueCode": "BS_0100004227",
+      "codeValue": "tbc",
+      "codeNm": "Universidad de Salamanca"
+    },
+    {
+      "uniqueCode": "BS_0100004228",
+      "codeValue": "tbc",
+      "codeNm": "University of Lagos"
+    },
+    {
+      "uniqueCode": "BS_0100004229",
+      "codeValue": "tbc",
+      "codeNm": "Griffith University"
+    },
+    {
+      "uniqueCode": "BS_0100004230",
+      "codeValue": "tbc",
+      "codeNm": "Universtiy of San Agustin"
+    },
+    {
+      "uniqueCode": "BS_0100004231",
+      "codeValue": "tbc",
+      "codeNm": "Pacific Alliance Lab"
+    },
+    {
+      "uniqueCode": "BS_0100004232",
+      "codeValue": "tbc",
+      "codeNm": "National Universtiy of Singapore"
+    },
+    {
+      "uniqueCode": "BS_0100004233",
+      "codeValue": "tbc",
+      "codeNm": "순천향대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004234",
+      "codeValue": "tbc",
+      "codeNm": "마크로젠"
+    },
+    {
+      "uniqueCode": "BS_0100004235",
+      "codeValue": "tbc",
+      "codeNm": "전북대학교 산학협력단"
+    },
+    {
+      "uniqueCode": "BS_0100004236",
+      "codeValue": "tbc",
+      "codeNm": "발효미생물산업진흥원"
+    },
+    {
+      "uniqueCode": "BS_0100004237",
+      "codeValue": "tbc",
+      "codeNm": "국립생태원"
+    },
+    {
+      "uniqueCode": "BS_0100004238",
+      "codeValue": "tbc",
+      "codeNm": "서울우유"
+    },
+    {
+      "uniqueCode": "BS_0100004239",
+      "codeValue": "tbc",
+      "codeNm": "경북대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004240",
+      "codeValue": "tbc",
+      "codeNm": "연세대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004241",
+      "codeValue": "tbc",
+      "codeNm": "경희대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004242",
+      "codeValue": "tbc",
+      "codeNm": "한국과학기술원"
+    },
+    {
+      "uniqueCode": "BS_0100004243",
+      "codeValue": "tbc",
+      "codeNm": "씨제이제일제당 BLOSSOM PARK"
+    },
+    {
+      "uniqueCode": "BS_0100004244",
+      "codeValue": "tbc",
+      "codeNm": "인하대학교"
+    },
+    {
+      "uniqueCode": "BS_0100004245",
+      "codeValue": "tbc",
+      "codeNm": "바이오닉스"
+    },
+    {
+      "uniqueCode": "BS_0100004246",
+      "codeValue": "tbc",
+      "codeNm": "서울대 나이셈"
+    },
+    {
+      "uniqueCode": "BS_0100004247",
+      "codeValue": "tbc",
+      "codeNm": "서울의과학연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004248",
+      "codeValue": "tbc",
+      "codeNm": "Riken Genesis"
+    },
+    {
+      "uniqueCode": "BS_0100004249",
+      "codeValue": "tbc",
+      "codeNm": "동인바이오텍"
+    },
+    {
+      "uniqueCode": "BS_0100004250",
+      "codeValue": "tbc",
+      "codeNm": "환경부 국립생물자원관"
+    },
+    {
+      "uniqueCode": "BS_0100004251",
+      "codeValue": "tbc",
+      "codeNm": "제이씨앤엠"
+    },
+    {
+      "uniqueCode": "BS_0100004252",
+      "codeValue": "tbc",
+      "codeNm": "한양대 구리병원"
+    },
+    {
+      "uniqueCode": "BS_0100004253",
+      "codeValue": "tbc",
+      "codeNm": "롯데제과"
+    },
+    {
+      "uniqueCode": "BS_0100004254",
+      "codeValue": "tbc",
+      "codeNm": "서울대학교 분당병원"
+    },
+    {
+      "uniqueCode": "BS_0100004255",
+      "codeValue": "tbc",
+      "codeNm": "대상"
+    },
+    {
+      "uniqueCode": "BS_0100004256",
+      "codeValue": "tbc",
+      "codeNm": "한국의과학연구원"
+    },
+    {
+      "uniqueCode": "BS_0100004257",
+      "codeValue": "tbc",
+      "codeNm": "서울의과학연구소"
+    },
+    {
+      "uniqueCode": "BS_0100004258",
+      "codeValue": "tbc",
+      "codeNm": "테라젠바이오"
+    },
+    {
+      "uniqueCode": "BS_0100004259",
+      "codeValue": "tbc",
+      "codeNm": "다우바이오메디카"
+    },
+    {
+      "uniqueCode": "BS_0100004260",
+      "codeValue": "tbc",
+      "codeNm": "SHI"
+    },
+    {
+      "uniqueCode": "BS_0100004261",
+      "codeValue": "tbc",
+      "codeNm": "EveloBio"
+    },
+    {
+      "uniqueCode": "BS_0100004262",
+      "codeValue": "tbc",
+      "codeNm": "Alcami Corporation"
+    },
+    {
+      "uniqueCode": "BS_0100004263",
+      "codeValue": "tbc",
+      "codeNm": "Nelson Laboratories"
+    },
+    {
+      "uniqueCode": "BS_0100004264",
+      "codeValue": "tbc",
+      "codeNm": "Charles River Laboratories"
+    },
+    {
+      "uniqueCode": "BS_0100004265",
+      "codeValue": "tbc",
+      "codeNm": "Tetra Holdings GmbH"
+    },
+    {
+      "uniqueCode": "BS_0100004266",
+      "codeValue": "tbc",
+      "codeNm": "BIOMI Ltd"
+    },
+    {
+      "uniqueCode": "BS_0100004267",
+      "codeValue": "tbc",
+      "codeNm": "Ghent University"
+    },
+    {
+      "uniqueCode": "BS_0100004268",
+      "codeValue": "tbc",
+      "codeNm": "Bruker Daltonik GmbH"
+    },
+    {
+      "uniqueCode": "BS_0100004269",
+      "codeValue": "tbc",
+      "codeNm": "Filgen"
+    },
+    {
+      "uniqueCode": "BS_0100004270",
+      "codeValue": "tbc",
+      "codeNm": "C-TRIC"
+    },
+    {
+      "uniqueCode": "BS_0100004271",
+      "codeValue": "tbc",
+      "codeNm": "Laragen, Inc"
+    },
+    {
+      "uniqueCode": "BS_0100004272",
+      "codeValue": "tbc",
+      "codeNm": "Aleris Nutition"
+    },
+    {
+      "uniqueCode": "BS_0100004273",
+      "codeValue": "tbc",
+      "codeNm": "Orlando Health"
+    },
+    {
+      "uniqueCode": "BS_0100004274",
+      "codeValue": "tbc",
+      "codeNm": "Nelsonlabs"
+    },
+    {
+      "uniqueCode": "BS_0100004275",
+      "codeValue": "tbc",
+      "codeNm": "ROAD INTERNATIONAL, CORP"
+    },
+    {
+      "uniqueCode": "BS_0100004276",
+      "codeValue": "tbc",
+      "codeNm": "University of Warmia and Mazury"
+    },
+    {
+      "uniqueCode": "BS_0100004277",
+      "codeValue": "tbc",
+      "codeNm": "University of Chicago Dept of Medicine"
+    },
+    {
+      "uniqueCode": "BS_0100004278",
+      "codeValue": "tbc",
+      "codeNm": "Central Texas Veterans Research"
+    },
+    {
+      "uniqueCode": "BS_0100004279",
+      "codeValue": "tbc",
+      "codeNm": "Gyncentrum Sp.Zo.o"
+    },
+    {
+      "uniqueCode": "BS_0100004280",
+      "codeValue": "tbc",
+      "codeNm": "Bioscientia Institut für Medizinische"
+    },
+    {
+      "uniqueCode": "BS_0100004281",
+      "codeValue": "tbc",
+      "codeNm": "Cornell University"
+    },
+    {
+      "uniqueCode": "BS_0100004282",
+      "codeValue": "tbc",
+      "codeNm": "Bioferscience"
+    },
+    {
+      "uniqueCode": "BS_0100004283",
+      "codeValue": "tbc",
+      "codeNm": "Eurofins BIOMI Kft"
+    },
+    {
+      "uniqueCode": "BS_0100004284",
+      "codeValue": "tbc",
+      "codeNm": "Kyushu University"
+    },
+    {
+      "uniqueCode": "BS_0100004285",
+      "codeValue": "tbc",
+      "codeNm": "Ulster University"
+    },
+    {
+      "uniqueCode": "BS_0100004286",
+      "codeValue": "tbc",
+      "codeNm": "University of Pretoria"
+    },
+    {
+      "uniqueCode": "BS_0100005001",
+      "codeValue": "a",
+      "codeNm": "염증성장질환 치료 후보 도출(CLP-105)"
+    },
+    {
+      "uniqueCode": "BS_0100005002",
+      "codeValue": "b",
+      "codeNm": "피부질환 치료후보 도출"
+    },
+    {
+      "uniqueCode": "BS_0100005003",
+      "codeValue": "c",
+      "codeNm": "항암 후보 개발(CJRB-101)"
+    },
+    {
+      "uniqueCode": "BS_0100005004",
+      "codeValue": "d",
+      "codeNm": "알츠하이머 치료 후보도출(HB02)"
+    },
+    {
+      "uniqueCode": "BS_0100005005",
+      "codeValue": "e",
+      "codeNm": "MB 기반기술 구축"
+    },
+    {
+      "uniqueCode": "BS_0100005006",
+      "codeValue": "f",
+      "codeNm": "MB Bioprocessing 기술 구축"
+    },
+    {
+      "uniqueCode": "BS_0100005007",
+      "codeValue": "g",
+      "codeNm": "MB 신기술 구축"
+    },
+    {
+      "uniqueCode": "BS_0100005008",
+      "codeValue": "h",
+      "codeNm": "Ez-Mx Platform 기술 구축"
+    },
+    {
+      "uniqueCode": "BS_0100005009",
+      "codeValue": "i",
+      "codeNm": "Ez-Mx Discovery 기술 구축"
+    },
+    {
+      "uniqueCode": "BS_0100005010",
+      "codeValue": "j",
+      "codeNm": "코호트 연구(SIT)-세브란스 비소세포폐암연구"
+    },
+    {
+      "uniqueCode": "BS_0100005011",
+      "codeValue": "k",
+      "codeNm": "코호트 연구(IIT)"
+    },
+    {
+      "uniqueCode": "BS_0100005012",
+      "codeValue": "l",
+      "codeNm": "[국책]장내미생물 데이터베이스 구축과제(총 3건)"
+    },
+    {
+      "uniqueCode": "BS_0100005013",
+      "codeValue": "m",
+      "codeNm": "호흡기질환(천식) 후보도출 과제 "
+    },
+    {
+      "uniqueCode": "BS_0100005014",
+      "codeValue": "n",
+      "codeNm": "신규탐색(공통물품)"
+    },
+    {
+      "uniqueCode": "BS_0100005015",
+      "codeValue": "o",
+      "codeNm": "건강한 한국인 미생물 연구(Buddy Project)"
+    },
+    {
+      "uniqueCode": "BS_0100005016",
+      "codeValue": "p",
+      "codeNm": "HMS 공동연구 1차"
+    },
+    {
+      "uniqueCode": "BS_0100006001",
+      "codeValue": "CJ BIOSCIENCE",
+      "codeNm": "본사 공통"
+    },
+    {
+      "uniqueCode": "BS_0100006002",
+      "codeValue": "CEO",
+      "codeNm": "대표이사"
+    },
+    {
+      "uniqueCode": "BS_0100006003",
+      "codeValue": "HR Team",
+      "codeNm": "인사팀"
+    },
+    {
+      "uniqueCode": "BS_0100006004",
+      "codeValue": "Business Administration Division",
+      "codeNm": "경영지원실"
+    },
+    {
+      "uniqueCode": "BS_0100006005",
+      "codeValue": "Business Admin)Finance Team",
+      "codeNm": "재무팀"
+    },
+    {
+      "uniqueCode": "BS_0100006006",
+      "codeValue": "Business Admin)Biz Management Team",
+      "codeNm": "사업관리팀"
+    },
+    {
+      "uniqueCode": "BS_0100006007",
+      "codeValue": "Business Admin)Change Agent Team",
+      "codeNm": "변화혁신팀"
+    },
+    {
+      "uniqueCode": "BS_0100006008",
+      "codeValue": "New Biz Development",
+      "codeNm": "New Biz Development"
+    },
+    {
+      "uniqueCode": "BS_0100006009",
+      "codeValue": "NBD)Business Development Team",
+      "codeNm": "NBD사업개발팀"
+    },
+    {
+      "uniqueCode": "BS_0100006010",
+      "codeValue": "NGS Business Division",
+      "codeNm": "NGS사업담당"
+    },
+    {
+      "uniqueCode": "BS_0100006011",
+      "codeValue": "NGS)NGS Analysis Team",
+      "codeNm": "NGS분석팀"
+    },
+    {
+      "uniqueCode": "BS_0100006012",
+      "codeValue": "NGS)NGS Sales Team",
+      "codeNm": "NGS영업팀"
+    },
+    {
+      "uniqueCode": "BS_0100006013",
+      "codeValue": "NGS)BI Analysis Part",
+      "codeNm": "NGS영업팀 BI파트"
+    },
+    {
+      "uniqueCode": "BS_0100006014",
+      "codeValue": "R&D)R&D Planning Team",
+      "codeNm": "R&D연구기획팀"
+    },
+    {
+      "uniqueCode": "BS_0100006015",
+      "codeValue": "R&D)Discovery Center",
+      "codeNm": "Discovery센터"
+    },
+    {
+      "uniqueCode": "BS_0100006016",
+      "codeValue": "R&D)Development Center",
+      "codeNm": "Development센터"
+    },
+    {
+      "uniqueCode": "BS_0100006017",
+      "codeValue": "Developement)Clinical Research Team",
+      "codeNm": "임상개발팀"
+    },
+    {
+      "uniqueCode": "BS_0100006018",
+      "codeValue": "BIO DP)BI Platform Team",
+      "codeNm": "BI Platform팀"
+    },
+    {
+      "uniqueCode": "BS_0100006019",
+      "codeValue": "BIO DP)IT Team",
+      "codeNm": "IT팀"
+    },
+    {
+      "uniqueCode": "BS_0100006020",
+      "codeValue": "R&D)CMC Center",
+      "codeNm": "CMC센터"
+    },
+    {
+      "uniqueCode": "BS_0100006021",
+      "codeValue": "Ezbiome",
+      "codeNm": "EzBiome"
+    },
+    {
+      "uniqueCode": "BS_0100006022",
+      "codeValue": "R&D",
+      "codeNm": "R&D 공통"
+    },
+    {
+      "uniqueCode": "BS_0100006023",
+      "codeValue": "Business Admin)BOD Part",
+      "codeNm": "내부회계관리파트"
+    },
+    {
+      "uniqueCode": "BS_0100007001",
+      "codeValue": "Prep",
+      "codeNm": "Prep"
+    },
+    {
+      "uniqueCode": "BS_0100007002",
+      "codeValue": "Lib",
+      "codeNm": "Lib"
+    },
+    {
+      "uniqueCode": "BS_0100007003",
+      "codeValue": "Seq",
+      "codeNm": "Seq"
+    },
+    {
+      "uniqueCode": "BS_0100007004",
+      "codeValue": "BI",
+      "codeNm": "BI"
+    },
+    {
+      "uniqueCode": "BS_0100007005",
+      "codeValue": "QC",
+      "codeNm": "QC"
+    },
+    {
+      "uniqueCode": "BS_0100008001",
+      "codeValue": "Analysis",
+      "codeNm": "Analysis"
+    },
+    {
+      "uniqueCode": "BS_0100008002",
+      "codeValue": "License",
+      "codeNm": "License"
+    },
+    {
+      "uniqueCode": "BS_0100009001",
+      "codeValue": "CG​",
+      "codeNm": "CG​"
+    },
+    {
+      "uniqueCode": "BS_0100009002",
+      "codeValue": "GRIIS Composition​",
+      "codeNm": "GRIIS Composition​"
+    },
+    {
+      "uniqueCode": "BS_0100009003",
+      "codeValue": "GRIIS Essential​",
+      "codeNm": "GRIIS Essential​"
+    },
+    {
+      "uniqueCode": "BS_0100009004",
+      "codeValue": "MTP​",
+      "codeNm": "MTP​"
+    },
+    {
+      "uniqueCode": "BS_0100009005",
+      "codeValue": "RNA-Seq",
+      "codeNm": "RNA-Seq"
+    },
+    {
+      "uniqueCode": "BS_0100009006",
+      "codeValue": "Shotgun",
+      "codeNm": "Shotgun"
+    },
+    {
+      "uniqueCode": "BS_0100009007",
+      "codeValue": "Whole Genome",
+      "codeNm": "Whole Genome"
+    },
+    {
+      "uniqueCode": "BS_0100009008",
+      "codeValue": "16S ID",
+      "codeNm": "16S ID"
+    },
+    {
+      "uniqueCode": "BS_0100010001",
+      "codeValue": "Analysis",
+      "codeNm": "Analysis"
+    },
+    {
+      "uniqueCode": "BS_0100010002",
+      "codeValue": "Analysis (additional)",
+      "codeNm": "Analysis (추가분석)"
+    },
+    {
+      "uniqueCode": "BS_0100010003",
+      "codeValue": "DNA QC",
+      "codeNm": "DNA QC"
+    },
+    {
+      "uniqueCode": "BS_0100010004",
+      "codeValue": "Full service",
+      "codeNm": "Full service"
+    },
+    {
+      "uniqueCode": "BS_0100010005",
+      "codeValue": "Kit",
+      "codeNm": "Kit"
+    },
+    {
+      "uniqueCode": "BS_0100010006",
+      "codeValue": "Lib+Seq",
+      "codeNm": "Lib+Seq"
+    },
+    {
+      "uniqueCode": "BS_0100010007",
+      "codeValue": "Library",
+      "codeNm": "Library"
+    },
+    {
+      "uniqueCode": "BS_0100010008",
+      "codeValue": "OT",
+      "codeNm": "OT"
+    },
+    {
+      "uniqueCode": "BS_0100010009",
+      "codeValue": "Prep",
+      "codeNm": "Prep"
+    },
+    {
+      "uniqueCode": "BS_0100010010",
+      "codeValue": "Seq+Analysis",
+      "codeNm": "Seq+Analysis"
+    },
+    {
+      "uniqueCode": "BS_0100010011",
+      "codeValue": "Sequencing",
+      "codeNm": "Sequencing"
+    },
+    {
+      "uniqueCode": "BS_0100011001",
+      "codeValue": "MiSeq 2x250",
+      "codeNm": "MiSeq 2x250"
+    },
+    {
+      "uniqueCode": "BS_0100011002",
+      "codeValue": "Sequel 16S",
+      "codeNm": "Sequel 16S"
+    },
+    {
+      "uniqueCode": "BS_0100011003",
+      "codeValue": "MTP Premium Add - on 1",
+      "codeNm": "MTP Premium Add - on 1"
+    },
+    {
+      "uniqueCode": "BS_0100011004",
+      "codeValue": "MTP Premium Add - on 2",
+      "codeNm": "MTP Premium Add - on 2"
+    },
+    {
+      "uniqueCode": "BS_0100011005",
+      "codeValue": "MiSeq 2x300",
+      "codeNm": "MiSeq 2x300"
+    },
+    {
+      "uniqueCode": "BS_0100011006",
+      "codeValue": "Sequel 10K",
+      "codeNm": "Sequel 10K"
+    },
+    {
+      "uniqueCode": "BS_0100011007",
+      "codeValue": "Hybride",
+      "codeNm": "Hybride"
+    },
+    {
+      "uniqueCode": "BS_0100011008",
+      "codeValue": "IJSEM",
+      "codeNm": "IJSEM"
+    },
+    {
+      "uniqueCode": "BS_0100011009",
+      "codeValue": "TrueBac ID - Genome Voucher",
+      "codeNm": "TrueBac ID - Genome Voucher"
+    },
+    {
+      "uniqueCode": "BS_0100011010",
+      "codeValue": "CG",
+      "codeNm": "CG"
+    },
+    {
+      "uniqueCode": "BS_0100011011",
+      "codeValue": "Additional(Analysis)",
+      "codeNm": "Additional(Analysis)"
+    },
+    {
+      "uniqueCode": "BS_0100011012",
+      "codeValue": "NovaSeq 2x150",
+      "codeNm": "NovaSeq 2x150"
+    },
+    {
+      "uniqueCode": "BS_0100011013",
+      "codeValue": "Sequel",
+      "codeNm": "Sequel"
+    },
+    {
+      "uniqueCode": "BS_0100011014",
+      "codeValue": "NextSeq 2x150",
+      "codeNm": "NextSeq 2x150"
+    },
+    {
+      "uniqueCode": "BS_0100011015",
+      "codeValue": "[LI] MTP Premium 1000",
+      "codeNm": "[LI] MTP Premium 1000"
+    },
+    {
+      "uniqueCode": "BS_0100011016",
+      "codeValue": "[LI] MTP Premium 1000 - academic",
+      "codeNm": "[LI] MTP Premium 1000 - academic"
+    },
+    {
+      "uniqueCode": "BS_0100011017",
+      "codeValue": "[LI] MTP Premium 1000 (iSeq)",
+      "codeNm": "[LI] MTP Premium 1000 (iSeq)"
+    },
+    {
+      "uniqueCode": "BS_0100011018",
+      "codeValue": "[LI] MTP Premium 500 - acdemic",
+      "codeNm": "[LI] MTP Premium 500 - acdemic"
+    },
+    {
+      "uniqueCode": "BS_0100011019",
+      "codeValue": "[LI] MTP Premium 200",
+      "codeNm": "[LI] MTP Premium 200"
+    },
+    {
+      "uniqueCode": "BS_0100011020",
+      "codeValue": "[LI] MTP Premium 200 - academic",
+      "codeNm": "[LI] MTP Premium 200 - academic"
+    },
+    {
+      "uniqueCode": "BS_0100011021",
+      "codeValue": "[LI] EzBC 16S ID API",
+      "codeNm": "[LI] EzBC 16S ID API"
+    },
+    {
+      "uniqueCode": "BS_0100011022",
+      "codeValue": "TrueBac ID - Genome 100",
+      "codeNm": "TrueBac ID - Genome 100"
+    },
+    {
+      "uniqueCode": "BS_0100011023",
+      "codeValue": "TrueBac ID - Genome 200",
+      "codeNm": "TrueBac ID - Genome 200"
+    },
+    {
+      "uniqueCode": "BS_0100011024",
+      "codeValue": "TrueBac ID - 16S 1000",
+      "codeNm": "TrueBac ID - 16S 1000"
+    },
+    {
+      "uniqueCode": "BS_0100011025",
+      "codeValue": "TrueBac ID - 16S 3000",
+      "codeNm": "TrueBac ID - 16S 3000"
+    },
+    {
+      "uniqueCode": "BS_0100011026",
+      "codeValue": "TrueBac ID - 16S 10000",
+      "codeNm": "TrueBac ID - 16S 10000"
+    }
+  ]
+}
