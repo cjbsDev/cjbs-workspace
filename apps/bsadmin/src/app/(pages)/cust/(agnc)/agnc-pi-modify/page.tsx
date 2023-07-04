@@ -235,9 +235,6 @@ export default function AgncPIModifyPage() {
                   <TH sx={{ width: "15%" }}>기관명</TH>
                   <TD sx={{ width: "85%" }}>
                     <InputValidation
-                      // error={errors.instNm ? true : false}
-                      // helperText={errors.instNm?.message ?? null}
-                      register={register}
                       inputName="instNm"
                       errorMessage={false}
                       disabled={true}
@@ -252,8 +249,6 @@ export default function AgncPIModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.agncNm ? true : false}
-                        helperText={errors.agncNm?.message ?? null}
-                        register={register}
                         inputName="agncNm"
                         errorMessage={
                           errors.agncNm
@@ -276,7 +271,6 @@ export default function AgncPIModifyPage() {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          register={register}
                           inputName="zip"
                           errorMessage={false}
                           placeholder="zip code"
@@ -287,7 +281,6 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           sx={{ width: 450 }}
-                          register={register}
                           inputName="addr"
                           errorMessage={false}
                         />
@@ -295,7 +288,6 @@ export default function AgncPIModifyPage() {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           sx={{ width: 450 }}
-                          register={register}
                           inputName="addrDetail"
                           errorMessage={false}
                           placeholder="상세주소"
@@ -329,7 +321,6 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Checkbox
                       defaultValue="Y"
-                      register={register}
                       inputName="isSpecialMngFlag"
                       labelText="특별 관리(SP)하는 거래처 입니다"
                     />
@@ -339,7 +330,6 @@ export default function AgncPIModifyPage() {
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <SelectBox
-                      register={register}
                       inputName="bsnsManagedByUkey"
                       options={[
                         { value: "user656014", optionName: "키웨스트" },
@@ -358,7 +348,6 @@ export default function AgncPIModifyPage() {
                       fullWidth={true}
                       multiline
                       rows={4}
-                      register={register}
                       inputName="memo"
                       errorMessage={false}
                     />

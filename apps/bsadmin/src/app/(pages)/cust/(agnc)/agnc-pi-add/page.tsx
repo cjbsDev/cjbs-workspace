@@ -9,6 +9,7 @@ import {
   ErrorContainer,
   Fallback,
   InputValidation,
+  Form,
   PostCodeBtn,
 } from "cjbsDSTM";
 import {
@@ -30,7 +31,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import axios from "axios";
 
@@ -97,6 +97,7 @@ const AgncAdd = () => {
     setShowAgncSearchModal(false);
   };
 
+  /*
   // [ 거래처 ] 중복 확인
   const getAgncDuplicate = async () => {
     let getAgncNm = getValues("agncNm");
@@ -121,49 +122,7 @@ const AgncAdd = () => {
       return false;
     }
   };
-
-  // [주소 찾기] 기능 시작
-  const open = useDaumPostcodePopup(
-    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-  );
-
-  // [주소 찾기] 에서 완료했을 때 callback
-  const handlePostAddressComplete = (data) => {
-    //console.log("Post code data ==>>", data);
-    let fullAddress = data.address;
-    let zip = data.zonecode;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zip", zip);
-    setValue("addr", fullAddress);
-  };
-  // [주소 찾기] 열기
-  const handlePostAddressClick = () => {
-    open({ onComplete: handlePostAddressComplete });
-  };
-  // [주소 찾기] 기능 종료
-
-  /*
-  // [ 영업 담당자 ] 담당자 선택
-  const handleSelectChangeBSMng = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedValue(event.target.value as string);
-  };
-*/
-  //console.log("main ", selectedMembers);
+  */
 
   // Common
   // [ 등록 ]
@@ -189,6 +148,11 @@ const AgncAdd = () => {
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
+    console.log(
+      "== 230704 공통 컴포넌트 변경에 따른 적용으로 잠시 저장을 막아둠 =="
+    );
+
+    /*
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
 
     axios
@@ -203,213 +167,166 @@ const AgncAdd = () => {
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
+      */
   };
 
+  const defaultValues = {};
+
   return (
-    <FormProvider {...methods}>
-      <Container maxWidth={false} sx={{ width: "100%" }}>
-        <Box
-          component="form"
-          noValidate
-          autoComplete="off"
-          onSubmit={methods.handleSubmit(onSubmit)}
-        >
-          <Box sx={{ mb: 4 }}>
-            <Title1 titleName="거래처(PI) 등록" />
-          </Box>
+    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+      <Box sx={{ mb: 4 }}>
+        <Title1 titleName="거래처(PI) 등록" />
+      </Box>
 
-          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-            기본 정보
-          </Typography>
-          <TableContainer sx={{ mb: 5 }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>소속 기관</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Stack
-                      direction="row"
-                      spacing={0.5}
-                      alignItems="flex-start"
-                    >
-                      <InputValidation
-                        disabled={true}
-                        error={errors.instNm ? true : false}
-                        helperText={errors.instNm?.message ?? null}
-                        register={register}
-                        inputName="instNm"
-                        errorMessage="소속기관을 입력해 주세요."
-                      />
+      <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+        기본 정보
+      </Typography>
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>소속 기관</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    disabled={true}
+                    inputName="instNm"
+                    errorMessage="소속기관을 입력해 주세요."
+                  />
 
-                      <InputValidation
-                        disabled={true}
-                        sx={{ display: "none" }}
-                        register={register}
-                        inputName="instUkey"
-                        error={errors.instUkey ? true : false}
-                        helperText={errors.instUkey?.message ?? null}
-                        errorMessage="필수 값입니다."
-                      />
+                  <InputValidation
+                    disabled={true}
+                    sx={{ display: "none" }}
+                    inputName="instUkey"
+                    errorMessage="필수 값입니다."
+                  />
 
-                      <OutlinedButton
-                        size="small"
-                        buttonName="기관 검색"
-                        onClick={agncSearchModalOpen}
-                      />
-                    </Stack>
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        error={errors.agncNm ? true : false}
-                        helperText={errors.agncNm?.message ?? null}
-                        register={register}
-                        inputName="agncNm"
-                        errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
-                        }
-                      />
-
-                      <OutlinedButton
-                        size="small"
-                        buttonName="중복 확인"
-                        onClick={getAgncDuplicate}
-                      />
-                    </Stack>
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>주소 [선택]</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Stack spacing={1}>
-                      <Stack direction="row" spacing={0.5}>
-                        <InputValidation
-                          disabled={true}
-                          register={register}
-                          inputName="zip"
-                          errorMessage={false}
-                          placeholder="zip code"
-                        />
-                        <PostCodeBtn />
-                      </Stack>
-                      <Stack direction="row" spacing={0.5}>
-                        <InputValidation
-                          disabled={true}
-                          sx={{ width: 450 }}
-                          register={register}
-                          inputName="addr"
-                          errorMessage={false}
-                        />
-                      </Stack>
-                      <Stack direction="row" spacing={0.5}>
-                        <InputValidation
-                          sx={{ width: 450 }}
-                          register={register}
-                          inputName="addrDetail"
-                          errorMessage={false}
-                          placeholder="상세주소"
-                        />
-                      </Stack>
-                    </Stack>
-                  </TD>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
-          </ErrorContainer>
-
-          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-            운영 관리 정보
-          </Typography>
-          <TableContainer sx={{ mb: 5 }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>상태</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <FormControlLabel
-                      label="특별 관리(SP)하는 거래처 입니다"
-                      control={
-                        <Checkbox size="small" {...register("isSpecialMng")} />
-                      }
-                    />
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    {/* 
-                    <Select
-                      {...register("bsnsManagedByUkey")}
-                      size="small"
-                      sx={{ width: 200 }}
-                      value={selectedValue}
-                      onChange={handleSelectChangeBSMng}
-                    >
-                      <MenuItem value={"user656014"}>키웨스트</MenuItem>
-                      <MenuItem value={"user483349"}>라이언</MenuItem>
-                      <MenuItem value={"user369596"}>모씨</MenuItem>
-                      <MenuItem value={"user809094"}>LINK</MenuItem>
-                      <MenuItem value={"user623719"}>코로그</MenuItem>
-                    </Select>
-                    */}
-
-                    <NativeSelect
-                      variant="outlined"
-                      {...register("bsnsManagedByUkey")}
-                    >
-                      <option value="user656014">키웨스트</option>
-                      <option value="user483349">라이언</option>
-                      <option value="user369596">모씨</option>
-                      <option value="user809094">LINK</option>
-                      <option value="user623719">코로그</option>
-                    </NativeSelect>
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>메모</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
+                  <OutlinedButton
+                    size="small"
+                    buttonName="기관 검색"
+                    onClick={agncSearchModalOpen}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="center">
+                  <InputValidation
+                    inputName="agncNm"
+                    errorMessage={
+                      errors.agncNm
+                        ? "중복된 거래처명이 있습니다."
+                        : "거래처(PI)를 입력해 주세요."
+                    }
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>주소 [선택]</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack spacing={1}>
+                  <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                      fullWidth={true}
-                      multiline
-                      rows={4}
-                      register={register}
-                      inputName="memo"
+                      disabled={true}
+                      inputName="zip"
+                      errorMessage={false}
+                      placeholder="zip code"
+                    />
+                    <PostCodeBtn />
+                  </Stack>
+                  <Stack direction="row" spacing={0.5}>
+                    <InputValidation
+                      disabled={true}
+                      sx={{ width: 450 }}
+                      inputName="addr"
                       errorMessage={false}
                     />
-                  </TD>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+                  </Stack>
+                  <Stack direction="row" spacing={0.5}>
+                    <InputValidation
+                      sx={{ width: 450 }}
+                      inputName="addrDetail"
+                      errorMessage={false}
+                      placeholder="상세주소"
+                    />
+                  </Stack>
+                </Stack>
+              </TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+      {/* 
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
+      </ErrorContainer>
 
-          {/* 기관 검색 모달 */}
-          {showAgncSearchModal && (
-            <LazyAgncSearchModal
-              onClose={agncSearchModalClose}
-              open={showAgncSearchModal}
-              modalWidth={800}
-            />
-          )}
+      <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+        운영 관리 정보
+      </Typography>
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>상태</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <FormControlLabel
+                  label="특별 관리(SP)하는 거래처 입니다"
+                  control={
+                    <Checkbox size="small" {...register("isSpecialMng")} />
+                  }
+                />
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>영업 담당자</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <NativeSelect
+                  variant="outlined"
+                  {...register("bsnsManagedByUkey")}
+                >
+                  <option value="user656014">키웨스트</option>
+                  <option value="user483349">라이언</option>
+                  <option value="user369596">모씨</option>
+                  <option value="user809094">LINK</option>
+                  <option value="user623719">코로그</option>
+                </NativeSelect>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>메모</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <InputValidation
+                  fullWidth={true}
+                  multiline
+                  rows={4}
+                  inputName="memo"
+                  errorMessage={false}
+                />
+              </TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+*/}
+      {/* 기관 검색 모달 */}
+      <LazyAgncSearchModal
+        onClose={agncSearchModalClose}
+        open={showAgncSearchModal}
+        modalWidth={800}
+      />
 
-          <Stack direction="row" spacing={0.5} justifyContent="center">
-            <OutlinedButton
-              buttonName="목록"
-              onClick={() => router.push("/cust/agnc-pi-list")}
-            />
-            <ContainedButton type="submit" buttonName="저장" />
-          </Stack>
-        </Box>
-      </Container>
-    </FormProvider>
+      <Stack direction="row" spacing={0.5} justifyContent="center">
+        <OutlinedButton
+          buttonName="목록"
+          onClick={() => router.push("/cust/agnc-pi-list")}
+        />
+        <ContainedButton type="submit" buttonName="저장" />
+      </Stack>
+    </Form>
   );
 };
 
