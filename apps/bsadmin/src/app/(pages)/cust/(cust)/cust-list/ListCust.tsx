@@ -10,6 +10,7 @@ import {
   ExcelDownloadButton,
   exportCSVData,
   OutlinedButton,
+  LeaderCip,
 } from "cjbsDSTM";
 import {
   Box,
@@ -70,21 +71,7 @@ const ListCust = () => {
             >
               <Box data-tag="allowRowEvents">{row.custNm}</Box>
               <Box data-tag="allowRowEvents">
-                <Chip
-                  icon={
-                    <MyIcon
-                      icon="profile-circle-fill"
-                      size={16}
-                      color={theme.palette.primary.main}
-                    />
-                  }
-                  label={"Leader"}
-                  size="small"
-                  sx={{
-                    backgroundColor: "#E6F0FA",
-                    color: "#006ECD",
-                  }}
-                />
+                <LeaderCip />
               </Box>
               <Box data-tag="allowRowEvents">{row.ebcEmail}</Box>
             </Stack>
