@@ -7,11 +7,11 @@ import { ThemeProvider } from "@mui/material/styles";
 interface CheckboxProps {
   inputName: string;
   labelText: string;
-  defaultValue: string | boolean;
+  value: string | boolean;
 }
 
 export const Radio = (props: CheckboxProps) => {
-  const { inputName, labelText, defaultValue, ...rest } = props;
+  const { inputName, labelText, value, ...rest } = props;
   const methods = useFormContext();
   return (
     <ThemeProvider theme={cjbsTheme}>
@@ -21,7 +21,7 @@ export const Radio = (props: CheckboxProps) => {
             {...methods.register(inputName)}
             {...rest}
             type="radio"
-            defaultValue={defaultValue}
+            defaultValue={value}
             disableUnderline={true}
             sx={{ width: 18, ml: 1.5 }}
           />
