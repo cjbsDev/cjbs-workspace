@@ -312,14 +312,12 @@ const AgncAdd = () => {
         </Table>
       </TableContainer>
 */}
-      {/* 기관 검색 모달
-      {showAgncSearchModal && (
-        <LazyAgncSearchModal
-          onClose={agncSearchModalClose}
-          open={showAgncSearchModal}
-          modalWidth={800}
-        />
-      )}*/}
+      {/* 기관 검색 모달 */}
+      <LazyAgncSearchModal
+        onClose={agncSearchModalClose}
+        open={showAgncSearchModal}
+        modalWidth={800}
+      />
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
