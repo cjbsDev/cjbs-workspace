@@ -17,6 +17,7 @@ import {
 import { useRouter } from "next/navigation";
 import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
+import ShowBox from "./ShowBox";
 
 const ListDashboardPage = () => {
   const router = useRouter();
@@ -60,14 +61,13 @@ const ListDashboardPage = () => {
           buttonName="거래처(PI) 등록"
           onClick={() => router.push("/cust/agnc-pi-add")}
         />
-
-        {/*<Input name="testInput" />*/}
       </Stack>
       <Divider sx={{ mb: 5, mt: 5 }} />
 
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Typography sx={{ mb: 1 }}>Form Test</Typography>
         <Checkbox inputName="checkTest" labelText="체크박스" value="Y" />
+        <ShowBox />
         <br />
         <br />
         <Radio inputName="radioTest" labelText="국내" value="in" />
