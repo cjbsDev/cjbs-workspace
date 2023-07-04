@@ -67,11 +67,11 @@ const ListDashboardPage = () => {
 
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Typography sx={{ mb: 1 }}>Form Test</Typography>
-        <Checkbox inputName="checkTest" labelText="체크박스" defaultValue="Y" />
+        <Checkbox inputName="checkTest" labelText="체크박스" value="Y" />
         <br />
         <br />
-        <Radio inputName="radioTest" labelText="국내" defaultValue="in" />
-        <Radio inputName="radioTest" labelText="해외" defaultValue="out" />
+        <Radio inputName="radioTest" labelText="국내" value="in" />
+        <Radio inputName="radioTest" labelText="해외" value="out" />
         <br />
         <br />
         <InputValidation inputName="inputTest" errorMessage={false} />

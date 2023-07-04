@@ -5,11 +5,11 @@ import { useFormContext } from "react-hook-form";
 interface CheckboxProps {
   inputName: string;
   labelText: string;
-  defaultValue: string | boolean;
+  value: string | boolean;
 }
 
 export const Checkbox = (props: CheckboxProps) => {
-  const { inputName, labelText, defaultValue, ...rest } = props;
+  const { inputName, labelText, value, ...rest } = props;
   const methods = useFormContext();
   return (
     <FormControlLabel
@@ -18,7 +18,7 @@ export const Checkbox = (props: CheckboxProps) => {
           {...methods.register(inputName)}
           {...rest}
           type="checkbox"
-          defaultValue={defaultValue}
+          defaultValue={value}
           disableUnderline={true}
           sx={{ width: 18, ml: 1.5 }}
         />
