@@ -7,18 +7,12 @@ import {
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  Title1,
-  UnStyledButton,
 } from "cjbsDSTM";
 import { Chip, DialogContent, Grid, Stack, Typography } from "@mui/material";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
-import MyIcon from "icon/myIcon";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import IconDescBar from "../../../../components/IconDescBar";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -47,8 +41,7 @@ const AgncSearchModal = ({
       suspense: true,
     }
   );
-  // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
 
   //console.log("Modal data", data.data);
 
@@ -91,14 +84,8 @@ const AgncSearchModal = ({
     []
   );
 
+  console.log("data.data.instList", data.data.instList);
   const filteredData = data.data.instList;
-  /*
-  const filteredData = data.data.instList.filter(
-    (item) =>
-      item.agncNm &&
-      item.agncNm.toLowerCase().includes(filterText.toLowerCase())
-  );
-  */
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {

@@ -37,7 +37,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import axios from "axios";
 
@@ -79,7 +78,6 @@ const InstAdd = () => {
 
   const methods = useForm();
   const {
-    register,
     formState: { errors },
     getValues,
     setValue,
@@ -113,36 +111,6 @@ const InstAdd = () => {
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
   };
-
-  // [주소 찾기] 기능 시작
-  const open = useDaumPostcodePopup(
-    "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
-  );
-
-  // [주소 찾기] 에서 완료했을 때 callback
-  const handlePostAddressComplete = (data) => {
-    //console.log("Post code data ==>>", data);
-    let fullAddress = data.address;
-    let zip = data.zonecode;
-    let extraAddress = "";
-
-    if (data.addressType === "R") {
-      if (data.bname !== "") {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== "") {
-        extraAddress +=
-          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    }
-
-    // console.log("fullAddress", fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setValue("zip", zip);
-    setValue("addr", fullAddress);
-  };
-
-  // [주소 찾기] 기능 종료
 
   // Common
   // [ 등록 ]
@@ -245,8 +213,6 @@ const InstAdd = () => {
                       <InputValidation
                         disabled={true}
                         error={errors.instUniqueCodeMc ? true : false}
-                        helperText={errors.instUniqueCodeMc?.message ?? null}
-                        register={register}
                         inputName="instUniqueCodeMc"
                         errorMessage="소속기관을 선택해 주세요."
                         placeholder="기관 코드"
@@ -254,8 +220,6 @@ const InstAdd = () => {
                       <InputValidation
                         disabled={true}
                         error={errors.instNm ? true : false}
-                        helperText={errors.instNm?.message ?? null}
-                        register={register}
                         inputName="instNm"
                         errorMessage="소속기관을 선택해 주세요."
                         placeholder="기관명"
@@ -275,8 +239,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.brno ? true : false}
-                        helperText={errors.brno?.message ?? null}
-                        register={register}
                         inputName="brno"
                         errorMessage={
                           errors.brno
@@ -296,8 +258,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.rprsNm ? true : false}
-                        helperText={errors.rprsNm?.message ?? null}
-                        register={register}
                         inputName="rprsNm"
                         errorMessage="대표자명은 필수 입력입니다."
                         sx={{ width: 450 }}
@@ -312,8 +272,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.itbsns ? true : false}
-                        helperText={errors.itbsns?.message ?? null}
-                        register={register}
                         inputName="itbsns"
                         errorMessage="업태 선택"
                         sx={{ width: 450 }}
@@ -328,8 +286,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.tpbsns ? true : false}
-                        helperText={errors.tpbsns?.message ?? null}
-                        register={register}
                         inputName="tpbsns"
                         errorMessage="업종 선택"
                         sx={{ width: 450 }}
@@ -345,7 +301,6 @@ const InstAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          register={register}
                           inputName="zip"
                           errorMessage={false}
                           placeholder="zip code"
@@ -356,7 +311,6 @@ const InstAdd = () => {
                         <InputValidation
                           disabled={true}
                           sx={{ width: 450 }}
-                          register={register}
                           inputName="addr"
                           errorMessage={false}
                         />
@@ -364,7 +318,6 @@ const InstAdd = () => {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           sx={{ width: 450 }}
-                          register={register}
                           inputName="addrDetail"
                           errorMessage={false}
                           placeholder="상세주소"
@@ -378,7 +331,6 @@ const InstAdd = () => {
                   <TH sx={{ width: "15%" }}>지역 1</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <SelectBox
-                      register={register}
                       inputName="region_1_gc"
                       options={[
                         { value: "user656014", optionName: "키웨스트" },
@@ -394,7 +346,6 @@ const InstAdd = () => {
                   <TH sx={{ width: "15%" }}>지역 2</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <SelectBox
-                      register={register}
                       inputName="region_2_gc"
                       options={[
                         { value: "user656014", optionName: "키웨스트" },
@@ -413,8 +364,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.inst_type_cc ? true : false}
-                        helperText={errors.inst_type_cc?.message ?? null}
-                        register={register}
                         inputName="inst_type_cc"
                         errorMessage="분류 선택"
                         sx={{ width: 450 }}
@@ -429,8 +378,6 @@ const InstAdd = () => {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         error={errors.ftr ? true : false}
-                        helperText={errors.ftr?.message ?? null}
-                        register={register}
                         inputName="ftr"
                         errorMessage="특성은 필수 값입니다."
                         sx={{ width: 450 }}

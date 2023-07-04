@@ -48,7 +48,7 @@ const AgncSearchModal = ({
     }
   );
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
-  const { register, setValue } = useFormContext();
+  const { setValue } = useFormContext();
 
   //console.log("Modal data", data.data);
 

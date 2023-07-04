@@ -189,7 +189,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         helperText={
                           errors.custNm ? errors.custNm?.message : null
                         }
-                        register={register}
                         inputName="custNm"
                         errorMessage="필수 값입니다."
                       />
@@ -209,8 +208,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     >
                       <InputValidation
                         error={errors.tel_0 ? true : false}
-                        helperText={errors.tel_0 ? errors.tel_0?.message : null}
-                        register={register}
                         inputName="tel_0"
                         errorMessage=""
                       />
@@ -223,8 +220,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     >
                       <InputValidation
                         error={errors.tel_1 ? true : false}
-                        helperText={errors.tel_1 ? errors.tel_1?.message : null}
-                        register={register}
                         inputName="tel_1"
                         errorMessage=""
                       />
@@ -237,8 +232,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     >
                       <InputValidation
                         error={errors.tel_2 ? true : false}
-                        helperText={errors.tel_2 ? errors.tel_2?.message : null}
-                        register={register}
                         inputName="tel_2"
                         errorMessage=""
                       />
@@ -257,8 +250,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       <InputValidation
                         disabled={true}
                         error={errors.agncNm ? true : false}
-                        helperText={errors.agncNm?.message ?? null}
-                        register={register}
                         inputName="agncNm"
                         errorMessage="필수 값입니다."
                       />
@@ -266,10 +257,8 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       <InputValidation
                         disabled={true}
                         sx={{ display: "none" }}
-                        register={register}
                         inputName="agncUkey"
                         error={errors.agncUkey ? true : false}
-                        helperText={errors.agncUkey?.message ?? null}
                         errorMessage="필수 값입니다."
                       />
 
@@ -325,7 +314,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       fullWidth={true}
                       multiline
                       rows={4}
-                      register={register}
                       inputName="memo"
                       errorMessage={false}
                     />
