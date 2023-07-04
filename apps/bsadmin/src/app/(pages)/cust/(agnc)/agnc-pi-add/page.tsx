@@ -11,6 +11,8 @@ import {
   InputValidation,
   Form,
   PostCodeBtn,
+  Checkbox,
+  SelectBox,
 } from "cjbsDSTM";
 import {
   Typography,
@@ -20,10 +22,7 @@ import {
   Table,
   TableRow,
   TableBody,
-  Checkbox,
   FormControlLabel,
-  Select,
-  NativeSelect,
   MenuItem,
   TableContainer,
 } from "@mui/material";
@@ -131,28 +130,23 @@ const AgncAdd = () => {
       custUkey,
       isLeader,
     }));
-    let isSpecialMngFlag = getValues("isSpecialMng");
-    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+
+    //console.log("data", data);
 
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
       agncNm: data.agncNm,
-      bsnsManagedByUkey,
+      bsnsManagedByUkey: data.bsnsManagedByUkey,
       custDetailList: saveMemberList,
       instUkey: data.instUkey,
       zip: data.zip,
-      isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
+      isSpecialMng: data.isSpecialMng == true ? "Y" : "N",
       memo: data.memo,
     };
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    console.log(
-      "== 230704 공통 컴포넌트 변경에 따른 적용으로 잠시 저장을 막아둠 =="
-    );
-
-    /*
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
 
     axios
@@ -167,7 +161,6 @@ const AgncAdd = () => {
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
-      */
   };
 
   const defaultValues = {};
@@ -259,7 +252,6 @@ const AgncAdd = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      {/* 
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
       </ErrorContainer>
@@ -273,31 +265,31 @@ const AgncAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <FormControlLabel
-                  label="특별 관리(SP)하는 거래처 입니다"
-                  control={
-                    <Checkbox size="small" {...register("isSpecialMng")} />
-                  }
+                <Checkbox
+                  inputName="isSpecialMng"
+                  labelText="특별 관리(SP)하는 거래처 입니다."
+                  value=""
                 />
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <NativeSelect
-                  variant="outlined"
-                  {...register("bsnsManagedByUkey")}
-                >
-                  <option value="user656014">키웨스트</option>
-                  <option value="user483349">라이언</option>
-                  <option value="user369596">모씨</option>
-                  <option value="user809094">LINK</option>
-                  <option value="user623719">코로그</option>
-                </NativeSelect>
+                <SelectBox
+                  inputName="bsnsManagedByUkey"
+                  options={[
+                    { value: "user656014", optionName: "키웨스트" },
+                    { value: "user483349", optionName: "라이언" },
+                    { value: "user369596", optionName: "모씨" },
+                    { value: "user809094", optionName: "LINK" },
+                    { value: "user623719", optionName: "코로그" },
+                  ]}
+                />
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>메모</TH>
+
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <InputValidation
                   fullWidth={true}
@@ -311,7 +303,7 @@ const AgncAdd = () => {
           </TableBody>
         </Table>
       </TableContainer>
-*/}
+
       {/* 기관 검색 모달 */}
       <LazyAgncSearchModal
         onClose={agncSearchModalClose}
@@ -324,6 +316,7 @@ const AgncAdd = () => {
           buttonName="목록"
           onClick={() => router.push("/cust/agnc-pi-list")}
         />
+
         <ContainedButton type="submit" buttonName="저장" />
       </Stack>
     </Form>

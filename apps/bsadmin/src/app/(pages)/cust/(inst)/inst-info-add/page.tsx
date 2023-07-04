@@ -84,25 +84,6 @@ const InstAdd = () => {
     setValue,
   } = methods;
 
-  // 위치 선택한 것을 저장하는 값
-  const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
-  const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
-  const [error, setError] = useState("");
-
-  // 위치 값 선택 저장
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedLocation(event.target.value);
-    console.log("handleLocationChange", event.target.value);
-    setError("");
-  };
-
-  // 상태 값 선택 저장
-  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedStatus(event.target.value);
-    console.log("handleStatusChange", event.target.value);
-    setError("");
-  };
-
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -113,12 +94,17 @@ const InstAdd = () => {
     setShowAgncSearchModal(false);
   };
 
+  // 위치 값 선택 저장
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("위치 handleLocationChange", event.target.value);
+    console.log(event.target.value == "BS_0200002" ? "국내" : "해외");
+  };
+
   // Common
   // [ 등록 ]
   const onSubmit = (data: any) => {
     console.log("[1-1] 등록 확인");
-    console.log("[1-2] 위치 확인", selectedLocation);
-    console.log("[1-3] 상태 확인", selectedStatus);
+    console.log("data", data);
     /*
     const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
     const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
@@ -180,21 +166,18 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>위치</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <RadioGroup
-                  value={selectedLocation}
+                <Radio
+                  inputName="lctn_type_cc"
+                  labelText="국내"
+                  value="BS_0200002"
                   onChange={handleLocationChange}
-                >
-                  <FormControlLabel
-                    value="BS_0200002"
-                    control={<Radio />}
-                    label="국내"
-                  />
-                  <FormControlLabel
-                    value="BS_0200001"
-                    control={<Radio />}
-                    label="해외"
-                  />
-                </RadioGroup>
+                />
+                <Radio
+                  inputName="lctn_type_cc"
+                  labelText="해외"
+                  value="BS_0200001"
+                  onChange={handleLocationChange}
+                />
               </TD>
             </TableRow>
 
@@ -204,14 +187,12 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
                     disabled={true}
-                    error={errors.instUniqueCodeMc ? true : false}
                     inputName="instUniqueCodeMc"
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관 코드"
                   />
                   <InputValidation
                     disabled={true}
-                    error={errors.instNm ? true : false}
                     inputName="instNm"
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관명"
@@ -230,7 +211,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.brno ? true : false}
                     inputName="brno"
                     errorMessage={
                       errors.brno
@@ -249,7 +229,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.rprsNm ? true : false}
                     inputName="rprsNm"
                     errorMessage="대표자명은 필수 입력입니다."
                     sx={{ width: 450 }}
@@ -263,7 +242,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.itbsns ? true : false}
                     inputName="itbsns"
                     errorMessage="업태 선택"
                     sx={{ width: 450 }}
@@ -277,7 +255,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.tpbsns ? true : false}
                     inputName="tpbsns"
                     errorMessage="업종 선택"
                     sx={{ width: 450 }}
@@ -355,7 +332,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.inst_type_cc ? true : false}
                     inputName="inst_type_cc"
                     errorMessage="분류 선택"
                     sx={{ width: 450 }}
@@ -369,7 +345,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.ftr ? true : false}
                     inputName="ftr"
                     errorMessage="특성은 필수 값입니다."
                     sx={{ width: 450 }}
@@ -381,21 +356,16 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <RadioGroup
-                  value={selectedStatus}
-                  onChange={handleStatusChange}
-                >
-                  <FormControlLabel
-                    value="BS_0602001"
-                    control={<Radio />}
-                    label="운영"
-                  />
-                  <FormControlLabel
-                    value="BS_0602002"
-                    control={<Radio />}
-                    label="폐업"
-                  />
-                </RadioGroup>
+                <Radio
+                  inputName="status_code_cc"
+                  labelText="운영"
+                  value="BS_0602001"
+                />
+                <Radio
+                  inputName="status_code_cc"
+                  labelText="폐업"
+                  value="BS_0602002"
+                />
               </TD>
             </TableRow>
           </TableBody>

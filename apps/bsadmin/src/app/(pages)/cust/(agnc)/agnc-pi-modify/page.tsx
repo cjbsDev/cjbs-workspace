@@ -79,16 +79,6 @@ interface FormData {
   memo?: string;
 }
 
-/*
-interface Member {
-  custUkey: any;
-  ebcEmail: string;
-  custNm: string;
-  isAcs: string;
-  isLeader: boolean;
-}
-*/
-
 interface Member {
   isLeader: string;
   custUkey: string;
@@ -157,18 +147,6 @@ export default function AgncPIModifyPage() {
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
     setSelectedMembers(selectedMembers);
-  };
-
-  // [영업 담당자]  selectbox 제어
-  //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
-  //const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
-  const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
-
-  // [ 영업 담당자 ] 담당자 선택
-  const handleSelectChangeBSMng = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedValue(event.target.value as string);
   };
 
   // [ 수정 ]
@@ -320,9 +298,9 @@ export default function AgncPIModifyPage() {
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Checkbox
-                      defaultValue="Y"
                       inputName="isSpecialMngFlag"
                       labelText="특별 관리(SP)하는 거래처 입니다"
+                      value=""
                     />
                   </TD>
                 </TableRow>
