@@ -149,10 +149,7 @@ const AgncAdd = () => {
     setValue("zip", zip);
     setValue("addr", fullAddress);
   };
-  // [주소 찾기] 열기
-  const handlePostAddressClick = () => {
-    open({ onComplete: handlePostAddressComplete });
-  };
+
   // [주소 찾기] 기능 종료
 
   /*

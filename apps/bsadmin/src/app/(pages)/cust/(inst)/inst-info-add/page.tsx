@@ -10,7 +10,9 @@ import {
   Fallback,
   InputValidation,
   PostCodeBtn,
+  SelectBox,
 } from "cjbsDSTM";
+
 import {
   Typography,
   Container,
@@ -20,10 +22,15 @@ import {
   TableRow,
   TableBody,
   Checkbox,
+  FormControl,
   FormControlLabel,
+  FormLabel,
   Select,
   NativeSelect,
   MenuItem,
+  Radio,
+  RadioGroup,
+  Button,
   TableContainer,
 } from "@mui/material";
 import { useForm, FormProvider } from "react-hook-form";
@@ -34,29 +41,34 @@ import { useDaumPostcodePopup } from "react-daum-postcode";
 
 import axios from "axios";
 
-/*
-const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
+// 거래처에서 기관 모달과 다름
+const LazyInstAddSearchModal = dynamic(() => import("./InstAddSearchModal"), {
   ssr: false,
 });
-*/
+
 /**
  * 기관 등록 2023-07-03 개발 시작 0704일에 완료 예정
  * - 우선은 거래처 등록을 base 로 진행 예정
  * - 마스터 코드에서 등록된 기관에 대해 -> 기관 검색 & 추가
  * - 기관 검색은 거래처에서 기관 검색과는 다름
  *
+ * 1차 개발 목표 [ 저장 ]
+ * - 위치 선택 후 값 확인하기
+ * - 상태 선택 후 값 확인하기
+ * - 기관 검색 모달 띄우고 선택하기
+ * - 국내 & 해외 선택에 따라 지역 1 값들 나오게 하기
+ * - 지역 1 선택에 따라 지역 2 값 나오게 하기
+ * - 분류 값들 나오게 하기
+ * - 저장 눌러서 값들 확인하기
  *
+ * 2차 개발 목표 [ Validation ]
+ * 선택과 필수 값 확인 후 저장
+ * - 선택값 : 대표자, 업태, 업종, 주소 나머지 다 필수
+ * API 에서 validation 관련하여 리턴 처리
  *
  */
 
-interface Member {
-  custUkey: any;
-  ebcEmail: string;
-  custNm: string;
-  isAcs: string;
-  isLeader: boolean;
-}
-
+// 기관 등록
 const InstAdd = () => {
   // init
   const router = useRouter();
@@ -64,10 +76,6 @@ const InstAdd = () => {
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
-
-  // [영업 담당자]  selectbox 제어
-  //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
-  // const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
 
   const methods = useForm();
   const {
@@ -77,11 +85,23 @@ const InstAdd = () => {
     setValue,
   } = methods;
 
-  // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  // 위치 선택한 것을 저장하는 값
+  const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
+  const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
+  const [error, setError] = useState("");
 
-  const handleMemberSelection = (selectedMembers: Member[]) => {
-    setSelectedMembers(selectedMembers);
+  // 위치 값 선택 저장
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedLocation(event.target.value);
+    console.log("handleLocationChange", event.target.value);
+    setError("");
+  };
+
+  // 상태 값 선택 저장
+  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedStatus(event.target.value);
+    console.log("handleStatusChange", event.target.value);
+    setError("");
   };
 
   // [ 기관 검색 ] 모달 오픈
@@ -92,31 +112,6 @@ const InstAdd = () => {
   // [ 기관 검색 ] 모달 닫기
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
-  };
-
-  // [ 거래처 ] 중복 확인
-  const getAgncDuplicate = async () => {
-    let getAgncNm = getValues("agncNm");
-    console.log("getAgncNm", getAgncNm);
-    if (getAgncNm) {
-      const apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/duplicate/` +
-        getAgncNm; // Replace with your API URL
-
-      try {
-        const getAgncDuplicateData = await axios.get(apiUrl);
-        console.log(getAgncDuplicateData.data);
-      } catch (error) {
-        console.info("거래처 중복확인 Error", error);
-      }
-      // 문제 없다는 리턴 혹은 메세지 해줘야 하고, check set true 필요
-      // 혹은 이미 같은 이름으로 저장된 거래처 명이 있다는 것을 알려줘야 하고, check set false 필요
-      return true;
-    } else {
-      // 중복 체크할 거래처명이 없다는 것을 리턴해야함.
-      console.info("거래처명을 입력해주세요.");
-      return false;
-    }
   };
 
   // [주소 찾기] 기능 시작
@@ -146,25 +141,21 @@ const InstAdd = () => {
     setValue("zip", zip);
     setValue("addr", fullAddress);
   };
-  // [주소 찾기] 열기
-  const handlePostAddressClick = () => {
-    open({ onComplete: handlePostAddressComplete });
-  };
-  // [주소 찾기] 기능 종료
 
-  /*
-  // [ 영업 담당자 ] 담당자 선택
-  const handleSelectChangeBSMng = (
-    event: React.ChangeEvent<{ value: unknown }>
-  ) => {
-    setSelectedValue(event.target.value as string);
-  };
-*/
-  //console.log("main ", selectedMembers);
+  // [주소 찾기] 기능 종료
 
   // Common
   // [ 등록 ]
   const onSubmit = (data: any) => {
+    console.log("[1-1] 등록 확인");
+    console.log("[1-2] 위치 확인", selectedLocation);
+    console.log("[1-3] 상태 확인", selectedStatus);
+    /*
+    const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
+    const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
+    */
+
+    /*
     let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
       custUkey,
       isLeader,
@@ -178,7 +169,7 @@ const InstAdd = () => {
       agncNm: data.agncNm,
       bsnsManagedByUkey,
       custDetailList: saveMemberList,
-      instUkey: data.instUkey,
+      instUkey: data.instUkey, -> instUniqueCodeMc
       zip: data.zip,
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
@@ -200,6 +191,7 @@ const InstAdd = () => {
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
+      */
   };
 
   return (
@@ -212,7 +204,7 @@ const InstAdd = () => {
           onSubmit={methods.handleSubmit(onSubmit)}
         >
           <Box sx={{ mb: 4 }}>
-            <Title1 titleName="거래처(PI) 등록" />
+            <Title1 titleName="기관 등록" />
           </Box>
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -222,7 +214,28 @@ const InstAdd = () => {
             <Table>
               <TableBody>
                 <TableRow>
-                  <TH sx={{ width: "15%" }}>소속 기관</TH>
+                  <TH sx={{ width: "15%" }}>위치</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <RadioGroup
+                      value={selectedLocation}
+                      onChange={handleLocationChange}
+                    >
+                      <FormControlLabel
+                        value="BS_0200002"
+                        control={<Radio />}
+                        label="국내"
+                      />
+                      <FormControlLabel
+                        value="BS_0200001"
+                        control={<Radio />}
+                        label="해외"
+                      />
+                    </RadioGroup>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>기관명</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack
                       direction="row"
@@ -231,21 +244,21 @@ const InstAdd = () => {
                     >
                       <InputValidation
                         disabled={true}
+                        error={errors.instUniqueCodeMc ? true : false}
+                        helperText={errors.instUniqueCodeMc?.message ?? null}
+                        register={register}
+                        inputName="instUniqueCodeMc"
+                        errorMessage="소속기관을 선택해 주세요."
+                        placeholder="기관 코드"
+                      />
+                      <InputValidation
+                        disabled={true}
                         error={errors.instNm ? true : false}
                         helperText={errors.instNm?.message ?? null}
                         register={register}
                         inputName="instNm"
-                        errorMessage="소속기관을 입력해 주세요."
-                      />
-
-                      <InputValidation
-                        disabled={true}
-                        sx={{ display: "none" }}
-                        register={register}
-                        inputName="instUkey"
-                        error={errors.instUkey ? true : false}
-                        helperText={errors.instUkey?.message ?? null}
-                        errorMessage="필수 값입니다."
+                        errorMessage="소속기관을 선택해 주세요."
+                        placeholder="기관명"
                       />
 
                       <OutlinedButton
@@ -257,29 +270,74 @@ const InstAdd = () => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "15%" }}>거래처(PI)</TH>
+                  <TH sx={{ width: "15%" }}>사업자 등록번호</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        error={errors.agncNm ? true : false}
-                        helperText={errors.agncNm?.message ?? null}
+                        error={errors.brno ? true : false}
+                        helperText={errors.brno?.message ?? null}
                         register={register}
-                        inputName="agncNm"
+                        inputName="brno"
                         errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
+                          errors.brno
+                            ? "중복된 사업자 등록번호가 있습니다."
+                            : "사업자 등록번호를 입력해 주세요."
                         }
-                      />
-
-                      <OutlinedButton
-                        size="small"
-                        buttonName="중복 확인"
-                        onClick={getAgncDuplicate}
+                        placeholder="사업자 등록번호 10자리를 입력해주세요."
+                        sx={{ width: 450 }}
                       />
                     </Stack>
                   </TD>
                 </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>대표자</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.rprsNm ? true : false}
+                        helperText={errors.rprsNm?.message ?? null}
+                        register={register}
+                        inputName="rprsNm"
+                        errorMessage="대표자명은 필수 입력입니다."
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>업태 [선택]</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.itbsns ? true : false}
+                        helperText={errors.itbsns?.message ?? null}
+                        register={register}
+                        inputName="itbsns"
+                        errorMessage="업태 선택"
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>업종 [선택]</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.tpbsns ? true : false}
+                        helperText={errors.tpbsns?.message ?? null}
+                        register={register}
+                        inputName="tpbsns"
+                        errorMessage="업종 선택"
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
                 <TableRow>
                   <TH sx={{ width: "15%" }}>주소 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -315,19 +373,104 @@ const InstAdd = () => {
                     </Stack>
                   </TD>
                 </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>지역 1</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <SelectBox
+                      register={register}
+                      inputName="region_1_gc"
+                      options={[
+                        { value: "user656014", optionName: "키웨스트" },
+                        { value: "user483349", optionName: "라이언" },
+                        { value: "user369596", optionName: "모씨" },
+                        { value: "user809094", optionName: "LINK" },
+                        { value: "user623719", optionName: "코로그" },
+                      ]}
+                    />
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>지역 2</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <SelectBox
+                      register={register}
+                      inputName="region_2_gc"
+                      options={[
+                        { value: "user656014", optionName: "키웨스트" },
+                        { value: "user483349", optionName: "라이언" },
+                        { value: "user369596", optionName: "모씨" },
+                        { value: "user809094", optionName: "LINK" },
+                        { value: "user623719", optionName: "코로그" },
+                      ]}
+                    />
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>분류</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.inst_type_cc ? true : false}
+                        helperText={errors.inst_type_cc?.message ?? null}
+                        register={register}
+                        inputName="inst_type_cc"
+                        errorMessage="분류 선택"
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>특성</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        error={errors.ftr ? true : false}
+                        helperText={errors.ftr?.message ?? null}
+                        register={register}
+                        inputName="ftr"
+                        errorMessage="특성은 필수 값입니다."
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>상태</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <RadioGroup
+                      value={selectedStatus}
+                      onChange={handleStatusChange}
+                    >
+                      <FormControlLabel
+                        value="BS_0602001"
+                        control={<Radio />}
+                        label="운영"
+                      />
+                      <FormControlLabel
+                        value="BS_0602002"
+                        control={<Radio />}
+                        label="폐업"
+                      />
+                    </RadioGroup>
+                  </TD>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
 
-          {/* 기관 검색 모달 
+          {/* 기관 검색 모달  */}
           {showAgncSearchModal && (
-            <LazyAgncSearchModal
+            <LazyInstAddSearchModal
               onClose={agncSearchModalClose}
               open={showAgncSearchModal}
               modalWidth={800}
             />
           )}
-          */}
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
