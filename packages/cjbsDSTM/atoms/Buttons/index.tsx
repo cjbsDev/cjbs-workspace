@@ -9,6 +9,7 @@ import {
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 import MyIcon from "icon/myIcon";
+import { useFormContext } from "react-hook-form";
 
 interface CustomButtonProps extends ButtonProps {
   buttonName: string;
@@ -24,6 +25,32 @@ interface CustomToggleButtonProps extends ToggleButtonProps {
   onChange: () => void;
 }
 
+export const ResetButton = ({ buttonName, ...props }: CustomButtonProps) => {
+  const methods = useFormContext();
+  const { reset } = methods;
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Button
+        {...props}
+        onClick={() => reset()}
+        sx={{
+          "&.MuiButton-containedSizeSmall": {
+            p: "3px 10px",
+          },
+          "&.MuiButton-outlinedSizeSmall": {
+            p: "3px 10px",
+          },
+          "&.MuiButton-outlinedSecondary": {
+            color: cjbsTheme.palette.common.black,
+          },
+        }}
+      >
+        <Typography variant="buttonMD">{buttonName}</Typography>
+      </Button>
+    </ThemeProvider>
+  );
+};
+
 export const ContainedButton = ({
   buttonName,
   ...props
@@ -35,7 +62,7 @@ export const ContainedButton = ({
         variant="contained"
         sx={{
           "&.MuiButton-containedSizeSmall": {
-            p: "4px 10px",
+            p: "3px 10px",
           },
         }}
       >
@@ -84,7 +111,7 @@ export const LinkButton = ({ buttonName, ...props }: CustomButtonProps) => {
         variant="text"
         sx={{
           "&.MuiButton-textSizeSmall": {
-            p: "4px 10px",
+            p: "3px 10px",
           },
         }}
       >
