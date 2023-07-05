@@ -15,10 +15,6 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
-import MyIcon from "icon/myIcon";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import IconDescBar from "../../../../components/IconDescBar";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
