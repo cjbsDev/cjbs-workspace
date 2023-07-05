@@ -45,7 +45,34 @@ export const ResetButton = ({ buttonName, ...props }: CustomButtonProps) => {
           },
         }}
       >
-        <Typography variant="buttonMD">{buttonName}</Typography>
+        {buttonName}
+      </Button>
+    </ThemeProvider>
+  );
+};
+
+export const XlargeButton = ({ buttonName, ...props }: CustomButtonProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Button
+        {...props}
+        size="large"
+        sx={{
+          "&.MuiButton-containedSizeLarge": {
+            padding: "12px 20px !important",
+            fontSize: 18,
+          },
+          "&.MuiButton-textSizeLarge": {
+            padding: "12px 20px !important",
+            fontSize: 18,
+          },
+          "&.MuiButton-outlinedSizeLarge": {
+            padding: "12px 20px !important",
+            fontSize: 18,
+          },
+        }}
+      >
+        {buttonName}
       </Button>
     </ThemeProvider>
   );
@@ -66,7 +93,7 @@ export const ContainedButton = ({
           },
         }}
       >
-        <Typography variant="buttonMD">{buttonName}</Typography>
+        {buttonName}
       </Button>
     </ThemeProvider>
   );
@@ -79,15 +106,12 @@ export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
         {...props}
         variant="outlined"
         sx={{
-          "&.MuiButton-outlinedSizeSmall": {
-            p: "3px 10px",
-          },
           "&.MuiButton-outlinedSecondary": {
             color: cjbsTheme.palette.common.black,
           },
         }}
       >
-        <Typography variant="buttonMD">{buttonName}</Typography>
+        {buttonName}
       </Button>
     </ThemeProvider>
   );
@@ -97,7 +121,7 @@ export const XsmallButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
       <Button {...props} variant="xSmall">
-        <Typography variant="buttonMD">{buttonName}</Typography>
+        {buttonName}
       </Button>
     </ThemeProvider>
   );
@@ -106,16 +130,8 @@ export const XsmallButton = ({ buttonName, ...props }: CustomButtonProps) => {
 export const LinkButton = ({ buttonName, ...props }: CustomButtonProps) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Button
-        {...props}
-        variant="text"
-        sx={{
-          "&.MuiButton-textSizeSmall": {
-            p: "3px 10px",
-          },
-        }}
-      >
-        <Typography variant="buttonMD">{buttonName}</Typography>
+      <Button {...props} variant="text" sx={{}}>
+        {buttonName}
       </Button>
     </ThemeProvider>
   );
@@ -134,7 +150,7 @@ export const UnStyledButton = ({ buttonName, ...props }: CustomButtonProps) => {
           },
         }}
       >
-        <Typography variant="buttonMD">{buttonName}</Typography>
+        {buttonName}
       </Button>
     </ThemeProvider>
   );

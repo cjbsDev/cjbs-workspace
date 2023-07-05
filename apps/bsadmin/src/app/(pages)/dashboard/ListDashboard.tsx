@@ -13,6 +13,7 @@ import {
   OutlinedButton,
   InputValidation,
   ResetButton,
+  XlargeButton,
 } from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
@@ -62,6 +63,29 @@ const ListDashboardPage = () => {
           onClick={() => router.push("/cust/agnc-pi-add")}
         />
       </Stack>
+      <Divider sx={{ mb: 5, mt: 5 }} />
+
+      <Box sx={{ "& button": { m: 1 } }}>
+        <Box>
+          <OutlinedButton buttonName="Small" size="small" />
+          <OutlinedButton buttonName="Medium" />
+          <OutlinedButton buttonName="Large" size="large" color="neutral" />
+          <XlargeButton buttonName="Xlarge" variant="outlined" color="error" />
+        </Box>
+        <Box>
+          <ContainedButton buttonName="Small" size="small" color="neutral" />
+          <ContainedButton buttonName="Medium" color="danger" />
+          <ContainedButton buttonName="Large" size="large" />
+          <XlargeButton buttonName="Xlarge" variant="contained" />
+        </Box>
+        <Box>
+          <LinkButton buttonName="Small" size="small" />
+          <LinkButton buttonName="Medium" />
+          <LinkButton buttonName="Large" size="large" />
+          <XlargeButton buttonName="Xlarge" variant="text" />
+        </Box>
+      </Box>
+
       <Divider sx={{ mb: 5, mt: 5 }} />
 
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>

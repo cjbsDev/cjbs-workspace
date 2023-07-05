@@ -2,6 +2,26 @@ import { createTheme } from "@mui/material";
 import { palette } from "@mui/system";
 
 declare module "@mui/material/styles" {
+  interface Theme {}
+  interface ThemeOptions {}
+
+  interface Palette {
+    neutral: Palette["primary"];
+    danger: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    neutral: PaletteOptions["primary"];
+    danger: Palette["primary"];
+  }
+
+  interface PaletteColor {
+    darker?: string;
+  }
+
+  interface SimplePaletteColorOptions {
+    darker?: string;
+  }
   interface TypographyVariants {
     title1: React.CSSProperties;
     title2: React.CSSProperties;
@@ -81,6 +101,14 @@ export const cjbsTheme = createTheme({
       800: "#343a40",
       900: "#222529",
     },
+    neutral: {
+      main: "#64748B",
+      contrastText: "#fff",
+    },
+    danger: {
+      main: "#EF151E",
+      contrastText: "#fff",
+    },
   },
   typography: {
     subtitle1: {
@@ -98,17 +126,50 @@ export const cjbsTheme = createTheme({
         // The props to change the default for.
         disableRipple: true, // No more ripple, on the whole application 💣!
         style: {
-          fontSize: 14,
           boxShadow: "none",
           borderRadius: 2,
+          textTransform: "initial",
         },
       },
     },
     MuiButton: {
       styleOverrides: {
-        outlined: {},
-        contained: {},
-        text: {},
+        outlined: {
+          "&.MuiButton-outlinedSizeSmall": {
+            padding: "4px 10px",
+          },
+          "&.MuiButton-outlinedSizeMedium": {
+            padding: "6px 12px",
+          },
+          "&.MuiButton-outlinedSizeLarge": {
+            padding: "8px 16px",
+            fontSize: 16,
+          },
+        },
+        contained: {
+          "&.MuiButton-containedSizeSmall": {
+            padding: "4px 10px",
+          },
+          "&.MuiButton-containedSizeMedium": {
+            padding: "6px 12px",
+          },
+          "&.MuiButton-containedSizeLarge": {
+            padding: "8px 16px",
+            fontSize: 16,
+          },
+        },
+        text: {
+          "&.MuiButton-textSizeSmall": {
+            padding: "4px 10px",
+          },
+          "&.MuiButton-textSizeMedium": {
+            padding: "6px 12px",
+          },
+          "&.MuiButton-textSizeLarge": {
+            padding: "8px 16px",
+            fontSize: 16,
+          },
+        },
       },
       variants: [
         {
