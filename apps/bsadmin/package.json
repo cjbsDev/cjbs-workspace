@@ -19,7 +19,6 @@
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/x-date-pickers": "^6.5.0",
     "api": "workspace:*",
-    "axios": "^1.4.0",
     "cjbsDSTM": "workspace:*",
     "client-provider": "workspace:*",
     "eslint-config-custom": "workspace:*",
