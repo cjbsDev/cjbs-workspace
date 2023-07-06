@@ -67,6 +67,7 @@ export const snbMenuListData = [
       ],
     },
   },
+
   // {
   //   menuLabel: '실험',
   //   menuIcon: '',
@@ -159,6 +160,49 @@ export const snbMenuListData = [
       ],
     },
   },
+
+  {
+    menuLabel: "관리",
+    menuIcon: "customer",
+    menuPath: {
+      name: "/set",
+      nestedPath: [
+        {
+          menuLabel: "마스터 코드 관리",
+          menuPath: "/set/master-code-list",
+        },
+        {
+          menuLabel: "과제 관리",
+          menuPath: "/set/project-list",
+        },
+        {
+          menuLabel: "담당자 관리",
+          menuPath: "/set/contact-list",
+        },
+        {
+          menuLabel: "서비스 분류 관리",
+          menuPath: "/set/svc-cate-list",
+        },
+        {
+          menuLabel: "서비스 기준가 관리",
+          menuPath: "/set/svc-std-price-list",
+        },
+        {
+          menuLabel: "서비스 타입 관리",
+          menuPath: "/set/svc-type-list",
+        },
+        {
+          menuLabel: "Machine Kit 분류 관리",
+          menuPath: "/set/machine-kit",
+        },
+        {
+          menuLabel: "견적 품명 관리",
+          menuPath: "/set/es-pr-list",
+        },
+      ],
+    },
+  },
+
   // {
   //   menuLabel: '기준가',
   //   menuIcon: '',
