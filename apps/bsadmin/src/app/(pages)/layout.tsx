@@ -22,7 +22,6 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import AppBar from "../components/AppBar";
 import { snbMenuListData } from "../data/snbMenuListData";
-import uuid from "react-uuid";
 import { useRouter, usePathname } from "next/navigation";
 import MyIcon from "icon/myIcon";
 
@@ -149,7 +148,11 @@ export default function OrderLayout({
             //console.log("hhhh", currentPathname.includes(depthOne.split("/")));
             //console.log("pppp", depthOne.split("/")[1]);
             return (
-              <ListItem key={uuid()} disablePadding sx={{ display: "block" }}>
+              <ListItem
+                key={item.menuLabel}
+                disablePadding
+                sx={{ display: "block" }}
+              >
                 <ListItemButton
                   onClick={() => {
                     item.menuPath.nestedPath.length === 0
@@ -213,7 +216,7 @@ export default function OrderLayout({
                     {item.menuPath.nestedPath.map((item) => {
                       return (
                         <ListItemButton
-                          key={uuid()}
+                          key={item.menuLabel}
                           sx={{
                             pl: 8.3,
                             color: theme.palette.secondary.main,
