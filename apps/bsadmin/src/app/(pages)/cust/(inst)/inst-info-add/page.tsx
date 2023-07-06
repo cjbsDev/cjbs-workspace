@@ -33,7 +33,7 @@ import axios from "axios";
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 // 거래처에서 기관 모달과 다름
-const LazyInstAddSearchModal = dynamic(() => import("./InstAddSearchModal"), {
+const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
 });
 
@@ -64,16 +64,16 @@ const InstAdd = () => {
   // init
   const router = useRouter();
 
-  // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
-
   const methods = useForm();
   const {
     formState: { errors },
     getValues,
     setValue,
   } = methods;
+
+  // [기관 검색] 모달
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
   const [selectedOption, setSelectedOption] = useState("");
   const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
@@ -357,24 +357,21 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>지역 1</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <SelectBox
-                  inputName="region_1_gc"
-                  options={reg1KorOption}
-                  onChange={handleReg1Change}
-                />
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <SelectBox
+                    inputName="region_1_gc"
+                    options={reg1KorOption}
+                    onChange={handleReg1Change}
+                  />
+                  <SelectBox
+                    inputName="region_2_gc"
+                    options={reg2KorOption}
+                    onChange={handleReg2Change}
+                    sx={{ ml: 10 }}
+                  />
+                </Stack>
               </TD>
             </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>지역 2</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <SelectBox
-                  inputName="region_2_gc"
-                  options={reg2KorOption}
-                  onChange={handleReg2Change}
-                />
-              </TD>
-            </TableRow>
-
             <TableRow>
               <TH sx={{ width: "15%" }}>분류</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>

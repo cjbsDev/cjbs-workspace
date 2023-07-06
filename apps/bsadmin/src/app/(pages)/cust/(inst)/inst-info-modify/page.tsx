@@ -1,26 +1,6 @@
-/**
- * 기관 수정
- * 1. 해당 페이지 기능들 파악
- *  - 수정
- *
- *
- */
-
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import {
-  Box,
-  Container,
-  Stack,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import LogUpdateTitle from "../../../../components/LogUpdateTitle";
-
 import {
   ContainedButton,
   OutlinedButton,
@@ -35,108 +15,44 @@ import {
   Radio,
   Form,
 } from "cjbsDSTM";
-
-import SkeletonLoading from "../../../../components/SkeletonLoading";
+import useSWR from "swr";
+import {
+  Typography,
+  Box,
+  Stack,
+  Table,
+  TableRow,
+  TableBody,
+  TableContainer,
+  Container,
+} from "@mui/material";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import SkeletonLoading from "../../../../components/SkeletonLoading";
+import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 
-/*
-const LazyAgncModifyLog = dynamic(
+import axios from "axios";
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+const LazyInstModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
   }
 );
-*/
 
-/*
-instUkey : "KN6arzg1lO",
-douzoneCode : "00107",
-instUniqueCodeMc : "BS_0100004005",
-lctnTypeCc : "BS_0200002",
-lctnTypeVal : "국내",
-instNm : "분당서울대학교 병원",
-brno : 1212312343,
-rprsNm : "대표자이름입니다.",
-tpbsns : "업종입니다.",
-itbsns : "업태입니다.",
-zip : 12345,
-addr : "서울시 중구",
-addrDetail : "세종대로 랄랄라",
-region1Gc : "11000",
-region1Val : "서울특별시",
-region2Gc : "11440",
-region2Val : "마포구",
-instTypeCc : "BS_0600001",
-instTypeVal : "학교",
-ftr : "사용자가 입력한 특성입니다.",
-statusCodeCc : "BS_0602001",
-statusCodeVal : "운영"
-*/
+// 거래처에서 기관 모달과 다름
+const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
+  ssr: false,
+});
 
-/*
-instUkey : string,
-douzoneCode : string,
-instUniqueCodeMc : string,
-lctnTypeCc : string,
-lctnTypeVal : string,
-instNm : string,
-brno? : number,
-rprsNm? : string,
-tpbsns? : string,
-itbsns? : string,
-zip? : number,
-addr? : string,
-addrDetail? : string,
-region1Gc? : string,
-region1Val? : string,
-region2Gc? : string,
-region2Val? : string,
-instTypeCc? : string,
-instTypeVal? : string,
-ftr? : string,
-statusCodeCc? : string,
-statusCodeVal? : string
-
-{
-  "addr": "서울시 중구",
-  "addrDetail": "세종대로 랄랄라",
-  "brno": 1212312345,
-  "ftr": "사용자가 입력한 특성",
-  "instTypeCc": "B0000000",
-  "instUkey": "instUkey",
-  "itbsns": "업태",
-  "lctnTypeCc": "B0000000",
-  "region1Gc": "B0000000",
-  "region2Gc": "B0000000",
-  "rprsNm": "대표자이름",
-  "statusCodeCc": "B0000000",
-  "tpbsns": "업종",
-  "zip": 12345
-}
-
-*/
-
-interface FormData {
-  instUkey: string;
-  douzoneCode: string;
-
-  addr?: string;
-  addrDetail?: string;
-  zip?: string;
-  bsnsManagedByUkey?: string;
-  custDetail?: string[];
-  isSpecialMng?: any;
-  isSpecialMngFlag?: boolean;
-  memo?: string;
-}
-
-export default function AgncPIModifyPage() {
+// 기관 등록
+export default function InstModify() {
+  // init
   const searchParams = useSearchParams();
-  const params = searchParams.get("agncUkey");
+  const params = searchParams.get("instUkey");
   const uKey = params;
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -149,21 +65,32 @@ export default function AgncPIModifyPage() {
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
-
+          console.log("자세히 보기 data", data);
+          //setSelectReg1Option()
+          //data.region1Gc
           return {
-            instNm: data.instNm,
-            agncId: data.agncId,
-            agncNm: data.agncNm,
-            agncUkey: data.agncUkey,
             addr: data.addr,
             addrDetail: data.addrDetail,
-            bsnsManagedByNm: data.bsnsManagedByNm,
-            bsnsManagedByUkey: data.bsnsManagedByUkey,
+            brno: data.brno,
+            douzoneCode: data.douzoneCode,
+            ftr: data.ftr,
+            instNm: data.instNm,
+            instTypeCc: data.instTypeCc,
+            instTypeVal: data.instTypeVal,
+            instUkey: data.instUkey,
+            instUniqueCodeMc: data.instUniqueCodeMc,
+            itbsns: data.itbsns,
+            lctnTypeCc: data.lctnTypeCc,
+            lctnTypeVal: data.lctnTypeVal,
+            region1Gc: data.region1Gc,
+            region1Val: data.region1Val,
+            region2Gc: data.region2Gc,
+            region2Val: data.region2Val,
+            rprsNm: data.rprsNm,
+            statusCodeCc: data.statusCodeCc,
+            statusCodeVal: data.statusCodeVal,
+            tpbsns: data.tpbsns,
             zip: data.zip,
-            isSpecialMng: data.isSpecialMng,
-            isSpecialMngFlag: data.isSpecialMng === "Y",
-            memo: data.memo,
-            pymnPrice: data.pymnPrice,
           };
         });
     },
@@ -176,45 +103,112 @@ export default function AgncPIModifyPage() {
     handleSubmit,
   } = methods;
 
+  // [기관 검색] 모달
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
+
+  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
+  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
+  const [selectReg1Option, setSelectReg1Option] = useState("seoul"); // 도시 선택 값
+  const [selectReg2Option, setSelectReg2Option] = useState("w"); // 도시에 따른 지역구 선택 값
+
+  // [ 기관 검색 ] 모달 닫기
+  const agncSearchModalClose = () => {
+    setShowAgncSearchModal(false);
+  };
+
+  const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("국내 선택 01", event.target.value);
+    setSelectReg1Option(event.target.value);
+    //const methods = useFormContext();
+    //const moreDetail = methods.watch("checkTest");
+  };
+  const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("국내 선택 02", event.target.value);
+    setSelectReg2Option(event.target.value);
+  };
+
+  // 첫번째 선택 ( 국내 lev1 )
+  const { data: domesticData } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic`,
+    fetcher,
+    {
+      onSuccess: (data) => {
+        console.log("in domesticData", data);
+        //console.log("Returned data:", domesticData.data);
+        const reg1KorOptionTemp = data.data.map((item: any) => ({
+          value: item.codeValue,
+          optionName: item.codeNm,
+        }));
+
+        console.log("--- reg1KorOptionTemp", reg1KorOptionTemp);
+        setReg1KorOption(reg1KorOptionTemp);
+      },
+    }
+  );
+
+  // 두번째 선택 ( 국내 lev2 )
+  const { data: domesticDataLv2 } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic&midValue=` +
+      selectReg1Option,
+    fetcher,
+    {
+      onSuccess: (data) => {
+        console.log("in domesticDataLv2", data);
+        //console.log("Returned data:", domesticData.data);
+        const reg2KorOptionTemp = data.data.map((item: any) => ({
+          value: item.codeValue,
+          optionName: item.codeNm,
+        }));
+
+        console.log("--- reg2KorOptionTemp", reg2KorOptionTemp);
+        setReg2KorOption(reg2KorOptionTemp);
+      },
+    }
+  );
+
+  // Common
   // [ 수정 ]
   const onSubmit = (data: any) => {
-    //console.log("selectedMembers", selectedMembers);
-
-    let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
-      custUkey,
-      isLeader,
-    }));
-    let isSpecialMngFlag = getValues("isSpecialMngFlag");
-    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+    console.log("[1-1] 수정 확인");
+    console.log("data", data);
+    console.log("region_1_gc", selectReg1Option);
+    console.log("region_2_gc", selectReg2Option);
 
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
-      agncNm: data.agncNm,
-      agncUkey: data.agncUkey, // 수정에서 생김
-      bsnsManagedByUkey,
-      custDetailList: saveMemberList,
+      brno: data.brno,
+      ftr: data.ftr,
+      instTypeCc: data.inst_type_cc,
+      instUkey: data.instUkey,
+      itbsns: data.itbsns,
+      lctnTypeCc: "BS_0200002",
+      region1Gc: data.region_1_gc,
+      region2Gc: data.region_2_gc,
+      rprsNm: data.rprsNm,
+      statusCodeCc: data.status_code_cc,
+      tpbsns: data.tpbsns,
       zip: data.zip,
-      isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
-      memo: data.memo,
     };
-    //console.log("==modify", saveObj);
-    //console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
-
+    console.log("==saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+    /*
+    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios
-      .put(apiUrl, saveObj)
+      .post(apiUrl, saveObj)
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
-          //router.push("/cust/cust-list/" + slug);
-          router.push("/cust/agnc-pi-list/" + uKey);
+          
+          router.push("/cust/inst-info-list");
         }
       })
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
+      */
   };
 
   return (
@@ -227,43 +221,102 @@ export default function AgncPIModifyPage() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box sx={{ mb: 4 }}>
-            <Title1 titleName="거래처(PI) 수정" />
+            <Title1 titleName="기관 수정" />
           </Box>
 
-          <Typography variant="subtitle1" sx={{ mt: 5 }}>
+          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
             기본 정보
           </Typography>
           <TableContainer sx={{ mb: 5 }}>
             <Table>
               <TableBody>
                 <TableRow>
-                  <TH sx={{ width: "15%" }}>기관명</TH>
-                  <TD sx={{ width: "85%" }}>
-                    <InputValidation
-                      inputName="instNm"
-                      errorMessage={false}
-                      disabled={true}
-                    />
+                  <TH sx={{ width: "15%" }}>위치</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    국내
                   </TD>
                 </TableRow>
 
                 <TableRow>
-                  <TH sx={{ width: "15%" }}>거래처(PI)명</TH>
-
-                  <TD sx={{ width: "85%" }}>
-                    <Stack direction="row" spacing={0.5} alignItems="center">
+                  <TH sx={{ width: "15%" }}>기관명</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
                       <InputValidation
-                        error={errors.agncNm ? true : false}
-                        inputName="agncNm"
-                        errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
-                        }
+                        disabled={true}
+                        inputName="instUniqueCodeMc"
+                        errorMessage="소속기관을 선택해 주세요."
+                        placeholder="기관 코드"
+                      />
+                      <InputValidation
+                        disabled={true}
+                        inputName="instNm"
+                        errorMessage="소속기관을 선택해 주세요."
+                        placeholder="기관명"
                       />
                     </Stack>
                   </TD>
                 </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>사업자 등록번호</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="brno"
+                        errorMessage={
+                          errors.brno
+                            ? "중복된 사업자 등록번호가 있습니다."
+                            : "사업자 등록번호를 입력해 주세요."
+                        }
+                        placeholder="사업자 등록번호 10자리를 입력해주세요."
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>대표자</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="rprsNm"
+                        errorMessage="대표자명은 필수 입력입니다."
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>업태 [선택]</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="itbsns"
+                        errorMessage="업태 선택"
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>업종 [선택]</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="tpbsns"
+                        errorMessage="업종 선택"
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
                 <TableRow>
                   <TH sx={{ width: "15%" }}>주소 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -296,74 +349,101 @@ export default function AgncPIModifyPage() {
                     </Stack>
                   </TD>
                 </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>지역 1</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
+                      <SelectBox
+                        inputName="region_1_gc"
+                        options={reg1KorOption}
+                        onChange={handleReg1Change}
+                      />
+                      <SelectBox
+                        inputName="region_2_gc"
+                        options={reg2KorOption}
+                        onChange={handleReg2Change}
+                        sx={{ ml: 10 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>분류</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <SelectBox
+                        inputName="inst_type_cc"
+                        options={[
+                          { value: "BS_0600004", optionName: "기관" },
+                          { value: "BS_0600001", optionName: "학교" },
+                          { value: "BS_0600002", optionName: "병원" },
+                          { value: "BS_0600003", optionName: "기업" },
+                          { value: "BS_0600005", optionName: "기타" },
+                        ]}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>특성</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="ftr"
+                        errorMessage="특성은 필수 값입니다."
+                        sx={{ width: 450 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>상태</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Radio
+                      inputName="status_code_cc"
+                      labelText="운영"
+                      value="BS_0602001"
+                    />
+                    <Radio
+                      inputName="status_code_cc"
+                      labelText="폐업"
+                      value="BS_0602002"
+                    />
+                  </TD>
+                </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
 
-          <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-            운영 관리 정보
-          </Typography>
-          <TableContainer sx={{ mb: 5 }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>상태</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Checkbox
-                      inputName="isSpecialMngFlag"
-                      labelText="특별 관리(SP)하는 거래처 입니다"
-                      value=""
-                    />
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <SelectBox
-                      inputName="bsnsManagedByUkey"
-                      options={[
-                        { value: "user656014", optionName: "키웨스트" },
-                        { value: "user483349", optionName: "라이언" },
-                        { value: "user369596", optionName: "모씨" },
-                        { value: "user809094", optionName: "LINK" },
-                        { value: "user623719", optionName: "코로그" },
-                      ]}
-                    />
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>메모</TH>
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <InputValidation
-                      fullWidth={true}
-                      multiline
-                      rows={4}
-                      inputName="memo"
-                      errorMessage={false}
-                    />
-                  </TD>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          {/* 기관 검색 모달*/}
+          <LazyInstAddSearchModal
+            onClose={agncSearchModalClose}
+            open={showAgncSearchModal}
+            modalWidth={800}
+          />
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("/cust/agnc-pi-list")}
+              onClick={() => router.push("/cust/inst-info-list")}
             />
-            <ContainedButton buttonName="수정" type="submit" />
+            <ContainedButton type="submit" buttonName="저장" />
           </Stack>
-        </Box>
 
-        {/* 
-        <Box sx={{ mb: 5 }}>
-          <LogUpdateTitle logTitle="거래처(PI)" />
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyAgncModifyLog apiName="agnc" uKey={uKey} />
-          </ErrorContainer>
+          <Box sx={{ mb: 5 }}>
+            <LogUpdateTitle logTitle="기관" />
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyInstModifyLog apiName="inst" uKey={uKey} />
+            </ErrorContainer>
+          </Box>
         </Box>
-*/}
       </Container>
     </FormProvider>
   );
