@@ -3,30 +3,21 @@
 import React, { useMemo, useState, useEffect } from "react";
 import { DataTableBase } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
-
-import useSWR from "swr";
-import axios from "axios";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataComponent from "./component/NoDataComponent";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { useLogList } from "./useLogList";
 
 interface LogProps {
-  uKey: string | null;
+  uKey: string;
   apiName: string;
   ebcShow?: boolean;
 }
 
-const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
-  const { data: custModifyLogTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/${apiName}/log/${uKey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+const LogTable = (props: LogProps) => {
+  const { uKey, apiName, ebcShow } = props;
+  const { logData } = useLogList(apiName, uKey);
 
-  const custModifyLogList = custModifyLogTemp.data.updateLogList;
+  const custModifyLogList = logData.data.updateLogList;
 
   const columns = [
     {
@@ -84,4 +75,4 @@ const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
   );
 };
 
-export default CustModifyLog;
+export default LogTable;
