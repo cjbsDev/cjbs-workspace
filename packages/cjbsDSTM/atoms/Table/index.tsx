@@ -38,5 +38,6 @@ const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   fontWeight: 400,
   border: `1px solid ${theme.palette.grey["400"]}`,
   letterSpacing: "-0.25px",
+  whiteSpace: "pre",
   // padding: "4px 10px",
 }));

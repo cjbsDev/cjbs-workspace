@@ -1,49 +1,38 @@
 "use client";
 
 import React, { useMemo } from "react";
-import useSWR from "swr";
 import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
   Title1,
   ExcelDownloadButton,
-  exportCSVData,
-  OutlinedButton,
   LeaderCip,
 } from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Chip,
-  useTheme,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
-import axios from "axios";
+import { Box, Stack, Grid, Tooltip, IconButton } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
-import { grey } from "@mui/material/colors";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { useList } from "../../../../hooks/useList";
 
 const options = [
   { value: "able", label: "사용" },
   { value: "disable", label: "차단" },
 ];
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const ListCust = () => {
-  const theme = useTheme();
-  const [selectedOption, setSelectedOption] = useState(null);
+  // ListAPI Call
+  const { data } = useList("cust");
   const router = useRouter();
-
-  const [selectedRows, setSelectedRows] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
+  const [filterText, setFilterText] = useState("");
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+  const filteredData = data.data.custList;
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
@@ -68,6 +57,7 @@ const ListCust = () => {
               alignItems="center"
               useFlexGap
               flexWrap="wrap"
+              data-tag="allowRowEvents"
             >
               <Box data-tag="allowRowEvents">{row.custNm}</Box>
               <Box data-tag="allowRowEvents">
@@ -90,6 +80,7 @@ const ListCust = () => {
               alignItems="center"
               useFlexGap
               flexWrap="wrap"
+              data-tag="allowRowEvents"
             >
               <Box data-tag="allowRowEvents">{row.agncNm}</Box>
               <Box data-tag="allowRowEvents">({row.instNm})</Box>
@@ -138,16 +129,6 @@ const ListCust = () => {
     ],
     []
   );
-  const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=0&size=50";
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
-
-  const filteredData = data.data.custList;
 
   const goDetailPage = (row: { custUkey: string }) => {
     const path = row.custUkey;

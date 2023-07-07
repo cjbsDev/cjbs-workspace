@@ -1,24 +1,10 @@
 "use client";
 
 import { useState, useEffect, ChangeEvent } from "react";
-import {
-  ContainedButton,
-  OutlinedButton,
-  CustomToggleButton,
-  Title1,
-  TH,
-  TD,
-  ModalContainer,
-  ModalTitle,
-  cjbsTheme,
-  LeaderCip,
-} from "cjbsDSTM";
+import { CustomToggleButton, TH, TD, LeaderCip } from "cjbsDSTM";
 import useSWR from "swr";
-import axios from "axios";
 import {
-  Chip,
   Stack,
-  Grid,
   Typography,
   Table,
   TableBody,
@@ -26,10 +12,7 @@ import {
   TableRow,
   Box,
 } from "@mui/material";
-import MyIcon from "icon/myIcon";
-import SkeletonLoading from "../../../components/SkeletonLoading";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import fetcher from "../../../func/fetcher";
 
 interface CustEBCInfoProps {
   slug: string;
@@ -39,28 +22,11 @@ interface CustEBCInfoProps {
 const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
   const [selected, setSelected] = useState(ebcShow);
 
-  const {
-    data: custEBCTemp,
-    error: custEBCError,
-    isLoading,
-  } = useSWR(
+  const { data: custEBCTemp } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/ebc/${slug}`,
-    fetcher
+    fetcher,
+    { suspense: true }
   );
-
-  // useEffect(() => {
-  //   if (custEBCError) {
-  //     console.log("custEBCError", custEBCError);
-  //   }
-  // }, [custEBCError]);
-
-  if (custEBCError) {
-    return <div>Error...</div>;
-  }
-
-  if (isLoading) {
-    return <SkeletonLoading height={270} />;
-  }
 
   const custEBCData = custEBCTemp.data;
 
