@@ -101,13 +101,11 @@ const InstAdd = () => {
   */
 
   const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("국내 선택 01", event.target.value);
+    //console.log("국내 선택 01", event.target.value);
     setSelectReg1Option(event.target.value);
-    //const methods = useFormContext();
-    //const moreDetail = methods.watch("checkTest");
   };
   const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("국내 선택 02", event.target.value);
+    //console.log("국내 선택 02", event.target.value);
     setSelectReg2Option(event.target.value);
   };
 
@@ -144,23 +142,9 @@ const InstAdd = () => {
     }
   );
 
-  /*
-  // 지역 1 선택에 따라 나오는 select box
-  const setSelectLev02 = () => {
-    const methods = useFormContext();
-    const selectOption = methods.watch("region_1_gc");
-    console.log("레벨 1 select", selectOption);
-  };
-  */
-
   // Common
   // [ 등록 ]
   const onSubmit = (data: any) => {
-    console.log("[1-1] 등록 확인");
-    console.log("data", data);
-    console.log("region_1_gc", selectReg1Option);
-    console.log("region_2_gc", selectReg2Option);
-
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
@@ -178,8 +162,8 @@ const InstAdd = () => {
       zip: data.zip,
     };
 
-    console.log("==saveObj", saveObj);
-    console.log("saveObj stringify", JSON.stringify(saveObj));
+    // console.log("==saveObj", saveObj);
+    // console.log("saveObj stringify", JSON.stringify(saveObj));
 
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios

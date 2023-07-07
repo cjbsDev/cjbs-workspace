@@ -65,10 +65,7 @@ export default function InstModify() {
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
-          console.log("자세히 보기 data", data);
-          //setSelectReg1Option()
-          //statusCodeCc
-          //data.region1Gc
+          //console.log("자세히 보기 data", data);
           return {
             addr: data.addr,
             addrDetail: data.addrDetail,
@@ -119,13 +116,13 @@ export default function InstModify() {
   };
 
   const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("국내 선택 01", event.target.value);
+    //console.log("국내 선택 01", event.target.value);
     setSelectReg1Option(event.target.value);
     //const methods = useFormContext();
     //const moreDetail = methods.watch("checkTest");
   };
   const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("국내 선택 02", event.target.value);
+    //console.log("국내 선택 02", event.target.value);
     setSelectReg2Option(event.target.value);
   };
 
@@ -165,11 +162,6 @@ export default function InstModify() {
   // Common
   // [ 수정 ]
   const onSubmit = (data: any) => {
-    console.log("[1-1] 수정 확인");
-    console.log("data", data);
-    console.log("region_1_gc", selectReg1Option);
-    console.log("region_2_gc", selectReg2Option);
-
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
@@ -187,8 +179,8 @@ export default function InstModify() {
       zip: data.zip,
     };
 
-    console.log("==saveObj", saveObj);
-    console.log("saveObj stringify", JSON.stringify(saveObj));
+    //console.log("==saveObj", saveObj);
+    //console.log("saveObj stringify", JSON.stringify(saveObj));
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios
       .put(apiUrl, saveObj)
