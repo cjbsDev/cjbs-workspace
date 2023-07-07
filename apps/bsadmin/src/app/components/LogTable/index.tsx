@@ -1,32 +1,34 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React from "react";
 import { DataTableBase } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
-
-import useSWR from "swr";
-import axios from "axios";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataComponent from "./component/NoDataComponent";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { useLogList } from "./useLogList";
 
 interface LogProps {
-  uKey: string | null;
+  uKey: string;
   apiName: string;
   ebcShow?: boolean;
 }
 
-const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
-  const { data: custModifyLogTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/${apiName}/log/${uKey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+interface LogDataProps {
+  logData: {
+    data: {
+      updateLogList: any;
+    };
+  };
+}
 
-  const custModifyLogList = custModifyLogTemp.data.updateLogList;
+const LogTable = (props: LogProps) => {
+  // 비구조화 할당
+  const { uKey, apiName, ebcShow } = props;
+  // console.log("APIName", apiName, "Key", uKey);
+  const { logData }: LogDataProps = useLogList(apiName, uKey);
+
+  const modifyLogList = logData.data.updateLogList;
+  // console.log("LogData", modifyLogList);
 
   const columns = [
     {
@@ -73,7 +75,7 @@ const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
 
   return (
     <DataTableBase
-      data={custModifyLogList}
+      data={modifyLogList}
       columns={columns}
       selectableRows={false}
       paginationPerPage={5}
@@ -84,4 +86,4 @@ const CustModifyLog = ({ uKey, apiName, ebcShow }: LogProps) => {
   );
 };
 
-export default CustModifyLog;
+export default LogTable;
