@@ -32,6 +32,11 @@ import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import CustEBCInfo from "../../CustEBCInfo";
 import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
 
+const LazyCustEBCInfo = dynamic(() => import("../../CustEBCInfo"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={270} />,
+});
+
 const LazyCustModifyLog = dynamic(
   () => import("../../../../../components/LogTable"),
   {
@@ -42,6 +47,7 @@ const LazyCustModifyLog = dynamic(
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
   ssr: false,
+  loading: () => <SkeletonLoading height={272} />,
 });
 interface ParamsProps {
   params: {
@@ -172,7 +178,9 @@ export default function CustModifyPage({ params }: ParamsProps) {
           </Box>
 
           {/* 가입 정보 */}
-          <CustEBCInfo slug={slug} ebcShow={true} />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyCustEBCInfo slug={slug} ebcShow={false} />
+          </ErrorContainer>
 
           <Typography variant="subtitle1" sx={{ mt: 5 }}>
             기본 정보
