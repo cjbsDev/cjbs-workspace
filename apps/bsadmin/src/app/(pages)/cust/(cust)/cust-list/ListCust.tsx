@@ -122,6 +122,7 @@ const ListCust = () => {
       {
         name: "메모",
         cell: (row: { memo: string }) => {
+          console.log(row.memo);
           return (
             row.memo !== null && (
               <Tooltip title={row.memo} arrow>

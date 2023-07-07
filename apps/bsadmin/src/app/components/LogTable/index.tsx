@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState, useEffect } from "react";
+import React from "react";
 import { DataTableBase } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -13,11 +13,22 @@ interface LogProps {
   ebcShow?: boolean;
 }
 
-const LogTable = (props: LogProps) => {
-  const { uKey, apiName, ebcShow } = props;
-  const { logData } = useLogList(apiName, uKey);
+interface LogDataProps {
+  logData: {
+    data: {
+      updateLogList: any;
+    };
+  };
+}
 
-  const custModifyLogList = logData.data.updateLogList;
+const LogTable = (props: LogProps) => {
+  // 비구조화 할당
+  const { uKey, apiName, ebcShow } = props;
+  // console.log("APIName", apiName, "Key", uKey);
+  const { logData }: LogDataProps = useLogList(apiName, uKey);
+
+  const modifyLogList = logData.data.updateLogList;
+  // console.log("LogData", modifyLogList);
 
   const columns = [
     {
@@ -64,7 +75,7 @@ const LogTable = (props: LogProps) => {
 
   return (
     <DataTableBase
-      data={custModifyLogList}
+      data={modifyLogList}
       columns={columns}
       selectableRows={false}
       paginationPerPage={5}
