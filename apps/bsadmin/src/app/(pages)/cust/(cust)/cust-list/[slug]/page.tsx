@@ -1,10 +1,27 @@
 "use client";
 
-import { ContainedButton, OutlinedButton, Title1 } from "cjbsDSTM";
+import {
+  ContainedButton,
+  ErrorContainer,
+  Fallback,
+  OutlinedButton,
+  Title1,
+} from "cjbsDSTM";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
 import { Box, Container, Stack } from "@mui/material";
-import CustInfo from "./CustInfo";
-import CustEBCInfo from "../../CustEBCInfo";
+import SkeletonLoading from "../../../../../components/SkeletonLoading";
+import * as React from "react";
+
+const LazyCustEBCInfo = dynamic(() => import("../../CustEBCInfo"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={270} />,
+});
+
+const LazyCustInfo = dynamic(() => import("./CustInfo"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={470} />,
+});
 
 interface CustViewProps {
   params: {
@@ -22,8 +39,10 @@ export default function CustPage({ params }: CustViewProps) {
         <Title1 titleName="고객 정보" />
       </Box>
 
-      <CustEBCInfo slug={slug} ebcShow={false} />
-      <CustInfo slug={slug} />
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyCustEBCInfo slug={slug} ebcShow={false} />
+        <LazyCustInfo slug={slug} />
+      </ErrorContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton

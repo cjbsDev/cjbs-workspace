@@ -333,11 +333,13 @@ export default function CustModifyPage({ params }: ParamsProps) {
 
           {/* 거래처 검색 모달 */}
           {showAgncSearchModal && (
-            <LazyAgncSearchModal
-              onClose={agncSearchModalClose}
-              open={showAgncSearchModal}
-              modalWidth={800}
-            />
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyAgncSearchModal
+                onClose={agncSearchModalClose}
+                open={showAgncSearchModal}
+                modalWidth={800}
+              />
+            </ErrorContainer>
           )}
         </Box>
 
@@ -349,7 +351,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
           </ErrorContainer>
         </Box>
       </Container>
-      그
     </FormProvider>
   );
 }

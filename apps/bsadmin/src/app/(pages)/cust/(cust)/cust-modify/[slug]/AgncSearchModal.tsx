@@ -7,18 +7,13 @@ import {
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  Title1,
-  UnStyledButton,
 } from "cjbsDSTM";
 import { Chip, DialogContent, Grid, Stack, Typography } from "@mui/material";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
-import MyIcon from "icon/myIcon";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import IconDescBar from "../../../../../components/IconDescBar";
+import fetcher from "../../../../../func/fetcher";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -27,9 +22,6 @@ interface ModalContainerProps {
   modalWidth: number;
 }
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
-// https://dummyjson.com/products?limit=10&skip=10
 const AgncSearchModal = ({
   onClose,
   open,
