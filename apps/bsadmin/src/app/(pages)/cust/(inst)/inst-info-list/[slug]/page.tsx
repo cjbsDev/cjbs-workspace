@@ -84,7 +84,7 @@ export default function InstPage({ params }: CustViewProps) {
   //`http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${slug}`,
   // load
   const {
-    data: agncTempData,
+    data: instTempData,
     error,
     isLoading,
   } = useSWR(
@@ -105,8 +105,8 @@ export default function InstPage({ params }: CustViewProps) {
 
   /*
   useEffect(() => {
-    if (agncTempData.data) {
-      let filteredData: InstDetailData = agncTempData.data;
+    if (instTempData.data) {
+      let filteredData: InstDetailData = instTempData.data;
 
       filteredData.instUniqueCodeMcNm = getCodeNm(
         filteredData.instUniqueCodeMc
@@ -121,10 +121,10 @@ export default function InstPage({ params }: CustViewProps) {
       console.log("in");
       //setInstDetail(filteredData);
     }
-  }, [agncTempData.data]);
+  }, [instTempData.data]);
   */
 
-  const instDetail = agncTempData.data;
+  const instDetail = instTempData.data;
   console.log("instData", instDetail);
 
   const handleAgncInfoModalOpen = () => {
@@ -247,8 +247,8 @@ export default function InstPage({ params }: CustViewProps) {
         />
         <Link
           href={{
-            pathname: "/cust/agnc-pi-modify",
-            query: { instUkey: agncTempData.data.instUkey },
+            pathname: "/cust/inst-info-modify",
+            query: { instUkey: instTempData.data.instUkey },
           }}
         >
           <ContainedButton buttonName="수정" />

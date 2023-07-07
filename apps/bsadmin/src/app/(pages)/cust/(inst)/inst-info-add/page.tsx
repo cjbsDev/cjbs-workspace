@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -14,35 +14,26 @@ import {
   Radio,
   Form,
 } from "cjbsDSTM";
-
+import useSWR from "swr";
 import {
   Typography,
-  Container,
   Box,
   Stack,
   Table,
   TableRow,
   TableBody,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormLabel,
-  Select,
-  NativeSelect,
-  MenuItem,
-  RadioGroup,
-  Button,
   TableContainer,
 } from "@mui/material";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, useFormContext, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
+const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 // 거래처에서 기관 모달과 다름
-const LazyInstAddSearchModal = dynamic(() => import("./InstAddSearchModal"), {
+const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
 });
 
@@ -73,10 +64,6 @@ const InstAdd = () => {
   // init
   const router = useRouter();
 
-  // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
-
   const methods = useForm();
   const {
     formState: { errors },
@@ -84,24 +71,15 @@ const InstAdd = () => {
     setValue,
   } = methods;
 
-  // 위치 선택한 것을 저장하는 값
-  const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
-  const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
-  const [error, setError] = useState("");
+  // [기관 검색] 모달
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
-  // 위치 값 선택 저장
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedLocation(event.target.value);
-    console.log("handleLocationChange", event.target.value);
-    setError("");
-  };
-
-  // 상태 값 선택 저장
-  const handleStatusChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedStatus(event.target.value);
-    console.log("handleStatusChange", event.target.value);
-    setError("");
-  };
+  const [selectedOption, setSelectedOption] = useState("");
+  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
+  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
+  const [selectReg1Option, setSelectReg1Option] = useState("seoul"); // 도시 선택 값
+  const [selectReg2Option, setSelectReg2Option] = useState("w"); // 도시에 따른 지역구 선택 값
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -113,48 +91,111 @@ const InstAdd = () => {
     setShowAgncSearchModal(false);
   };
 
+  // 위치 값 선택 저장
+  /*
+  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("위치 handleLocationChange", event.target.value);
+    console.log(event.target.value == "BS_0200002" ? "국내" : "해외");
+    //const methods = useFormContext();
+    //const moreDetail = methods.watch("checkTest");
+  };
+  */
+
+  const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("국내 선택 01", event.target.value);
+    setSelectReg1Option(event.target.value);
+    //const methods = useFormContext();
+    //const moreDetail = methods.watch("checkTest");
+  };
+  const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
+    console.log("국내 선택 02", event.target.value);
+    setSelectReg2Option(event.target.value);
+  };
+
+  // 첫번째 선택 ( 국내 lev1 )
+  const { data: domesticData } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic`,
+    fetcher,
+    {
+      onSuccess: (data) => {
+        console.log("in domesticData", data);
+        //console.log("Returned data:", domesticData.data);
+        const reg1KorOptionTemp = data.data.map((item: any) => ({
+          value: item.codeValue,
+          optionName: item.codeNm,
+        }));
+
+        console.log("--- reg1KorOptionTemp", reg1KorOptionTemp);
+        setReg1KorOption(reg1KorOptionTemp);
+      },
+    }
+  );
+
+  // 두번째 선택 ( 국내 lev2 )
+  const { data: domesticDataLv2 } = useSWR(
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic&midValue=` +
+      selectReg1Option,
+    fetcher,
+    {
+      onSuccess: (data) => {
+        console.log("in domesticDataLv2", data);
+        //console.log("Returned data:", domesticData.data);
+        const reg2KorOptionTemp = data.data.map((item: any) => ({
+          value: item.codeValue,
+          optionName: item.codeNm,
+        }));
+
+        console.log("--- reg2KorOptionTemp", reg2KorOptionTemp);
+        setReg2KorOption(reg2KorOptionTemp);
+      },
+    }
+  );
+
+  /*
+  // 지역 1 선택에 따라 나오는 select box
+  const setSelectLev02 = () => {
+    const methods = useFormContext();
+    const selectOption = methods.watch("region_1_gc");
+    console.log("레벨 1 select", selectOption);
+  };
+  */
+
   // Common
   // [ 등록 ]
   const onSubmit = (data: any) => {
     console.log("[1-1] 등록 확인");
-    console.log("[1-2] 위치 확인", selectedLocation);
-    console.log("[1-3] 상태 확인", selectedStatus);
-    /*
-    const [selectedLocation, setSelectedLocation] = useState(""); // 위치 선택
-    const [selectedStatus, setSelectedStatus] = useState(""); // 상태 ( 운영 & 폐업 )
-    */
-
-    /*
-    let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
-      custUkey,
-      isLeader,
-    }));
-    let isSpecialMngFlag = getValues("isSpecialMng");
-    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+    console.log("data", data);
+    console.log("region_1_gc", selectReg1Option);
+    console.log("region_2_gc", selectReg2Option);
 
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
-      agncNm: data.agncNm,
-      bsnsManagedByUkey,
-      custDetailList: saveMemberList,
-      instUkey: data.instUkey, -> instUniqueCodeMc
+      brno: data.brno,
+      ftr: data.ftr,
+      instTypeCc: data.inst_type_cc,
+      instUniqueCodeMc: data.instUniqueCodeMc,
+      itbsns: data.itbsns,
+      lctnTypeCc: "BS_0200002",
+      region1Gc: data.region_1_gc,
+      region2Gc: data.region_2_gc,
+      rprsNm: data.rprsNm,
+      statusCodeCc: data.status_code_cc,
+      tpbsns: data.tpbsns,
       zip: data.zip,
-      isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
-      memo: data.memo,
     };
+
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
-
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
-
+    /*
+    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios
       .post(apiUrl, saveObj)
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
-          //router.push("/cust/cust-list/" + slug);
-          router.push("/cust/agnc-pi-list");
+          
+          router.push("/cust/inst-info-list");
         }
       })
       .catch((error) => {
@@ -180,21 +221,21 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>위치</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <RadioGroup
-                  value={selectedLocation}
+                국내
+                {/* 
+                <Radio
+                  inputName="lctn_type_cc"
+                  labelText="국내"
+                  value="BS_0200002"
                   onChange={handleLocationChange}
-                >
-                  <FormControlLabel
-                    value="BS_0200002"
-                    control={<Radio />}
-                    label="국내"
-                  />
-                  <FormControlLabel
-                    value="BS_0200001"
-                    control={<Radio />}
-                    label="해외"
-                  />
-                </RadioGroup>
+                />
+                <Radio
+                  inputName="lctn_type_cc"
+                  labelText="해외"
+                  value="BS_0200001"
+                  onChange={handleLocationChange}
+                />
+                */}
               </TD>
             </TableRow>
 
@@ -204,14 +245,12 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
                     disabled={true}
-                    error={errors.instUniqueCodeMc ? true : false}
                     inputName="instUniqueCodeMc"
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관 코드"
                   />
                   <InputValidation
                     disabled={true}
-                    error={errors.instNm ? true : false}
                     inputName="instNm"
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관명"
@@ -230,7 +269,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.brno ? true : false}
                     inputName="brno"
                     errorMessage={
                       errors.brno
@@ -249,7 +287,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.rprsNm ? true : false}
                     inputName="rprsNm"
                     errorMessage="대표자명은 필수 입력입니다."
                     sx={{ width: 450 }}
@@ -263,7 +300,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.itbsns ? true : false}
                     inputName="itbsns"
                     errorMessage="업태 선택"
                     sx={{ width: 450 }}
@@ -277,7 +313,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.tpbsns ? true : false}
                     inputName="tpbsns"
                     errorMessage="업종 선택"
                     sx={{ width: 450 }}
@@ -322,43 +357,34 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>지역 1</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <SelectBox
-                  inputName="region_1_gc"
-                  options={[
-                    { value: "user656014", optionName: "키웨스트" },
-                    { value: "user483349", optionName: "라이언" },
-                    { value: "user369596", optionName: "모씨" },
-                    { value: "user809094", optionName: "LINK" },
-                    { value: "user623719", optionName: "코로그" },
-                  ]}
-                />
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <SelectBox
+                    inputName="region_1_gc"
+                    options={reg1KorOption}
+                    onChange={handleReg1Change}
+                  />
+                  <SelectBox
+                    inputName="region_2_gc"
+                    options={reg2KorOption}
+                    onChange={handleReg2Change}
+                    sx={{ ml: 10 }}
+                  />
+                </Stack>
               </TD>
             </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>지역 2</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <SelectBox
-                  inputName="region_2_gc"
-                  options={[
-                    { value: "user656014", optionName: "키웨스트" },
-                    { value: "user483349", optionName: "라이언" },
-                    { value: "user369596", optionName: "모씨" },
-                    { value: "user809094", optionName: "LINK" },
-                    { value: "user623719", optionName: "코로그" },
-                  ]}
-                />
-              </TD>
-            </TableRow>
-
             <TableRow>
               <TH sx={{ width: "15%" }}>분류</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    error={errors.inst_type_cc ? true : false}
+                  <SelectBox
                     inputName="inst_type_cc"
-                    errorMessage="분류 선택"
-                    sx={{ width: 450 }}
+                    options={[
+                      { value: "BS_0600004", optionName: "기관" },
+                      { value: "BS_0600001", optionName: "학교" },
+                      { value: "BS_0600002", optionName: "병원" },
+                      { value: "BS_0600003", optionName: "기업" },
+                      { value: "BS_0600005", optionName: "기타" },
+                    ]}
                   />
                 </Stack>
               </TD>
@@ -369,7 +395,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    error={errors.ftr ? true : false}
                     inputName="ftr"
                     errorMessage="특성은 필수 값입니다."
                     sx={{ width: 450 }}
@@ -381,21 +406,16 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <RadioGroup
-                  value={selectedStatus}
-                  onChange={handleStatusChange}
-                >
-                  <FormControlLabel
-                    value="BS_0602001"
-                    control={<Radio />}
-                    label="운영"
-                  />
-                  <FormControlLabel
-                    value="BS_0602002"
-                    control={<Radio />}
-                    label="폐업"
-                  />
-                </RadioGroup>
+                <Radio
+                  inputName="status_code_cc"
+                  labelText="운영"
+                  value="BS_0602001"
+                />
+                <Radio
+                  inputName="status_code_cc"
+                  labelText="폐업"
+                  value="BS_0602002"
+                />
               </TD>
             </TableRow>
           </TableBody>
@@ -412,7 +432,7 @@ const InstAdd = () => {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/cust/agnc-pi-list")}
+          onClick={() => router.push("/cust/inst-info-list")}
         />
         <ContainedButton type="submit" buttonName="저장" />
       </Stack>
