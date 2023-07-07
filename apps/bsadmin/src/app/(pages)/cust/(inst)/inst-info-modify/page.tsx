@@ -67,6 +67,7 @@ export default function InstModify() {
           const data = getData.data;
           console.log("자세히 보기 data", data);
           //setSelectReg1Option()
+          //statusCodeCc
           //data.region1Gc
           return {
             addr: data.addr,
@@ -109,8 +110,8 @@ export default function InstModify() {
 
   const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
   const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
-  const [selectReg1Option, setSelectReg1Option] = useState("seoul"); // 도시 선택 값
-  const [selectReg2Option, setSelectReg2Option] = useState("w"); // 도시에 따른 지역구 선택 값
+  const [selectReg1Option, setSelectReg1Option] = useState("11000"); // 도시 선택 값
+  const [selectReg2Option, setSelectReg2Option] = useState("11110"); // 도시에 따른 지역구 선택 값
 
   // [ 기관 검색 ] 모달 닫기
   const agncSearchModalClose = () => {
@@ -130,18 +131,15 @@ export default function InstModify() {
 
   // 첫번째 선택 ( 국내 lev1 )
   const { data: domesticData } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002`,
     fetcher,
     {
       onSuccess: (data) => {
-        console.log("in domesticData", data);
-        //console.log("Returned data:", domesticData.data);
         const reg1KorOptionTemp = data.data.map((item: any) => ({
-          value: item.codeValue,
+          value: item.uniqueCode,
           optionName: item.codeNm,
         }));
 
-        console.log("--- reg1KorOptionTemp", reg1KorOptionTemp);
         setReg1KorOption(reg1KorOptionTemp);
       },
     }
@@ -149,19 +147,16 @@ export default function InstModify() {
 
   // 두번째 선택 ( 국내 lev2 )
   const { data: domesticDataLv2 } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic&midValue=` +
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
       selectReg1Option,
     fetcher,
     {
       onSuccess: (data) => {
-        console.log("in domesticDataLv2", data);
-        //console.log("Returned data:", domesticData.data);
         const reg2KorOptionTemp = data.data.map((item: any) => ({
-          value: item.codeValue,
+          value: item.uniqueCode,
           optionName: item.codeNm,
         }));
 
-        console.log("--- reg2KorOptionTemp", reg2KorOptionTemp);
         setReg2KorOption(reg2KorOptionTemp);
       },
     }
@@ -184,31 +179,28 @@ export default function InstModify() {
       instUkey: data.instUkey,
       itbsns: data.itbsns,
       lctnTypeCc: "BS_0200002",
-      region1Gc: data.region_1_gc,
-      region2Gc: data.region_2_gc,
+      region1Gc: selectReg1Option,
+      region2Gc: selectReg2Option,
       rprsNm: data.rprsNm,
-      statusCodeCc: data.status_code_cc,
+      statusCodeCc: data.statusCodeCc,
       tpbsns: data.tpbsns,
       zip: data.zip,
     };
 
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
-    /*
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios
-      .post(apiUrl, saveObj)
+      .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("수정 successful:", response.data);
         if (response.data.success) {
-          
           router.push("/cust/inst-info-list");
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("수정 failed:", error);
       });
-      */
   };
 
   return (
@@ -351,7 +343,7 @@ export default function InstModify() {
                 </TableRow>
 
                 <TableRow>
-                  <TH sx={{ width: "15%" }}>지역 1</TH>
+                  <TH sx={{ width: "15%" }}>지역</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack
                       direction="row"
@@ -407,12 +399,12 @@ export default function InstModify() {
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Radio
-                      inputName="status_code_cc"
+                      inputName="statusCodeCc"
                       labelText="운영"
                       value="BS_0602001"
                     />
                     <Radio
-                      inputName="status_code_cc"
+                      inputName="statusCodeCc"
                       labelText="폐업"
                       value="BS_0602002"
                     />

@@ -213,6 +213,7 @@ export default function InstPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>지역</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
+                {getCodeNm(instDetail.region1Gc) ?? "-"}{" "}
                 {getCodeNm(instDetail.region2Gc) ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>분류</TH>
