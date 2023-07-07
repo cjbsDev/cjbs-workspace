@@ -171,8 +171,8 @@ export default function AgncPIModifyPage() {
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
     };
-    //console.log("==modify", saveObj);
-    //console.log("modify stringify", JSON.stringify(saveObj));
+    console.log("==modify", saveObj);
+    console.log("modify stringify", JSON.stringify(saveObj));
 
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
 

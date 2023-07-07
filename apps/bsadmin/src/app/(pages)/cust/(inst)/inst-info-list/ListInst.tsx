@@ -80,11 +80,12 @@ const ListInst = () => {
       {
         name: "",
         selector: (row: { instId: string }) => row.instId,
-        width: "100px",
+        width: "50px",
       },
       {
         name: "위치",
         selector: (row: { lctnTypeCcNm: string }) => row.lctnTypeCcNm,
+        width: "70px",
       },
       {
         name: "기관명",
@@ -100,11 +101,26 @@ const ListInst = () => {
       },
       {
         name: "지역(나라)",
-        selector: (row: { region2GcNm: string }) => row.region2GcNm,
+        cell: (row: { region1GcNm: any; region2GcNm: any }) => (
+          <Stack
+            direction="row"
+            spacing={0.5}
+            alignItems="center"
+            // useFlexGap
+            // flexWrap="wrap"
+          >
+            <Box data-tag="allowRowEvents">
+              {row.region1GcNm ?? ""} {row.region2GcNm ?? ""}{" "}
+            </Box>
+          </Stack>
+        ),
+        minWidth: "150px",
       },
+
       {
         name: "분류",
         selector: (row: { instTypeCcNm: string }) => row.instTypeCcNm,
+        width: "70px",
       },
       {
         name: "특성",
@@ -113,6 +129,7 @@ const ListInst = () => {
       {
         name: "상태",
         selector: (row: { statusCodeCcNm: string }) => row.statusCodeCcNm,
+        width: "70px",
       },
     ],
     []
@@ -179,7 +196,6 @@ const ListInst = () => {
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
             />
             <ContainedButton
               buttonName="기관 정보 등록"
@@ -195,7 +211,6 @@ const ListInst = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
-            <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
             <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
