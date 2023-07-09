@@ -9,6 +9,7 @@ import {
   InputValidation,
   ErrorContainer,
   Fallback,
+  Checkbox,
 } from "cjbsDSTM";
 
 import {
@@ -22,14 +23,12 @@ import {
   TableRow,
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
-import CustEBCInfo from "../../CustEBCInfo";
 import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
 
 const LazyCustEBCInfo = dynamic(() => import("../../CustEBCInfo"), {
@@ -59,7 +58,8 @@ interface FormData {
   agncNm?: string;
   agncUkey?: string;
   custNm?: string;
-  isAcs?: boolean;
+  isAcs?: string;
+  isAcsFlag?: boolean;
   memo?: string;
   tel_0?: string;
   tel_1?: string;
@@ -97,6 +97,8 @@ export default function CustModifyPage({ params }: ParamsProps) {
         agncNm: data.agncNm,
         agncUkey: data.agncUkey,
         memo: data.memo,
+        isAcs: data.isAcs,
+        isAcsFlag: data.isAcs === "N",
       };
     },
   });
@@ -131,13 +133,15 @@ export default function CustModifyPage({ params }: ParamsProps) {
     let agncUkey = getValues("agncUkey");
     let custNm = getValues("custNm");
     let memo = getValues("memo");
+    let isAcsFlag = getValues("isAcsFlag");
+    console.log("isAcsFlag", isAcsFlag);
 
     let saveObj = {
       agncUkey,
       custNm,
       telList,
       memo,
-      isAcs: "Y",
+      isAcs: isAcsFlag == true ? "N" : "Y",
     };
     console.log("==saveObj", saveObj);
 
@@ -296,21 +300,28 @@ export default function CustModifyPage({ params }: ParamsProps) {
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <FormControlLabel
-                        sx={{ color: "red", mr: 1 }}
-                        label="사용자를 차단 합니다."
-                        control={
-                          <Checkbox
-                            checked={checked}
-                            size="small"
-                            {...register("isAcs")}
-                          />
-                        }
+                      <Checkbox
+                        inputName="isAcsFlag"
+                        labelText="사용자를 차단 합니다."
+                        value="N"
                       />
                       <Typography variant="body1">
                         (차단된 사용자는 주문서 작성 화면에 로그인 할 수
                         없습니다.)
                       </Typography>
+                      {/* 
+                      <Checkbox
+                        inputName="isAcsFlag"
+                        labelText="사용자를 차단 합니다."
+                        value=""
+                        sx={{ color: "red", mr: 1 }}
+                      />
+
+                      <Typography variant="body1">
+                        (차단된 사용자는 주문서 작성 화면에 로그인 할 수
+                        없습니다.)
+                      </Typography>
+*/}
                     </Stack>
                   </TD>
                 </TableRow>

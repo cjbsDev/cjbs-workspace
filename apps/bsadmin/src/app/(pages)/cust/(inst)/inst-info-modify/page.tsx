@@ -46,6 +46,7 @@ const LazyInstModifyLog = dynamic(
 // 거래처에서 기관 모달과 다름
 const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
+  loading: () => <SkeletonLoading height={272} />,
 });
 
 // 기관 등록
