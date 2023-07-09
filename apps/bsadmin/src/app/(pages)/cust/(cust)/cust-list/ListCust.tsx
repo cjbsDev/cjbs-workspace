@@ -34,7 +34,7 @@ const ListCust = () => {
 
   const filteredData = data.data.custList;
   const handleRowSelected = (rows: any) => {
-    console.log("rows", rows);
+    //console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
   };
@@ -113,7 +113,7 @@ const ListCust = () => {
       {
         name: "메모",
         cell: (row: { memo: string }) => {
-          console.log(row.memo);
+          //console.log(row.memo);
           return (
             row.memo !== null && (
               <Tooltip title={row.memo} arrow>
