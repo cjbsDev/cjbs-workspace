@@ -5,8 +5,8 @@ import { useFormContext } from "react-hook-form";
 
 interface SelectBoxProps {
   options: {
-    value: string;
-    optionName: string;
+    uniqueCode: string;
+    codeNm: string;
   }[];
   inputName: string;
 }
@@ -26,8 +26,8 @@ export function SelectBox({ options, inputName, ...rest }: SelectBoxProps) {
       }}
     >
       {options.map((item) => (
-        <option key={item.value} value={item.value}>
-          {item.optionName}
+        <option key={item.uniqueCode} value={item.uniqueCode}>
+          {item.codeNm}
         </option>
       ))}
     </NativeSelect>
