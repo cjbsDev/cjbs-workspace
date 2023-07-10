@@ -276,8 +276,8 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="itbsns"
-                    errorMessage="업태 선택"
                     sx={{ width: 450 }}
+                    errorMessage={false}
                   />
                 </Stack>
               </TD>
@@ -289,8 +289,8 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="tpbsns"
-                    errorMessage="업종 선택"
                     sx={{ width: 450 }}
+                    errorMessage={false}
                   />
                 </Stack>
               </TD>

@@ -48,79 +48,38 @@ const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
   loading: () => <SkeletonLoading height={272} />,
 });
-
-// 기관 등록
+/*
+const LazySelectRegionGc = dynamic(() => import("./SelectRegionGc"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={272} />,
+});
+*/
+// 기관 수정
 export default function InstModify() {
   // init
   const searchParams = useSearchParams();
   const params = searchParams.get("instUkey");
   const uKey = params;
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  const methods = useForm<FormData>({
-    defaultValues: () => {
-      return fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/${uKey}`
-      )
-        .then((res) => res.json())
-        .then((getData) => {
-          const data = getData.data;
-          //console.log("자세히 보기 data", data);
-          return {
-            addr: data.addr,
-            addrDetail: data.addrDetail,
-            brno: data.brno,
-            douzoneCode: data.douzoneCode,
-            ftr: data.ftr,
-            instNm: data.instNm,
-            instTypeCc: data.instTypeCc,
-            instTypeVal: data.instTypeVal,
-            instUkey: data.instUkey,
-            instUniqueCodeMc: data.instUniqueCodeMc,
-            itbsns: data.itbsns,
-            lctnTypeCc: data.lctnTypeCc,
-            lctnTypeVal: data.lctnTypeVal,
-            region1Gc: data.region1Gc,
-            region1Val: data.region1Val,
-            region2Gc: data.region2Gc,
-            region2Val: data.region2Val,
-            rprsNm: data.rprsNm,
-            statusCodeCc: data.statusCodeCc,
-            statusCodeVal: data.statusCodeVal,
-            tpbsns: data.tpbsns,
-            zip: data.zip,
-          };
-        });
-    },
-  });
-  const {
-    register,
-    formState: { errors },
-    getValues,
-    setValue,
-    handleSubmit,
-  } = methods;
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
-
-  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
-  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
-  const [selectReg1Option, setSelectReg1Option] = useState("11000"); // 도시 선택 값
-  const [selectReg2Option, setSelectReg2Option] = useState("11110"); // 도시에 따른 지역구 선택 값
 
   // [ 기관 검색 ] 모달 닫기
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
   };
 
+  /* 230710 */
+  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
+  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
+  const [selectReg1Option, setSelectReg1Option] = useState("11000"); // 도시 선택 값
+  const [selectReg2Option, setSelectReg2Option] = useState("11110"); // 도시에 따른 지역구 선택 값
+
   const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     //console.log("국내 선택 01", event.target.value);
     setSelectReg1Option(event.target.value);
-    //const methods = useFormContext();
-    //const moreDetail = methods.watch("checkTest");
   };
   const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
     //console.log("국내 선택 02", event.target.value);
@@ -160,9 +119,58 @@ export default function InstModify() {
     }
   );
 
+  const methods = useForm<FormData>({
+    defaultValues: () => {
+      return fetch(
+        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/${uKey}`
+      )
+        .then((res) => res.json())
+        .then((getData) => {
+          const data = getData.data;
+          console.log("자세히 보기 data", data);
+
+          //setSelectReg1Option(data.region1Gc);
+          //setSelectReg2Option(data.region2Gc);
+
+          return {
+            addr: data.addr,
+            addrDetail: data.addrDetail,
+            brno: data.brno,
+            ftr: data.ftr,
+            instNm: data.instNm,
+            instTypeCc: data.instTypeCc,
+            instUkey: data.instUkey,
+            instUniqueCodeMc: data.instUniqueCodeMc,
+            itbsns: data.itbsns,
+            lctnTypeCc: data.lctnTypeCc,
+            region1Gc: data.region1Gc,
+            region2Gc: data.region2Gc,
+            rprsNm: data.rprsNm,
+            statusCodeCc: data.statusCodeCc,
+            tpbsns: data.tpbsns,
+            zip: data.zip,
+          };
+        });
+    },
+  });
+  const {
+    register,
+    formState: { errors },
+    getValues,
+    setValue,
+    handleSubmit,
+  } = methods;
+
   // Common
   // [ 수정 ]
   const onSubmit = (data: any) => {
+    console.log("region1Gc : ", data.region1Gc + " / " + data.region2Gc);
+    console.log(
+      "selectReg1Option : ",
+      selectReg1Option + " / " + selectReg2Option
+    );
+
+    /*
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
@@ -179,8 +187,26 @@ export default function InstModify() {
       tpbsns: data.tpbsns,
       zip: data.zip,
     };
+    */
 
-    //console.log("==saveObj", saveObj);
+    let saveObj = {
+      addr: data.addr,
+      addrDetail: data.addrDetail,
+      brno: data.brno,
+      ftr: data.ftr,
+      instTypeCc: data.inst_type_cc,
+      instUkey: data.instUkey,
+      itbsns: data.itbsns,
+      lctnTypeCc: "BS_0200002", // 국내 고정
+      region1Gc: data.region1Gc,
+      region2Gc: data.region2Gc,
+      rprsNm: data.rprsNm,
+      statusCodeCc: data.statusCodeCc,
+      tpbsns: data.tpbsns,
+      zip: data.zip,
+    };
+
+    console.log("==saveObj", saveObj);
     //console.log("saveObj stringify", JSON.stringify(saveObj));
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
     axios
@@ -282,8 +308,8 @@ export default function InstModify() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="itbsns"
-                        errorMessage="업태 선택"
                         sx={{ width: 450 }}
+                        errorMessage={false}
                       />
                     </Stack>
                   </TD>
@@ -295,8 +321,8 @@ export default function InstModify() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="tpbsns"
-                        errorMessage="업종 선택"
                         sx={{ width: 450 }}
+                        errorMessage={false}
                       />
                     </Stack>
                   </TD>
@@ -343,13 +369,20 @@ export default function InstModify() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
+                      {/**
+                      <LazySelectRegionGc
+                        val1={selectReg1Option}
+                        val2={selectReg2Option}
+                      />
+                        
+ */}
                       <SelectBox
-                        inputName="region_1_gc"
+                        inputName="region1Gc"
                         options={reg1KorOption}
                         onChange={handleReg1Change}
                       />
                       <SelectBox
-                        inputName="region_2_gc"
+                        inputName="region2Gc"
                         options={reg2KorOption}
                         onChange={handleReg2Change}
                         sx={{ ml: 10 }}
