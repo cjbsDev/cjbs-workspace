@@ -109,23 +109,6 @@ export default function InstModify() {
   // );
 
   // 두번째 선택 ( 국내 lev2 )
-  const { data: domesticDataLv2 } = useSWR(
-    () =>
-      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
-      "46000",
-    fetcher,
-    {
-      // onSuccess: (data) => {
-      //   const reg2KorOptionTemp = data.data.map((item: any) => ({
-      //     value: item.uniqueCode,
-      //     optionName: item.codeNm,
-      //   }));
-      //
-      //   setReg2KorOption(reg2KorOptionTemp);
-      // },
-    }
-  );
-
   // const { data: domesticDataLv2 } = useSWR(
   //   `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
   //   selectReg1Option,
