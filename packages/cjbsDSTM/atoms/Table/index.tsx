@@ -27,8 +27,8 @@ const THStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   fontWeight: 400,
   border: `1px solid ${theme.palette.grey["400"]}`,
   letterSpacing: "-0.25px",
-  // width: 252,
-  // padding: "4px 10px",
+  padding: "10px 16px",
+  // verticalAlign: "top",
 }));
 
 const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
@@ -39,5 +39,5 @@ const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   border: `1px solid ${theme.palette.grey["400"]}`,
   letterSpacing: "-0.25px",
   whiteSpace: "pre",
-  // padding: "4px 10px",
+  padding: "10px 16px",
 }));

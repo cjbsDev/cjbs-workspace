@@ -18,6 +18,10 @@ export const dataTableCustomStyles = {
       fontWeight: "600",
       fontSize: 14,
       backgroundColor: cjbsTheme.palette.grey["50"],
+      borderTop: "1px solid #000",
+      borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      paddingTop: 10,
+      paddingBottom: 10,
     },
   },
   subHeader: {
@@ -30,16 +34,15 @@ export const dataTableCustomStyles = {
   headRow: {
     style: {
       backgroundColor: cjbsTheme.palette.grey["50"],
-      minHeight: "40px",
-      borderTop: "1px solid #000",
+      // minHeight: "40px",
+      // borderTop: "1px solid #000",
+      borderBottom: "none",
       "&:nth-of-type(1)": {
         paddingLeft: 24,
       },
       "&:nth-last-child(1)": {
         paddingRight: 24,
       },
-      // paddingLeft: 24,
-      // paddingRight: 24,
     },
   },
   cells: {

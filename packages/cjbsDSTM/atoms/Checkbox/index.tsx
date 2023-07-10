@@ -46,7 +46,7 @@ export const Checkbox = ({
         label={labelText}
       />
       <Typography
-        variant="body1"
+        variant="body2"
         sx={{ ml: "-8px !important", display: "inline-block" }}
       >
         {subMessage}

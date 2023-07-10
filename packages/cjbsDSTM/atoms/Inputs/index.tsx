@@ -18,10 +18,10 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         variant="outlined"
         sx={{
           ...props.sx,
-          ".MuiOutlinedInput-input": {
-            pt: "5px",
-            pb: "5px",
-          },
+          // ".MuiOutlinedInput-input": {
+          //   pt: "5px",
+          //   pb: "5px",
+          // },
         }}
       />
     </ThemeProvider>
@@ -44,10 +44,6 @@ export const InputValidation = ({
         size="small"
         sx={{
           ...props.sx,
-          ".MuiOutlinedInput-input": {
-            pt: "5px",
-            pb: "5px",
-          },
         }}
         {...methods.register(inputName, {
           required: methods.formState.errors[inputName]

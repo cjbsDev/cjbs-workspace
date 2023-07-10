@@ -115,12 +115,43 @@ export const cjbsTheme = createTheme({
       fontSize: 16,
       fontWeight: 600,
       letterSpacing: -0.25,
+      marginBottom: 1,
+    },
+    body2: {
+      fontSize: 14,
     },
     button: {
       fontSize: 14,
     },
   },
   components: {
+    MuiFormControlLabel: {
+      styleOverrides: {
+        label: {
+          fontSize: 14,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          fontSize: 14,
+        },
+        input: {
+          paddingTop: 5.2,
+          paddingBottom: 5.2,
+          "&.Mui-disabled": {
+            backgroundColor: "#F1F3F5",
+            textFillColor: "rgba(0, 0, 0, 0.6)",
+          },
+        },
+      },
+      defaultProps: {
+        style: {
+          borderRadius: 2,
+        },
+      },
+    },
     MuiButtonBase: {
       defaultProps: {
         // The props to change the default for.

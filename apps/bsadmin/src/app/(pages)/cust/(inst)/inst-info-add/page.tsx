@@ -187,9 +187,7 @@ const InstAdd = () => {
         <Title1 titleName="기관 등록" />
       </Box>
 
-      <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
-        기본 정보
-      </Typography>
+      <Typography variant="subtitle1">기본 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
@@ -197,7 +195,7 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>위치</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 국내
-                {/* 
+                {/*
                 <Radio
                   inputName="lctn_type_cc"
                   labelText="국내"
@@ -218,17 +216,18 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>기관명</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <InputValidation
-                    disabled={true}
-                    inputName="instUniqueCodeMc"
-                    errorMessage="소속기관을 선택해 주세요."
-                    placeholder="기관 코드"
-                  />
+                  {/*<InputValidation*/}
+                  {/*  disabled={true}*/}
+                  {/*  inputName="instUniqueCodeMc"*/}
+                  {/*  errorMessage="소속기관을 선택해 주세요."*/}
+                  {/*  placeholder="기관 코드"*/}
+                  {/*/>*/}
                   <InputValidation
                     disabled={true}
                     inputName="instNm"
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관명"
+                    sx={{ width: 600 }}
                   />
 
                   <OutlinedButton
@@ -251,7 +250,7 @@ const InstAdd = () => {
                         : "사업자 등록번호를 입력해 주세요."
                     }
                     placeholder="사업자 등록번호 10자리를 입력해주세요."
-                    sx={{ width: 450 }}
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
@@ -264,7 +263,7 @@ const InstAdd = () => {
                   <InputValidation
                     inputName="rprsNm"
                     errorMessage="대표자명은 필수 입력입니다."
-                    sx={{ width: 450 }}
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
@@ -277,7 +276,7 @@ const InstAdd = () => {
                   <InputValidation
                     inputName="itbsns"
                     errorMessage="업태 선택"
-                    sx={{ width: 450 }}
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
@@ -290,7 +289,7 @@ const InstAdd = () => {
                   <InputValidation
                     inputName="tpbsns"
                     errorMessage="업종 선택"
-                    sx={{ width: 450 }}
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
@@ -306,20 +305,21 @@ const InstAdd = () => {
                       inputName="zip"
                       errorMessage={false}
                       placeholder="zip code"
+                      sx={{ width: 147 }}
                     />
                     <PostCodeBtn />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
                       disabled={true}
-                      sx={{ width: 450 }}
+                      sx={{ width: 600 }}
                       inputName="addr"
                       errorMessage={false}
                     />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                      sx={{ width: 450 }}
+                      sx={{ width: 600 }}
                       inputName="addrDetail"
                       errorMessage={false}
                       placeholder="상세주소"
@@ -372,7 +372,7 @@ const InstAdd = () => {
                   <InputValidation
                     inputName="ftr"
                     errorMessage="특성은 필수 값입니다."
-                    sx={{ width: 450 }}
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
