@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import {
+  cjbsTheme,
   ContainedButton,
   DataCountResultInfo,
   DataTableBase,
@@ -79,7 +80,7 @@ const MemberMngtNewModal = ({
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
 
-  const [perPage, setPerPage] = useState(50);
+  const [perPage, setPerPage] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}&isAcs=Y`,
@@ -159,16 +160,52 @@ const MemberMngtNewModal = ({
       }
     };
 
+    // [멤버 관리] - row 추가
+    const handleAddRow = () => {
+      // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
+      console.log("handleAddRow-selectedRows", selectedRows);
+
+      // memeberData 체크해서 leader 가 없다면 리더로 체크
+      let hasLeaderValue: boolean = memeberData.some(
+        (row) => row.isLeader === "Y"
+      );
+
+      const newMemberDataList: Member[] = [];
+      selectedRows.selectedRows.forEach((row: any) => {
+        // 기존 멤버 확인 후 있다면 추가를 무시함
+        const existingMember = memeberData.find(
+          (member) => member.custUkey === row.custUkey
+        );
+        if (existingMember) {
+          return;
+        }
+
+        let newRow: Member = {
+          custUkey: row.custUkey,
+          ebcEmail: row.ebcEmail,
+          custNm: row.custNm,
+          isAcs: row.isAcs,
+          isLeader: "N",
+          isLeaderFlag: false,
+        };
+
+        // [리더 체크] 기존 memberData 를 체크해서 리더가 없으면 첫번째 멤버를 리더로 설정
+        if (!hasLeaderValue) {
+          newRow.isLeader = "Y";
+          newRow.isLeaderFlag = true;
+          hasLeaderValue = true;
+        }
+
+        newMemberDataList.push(newRow);
+        clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
+      });
+
+      setMemberData((prevData) => [...prevData, ...newMemberDataList]);
+    };
+
     return (
       <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Grid item xs={7} sx={{ display: "flex" }}>
           <Stack
             direction="row"
             spacing={1}
@@ -184,9 +221,23 @@ const MemberMngtNewModal = ({
             />
           </Stack>
         </Grid>
+        <Grid item xs={5} sx={{ pt: 0, textAlign: "right" }}>
+          <OutlinedButton
+            buttonName="추가"
+            size="small"
+            color="secondary"
+            endIcon={<MyIcon icon="plus" size={16} />}
+            onClick={handleAddRow}
+          />
+          {/*<Stack direction="row" spacing={2} alignItems="center">*/}
+          {/*  <DataCountResultInfo*/}
+          {/*    totalCount={data.data.pageInfo.totalElements}*/}
+          {/*  />*/}
+          {/*</Stack>*/}
+        </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, selectedRows, memeberData]);
 
   // [멤버 관리] - 멤버 선택
   const handleCheckboxChange = (
@@ -200,49 +251,6 @@ const MemberMngtNewModal = ({
         selectedMemberRows.filter((rowId) => rowId !== custUkey)
       );
     }
-  };
-
-  // [멤버 관리] - row 추가
-  const handleAddRow = () => {
-    // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
-    console.log("handleAddRow-selectedRows", selectedRows);
-
-    // memeberData 체크해서 leader 가 없다면 리더로 체크
-    let hasLeaderValue: boolean = memeberData.some(
-      (row) => row.isLeader === "Y"
-    );
-
-    const newMemberDataList: Member[] = [];
-    selectedRows.selectedRows.forEach((row: any) => {
-      // 기존 멤버 확인 후 있다면 추가를 무시함
-      const existingMember = memeberData.find(
-        (member) => member.custUkey === row.custUkey
-      );
-      if (existingMember) {
-        return;
-      }
-
-      let newRow: Member = {
-        custUkey: row.custUkey,
-        ebcEmail: row.ebcEmail,
-        custNm: row.custNm,
-        isAcs: row.isAcs,
-        isLeader: "N",
-        isLeaderFlag: false,
-      };
-
-      // [리더 체크] 기존 memberData 를 체크해서 리더가 없으면 첫번째 멤버를 리더로 설정
-      if (!hasLeaderValue) {
-        newRow.isLeader = "Y";
-        newRow.isLeaderFlag = true;
-        hasLeaderValue = true;
-      }
-
-      newMemberDataList.push(newRow);
-      clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
-    });
-
-    setMemberData((prevData) => [...prevData, ...newMemberDataList]);
   };
 
   // [멤버 관리] - 선택된 멤버 row 삭제
@@ -308,7 +316,7 @@ const MemberMngtNewModal = ({
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>고객 검색</ModalTitle>
       <DialogContent>
-        <Grid container spacing={2} alignItems="center">
+        <Grid container spacing={2}>
           <Grid item xs={7}>
             <DataTableBase
               data={filteredData}
@@ -333,36 +341,58 @@ const MemberMngtNewModal = ({
               key={key} // Use the key for re-rendering DataTable
             />
           </Grid>
-          <Grid item xs={1}>
-            <Grid container direction="column" alignItems="center">
-              <IconButton onClick={handleAddRow}>
-                <MyIcon icon="cheveron-right" size={24} />
-              </IconButton>
-              <IconButton onClick={handleDeleteRows}>
-                <MyIcon icon="cheveron-left" size={24} />
-              </IconButton>
-            </Grid>
-          </Grid>
+          {/*<Grid item xs={1}>*/}
+          {/*  <Grid container direction="column" alignItems="center">*/}
+          {/*    <IconButton onClick={handleAddRow}>*/}
+          {/*      <MyIcon icon="cheveron-right" size={24} />*/}
+          {/*    </IconButton>*/}
+          {/*    <IconButton onClick={handleDeleteRows}>*/}
+          {/*      <MyIcon icon="cheveron-left" size={24} />*/}
+          {/*    </IconButton>*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
 
-          <Grid item xs={4}>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%",
-              }}
-            >
+          <Grid item xs={5}>
+            <Box>
+              <Box sx={{ pt: 0.5, pb: 2, textAlign: "right" }}>
+                <OutlinedButton
+                  buttonName="삭제"
+                  size="small"
+                  color="secondary"
+                  endIcon={<MyIcon icon="trash" size={16} />}
+                  onClick={handleDeleteRows}
+                />
+              </Box>
               <TableContainer>
                 <Table>
-                  <TableHead>
+                  <TableHead
+                    sx={{
+                      borderTop: "1px solid black",
+                      backgroundColor: cjbsTheme.palette.grey["50"],
+                      // "&.MuiTableHead-root": {
+                      //   p: 0,
+                      // },
+                      ".MuiTableCell-head": {
+                        p: 0.3,
+                        pt: 0.4,
+                        pb: 0.4,
+                        fontWeight: 600,
+                      },
+                    }}
+                  >
                     <TableRow>
                       <TableCell></TableCell>
-                      <TableCell>연구원</TableCell>
-                      <TableCell>리더</TableCell>
+                      <TableCell>멤버</TableCell>
+                      <TableCell sx={{ textAlign: "center" }}>리더</TableCell>
                     </TableRow>
                   </TableHead>
-                  <TableBody>
+                  <TableBody
+                    sx={{
+                      ".MuiTableCell-body": {
+                        p: 0.3,
+                      },
+                    }}
+                  >
                     {memeberData.map((row: any) => (
                       <TableRow key={row.custUkey}>
                         <TableCell padding="checkbox">
@@ -373,16 +403,25 @@ const MemberMngtNewModal = ({
                             }
                           />
                         </TableCell>
-                        <TableCell>{row.custNm}</TableCell>
                         <TableCell>
-                          <Box display="flex" alignItems="center">
-                            <Radio
-                              checked={row.isLeaderFlag || false}
-                              onChange={(event) =>
-                                handleRadioChange(event, row.custUkey)
-                              }
-                            />
-                          </Box>
+                          <Stack direction="row" spacing={0.5}>
+                            <Box>{row.custNm}</Box>
+                            <Box>({row.ebcEmail})</Box>
+                          </Stack>
+                        </TableCell>
+                        <TableCell sx={{ textAlign: "center" }}>
+                          {/*<Box*/}
+                          {/*  display="flex"*/}
+                          {/*  alignItems="center"*/}
+                          {/*  justifyContent="center"*/}
+                          {/*>*/}
+                          <Radio
+                            checked={row.isLeaderFlag || false}
+                            onChange={(event) =>
+                              handleRadioChange(event, row.custUkey)
+                            }
+                          />
+                          {/*</Box>*/}
                         </TableCell>
                       </TableRow>
                     ))}
