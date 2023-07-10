@@ -1,5 +1,3 @@
-import { grey } from "@mui/material/colors";
-import { useTheme } from "@mui/material/styles";
 import { cjbsTheme } from "../../../themes";
 export const dataTableCustomStyles = {
   table: {
@@ -19,7 +17,7 @@ export const dataTableCustomStyles = {
       color: "black",
       fontWeight: "600",
       fontSize: 14,
-      backgroundColor: grey.A100,
+      backgroundColor: cjbsTheme.palette.grey["50"],
     },
   },
   subHeader: {
@@ -31,7 +29,7 @@ export const dataTableCustomStyles = {
   },
   headRow: {
     style: {
-      backgroundColor: grey.A100,
+      backgroundColor: cjbsTheme.palette.grey["50"],
       minHeight: "40px",
       borderTop: "1px solid #000",
       "&:nth-of-type(1)": {
