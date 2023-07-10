@@ -172,6 +172,9 @@ export const CustomToggleButton = ({
           backgroundColor: "transparent",
           border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
           "&.MuiToggleButton-root": {
+            p: 0,
+            pl: 1.5,
+            pr: 1.5,
             color: "black",
             ":hover": {
               backgroundColor: "transparent",

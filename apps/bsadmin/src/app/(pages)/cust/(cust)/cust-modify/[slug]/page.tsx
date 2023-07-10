@@ -9,6 +9,7 @@ import {
   InputValidation,
   ErrorContainer,
   Fallback,
+  Checkbox,
 } from "cjbsDSTM";
 
 import {
@@ -22,7 +23,6 @@ import {
   TableRow,
 } from "@mui/material";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import axios from "axios";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
@@ -296,21 +296,13 @@ export default function CustModifyPage({ params }: ParamsProps) {
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <FormControlLabel
-                        sx={{ color: "red", mr: 1 }}
-                        label="사용자를 차단 합니다."
-                        control={
-                          <Checkbox
-                            checked={checked}
-                            size="small"
-                            {...register("isAcs")}
-                          />
-                        }
+                      <Checkbox
+                        inputName="isAcs"
+                        labelText="사용자를 차단 합니다."
+                        value="Y"
+                        waringIs={true}
+                        subMessage="(차단된 사용자는 주문서 작성 화면에 로그인 할 수 없습니다.)"
                       />
-                      <Typography variant="body1">
-                        (차단된 사용자는 주문서 작성 화면에 로그인 할 수
-                        없습니다.)
-                      </Typography>
                     </Stack>
                   </TD>
                 </TableRow>

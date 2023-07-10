@@ -90,7 +90,8 @@ const ListDashboardPage = () => {
 
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Typography sx={{ mb: 1 }}>Form Test</Typography>
-        <Checkbox inputName="checkTest" labelText="체크박스" value="Y" />
+        <Checkbox inputName="checkTest" labelText="체크박스1" value="Y" />
+        <Checkbox inputName="checkTest" labelText="체크박스2" value="N" />
         <ShowBox />
         <br />
         <br />
