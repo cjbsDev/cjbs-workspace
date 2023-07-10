@@ -1,33 +1,56 @@
 import * as React from "react";
-import { FormControlLabel, Input, Typography } from "@mui/material";
+import { FormControlLabel, Input, Typography, InputProps } from "@mui/material";
 import { useFormContext } from "react-hook-form";
+import { cjbsTheme } from "../../themes";
+import { ThemeProvider } from "@mui/material/styles";
 
-interface CheckboxProps {
+interface CheckboxProps extends InputProps {
   inputName: string;
   labelText: string;
+  waringIs?: boolean;
+  subMessage?: string;
   value: string | boolean;
 }
 
-export const Checkbox = (props: CheckboxProps) => {
-  const { inputName, labelText, value, ...rest } = props;
+export const Checkbox = ({
+  inputName,
+  labelText,
+  value,
+  waringIs,
+  subMessage,
+  ...props
+}: CheckboxProps) => {
   const methods = useFormContext();
   return (
-    <FormControlLabel
-      control={
-        <Input
-          {...methods.register(inputName)}
-          {...rest}
-          type="checkbox"
-          defaultValue={value}
-          disableUnderline={true}
-          sx={{ width: 18, ml: 1.5 }}
-        />
-      }
-      label={
-        <Typography variant="body2" sx={{ ml: 1 }}>
-          {labelText}
-        </Typography>
-      }
-    />
+    <ThemeProvider theme={cjbsTheme}>
+      <FormControlLabel
+        sx={{
+          color: waringIs
+            ? cjbsTheme.palette.warning.main
+            : cjbsTheme.palette.common.black,
+        }}
+        control={
+          <Input
+            {...methods.register(inputName)}
+            {...props}
+            type="checkbox"
+            defaultValue={value}
+            disableUnderline={true}
+            sx={{
+              width: 16,
+              ml: 1.5,
+              mr: 1,
+            }}
+          />
+        }
+        label={labelText}
+      />
+      <Typography
+        variant="body1"
+        sx={{ ml: "-8px !important", display: "inline-block" }}
+      >
+        {subMessage}
+      </Typography>
+    </ThemeProvider>
   );
 };

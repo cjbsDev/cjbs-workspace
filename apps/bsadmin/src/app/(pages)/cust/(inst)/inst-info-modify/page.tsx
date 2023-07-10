@@ -230,12 +230,12 @@ export default function InstModify() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
-                      <InputValidation
-                        disabled={true}
-                        inputName="instUniqueCodeMc"
-                        errorMessage="소속기관을 선택해 주세요."
-                        placeholder="기관 코드"
-                      />
+                      {/*<InputValidation*/}
+                      {/*  disabled={true}*/}
+                      {/*  inputName="instUniqueCodeMc"*/}
+                      {/*  errorMessage="소속기관을 선택해 주세요."*/}
+                      {/*  placeholder="기관 코드"*/}
+                      {/*/>*/}
                       <InputValidation
                         disabled={true}
                         inputName="instNm"

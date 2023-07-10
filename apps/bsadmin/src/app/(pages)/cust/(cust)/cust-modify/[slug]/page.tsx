@@ -299,30 +299,13 @@ export default function CustModifyPage({ params }: ParamsProps) {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Stack direction="row" spacing={0.5} alignItems="center">
-                      <Checkbox
-                        inputName="isAcsFlag"
-                        labelText="사용자를 차단 합니다."
-                        value="N"
-                      />
-                      <Typography variant="body1">
-                        (차단된 사용자는 주문서 작성 화면에 로그인 할 수
-                        없습니다.)
-                      </Typography>
-                      {/* 
-                      <Checkbox
-                        inputName="isAcsFlag"
-                        labelText="사용자를 차단 합니다."
-                        value=""
-                        sx={{ color: "red", mr: 1 }}
-                      />
-
-                      <Typography variant="body1">
-                        (차단된 사용자는 주문서 작성 화면에 로그인 할 수
-                        없습니다.)
-                      </Typography>
-*/}
-                    </Stack>
+                    <Checkbox
+                      inputName="isAcsFlag"
+                      labelText="사용자를 차단 합니다."
+                      value="N"
+                      waringIs={true}
+                      subMessage="(차단된 사용자는 주문서 작성 화면에 로그인 할 수 없습니다.)"
+                    />
                   </TD>
                 </TableRow>
 
