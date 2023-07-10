@@ -33,7 +33,13 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 
 import axios from "axios";
+import Region1 from "./Region1";
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+const LazyRegion1 = dynamic(() => import("./Region1"), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+});
 
 const LazyInstModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
@@ -87,37 +93,54 @@ export default function InstModify() {
   };
 
   // 첫번째 선택 ( 국내 lev1 )
-  const { data: domesticData } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002`,
-    fetcher,
-    {
-      onSuccess: (data) => {
-        const reg1KorOptionTemp = data.data.map((item: any) => ({
-          value: item.uniqueCode,
-          optionName: item.codeNm,
-        }));
-
-        setReg1KorOption(reg1KorOptionTemp);
-      },
-    }
-  );
+  // const { data: domesticData } = useSWR(
+  //   `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002`,
+  //   fetcher,
+  //   {
+  //     // onSuccess: (data) => {
+  //     //   const reg1KorOptionTemp = data.data.map((item: any) => ({
+  //     //     value: item.uniqueCode,
+  //     //     optionName: item.codeNm,
+  //     //   }));
+  //     //
+  //     //   setReg1KorOption(reg1KorOptionTemp);
+  //     // },
+  //   }
+  // );
 
   // 두번째 선택 ( 국내 lev2 )
   const { data: domesticDataLv2 } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
-      selectReg1Option,
+    () =>
+      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
+      "46000",
     fetcher,
     {
-      onSuccess: (data) => {
-        const reg2KorOptionTemp = data.data.map((item: any) => ({
-          value: item.uniqueCode,
-          optionName: item.codeNm,
-        }));
-
-        setReg2KorOption(reg2KorOptionTemp);
-      },
+      // onSuccess: (data) => {
+      //   const reg2KorOptionTemp = data.data.map((item: any) => ({
+      //     value: item.uniqueCode,
+      //     optionName: item.codeNm,
+      //   }));
+      //
+      //   setReg2KorOption(reg2KorOptionTemp);
+      // },
     }
   );
+
+  // const { data: domesticDataLv2 } = useSWR(
+  //   `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
+  //   selectReg1Option,
+  //   fetcher,
+  //   {
+  //     onSuccess: (data) => {
+  //       const reg2KorOptionTemp = data.data.map((item: any) => ({
+  //         value: item.uniqueCode,
+  //         optionName: item.codeNm,
+  //       }));
+  //
+  //       setReg2KorOption(reg2KorOptionTemp);
+  //     },
+  //   }
+  // );
 
   const methods = useForm<FormData>({
     defaultValues: () => {
@@ -374,19 +397,22 @@ export default function InstModify() {
                         val1={selectReg1Option}
                         val2={selectReg2Option}
                       />
-                        
+
  */}
-                      <SelectBox
-                        inputName="region1Gc"
-                        options={reg1KorOption}
-                        onChange={handleReg1Change}
-                      />
-                      <SelectBox
-                        inputName="region2Gc"
-                        options={reg2KorOption}
-                        onChange={handleReg2Change}
-                        sx={{ ml: 10 }}
-                      />
+                      {/*<SelectBox*/}
+                      {/*  inputName="region1Gc"*/}
+                      {/*  options={reg1KorOption}*/}
+                      {/*  // onChange={handleReg1Change}*/}
+                      {/*/>*/}
+
+                      <LazyRegion1 />
+
+                      {/*<SelectBox*/}
+                      {/*  inputName="region2Gc"*/}
+                      {/*  options={reg2KorOption}*/}
+                      {/*  // onChange={handleReg2Change}*/}
+                      {/*  // sx={{ ml: 10 }}*/}
+                      {/*/>*/}
                     </Stack>
                   </TD>
                 </TableRow>
