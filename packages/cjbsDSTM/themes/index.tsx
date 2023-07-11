@@ -255,9 +255,19 @@ export const cjbsTheme = createTheme({
         },
       ],
     },
+    MuiNativeSelect: {
+      styleOverrides: {
+        select: {
+          "&.MuiNativeSelect-select": {
+            fontSize: 14,
+          },
+        },
+      },
+    },
     MuiSelect: {
       styleOverrides: {
         select: {
+          fontSize: 14,
           paddingBottom: "3.5px",
           paddingTop: "3.5px",
         },
