@@ -1,0 +1,70 @@
+[
+  {
+    "value": "11000",
+    "optionName": "서울특별시"
+  },
+  {
+    "value": "26000",
+    "optionName": "부산광역시"
+  },
+  {
+    "value": "27000",
+    "optionName": "대구광역시"
+  },
+  {
+    "value": "28000",
+    "optionName": "인천광역시"
+  },
+  {
+    "value": "29000",
+    "optionName": "광주광역시"
+  },
+  {
+    "value": "30000",
+    "optionName": "대전광역시"
+  },
+  {
+    "value": "31000",
+    "optionName": "울산광역시"
+  },
+  {
+    "value": "36000",
+    "optionName": "세종특별자치시"
+  },
+  {
+    "value": "41000",
+    "optionName": "경기도"
+  },
+  {
+    "value": "42000",
+    "optionName": "강원도"
+  },
+  {
+    "value": "43000",
+    "optionName": "충청북도"
+  },
+  {
+    "value": "44000",
+    "optionName": "충청남도"
+  },
+  {
+    "value": "45000",
+    "optionName": "전라북도"
+  },
+  {
+    "value": "46000",
+    "optionName": "전라남도"
+  },
+  {
+    "value": "47000",
+    "optionName": "경상북도"
+  },
+  {
+    "value": "48000",
+    "optionName": "경상남도"
+  },
+  {
+    "value": "50000",
+    "optionName": "제주특별자치도"
+  }
+]

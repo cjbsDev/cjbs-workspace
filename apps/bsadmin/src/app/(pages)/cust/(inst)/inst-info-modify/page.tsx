@@ -15,7 +15,6 @@ import {
   Radio,
   Form,
 } from "cjbsDSTM";
-import useSWR from "swr";
 import {
   Typography,
   Box,
@@ -33,13 +32,14 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 
 import axios from "axios";
-import Region1 from "./Region1";
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const LazyRegion1 = dynamic(() => import("./Region1"), {
-  ssr: false,
-  loading: () => <p>Loading...</p>,
-});
+const LazyRegion1 = dynamic(
+  () => import("../../../../components/Region/Region1"),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  }
+);
 
 const LazyInstModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
@@ -54,12 +54,7 @@ const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
   loading: () => <SkeletonLoading height={272} />,
 });
-/*
-const LazySelectRegionGc = dynamic(() => import("./SelectRegionGc"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={272} />,
-});
-*/
+
 // 기관 수정
 export default function InstModify() {
   // init
@@ -77,54 +72,6 @@ export default function InstModify() {
     setShowAgncSearchModal(false);
   };
 
-  /* 230710 */
-  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
-  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
-  const [selectReg1Option, setSelectReg1Option] = useState("11000"); // 도시 선택 값
-  const [selectReg2Option, setSelectReg2Option] = useState("11110"); // 도시에 따른 지역구 선택 값
-
-  const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log("국내 선택 01", event.target.value);
-    setSelectReg1Option(event.target.value);
-  };
-  const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log("국내 선택 02", event.target.value);
-    setSelectReg2Option(event.target.value);
-  };
-
-  // 첫번째 선택 ( 국내 lev1 )
-  // const { data: domesticData } = useSWR(
-  //   `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002`,
-  //   fetcher,
-  //   {
-  //     // onSuccess: (data) => {
-  //     //   const reg1KorOptionTemp = data.data.map((item: any) => ({
-  //     //     value: item.uniqueCode,
-  //     //     optionName: item.codeNm,
-  //     //   }));
-  //     //
-  //     //   setReg1KorOption(reg1KorOptionTemp);
-  //     // },
-  //   }
-  // );
-
-  // 두번째 선택 ( 국내 lev2 )
-  // const { data: domesticDataLv2 } = useSWR(
-  //   `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
-  //   selectReg1Option,
-  //   fetcher,
-  //   {
-  //     onSuccess: (data) => {
-  //       const reg2KorOptionTemp = data.data.map((item: any) => ({
-  //         value: item.uniqueCode,
-  //         optionName: item.codeNm,
-  //       }));
-  //
-  //       setReg2KorOption(reg2KorOptionTemp);
-  //     },
-  //   }
-  // );
-
   const methods = useForm<FormData>({
     defaultValues: () => {
       return fetch(
@@ -134,9 +81,6 @@ export default function InstModify() {
         .then((getData) => {
           const data = getData.data;
           console.log("자세히 보기 data", data);
-
-          //setSelectReg1Option(data.region1Gc);
-          //setSelectReg2Option(data.region2Gc);
 
           return {
             addr: data.addr,
@@ -170,31 +114,6 @@ export default function InstModify() {
   // Common
   // [ 수정 ]
   const onSubmit = (data: any) => {
-    console.log("region1Gc : ", data.region1Gc + " / " + data.region2Gc);
-    console.log(
-      "selectReg1Option : ",
-      selectReg1Option + " / " + selectReg2Option
-    );
-
-    /*
-    let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
-      brno: data.brno,
-      ftr: data.ftr,
-      instTypeCc: data.inst_type_cc,
-      instUkey: data.instUkey,
-      itbsns: data.itbsns,
-      lctnTypeCc: "BS_0200002",
-      region1Gc: selectReg1Option,
-      region2Gc: selectReg2Option,
-      rprsNm: data.rprsNm,
-      statusCodeCc: data.statusCodeCc,
-      tpbsns: data.tpbsns,
-      zip: data.zip,
-    };
-    */
-
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
@@ -221,6 +140,7 @@ export default function InstModify() {
         console.log("수정 successful:", response.data);
         if (response.data.success) {
           router.push("/cust/inst-info-list");
+        } else {
         }
       })
       .catch((error) => {
@@ -375,27 +295,7 @@ export default function InstModify() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
-                      {/**
-                      <LazySelectRegionGc
-                        val1={selectReg1Option}
-                        val2={selectReg2Option}
-                      />
-
- */}
-                      {/*<SelectBox*/}
-                      {/*  inputName="region1Gc"*/}
-                      {/*  options={reg1KorOption}*/}
-                      {/*  // onChange={handleReg1Change}*/}
-                      {/*/>*/}
-
                       <LazyRegion1 />
-
-                      {/*<SelectBox*/}
-                      {/*  inputName="region2Gc"*/}
-                      {/*  options={reg2KorOption}*/}
-                      {/*  // onChange={handleReg2Change}*/}
-                      {/*  // sx={{ ml: 10 }}*/}
-                      {/*/>*/}
                     </Stack>
                   </TD>
                 </TableRow>

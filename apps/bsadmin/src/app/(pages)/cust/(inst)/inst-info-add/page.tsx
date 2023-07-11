@@ -27,15 +27,21 @@ import {
 import { useForm, useFormContext, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 // 거래처에서 기관 모달과 다름
 const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
 });
+
+const LazyRegion1 = dynamic(
+  () => import("../../../../components/Region/Region1"),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  }
+);
 
 /**
  * 기관 등록 2023-07-03 개발 시작 0704일에 완료 예정
@@ -75,11 +81,6 @@ const InstAdd = () => {
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
 
-  const [reg1KorOption, setReg1KorOption] = useState([]); // 도시 데이터
-  const [reg2KorOption, setReg2KorOption] = useState([]); // 도시에 따른 지역구 데이터
-  const [selectReg1Option, setSelectReg1Option] = useState("11000"); // 도시 선택 값
-  const [selectReg2Option, setSelectReg2Option] = useState("11110"); // 도시에 따른 지역구 선택 값
-
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -89,58 +90,6 @@ const InstAdd = () => {
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
   };
-
-  // 위치 값 선택 저장
-  /*
-  const handleLocationChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("위치 handleLocationChange", event.target.value);
-    console.log(event.target.value == "BS_0200002" ? "국내" : "해외");
-    //const methods = useFormContext();
-    //const moreDetail = methods.watch("checkTest");
-  };
-  */
-
-  const handleReg1Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log("국내 선택 01", event.target.value);
-    setSelectReg1Option(event.target.value);
-  };
-  const handleReg2Change = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //console.log("국내 선택 02", event.target.value);
-    setSelectReg2Option(event.target.value);
-  };
-
-  // 첫번째 선택 ( 국내 lev1 )
-  const { data: domesticData } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002`,
-    fetcher,
-    {
-      onSuccess: (data) => {
-        const reg1KorOptionTemp = data.data.map((item: any) => ({
-          value: item.uniqueCode,
-          optionName: item.codeNm,
-        }));
-
-        setReg1KorOption(reg1KorOptionTemp);
-      },
-    }
-  );
-
-  // 두번째 선택 ( 국내 lev2 )
-  const { data: domesticDataLv2 } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
-      selectReg1Option,
-    fetcher,
-    {
-      onSuccess: (data) => {
-        const reg2KorOptionTemp = data.data.map((item: any) => ({
-          value: item.uniqueCode,
-          optionName: item.codeNm,
-        }));
-
-        setReg2KorOption(reg2KorOptionTemp);
-      },
-    }
-  );
 
   // Common
   // [ 등록 ]
@@ -153,9 +102,9 @@ const InstAdd = () => {
       instTypeCc: data.inst_type_cc,
       instUniqueCodeMc: data.instUniqueCodeMc,
       itbsns: data.itbsns,
-      lctnTypeCc: "BS_0200002",
-      region1Gc: selectReg1Option,
-      region2Gc: selectReg2Option,
+      lctnTypeCc: "BS_0200002", // 국내
+      region1Gc: data.region1Gc,
+      region2Gc: data.region2Gc,
       rprsNm: data.rprsNm,
       statusCodeCc: data.statusCodeCc,
       tpbsns: data.tpbsns,
@@ -179,7 +128,10 @@ const InstAdd = () => {
       });
   };
 
-  const defaultValues = {};
+  const defaultValues = {
+    region1Gc: "11000", // 서울
+    statusCodeCc: "BS_0602001", // 운영
+  };
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -195,20 +147,6 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>위치</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 국내
-                {/*
-                <Radio
-                  inputName="lctn_type_cc"
-                  labelText="국내"
-                  value="BS_0200002"
-                  onChange={handleLocationChange}
-                />
-                <Radio
-                  inputName="lctn_type_cc"
-                  labelText="해외"
-                  value="BS_0200001"
-                  onChange={handleLocationChange}
-                />
-                */}
               </TD>
             </TableRow>
 
@@ -216,12 +154,6 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>기관명</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  {/*<InputValidation*/}
-                  {/*  disabled={true}*/}
-                  {/*  inputName="instUniqueCodeMc"*/}
-                  {/*  errorMessage="소속기관을 선택해 주세요."*/}
-                  {/*  placeholder="기관 코드"*/}
-                  {/*/>*/}
                   <InputValidation
                     disabled={true}
                     inputName="instNm"
@@ -275,7 +207,7 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="itbsns"
-                    errorMessage="업태 선택"
+                    errorMessage={false}
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -288,7 +220,7 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="tpbsns"
-                    errorMessage="업종 선택"
+                    errorMessage={false}
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -333,6 +265,8 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>지역</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <LazyRegion1 />
+                  {/* 
                   <SelectBox
                     inputName="region_1_gc"
                     options={reg1KorOption}
@@ -344,6 +278,7 @@ const InstAdd = () => {
                     onChange={handleReg2Change}
                     sx={{ ml: 10 }}
                   />
+                  */}
                 </Stack>
               </TD>
             </TableRow>
