@@ -7,7 +7,8 @@ import {
   OutlinedButton,
   Title1,
 } from "cjbsDSTM";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { Box, Container, Stack } from "@mui/material";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";

@@ -62,7 +62,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
     popupId: "useInfoMenu",
   });
   return (
-    <AppBar position="fixed" open={open} color="inherit">
+    <AppBar position="fixed" open={open} color="inherit" sx={{ zIndex: 1000 }}>
       <Toolbar>
         <Box sx={{}}>
           <IconButton

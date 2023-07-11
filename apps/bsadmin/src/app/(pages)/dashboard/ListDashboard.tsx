@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
+import Link from "next/link";
 import {
   AlertModal,
   Checkbox,
@@ -15,7 +16,8 @@ import {
   ResetButton,
   XlargeButton,
 } from "cjbsDSTM";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
@@ -50,6 +52,8 @@ const ListDashboardPage = () => {
     <Box>
       <Typography variant={"title1"}>Dashboard Page.</Typography>
       <Stack direction={"row"} spacing={1}>
+        <Link href="/cust/cust-list">고객관리</Link>
+        <Link href="/cust/agnc-pi-add">거래처(PI) 등록</Link>
         <LinkButton
           buttonName="고객관리"
           onClick={() => router.push("/cust/cust-list")}
