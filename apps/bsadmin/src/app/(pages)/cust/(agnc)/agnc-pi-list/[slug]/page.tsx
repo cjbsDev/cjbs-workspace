@@ -47,7 +47,6 @@ interface CustViewProps {
 }
 
 interface DataItem {
-  isLeader: string;
   ebcEmail: string;
   custNm: string;
   isAcs: string;
@@ -160,7 +159,6 @@ export default function AgncPage({ params }: CustViewProps) {
           <TableHead>
             <TableRow>
               <TH sx={{ width: "2%" }}></TH>
-              <TH sx={{ width: "13%" }}>리더</TH>
               <TH sx={{ width: "35%" }}>아이디</TH>
               <TH sx={{ width: "35%" }}>이름</TH>
               <TH sx={{ width: "15%" }}>상태</TH>
@@ -177,7 +175,6 @@ export default function AgncPage({ params }: CustViewProps) {
               agncCustList.map((dataItem, index) => (
                 <TableRow key={dataItem.custUkey}>
                   <TD>{index + 1}</TD>
-                  <TD>{dataItem.isLeader === "Y" ? <LeaderCip /> : "일반"}</TD>
                   <TD>{dataItem.ebcEmail}</TD>
                   <TD>{dataItem.custNm}</TD>
                   <TD

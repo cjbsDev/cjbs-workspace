@@ -24,10 +24,6 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  NativeSelect,
-  Select,
-  MenuItem,
-  FormControlLabel,
   Typography,
 } from "@mui/material";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
@@ -80,12 +76,9 @@ interface FormData {
 }
 
 interface Member {
-  isLeader: string;
   custUkey: string;
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
-  isLeaderFlag: boolean;
 }
 
 export default function AgncPIModifyPage() {
@@ -104,15 +97,6 @@ export default function AgncPIModifyPage() {
         .then((getData) => {
           const data = getData.data;
 
-          // isLeader 가 Y 면 true, N 면 false 로 세팅한다.
-          const updatedCustDetailData = data.custDetail.map((row: Member) => {
-            return {
-              ...row,
-              isLeaderFlag: row.isLeader === "Y",
-            };
-          });
-          //console.log("updatedCustDetailData", updatedCustDetailData);
-          setSelectedMembers(updatedCustDetailData);
           setIsLoading(false);
 
           return {
@@ -124,7 +108,7 @@ export default function AgncPIModifyPage() {
             addrDetail: data.addrDetail,
             bsnsManagedByNm: data.bsnsManagedByNm,
             bsnsManagedByUkey: data.bsnsManagedByUkey,
-            custDetail: updatedCustDetailData,
+            custDetail: data.custDetail,
             zip: data.zip,
             isSpecialMng: data.isSpecialMng,
             isSpecialMngFlag: data.isSpecialMng === "Y",
@@ -153,9 +137,8 @@ export default function AgncPIModifyPage() {
   const onSubmit = (data: any) => {
     //console.log("selectedMembers", selectedMembers);
 
-    let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
+    let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
-      isLeader,
     }));
     let isSpecialMngFlag = getValues("isSpecialMngFlag");
     let bsnsManagedByUkey = getValues("bsnsManagedByUkey");

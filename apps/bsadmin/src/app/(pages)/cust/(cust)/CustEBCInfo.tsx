@@ -60,7 +60,7 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
               <TH sx={{ width: "15%" }}>고객번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
                 <Stack direction="row" spacing={1} alignItems="center">
-                  <LeaderCip />
+                  {/* <LeaderCip /> */}
                   <Box>{custEBCData.ebcUid}</Box>
                 </Stack>
               </TD>

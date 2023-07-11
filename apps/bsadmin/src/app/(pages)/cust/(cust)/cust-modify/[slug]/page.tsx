@@ -44,10 +44,6 @@ const LazyCustModifyLog = dynamic(
   }
 );
 
-const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={272} />,
-});
 interface ParamsProps {
   params: {
     slug: string;
@@ -58,8 +54,6 @@ interface FormData {
   agncNm?: string;
   agncUkey?: string;
   custNm?: string;
-  isAcs?: string;
-  isAcsFlag?: boolean;
   memo?: string;
   tel_0?: string;
   tel_1?: string;
@@ -67,18 +61,10 @@ interface FormData {
   telList?: string[];
 }
 
-interface IData {
-  data: FormData;
-}
-
 export default function CustModifyPage({ params }: ParamsProps) {
   // init
   const { slug } = params;
-  const [checked, setChecked] = useState<boolean>(false); // 체크 박스 테스트
-  const [open, setOpen] = useState<boolean>(false);
   const router = useRouter();
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
 
   const methods = useForm<FormData>({
     defaultValues: async () => {
@@ -97,8 +83,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
         agncNm: data.agncNm,
         agncUkey: data.agncUkey,
         memo: data.memo,
-        isAcs: data.isAcs,
-        isAcsFlag: data.isAcs === "N",
       };
     },
   });
@@ -110,21 +94,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
     handleSubmit,
   } = methods;
 
-  // event
-  const handleDelBtn = () => {
-    setValue("agncUkey", "");
-    setValue("agncNm", "");
-    console.log("삭제");
-  };
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const onSubmit = (data: any) => {
     console.log("in onSubmit");
 
@@ -133,15 +102,12 @@ export default function CustModifyPage({ params }: ParamsProps) {
     let agncUkey = getValues("agncUkey");
     let custNm = getValues("custNm");
     let memo = getValues("memo");
-    let isAcsFlag = getValues("isAcsFlag");
-    console.log("isAcsFlag", isAcsFlag);
 
     let saveObj = {
       agncUkey,
       custNm,
       telList,
       memo,
-      isAcs: isAcsFlag == true ? "N" : "Y",
     };
     console.log("==saveObj", saveObj);
 
@@ -158,14 +124,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
-  };
-
-  const agncSearchModalOpen = () => {
-    setShowAgncSearchModal(true);
-  };
-
-  const agncSearchModalClose = () => {
-    setShowAgncSearchModal(false);
   };
 
   return (
@@ -273,18 +231,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         error={errors.agncUkey ? true : false}
                         errorMessage="필수 값입니다."
                       />
-
-                      <OutlinedButton
-                        size="small"
-                        buttonName="검색"
-                        onClick={agncSearchModalOpen}
-                      />
-                      <OutlinedButton
-                        size="small"
-                        buttonName="삭제"
-                        color="error"
-                        onClick={handleDelBtn}
-                      />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -296,6 +242,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
           <TableContainer sx={{ mb: 5 }}>
             <Table>
               <TableBody>
+                {/* 
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -308,7 +255,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     />
                   </TD>
                 </TableRow>
-
+*/}
                 <TableRow>
                   <TH sx={{ width: "15%" }}>메모</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -332,17 +279,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
             />
             <ContainedButton buttonName="저장" type="submit" />
           </Stack>
-
-          {/* 거래처 검색 모달 */}
-          {showAgncSearchModal && (
-            <ErrorContainer FallbackComponent={Fallback}>
-              <LazyAgncSearchModal
-                onClose={agncSearchModalClose}
-                open={showAgncSearchModal}
-                modalWidth={800}
-              />
-            </ErrorContainer>
-          )}
         </Box>
 
         {/* 수정 로그 부분 */}

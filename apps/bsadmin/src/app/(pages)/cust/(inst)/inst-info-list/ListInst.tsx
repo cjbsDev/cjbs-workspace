@@ -84,7 +84,7 @@ const ListInst = () => {
       },
       {
         name: "위치",
-        selector: (row: { lctnTypeCcNm: string }) => row.lctnTypeCcNm,
+        selector: (row: { lctnTypeVal: string }) => row.lctnTypeVal,
         width: "70px",
       },
       {
@@ -101,7 +101,7 @@ const ListInst = () => {
       },
       {
         name: "지역(나라)",
-        cell: (row: { region1GcNm: any; region2GcNm: any }) => (
+        cell: (row: { region1Val: any; region2Val: any }) => (
           <Stack
             direction="row"
             spacing={0.5}
@@ -110,7 +110,7 @@ const ListInst = () => {
             // flexWrap="wrap"
           >
             <Box data-tag="allowRowEvents">
-              {row.region1GcNm ?? ""} {row.region2GcNm ?? ""}{" "}
+              {row.region1Val ?? ""} {row.region2Val ?? ""}{" "}
             </Box>
           </Stack>
         ),
@@ -119,7 +119,7 @@ const ListInst = () => {
 
       {
         name: "분류",
-        selector: (row: { instTypeCcNm: string }) => row.instTypeCcNm,
+        selector: (row: { instTypeVal: string }) => row.instTypeVal,
         width: "70px",
       },
       {
@@ -128,7 +128,7 @@ const ListInst = () => {
       },
       {
         name: "상태",
-        selector: (row: { statusCodeCcNm: string }) => row.statusCodeCcNm,
+        selector: (row: { statusCodeVal: string }) => row.statusCodeVal,
         width: "70px",
       },
     ],
@@ -143,10 +143,10 @@ const ListInst = () => {
     suspense: true,
   });
 
+  /*
   useEffect(() => {
     if (data.data) {
       const filteredData: InstData[] = data.data.instList;
-
       const updatedInstList: InstData[] = filteredData.map((item: InstData) => {
         const instTypeCcNm = getCodeNm(item.instTypeCc);
         const region1GcNm = getCodeNm(item.region1Gc);
@@ -165,17 +165,17 @@ const ListInst = () => {
       });
 
       console.log("updatedInstList", updatedInstList);
-
       setInstList(updatedInstList);
     }
   }, [data.data]);
-
+  
   const getCodeNm = (uniqueCode: string): string | null => {
     const foundData = getCodeList.data.find(
       (item: any) => item.uniqueCode === uniqueCode
-    );
-    return foundData ? foundData.codeNm : null;
-  };
+      );
+      return foundData ? foundData.codeNm : null;
+    };
+    */
 
   const goDetailPage = (row: { instUkey: string }) => {
     const path = row.instUkey;
@@ -228,7 +228,8 @@ const ListInst = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="기관 관리" />}
-      data={instList}
+      //data={instList}
+      data={data.data.instList}
       columns={columns}
       onRowClicked={goDetailPage}
       // onSelectedRowsChange={handleRowSelected}

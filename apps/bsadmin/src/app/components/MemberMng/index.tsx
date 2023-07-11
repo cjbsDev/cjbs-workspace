@@ -18,8 +18,6 @@ interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
-  isLeader: string;
 }
 
 const LazyMemberMngtModal = dynamic(() => import("./MemberMngModal"), {
@@ -59,15 +57,6 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
   const columns = useMemo(
     () => [
       {
-        name: "리더",
-        cell: (row: { isLeader: any }) => (
-          <>
-            <Box>{row.isLeader == "Y" && <LeaderCip />} </Box>
-          </>
-        ),
-        width: "150px",
-      },
-      {
         name: "아이디",
         selector: (row: { ebcEmail: string }) => row.ebcEmail,
       },
@@ -75,15 +64,6 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
         name: "이름",
         selector: (row: { custNm: string }) => row.custNm,
         width: "200px",
-      },
-      {
-        name: "상태",
-        cell: (row: { isAcs: string }) => (
-          <>
-            <Box>{row.isAcs == "Y" ? "사용" : "차단"} </Box>
-          </>
-        ),
-        width: "150px",
       },
     ],
     []

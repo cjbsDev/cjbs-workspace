@@ -63,9 +63,7 @@ const ListCust = () => {
               data-tag="allowRowEvents"
             >
               <Box data-tag="allowRowEvents">{row.custNm}</Box>
-              <Box data-tag="allowRowEvents">
-                <LeaderCip />
-              </Box>
+              {/* <Box data-tag="allowRowEvents"><LeaderCip /></Box> */}
               <Box data-tag="allowRowEvents">{row.ebcEmail}</Box>
             </Stack>
           </>
@@ -86,7 +84,9 @@ const ListCust = () => {
               data-tag="allowRowEvents"
             >
               <Box data-tag="allowRowEvents">{row.agncNm}</Box>
-              <Box data-tag="allowRowEvents">({row.instNm})</Box>
+              {row.instNm && (
+                <Box data-tag="allowRowEvents">({row.instNm})</Box>
+              )}
             </Stack>
           </>
         ),
@@ -108,11 +108,6 @@ const ListCust = () => {
         name: "선결제 금액",
         selector: (row: { pymnPrice: number }) =>
           row.pymnPrice ? row.pymnPrice + " 원" : "금액",
-      },
-      {
-        name: "상태",
-        selector: (row: { isAcs: any }) =>
-          row.isAcs === "Y" ? "사용" : "차단",
       },
       {
         name: "메모",
@@ -154,19 +149,6 @@ const ListCust = () => {
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
               selectedCount={selectedRowCnt}
-            />
-            <Select
-              placeholder="상태변경"
-              styles={{
-                control: (baseStyles, state) => ({
-                  ...baseStyles,
-                  // borderColor: state.isFocused ? "grey" : "red",
-                }),
-              }}
-              menuPortalTarget={document.body}
-              defaultValue={selectedOption}
-              onChange={setSelectedOption}
-              options={options}
             />
           </Stack>
         </Grid>
