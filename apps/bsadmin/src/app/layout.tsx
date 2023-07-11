@@ -1,7 +1,15 @@
-import Provider from 'client-provider';
-import JeJuProvider from './jejuProvider';
+"use client";
+import * as React from "react";
+import Provider from "client-provider";
+import JeJuProvider from "./jejuProvider";
+import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
+import { cjbsTheme } from "cjbsDSTM";
 
-export default function RootLayout({children,}: {children: React.ReactNode;}) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <title>BS-Admin</title>
@@ -9,7 +17,15 @@ export default function RootLayout({children,}: {children: React.ReactNode;}) {
       <head />
       <body>
         <JeJuProvider>
-          <Provider>{children}</Provider>
+          <Provider>
+            {children}
+            <ProgressBar
+              height="4px"
+              color={cjbsTheme.palette.warning.main}
+              options={{ showSpinner: false }}
+              shallowRouting
+            />
+          </Provider>
         </JeJuProvider>
       </body>
     </html>

@@ -10,7 +10,8 @@ import {
   LeaderCip,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Tooltip, IconButton } from "@mui/material";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
@@ -38,6 +39,8 @@ const ListCust = () => {
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
   };
+
+  console.log(filteredData);
 
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
@@ -108,7 +111,8 @@ const ListCust = () => {
       },
       {
         name: "상태",
-        selector: (row: { isAcs: any }) => (row.isAcs ? "사용" : "차단"),
+        selector: (row: { isAcs: any }) =>
+          row.isAcs === "Y" ? "사용" : "차단",
       },
       {
         name: "메모",
