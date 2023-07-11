@@ -7,22 +7,19 @@ import {
   Drawer as MuiDrawer,
   List,
   Divider,
-  IconButton,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Collapse,
-  Container,
 } from "@mui/material";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import AppBar from "../components/AppBar";
 import { snbMenuListData } from "../data/snbMenuListData";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import MyIcon from "icon/myIcon";
 
 const drawerWidth = 228;
@@ -126,7 +123,7 @@ export default function OrderLayout({
         handleDrawerClose={handleDrawerClose}
       />
 
-      <Drawer variant="permanent" open={open} sx={{ zIndex: 1250 }}>
+      <Drawer variant="permanent" open={open} sx={{ zIndex: 1000 }}>
         <DrawerHeader>
           {/*<IconButton*/}
           {/*  onClick={!open ? handleDrawerOpen : handleDrawerClose}*/}
