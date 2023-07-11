@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -24,14 +24,9 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  TableHead,
-  IconButton,
 } from "@mui/material";
-import MyIcon from "icon/myIcon";
-import Dayjs from "dayjs";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import getCodeList from "../../../../../data/getCodeList.json";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -46,43 +41,11 @@ interface CustViewProps {
   };
 }
 
-interface InstDetailData {
-  douzoneCode: string;
-  instUniqueCodeMc: string;
-  lctnTypeCc: string;
-  instNm: string;
-  brno: string;
-  rprsNm: string;
-  tpbsns: string;
-  itbsns: string;
-  zip: string;
-  addr: string;
-  addrDetail: string;
-  region1Gc: string;
-  region2Gc: string;
-  instTypeCc: string;
-  ftr: string;
-  statusCodeCc: string;
-
-  instUniqueCodeMcNm?: any;
-  lctnTypeCcNm?: any;
-  region1GcNm?: any;
-  region2GcNm?: any;
-  instTypeCcNm?: any;
-  statusCodeCcNm?: any;
-}
-
 export default function InstPage({ params }: CustViewProps) {
   // init
   const { slug } = params;
   const router = useRouter();
-  const [agncInfoModalOpen, setAgncInfoModalOpen] = useState<boolean>(false);
-  //const [instDetail, setInstDetail] = useState<InstDetailData>();
-  const [statementChkModalOpen, setStatementChkModalOpen] =
-    useState<boolean>(false);
 
-  //`http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${slug}`,
-  // load
   const {
     data: instTempData,
     error,
@@ -96,50 +59,7 @@ export default function InstPage({ params }: CustViewProps) {
     return <SkeletonLoading />;
   }
 
-  const getCodeNm = (uniqueCode: string): string | null => {
-    const foundData = getCodeList.data.find(
-      (item: any) => item.uniqueCode === uniqueCode
-    );
-    return foundData ? foundData.codeNm : null;
-  };
-
-  /*
-  useEffect(() => {
-    if (instTempData.data) {
-      let filteredData: InstDetailData = instTempData.data;
-
-      filteredData.instUniqueCodeMcNm = getCodeNm(
-        filteredData.instUniqueCodeMc
-      );
-      filteredData.instTypeCcNm = getCodeNm(filteredData.instTypeCc);
-      filteredData.region1GcNm = getCodeNm(filteredData.region1Gc);
-      filteredData.region2GcNm = getCodeNm(filteredData.region2Gc);
-      filteredData.lctnTypeCcNm = getCodeNm(filteredData.lctnTypeCc);
-      filteredData.statusCodeCcNm = getCodeNm(filteredData.statusCodeCc);
-
-      console.log("filteredData", filteredData);
-      console.log("in");
-      //setInstDetail(filteredData);
-    }
-  }, [instTempData.data]);
-  */
-
   const instDetail = instTempData.data;
-  console.log("instData", instDetail);
-
-  const handleAgncInfoModalOpen = () => {
-    setAgncInfoModalOpen(true);
-  };
-  const handleAgncInfoModalClose = () => {
-    setAgncInfoModalOpen(false);
-  };
-
-  const handleStatementChkModalOpen = () => {
-    setStatementChkModalOpen(true);
-  };
-  const handleStatementChkModalClose = () => {
-    setStatementChkModalOpen(false);
-  };
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -169,7 +89,7 @@ export default function InstPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>위치</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getCodeNm(instDetail.region1Gc) ?? "-"}
+                {instDetail.region1Val ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>기관명</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
@@ -213,12 +133,11 @@ export default function InstPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>지역</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getCodeNm(instDetail.region1Gc) ?? "-"}{" "}
-                {getCodeNm(instDetail.region2Gc) ?? "-"}
+                {instDetail.region1Val ?? "-"} {instDetail.region2Val ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>분류</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getCodeNm(instDetail.instTypeCc) ?? "-"}
+                {instDetail.instTypeVal ?? "-"}
               </TD>
             </TableRow>
 
@@ -230,7 +149,7 @@ export default function InstPage({ params }: CustViewProps) {
               </TD>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getCodeNm(instDetail.statusCodeCc) ?? "-"}
+                {instDetail.statusCodeVal ?? "-"}
               </TD>
             </TableRow>
           </TableBody>

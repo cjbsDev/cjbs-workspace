@@ -66,21 +66,8 @@ const CustInfo: React.FC<CustInfoProps> = ({ slug }) => {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>상태</TH>
-              <TD
-                sx={{
-                  width: "35%",
-                  color:
-                    custData.isAcs === "Y"
-                      ? cjbsTheme.palette.primary.main
-                      : cjbsTheme.palette.error.main,
-                }}
-                colSpan={2}
-              >
-                {custData.isAcs === "Y" ? "사용" : "차단"}
-              </TD>
               <TH sx={{ width: "15%" }}>마지막 수정일</TH>
-              <TD sx={{ width: "35%" }} colSpan={2}>
+              <TD sx={{ width: "85%" }} colSpan={2}>
                 {custData.modifiedAt ? custData.modifiedAt : "-"}
               </TD>
             </TableRow>

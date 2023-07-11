@@ -2,7 +2,6 @@ import React, { useState, useMemo } from "react";
 import {
   cjbsTheme,
   ContainedButton,
-  DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
   ModalContainer,
@@ -14,10 +13,7 @@ import {
   DialogActions,
   DialogContent,
   Grid,
-  IconButton,
-  Radio,
   Stack,
-  useTheme,
   Table,
   TableBody,
   TableCell,
@@ -36,9 +32,6 @@ interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
-  isLeader: string;
-  isLeaderFlag: boolean;
 }
 
 const initialData: Member[] = [];
@@ -123,29 +116,11 @@ const MemberMngtNewModal = ({
               flexWrap="wrap"
             >
               <Box>{row.agncNm}</Box>
-              <Box>({row.instNm})</Box>
+              {row.instNm && <Box>({row.instNm})</Box>}
             </Stack>
           </>
         ),
         minWidth: "150px",
-      },
-
-      {
-        name: "상태",
-        cell: (row: { isAcs: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={0.4}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
-              <Box>{row.isAcs == "Y" ? "사용" : "차단"}</Box>
-            </Stack>
-          </>
-        ),
-        width: "80px",
       },
     ],
     []
@@ -165,11 +140,6 @@ const MemberMngtNewModal = ({
       // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
       console.log("handleAddRow-selectedRows", selectedRows);
 
-      // memeberData 체크해서 leader 가 없다면 리더로 체크
-      let hasLeaderValue: boolean = memeberData.some(
-        (row) => row.isLeader === "Y"
-      );
-
       const newMemberDataList: Member[] = [];
       selectedRows.selectedRows.forEach((row: any) => {
         // 기존 멤버 확인 후 있다면 추가를 무시함
@@ -184,17 +154,7 @@ const MemberMngtNewModal = ({
           custUkey: row.custUkey,
           ebcEmail: row.ebcEmail,
           custNm: row.custNm,
-          isAcs: row.isAcs,
-          isLeader: "N",
-          isLeaderFlag: false,
         };
-
-        // [리더 체크] 기존 memberData 를 체크해서 리더가 없으면 첫번째 멤버를 리더로 설정
-        if (!hasLeaderValue) {
-          newRow.isLeader = "Y";
-          newRow.isLeaderFlag = true;
-          hasLeaderValue = true;
-        }
 
         newMemberDataList.push(newRow);
         clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
@@ -258,38 +218,8 @@ const MemberMngtNewModal = ({
     const newData = memeberData.filter(
       (row) => !selectedMemberRows.includes(row.custUkey)
     );
-    // console.log("newData", newData);
-    // 반영될 데이터를 체크해서 리더가 없다면 첫번째 값을 리더로 설정한다.
-    let hasLeaderValue: boolean = newData.some(
-      (row: any) => row.isLeader === "Y"
-    );
-    if (!hasLeaderValue) {
-      if (newData.length > 0) {
-        newData[0].isLeader = "Y";
-        newData[0].isLeaderFlag = true;
-      }
-    }
-
     setMemberData(newData);
     setSelectedMemberRows([]);
-  };
-
-  // 멤버 관리 - 리더 변경
-  const handleRadioChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    custUkey: string
-  ) => {
-    const newData = memeberData.map((row) => {
-      if (row.custUkey === custUkey) {
-        return { ...row, isLeader: "Y", isLeaderFlag: true };
-      } else {
-        return { ...row, isLeader: "N", isLeaderFlag: false };
-      }
-    });
-
-    console.log("newData // ", newData);
-    setMemberData(newData);
-    //selectedRows
   };
 
   // 멤버 데이터 확인
@@ -341,16 +271,6 @@ const MemberMngtNewModal = ({
               key={key} // Use the key for re-rendering DataTable
             />
           </Grid>
-          {/*<Grid item xs={1}>*/}
-          {/*  <Grid container direction="column" alignItems="center">*/}
-          {/*    <IconButton onClick={handleAddRow}>*/}
-          {/*      <MyIcon icon="cheveron-right" size={24} />*/}
-          {/*    </IconButton>*/}
-          {/*    <IconButton onClick={handleDeleteRows}>*/}
-          {/*      <MyIcon icon="cheveron-left" size={24} />*/}
-          {/*    </IconButton>*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
 
           <Grid item xs={5}>
             <Box>
@@ -383,7 +303,6 @@ const MemberMngtNewModal = ({
                     <TableRow>
                       <TableCell></TableCell>
                       <TableCell>멤버</TableCell>
-                      <TableCell sx={{ textAlign: "center" }}>리더</TableCell>
                     </TableRow>
                   </TableHead>
                   <TableBody
@@ -408,20 +327,6 @@ const MemberMngtNewModal = ({
                             <Box>{row.custNm}</Box>
                             <Box>({row.ebcEmail})</Box>
                           </Stack>
-                        </TableCell>
-                        <TableCell sx={{ textAlign: "center" }}>
-                          {/*<Box*/}
-                          {/*  display="flex"*/}
-                          {/*  alignItems="center"*/}
-                          {/*  justifyContent="center"*/}
-                          {/*>*/}
-                          <Radio
-                            checked={row.isLeaderFlag || false}
-                            onChange={(event) =>
-                              handleRadioChange(event, row.custUkey)
-                            }
-                          />
-                          {/*</Box>*/}
                         </TableCell>
                       </TableRow>
                     ))}

@@ -55,8 +55,6 @@ interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
-  isLeader: boolean;
 }
 
 const AgncAdd = () => {
@@ -126,9 +124,8 @@ const AgncAdd = () => {
   // Common
   // [ 등록 ]
   const onSubmit = (data: any) => {
-    let saveMemberList = selectedMembers.map(({ custUkey, isLeader }) => ({
+    let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
-      isLeader,
     }));
 
     //console.log("data", data);
