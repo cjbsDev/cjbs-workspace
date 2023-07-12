@@ -15,6 +15,8 @@
 
 "use client";
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import { useRouter } from "next-nprogress-bar";
 import { useSearchParams, usePathname } from "next/navigation";
 import {
   Box,
@@ -46,8 +48,6 @@ import {
 } from "cjbsDSTM";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
-import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
 import axios from "axios";
 
 const LazyAgncModifyLog = dynamic(

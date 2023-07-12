@@ -22,7 +22,7 @@ import {
   IconButton,
 } from "@mui/material";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
