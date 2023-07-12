@@ -140,6 +140,10 @@ export const cjbsTheme = createTheme({
         input: {
           paddingTop: 5.2,
           paddingBottom: 5.2,
+          ":read-only": {
+            backgroundColor: "#F1F3F5",
+            textFillColor: "rgba(0, 0, 0, 0.6)",
+          },
           "&.Mui-disabled": {
             backgroundColor: "#F1F3F5",
             textFillColor: "rgba(0, 0, 0, 0.6)",

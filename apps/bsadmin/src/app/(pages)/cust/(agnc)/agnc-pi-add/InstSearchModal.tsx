@@ -41,7 +41,7 @@ const AgncSearchModal = ({
       suspense: true,
     }
   );
-  const { setValue } = useFormContext();
+  const { setValue, clearErrors } = useFormContext();
 
   //console.log("Modal data", data.data);
 
@@ -75,6 +75,7 @@ const AgncSearchModal = ({
                 setValue("instUkey", row.instUkey);
                 setValue("instNm", row.instNm);
                 onClose();
+                clearErrors("instNm");
               }}
             />
           );

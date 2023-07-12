@@ -26,9 +26,9 @@ import {
   MenuItem,
   TableContainer,
 } from "@mui/material";
-import { useForm, FormProvider } from "react-hook-form";
+import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
@@ -69,13 +69,17 @@ const AgncAdd = () => {
   //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
   // const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
 
-  const methods = useForm();
+  const methods = useForm({
+    mode: "onChange",
+  });
   const {
-    register,
-    formState: { errors },
     getValues,
-    setValue,
+    getFieldState,
+    watch,
+    formState: { errors, isDirty },
   } = methods;
+
+  const ddd = watch("instNm");
 
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
@@ -92,6 +96,8 @@ const AgncAdd = () => {
   // [ 기관 검색 ] 모달 닫기
   const agncSearchModalClose = () => {
     setShowAgncSearchModal(false);
+    console.log("getInstNm", getValues("instNm"));
+    console.log("getAgncNm", getValues("agncNm"));
   };
 
   /*
@@ -128,7 +134,7 @@ const AgncAdd = () => {
       custUkey,
     }));
 
-    //console.log("data", data);
+    console.log("data", data);
 
     let saveObj = {
       addr: data.addr,
@@ -160,7 +166,7 @@ const AgncAdd = () => {
       });
   };
 
-  const defaultValues = {};
+  const defaultValues = undefined;
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -179,9 +185,11 @@ const AgncAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    disabled={true}
                     inputName="instNm"
                     errorMessage="소속기관을 입력해 주세요."
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
 
                   <InputValidation
