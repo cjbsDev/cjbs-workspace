@@ -68,7 +68,7 @@ interface FormData {
   addr?: string;
   addrDetail?: string;
   zip?: string;
-  bsnsManagedByUkey?: string;
+  bsnsMngrUkey?: string;
   custDetail?: string[];
   isSpecialMng?: any;
   isSpecialMngFlag?: boolean;
@@ -96,6 +96,13 @@ export default function AgncPIModifyPage() {
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
+          if (!data) {
+            console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
+            router.push("/cust/agnc-pi-list");
+            return;
+          }
+
+          console.log("data", data);
 
           setIsLoading(false);
 
@@ -107,7 +114,7 @@ export default function AgncPIModifyPage() {
             addr: data.addr,
             addrDetail: data.addrDetail,
             bsnsManagedByNm: data.bsnsManagedByNm,
-            bsnsManagedByUkey: data.bsnsManagedByUkey,
+            bsnsMngrUkey: data.bsnsMngrUkey,
             custDetail: data.custDetail,
             zip: data.zip,
             isSpecialMng: data.isSpecialMng,
@@ -141,14 +148,14 @@ export default function AgncPIModifyPage() {
       custUkey,
     }));
     let isSpecialMngFlag = getValues("isSpecialMngFlag");
-    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+    let bsnsMngrUkey = getValues("bsnsMngrUkey");
 
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
       agncNm: data.agncNm,
       agncUkey: data.agncUkey, // 수정에서 생김
-      bsnsManagedByUkey,
+      bsnsMngrUkey,
       custDetailList: saveMemberList,
       zip: data.zip,
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
@@ -291,7 +298,7 @@ export default function AgncPIModifyPage() {
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <SelectBox
-                      inputName="bsnsManagedByUkey"
+                      inputName="bsnsMngrUkey"
                       options={[
                         { value: "user656014", optionName: "키웨스트" },
                         { value: "user483349", optionName: "라이언" },

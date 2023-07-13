@@ -66,7 +66,7 @@ const MemberMngtNewModal = ({
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const [key, setKey] = useState<number>(0); // 특정 조건에서 checkbox 해제 할 때 필요
 
-  console.log("모달 selectedMembers", selectedMembers);
+  //console.log("모달 selectedMembers", selectedMembers);
   // [멤버] 정보 세팅
   const [memeberData, setMemberData] = useState<Member[]>(
     selectedMembers ?? initialData
@@ -76,7 +76,7 @@ const MemberMngtNewModal = ({
   const [perPage, setPerPage] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}&isAcs=Y`,
+    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -138,7 +138,7 @@ const MemberMngtNewModal = ({
     // [멤버 관리] - row 추가
     const handleAddRow = () => {
       // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
-      console.log("handleAddRow-selectedRows", selectedRows);
+      //console.log("handleAddRow-selectedRows", selectedRows);
 
       const newMemberDataList: Member[] = [];
       selectedRows.selectedRows.forEach((row: any) => {

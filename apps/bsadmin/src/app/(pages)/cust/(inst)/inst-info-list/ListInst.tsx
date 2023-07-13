@@ -12,29 +12,12 @@ import {
   OutlinedButton,
   ContainedButton,
 } from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Chip,
-  useTheme,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
+import { Box, Stack, Grid, useTheme } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Select from "react-select";
-import MyIcon from "icon/myIcon";
-import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import IconDescBar from "../../../../components/IconDescBar";
-import getCodeList from "../../../../data/getCodeList.json";
 
-const options = [
-  { value: "able", label: "사용" },
-  { value: "disable", label: "차단" },
-];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface InstData {
@@ -59,7 +42,6 @@ interface InstData {
 const ListInst = () => {
   // init
   const theme = useTheme();
-  const [selectedOption, setSelectedOption] = useState(null);
   const [instList, setInstList] = useState<InstData[]>([]);
 
   const router = useRouter();
@@ -142,40 +124,6 @@ const ListInst = () => {
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
-
-  /*
-  useEffect(() => {
-    if (data.data) {
-      const filteredData: InstData[] = data.data.instList;
-      const updatedInstList: InstData[] = filteredData.map((item: InstData) => {
-        const instTypeCcNm = getCodeNm(item.instTypeCc);
-        const region1GcNm = getCodeNm(item.region1Gc);
-        const region2GcNm = getCodeNm(item.region2Gc);
-        const lctnTypeCcNm = getCodeNm(item.lctnTypeCc);
-        const statusCodeCcNm = getCodeNm(item.statusCodeCc);
-
-        return {
-          ...item,
-          instTypeCcNm,
-          lctnTypeCcNm,
-          statusCodeCcNm,
-          region1GcNm,
-          region2GcNm,
-        };
-      });
-
-      console.log("updatedInstList", updatedInstList);
-      setInstList(updatedInstList);
-    }
-  }, [data.data]);
-  
-  const getCodeNm = (uniqueCode: string): string | null => {
-    const foundData = getCodeList.data.find(
-      (item: any) => item.uniqueCode === uniqueCode
-      );
-      return foundData ? foundData.codeNm : null;
-    };
-    */
 
   const goDetailPage = (row: { instUkey: string }) => {
     const path = row.instUkey;
