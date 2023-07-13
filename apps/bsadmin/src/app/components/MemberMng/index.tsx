@@ -12,6 +12,7 @@ import dynamic from "next/dynamic";
 interface MemberDataProps {
   selectMemberCallbak: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
   memberData: Member[];
+  memberSearchModalFlag: boolean;
 }
 
 interface Member {
@@ -27,6 +28,7 @@ const LazyMemberMngtModal = dynamic(() => import("./MemberMngModal"), {
 const MemberDataTable: React.FC<MemberDataProps> = ({
   selectMemberCallbak,
   memberData,
+  memberSearchModalFlag,
 }) => {
   const setMemberManagementModalOpen = useSetRecoilState(
     memberManagementModalAtom
@@ -87,12 +89,15 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
               소속 연구원
               {selectedMembers && " (총 " + selectedMembers.length + "명)"}
             </Typography>
-            <XsmallButton
-              buttonName="소속 연구원 관리"
-              color="secondary"
-              endIcon={<MyIcon icon="cheveron-right" size={20} />}
-              onClick={handleModalOpen}
-            />
+
+            {memberSearchModalFlag && (
+              <XsmallButton
+                buttonName="소속 연구원 관리"
+                color="secondary"
+                endIcon={<MyIcon icon="cheveron-right" size={20} />}
+                onClick={handleModalOpen}
+              />
+            )}
           </Stack>
         }
         data={selectedMembers}
