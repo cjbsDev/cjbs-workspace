@@ -6,9 +6,9 @@ import fetcher from "../../func/fetcher";
 
 export default function Region2() {
   const { watch } = useFormContext();
-  const getRegion1Gc = watch("region1Gc");
+  // const getRegion1Gc = watch("region1Gc");
 
-  if (getRegion1Gc) {
+
     // 1레벨에서 선택한 후에 실행
     const { data: domesticData2 } = useSWR(
       () =>
@@ -20,5 +20,6 @@ export default function Region2() {
       }
     );
     return <SelectBox inputName="region2Gc" options={domesticData2.data} />;
-  }
+
+
 }
