@@ -11,7 +11,7 @@ import {
   Fallback,
 } from "cjbsDSTM";
 import useSWR from "swr";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import Link from "next/link";
 import axios from "axios";
 import {
@@ -66,7 +66,6 @@ export default function InstPage({ params }: CustViewProps) {
       <Box sx={{ mb: 4 }}>
         <Title1 titleName="기관 정보" />
       </Box>
-
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2}>
@@ -74,7 +73,6 @@ export default function InstPage({ params }: CustViewProps) {
           </Stack>
         </Grid>
       </Grid>
-
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
@@ -155,11 +153,9 @@ export default function InstPage({ params }: CustViewProps) {
           </TableBody>
         </Table>
       </TableContainer>
-
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyListInst instUkey={slug} />
       </ErrorContainer>
-
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"

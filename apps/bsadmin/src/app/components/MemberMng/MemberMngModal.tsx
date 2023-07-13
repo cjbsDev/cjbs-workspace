@@ -274,7 +274,7 @@ const MemberMngtNewModal = ({
 
           <Grid item xs={5}>
             <Box>
-              <Box sx={{ pt: 0.5, pb: 2, textAlign: "right" }}>
+              <Box sx={{ pt: 0.7, pb: 2, textAlign: "right" }}>
                 <OutlinedButton
                   buttonName="삭제"
                   size="small"
@@ -294,8 +294,8 @@ const MemberMngtNewModal = ({
                       // },
                       ".MuiTableCell-head": {
                         p: 0.3,
-                        pt: 0.4,
-                        pb: 0.4,
+                        pt: 1.7,
+                        pb: 1.7,
                         fontWeight: 600,
                       },
                     }}
@@ -316,6 +316,7 @@ const MemberMngtNewModal = ({
                       <TableRow key={row.custUkey}>
                         <TableCell padding="checkbox">
                           <Checkbox
+                            size="small"
                             checked={selectedMemberRows.includes(row.custUkey)}
                             onChange={(event) =>
                               handleCheckboxChange(event, row.custUkey)

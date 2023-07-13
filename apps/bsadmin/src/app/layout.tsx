@@ -20,8 +20,8 @@ export default function RootLayout({
           <Provider>
             {children}
             <ProgressBar
-              height="4px"
-              color={cjbsTheme.palette.warning.main}
+              height="6px"
+              color={cjbsTheme.palette.primary.main}
               options={{ showSpinner: false }}
               shallowRouting
             />

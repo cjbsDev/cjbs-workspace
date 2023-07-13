@@ -1,7 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
-import { DataTableBase, LeaderCip, XsmallButton } from "cjbsDSTM";
+import {
+  DataTableBase,
+  LeaderCip,
+  OutlinedButton,
+  XsmallButton,
+} from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useSetRecoilState } from "recoil";
 import { memberManagementModalAtom } from "../../recoil/atoms/modalAtom";
@@ -87,9 +92,16 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
               소속 연구원
               {selectedMembers && " (총 " + selectedMembers.length + "명)"}
             </Typography>
-            <XsmallButton
-              buttonName="소속 연구원 관리"
+            {/*<XsmallButton*/}
+            {/*  buttonName="소속 연구원 관리"*/}
+            {/*  color="secondary"*/}
+            {/*  endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+            {/*  onClick={handleModalOpen}*/}
+            {/*/>*/}
+            <OutlinedButton
               color="secondary"
+              buttonName="소속 연구원 관리"
+              size="small"
               endIcon={<MyIcon icon="cheveron-right" size={20} />}
               onClick={handleModalOpen}
             />

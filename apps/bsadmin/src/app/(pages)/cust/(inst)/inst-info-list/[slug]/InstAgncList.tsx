@@ -61,7 +61,7 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
   );
 
   return (
-    <>
+    <Box sx={{ mb: 5 }}>
       <DataTableBase
         title={
           <Stack direction="row" justifyContent="space-between">
@@ -79,7 +79,7 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
         pagination={false}
         selectableRows={false}
       />
-    </>
+    </Box>
   );
 };
 

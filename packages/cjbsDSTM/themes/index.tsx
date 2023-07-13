@@ -143,6 +143,10 @@ export const cjbsTheme = createTheme({
           ":read-only": {
             backgroundColor: "#F1F3F5",
             textFillColor: "rgba(0, 0, 0, 0.6)",
+            // outline: "none",
+            // ":hover": {
+            //   outline: "none",
+            // },
           },
           "&.Mui-disabled": {
             backgroundColor: "#F1F3F5",
@@ -164,6 +168,7 @@ export const cjbsTheme = createTheme({
           boxShadow: "none",
           borderRadius: 2,
           textTransform: "initial",
+          minWidth: "fit-content",
         },
       },
     },
@@ -217,13 +222,20 @@ export const cjbsTheme = createTheme({
         {
           props: { variant: "xSmall", color: "secondary" },
           style: {
-            padding: "0 6px",
+            padding: "0 10px",
             border: "1px solid #CED4DA",
             borderRadius: "2px",
             fontSize: 14,
           },
         },
       ],
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: {
+          padding: 0,
+        },
+      },
     },
     MuiTypography: {
       variants: [

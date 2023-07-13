@@ -87,11 +87,13 @@ export const ContainedButton = ({
       <Button
         {...props}
         variant="contained"
-        sx={{
-          "&.MuiButton-containedSizeSmall": {
-            p: "3px 10px",
-          },
-        }}
+        sx={
+          {
+            // "&.MuiButton-containedSizeSmall": {
+            //   p: "3px 10px",
+            // },
+          }
+        }
       >
         {buttonName}
       </Button>
@@ -167,8 +169,8 @@ export const CustomToggleButton = ({
       <ToggleButton
         {...props}
         sx={{
-          pr: 2,
-          pl: 2,
+          // pr: 2,
+          // pl: 2,
           backgroundColor: "transparent",
           border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
           "&.MuiToggleButton-root": {
@@ -188,7 +190,6 @@ export const CustomToggleButton = ({
           },
         }}
         value={value}
-        size="small"
         selected={selected}
         onChange={onChange}
       >

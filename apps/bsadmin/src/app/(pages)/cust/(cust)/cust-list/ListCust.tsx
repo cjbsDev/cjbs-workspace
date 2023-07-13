@@ -10,10 +10,8 @@ import {
   LeaderCip,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Tooltip, IconButton } from "@mui/material";
-// import { useRouter } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import Select from "react-select";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -116,7 +114,7 @@ const ListCust = () => {
           return (
             row.memo !== null && (
               <Tooltip title={row.memo} arrow>
-                <IconButton>
+                <IconButton size="small">
                   <MyIcon icon="memo" size={24} />
                 </IconButton>
               </Tooltip>

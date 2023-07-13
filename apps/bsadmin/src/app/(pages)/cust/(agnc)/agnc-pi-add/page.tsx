@@ -30,8 +30,8 @@ import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-
 import axios from "axios";
+import LoadingSvg from "public/svg/loading_wh.svg";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
@@ -60,6 +60,7 @@ interface Member {
 const AgncAdd = () => {
   // init
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
@@ -129,7 +130,8 @@ const AgncAdd = () => {
 
   // Common
   // [ 등록 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
+    setIsLoading(true);
     let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
     }));
@@ -152,13 +154,14 @@ const AgncAdd = () => {
 
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
 
-    axios
+    await axios
       .post(apiUrl, saveObj)
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
           //router.push("/cust/cust-list/" + slug);
           router.push("/cust/agnc-pi-list");
+          setIsLoading(false);
         }
       })
       .catch((error) => {
@@ -185,6 +188,7 @@ const AgncAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
+                    sx={{ width: 600 }}
                     inputName="instNm"
                     errorMessage="소속기관을 입력해 주세요."
                     InputProps={{
@@ -197,6 +201,9 @@ const AgncAdd = () => {
                     sx={{ display: "none" }}
                     inputName="instUkey"
                     errorMessage="필수 값입니다."
+                    InputProps={{
+                      readOnly: true,
+                    }}
                   />
 
                   <OutlinedButton
@@ -213,6 +220,7 @@ const AgncAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="agncNm"
+                    sx={{ width: 600 }}
                     errorMessage={
                       errors.agncNm
                         ? "중복된 거래처명이 있습니다."
@@ -228,24 +236,29 @@ const AgncAdd = () => {
                 <Stack spacing={1}>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                      disabled={true}
                       inputName="zip"
                       errorMessage={false}
-                      placeholder="zip code"
+                      placeholder="우편번호"
+                      sx={{ width: 77 }}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                     />
                     <PostCodeBtn />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                      disabled={true}
-                      sx={{ width: 450 }}
+                      sx={{ width: 600 }}
                       inputName="addr"
                       errorMessage={false}
+                      InputProps={{
+                        readOnly: true,
+                      }}
                     />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                      sx={{ width: 450 }}
+                      sx={{ width: 600 }}
                       inputName="addrDetail"
                       errorMessage={false}
                       placeholder="상세주소"
@@ -322,7 +335,15 @@ const AgncAdd = () => {
           onClick={() => router.push("/cust/agnc-pi-list")}
         />
 
-        <ContainedButton type="submit" buttonName="저장" />
+        <ContainedButton
+          type="submit"
+          buttonName="저장"
+          endIcon={
+            isLoading ? (
+              <LoadingSvg stroke="white" width={20} height={20} />
+            ) : null
+          }
+        />
       </Stack>
     </Form>
   );

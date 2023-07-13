@@ -1,9 +1,8 @@
-"use client";
-
-import * as React from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
+import { Suspense } from "react";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
+// import ListCust from "./ListCust";
 
 const LazyListCust = dynamic(() => import("./ListCust"), {
   ssr: false,

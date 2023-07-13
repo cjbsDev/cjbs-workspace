@@ -24,9 +24,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import Select from "react-select";
 import MyIcon from "icon/myIcon";
-import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
 
@@ -36,6 +34,8 @@ const options = [
 ];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
+const tempUrl =
+  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
 const ListAgnc = () => {
   // init
   const theme = useTheme();
@@ -44,6 +44,9 @@ const ListAgnc = () => {
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
+  const { data } = useSWR(tempUrl, fetcher, {
+    suspense: true,
+  });
 
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
@@ -138,12 +141,6 @@ const ListAgnc = () => {
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
 
   const filteredData = data.data.agncList;
 

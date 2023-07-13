@@ -8,8 +8,6 @@ import {
   DataTableFilter,
   Title1,
   ExcelDownloadButton,
-  exportCSVData,
-  OutlinedButton,
   ContainedButton,
 } from "cjbsDSTM";
 import {
@@ -22,7 +20,7 @@ import {
   IconButton,
 } from "@mui/material";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import Select from "react-select";
 import MyIcon from "icon/myIcon";
@@ -56,6 +54,9 @@ interface InstData {
   region2GcNm?: any;
 }
 
+const tempUrl =
+  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=0&page.size=50";
+
 const ListInst = () => {
   // init
   const theme = useTheme();
@@ -66,6 +67,9 @@ const ListInst = () => {
 
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
+  const { data } = useSWR(tempUrl, fetcher, {
+    suspense: true,
+  });
 
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
@@ -137,12 +141,6 @@ const ListInst = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=0&page.size=50";
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
-
   /*
   useEffect(() => {
     if (data.data) {
@@ -168,7 +166,7 @@ const ListInst = () => {
       setInstList(updatedInstList);
     }
   }, [data.data]);
-  
+
   const getCodeNm = (uniqueCode: string): string | null => {
     const foundData = getCodeList.data.find(
       (item: any) => item.uniqueCode === uniqueCode

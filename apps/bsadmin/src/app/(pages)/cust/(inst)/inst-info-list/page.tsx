@@ -1,8 +1,5 @@
-"use client";
-import * as React from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { Container } from "@mui/material";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 
 const LazyListInst = dynamic(() => import("./ListInst"), {
