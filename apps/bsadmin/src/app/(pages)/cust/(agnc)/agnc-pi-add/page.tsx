@@ -218,7 +218,6 @@ const AgncAdd = () => {
                     InputProps={{
                       readOnly: true,
                     }}
-                    sx={{ width: 600 }}
                   />
 
                   <InputValidation
@@ -251,7 +250,6 @@ const AgncAdd = () => {
                         ? "중복된 거래처명이 있습니다."
                         : "거래처(PI)를 입력해 주세요."
                     }
-                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
