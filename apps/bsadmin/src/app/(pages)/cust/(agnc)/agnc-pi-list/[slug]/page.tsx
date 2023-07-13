@@ -8,6 +8,8 @@ import {
   Title1,
   TH,
   TD,
+  ErrorContainer,
+  Fallback,
   LeaderCip,
   cjbsTheme,
 } from "cjbsDSTM";
@@ -32,12 +34,22 @@ import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
+import { useForm, FormProvider } from "react-hook-form";
+
 const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
   ssr: false,
 });
 const LazyStatementCheckModal = dynamic(() => import("./StatementCheckModal"), {
   ssr: false,
 });
+const LazyMemberTable = dynamic(
+  () => import("../../../../../components/MemberMng"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={270} />,
+  }
+);
+
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface CustViewProps {
@@ -46,12 +58,10 @@ interface CustViewProps {
   };
 }
 
-interface DataItem {
+interface Member {
+  custUkey: string;
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
-  ukey: any;
-  custUkey: string;
 }
 
 export default function AgncPage({ params }: CustViewProps) {
@@ -71,15 +81,15 @@ export default function AgncPage({ params }: CustViewProps) {
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${slug}`,
     fetcher
   );
-
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
   const agncData = agncTempData.data;
   console.log("agncData", agncData);
+  //setSelectedMembers(agncData.custDetail);
 
-  const agncCustList: DataItem[] = agncTempData.data.custDetail;
+  //const agncCustList: DataItem[] = agncTempData.data.custDetail;
 
   const handleAgncInfoModalOpen = () => {
     setAgncInfoModalOpen(true);
@@ -147,12 +157,25 @@ export default function AgncPage({ params }: CustViewProps) {
                 {agncData.addr ?? "-"} {agncData.addrDetail ?? ""}
               </TD>
             </TableRow>
+
+            <TableRow>
+              <TH sx={{ width: "15%" }}>연구책임자 아이디</TH>
+
+              <TD sx={{ width: "35%" }} colSpan={2}>
+                {agncData.ebcEmail ?? "-"}
+              </TD>
+              <TH sx={{ width: "15%" }}>연구책임자 이름</TH>
+              <TD sx={{ width: "35%" }} colSpan={2}>
+                {agncData.custNm ?? "-"}
+              </TD>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
 
+      {/* 
       <Typography variant="subtitle1">
-        멤버( 총 {agncCustList.length}명 )
+        소속 연구원( 총 {agncCustList.length}명 )
       </Typography>
       <TableContainer component={Box} sx={{ mb: 5 }}>
         <Table>
@@ -161,7 +184,6 @@ export default function AgncPage({ params }: CustViewProps) {
               <TH sx={{ width: "2%" }}></TH>
               <TH sx={{ width: "35%" }}>아이디</TH>
               <TH sx={{ width: "35%" }}>이름</TH>
-              <TH sx={{ width: "15%" }}>상태</TH>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -177,16 +199,6 @@ export default function AgncPage({ params }: CustViewProps) {
                   <TD>{index + 1}</TD>
                   <TD>{dataItem.ebcEmail}</TD>
                   <TD>{dataItem.custNm}</TD>
-                  <TD
-                    sx={{
-                      color:
-                        dataItem.isAcs === "Y"
-                          ? cjbsTheme.palette.primary.main
-                          : cjbsTheme.palette.warning.main,
-                    }}
-                  >
-                    {dataItem.isAcs === "Y" ? "사용" : "차단"}
-                  </TD>
                 </TableRow>
               ))
             )}
@@ -194,7 +206,17 @@ export default function AgncPage({ params }: CustViewProps) {
         </Table>
       </TableContainer>
 
-      <Typography variant="subtitle1">기타 운영 정보</Typography>
+*/}
+
+      <ErrorContainer FallbackComponent={Fallback} sx={{ mb: 10 }}>
+        <LazyMemberTable
+          memberData={agncData.custDetail}
+          memberSearchModalFlag={false}
+        />
+      </ErrorContainer>
+      <Typography sx={{ mt: 5 }} variant="subtitle1">
+        기타 운영 정보
+      </Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>

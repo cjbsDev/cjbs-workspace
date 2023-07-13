@@ -30,6 +30,7 @@ import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
+
 import axios from "axios";
 import LoadingSvg from "public/svg/loading_wh.svg";
 
@@ -44,6 +45,14 @@ const LazyMemberTable = dynamic(
 const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
   ssr: false,
 });
+
+// 고객 검색
+const LazyCustSearchModal = dynamic(
+  () => import("../../../../components/CustSearchModal"),
+  {
+    ssr: false,
+  }
+);
 
 /**
  * Cust 와 Member
@@ -66,6 +75,10 @@ const AgncAdd = () => {
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
 
+  // [고객 검색] 모달
+  const [custSearchModalOpen, setCustSearchModalOpen] =
+    useState<boolean>(false);
+
   // [영업 담당자]  selectbox 제어
   //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
   // const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
@@ -84,6 +97,15 @@ const AgncAdd = () => {
 
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+
+  // [ 고객 검색 ] 모달 오픈
+  const handleCustSearchModalOpen = () => {
+    setCustSearchModalOpen(true);
+  };
+  // [ 고객 검색 ] 모달 닫기
+  const handleCustSearchModalClose = () => {
+    setCustSearchModalOpen(false);
+  };
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
     setSelectedMembers(selectedMembers);
@@ -142,13 +164,15 @@ const AgncAdd = () => {
       addr: data.addr,
       addrDetail: data.addrDetail,
       agncNm: data.agncNm,
-      bsnsManagedByUkey: data.bsnsManagedByUkey,
+      bsnsMngrUkey: data.bsnsMngrUkey,
       custDetailList: saveMemberList,
+      custUkey: data.custUkey,
       instUkey: data.instUkey,
       zip: data.zip,
       isSpecialMng: data.isSpecialMng == true ? "Y" : "N",
       memo: data.memo,
     };
+
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
@@ -194,6 +218,7 @@ const AgncAdd = () => {
                     InputProps={{
                       readOnly: true,
                     }}
+                    sx={{ width: 600 }}
                   />
 
                   <InputValidation
@@ -226,6 +251,7 @@ const AgncAdd = () => {
                         ? "중복된 거래처명이 있습니다."
                         : "거래처(PI)를 입력해 주세요."
                     }
+                    sx={{ width: 600 }}
                   />
                 </Stack>
               </TD>
@@ -267,11 +293,54 @@ const AgncAdd = () => {
                 </Stack>
               </TD>
             </TableRow>
+
+            <TableRow>
+              <TH sx={{ width: "15%" }}>연구책임자 아이디</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    disabled={true}
+                    inputName="ebcEmail"
+                    errorMessage="연구책임자를 선택해주세요."
+                    sx={{ width: 600 }}
+                  />
+
+                  <InputValidation
+                    disabled={true}
+                    sx={{ display: "none" }}
+                    inputName="custUkey"
+                    errorMessage="필수 값입니다."
+                  />
+
+                  <OutlinedButton
+                    size="small"
+                    buttonName="아이디 검색"
+                    onClick={handleCustSearchModalOpen}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>연구책임자 이름</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    disabled={true}
+                    inputName="custNm"
+                    errorMessage="연구책임자를 선택해주세요."
+                    sx={{ width: 600 }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
+        <LazyMemberTable
+          selectMemberCallbak={handleMemberSelection}
+          memberSearchModalFlag={true}
+        />
       </ErrorContainer>
 
       <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -294,7 +363,7 @@ const AgncAdd = () => {
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <SelectBox
-                  inputName="bsnsManagedByUkey"
+                  inputName="bsnsMngrUkey"
                   options={[
                     { value: "user656014", optionName: "키웨스트" },
                     { value: "user483349", optionName: "라이언" },
@@ -315,12 +384,20 @@ const AgncAdd = () => {
                   rows={4}
                   inputName="memo"
                   errorMessage={false}
+                  placeholder="메모"
                 />
               </TD>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* 고객 검색 모달*/}
+      <LazyCustSearchModal
+        onClose={handleCustSearchModalClose}
+        open={custSearchModalOpen}
+        modalWidth={800}
+      />
 
       {/* 기관 검색 모달 */}
       <LazyAgncSearchModal

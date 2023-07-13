@@ -17,11 +17,6 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
 
-const options = [
-  { value: "able", label: "사용" },
-  { value: "disable", label: "차단" },
-];
-
 const ListCust = () => {
   // ListAPI Call
   const { data } = useList("cust");

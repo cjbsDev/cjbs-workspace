@@ -62,13 +62,21 @@ const LazyMemberTable = dynamic(
   }
 );
 
+// 고객 검색
+const LazyCustSearchModal = dynamic(
+  () => import("../../../../components/CustSearchModal"),
+  {
+    ssr: false,
+  }
+);
+
 interface FormData {
   agncNm?: string;
   agncUkey?: string;
   addr?: string;
   addrDetail?: string;
   zip?: string;
-  bsnsManagedByUkey?: string;
+  bsnsMngrUkey?: string;
   custDetail?: string[];
   isSpecialMng?: any;
   isSpecialMngFlag?: boolean;
@@ -96,7 +104,14 @@ export default function AgncPIModifyPage() {
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
+          if (!data) {
+            console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
+            router.push("/cust/agnc-pi-list");
+            return;
+          }
 
+          console.log("data", data);
+          setSelectedMembers(data.custDetail);
           setIsLoading(false);
 
           return {
@@ -107,13 +122,16 @@ export default function AgncPIModifyPage() {
             addr: data.addr,
             addrDetail: data.addrDetail,
             bsnsManagedByNm: data.bsnsManagedByNm,
-            bsnsManagedByUkey: data.bsnsManagedByUkey,
+            bsnsMngrUkey: data.bsnsMngrUkey,
             custDetail: data.custDetail,
             zip: data.zip,
             isSpecialMng: data.isSpecialMng,
             isSpecialMngFlag: data.isSpecialMng === "Y",
             memo: data.memo,
             pymnPrice: data.pymnPrice,
+            ebcEmail: data.ebcEmail,
+            custNm: data.custNm,
+            custUkey: data.custUkey,
           };
         });
     },
@@ -126,6 +144,8 @@ export default function AgncPIModifyPage() {
     handleSubmit,
   } = methods;
 
+  console.log("11");
+
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
 
@@ -133,26 +153,41 @@ export default function AgncPIModifyPage() {
     setSelectedMembers(selectedMembers);
   };
 
+  // [고객 검색] 모달
+  const [custSearchModalOpen, setCustSearchModalOpen] =
+    useState<boolean>(false);
+
+  // [ 고객 검색 ] 모달 오픈
+  const handleCustSearchModalOpen = () => {
+    setCustSearchModalOpen(true);
+  };
+  // [ 고객 검색 ] 모달 닫기
+  const handleCustSearchModalClose = () => {
+    setCustSearchModalOpen(false);
+  };
+
   // [ 수정 ]
   const onSubmit = (data: any) => {
+    console.log("in onSubmit");
     //console.log("selectedMembers", selectedMembers);
 
     let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
     }));
     let isSpecialMngFlag = getValues("isSpecialMngFlag");
-    let bsnsManagedByUkey = getValues("bsnsManagedByUkey");
+    let bsnsMngrUkey = getValues("bsnsMngrUkey");
 
     let saveObj = {
       addr: data.addr,
       addrDetail: data.addrDetail,
       agncNm: data.agncNm,
       agncUkey: data.agncUkey, // 수정에서 생김
-      bsnsManagedByUkey,
+      bsnsMngrUkey,
       custDetailList: saveMemberList,
       zip: data.zip,
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
+      //custUkey: data.custUkey,
     };
     console.log("==modify", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
@@ -199,6 +234,7 @@ export default function AgncPIModifyPage() {
                       inputName="instNm"
                       errorMessage={false}
                       disabled={true}
+                      sx={{ width: 600 }}
                     />
                   </TD>
                 </TableRow>
@@ -216,6 +252,7 @@ export default function AgncPIModifyPage() {
                             ? "중복된 거래처명이 있습니다."
                             : "거래처(PI)를 입력해 주세요."
                         }
+                        sx={{ width: 600 }}
                       />
                       {/*<OutlinedButton*/}
                       {/*  size="small"*/}
@@ -241,19 +278,54 @@ export default function AgncPIModifyPage() {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           disabled={true}
-                          sx={{ width: 450 }}
                           inputName="addr"
                           errorMessage={false}
+                          sx={{ width: 600 }}
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
-                          sx={{ width: 450 }}
                           inputName="addrDetail"
                           errorMessage={false}
                           placeholder="상세주소"
+                          sx={{ width: 600 }}
                         />
                       </Stack>
+                    </Stack>
+                  </TD>
+                </TableRow>
+
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>연구책임자 아이디</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
+                      <InputValidation
+                        disabled={true}
+                        inputName="ebcEmail"
+                        errorMessage={false}
+                        sx={{ width: 600 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>연구책임자 이름</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack
+                      direction="row"
+                      spacing={0.5}
+                      alignItems="flex-start"
+                    >
+                      <InputValidation
+                        disabled={true}
+                        inputName="custNm"
+                        errorMessage={false}
+                        sx={{ width: 600 }}
+                      />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -267,6 +339,7 @@ export default function AgncPIModifyPage() {
               <LazyMemberTable
                 selectMemberCallbak={handleMemberSelection}
                 memberData={selectedMembers}
+                memberSearchModalFlag={true}
               />
             </ErrorContainer>
           )}
@@ -291,7 +364,7 @@ export default function AgncPIModifyPage() {
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <SelectBox
-                      inputName="bsnsManagedByUkey"
+                      inputName="bsnsMngrUkey"
                       options={[
                         { value: "user656014", optionName: "키웨스트" },
                         { value: "user483349", optionName: "라이언" },
@@ -317,6 +390,13 @@ export default function AgncPIModifyPage() {
               </TableBody>
             </Table>
           </TableContainer>
+
+          {/* 고객 검색 모달*/}
+          <LazyCustSearchModal
+            onClose={handleCustSearchModalClose}
+            open={custSearchModalOpen}
+            modalWidth={800}
+          />
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton

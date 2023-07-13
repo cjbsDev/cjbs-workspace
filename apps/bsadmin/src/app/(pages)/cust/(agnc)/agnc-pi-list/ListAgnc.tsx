@@ -28,10 +28,6 @@ import MyIcon from "icon/myIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
 
-const options = [
-  { value: "able", label: "사용" },
-  { value: "disable", label: "차단" },
-];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 const tempUrl =
@@ -39,7 +35,6 @@ const tempUrl =
 const ListAgnc = () => {
   // init
   const theme = useTheme();
-  const [selectedOption, setSelectedOption] = useState(null);
   const router = useRouter();
 
   const [selectedRows, setSelectedRows] = useState([]);
@@ -86,30 +81,26 @@ const ListAgnc = () => {
         ),
         minWidth: "150px",
       },
+
       {
-        name: "리더",
-        cell: (row: { custNm: any; ebcEmail: any }) => (
-          <Stack
-            direction="row"
-            spacing={0.5}
-            // alignItems="center"
-            // useFlexGap
-            // flexWrap="wrap"
-          >
-            <Box data-tag="allowRowEvents">{row.custNm ?? "-"} </Box>
-            <Box data-tag="allowRowEvents">
-              {row.ebcEmail ? "(" + row.ebcEmail + ")" : ""}
-            </Box>
-          </Stack>
-        ),
-        minWidth: "150px",
+        name: "연구책임자 아이디",
+        selector: (row: { ebcEmail: any }) => row.ebcEmail,
+      },
+      {
+        name: "연구책임자 이름",
+        selector: (row: { custNm: any }) => row.custNm,
       },
 
       {
-        name: "멤버",
-        selector: (row: { memberCount: number }) => row.memberCount,
+        name: "소속 연구원",
+        cell: (row: { memberCount: number }) => (
+          <Stack direction="row" spacing={0.5} alignItems="center">
+            <Box>{row.memberCount} </Box>
+          </Stack>
+        ),
         width: "100px",
       },
+
       {
         name: "선결제 금액",
         selector: (row: { pymnPrice: number }) =>
@@ -118,7 +109,7 @@ const ListAgnc = () => {
 
       {
         name: "영업 담당자",
-        selector: (row: { bsnsNm: any }) => row.bsnsNm,
+        selector: (row: { bsnsMngrNm: any }) => row.bsnsMngrNm,
       },
 
       {

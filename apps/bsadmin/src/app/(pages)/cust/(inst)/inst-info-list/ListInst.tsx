@@ -10,29 +10,12 @@ import {
   ExcelDownloadButton,
   ContainedButton,
 } from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Chip,
-  useTheme,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
+import { Box, Stack, Grid, useTheme } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import Select from "react-select";
-import MyIcon from "icon/myIcon";
-import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import IconDescBar from "../../../../components/IconDescBar";
-import getCodeList from "../../../../data/getCodeList.json";
 
-const options = [
-  { value: "able", label: "사용" },
-  { value: "disable", label: "차단" },
-];
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface InstData {
@@ -60,7 +43,6 @@ const tempUrl =
 const ListInst = () => {
   // init
   const theme = useTheme();
-  const [selectedOption, setSelectedOption] = useState(null);
   const [instList, setInstList] = useState<InstData[]>([]);
 
   const router = useRouter();
