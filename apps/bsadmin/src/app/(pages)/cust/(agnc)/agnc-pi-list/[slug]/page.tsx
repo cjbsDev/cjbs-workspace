@@ -38,6 +38,7 @@ const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
 const LazyStatementCheckModal = dynamic(() => import("./StatementCheckModal"), {
   ssr: false,
 });
+
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface CustViewProps {
@@ -49,7 +50,6 @@ interface CustViewProps {
 interface DataItem {
   ebcEmail: string;
   custNm: string;
-  isAcs: string;
   ukey: any;
   custUkey: string;
 }
@@ -161,7 +161,6 @@ export default function AgncPage({ params }: CustViewProps) {
               <TH sx={{ width: "2%" }}></TH>
               <TH sx={{ width: "35%" }}>아이디</TH>
               <TH sx={{ width: "35%" }}>이름</TH>
-              <TH sx={{ width: "15%" }}>상태</TH>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -177,16 +176,6 @@ export default function AgncPage({ params }: CustViewProps) {
                   <TD>{index + 1}</TD>
                   <TD>{dataItem.ebcEmail}</TD>
                   <TD>{dataItem.custNm}</TD>
-                  <TD
-                    sx={{
-                      color:
-                        dataItem.isAcs === "Y"
-                          ? cjbsTheme.palette.primary.main
-                          : cjbsTheme.palette.warning.main,
-                    }}
-                  >
-                    {dataItem.isAcs === "Y" ? "사용" : "차단"}
-                  </TD>
                 </TableRow>
               ))
             )}

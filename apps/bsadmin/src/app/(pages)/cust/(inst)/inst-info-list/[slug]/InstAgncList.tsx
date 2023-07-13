@@ -54,7 +54,7 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
       },
       {
         name: "영업 담당자",
-        selector: (row: { bsnsNm: string }) => row.bsnsNm,
+        selector: (row: { bsnsMngrNm: string }) => row.bsnsMngrNm,
       },
     ],
     []
