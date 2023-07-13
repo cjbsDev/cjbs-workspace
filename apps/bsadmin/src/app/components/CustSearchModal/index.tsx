@@ -31,7 +31,7 @@ const CustSearchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(30);
+  const [perPage, setPerPage] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
@@ -101,7 +101,7 @@ const CustSearchModal = ({
     []
   );
 
-  console.log("data.data.custList", data.data.custList);
+  //console.log("data.data.custList", data.data.custList);
   const filteredData = data.data.custList;
 
   const subHeaderComponentMemo = React.useMemo(() => {

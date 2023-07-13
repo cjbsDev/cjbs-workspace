@@ -46,9 +46,12 @@ const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
 });
 
 // 고객 검색
-const LazyCustSearchModal = dynamic(() => import("./CustSearchModal"), {
-  ssr: false,
-});
+const LazyCustSearchModal = dynamic(
+  () => import("../../../../components/CustSearchModal"),
+  {
+    ssr: false,
+  }
+);
 
 /**
  * Cust 와 Member
@@ -320,7 +323,10 @@ const AgncAdd = () => {
         </Table>
       </TableContainer>
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyMemberTable selectMemberCallbak={handleMemberSelection} />
+        <LazyMemberTable
+          selectMemberCallbak={handleMemberSelection}
+          memberSearchModalFlag={true}
+        />
       </ErrorContainer>
 
       <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -376,7 +382,7 @@ const AgncAdd = () => {
       <LazyCustSearchModal
         onClose={handleCustSearchModalClose}
         open={custSearchModalOpen}
-        modalWidth={1006}
+        modalWidth={800}
       />
 
       {/* 기관 검색 모달 */}
