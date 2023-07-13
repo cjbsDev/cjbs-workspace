@@ -40,7 +40,7 @@ const CustSearchModal = ({
       suspense: true,
     }
   );
-  const { setValue } = useFormContext();
+  const { setValue, clearErrors } = useFormContext();
 
   //console.log("Modal data", data.data);
 
@@ -92,6 +92,9 @@ const CustSearchModal = ({
                 setValue("custNm", row.custNm);
                 setValue("ebcEmail", row.ebcEmail);
                 onClose();
+                clearErrors("custNm");
+                clearErrors("ebcEmail");
+                clearErrors("custUkey");
               }}
             />
           );
