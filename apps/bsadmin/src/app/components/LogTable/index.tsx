@@ -4,7 +4,7 @@ import React from "react";
 import { DataTableBase } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import NoDataComponent from "./component/NoDataComponent";
+import NoDataView from "../NoDataView";
 import { useLogList } from "./useLogList";
 
 interface LogProps {
@@ -81,7 +81,7 @@ const LogTable = (props: LogProps) => {
       paginationPerPage={5}
       paginationRowsPerPageOptions={[5, 10, 20]}
       customStyles={dataTableCustomStyles2}
-      noDataComponent={<NoDataComponent />}
+      noDataComponent={<NoDataView />}
     />
   );
 };

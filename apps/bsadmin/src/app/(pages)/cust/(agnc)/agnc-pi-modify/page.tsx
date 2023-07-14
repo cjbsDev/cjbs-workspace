@@ -14,7 +14,7 @@
  */
 
 "use client";
-import React, { useState } from "react";
+import * as React from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import { useSearchParams, usePathname } from "next/navigation";
@@ -94,7 +94,7 @@ export default function AgncPIModifyPage() {
   const params = searchParams.get("agncUkey");
   const uKey = params;
   const router = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const methods = useForm<FormData>({
     defaultValues: () => {
@@ -147,7 +147,7 @@ export default function AgncPIModifyPage() {
   console.log("11");
 
   // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  const [selectedMembers, setSelectedMembers] = React.useState<Member[]>([]);
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
     setSelectedMembers(selectedMembers);
@@ -155,7 +155,7 @@ export default function AgncPIModifyPage() {
 
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] =
-    useState<boolean>(false);
+    React.useState<boolean>(false);
 
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -334,15 +334,13 @@ export default function AgncPIModifyPage() {
           </TableContainer>
 
           {/* memberData={getValues("custDetail")} */}
-          {!isLoading && (
-            <ErrorContainer FallbackComponent={Fallback}>
-              <LazyMemberTable
-                selectMemberCallbak={handleMemberSelection}
-                memberData={selectedMembers}
-                memberSearchModalFlag={true}
-              />
-            </ErrorContainer>
-          )}
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyMemberTable
+              selectMemberCallbak={handleMemberSelection}
+              memberData={selectedMembers}
+              memberSearchModalFlag={true}
+            />
+          </ErrorContainer>
 
           <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
             운영 관리 정보
