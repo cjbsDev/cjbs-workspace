@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import * as React from "react";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
 import {
@@ -13,6 +13,7 @@ import { memberManagementModalAtom } from "../../recoil/atoms/modalAtom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import SkeletonLoading from "../SkeletonLoading";
 import dynamic from "next/dynamic";
+import NoDataView from "../NoDataView";
 
 interface MemberDataProps {
   selectMemberCallbak: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
@@ -45,7 +46,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
   );
 
   // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = useState<Member[]>(
+  const [selectedMembers, setSelectedMembers] = React.useState<Member[]>(
     memberData ?? []
   );
   // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
@@ -61,7 +62,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
   //console.log("get Member data", memberData);
   //console.log("member datatable selectedMembers", selectedMembers);
 
-  const columns = useMemo(
+  const columns = React.useMemo(
     () => [
       {
         name: "아이디",
@@ -113,6 +114,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
         customStyles={dataTableCustomStyles}
         pagination={false}
         selectableRows={false}
+        noDataComponent={<NoDataView />}
       />
 
       {/* 멤버 관리 모달 */}
