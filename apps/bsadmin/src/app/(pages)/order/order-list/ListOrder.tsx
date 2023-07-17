@@ -9,10 +9,11 @@ import {
   Title1,
   ExcelDownloadButton,
   UnStyledButton,
+  OutlinedButton,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { exportCSVData } from "cjbsDSTM";
 import { useForm, useWatch } from "react-hook-form";
@@ -25,33 +26,47 @@ import {
   dataTableCustomStyles,
   dataTableCustomStyles2,
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import fetcher from "../../../func/fetcher";
 
 const ListOrder = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
+  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
+    suspense: true,
+  });
   const columns = useMemo(
     () => [
       {
         name: "No",
+        width: "120px",
+        sortable: true,
         selector: (row) => row.id,
         cell: (row) => {
           return (
-            <Stack direction="row" alignItems="center" spacing={0.5}>
-              <Typography variant="body2">{row.id}</Typography>
-              <MyIcon icon="re" size={20} />
-              <MyIcon icon="fast" size={20} />
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={0.5}
+              data-tag="allowRowEvents"
+            >
+              <Typography variant="body2" data-tag="allowRowEvents">
+                000{row.id}
+              </Typography>
+              <MyIcon icon="re" size={20} data-tag="allowRowEvents" />
+              <MyIcon icon="fast" size={20} data-tag="allowRowEvents" />
             </Stack>
           );
         },
       },
       {
         name: "진행 상황",
+        width: "105px",
+        sortable: true,
         cell: (row) => {
           return (
             <Chip
-              label={row.category}
+              data-tag="allowRowEvents"
+              label={"미접수"}
               size="small"
               color={
                 row.category === "smartphones"
@@ -65,6 +80,51 @@ const ListOrder = () => {
             />
           );
         },
+      },
+      {
+        name: "타입",
+        width: "110px",
+        sortable: true,
+        selector: (row) => "외부 (테스트)",
+      },
+      {
+        name: "고객",
+        width: "200px",
+        selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Typography variant="body2" data-tag="allowRowEvents">
+                홍길동
+              </Typography>
+              <Typography variant="body2" data-tag="allowRowEvents">
+                musontytyg.choi@cj.net
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
+        name: "거래처",
+        width: "170px",
+        selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Typography data-tag="allowRowEvents" variant="body2">
+                임상연구팀
+              </Typography>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                (CJ바이오사이언스)
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
+        name: "샘플종류",
+        width: "120px",
+        selector: (row) => "샘플/strain",
       },
       {
         name: "Title",
@@ -95,9 +155,7 @@ const ListOrder = () => {
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
-    suspense: true,
-  });
+
   const { register, control, handleSubmit } = useForm();
 
   const filteredData = data.products.filter(
@@ -123,9 +181,13 @@ const ListOrder = () => {
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2} alignItems="center">
+          <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={20} />
-            <UnStyledButton buttonName="오더 등록" />
+            <OutlinedButton
+              buttonName="오더 등록"
+              size="small"
+              color="secondary"
+            />
             <FormControlLabel
               control={
                 <Checkbox
