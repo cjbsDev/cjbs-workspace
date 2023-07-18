@@ -34,7 +34,7 @@ const CustSearchModal = ({
   const [perPage, setPerPage] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -83,6 +83,7 @@ const CustSearchModal = ({
       {
         name: "선택",
         cell: (row: { custUkey: any; custNm: any; ebcEmail: any }) => {
+          const agncInstNm = `${row.agncNm}(${row.instNm})`;
           return (
             <OutlinedButton
               size="small"
@@ -91,10 +92,14 @@ const CustSearchModal = ({
                 setValue("custUkey", row.custUkey);
                 setValue("custNm", row.custNm);
                 setValue("ebcEmail", row.ebcEmail);
+
+                // setValue("", row.instNm);
+                setValue("agncNm", agncInstNm);
                 onClose();
                 clearErrors("custNm");
                 clearErrors("ebcEmail");
                 clearErrors("custUkey");
+                clearErrors("agncNm");
               }}
             />
           );
@@ -106,6 +111,8 @@ const CustSearchModal = ({
 
   //console.log("data.data.custList", data.data.custList);
   const filteredData = data.data.custList;
+
+  console.log(filteredData);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {

@@ -128,6 +128,7 @@ const ListOrder = () => {
       },
       {
         name: "Title",
+        sortable: true,
         selector: (row) => row.title,
       },
       {
@@ -187,6 +188,7 @@ const ListOrder = () => {
               buttonName="오더 등록"
               size="small"
               color="secondary"
+              onClick={() => router.push("/order/order-reg")}
             />
             <FormControlLabel
               control={

@@ -26,6 +26,7 @@ const ListDashboardPage = () => {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [log, setLog] = useState<string>("Send Form Value...");
+  const { register, setValue } = useForm();
 
   const handleAlertOpen = () => {
     setAlertModalOpen(true);
@@ -109,6 +110,12 @@ const ListDashboardPage = () => {
         <InputValidation
           inputName="agncNm"
           errorMessage="거래처(PI)를 입력해 주세요."
+        />
+
+        <LinkButton
+          buttonName="Small"
+          size="small"
+          onClick={() => setValue("agncNm", "tytytyty")}
         />
 
         <br />

@@ -6,7 +6,7 @@
     "a": "turbo run dev",
     "build": "dotenv -e ../../.env next build",
     "start": "next start",
-    "dev": "next dev --port 3000",
+    "dev": "dotenv -e ../../.env next dev --port 3000",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
@@ -41,6 +41,7 @@
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "tsconfig": "workspace:*",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.3",
+    "dotenv-cli": "latest"
   }
 }

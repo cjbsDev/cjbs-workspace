@@ -4,7 +4,7 @@ import fetcher from "../func/fetcher";
 
 export const useList = (apiName: string) => {
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/${apiName}/list`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${apiName}/list`,
     fetcher,
     {
       suspense: true,
