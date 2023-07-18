@@ -21,7 +21,8 @@
     "eslint-config-custom": "workspace:*",
     "prettier": "^2.5.1",
     "turbo": "^1.9.3",
-    "typescript": "latest"
+    "typescript": "latest",
+    "dotenv-cli": "latest"
   },
   "packageManager": "pnpm@7.15.0",
   "dependencies": {
