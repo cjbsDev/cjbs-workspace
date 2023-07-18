@@ -1,5 +1,4 @@
 "use client";
-import { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -25,7 +24,6 @@ import {
 import axios from "axios";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
-// import { useRouter } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
@@ -95,22 +93,18 @@ export default function CustModifyPage({ params }: ParamsProps) {
   } = methods;
 
   const onSubmit = (data: any) => {
-    console.log("in onSubmit");
-
+    console.log("onSubmit data", data);
     // validation 체크
-    let telList = [getValues("tel_0"), getValues("tel_1"), getValues("tel_2")];
-    let agncUkey = getValues("agncUkey");
-    let custNm = getValues("custNm");
-    let memo = getValues("memo");
+    let telList = [data.tel_0, data.tel_1, data.tel_2];
+    let custNm = data.custNm;
+    let memo = data.memo;
 
     let saveObj = {
-      agncUkey,
       custNm,
       telList,
       memo,
     };
     console.log("==saveObj", saveObj);
-
     const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`; // Replace with your API URL
 
     axios
@@ -155,12 +149,10 @@ export default function CustModifyPage({ params }: ParamsProps) {
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        error={errors.custNm ? true : false}
-                        helperText={
-                          errors.custNm ? errors.custNm?.message : null
-                        }
                         inputName="custNm"
                         errorMessage="필수 값입니다."
+                        //maxLength={3}
+                        //minLength={2}
                       />
                     </Stack>
                   </TD>
@@ -176,11 +168,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation
-                        error={errors.tel_0 ? true : false}
-                        inputName="tel_0"
-                        errorMessage=""
-                      />
+                      <InputValidation inputName="tel_0" errorMessage={false} />
                     </Stack>
                     <Stack
                       direction="row"
@@ -188,11 +176,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation
-                        error={errors.tel_1 ? true : false}
-                        inputName="tel_1"
-                        errorMessage=""
-                      />
+                      <InputValidation inputName="tel_1" errorMessage={false} />
                     </Stack>
                     <Stack
                       direction="row"
@@ -200,37 +184,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation
-                        error={errors.tel_2 ? true : false}
-                        inputName="tel_2"
-                        errorMessage=""
-                      />
-                    </Stack>
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-
-                  <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Stack
-                      direction="row"
-                      spacing={0.5}
-                      alignItems="flex-start"
-                    >
-                      <InputValidation
-                        disabled={true}
-                        error={errors.agncNm ? true : false}
-                        inputName="agncNm"
-                        errorMessage="필수 값입니다."
-                      />
-
-                      <InputValidation
-                        disabled={true}
-                        sx={{ display: "none" }}
-                        inputName="agncUkey"
-                        error={errors.agncUkey ? true : false}
-                        errorMessage="필수 값입니다."
-                      />
+                      <InputValidation inputName="tel_2" errorMessage={false} />
                     </Stack>
                   </TD>
                 </TableRow>

@@ -58,12 +58,6 @@ interface CustViewProps {
   };
 }
 
-interface Member {
-  custUkey: string;
-  ebcEmail: string;
-  custNm: string;
-}
-
 export default function AgncPage({ params }: CustViewProps) {
   // init
   const { slug } = params;
