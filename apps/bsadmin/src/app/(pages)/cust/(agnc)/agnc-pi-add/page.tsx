@@ -83,9 +83,7 @@ const AgncAdd = () => {
   //  - user656014 초기값 향후 List api 개발시 1번째 값으로 변경예정
   // const [selectedValue, setSelectedValue] = useState<string | "">("user656014");
 
-  const methods = useForm({
-    mode: "onChange",
-  });
+  const methods = useForm();
   const {
     getValues,
     getFieldState,

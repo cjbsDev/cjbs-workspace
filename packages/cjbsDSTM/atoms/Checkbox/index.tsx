@@ -31,7 +31,9 @@ export const Checkbox = ({
         }}
         control={
           <Input
-            {...methods.register(inputName)}
+            {...methods.register(inputName, {
+              onChange: (e) => console.log("Check Selected!", e.target.value),
+            })}
             {...props}
             type="checkbox"
             defaultValue={value}
