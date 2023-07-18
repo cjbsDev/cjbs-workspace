@@ -16,28 +16,14 @@ import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-console.log("222");
 
 const ListMaster = () => {
-  // init
-
   const router = useRouter();
 
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedRowCnt, setSelectedRowCnt] = useState(0);
-
-  const handleRowSelected = (rows: any) => {
-    console.log("rows", rows);
-    setSelectedRowCnt(rows.selectedCount);
-    //setSelectedRows(rows.map((row) => row.id));
+  const goDetailPage = (row: { uniqueCode: string }) => {
+    router.push("/set/master-code-list/" + row.uniqueCode);
   };
 
-  const handleLinkMng = () => {
-    console.log("in handleLinkMng");
-  };
-
-  // 위치, 기관명, 사업자 등록번호, 대표자, 지역(나라), 분류, 특성, 상태
-  // region1Gc, instNm, brno, rprsNm, region2Gc, lctnTypeCc, ftr, statusCodeCc
   const columns = useMemo(
     () => [
       {
@@ -55,13 +41,13 @@ const ListMaster = () => {
 
       {
         name: "상태 코드",
-        cell: (row: { isRls: string }) => {
+        cell: (row: { isRls: string; uniqueCode: string }) => {
           return (
             row.isRls == "Y" && (
               <OutlinedButton
                 buttonName="관리"
                 size="small"
-                onClick={handleLinkMng}
+                onClick={() => goDetailPage(row)}
               />
             )
           );
@@ -74,15 +60,10 @@ const ListMaster = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/masterCode";
+    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode";
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
-
-  const goDetailPage = (row: { instUkey: string }) => {
-    const path = row.instUkey;
-    router.push("/cust/inst-info-list/" + path);
-  };
 
   const subHeaderComponentMemo = useMemo(() => {
     const handleClear = () => {
@@ -96,10 +77,7 @@ const ListMaster = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.length}
-              selectedCount={selectedRowCnt}
-            />
+            <DataCountResultInfo totalCount={data.data.length} />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -120,16 +98,16 @@ const ListMaster = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRowCnt]);
+  }, [filterText, resetPaginationToggle]);
 
   return (
     <DataTableBase
       title={<Title1 titleName="마스터 코드" />}
       data={data.data}
       columns={columns}
-      onRowClicked={goDetailPage}
+      //onRowClicked={goDetailPage}
       // onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
+      //pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader
