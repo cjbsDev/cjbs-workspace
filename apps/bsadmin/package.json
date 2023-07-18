@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "a": "turbo run dev",
-    "build": "dotenv -e ../../.env.development next build",
+    "build": "dotenv -e ../../.env next build",
     "start": "next start",
     "dev": "dotenv -e ../../.env.development next dev --port 3000",
     "lint": "turbo run lint",
