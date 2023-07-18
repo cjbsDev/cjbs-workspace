@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "a": "turbo run dev",
-    "build": "dotenv -e ../../.env next build",
+    "build": "dotenv -e ../../.env.development next build",
     "start": "next start",
-    "dev": "dotenv -e ../../.env next dev --port 3000",
+    "dev": "dotenv -e ../../.env.development next dev --port 3000",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
