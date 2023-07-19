@@ -1,6 +1,6 @@
 "use client";
 import { Box } from "@mui/material";
-import {OutlinedButton, LinkButton, ContainedButton} from "cjbsDSTM";
+import { OutlinedButton, LinkButton } from "cjbsDSTM";
 import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -37,14 +37,12 @@ export default function Page() {
                     alignItems: "center",
                 }}
             >
-                <Box sx={{marginTop: 10, marginBottom:10, width: 250}}>
-                    <MyIcon icon="cj_bk"/>
-                </Box>
-                <Typography variant="h4" sx={{marginBottom: 2}}>
-                    NGS Service
-                </Typography>
-                <Typography variant="caption">
-                    NGS 서비스 주문 시스템을 이용하시려면 EzBioCloud 계정이 필요합니다.
+                <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                    {/*<LockOutlinedIcon />*/}
+                    <MyIcon icon="profile-circle-fill"/>
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                    Sign in
                 </Typography>
                 <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
                     <TextField
@@ -71,39 +69,21 @@ export default function Page() {
                         control={<Checkbox value="remember" color="primary" />}
                         label="Remember me"
                     />
-                    {/*<LinkButton*/}
-                    {/*    fullWidth*/}
-                    {/*    buttonName="Sign In"*/}
-                    {/*    onClick={() => router.push("main")}*/}
-                    {/*/>*/}
-                    <ContainedButton
-                        buttonName="로그인"
-                        // color="danger"
+                    <LinkButton
                         fullWidth
+                        buttonName="Sign In"
                         onClick={() => router.push("main")}
-                        style={{marginBottom:"20px"}}
                     />
                     <Grid container>
                         <Grid item xs>
-                            <Typography variant="button">
-                                아직 회원이 아니신가요?
-                            </Typography>
-                            <LinkButton
-                                // fullWidth
-                                buttonName="회원가입"
-                                // onClick={() => router.push("main")}
-                            />
+                            <Link href="#" variant="body2">
+                                Forgot password?
+                            </Link>
                         </Grid>
                         <Grid item>
-                            {/*<Link href="#" variant="body2">*/}
-                            {/*    비밀번호 찾기*/}
-                            {/*</Link>*/}
-                            <LinkButton
-                                // fullWidth
-                                buttonName="비밀번호 찾기"
-                                color="warning"
-                                // onClick={() => router.push("main")}
-                            />
+                            <Link href="#" variant="body2">
+                                {"Don't have an account? Sign Up"}
+                            </Link>
                         </Grid>
                     </Grid>
                 </Box>

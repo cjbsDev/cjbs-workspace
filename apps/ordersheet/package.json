@@ -1,12 +1,13 @@
 {
   "name": "ordersheet",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
+    "dev": "dotenv -e ../../.development.ordersheet next dev --port 3001",
+    "build": "dotenv -e ../../.env next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
