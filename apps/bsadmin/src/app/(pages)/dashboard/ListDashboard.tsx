@@ -18,7 +18,14 @@ import {
 } from "cjbsDSTM";
 // import { useRouter } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import { Box, DialogContent, Divider, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  DialogContent,
+  Divider,
+  InputAdornment,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 
@@ -104,20 +111,26 @@ const ListDashboardPage = () => {
         <Radio inputName="radioTest" labelText="해외" value="out" />
         <br />
         <br />
-        <InputValidation inputName="inputTest" errorMessage={false} />
-        <br />
-        <br />
         <InputValidation
-          inputName="agncNm"
-          errorMessage="거래처(PI)를 입력해 주세요."
+          required={true}
+          inputName="sampleCnt"
+          errorMessage="샘플개수를 입력하세요."
+          pattern={/^[0-9]+$/}
+          patternErrMsg="숫자만 입력 하세요."
+          sx={{ width: 100 }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <Typography variant="body2" sx={{ color: "black" }}>
+                  개
+                </Typography>
+              </InputAdornment>
+            ),
+          }}
         />
-
-        <LinkButton
-          buttonName="Small"
-          size="small"
-          onClick={() => setValue("agncNm", "tytytyty")}
-        />
-
+        <br />
+        <br />
+        <InputValidation inputName="agncNm" sx={{ width: 100 }} />
         <br />
         <br />
         <SelectBox
