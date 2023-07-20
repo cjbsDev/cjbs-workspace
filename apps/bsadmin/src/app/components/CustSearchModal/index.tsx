@@ -40,7 +40,7 @@ const CustSearchModal = ({
       suspense: true,
     }
   );
-  const { setValue, clearErrors } = useFormContext();
+  const { setValue, clearErrors, resetField } = useFormContext();
 
   //console.log("Modal data", data.data);
 
@@ -82,7 +82,12 @@ const CustSearchModal = ({
       },
       {
         name: "선택",
-        cell: (row: { custUkey: any; custNm: any; ebcEmail: any }) => {
+        cell: (row: {
+          custUkey: string;
+          custNm: string;
+          ebcEmail: string;
+          telList: string;
+        }) => {
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
           return (
             <OutlinedButton
@@ -92,14 +97,15 @@ const CustSearchModal = ({
                 setValue("custUkey", row.custUkey);
                 setValue("custNm", row.custNm);
                 setValue("ebcEmail", row.ebcEmail);
-
-                // setValue("", row.instNm);
+                setValue("telList", row.telList);
                 setValue("agncNm", agncInstNm);
                 onClose();
                 clearErrors("custNm");
                 clearErrors("ebcEmail");
                 clearErrors("custUkey");
                 clearErrors("agncNm");
+                clearErrors("telList");
+                resetField("checkTest7");
               }}
             />
           );

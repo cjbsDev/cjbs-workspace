@@ -20,6 +20,7 @@ import AppBar from "../components/AppBar";
 import { snbMenuListData } from "../data/snbMenuListData";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
+import Link from "next/link";
 import MyIcon from "icon/myIcon";
 
 const drawerWidth = 228;
@@ -112,8 +113,6 @@ export default function OrderLayout({
     }
     // router.push(path)
   };
-
-  //console.log("currentPath", currentPathname);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -209,36 +208,47 @@ export default function OrderLayout({
                   timeout="auto"
                   unmountOnExit
                 >
-                  <List component="div" disablePadding>
+                  <List component="div" sx={{ p: 2 }} disablePadding>
                     {item.menuPath.nestedPath.map((item) => {
+                      const isActive = currentPathname.startsWith(
+                        item.menuPath
+                      );
                       return (
-                        <ListItemButton
-                          key={item.menuLabel}
-                          sx={{
-                            pl: 8.3,
-                            color: theme.palette.secondary.main,
-                            "&.MuiListItemButton-root": {
-                              "&:hover": {
-                                backgroundColor: "transparent",
-                                color: theme.palette.common.white,
-                                fontWeight: "600",
-                              },
-                            },
-                            "&.Mui-selected": {
-                              backgroundColor: "transparent",
-                              color: theme.palette.common.white,
-                              fontWeight: "600",
-                            },
-                          }}
-                          onClick={() => router.push(item.menuPath)}
-                          selected={currentPathname === item.menuPath}
-                          disabled={item.menuPath === "" ? true : false}
+                        // <ListItemButton
+                        //   component="a"
+                        //   key={item.menuLabel}
+                        //   sx={{
+                        //     pl: 8.3,
+                        //     color: theme.palette.secondary.main,
+                        //     "&.MuiListItemButton-root": {
+                        //       "&:hover": {
+                        //         backgroundColor: "transparent",
+                        //         color: theme.palette.common.white,
+                        //         fontWeight: "600",
+                        //       },
+                        //     },
+                        //     "&.Mui-selected": {
+                        //       backgroundColor: "transparent",
+                        //       color: theme.palette.common.white,
+                        //       fontWeight: "600",
+                        //     },
+                        //   }}
+                        //   // onClick={() => router.replace(item.menuPath)}
+                        //   href={item.menuPath}
+                        //   selected={currentPathname === item.menuPath}
+                        //   disabled={item.menuPath === "" ? true : false}
+                        // >
+                        //   <ListItemText primary={item.menuLabel} />
+                        // </ListItemButton>
+                        <Link
+                          href={item.menuPath}
+                          className={
+                            "navLink" +
+                            (isActive ? " activeLinkColor" : " normalLinkColor")
+                          }
                         >
-                          {/*<ListItemIcon>*/}
-                          {/*  <StarBorder />*/}
-                          {/*</ListItemIcon>*/}
-                          <ListItemText primary={item.menuLabel} />
-                        </ListItemButton>
+                          {item.menuLabel}
+                        </Link>
                       );
                     })}
                   </List>

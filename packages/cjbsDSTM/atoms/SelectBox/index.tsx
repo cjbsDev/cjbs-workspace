@@ -9,12 +9,20 @@ interface SelectBoxProps {
     optionName: string;
   }[];
   inputName: string;
+  resetFiledName?: string | undefined;
 }
-export function SelectBox({ options, inputName, ...rest }: SelectBoxProps) {
+export function SelectBox({
+  options,
+  inputName,
+  resetFiledName,
+  ...rest
+}: SelectBoxProps) {
   const methods = useFormContext();
   return (
     <NativeSelect
-      {...methods.register(inputName)}
+      {...methods.register(inputName, {
+        onChange: () => methods.resetField(resetFiledName),
+      })}
       {...rest}
       color="secondary"
       disableUnderline={true}
@@ -25,6 +33,7 @@ export function SelectBox({ options, inputName, ...rest }: SelectBoxProps) {
         pr: 1,
       }}
     >
+      <option value={undefined}>선택하세요</option>
       {options.map((item) => (
         <option key={item.value} value={item.value}>
           {item.optionName}
