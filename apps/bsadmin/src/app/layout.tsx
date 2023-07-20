@@ -4,6 +4,7 @@ import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { cjbsTheme } from "cjbsDSTM";
+import "./globals.css";
 
 export default function RootLayout({
   children,

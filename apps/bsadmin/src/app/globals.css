@@ -117,3 +117,20 @@ a {
   font-weight: 400;
   font-style: normal;
 }
+
+.navLink {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.25px;
+  display: block;
+  margin-bottom: 8px;
+  margin-left: 52px;
+}
+.activeLinkColor {
+  color: red
+}
+.normalLinkColor {
+  color: white
+}
