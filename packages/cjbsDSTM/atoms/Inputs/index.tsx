@@ -8,11 +8,13 @@ type InputValidationProps = TextFieldProps & {
   required?: boolean;
   inputName: string;
   placeholder?: string;
+  pattern?: RegExp;
   maxLength?: number;
   minLength?: number;
   errorMessage: string;
-  pattern?: RegExp;
   patternErrMsg?: string;
+  maxLengthErrMsg?: string;
+  minLengthErrMsg?: string;
 };
 export const InputDefaultType = ({ ...props }: TextFieldProps) => {
   return (
@@ -41,6 +43,8 @@ export const InputValidation = ({
   minLength,
   pattern,
   patternErrMsg,
+  maxLengthErrMsg,
+  minLengthErrMsg,
   ...props
 }: InputValidationProps) => {
   const methods = useFormContext();
@@ -87,9 +91,22 @@ export const InputValidation = ({
             {patternErrMsg}
           </Typography>
         )}
-        {/*{methods.formState.errors[inputName]?.type === "maxLength" && (*/}
-        {/*  <p>First name cannot exceed 20 characters</p>*/}
-        {/*)}*/}
+        {methods.formState.errors[inputName]?.type === "maxLength" && (
+          <Typography
+            variant="body2"
+            sx={{ color: cjbsTheme.palette.warning.main }}
+          >
+            {maxLengthErrMsg}
+          </Typography>
+        )}
+        {methods.formState.errors[inputName]?.type === "minLength" && (
+          <Typography
+            variant="body2"
+            sx={{ color: cjbsTheme.palette.warning.main }}
+          >
+            {minLengthErrMsg}
+          </Typography>
+        )}
       </Stack>
     </ThemeProvider>
   );
