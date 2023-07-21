@@ -26,16 +26,6 @@ export default function MasterCodePage({ params }: CustViewProps) {
   const { slug } = params;
   const router = useRouter();
 
-  /*
-  const onSubmit = (data: any) => {
-    console.log("여기 사용할 일이 없음", data);
-  };
-
-  const defaultValues = undefined;
-  <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-  </Form>
-  */
-
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <Box sx={{ mb: 4 }}>

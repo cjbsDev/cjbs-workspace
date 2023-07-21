@@ -8,12 +8,16 @@ import {
   DataTableFilter,
   Title1,
   OutlinedButton,
+  ContainedButton,
+  LinkButton,
 } from "cjbsDSTM";
 import { Chip, Stack, Grid } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import MyIcon from "icon/myIcon";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
@@ -21,19 +25,19 @@ const ListSvcType = () => {
   const router = useRouter();
 
   const goDetailPage = (topCodeMc: string) => {
-    router.push("/set/svc-type-list/" + topCodeMc);
+    router.push("/set/svc-cate-list/" + topCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/list?enumMngrCode=SRVC_TYPE";
+    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/list?enumMngrCode=SRVC_CTGR";
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
 
-  //console.log("SRVC_TYPE ", data.data);
+  //console.log("SRVC_CTGR ", data.data);
 
   const columns = useMemo(
     () => [
@@ -42,13 +46,19 @@ const ListSvcType = () => {
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "100px",
+        width: "5%",
       },
       {
-        name: "서비스 타입",
+        name: "분류",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "25%",
+        width: "10%",
       },
+      {
+        name: "분석종류",
+        selector: (row: { midValue: string }) => row.midValue,
+        width: "10%",
+      },
+
       {
         name: "분석 단계",
         cell: (row: { btmValueList: any }) => {
@@ -68,14 +78,14 @@ const ListSvcType = () => {
               ))
             : "등록된 분석 단계가 없습니다.";
         },
-        width: "60%",
+        width: "65%",
       },
       {
         name: "관리",
         cell: (row: { topCodeMc: string }) => {
           return (
             <OutlinedButton
-              buttonName="수정"
+              buttonName="관리"
               size="small"
               onClick={() => goDetailPage(row.topCodeMc)}
             />
@@ -100,6 +110,20 @@ const ListSvcType = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
+            {/* 서비스 분류 등록
+<Link
+          href={{
+            pathname: "/cust/inst-info-modify",
+            query: { instUkey: instTempData.data.instUkey },
+          }}
+        >
+        <ContainedButton
+          buttonName="서비스 분류 등록"
+          size="small"
+        />
+              </Link>
+        */}
+            <ContainedButton buttonName="서비스 분류 등록" size="small" />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -124,7 +148,7 @@ const ListSvcType = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="서비스 타입 관리" />}
+      title={<Title1 titleName="서비스 분류 관리" />}
       data={data.data}
       columns={columns}
       highlightOnHover
