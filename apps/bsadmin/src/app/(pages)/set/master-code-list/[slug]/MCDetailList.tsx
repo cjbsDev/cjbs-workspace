@@ -5,6 +5,7 @@ import {
   TH,
   TD,
   OutlinedButton,
+  ContainedButton,
   Title1,
   ErrorContainer,
   Fallback,
@@ -35,10 +36,9 @@ const fetcher = (url: string) =>
       // Handle the "401" error here
       throw new Error("Unauthorized"); // Throw an error to trigger the error state
     }
-    console.log("GO YES ", url);
     return res.data;
   });
-const LazyMCCodeModifyModal = dynamic(() => import("./MCItemModifyModal"), {
+const LazyMCCodeModifyModal = dynamic(() => import("./MCItemAddModifyModal"), {
   ssr: false,
 });
 
@@ -67,8 +67,8 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     isLoading,
   } = useSWR(
     `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/${slug}`,
-    fetcher,
-    { revalidateOnFocus: true }
+    fetcher
+    //{ revalidateOnFocus: true }
   );
   if (isLoading) {
     return <SkeletonLoading />;
@@ -77,19 +77,15 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     console.log("api err", error);
     return;
   }
-
   const msCodeDetail = msCodeDetailTempData?.data?.masterCodeDetailList || [];
 
   const renderList = () => {
-    console.log("!!!44in renderList"); //
-    //mutate(`http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/${slug}`);
     mutate(
-      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/BS_0100003`
+      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/${slug}`
     );
   };
 
-  //console.log("msCodeDetail", msCodeDetail);
-
+  // [ 코드 추가 ] 모달 오픈
   const handleAddRow = () => {
     const tempObj = {
       detailUniqueCode: "",
@@ -104,7 +100,6 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
   };
   // [ 마스터 코드 ] 모달 오픈
   const mcItemModifyModalOpen = (item: DataItem) => {
-    console.log("mcItemModifyModalOpen item", item);
     setSelectItem(item);
     setMcCodeModifyModal(true);
   };
@@ -113,18 +108,6 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
   const mcItemModifyModalClose = () => {
     setMcCodeModifyModal(false);
   };
-
-  {
-    /*
-  const onSubmit = (data: any) => {
-    console.log("------ MCDetailList", data);
-  };
-
-  const defaultValues = undefined;
-  <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-</Form>
-*/
-  }
 
   return (
     <>
@@ -136,11 +119,10 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
           </Typography>
         </Grid>
         <Grid item xs={5} sx={{ pt: 0, textAlign: "right", mb: 1 }}>
-          <OutlinedButton
-            buttonName="추가"
+          <ContainedButton
+            buttonName="코드 추가"
             size="small"
-            color="secondary"
-            endIcon={<MyIcon icon="plus" size={16} />}
+            startIcon={<MyIcon icon="plus" size={16} />}
             onClick={handleAddRow}
           />
         </Grid>

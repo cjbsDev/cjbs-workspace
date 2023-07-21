@@ -172,6 +172,14 @@ export const snbMenuListData = [
           menuPath: "/set/master-code-list",
         },
         {
+          menuLabel: "서비스 타입 관리",
+          menuPath: "/set/svc-type-list",
+        },
+        {
+          menuLabel: "서비스 분류 관리",
+          menuPath: "/set/svc-cate-list",
+        },
+        {
           menuLabel: "과제 관리",
           menuPath: "/set/project-list",
         },
@@ -179,18 +187,12 @@ export const snbMenuListData = [
           menuLabel: "담당자 관리",
           menuPath: "/set/contact-list",
         },
-        {
-          menuLabel: "서비스 분류 관리",
-          menuPath: "/set/svc-cate-list",
-        },
+
         {
           menuLabel: "서비스 기준가 관리",
           menuPath: "/set/svc-std-price-list",
         },
-        {
-          menuLabel: "서비스 타입 관리",
-          menuPath: "/set/svc-type-list",
-        },
+
         {
           menuLabel: "Machine Kit 분류 관리",
           menuPath: "/set/machine-kit",

@@ -105,9 +105,6 @@ const ListMaster = () => {
       title={<Title1 titleName="마스터 코드" />}
       data={data.data}
       columns={columns}
-      //onRowClicked={goDetailPage}
-      // onSelectedRowsChange={handleRowSelected}
-      //pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader

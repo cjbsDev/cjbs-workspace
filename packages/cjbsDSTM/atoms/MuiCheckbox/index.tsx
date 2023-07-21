@@ -18,7 +18,7 @@ interface CheckboxProps extends InputProps {
   value?: string | boolean;
 }
 
-export const Checkbox = ({
+export const MCheckbox = ({
   inputName,
   labelText,
   value,
@@ -36,13 +36,12 @@ export const Checkbox = ({
             : cjbsTheme.palette.common.black,
         }}
         control={
-          <Input
+          <MuiCheckbox
             {...methods.register(inputName, {
-              onChange: (e) => console.log("Check Selected!", e.target.value),
+              onChange: (e) => console.log("Check Selected!", e.target.checked),
             })}
             {...props}
-            type="checkbox"
-            defaultValue={value}
+            checked={value ?? false} // 이 부분은 수정된 부분입니다.
             disableUnderline={true}
             sx={{
               width: 16,
