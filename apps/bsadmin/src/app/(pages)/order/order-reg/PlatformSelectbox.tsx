@@ -17,7 +17,7 @@ export default function PlatformSelectbox() {
   );
 
   if (error) return <div>분석종류를 선택하세요!</div>;
-  if (isLoading) return <div>loading...</div>;
+  if (isLoading) return <div>Loading...</div>;
 
   console.log("data ==>>", data.data);
 

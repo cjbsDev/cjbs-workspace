@@ -8,17 +8,20 @@ interface CheckboxProps {
   inputName: string;
   labelText: string;
   value: string | boolean;
+  required?: boolean;
 }
 
 export const Radio = (props: CheckboxProps) => {
-  const { inputName, labelText, value, ...rest } = props;
+  const { inputName, labelText, value, required = false, ...rest } = props;
   const methods = useFormContext();
   return (
     <ThemeProvider theme={cjbsTheme}>
       <FormControlLabel
         control={
           <Input
-            {...methods.register(inputName)}
+            {...methods.register(inputName, {
+              required: required,
+            })}
             {...rest}
             type="radio"
             defaultValue={value}
