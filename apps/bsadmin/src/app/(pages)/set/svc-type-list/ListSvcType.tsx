@@ -26,13 +26,11 @@ const ListSvcType = () => {
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/list?enumMngrCode=SRVC_TYPE";
-  const { data } = useSWR(tempUrl, fetcher, {
+  const enumMngrCode = "SRVC_TYPE";
+  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-
   //console.log("SRVC_TYPE ", data.data);
 
   const columns = useMemo(
