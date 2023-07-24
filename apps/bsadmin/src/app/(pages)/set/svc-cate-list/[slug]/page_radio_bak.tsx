@@ -74,30 +74,58 @@ export default function SvcCatePage({ params }: ViewProps) {
   }
 
   const onSubmit = (data: any) => {
-    console.log("data", data);
-    const selectCodeList = data["btmCodeMcList"];
+    console.log("onSubmit data", data);
+    /*
+    svcCate01 분류
+    svcCate02 분석 종류 
+    분석 방법 
+    */
+  };
+
+  /*
+  {
+    "btmCodeMcList": [
+      "string"
+    ],
+    "midCodeMc": "string",
+    "topCodeMc": "string"
+  }
+  
+  const onSubmit = (data: any) => {
+
+    // 분석 단계 관련하여 선택한 object 값을 api 호출 방식에 맞게 array 로 변환함.
+    // value 에서 "Y" or true 값들만 selectCodeList 에 넣음
+    const selectCodeList: string[] = [];
+    for (const [key, value] of Object.entries(data)) {
+      if (value) {
+        selectCodeList.push(key);
+      }
+    }
+
     let saveObj = {
       btmCodeMcList: selectCodeList,
-      midCodeMc,
-      topCodeMc,
+      midCodeMc: "none",
+      topCodeMc: slug,
     };
-    //console.log("saveObj", saveObj);
-    //console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
+    // console.log("saveObj", saveObj);
+    // console.log("modify stringify", JSON.stringify(saveObj));
+
+    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr?enumMngrCode=SRVC_CTGR`; // Replace with your API URL
 
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
-          router.push("/set/svc-cate-list/");
+          router.push("/set/svc-type-list/");
         }
       })
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
   };
+  */
 
   const codeData = codeDataTemp.data;
   const formKey = JSON.stringify(codeData);
@@ -129,13 +157,25 @@ export default function SvcCatePage({ params }: ViewProps) {
   //defaultValues["btmCodeMcList"] = selectedCodeArray;
   //defaultValues["svcCate01"] = ["BS_0100005002"];
   const defaultValues = {
-    topCodeMc,
-    midCodeMc,
+    svcCate01: codeData.topCodeMc,
+    svcCate02: codeData.midCodeMc,
     btmCodeMcList: selectedCodeArray,
   };
-
   //defaultValues["btmCodeMcList"] = selectedCodeArray;
   //"BS_0100006008"
+
+  /*
+  const defaultValues = {
+    radioTest: "in",
+    checkTest: "Y",
+    inputTest: "defaultTextValue",
+    gender: "user623719",
+  };
+
+  <Radio inputName="radioTest" labelText="국내" value="in" />
+        <Radio inputName="radioTest" labelText="해외" value="out" />
+  //console.log("defaultValues[" + topCodeMc + "]", selectedCodeArray);
+  */
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -149,12 +189,63 @@ export default function SvcCatePage({ params }: ViewProps) {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "252px" }}>분류</TH>
-                <TD>{codeData.topValue}</TD>
+                <TD>
+                  <Radio
+                    inputName="svcCate01"
+                    labelText="Analysis"
+                    value="BS_0100005001"
+                  />
+                  <Radio
+                    inputName="svcCate01"
+                    labelText="License"
+                    value="BS_0100005002"
+                  />
+                </TD>
               </TableRow>
 
               <TableRow>
                 <TH sx={{ width: "252px" }}>분석 종류</TH>
-                <TD>{codeData.midValue}</TD>
+                <TD>
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="CG"
+                    value="BS_0100006001"
+                  />
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="GRIIS Composition"
+                    value="BS_0100006002"
+                  />
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="GRIIS Essential"
+                    value="BS_0100006003"
+                  />
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="MTP"
+                    value="BS_0100006004"
+                  />
+                  {/*BS_0100006004 */}
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="RS"
+                    value="BS_0100006005"
+                  />
+                  {/*BS_0100006005 */}
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="SG"
+                    value="BS_0100006006"
+                  />
+                  {/*BS_0100006006 */}
+                  <Radio
+                    inputName="svcCate02"
+                    labelText="WG"
+                    value="BS_0100006007"
+                  />
+                  {/*BS_0100006007 */}
+                </TD>
               </TableRow>
 
               <TableRow>

@@ -1,19 +1,19 @@
 import React from "react";
-import { Checkbox } from "cjbsDSTM";
+import { Radio } from "cjbsDSTM";
 
-interface CheckboxListProps {
+interface RadioboxListProps {
   inputName: string;
   dataList: any;
 }
 
-const CheckboxList: React.FC<CheckboxListProps> = ({ inputName, dataList }) => {
+const RadioboxList: React.FC<RadioboxListProps> = ({ inputName, dataList }) => {
   //const { btmValueList } = data;
   //console.log(topCodeMc, btmValueList);
 
   return (
     <>
       {dataList.map((item: any) => (
-        <Checkbox
+        <Radio
           key={item.btmCodeMc}
           inputName={inputName}
           labelText={item.btmCodeVal}
@@ -24,4 +24,4 @@ const CheckboxList: React.FC<CheckboxListProps> = ({ inputName, dataList }) => {
   );
 };
 
-export default CheckboxList;
+export default RadioboxList;

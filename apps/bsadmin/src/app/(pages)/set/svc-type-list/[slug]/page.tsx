@@ -60,7 +60,7 @@ export default function SvcTypePage({ params }: ViewProps) {
   }
 
   const onSubmit = (data: any) => {
-    const selectCodeList = data[topCodeMc];
+    const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
       btmCodeMcList: selectCodeList,
       midCodeMc: "none",
@@ -94,12 +94,15 @@ export default function SvcTypePage({ params }: ViewProps) {
     .filter((item: any) => item.isSlct)
     .map((item: any) => item.btmCodeMc);
 
-  // 'defaultValues' 객체에 'topCodeMc' 변수를 key로 하고 'selectedCodeArray'를 값으로 설정합니다.
-  // 이렇게 하면 'defaultValues' 객체에 'topCodeMc'를 key로 하는 프로퍼티가 생성되며,
-  // 해당 프로퍼티에는 'selectedCodeArray'의 값을 할당하게 됩니다.
+  // 'defaultValues' 객체에 고정값 "btmCodeMcList"를 key로 하고 'selectedCodeArray'를 값으로 설정
+  // 이렇게 하면 'defaultValues' 객체에 'btmCodeMcList'를 key로 하는 프로퍼티가 생성되며,
+  // 해당 프로퍼티에는 api 통해 넘어온 선택된 코드인 'selectedCodeArray'의 값을 할당하게 됨
   // 관리 아이템 마다 각각 배열 형태로 checkbox 를 할당함
+  // 만약 key 를 변수로 할거면 defaultValues[topCodeMc] = selectedCodeArray;
+
   const defaultValues: { [key: string]: string[] } = {};
-  defaultValues[topCodeMc] = selectedCodeArray;
+  defaultValues["btmCodeMcList"] = selectedCodeArray;
+  //console.log("defaultValues[" + topCodeMc + "]", selectedCodeArray);
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -118,7 +121,10 @@ export default function SvcTypePage({ params }: ViewProps) {
               <TableRow>
                 <TH sx={{ width: "252px" }}>분석 단계 (선택)</TH>
                 <TD>
-                  <LazyCheckboxList data={codeData} />
+                  <LazyCheckboxList
+                    inputName="btmCodeMcList"
+                    dataList={codeData.btmValueList}
+                  />
                 </TD>
               </TableRow>
             </TableBody>

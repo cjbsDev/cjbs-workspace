@@ -31,7 +31,7 @@ const ListSvcType = () => {
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  //console.log("SRVC_TYPE ", data.data);
+  console.log("SRVC_TYPE ", data.data);
 
   const columns = useMemo(
     () => [
@@ -51,9 +51,9 @@ const ListSvcType = () => {
         name: "분석 단계",
         cell: (row: { btmValueList: any }) => {
           return row.btmValueList.length > 0
-            ? row.btmValueList.map((item: any, idx: number) => (
+            ? row.btmValueList.map((item: any) => (
                 <Chip
-                  key={idx}
+                  key={item.btmCodeMc}
                   label={item.btmCodeVal}
                   size="small"
                   sx={{
@@ -73,7 +73,7 @@ const ListSvcType = () => {
         cell: (row: { topCodeMc: string }) => {
           return (
             <OutlinedButton
-              buttonName="수정"
+              buttonName="관리"
               size="small"
               onClick={() => goDetailPage(row.topCodeMc)}
             />
