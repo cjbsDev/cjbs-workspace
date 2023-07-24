@@ -16,5 +16,7 @@ export default function ServiceTypeSelectbox() {
   // const { setValue, getValues } = methods;
   // const values = getValues(["custNm", "ebcEmail"]);
 
-  return <SelectBox inputName="srvcTypeMc" options={data.data} />;
+  return (
+    <SelectBox required={true} inputName="srvcTypeMc" options={data.data} />
+  );
 }

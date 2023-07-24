@@ -13,7 +13,7 @@ import MyIcon from "icon/myIcon";
 export default function QuickCopy() {
   const [checked, setChecked] = React.useState(false);
   const methods = useFormContext();
-  const { setValue, getValues, watch, clearErrors } = methods;
+  const { setValue, getValues, watch, clearErrors, control } = methods;
   const values = getValues(["custNm", "ebcEmail", "telList"]);
 
   const watcher = watch("quickCopyChck");
@@ -37,39 +37,8 @@ export default function QuickCopy() {
 
   return (
     <>
-      {/*<ToggleButton*/}
-      {/*  value="check"*/}
-      {/*  selected={checked}*/}
-      {/*  onClick={quickCopyValueClearErr}*/}
-      {/*  onChange={() => {*/}
-      {/*    setChecked(!checked);*/}
-      {/*  }}*/}
-      {/*  sx={{*/}
-      {/*    border: "none",*/}
-      {/*    p: 0,*/}
-      {/*    backgroundColor: "transparent",*/}
-      {/*    "&.MuiToggleButton-root": {*/}
-      {/*      p: 0,*/}
-      {/*      pl: 1.5,*/}
-      {/*      pr: 1.5,*/}
-      {/*      color: "black",*/}
-      {/*      ":hover": {*/}
-      {/*        backgroundColor: "transparent",*/}
-      {/*      },*/}
-      {/*    },*/}
-      {/*    "&.Mui-selected": {*/}
-      {/*      backgroundColor: "transparent",*/}
-      {/*      ":hover": {*/}
-      {/*        backgroundColor: "transparent",*/}
-      {/*      },*/}
-      {/*    },*/}
-      {/*  }}*/}
-      {/*>*/}
-      {/*  <MyIcon icon={!checked ? "checkbox" : "checkbox-fill"} size={20} />*/}
-      {/*  연구책임자 정보 입력*/}
-      {/*</ToggleButton>*/}
       <LinkButton
-        buttonName="연구책임자 정보 입력"
+        buttonName="연구책임자 정보와 동일"
         size="small"
         onClick={quickCopyValueClearErr}
         startIcon={<MyIcon icon={"files"} size={20} />}

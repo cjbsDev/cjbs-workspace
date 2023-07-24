@@ -11,6 +11,9 @@ import {
   TableRow,
   Typography,
   InputAdornment,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
 } from "@mui/material";
 import {
   Checkbox,
@@ -20,20 +23,24 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
-  Radio,
+  NewRadio,
   SkeletonLoading,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import ServiceTypeSelectbox from "./ServiceTypeSelectbox";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
+import axios from "axios";
+import SixteenRadio from "./SixteenRadio";
+
+const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`;
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -73,6 +80,11 @@ const LazyOrderType = dynamic(() => import("./OrderType"), {
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
+const LazySixteenCheck = dynamic(() => import("./SixteenCheck"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
+
 const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
   function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -91,7 +103,7 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
         }}
         thousandSeparator
         valueIsNumericString
-        prefix="W"
+        // prefix="W"
       />
     );
   }
@@ -107,53 +119,49 @@ export default function Page() {
     srvcTypeMc: "BS_0100007004",
     anlsTypeMc: "BS_0100006004",
     platformMc: "BS_0100008001",
-    taxonBCnt: 10,
-    taxonECnt: 2,
-    taxonACnt: 7,
-    price: 0,
   };
   const methods = useForm();
   const {
+    control,
     formState: { errors },
   } = methods;
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
-
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`; // Replace with your API URL
+    const typeNumberPrice = Number(data.price);
+    const typeNumbertaxonACnt = Number(data.taxonACnt);
+    const typeNumbertaxonBCnt = Number(data.taxonBCnt);
+    const typeNumbertaxonECnt = Number(data.taxonECnt);
 
     const bodyData = {
-      addEmailList: "string",
-      agncUkey: "string",
-      anlsTypeMc: "string",
+      addEmailList: data.addEmailList,
+      agncUkey: data.agncUkey,
+      anlsTypeMc: data.anlsTypeMc,
+      bsnsMngrUkey: data.bsnsMngrUkey,
       custUkey: data.custUkey,
-      isAgncLeaderRcpn: "N",
-      isCheck16s: "N",
-      isEtcRcpn: "N",
-      isFastTrack: "N",
-      isOrdrRcpn: "N",
-      isReqReturnDna: "N",
-      isReqReturnSample: "N",
-      memo: "string",
-      orderTypeCc: "string",
-      ordrRcpnEmail: "string",
-      ordrRcpnNm: "string",
-      ordrRcpnTel: "string",
-      platformMc: "string",
-      price: 0,
-      sampleCnt: 0,
-      srvcTypeMc: "string",
-      taxonACnt: 0,
-      taxonBCnt: 0,
-      taxonECnt: 0,
-      userUkey: "string",
+      isCheck16s: data.isCheck16s,
+      mailRcpnList: data.mailRcpnList,
+      memo: data.memo,
+      orderTypeCc: data.orderTypeCc,
+      ordrRcpnEmail: data.ordrRcpnEmail,
+      ordrRcpnNm: data.ordrRcpnNm,
+      ordrRcpnTel: data.ordrRcpnTel,
+      platformMc: data.platformMc,
+      price: typeNumberPrice,
+      reqReturnList: data.reqReturnList,
+      srvcTypeMc: data.srvcTypeMc,
+      taxonACnt: typeNumbertaxonACnt,
+      taxonBCnt: typeNumbertaxonBCnt,
+      taxonECnt: typeNumbertaxonECnt,
     };
+
+    console.log("Body Data ==>>", bodyData);
 
     // await axios
     //   .post(apiUrl, bodyData)
     //   .then((response) => {
-    //     console.log("PUT request successful:", response.data);
+    //     console.log("POST request successful:", response.data);
     //     if (response.data.success) {
     //       router.push("/order/order-list");
     //       setIsLoading(false);
@@ -201,6 +209,16 @@ export default function Page() {
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="custUkey"
+                    required={true}
+                    // errorMessage="키값 입력하세요."
+                    InputProps={{
+                      readOnly: true,
+                      hidden: true,
+                    }}
+                  />
+                  <InputValidation
+                    sx={{ display: "none" }}
+                    inputName="agncUkey"
                     required={true}
                     // errorMessage="키값 입력하세요."
                     InputProps={{
@@ -259,21 +277,6 @@ export default function Page() {
                 </Stack>
               </TD>
             </TableRow>
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "15%" }}>PI</TH>*/}
-            {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
-            {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
-            {/*      <InputValidation*/}
-            {/*        inputName="agncNm"*/}
-            {/*        errorMessage="거래처(PI)를 입력해 주세요."*/}
-            {/*        sx={{ width: 600 }}*/}
-            {/*        InputProps={{*/}
-            {/*          readOnly: true,*/}
-            {/*        }}*/}
-            {/*      />*/}
-            {/*    </Stack>*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
           </TableBody>
         </Table>
       </TableContainer>
@@ -510,12 +513,12 @@ export default function Page() {
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <Stack direction="row">
                   <Checkbox
-                    inputName="dnaReturnReq"
+                    inputName="reqReturnList"
                     labelText="DNA 반송 요청"
                     value="dnaReturnReq"
                   />
                   <Checkbox
-                    inputName="sampleReturnReq"
+                    inputName="reqReturnList"
                     labelText="샘플 반송 요청"
                     value="sampleReturnReq"
                   />
@@ -533,14 +536,26 @@ export default function Page() {
             <TableRow>
               <TH sx={{ width: "15%" }}>16s 확인 요청</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                <Stack direction="row">
-                  <Radio inputName="isCheck16s" labelText="요청함" value="Y" />
-                  <Radio
-                    inputName="isCheck16s"
-                    labelText="요청안함"
-                    value="N"
-                  />
-                </Stack>
+                {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+                {/*  <LazySixteenCheck />*/}
+                {/*</ErrorContainer>*/}
+
+                {/*<SixteenRadio />*/}
+
+                {/*<Stack direction="row">*/}
+                {/*  <NewRadio*/}
+                {/*    required={true}*/}
+                {/*    inputName="isCheck16s"*/}
+                {/*    labelText="요청함"*/}
+                {/*    value="Y"*/}
+                {/*  />*/}
+                {/*  <NewRadio*/}
+                {/*    required={true}*/}
+                {/*    inputName="isCheck16s"*/}
+                {/*    labelText="요청안함"*/}
+                {/*    value="N"*/}
+                {/*  />*/}
+                {/*</Stack>*/}
               </TD>
             </TableRow>
             <TableRow>
@@ -551,8 +566,8 @@ export default function Page() {
                     inputName="price"
                     required={true}
                     errorMessage="오더 금액을 입력해 주세요."
-                    pattern={/^[0-9]+$/}
-                    patternErrMsg="숫자만 입력해 주세요."
+                    // pattern={/\B(?=(\d{3})+(?!\d))/g}
+                    // patternErrMsg="숫자만 입력해 주세요."
                     sx={{
                       width: 160,
                       ".MuiOutlinedInput-input": {
