@@ -21,22 +21,19 @@ import MyIcon from "icon/myIcon";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListSvcType = () => {
+const ListSvcCate = () => {
   const router = useRouter();
-
-  const goDetailPage = (topCodeMc: string) => {
-    router.push("/set/svc-cate-list/" + topCodeMc);
+  const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
+    router.push("/set/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/list?enumMngrCode=SRVC_CTGR";
-  const { data } = useSWR(tempUrl, fetcher, {
+  const enumMngrCode = "SRVC_CTGR";
+  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-
   //console.log("SRVC_CTGR ", data.data);
 
   const columns = useMemo(
@@ -63,9 +60,9 @@ const ListSvcType = () => {
         name: "분석 단계",
         cell: (row: { btmValueList: any }) => {
           return row.btmValueList.length > 0
-            ? row.btmValueList.map((item: any, idx: number) => (
+            ? row.btmValueList.map((item: any) => (
                 <Chip
-                  key={idx}
+                  key={item.btmCodeMc}
                   label={item.btmCodeVal}
                   size="small"
                   sx={{
@@ -82,12 +79,12 @@ const ListSvcType = () => {
       },
       {
         name: "관리",
-        cell: (row: { topCodeMc: string }) => {
+        cell: (row: { topCodeMc: string; midCodeMc: string }) => {
           return (
             <OutlinedButton
               buttonName="관리"
               size="small"
-              onClick={() => goDetailPage(row.topCodeMc)}
+              onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
             />
           );
         },
@@ -110,20 +107,10 @@ const ListSvcType = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
-            {/* 서비스 분류 등록
-<Link
-          href={{
-            pathname: "/cust/inst-info-modify",
-            query: { instUkey: instTempData.data.instUkey },
-          }}
-        >
-        <ContainedButton
-          buttonName="서비스 분류 등록"
-          size="small"
-        />
-              </Link>
-        */}
-            <ContainedButton buttonName="서비스 분류 등록" size="small" />
+            {/* 서비스 분류 등록*/}
+            <Link href="/set/svc-cate-add">
+              <ContainedButton buttonName="서비스 분류 등록" size="small" />{" "}
+            </Link>
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -161,4 +148,4 @@ const ListSvcType = () => {
   );
 };
 
-export default ListSvcType;
+export default ListSvcCate;
