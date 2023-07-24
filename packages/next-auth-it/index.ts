@@ -88,7 +88,7 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             return null;
           }
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orsh/user/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

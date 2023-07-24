@@ -32,6 +32,7 @@ import {
     ResetButton,
     XlargeButton,
 } from "cjbsDSTM";
+import { signIn } from 'next-auth/react';
 
 const theme = createTheme();
 export default function Page() {
@@ -47,7 +48,19 @@ export default function Page() {
 
     const onSubmit = (data:any) => {
         console.log(data);
-        // setLog(data);
+        let email = data.email;
+        let password = data.password
+        signIn('credentials', { email, password, redirect: false }).then((res) => {
+            //const isError = res && res.error ? res.error : null
+            console.log("!!!!res=", res)
+            if (res?.error) {
+                const errorMessage = res.error.split('Error:')[1];
+                // toast(errorMessage, { type: 'info' });
+            } else {
+                //로그인성공
+                router.push('/main');
+            }
+        });
     };
 
     return (
