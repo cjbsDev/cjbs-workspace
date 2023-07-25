@@ -50,10 +50,10 @@ const ListDashboardPage = () => {
   };
 
   const defaultValues = {
-    radioTest: "in",
-    checkTest: "Y",
-    inputTest: "defaultTextValue",
-    gender: "user623719",
+    // radioTest: "in",
+    // checkTest: ["Y", "Nbb"],
+    // inputTest: "defaultTextValue",
+    // gender: "user623719",
   };
 
   return (
@@ -107,7 +107,9 @@ const ListDashboardPage = () => {
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Typography sx={{ mb: 1 }}>Form Test</Typography>
         <Checkbox inputName="checkTest" labelText="체크박스1" value="Y" />
-        <Checkbox inputName="checkTest" labelText="체크박스2" value="N" />
+        <Checkbox inputName="checkTest" labelText="체크박스2" value="Naa" />
+        <Checkbox inputName="checkTest" labelText="체크박스3" value="Nbb" />
+        <Checkbox inputName="checkTest" labelText="체크박스4" value="Ycc" />
         <ShowBox />
         <br />
         <br />

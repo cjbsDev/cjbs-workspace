@@ -87,6 +87,7 @@ const CustSearchModal = ({
           custNm: string;
           ebcEmail: string;
           telList: string;
+          agncUkey: string;
         }) => {
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
           return (
@@ -99,10 +100,12 @@ const CustSearchModal = ({
                 setValue("ebcEmail", row.ebcEmail);
                 setValue("telList", row.telList);
                 setValue("agncNm", agncInstNm);
+                setValue("agncUkey", row.agncUkey);
                 onClose();
                 clearErrors("custNm");
                 clearErrors("ebcEmail");
                 clearErrors("custUkey");
+                clearErrors("agncUkey");
                 clearErrors("agncNm");
                 clearErrors("telList");
                 resetField("checkTest7");

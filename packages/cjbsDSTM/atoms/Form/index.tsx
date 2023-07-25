@@ -1,10 +1,10 @@
 import { Box } from "@mui/material";
-import React, { useEffect } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import React from "react";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 
 export const Form = ({ defaultValues, children, onSubmit }) => {
   const methods = useForm({ defaultValues });
-  const { handleSubmit, register, reset } = methods;
+  const { handleSubmit, register } = methods;
 
   return (
     <FormProvider {...methods}>

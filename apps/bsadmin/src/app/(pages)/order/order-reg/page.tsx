@@ -11,6 +11,9 @@ import {
   TableRow,
   Typography,
   InputAdornment,
+  RadioGroup,
+  Radio,
+  FormControlLabel,
 } from "@mui/material";
 import {
   Checkbox,
@@ -20,17 +23,25 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
+  NewRadio,
   SkeletonLoading,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
 import * as React from "react";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import ServiceTypeSelectbox from "./ServiceTypeSelectbox";
 import PlatformSelectbox from "./PlatformSelectbox";
+import SampleTotal from "./SampleTotal";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
+import axios from "axios";
+import SixteenRadio from "./SixteenRadio";
+
+const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`;
+
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
   {
@@ -40,6 +51,14 @@ const LazyCustSearchModal = dynamic(
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
 });
+
+const LazySalesManagerSelctbox = dynamic(
+  () => import("./SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const LazyServiceTypeSelctbox = dynamic(
   () => import("./ServiceTypeSelectbox"),
@@ -56,10 +75,39 @@ const LazyAnalysisTypeSelctbox = dynamic(
   }
 );
 
-const LazyPlatformSelctbox = dynamic(() => import("./PlatformSelectbox"), {
+const LazyOrderType = dynamic(() => import("./OrderType"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
+
+const LazySixteenCheck = dynamic(() => import("./SixteenCheck"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
+
+const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  function NumericFormatCustom(props, ref) {
+    const { onChange, ...other } = props;
+
+    return (
+      <NumericFormat
+        {...other}
+        getInputRef={ref}
+        onValueChange={(values) => {
+          onChange({
+            target: {
+              name: props.name,
+              value: values.value,
+            },
+          });
+        }}
+        thousandSeparator
+        valueIsNumericString
+        // prefix="W"
+      />
+    );
+  }
+);
 
 export default function Page() {
   const router = useRouter();
@@ -69,51 +117,51 @@ export default function Page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const defaultValues = {
     srvcTypeMc: "BS_0100007004",
-    anlsTypeMc: "BS_0100007004",
+    anlsTypeMc: "BS_0100006004",
     platformMc: "BS_0100008001",
   };
   const methods = useForm();
   const {
+    control,
     formState: { errors },
   } = methods;
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
-
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`; // Replace with your API URL
+    const typeNumberPrice = Number(data.price);
+    const typeNumbertaxonACnt = Number(data.taxonACnt);
+    const typeNumbertaxonBCnt = Number(data.taxonBCnt);
+    const typeNumbertaxonECnt = Number(data.taxonECnt);
 
     const bodyData = {
-      addEmailList: "string",
-      agncUkey: "string",
-      anlsTypeMc: "string",
+      addEmailList: data.addEmailList,
+      agncUkey: data.agncUkey,
+      anlsTypeMc: data.anlsTypeMc,
+      bsnsMngrUkey: data.bsnsMngrUkey,
       custUkey: data.custUkey,
-      isAgncLeaderRcpn: "N",
-      isCheck16s: "N",
-      isEtcRcpn: "N",
-      isFastTrack: "N",
-      isOrdrRcpn: "N",
-      isReqReturnDna: "N",
-      isReqReturnSample: "N",
-      memo: "string",
-      orderTypeCc: "string",
-      ordrRcpnEmail: "string",
-      ordrRcpnNm: "string",
-      ordrRcpnTel: "string",
-      platformMc: "string",
-      price: 0,
-      sampleCnt: 0,
-      srvcTypeMc: "string",
-      taxonACnt: 0,
-      taxonBCnt: 0,
-      taxonECnt: 0,
-      userUkey: "string",
+      isCheck16s: data.isCheck16s,
+      mailRcpnList: data.mailRcpnList,
+      memo: data.memo,
+      orderTypeCc: data.orderTypeCc,
+      ordrRcpnEmail: data.ordrRcpnEmail,
+      ordrRcpnNm: data.ordrRcpnNm,
+      ordrRcpnTel: data.ordrRcpnTel,
+      platformMc: data.platformMc,
+      price: typeNumberPrice,
+      reqReturnList: data.reqReturnList,
+      srvcTypeMc: data.srvcTypeMc,
+      taxonACnt: typeNumbertaxonACnt,
+      taxonBCnt: typeNumbertaxonBCnt,
+      taxonECnt: typeNumbertaxonECnt,
     };
+
+    console.log("Body Data ==>>", bodyData);
 
     // await axios
     //   .post(apiUrl, bodyData)
     //   .then((response) => {
-    //     console.log("PUT request successful:", response.data);
+    //     console.log("POST request successful:", response.data);
     //     if (response.data.success) {
     //       router.push("/order/order-list");
     //       setIsLoading(false);
@@ -149,10 +197,9 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    // disabled={true}
-                    required={true}
                     inputName="ebcEmail"
-                    errorMessage="연구책임자를 선택해주세요."
+                    required={true}
+                    errorMessage="아이디(이메일) 입력해 주세요."
                     sx={{ width: 600 }}
                     InputProps={{
                       readOnly: true,
@@ -162,7 +209,18 @@ export default function Page() {
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="custUkey"
-                    errorMessage="필수 값입니다."
+                    required={true}
+                    // errorMessage="키값 입력하세요."
+                    InputProps={{
+                      readOnly: true,
+                      hidden: true,
+                    }}
+                  />
+                  <InputValidation
+                    sx={{ display: "none" }}
+                    inputName="agncUkey"
+                    required={true}
+                    // errorMessage="키값 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
@@ -171,7 +229,8 @@ export default function Page() {
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="telList"
-                    errorMessage={false}
+                    required={true}
+                    // errorMessage="전화번호 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
@@ -191,9 +250,9 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    // disabled={true}
                     inputName="custNm"
-                    errorMessage="연구책임자를 선택해주세요."
+                    required={true}
+                    errorMessage="이름을 입력해 주세요."
                     sx={{ width: 600 }}
                     InputProps={{
                       readOnly: true,
@@ -208,7 +267,8 @@ export default function Page() {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="agncNm"
-                    errorMessage="거래처(PI)를 입력해 주세요."
+                    required={true}
+                    errorMessage="소속 거래처(PI)를 입력해 주세요."
                     sx={{ width: 600 }}
                     InputProps={{
                       readOnly: true,
@@ -217,29 +277,12 @@ export default function Page() {
                 </Stack>
               </TD>
             </TableRow>
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "15%" }}>PI</TH>*/}
-            {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
-            {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
-            {/*      <InputValidation*/}
-            {/*        inputName="agncNm"*/}
-            {/*        errorMessage="거래처(PI)를 입력해 주세요."*/}
-            {/*        sx={{ width: 600 }}*/}
-            {/*        InputProps={{*/}
-            {/*          readOnly: true,*/}
-            {/*        }}*/}
-            {/*      />*/}
-            {/*    </Stack>*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
           </TableBody>
         </Table>
       </TableContainer>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        <Typography variant="subtitle1" sx={{}}>
-          신청인 정보
-        </Typography>
+        <Typography variant="subtitle1">신청인 정보</Typography>
         <LazyQuickCopy />
       </Stack>
 
@@ -251,9 +294,9 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    // disabled={true}
                     inputName="ordrRcpnNm"
-                    errorMessage="이름을 입력해주세요."
+                    required={true}
+                    errorMessage="이름을 입력해 주세요."
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -265,7 +308,8 @@ export default function Page() {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
                     inputName="ordrRcpnEmail"
-                    errorMessage="연구책임자를 선택해주세요."
+                    required={true}
+                    errorMessage="이메일을 입력해 주세요."
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -277,7 +321,8 @@ export default function Page() {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="ordrRcpnTel"
-                    errorMessage="거래처(PI)를 입력해 주세요."
+                    required={true}
+                    errorMessage="연락처 입력해 주세요."
                     sx={{ width: 600 }}
                     InputProps={{
                       type: "tel",
@@ -295,22 +340,27 @@ export default function Page() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>메일 수신 설정(선택)</TH>
+              <TH sx={{ width: "15%" }}>메일 수신 설정[선택]</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <Stack direction="row">
                   <Checkbox
-                    inputName="isAgncLeaderRcpn"
+                    inputName="mailRcpnList"
                     labelText="연구책임자"
-                    value="Y1"
+                    value="agncLeaderRcpn"
                   />
                   <Checkbox
-                    inputName="isAgncLeaderRcpn"
+                    inputName="mailRcpnList"
+                    labelText="신청인"
+                    value="ordrRcpn"
+                  />
+                  <Checkbox
+                    inputName="mailRcpnList"
                     labelText="추가(직접입력)"
-                    value="Y2"
+                    value="etcRcpn"
                   />
                   <InputValidation
                     inputName="addEmailList"
-                    errorMessage={false}
+                    placeholder="여러개 입력시','로 구분하세요."
                     sx={{ width: 450 }}
                   />
                 </Stack>
@@ -339,36 +389,22 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>샘플개수</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <InputValidation
-                  required={true}
-                  inputName="sampleCnt"
-                  errorMessage="샘플개수를 입력하세요."
-                  pattern={/^[0-9]+$/}
-                  patternErrMsg="숫자만 입력 하세요."
-                  sx={{ width: 100 }}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <Typography variant="body2" sx={{ color: "black" }}>
-                          개
-                        </Typography>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-              </TD>
-            </TableRow>
-            <TableRow>
               <TH sx={{ width: "15%" }}>Taxon 개수</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="taxonBCnt"
-                    errorMessage="숫자만 입력해 주세요."
+                    required={true}
+                    errorMessage="개수를 입력해 주세요."
                     pattern={/^[0-9]+$/}
-                    sx={{ width: 100 }}
+                    patternErrMsg="숫자만 입력해 주세요."
+                    sx={{
+                      width: 100,
+                      ".MuiOutlinedInput-input": {
+                        textAlign: "end",
+                      },
+                    }}
+                    inputMode="numeric"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -391,9 +427,17 @@ export default function Page() {
                   />
                   <InputValidation
                     inputName="taxonECnt"
-                    errorMessage="숫자만 입력해 주세요."
+                    required={true}
+                    errorMessage="개수를 입력해 주세요."
                     pattern={/^[0-9]+$/}
-                    sx={{ width: 100 }}
+                    patternErrMsg="숫자만 입력해 주세요."
+                    sx={{
+                      width: 100,
+                      ".MuiOutlinedInput-input": {
+                        textAlign: "end",
+                      },
+                    }}
+                    inputMode="numeric"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -416,9 +460,17 @@ export default function Page() {
                   />
                   <InputValidation
                     inputName="taxonACnt"
-                    errorMessage="숫자만 입력해 주세요."
+                    required={true}
+                    errorMessage="개수를 입력해 주세요."
                     pattern={/^[0-9]+$/}
-                    sx={{ width: 100 }}
+                    patternErrMsg="숫자만 입력해 주세요."
+                    sx={{
+                      width: 100,
+                      ".MuiOutlinedInput-input": {
+                        textAlign: "end",
+                      },
+                    }}
+                    inputMode="numeric"
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -440,6 +492,121 @@ export default function Page() {
                     }}
                   />
                 </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>샘플개수</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <SampleTotal />
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>오더 타입</TH>
+              <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyOrderType />
+                </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>반송 요청[선택]</TH>
+              <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                <Stack direction="row">
+                  <Checkbox
+                    inputName="reqReturnList"
+                    labelText="DNA 반송 요청"
+                    value="dnaReturnReq"
+                  />
+                  <Checkbox
+                    inputName="reqReturnList"
+                    labelText="샘플 반송 요청"
+                    value="sampleReturnReq"
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Typography variant="subtitle1">추가 정보</Typography>
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>16s 확인 요청</TH>
+              <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+                {/*  <LazySixteenCheck />*/}
+                {/*</ErrorContainer>*/}
+
+                {/*<SixteenRadio />*/}
+
+                {/*<Stack direction="row">*/}
+                {/*  <NewRadio*/}
+                {/*    required={true}*/}
+                {/*    inputName="isCheck16s"*/}
+                {/*    labelText="요청함"*/}
+                {/*    value="Y"*/}
+                {/*  />*/}
+                {/*  <NewRadio*/}
+                {/*    required={true}*/}
+                {/*    inputName="isCheck16s"*/}
+                {/*    labelText="요청안함"*/}
+                {/*    value="N"*/}
+                {/*  />*/}
+                {/*</Stack>*/}
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>오더 금액</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="center">
+                  <InputValidation
+                    inputName="price"
+                    required={true}
+                    errorMessage="오더 금액을 입력해 주세요."
+                    // pattern={/\B(?=(\d{3})+(?!\d))/g}
+                    // patternErrMsg="숫자만 입력해 주세요."
+                    sx={{
+                      width: 160,
+                      ".MuiOutlinedInput-input": {
+                        textAlign: "end",
+                      },
+                    }}
+                    inputMode="numeric"
+                    InputProps={{
+                      inputComponent: NumericFormatCustom as any,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <Typography variant="body2" sx={{ color: "black" }}>
+                            원
+                          </Typography>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>영업 담당자</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazySalesManagerSelctbox />
+                </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>메모[선택]</TH>
+              <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                <InputValidation
+                  fullWidth={true}
+                  multiline
+                  rows={4}
+                  inputName="memo"
+                  placeholder="메모"
+                />
               </TD>
             </TableRow>
           </TableBody>
