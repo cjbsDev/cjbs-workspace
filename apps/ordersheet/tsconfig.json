@@ -8,7 +8,9 @@
       }
     ],
     "paths": {
-      //      "@app/*": ["./src/app/*"]
+      "@app/*": ["./src/app/*"],
+      "@public/*": ["./public/*"],
+      "@components/*": ["./src/app/components/*"],
     }
   },
   "extends": "tsconfig/nextjs.json",

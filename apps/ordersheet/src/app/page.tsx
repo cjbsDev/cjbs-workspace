@@ -37,14 +37,6 @@ import { signIn } from 'next-auth/react';
 const theme = createTheme();
 export default function Page() {
     const router = useRouter();
-    // const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    //     const data = new FormData(event.currentTarget);
-    //     console.log({
-    //         email: data.get("email"),
-    //         password: data.get("password"),
-    //     });
-    // };
 
     const onSubmit = (data:any) => {
         console.log(data);

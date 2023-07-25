@@ -12,8 +12,10 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.13.7",
     "@mui/styled-engine-sc": "^5.12.0",
+    "material-ui-popup-state": "^5.0.8",
     "@types/node": "20.4.0",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
@@ -28,8 +30,10 @@
     "next-auth-it": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-uuid": "^1.0.2",
     "styled-components": "^5.3.10",
     "tsconfig": "workspace:*",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "cookies-next": "^2.1.1"
   }
 }
