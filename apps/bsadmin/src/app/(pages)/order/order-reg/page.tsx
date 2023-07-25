@@ -23,22 +23,18 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
-  NewRadio,
   SkeletonLoading,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
 import * as React from "react";
-import { useForm, Controller } from "react-hook-form";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
-import ServiceTypeSelectbox from "./ServiceTypeSelectbox";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
-import axios from "axios";
-import SixteenRadio from "./SixteenRadio";
+import SixteenCheck from "./SixteenCheck";
 
 const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`;
 
@@ -80,11 +76,6 @@ const LazyOrderType = dynamic(() => import("./OrderType"), {
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-const LazySixteenCheck = dynamic(() => import("./SixteenCheck"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
-
 const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
   function NumericFormatCustom(props, ref) {
     const { onChange, ...other } = props;
@@ -103,7 +94,6 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
         }}
         thousandSeparator
         valueIsNumericString
-        // prefix="W"
       />
     );
   }
@@ -119,12 +109,10 @@ export default function Page() {
     srvcTypeMc: "BS_0100007004",
     anlsTypeMc: "BS_0100006004",
     platformMc: "BS_0100008001",
+    taxonBCnt: 0,
+    taxonECnt: 0,
+    taxonACnt: 0,
   };
-  const methods = useForm();
-  const {
-    control,
-    formState: { errors },
-  } = methods;
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -536,26 +524,10 @@ export default function Page() {
             <TableRow>
               <TH sx={{ width: "15%" }}>16s 확인 요청</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                <SixteenCheck />
                 {/*<ErrorContainer FallbackComponent={Fallback}>*/}
                 {/*  <LazySixteenCheck />*/}
                 {/*</ErrorContainer>*/}
-
-                {/*<SixteenRadio />*/}
-
-                {/*<Stack direction="row">*/}
-                {/*  <NewRadio*/}
-                {/*    required={true}*/}
-                {/*    inputName="isCheck16s"*/}
-                {/*    labelText="요청함"*/}
-                {/*    value="Y"*/}
-                {/*  />*/}
-                {/*  <NewRadio*/}
-                {/*    required={true}*/}
-                {/*    inputName="isCheck16s"*/}
-                {/*    labelText="요청안함"*/}
-                {/*    value="N"*/}
-                {/*  />*/}
-                {/*</Stack>*/}
               </TD>
             </TableRow>
             <TableRow>

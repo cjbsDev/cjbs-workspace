@@ -9,14 +9,14 @@ import {
   ContainedButton,
   LinkButton,
   Form,
-  Radio,
+  RadioM1,
+  RadioGV,
   SelectBox,
   OutlinedButton,
   InputValidation,
   ResetButton,
   XlargeButton,
 } from "cjbsDSTM";
-// import { useRouter } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import {
   Box,
@@ -28,6 +28,11 @@ import {
 } from "@mui/material";
 import { useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
+
+const dataRadioGVTest = [
+  { value: "Y", optionName: "요청함" },
+  { value: "N", optionName: "요청안함" },
+];
 
 const ListDashboardPage = () => {
   const router = useRouter();
@@ -58,7 +63,7 @@ const ListDashboardPage = () => {
 
   return (
     <Box>
-      <Typography variant={"title1"}>Dashboard Page.</Typography>
+      <Typography variant="title1">Dashboard Page.</Typography>
       <Stack direction={"row"} spacing={1}>
         <Link href="/cust/cust-list">고객관리</Link>
         <Link href="/cust/agnc-pi-add">거래처(PI) 등록</Link>
@@ -101,11 +106,13 @@ const ListDashboardPage = () => {
       <Divider sx={{ mb: 5, mt: 5 }} />
       {/*
         <Form key={formKey} 페이지가 다른 기본 값(defaultValues)으로 여러 번 구동 될 때 데이터가 제대로 다시 렌더링 안될 때 key prop 활용가능
-        이 키는 기본값이 변경될 때마다 업데이트 필요. 
-        키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다. 
+        이 키는 기본값이 변경될 때마다 업데이트 필요.
+        키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다.
       */}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <Typography sx={{ mb: 1 }}>Form Test</Typography>
+        <Typography sx={{ mb: 1 }} variant="h3">
+          Form Test
+        </Typography>
         <Checkbox inputName="checkTest" labelText="체크박스1" value="Y" />
         <Checkbox inputName="checkTest" labelText="체크박스2" value="Naa" />
         <Checkbox inputName="checkTest" labelText="체크박스3" value="Nbb" />
@@ -113,8 +120,24 @@ const ListDashboardPage = () => {
         <ShowBox />
         <br />
         <br />
-        <Radio inputName="radioTest" labelText="국내" value="in" />
-        <Radio inputName="radioTest" labelText="해외" value="out" />
+        {/*Deprecated*/}
+        <Typography variant="h4" sx={{ color: "red" }}>
+          !Deprecated
+        </Typography>
+        <RadioM1 inputName="radioTest" labelText="국내" value="in" />
+        <RadioM1 inputName="radioTest" labelText="해외" value="out" />
+        <br />
+        <br />
+        <Typography variant="h4" sx={{ color: "green" }}>
+          !New RadioGV(Group Validation)
+        </Typography>
+        {/*<RadioGV data={dataRadioGVTest} inputName="testRadioGV" />*/}
+        <RadioGV
+          data={dataRadioGVTest}
+          inputName="testRadioGV"
+          required={true}
+          errorMessage="에러메세지는 여기에"
+        />
         <br />
         <br />
         <InputValidation
@@ -140,6 +163,8 @@ const ListDashboardPage = () => {
         <br />
         <br />
         <SelectBox
+          required={true}
+          errorMessage="값을 선택해 주세요."
           inputName="gender"
           options={[
             { value: "user656014", optionName: "키웨스트" },

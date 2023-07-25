@@ -5,12 +5,13 @@ import {
   Stack,
   Typography,
   RadioGroup,
+  Radio,
 } from "@mui/material";
 import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 
-interface CheckboxProps {
+interface RadioM1Props {
   inputName: string;
   labelText: string;
   value: string | boolean;
@@ -18,7 +19,7 @@ interface CheckboxProps {
   errorMessage?: string;
 }
 
-export const Radio = (props: CheckboxProps) => {
+export const RadioM1 = (props: RadioM1Props) => {
   const {
     inputName,
     labelText,
@@ -69,63 +70,58 @@ export const Radio = (props: CheckboxProps) => {
   );
 };
 
-// interface RadioGVProps {
-//   data: object;
-//   inputName: string;
-//   labelText: string;
-//   // value: string | boolean;
-//   required?: boolean;
-//   errorMessage?: string;
-//   rowIs?: boolean;
-// }
-// export const RadioGV = (props: RadioGVProps) => {
-//   const {
-//     data,
-//     inputName,
-//     required = false,
-//     errorMessage,
-//     rowIs = true,
-//     ...rest
-//   } = props;
-//   const methods = useFormContext();
-//   const { control } = methods;
-//   return (
-//     <ThemeProvider theme={cjbsTheme}>
-//       <Stack>
-//         <Controller
-//           control={control}
-//           rules={{
-//             required: {
-//               value: required,
-//               message: errorMessage,
-//             },
-//           }}
-//           name={inputName}
-//           render={({ field }) => (
-//             <RadioGroup {...field} value={undefined} row={rowIs}>
-//               {data.map((item) => {
-//                 const { codeNm, uniqueCode } = item;
-//                 return (
-//                   <FormControlLabel
-//                     key={uniqueCode}
-//                     value={uniqueCode}
-//                     control={<Radio size="small" />}
-//                     label={codeNm}
-//                   />
-//                 );
-//               })}
-//             </RadioGroup>
-//           )}
-//         />
-//         {methods.formState.errors.orderTypeCc?.type === "required" && (
-//           <Typography
-//             variant="body2"
-//             sx={{ color: cjbsTheme.palette.warning.main }}
-//           >
-//             {errorMessage}
-//           </Typography>
-//         )}
-//       </Stack>
-//     </ThemeProvider>
-//   );
-// };
+interface RadioGVProps {
+  data: object;
+  inputName: string;
+  required?: boolean;
+  errorMessage?: string;
+  rowIs?: boolean;
+}
+export const RadioGV = (props: RadioGVProps) => {
+  const {
+    data,
+    inputName,
+    required = false,
+    errorMessage,
+    rowIs = true,
+    ...rest
+  } = props;
+  const methods = useFormContext();
+  const { control } = methods;
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Stack>
+        <Controller
+          control={control}
+          rules={{
+            required: required,
+          }}
+          name={inputName}
+          render={({ field }) => (
+            <RadioGroup {...field} value={undefined} row={rowIs}>
+              {data.map((item) => {
+                const { value, optionName } = item;
+                return (
+                  <FormControlLabel
+                    key={value}
+                    value={value}
+                    control={<Radio size="small" />}
+                    label={optionName}
+                  />
+                );
+              })}
+            </RadioGroup>
+          )}
+        />
+        {methods.formState.errors[inputName]?.type === "required" && (
+          <Typography
+            variant="body2"
+            sx={{ color: cjbsTheme.palette.warning.main }}
+          >
+            {errorMessage}
+          </Typography>
+        )}
+      </Stack>
+    </ThemeProvider>
+  );
+};
