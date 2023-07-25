@@ -19,8 +19,7 @@ export const ErrorContainer = ({ ...props }: ErrorContainerProps) => {
   return <ErrorBoundary {...props}>{props.children}</ErrorBoundary>;
 };
 
-let tempUrl =
-  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=0&size=50";
+let tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=0&size=50`;
 export const Fallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   const { mutate } = useSWRConfig();
   const reTry = () => {

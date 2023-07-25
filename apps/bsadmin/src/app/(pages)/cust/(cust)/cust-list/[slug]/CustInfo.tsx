@@ -15,7 +15,7 @@ interface CustInfoProps {
 
 const CustInfo: React.FC<CustInfoProps> = ({ slug }) => {
   const { data: custTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`,
     fetcher,
     { suspense: true }
   );

@@ -66,7 +66,7 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     error,
     isLoading,
   } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/detail/${slug}`,
     fetcher
     //{ revalidateOnFocus: true }
   );
@@ -80,9 +80,7 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
   const msCodeDetail = msCodeDetailTempData?.data?.masterCodeDetailList || [];
 
   const renderList = () => {
-    mutate(
-      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/detail/${slug}`
-    );
+    mutate(`${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/detail/${slug}`);
   };
 
   // [ 코드 추가 ] 모달 오픈

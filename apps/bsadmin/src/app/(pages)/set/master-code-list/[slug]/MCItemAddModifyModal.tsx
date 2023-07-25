@@ -76,9 +76,7 @@ const MCItemModifyModal = ({
     let apiUrl = "";
     if (selectItem.detailUniqueCode) {
       console.log("수정");
-      apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/` +
-        uniqueCode;
+      apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
 
       axios
         .put(apiUrl, saveObj)
@@ -98,8 +96,7 @@ const MCItemModifyModal = ({
     } else {
       console.log("추가");
       apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/` +
-        uniqueCode;
+        `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
 
       axios
         .post(apiUrl, saveObj)
