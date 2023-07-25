@@ -1,31 +1,34 @@
 import * as React from "react";
 import {
+  FormGroup,
   FormControlLabel,
-  Checkbox as MuiCheckbox,
   Input,
   Typography,
   InputProps,
+  Stack,
 } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 
-interface CheckboxProps extends InputProps {
+interface CheckboxM5Props extends InputProps {
   inputName: string;
-  labelText: string;
+  labelText?: string;
   waringIs?: boolean;
   subMessage?: string;
   value?: string | boolean;
+  required?: boolean;
 }
 
-export const Checkbox = ({
+export const CheckboxM5 = ({
   inputName,
   labelText,
   value,
   waringIs,
   subMessage,
+  required = false,
   ...props
-}: CheckboxProps) => {
+}: CheckboxM5Props) => {
   const methods = useFormContext();
   return (
     <ThemeProvider theme={cjbsTheme}>
@@ -38,6 +41,7 @@ export const Checkbox = ({
         control={
           <Input
             {...methods.register(inputName, {
+              required: required,
               onChange: (e) => console.log("Check Selected!", e.target.value),
             })}
             {...props}
@@ -59,6 +63,48 @@ export const Checkbox = ({
       >
         {subMessage}
       </Typography>
+    </ThemeProvider>
+  );
+};
+
+interface CheckboxGVProps extends CheckboxM5Props {
+  data: object;
+  errorMessage?: string;
+  direction?: "column-reverse" | "column" | "row-reverse" | "row";
+}
+
+export const CheckboxGV = (props: CheckboxGVProps) => {
+  const { data, inputName, required, errorMessage, direction = "row" } = props;
+  const methods = useFormContext();
+  const { formState } = methods;
+  const { errors } = formState;
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Stack>
+        <FormGroup>
+          <Stack direction={direction}>
+            {data.map((item: any) => {
+              return (
+                <CheckboxM5
+                  key={item.value}
+                  required={required}
+                  inputName={inputName}
+                  labelText={item.optionName}
+                  value={item.value}
+                />
+              );
+            })}
+          </Stack>
+        </FormGroup>
+        {errors[inputName]?.type === "required" && (
+          <Typography
+            variant="body2"
+            sx={{ color: cjbsTheme.palette.warning.main }}
+          >
+            {errorMessage}
+          </Typography>
+        )}
+      </Stack>
     </ThemeProvider>
   );
 };

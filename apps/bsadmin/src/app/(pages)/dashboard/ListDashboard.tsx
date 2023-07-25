@@ -5,7 +5,8 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   AlertModal,
-  Checkbox,
+  CheckboxM5,
+  CheckboxGV,
   ContainedButton,
   LinkButton,
   Form,
@@ -20,13 +21,16 @@ import {
 import { useRouter } from "next-nprogress-bar";
 import {
   Box,
+  Checkbox,
   DialogContent,
   Divider,
+  FormControlLabel,
+  FormGroup,
   InputAdornment,
   Stack,
   Typography,
 } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 
 const dataRadioGVTest = [
@@ -113,13 +117,21 @@ const ListDashboardPage = () => {
         <Typography sx={{ mb: 1 }} variant="h3">
           Form Test
         </Typography>
-        <Checkbox inputName="checkTest" labelText="체크박스1" value="Y" />
-        <Checkbox inputName="checkTest" labelText="체크박스2" value="Naa" />
-        <Checkbox inputName="checkTest" labelText="체크박스3" value="Nbb" />
-        <Checkbox inputName="checkTest" labelText="체크박스4" value="Ycc" />
+
+        <CheckboxM5 inputName="checkTest" labelText="체크박스1" value="Y" />
+        <CheckboxM5 inputName="checkTest" labelText="체크박스2" value="Naa" />
+        <CheckboxM5 inputName="checkTest" labelText="체크박스3" value="Nbb" />
+        <CheckboxM5 inputName="checkTest" labelText="체크박스4" value="Ycc" />
         <ShowBox />
         <br />
         <br />
+        <CheckboxGV
+          data={dataRadioGVTest}
+          inputName="checkGVTest"
+          required={true}
+          errorMessage="checkbox requied!!"
+        />
+
         {/*Deprecated*/}
         <Typography variant="h4" sx={{ color: "red" }}>
           !Deprecated

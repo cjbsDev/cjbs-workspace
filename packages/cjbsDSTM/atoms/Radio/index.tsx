@@ -99,7 +99,7 @@ export const RadioGV = (props: RadioGVProps) => {
           name={inputName}
           render={({ field }) => (
             <RadioGroup {...field} value={undefined} row={rowIs}>
-              {data.map((item) => {
+              {data.map((item: any) => {
                 const { value, optionName } = item;
                 return (
                   <FormControlLabel

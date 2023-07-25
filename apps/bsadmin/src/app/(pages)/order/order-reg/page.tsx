@@ -16,7 +16,8 @@ import {
   FormControlLabel,
 } from "@mui/material";
 import {
-  Checkbox,
+  CheckboxGV,
+  CheckboxM5,
   ContainedButton,
   ErrorContainer,
   Fallback,
@@ -98,6 +99,11 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
     );
   }
 );
+
+const reqReturnListData = [
+  { value: "dnaReturnReq", optionName: "DNA 반송 요청" },
+  { value: "sampleReturnReq", optionName: "샘플 반송 요청" },
+];
 
 export default function Page() {
   const router = useRouter();
@@ -331,17 +337,17 @@ export default function Page() {
               <TH sx={{ width: "15%" }}>메일 수신 설정[선택]</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <Stack direction="row">
-                  <Checkbox
+                  <CheckboxM5
                     inputName="mailRcpnList"
                     labelText="연구책임자"
                     value="agncLeaderRcpn"
                   />
-                  <Checkbox
+                  <CheckboxM5
                     inputName="mailRcpnList"
                     labelText="신청인"
                     value="ordrRcpn"
                   />
-                  <Checkbox
+                  <CheckboxM5
                     inputName="mailRcpnList"
                     labelText="추가(직접입력)"
                     value="etcRcpn"
@@ -499,18 +505,24 @@ export default function Page() {
             <TableRow>
               <TH sx={{ width: "15%" }}>반송 요청[선택]</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                <Stack direction="row">
-                  <Checkbox
-                    inputName="reqReturnList"
-                    labelText="DNA 반송 요청"
-                    value="dnaReturnReq"
-                  />
-                  <Checkbox
-                    inputName="reqReturnList"
-                    labelText="샘플 반송 요청"
-                    value="sampleReturnReq"
-                  />
-                </Stack>
+                <CheckboxGV
+                  data={reqReturnListData}
+                  inputName="reqReturnList"
+                  required={true}
+                  errorMessage="반송 요청을 선택해 주새요."
+                />
+                {/*<Stack direction="row">*/}
+                {/*  <CheckboxM5*/}
+                {/*    inputName="reqReturnList"*/}
+                {/*    labelText="DNA 반송 요청"*/}
+                {/*    value="dnaReturnReq"*/}
+                {/*  />*/}
+                {/*  <CheckboxM5*/}
+                {/*    inputName="reqReturnList"*/}
+                {/*    labelText="샘플 반송 요청"*/}
+                {/*    value="sampleReturnReq"*/}
+                {/*  />*/}
+                {/*</Stack>*/}
               </TD>
             </TableRow>
           </TableBody>
@@ -522,7 +534,7 @@ export default function Page() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>16s 확인 요청</TH>
+              <TH sx={{ width: "15%" }}>16s 확인</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <SixteenCheck />
                 {/*<ErrorContainer FallbackComponent={Fallback}>*/}
