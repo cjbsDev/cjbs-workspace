@@ -266,19 +266,6 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <LazyRegion1 />
-                  {/* 
-                  <SelectBox
-                    inputName="region_1_gc"
-                    options={reg1KorOption}
-                    onChange={handleReg1Change}
-                  />
-                  <SelectBox
-                    inputName="region_2_gc"
-                    options={reg2KorOption}
-                    onChange={handleReg2Change}
-                    sx={{ ml: 10 }}
-                  />
-                  */}
                 </Stack>
               </TD>
             </TableRow>
@@ -295,6 +282,7 @@ const InstAdd = () => {
                       { value: "BS_0600003", optionName: "기업" },
                       { value: "BS_0600005", optionName: "기타" },
                     ]}
+                    defaultOption={false}
                   />
                 </Stack>
               </TD>

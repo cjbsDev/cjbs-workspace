@@ -12,6 +12,7 @@ interface SelectBoxProps {
   inputName: string;
   resetFiledName?: string | undefined;
   required?: boolean;
+  defaultOption?: boolean;
   errorMessage?: string;
 }
 export function SelectBox({
@@ -20,6 +21,7 @@ export function SelectBox({
   resetFiledName,
   required = false,
   errorMessage,
+  defaultOption = true,
   ...rest
 }: SelectBoxProps) {
   const methods = useFormContext();
@@ -42,7 +44,8 @@ export function SelectBox({
           pr: 1,
         }}
       >
-        <option value="">선택하세요</option>
+        {defaultOption == true && <option value="">선택하세요</option>}
+
         {options.map((item) => {
           return (
             <option key={item.value} value={item.value}>
