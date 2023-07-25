@@ -40,7 +40,7 @@ import { NumericFormat, NumericFormatProps } from "react-number-format";
 import axios from "axios";
 import SixteenRadio from "./SixteenRadio";
 
-const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`;
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),

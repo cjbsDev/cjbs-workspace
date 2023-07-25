@@ -76,7 +76,7 @@ const MemberMngtNewModal = ({
   const [perPage, setPerPage] = useState(10);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,

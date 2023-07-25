@@ -147,7 +147,7 @@ const ListCust = () => {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/download" />
+            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

@@ -59,8 +59,7 @@ const ListMaster = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  let tempUrl =
-    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode";
+  let tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });

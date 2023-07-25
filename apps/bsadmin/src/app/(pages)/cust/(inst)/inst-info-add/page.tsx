@@ -114,7 +114,7 @@ const InstAdd = () => {
     // console.log("==saveObj", saveObj);
     // console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst`; // Replace with your API URL
     axios
       .post(apiUrl, saveObj)
       .then((response) => {

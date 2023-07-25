@@ -137,7 +137,7 @@ const AgncAdd = () => {
     console.log("getAgncNm", getAgncNm);
     if (getAgncNm) {
       const apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/duplicate/` +
+        `${process.env.NEXT_PUBLIC_API_URL}/agnc/duplicate/` +
         getAgncNm; // Replace with your API URL
 
       try {
@@ -183,7 +183,7 @@ const AgncAdd = () => {
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
 
     await axios
       .post(apiUrl, saveObj)

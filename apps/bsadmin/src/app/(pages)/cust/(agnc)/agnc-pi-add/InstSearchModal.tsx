@@ -35,7 +35,7 @@ const AgncSearchModal = ({
   const [perPage, setPerPage] = useState(30);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,

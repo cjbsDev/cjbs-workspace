@@ -67,7 +67,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
   const methods = useForm<FormData>({
     defaultValues: async () => {
       const res = await fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`
+        `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`
       );
       const getData = await res.json();
       const data = getData.data;
@@ -105,7 +105,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
       memo,
     };
     console.log("==saveObj", saveObj);
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`; // Replace with your API URL
 
     axios
       .put(apiUrl, saveObj)

@@ -26,7 +26,7 @@ const MCHeader: React.FC<MCHeaderProps> = ({ slug }) => {
     error,
     isLoading,
   } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/${slug}`,
     fetcher
   );
   if (isLoading) {
