@@ -38,10 +38,6 @@ const LazyCheckboxList = dynamic(() => import("../../CheckboxSetCode"), {
   ssr: false,
   loading: () => <SkeletonLoading height={82} />,
 });
-const LazyRadioboxList = dynamic(() => import("../../RadioboxSetCode"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
 
 interface ViewProps {
   params: {
