@@ -1,5 +1,5 @@
 import React from "react";
-import { NewRadio2, Radio } from "cjbsDSTM";
+import { Radio } from "cjbsDSTM";
 import { Stack } from "@mui/material";
 import fetcher from "../../../func/fetcher";
 import useSWR from "swr";
@@ -17,22 +17,22 @@ const OrderType = () => {
   const orderTypeData = data.data.order.type;
 
   return (
-    <NewRadio2 data={orderTypeData} inputName="orderTypeCc" />
-    // <Stack direction="row">
-    //   {orderTypeData.map((item) => {
-    //     const { codeNm, uniqueCode } = item;
-    //     return (
-    //       <Radio
-    //         key={uniqueCode}
-    //         inputName="orderTypeCc"
-    //         required={true}
-    //         errorMessage="sdfljljlj"
-    //         labelText={codeNm}
-    //         value={uniqueCode}
-    //       />
-    //     );
-    //   })}
-    // </Stack>
+    // <NewRadio2 data={orderTypeData} inputName="orderTypeCc" />
+    <Stack direction="row">
+      {orderTypeData.map((item:any) => {
+        const { codeNm, uniqueCode } = item;
+        return (
+          <Radio
+            key={uniqueCode}
+            inputName="orderTypeCc"
+            required={true}
+            errorMessage="sdfljljlj"
+            labelText={codeNm}
+            value={uniqueCode}
+          />
+        );
+      })}
+    </Stack>
   );
 };
 

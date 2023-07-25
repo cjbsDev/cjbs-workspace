@@ -78,7 +78,7 @@ const ListSvcCate = () => {
             </Box>
           ) : (
             <Typography variant="body2">
-              "등록된 분석 단계가 없습니다."
+              등록된 분석 단계가 없습니다.
             </Typography>
           );
         },
