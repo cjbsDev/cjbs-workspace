@@ -34,10 +34,13 @@ import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import dynamic from "next/dynamic";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-const LazyCheckboxList = dynamic(() => import("../../CheckboxSetCode"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
+const LazyCheckboxList = dynamic(
+  () => import("../../../../components/CheckboxSetCode"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={82} />,
+  }
+);
 
 interface ViewProps {
   params: {
