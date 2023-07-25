@@ -53,7 +53,7 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 });
 
 const LazySalesManagerSelctbox = dynamic(
-  () => import("./SalesManagerSelectbox"),
+  () => import("../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
