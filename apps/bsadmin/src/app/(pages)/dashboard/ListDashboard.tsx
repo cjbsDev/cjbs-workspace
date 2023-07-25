@@ -118,8 +118,8 @@ const ListDashboardPage = () => {
         <br />
         <br />
         <InputValidation
-          required={true}
           inputName="sampleCnt"
+          required={true}
           errorMessage="샘플개수를 입력하세요."
           pattern={/^[0-9]+$/}
           patternErrMsg="숫자만 입력 하세요."

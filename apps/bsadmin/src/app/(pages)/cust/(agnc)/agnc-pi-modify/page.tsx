@@ -128,7 +128,8 @@ export default function AgncPIModifyPage() {
             agncUkey: data.agncUkey,
             addr: data.addr,
             addrDetail: data.addrDetail,
-            bsnsManagedByNm: data.bsnsManagedByNm,
+            bsnsMngrNm: data.bsnsMngrNm,
+
             bsnsMngrUkey: data.bsnsMngrUkey,
             custDetail: data.custDetail,
             zip: data.zip,
@@ -204,16 +205,18 @@ export default function AgncPIModifyPage() {
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           //router.push("/cust/cust-list/" + slug);
           router.push("/cust/agnc-pi-list/" + uKey);
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
       });
   };
+
+  console.log("selectedMembers", selectedMembers);
 
   return (
     <FormProvider {...methods}>
@@ -239,8 +242,8 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }}>
                     <InputValidation
                       inputName="instNm"
-                      errorMessage={false}
                       disabled={true}
+                      required={true}
                       sx={{ width: 600 }}
                     />
                   </TD>
@@ -252,14 +255,14 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        error={errors.agncNm ? true : false}
                         inputName="agncNm"
-                        errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
-                        }
                         sx={{ width: 600 }}
+                        required={true}
+                        errorMessage={"거래처(PI)를 입력해 주세요."}
+                        pattern={/^[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]*$/}
+                        patternErrMsg="거래처 이름은 한글 또는 영문으로 10자리 이내로 입력해주세요."
+                        maxLength={10}
+                        maxLengthErrMsg="거래처 이름은 10자 이내로 입력해주세요."
                       />
                       {/*<OutlinedButton*/}
                       {/*  size="small"*/}
@@ -277,7 +280,6 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="zip"
-                          errorMessage={false}
                           placeholder="zip code"
                         />
                         <PostCodeBtn />
@@ -286,14 +288,12 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="addr"
-                          errorMessage={false}
                           sx={{ width: 600 }}
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           inputName="addrDetail"
-                          errorMessage={false}
                           placeholder="상세주소"
                           sx={{ width: 600 }}
                         />
@@ -312,8 +312,8 @@ export default function AgncPIModifyPage() {
                     >
                       <InputValidation
                         disabled={true}
+                        required={true}
                         inputName="ebcEmail"
-                        errorMessage={false}
                         sx={{ width: 600 }}
                       />
                     </Stack>
@@ -329,8 +329,8 @@ export default function AgncPIModifyPage() {
                     >
                       <InputValidation
                         disabled={true}
+                        required={true}
                         inputName="custNm"
-                        errorMessage={false}
                         sx={{ width: 600 }}
                       />
                     </Stack>
@@ -379,7 +379,6 @@ export default function AgncPIModifyPage() {
                       multiline
                       rows={4}
                       inputName="memo"
-                      errorMessage={false}
                     />
                   </TD>
                 </TableRow>

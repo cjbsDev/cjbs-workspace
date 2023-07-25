@@ -202,13 +202,15 @@ const MemberMngtNewModal = ({
   // [멤버 관리] - 멤버 선택
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    custUkey: any
+    //custUkey: any
+    row: any
   ) => {
     if (event.target.checked) {
-      setSelectedMemberRows([...selectedMemberRows, custUkey]);
+      console.log("custUkey", row);
+      setSelectedMemberRows([...selectedMemberRows, row.custUkey]);
     } else {
       setSelectedMemberRows(
-        selectedMemberRows.filter((rowId) => rowId !== custUkey)
+        selectedMemberRows.filter((rowId) => rowId !== row.custUkey)
       );
     }
   };
@@ -319,7 +321,7 @@ const MemberMngtNewModal = ({
                             size="small"
                             checked={selectedMemberRows.includes(row.custUkey)}
                             onChange={(event) =>
-                              handleCheckboxChange(event, row.custUkey)
+                              handleCheckboxChange(event, row)
                             }
                           />
                         </TableCell>

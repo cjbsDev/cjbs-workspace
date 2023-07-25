@@ -188,7 +188,7 @@ const AgncAdd = () => {
     await axios
       .post(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           //router.push("/cust/cust-list/" + slug);
           router.push("/cust/agnc-pi-list");
@@ -196,7 +196,7 @@ const AgncAdd = () => {
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
       });
   };
 
@@ -229,6 +229,7 @@ const AgncAdd = () => {
 
                   <InputValidation
                     disabled={true}
+                    required={true}
                     sx={{ display: "none" }}
                     inputName="instUkey"
                     errorMessage="필수 값입니다."
@@ -252,11 +253,12 @@ const AgncAdd = () => {
                   <InputValidation
                     inputName="agncNm"
                     sx={{ width: 600 }}
-                    errorMessage={
-                      errors.agncNm
-                        ? "중복된 거래처명이 있습니다."
-                        : "거래처(PI)를 입력해 주세요."
-                    }
+                    required={true}
+                    errorMessage={"거래처(PI)를 입력해 주세요."}
+                    pattern={/^[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]*$/}
+                    patternErrMsg="거래처 이름은 한글 또는 영문으로 10자리 이내로 입력해주세요."
+                    maxLength={10}
+                    maxLengthErrMsg="거래처 이름은 10자 이내로 입력해주세요."
                   />
                 </Stack>
               </TD>
@@ -308,6 +310,7 @@ const AgncAdd = () => {
                     inputName="ebcEmail"
                     errorMessage="연구책임자를 선택해주세요."
                     sx={{ width: 600 }}
+                    required={true}
                   />
 
                   <InputValidation
@@ -331,6 +334,7 @@ const AgncAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
                     disabled={true}
+                    required={true}
                     inputName="custNm"
                     errorMessage="연구책임자를 선택해주세요."
                     sx={{ width: 600 }}

@@ -90,7 +90,7 @@ export default function SvcCatePage({ params }: ViewProps) {
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           toast("수정 성공");
           router.push("/set/svc-cate-list/");
@@ -99,7 +99,7 @@ export default function SvcCatePage({ params }: ViewProps) {
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
         toast("에러 발생");
       });
   };
