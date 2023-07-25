@@ -19,7 +19,7 @@ export const refreshAccessToken = mem(
 
     return new Promise(async function (resolve, reject) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orsh/token/accessToken`, {
           method: 'GET',
           headers: {
             emSW: refreshToken,
