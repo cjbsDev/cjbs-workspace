@@ -38,6 +38,7 @@ const Footer = () => {
                                 countryFlag={item.countryFlag}
                                 info1={item.info1}
                                 info2={item.info2}
+                                info3={item.info3}
                             />
                         ))}
                     </Grid>
