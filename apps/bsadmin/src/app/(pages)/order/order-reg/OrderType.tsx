@@ -37,7 +37,7 @@ const OrderType = () => {
         }}
         name="orderTypeCc"
         render={({ field }) => (
-          <RadioGroup {...field} value={undefined} row>
+          <RadioGroup {...field} value={undefined} row={true}>
             {orderTypeData.map((item) => {
               const { codeNm, uniqueCode } = item;
               return (

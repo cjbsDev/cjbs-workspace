@@ -8,7 +8,7 @@ interface SkeletonLoadingProps {
   height?: number;
 }
 
-const SkeletonLoading = ({ height = 600 }: SkeletonLoadingProps) => {
+const SkeletonLoading = ({ height = "100vh" }: SkeletonLoadingProps) => {
   return (
     <Stack spacing={1} sx={{ mb: 3 }}>
       <Skeleton
