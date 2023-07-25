@@ -180,6 +180,10 @@ export const snbMenuListData = [
           menuPath: "/set/svc-cate-list",
         },
         {
+          menuLabel: "Machine Kit 분류 관리",
+          menuPath: "/set/machine-kit",
+        },
+        {
           menuLabel: "과제 관리",
           menuPath: "/set/project-list",
         },
@@ -193,10 +197,6 @@ export const snbMenuListData = [
           menuPath: "/set/svc-std-price-list",
         },
 
-        {
-          menuLabel: "Machine Kit 분류 관리",
-          menuPath: "/set/machine-kit",
-        },
         {
           menuLabel: "견적 품명 관리",
           menuPath: "/set/es-pr-list",
