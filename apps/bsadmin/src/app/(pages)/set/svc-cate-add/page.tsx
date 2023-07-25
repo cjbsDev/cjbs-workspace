@@ -110,7 +110,7 @@ export default function SvcCatePage() {
     axios
       .post(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           toast("등록 성공");
           router.push("/set/svc-cate-list/");
@@ -119,7 +119,7 @@ export default function SvcCatePage() {
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
         toast("[SVC-CATE-ADD]500 에러 발생");
       });
   };

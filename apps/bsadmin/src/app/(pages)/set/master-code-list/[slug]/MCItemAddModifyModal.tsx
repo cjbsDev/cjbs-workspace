@@ -144,7 +144,12 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="douzoneCode"
-                        errorMessage="필수 입력 입니다."
+                        required={true}
+                        errorMessage={"더존 코드를 입력해주세요."}
+                        pattern={/^[A-Za-z0-9-]*$/}
+                        patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
+                        maxLength={16}
+                        maxLengthErrMsg="상세 코드는 16자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>
@@ -157,7 +162,12 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeNm"
-                        errorMessage="필수 입력 입니다."
+                        required={true}
+                        errorMessage={"상세코드명(국문)을 입력해주세요."}
+                        //pattern={/^[가-힣]*$/}
+                        //patternErrMsg="한국어만 입력가능합니다."
+                        maxLength={100}
+                        maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>
@@ -169,7 +179,12 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeValue"
-                        errorMessage="필수 입력 입니다."
+                        required={true}
+                        errorMessage={"상세코드명(영문)을 입력해주세요."}
+                        //pattern={/^[A-Za-z]*$/}
+                        //patternErrMsg="영어만 입력가능합니다."
+                        maxLength={100}
+                        maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>

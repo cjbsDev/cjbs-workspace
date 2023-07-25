@@ -89,7 +89,6 @@ const CustSearchModal = ({
           telList: string;
           agncUkey: string;
         }) => {
-          const agncInstNm = `${row.agncNm}(${row.instNm})`;
           return (
             <OutlinedButton
               size="small"
@@ -99,7 +98,7 @@ const CustSearchModal = ({
                 setValue("custNm", row.custNm);
                 setValue("ebcEmail", row.ebcEmail);
                 setValue("telList", row.telList);
-                setValue("agncNm", agncInstNm);
+                //setValue("agncNm", agncInstNm);
                 setValue("agncUkey", row.agncUkey);
                 onClose();
                 clearErrors("custNm");

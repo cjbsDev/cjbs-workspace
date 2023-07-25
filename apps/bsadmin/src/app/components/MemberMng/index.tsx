@@ -59,7 +59,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
     //onMemberSelection(selectedMembers);
   };
 
-  //console.log("get Member data", memberData);
+  console.log("get Member data", memberData);
   //console.log("member datatable selectedMembers", selectedMembers);
 
   const columns = React.useMemo(

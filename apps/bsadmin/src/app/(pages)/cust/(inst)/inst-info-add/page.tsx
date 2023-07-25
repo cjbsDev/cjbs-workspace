@@ -155,8 +155,9 @@ const InstAdd = () => {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    disabled={true}
                     inputName="instNm"
+                    disabled={true}
+                    required={true}
                     errorMessage="소속기관을 선택해 주세요."
                     placeholder="기관명"
                     sx={{ width: 600 }}
@@ -176,12 +177,11 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="brno"
-                    errorMessage={
-                      errors.brno
-                        ? "중복된 사업자 등록번호가 있습니다."
-                        : "사업자 등록번호를 입력해 주세요."
-                    }
-                    placeholder="사업자 등록번호 10자리를 입력해주세요."
+                    required={true}
+                    errorMessage="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                    pattern={/^\d{10}$/}
+                    patternErrMsg="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                    placeholder="사업자 등록번호 숫자 10자리를 입력해 주세요."
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -194,6 +194,7 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="rprsNm"
+                    required={true}
                     errorMessage="대표자명은 필수 입력입니다."
                     sx={{ width: 600 }}
                   />
@@ -205,11 +206,7 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>업태 [선택]</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    inputName="itbsns"
-                    errorMessage={false}
-                    sx={{ width: 600 }}
-                  />
+                  <InputValidation inputName="itbsns" sx={{ width: 600 }} />
                 </Stack>
               </TD>
             </TableRow>
@@ -218,11 +215,7 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>업종 [선택]</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    inputName="tpbsns"
-                    errorMessage={false}
-                    sx={{ width: 600 }}
-                  />
+                  <InputValidation inputName="tpbsns" sx={{ width: 600 }} />
                 </Stack>
               </TD>
             </TableRow>
@@ -235,7 +228,6 @@ const InstAdd = () => {
                     <InputValidation
                       disabled={true}
                       inputName="zip"
-                      errorMessage={false}
                       placeholder="zip code"
                       sx={{ width: 147 }}
                     />
@@ -246,14 +238,14 @@ const InstAdd = () => {
                       disabled={true}
                       sx={{ width: 600 }}
                       inputName="addr"
-                      errorMessage={false}
                     />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
                       sx={{ width: 600 }}
                       inputName="addrDetail"
-                      errorMessage={false}
+                      maxLength={50}
+                      maxLengthErrMsg="상세주소는 50자 이내로 입력해주세요."
                       placeholder="상세주소"
                     />
                   </Stack>
@@ -294,6 +286,7 @@ const InstAdd = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="ftr"
+                    required={true}
                     errorMessage="특성은 필수 값입니다."
                     sx={{ width: 600 }}
                   />

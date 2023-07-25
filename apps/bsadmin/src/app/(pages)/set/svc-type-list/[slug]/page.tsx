@@ -76,13 +76,13 @@ export default function SvcTypePage({ params }: ViewProps) {
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           router.push("/set/svc-type-list/");
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
       });
   };
 
