@@ -159,15 +159,15 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
       }
       // If the call arrives after 23 hours have passed, we allow to refresh the token.
     },
-    session: async ({ session, token }) => {
-      // Here we pass accessToken to the client to be used in authentication with your API
-      session.needInfo = token.needInfo;
-      session.accessToken = token.accessToken!;
-      session.atExpires = token.atExpires!;
-      session.uid = token.uid;
-      session.authorities = token.authorities;
-      return session;
-    },
+    // session: async ({ session, token }) => {
+    //   // Here we pass accessToken to the client to be used in authentication with your API
+    //   session.needInfo = token.needInfo;
+    //   session.accessToken = token.accessToken!;
+    //   session.atExpires = token.atExpires!;
+    //   session.uid = token.uid;
+    //   session.authorities = token.authorities;
+    //   return session;
+    // },
   },
   pages: {
     signIn: '/',
