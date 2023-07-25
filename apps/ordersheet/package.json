@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "dotenv -e ../../.development.ordersheet next dev",
-    "build": "dotenv -e ../../.env next build",
+    "build": "dotenv -e ../../.development.ordersheet next build",
     "start": "next start",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""

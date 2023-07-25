@@ -37,8 +37,7 @@ import { signIn } from 'next-auth/react';
 const theme = createTheme();
 export default function Page() {
     const router = useRouter();
-    console.log("$$$", process.env.NEXTAUTH_SECRET)
-    console.log("$$$", process.env.NEXTAUTH_URL)
+
     const onSubmit = (data:any) => {
         console.log(data);
         let email = data.email;
