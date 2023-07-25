@@ -5,7 +5,6 @@ import {
   Stack,
   Typography,
   RadioGroup,
-  Radio,
 } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
@@ -19,7 +18,7 @@ interface CheckboxProps {
   errorMessage?: string;
 }
 
-export const NewRadio = (props: CheckboxProps) => {
+export const Radio = (props: CheckboxProps) => {
   const {
     inputName,
     labelText,
