@@ -44,7 +44,7 @@ const OrderType = () => {
                 <FormControlLabel
                   key={uniqueCode}
                   value={uniqueCode}
-                  control={<Radio />}
+                  control={<Radio size="small" />}
                   label={codeNm}
                 />
               );
@@ -57,7 +57,7 @@ const OrderType = () => {
           variant="body2"
           sx={{ color: cjbsTheme.palette.warning.main }}
         >
-          오더 타입을 선택해 주세요
+          오더 타입을 선택해 주세요.
         </Typography>
       )}
     </Stack>
