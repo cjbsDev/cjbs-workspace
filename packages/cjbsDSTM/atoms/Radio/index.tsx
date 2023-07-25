@@ -5,9 +5,8 @@ import {
   Stack,
   Typography,
   RadioGroup,
-  Radio,
 } from "@mui/material";
-import { useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 
@@ -19,7 +18,7 @@ interface CheckboxProps {
   errorMessage?: string;
 }
 
-export const NewRadio = (props: CheckboxProps) => {
+export const Radio = (props: CheckboxProps) => {
   const {
     inputName,
     labelText,
@@ -37,11 +36,6 @@ export const NewRadio = (props: CheckboxProps) => {
             <Input
               {...methods.register(inputName, {
                 required: required,
-                validate: (value, formValues) => {
-                  console.log("Radio Validate Value ==>>", value);
-                  // if (value === null) alert("mmmmmmmmm");
-                  return value;
-                },
               })}
               {...rest}
               type="radio"
@@ -55,9 +49,7 @@ export const NewRadio = (props: CheckboxProps) => {
               variant="body2"
               sx={{
                 ml: 1,
-                color: methods.formState.errors[inputName]
-                  ? cjbsTheme.palette.warning.main
-                  : cjbsTheme.palette.common.black,
+                color: cjbsTheme.palette.common.black,
               }}
             >
               {labelText}
@@ -77,39 +69,63 @@ export const NewRadio = (props: CheckboxProps) => {
   );
 };
 
-export const NewRadio2 = (props) => {
-  const {
-    data,
-    inputName,
-    // labelText,
-    // value,
-    required = false,
-    // errorMessage,
-    ...rest
-  } = props;
-  const methods = useFormContext();
-  return (
-    <ThemeProvider theme={cjbsTheme}>
-      <RadioGroup
-        {...methods.register(inputName, {
-          required: required,
-        })}
-        {...rest}
-      >
-        {data.map((item) => {
-          const { codeNm, uniqueCode } = item;
-          return (
-            <FormControlLabel
-              key={uniqueCode}
-              value={uniqueCode}
-              control={<Radio />}
-              label={codeNm}
-            />
-          );
-        })}
-
-        {/*<FormControlLabel value="male" control={<Radio />} label="Male" />*/}
-      </RadioGroup>
-    </ThemeProvider>
-  );
-};
+// interface RadioGVProps {
+//   data: object;
+//   inputName: string;
+//   labelText: string;
+//   // value: string | boolean;
+//   required?: boolean;
+//   errorMessage?: string;
+//   rowIs?: boolean;
+// }
+// export const RadioGV = (props: RadioGVProps) => {
+//   const {
+//     data,
+//     inputName,
+//     required = false,
+//     errorMessage,
+//     rowIs = true,
+//     ...rest
+//   } = props;
+//   const methods = useFormContext();
+//   const { control } = methods;
+//   return (
+//     <ThemeProvider theme={cjbsTheme}>
+//       <Stack>
+//         <Controller
+//           control={control}
+//           rules={{
+//             required: {
+//               value: required,
+//               message: errorMessage,
+//             },
+//           }}
+//           name={inputName}
+//           render={({ field }) => (
+//             <RadioGroup {...field} value={undefined} row={rowIs}>
+//               {data.map((item) => {
+//                 const { codeNm, uniqueCode } = item;
+//                 return (
+//                   <FormControlLabel
+//                     key={uniqueCode}
+//                     value={uniqueCode}
+//                     control={<Radio size="small" />}
+//                     label={codeNm}
+//                   />
+//                 );
+//               })}
+//             </RadioGroup>
+//           )}
+//         />
+//         {methods.formState.errors.orderTypeCc?.type === "required" && (
+//           <Typography
+//             variant="body2"
+//             sx={{ color: cjbsTheme.palette.warning.main }}
+//           >
+//             {errorMessage}
+//           </Typography>
+//         )}
+//       </Stack>
+//     </ThemeProvider>
+//   );
+// };
