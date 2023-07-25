@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
   const { matcher } = config;
 
   console.log("$$$", process.env.NEXTAUTH_SECRET)
-  console.log("$$$", process.env.NEXTAUTH_URL)
+
   //Page url 외의 요청은 Pass한다.
   if (!matcher.includes(pathname)) {
     return NextResponse.next();
