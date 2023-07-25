@@ -107,9 +107,7 @@ export default function AgncPIModifyPage() {
 
   const methods = useForm<FormData>({
     defaultValues: () => {
-      return fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${uKey}`
-      )
+      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${uKey}`)
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
@@ -201,7 +199,7 @@ export default function AgncPIModifyPage() {
     console.log("==modify", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
 
     axios
       .put(apiUrl, saveObj)

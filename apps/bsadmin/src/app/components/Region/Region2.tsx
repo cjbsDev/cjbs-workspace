@@ -13,7 +13,7 @@ export default function Region2() {
 
   const { data: domesticData2 } = useSWR(
     () =>
-      `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
+      `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=` +
       watch("region1Gc"),
     fetcher,
     {

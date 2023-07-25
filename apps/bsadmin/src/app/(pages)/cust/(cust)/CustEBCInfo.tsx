@@ -23,7 +23,7 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
   const [selected, setSelected] = useState(ebcShow);
 
   const { data: custEBCTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/ebc/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/cust/list/ebc/${slug}`,
     fetcher,
     { suspense: true }
   );
