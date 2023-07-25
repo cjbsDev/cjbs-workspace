@@ -11,7 +11,7 @@ import {
   ContainedButton,
   LinkButton,
 } from "cjbsDSTM";
-import { Chip, Stack, Grid } from "@mui/material";
+import { Chip, Stack, Grid, Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -59,8 +59,9 @@ const ListSvcCate = () => {
       {
         name: "분석 단계",
         cell: (row: { btmValueList: any }) => {
-          return row.btmValueList.length > 0
-            ? row.btmValueList.map((item: any) => (
+          return row.btmValueList.length > 0 ? (
+            <Box sx={{ mb: -1 }}>
+              {row.btmValueList.map((item: any) => (
                 <Chip
                   key={item.btmCodeMc}
                   label={item.btmCodeVal}
@@ -69,13 +70,20 @@ const ListSvcCate = () => {
                     border: "1px solid #ADB5BD",
                     backgroundColor: "#FFFFFF",
                     color: "#000000",
-                    mr: "8px",
+                    mr: 1,
+                    mb: 1,
                   }}
                 />
-              ))
-            : "등록된 분석 단계가 없습니다.";
+              ))}
+            </Box>
+          ) : (
+            <Typography variant="body2">
+              "등록된 분석 단계가 없습니다."
+            </Typography>
+          );
         },
         width: "65%",
+        wrap: true,
       },
       {
         name: "관리",
