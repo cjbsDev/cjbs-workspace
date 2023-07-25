@@ -1,14 +1,15 @@
+"use client";
 import * as React from "react";
 import { Stack, TextField, TextFieldProps, Typography } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, ValidationRule } from "react-hook-form";
 
 type InputValidationProps = TextFieldProps & {
   required?: boolean;
   inputName: string;
   placeholder?: string;
-  pattern?: RegExp;
+  pattern?: ValidationRule<RegExp> | undefined;
   maxLength?: number;
   minLength?: number;
   errorMessage?: string;
@@ -16,25 +17,6 @@ type InputValidationProps = TextFieldProps & {
   maxLengthErrMsg?: string;
   minLengthErrMsg?: string;
 };
-export const InputDefaultType = ({ ...props }: TextFieldProps) => {
-  return (
-    <ThemeProvider theme={cjbsTheme}>
-      <TextField
-        {...props}
-        size="small"
-        variant="outlined"
-        sx={{
-          ...props.sx,
-          // ".MuiOutlinedInput-input": {
-          //   pt: "5px",
-          //   pb: "5px",
-          // },
-        }}
-      />
-    </ThemeProvider>
-  );
-};
-
 export const InputValidation = ({
   required = false,
   inputName,
@@ -68,7 +50,7 @@ export const InputValidation = ({
               value: minLength ?? 0,
               message: minLength + "자 이상 입력 바랍니다.",
             },
-            pattern: {
+            pattern: pattern && {
               value: pattern,
               message: errorMessage,
             },
@@ -108,6 +90,25 @@ export const InputValidation = ({
           </Typography>
         )}
       </Stack>
+    </ThemeProvider>
+  );
+};
+
+export const InputDefaultType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          // ".MuiOutlinedInput-input": {
+          //   pt: "5px",
+          //   pb: "5px",
+          // },
+        }}
+      />
     </ThemeProvider>
   );
 };

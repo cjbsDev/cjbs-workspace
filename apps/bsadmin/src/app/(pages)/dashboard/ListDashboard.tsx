@@ -50,10 +50,10 @@ const ListDashboardPage = () => {
   };
 
   const defaultValues = {
-    radioTest: "in",
-    checkTest: "Y",
-    inputTest: "defaultTextValue",
-    gender: "user623719",
+    // radioTest: "in",
+    // checkTest: ["Y", "Nbb"],
+    // inputTest: "defaultTextValue",
+    // gender: "user623719",
   };
 
   return (
@@ -99,11 +99,17 @@ const ListDashboardPage = () => {
       </Box>
 
       <Divider sx={{ mb: 5, mt: 5 }} />
-
+      {/*
+        <Form key={formKey} 페이지가 다른 기본 값(defaultValues)으로 여러 번 구동 될 때 데이터가 제대로 다시 렌더링 안될 때 key prop 활용가능
+        이 키는 기본값이 변경될 때마다 업데이트 필요. 
+        키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다. 
+      */}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Typography sx={{ mb: 1 }}>Form Test</Typography>
         <Checkbox inputName="checkTest" labelText="체크박스1" value="Y" />
-        <Checkbox inputName="checkTest" labelText="체크박스2" value="N" />
+        <Checkbox inputName="checkTest" labelText="체크박스2" value="Naa" />
+        <Checkbox inputName="checkTest" labelText="체크박스3" value="Nbb" />
+        <Checkbox inputName="checkTest" labelText="체크박스4" value="Ycc" />
         <ShowBox />
         <br />
         <br />

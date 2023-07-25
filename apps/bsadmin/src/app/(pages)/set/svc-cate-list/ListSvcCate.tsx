@@ -8,30 +8,33 @@ import {
   DataTableFilter,
   Title1,
   OutlinedButton,
+  ContainedButton,
+  LinkButton,
 } from "cjbsDSTM";
-import { Chip, Stack, Grid } from "@mui/material";
+import { Chip, Stack, Grid, Box, Typography } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import MyIcon from "icon/myIcon";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListSvcType = () => {
+const ListSvcCate = () => {
   const router = useRouter();
-
-  const goDetailPage = (topCodeMc: string) => {
-    router.push("/set/svc-type-list/" + topCodeMc);
+  const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
+    router.push("/set/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const enumMngrCode = "SRVC_TYPE";
+  const enumMngrCode = "SRVC_CTGR";
   let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  console.log("SRVC_TYPE ", data.data);
+  //console.log("SRVC_CTGR ", data.data);
 
   const columns = useMemo(
     () => [
@@ -40,18 +43,25 @@ const ListSvcType = () => {
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "100px",
+        width: "5%",
       },
       {
-        name: "서비스 타입",
+        name: "분류",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "25%",
+        width: "10%",
       },
+      {
+        name: "분석종류",
+        selector: (row: { midValue: string }) => row.midValue,
+        width: "10%",
+      },
+
       {
         name: "분석 단계",
         cell: (row: { btmValueList: any }) => {
-          return row.btmValueList.length > 0
-            ? row.btmValueList.map((item: any) => (
+          return row.btmValueList.length > 0 ? (
+            <Box sx={{ mb: -1 }}>
+              {row.btmValueList.map((item: any) => (
                 <Chip
                   key={item.btmCodeMc}
                   label={item.btmCodeVal}
@@ -60,22 +70,29 @@ const ListSvcType = () => {
                     border: "1px solid #ADB5BD",
                     backgroundColor: "#FFFFFF",
                     color: "#000000",
-                    mr: "8px",
+                    mr: 1,
+                    mb: 1,
                   }}
                 />
-              ))
-            : "등록된 분석 단계가 없습니다.";
+              ))}
+            </Box>
+          ) : (
+            <Typography variant="body2">
+              "등록된 분석 단계가 없습니다."
+            </Typography>
+          );
         },
-        width: "60%",
+        width: "65%",
+        wrap: true,
       },
       {
         name: "관리",
-        cell: (row: { topCodeMc: string }) => {
+        cell: (row: { topCodeMc: string; midCodeMc: string }) => {
           return (
             <OutlinedButton
               buttonName="관리"
               size="small"
-              onClick={() => goDetailPage(row.topCodeMc)}
+              onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
             />
           );
         },
@@ -98,6 +115,10 @@ const ListSvcType = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
+            {/* 서비스 분류 등록*/}
+            <Link href="/set/svc-cate-add">
+              <ContainedButton buttonName="서비스 분류 등록" size="small" />{" "}
+            </Link>
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -122,7 +143,7 @@ const ListSvcType = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="서비스 타입 관리" />}
+      title={<Title1 titleName="서비스 분류 관리" />}
       data={data.data}
       columns={columns}
       highlightOnHover
@@ -135,4 +156,4 @@ const ListSvcType = () => {
   );
 };
 
-export default ListSvcType;
+export default ListSvcCate;

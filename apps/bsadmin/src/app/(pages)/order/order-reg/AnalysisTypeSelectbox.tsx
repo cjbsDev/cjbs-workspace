@@ -15,6 +15,7 @@ export default function AnalysisTypeSelectbox() {
 
   return (
     <SelectBox
+      required={true}
       inputName="anlsTypeMc"
       options={data.data}
       resetFiledName="platformMc"

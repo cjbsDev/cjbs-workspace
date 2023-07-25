@@ -75,11 +75,7 @@ const Drawer = styled(MuiDrawer, {
     "& .MuiDrawer-paper": closedMixin(theme),
   }),
 }));
-export default function OrderLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function SubLayout({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [nestedOpen, setNestedOpen] = React.useState(false);
@@ -241,6 +237,7 @@ export default function OrderLayout({
                         //   <ListItemText primary={item.menuLabel} />
                         // </ListItemButton>
                         <Link
+                          key={item.menuPath}
                           href={item.menuPath}
                           className={
                             "navLink" +

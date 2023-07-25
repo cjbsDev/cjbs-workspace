@@ -1,0 +1,167 @@
+{
+  "success": true,
+  "code": "OK",
+  "message": "NO_MESSAGE",
+  "data": {
+    "topCodeMc": [
+      {
+        "btmCodeMc": "BS_0100005001",
+        "btmCodeVal": "Analysis"
+      },
+      {
+        "btmCodeMc": "BS_0100005002",
+        "btmCodeVal": "License"
+      }
+    ],
+
+    "midCodeMc": [
+      {
+        "btmCodeMc": "BS_0100006001",
+        "btmCodeVal": "CG​"
+      },
+      {
+        "btmCodeMc": "BS_0100006002",
+        "btmCodeVal": "GRIIS Composition​"
+      },
+      {
+        "btmCodeMc": "BS_0100006003",
+        "btmCodeVal": "GRIIS Essential​"
+      },
+      {
+        "btmCodeMc": "BS_0100006004",
+        "btmCodeVal": "MTP​"
+      },
+      {
+        "btmCodeMc": "BS_0100006005",
+        "btmCodeVal": "RS"
+      },
+      {
+        "btmCodeMc": "BS_0100006006",
+        "btmCodeVal": "SG"
+      },
+      {
+        "btmCodeMc": "BS_0100006007",
+        "btmCodeVal": "WG"
+      },
+      {
+        "btmCodeMc": "BS_0100006008",
+        "btmCodeVal": "16S"
+      }
+    ],
+
+    "btmValueList": [
+      {
+        "btmCodeMc": "BS_0100008001",
+        "btmCodeVal": "illumina MiSeq 2x250"
+      },
+      {
+        "btmCodeMc": "BS_0100008002",
+        "btmCodeVal": "Pacbio Sequel 16S"
+      },
+      {
+        "btmCodeMc": "BS_0100008003",
+        "btmCodeVal": "MTP Premium Add-on 1"
+      },
+      {
+        "btmCodeMc": "BS_0100008004",
+        "btmCodeVal": "MTP Premium Add-on 2"
+      },
+      {
+        "btmCodeMc": "BS_0100008005",
+        "btmCodeVal": "Illumina NovaSeq 2x150"
+      },
+      {
+        "btmCodeMc": "BS_0100008006",
+        "btmCodeVal": "Illumina NextSeq 2x150"
+      },
+      {
+        "btmCodeMc": "BS_0100008007",
+        "btmCodeVal": "Pacbio+illumine Hybrid"
+      },
+      {
+        "btmCodeMc": "BS_0100008008",
+        "btmCodeVal": "Illumina IJSEM"
+      },
+      {
+        "btmCodeMc": "BS_0100008009",
+        "btmCodeVal": "Illumina MiSeq 2x300"
+      },
+      {
+        "btmCodeMc": "BS_0100008010",
+        "btmCodeVal": "TrueBac ID-Genome Voucher"
+      },
+      {
+        "btmCodeMc": "BS_0100008011",
+        "btmCodeVal": "Pacbio Sequel 10K"
+      },
+      {
+        "btmCodeMc": "BS_0100008012",
+        "btmCodeVal": "Additional(Analysis)"
+      },
+      {
+        "btmCodeMc": "BS_0100008013",
+        "btmCodeVal": "CG"
+      },
+      {
+        "btmCodeMc": "BS_0100008014",
+        "btmCodeVal": "GRIIS Composition Pacbio  Sequel 16S"
+      },
+      {
+        "btmCodeMc": "BS_0100008015",
+        "btmCodeVal": "Pacbio+illumina "
+      },
+      {
+        "btmCodeMc": "BS_0100008016",
+        "btmCodeVal": "[LI] MTP Premium 1000"
+      },
+      {
+        "btmCodeMc": "BS_0100008017",
+        "btmCodeVal": "[LI] MTP Premium 1000-academic"
+      },
+      {
+        "btmCodeMc": "BS_0100008018",
+        "btmCodeVal": "[LI] MTP Premium 1000 (iSeq)"
+      },
+      {
+        "btmCodeMc": "BS_0100008019",
+        "btmCodeVal": "[LI] MTP Premium 500"
+      },
+      {
+        "btmCodeMc": "BS_0100008020",
+        "btmCodeVal": "[LI] MTP Premium 500-acdemic"
+      },
+      {
+        "btmCodeMc": "BS_0100008021",
+        "btmCodeVal": "[LI] MTP Premium 200"
+      },
+      {
+        "btmCodeMc": "BS_0100008022",
+        "btmCodeVal": "[LI] MTP Premium 200-academic"
+      },
+      {
+        "btmCodeMc": "BS_0100008023",
+        "btmCodeVal": "[LI] EzBC 16S ID API"
+      },
+      {
+        "btmCodeMc": "BS_0100008024",
+        "btmCodeVal": "TrueBac ID-Genome 100"
+      },
+      {
+        "btmCodeMc": "BS_0100008025",
+        "btmCodeVal": "TrueBac ID-Genome 200"
+      },
+      {
+        "btmCodeMc": "BS_0100008026",
+        "btmCodeVal": "TrueBac ID-16S 1000"
+      },
+      {
+        "btmCodeMc": "BS_0100008027",
+        "btmCodeVal": "TrueBac ID-16S 3000"
+      },
+      {
+        "btmCodeMc": "BS_0100008028",
+        "btmCodeVal": "TrueBac ID-16S 10000"
+      }
+    ]
+  }
+}
