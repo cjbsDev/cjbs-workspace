@@ -28,6 +28,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import useSWR from "swr";
+import { toast } from "react-toastify";
+
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm } from "react-hook-form";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
@@ -90,11 +92,15 @@ export default function SvcCatePage({ params }: ViewProps) {
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
+          toast("수정 성공");
           router.push("/set/svc-cate-list/");
+        } else {
+          toast(response.data.message ?? "에러 발생");
         }
       })
       .catch((error) => {
         console.error("PUT request failed:", error);
+        toast("에러 발생");
       });
   };
 

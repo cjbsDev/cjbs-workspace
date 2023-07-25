@@ -312,6 +312,7 @@ export default function InstModifyPage() {
                           { value: "BS_0600003", optionName: "기업" },
                           { value: "BS_0600005", optionName: "기타" },
                         ]}
+                        defaultOption={false}
                       />
                     </Stack>
                   </TD>

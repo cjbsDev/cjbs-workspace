@@ -70,6 +70,15 @@ const LazyCustSearchModal = dynamic(
   }
 );
 
+// 영업 담당자
+const LazySalesManagerSelctbox = dynamic(
+  () => import("../../../../components/SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
 interface FormData {
   agncNm?: string;
   agncUkey?: string;
@@ -361,16 +370,7 @@ export default function AgncPIModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <SelectBox
-                      inputName="bsnsMngrUkey"
-                      options={[
-                        { value: "user656014", optionName: "키웨스트" },
-                        { value: "user483349", optionName: "라이언" },
-                        { value: "user369596", optionName: "모씨" },
-                        { value: "user809094", optionName: "LINK" },
-                        { value: "user623719", optionName: "코로그" },
-                      ]}
-                    />
+                    <LazySalesManagerSelctbox />
                   </TD>
                 </TableRow>
                 <TableRow>

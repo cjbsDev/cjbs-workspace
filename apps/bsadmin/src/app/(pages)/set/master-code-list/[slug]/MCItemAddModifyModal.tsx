@@ -188,6 +188,7 @@ const MCItemModifyModal = ({
                           { value: "Y", optionName: "노출" },
                           { value: "N", optionName: "노출안함" },
                         ]}
+                        defaultOption={false}
                       />
                     </Stack>
                   </TD>
@@ -203,6 +204,7 @@ const MCItemModifyModal = ({
                           { value: "Y", optionName: "사용" },
                           { value: "N", optionName: "사용안함" },
                         ]}
+                        defaultOption={false}
                       />
                     </Stack>
                   </TD>

@@ -112,6 +112,7 @@ export default function SvcCatePage() {
       .then((response) => {
         console.log("PUT request successful:", response.data);
         if (response.data.success) {
+          toast("등록 성공");
           router.push("/set/svc-cate-list/");
         } else {
           toast(response.data.message ?? "에러 발생");
