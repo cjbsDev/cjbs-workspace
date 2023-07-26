@@ -1,6 +1,9 @@
 "use client";
 import * as React from "react";
 
+// Color
+export * from "./themes/color";
+
 // Theme
 export * from "./themes";
 

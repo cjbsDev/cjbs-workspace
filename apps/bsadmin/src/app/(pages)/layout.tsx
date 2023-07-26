@@ -40,9 +40,9 @@ const closedMixin = (theme: Theme): CSSObject => ({
     duration: theme.transitions.duration.leavingScreen,
   }),
   overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
+  width: `calc(${theme.spacing(6.5)} + 1px)`,
   [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
+    width: `calc(${theme.spacing(6.5)} + 1px)`,
   },
 });
 
@@ -50,7 +50,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
-  padding: theme.spacing(0, 1),
+  padding: theme.spacing(0, 0),
   marginLeft: 12,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
@@ -159,9 +159,9 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                       : false
                   }
                   sx={{
-                    minHeight: 48,
+                    minHeight: 50,
                     justifyContent: open ? "initial" : "center",
-                    px: 2.5,
+                    px: 2,
                     "&.MuiListItemButton-root": {
                       "&:hover": {
                         backgroundColor: theme.palette.primary.main,
@@ -204,7 +204,11 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                   timeout="auto"
                   unmountOnExit
                 >
-                  <List component="div" sx={{ p: 2 }} disablePadding>
+                  <List
+                    component="div"
+                    sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
+                    disablePadding
+                  >
                     {item.menuPath.nestedPath.map((item) => {
                       const isActive = currentPathname.startsWith(
                         item.menuPath

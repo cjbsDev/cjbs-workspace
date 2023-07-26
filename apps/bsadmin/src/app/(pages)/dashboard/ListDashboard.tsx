@@ -17,7 +17,18 @@ import {
   InputValidation,
   ResetButton,
   XlargeButton,
+  cjbsTheme,
 } from "cjbsDSTM";
+// Color
+import {
+  blue,
+  yellow,
+  red,
+  orange,
+  cyan,
+  grey,
+  green,
+} from "cjbsDSTM/themes/color";
 import { useRouter } from "next-nprogress-bar";
 import {
   Box,
@@ -88,14 +99,18 @@ const ListDashboardPage = () => {
 
       <Box sx={{ "& button": { m: 1 } }}>
         <Box>
-          <OutlinedButton buttonName="Small" size="small" />
+          <OutlinedButton
+            buttonName="Small"
+            size="small"
+            sx={{ color: blue[400] }}
+          />
           <OutlinedButton buttonName="Medium" />
-          <OutlinedButton buttonName="Large" size="large" color="neutral" />
-          <XlargeButton buttonName="Xlarge" variant="outlined" color="error" />
+          <OutlinedButton buttonName="Large" size="large" />
+          <XlargeButton buttonName="Xlarge" variant="outlined" />
         </Box>
         <Box>
-          <ContainedButton buttonName="Small" size="small" color="neutral" />
-          <ContainedButton buttonName="Medium" color="danger" />
+          <ContainedButton buttonName="Small" size="small" />
+          <ContainedButton buttonName="Medium" />
           <ContainedButton buttonName="Large" size="large" />
           <XlargeButton buttonName="Xlarge" variant="contained" />
         </Box>
@@ -114,7 +129,7 @@ const ListDashboardPage = () => {
         키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다.
       */}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <Typography sx={{ mb: 1 }} variant="h3">
+        <Typography sx={{ mb: 1, color: blue["800"] }} variant="h3">
           Form Test
         </Typography>
 
@@ -131,16 +146,17 @@ const ListDashboardPage = () => {
           required={true}
           errorMessage="checkbox requied!!"
         />
-
+        <br />
+        <br />
         {/*Deprecated*/}
-        <Typography variant="h4" sx={{ color: "red" }}>
+        <Typography variant="h4" sx={{ color: red["600"] }}>
           !Deprecated
         </Typography>
         <RadioM1 inputName="radioTest" labelText="국내" value="in" />
         <RadioM1 inputName="radioTest" labelText="해외" value="out" />
         <br />
         <br />
-        <Typography variant="h4" sx={{ color: "green" }}>
+        <Typography variant="h4" sx={{ color: green["200"] }}>
           !New RadioGV(Group Validation)
         </Typography>
         {/*<RadioGV data={dataRadioGVTest} inputName="testRadioGV" />*/}

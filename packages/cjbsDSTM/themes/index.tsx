@@ -1,5 +1,5 @@
 import { createTheme } from "@mui/material";
-import { palette } from "@mui/system";
+import { green, cyan, blue, red, grey, orange, yellow } from "./color";
 
 declare module "@mui/material/styles" {
   interface Theme {}
@@ -25,7 +25,6 @@ declare module "@mui/material/styles" {
   interface TypographyVariants {
     title1: React.CSSProperties;
     title2: React.CSSProperties;
-    buttonMD: React.CSSProperties;
   }
 
   interface ButtonVariants {}
@@ -34,7 +33,6 @@ declare module "@mui/material/styles" {
   interface TypographyVariantsOptions {
     title1?: React.CSSProperties;
     title2?: React.CSSProperties;
-    buttonMD?: React.CSSProperties;
   }
 
   interface ButtonVariantsOptions {}
@@ -44,7 +42,6 @@ declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     title1: true;
     title2: true;
-    buttonMD: true;
   }
 }
 
@@ -58,7 +55,7 @@ declare module "@mui/material/Button" {
 export const cjbsTheme = createTheme({
   palette: {
     text: {
-      primary: "#00000",
+      primary: "#000000",
       secondary: "#666666",
       disabled: "#999FA4",
     },
@@ -74,12 +71,12 @@ export const cjbsTheme = createTheme({
       light: "#CED4DA",
       contrastText: "#fff",
     },
-    tertiary: {
-      main: "#FF9700",
-      dark: "#CC7800",
-      light: "#FFCA7F",
-      contrastText: "#fff",
-    },
+    // tertiary: {
+    //   main: "#FF9700",
+    //   dark: "#CC7800",
+    //   light: "#FFCA7F",
+    //   contrastText: "#fff",
+    // },
     error: {
       main: "#EF151E",
       dark: "#B50D0D",
@@ -104,90 +101,6 @@ export const cjbsTheme = createTheme({
       light: "#a5d6a7",
       contrastText: "#fff",
     },
-    blue: {
-      blue50: "#E6F0FA",
-      blue100: "#CCE2F5",
-      blue200: "#99C5EB",
-      blue300: "#66A8E1",
-      blue400: "#338BD7",
-      blue500: "#006ECD",
-      blue600: "#0063BA",
-      blue700: "#005AA8",
-      blue800: "#004C8E",
-      blue900: "#001242",
-    },
-    gray: {
-      gray50: "#F8F9FA",
-      gray100: "#F1F3F5",
-      gray200: "#E9ECEF",
-      gray300: "#DEE2E6",
-      gray400: "#CED4DA",
-      gray500: "#ADB5BD",
-      gray600: "#868E95",
-      gray700: "#495056",
-      gray800: "#343A40",
-      gray900: "#222529",
-    },
-    yellow: {
-      yellow50: "#FFF3E0",
-      yellow100: "#FFE0B2",
-      yellow200: "#FFCC80",
-      yellow300: "#FFB74D",
-      yellow400: "#FFA726",
-      yellow500: "#FF9700",
-      yellow600: "#E58700",
-      yellow700: "#CC7800",
-      yellow800: "#995A00",
-      yellow900: "#663C00",
-    },
-    red: {
-      red50: "#FEEBEE",
-      red100: "#FECDD2",
-      red200: "#EF9A9A",
-      red300: "#F57278",
-      red400: "#EF5350",
-      red500: "#F44336",
-      red600: "#E53935",
-      red700: "#D32F2F",
-      red800: "#B50D0D",
-      red900: "#A10606",
-    },
-    green: {
-      green50: "#F1F9F1",
-      green100: "#C8E6C9",
-      green200: "#A5D6A7",
-      green300: "#81C784",
-      green400: "#66BB6A",
-      green500: "#4CAF50",
-      green600: "#43A047",
-      green700: "#388E3C",
-      green800: "#2E7D32",
-      green900: "#1B5E20",
-    },
-    cyan: {
-      cyan50: "#E0F7FA",
-      cyan100: "#B2EBF2",
-      cyan200: "#80DEEA",
-      cyan300: "#4DD0E1",
-      cyan400: "#26C6DA",
-      cyan500: "#00BCD4",
-      cyan600: "#00ACC1",
-      cyan700: "#0097A7",
-      cyan800: "#00838F",
-      cyan900: "#006064",
-    },
-    orange: {
-      orange50: "#FBE9E7",
-      orange100: "#FFCCBC",
-      orange200: "#FFAB91",
-      orange300: "#FF8A65",
-      orange400: "#FF7043",
-      orange500: "#FF5722",
-      orange600: "#F4511E",
-      orange700: "#E64A19",
-      orange800: "#D84315",
-      orange900: "#BF360C",
-    },
     common: {
       white: "#FFFFFF",
       black: "#00000",
@@ -210,14 +123,14 @@ export const cjbsTheme = createTheme({
       lineHeight: 1.2,
     },
     h3: {
-      // fontFamily: "Inter",
+      fontFamily: "Inter",
       fontSize: 28,
       fontWeight: 700,
       letterSpacing: "0em",
       lineHeight: 1.16,
     },
     title1: {
-      // fontFamily: "Inter",
+      fontFamily: "Inter",
       fontSize: 22,
       fontWeight: 600,
       letterSpacing: "0em",
@@ -258,90 +171,90 @@ export const cjbsTheme = createTheme({
       lineHeight: 1.43,
       letterSpacing: "0em",
     },
-    buttonxl: {
-      fontFamily: "Inter",
-      fontSize: 18,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    buttonlg: {
-      fontFamily: "Inter",
-      fontSize: 16,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    buttonmd: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    buttonsm: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    helptxt: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    inputtxt: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    chip: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 400,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    tooltip: {
-      fontFamily: "Inter",
-      fontSize: 12,
-      fontWeight: 400,
-      lineHeight: 1.5,
-      letterSpacing: "0em",
-    },
-    alert: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 600,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    tableheader: {
-      fontFamily: "Inter",
-      fontSize: 14,
-      fontWeight: 600,
-      lineHeight: 1.75,
-      letterSpacing: "0em",
-    },
-    badge: {
-      fontFamily: "Inter",
-      fontSize: 12,
-      fontWeight: 600,
-      lineHeight: 1.5,
-      letterSpacing: "0em",
-    },
-    caption: {
-      fontFamily: "Inter",
-      fontSize: 12,
-      fontWeight: 400,
-      lineHeight: 1.5,
-      letterSpacing: "0em",
-    },
+    // buttonxl: {
+    //   fontFamily: "Inter",
+    //   fontSize: 18,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // buttonlg: {
+    //   fontFamily: "Inter",
+    //   fontSize: 16,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // buttonmd: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // buttonsm: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // helptxt: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // inputtxt: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // chip: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 400,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // tooltip: {
+    //   fontFamily: "Inter",
+    //   fontSize: 12,
+    //   fontWeight: 400,
+    //   lineHeight: 1.5,
+    //   letterSpacing: "0em",
+    // },
+    // alert: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 600,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // tableheader: {
+    //   fontFamily: "Inter",
+    //   fontSize: 14,
+    //   fontWeight: 600,
+    //   lineHeight: 1.75,
+    //   letterSpacing: "0em",
+    // },
+    // badge: {
+    //   fontFamily: "Inter",
+    //   fontSize: 12,
+    //   fontWeight: 600,
+    //   lineHeight: 1.5,
+    //   letterSpacing: "0em",
+    // },
+    // caption: {
+    //   fontFamily: "Inter",
+    //   fontSize: 12,
+    //   fontWeight: 400,
+    //   lineHeight: 1.5,
+    //   letterSpacing: "0em",
+    // },
   },
   components: {
     MuiFormControlLabel: {
@@ -387,7 +300,8 @@ export const cjbsTheme = createTheme({
           boxShadow: "none",
           borderRadius: 2,
           textTransform: "initial",
-          minWidth: 74,
+          minWidth: "fit-content",
+          // minWidth: 74,
         },
       },
     },
@@ -460,14 +374,6 @@ export const cjbsTheme = createTheme({
             fontWeight: 600,
             fontSize: 18,
             letterSpacing: "-0.5px",
-          },
-        },
-        {
-          props: { variant: "buttonMD" },
-          style: {
-            fontSize: 14,
-            fontWeight: 400,
-            letterSpacing: -0.25,
           },
         },
       ],

@@ -70,7 +70,10 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
             onClick={!open ? handleDrawerOpen : handleDrawerClose}
             edge="start"
             sx={{
-              ml: 5,
+              p: 0,
+              m: 0,
+              ml: 3.5,
+              minWidth: "fit-content",
               ...(open && { ml: -3 }),
             }}
           >
