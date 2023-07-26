@@ -174,7 +174,6 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
     signOut: '/signout',
   },
   secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
-  // secret: 'QeN+D2lB6Ayngv96Z5OT2ZGt3wvyh9rjIQmbbLdDzKdmt2P+WSKhcFFiTcVMJ+mK',
   session: {
     strategy: 'jwt',
   },
