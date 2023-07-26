@@ -116,7 +116,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
 
     {
       name: "컬럼",
-      selector: (row: { targetColNm: any }) => row.targetColNm,
+      selector: (row: { targetColVal: any }) => row.targetColVal,
       width: "20%",
     },
     {

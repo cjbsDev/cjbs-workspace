@@ -73,7 +73,7 @@ const MemberMngtNewModal = ({
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
 
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
