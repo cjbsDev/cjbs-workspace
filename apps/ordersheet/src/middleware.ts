@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
 
   const token = await getToken({
     req: request,
+    // eslint-disable-next-line turbo/no-undeclared-env-vars
     secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   });
 
