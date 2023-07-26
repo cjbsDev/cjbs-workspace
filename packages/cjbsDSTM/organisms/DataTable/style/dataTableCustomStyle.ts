@@ -20,8 +20,8 @@ export const dataTableCustomStyles = {
       backgroundColor: cjbsTheme.palette.grey["50"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-      paddingTop: 10,
-      paddingBottom: 10,
+      paddingTop: 3,
+      paddingBottom: 3,
     },
   },
   subHeader: {
@@ -59,8 +59,8 @@ export const dataTableCustomStyles = {
   rows: {
     style: {
       backgroundColor: "white",
-      paddingTop: 10,
-      paddingBottom: 10,
+      paddingTop: 7.5,
+      paddingBottom: 7.5,
       paddingLeft: 24,
       paddingRight: 24,
     },
