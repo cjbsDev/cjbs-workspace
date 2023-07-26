@@ -15,7 +15,7 @@ interface ContextProps {
 export default function Providers({ children }: ContextProps) {
   return (
     <>
-      <CssBaseline />
+      {/*<CssBaseline />*/}
       <ToastContainer
         position="bottom-center"
         autoClose={5000}

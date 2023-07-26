@@ -194,18 +194,7 @@ export const cjbsTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: [
-      "-apple-system",
-      "BlinkMacSystemFont",
-      '"Segoe UI"',
-      "Roboto",
-      '"Helvetica Neue"',
-      "Arial",
-      "sans-serif",
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-    ].join(","),
+    fontFamily: ["Inter"].join(","),
     h1: {
       fontFamily: "Inter",
       fontSize: 36,
@@ -398,7 +387,7 @@ export const cjbsTheme = createTheme({
           boxShadow: "none",
           borderRadius: 2,
           textTransform: "initial",
-          minWidth: "fit-content",
+          minWidth: 74,
         },
       },
     },
@@ -406,7 +395,7 @@ export const cjbsTheme = createTheme({
       styleOverrides: {
         outlined: {
           "&.MuiButton-outlinedSizeSmall": {
-            padding: "3px 10px",
+            padding: "4px 10px",
           },
           "&.MuiButton-outlinedSizeMedium": {
             padding: "6px 12px",
@@ -418,7 +407,7 @@ export const cjbsTheme = createTheme({
         },
         contained: {
           "&.MuiButton-containedSizeSmall": {
-            padding: "3px 10px",
+            padding: "4px 10px",
           },
           "&.MuiButton-containedSizeMedium": {
             padding: "6px 12px",
@@ -430,7 +419,7 @@ export const cjbsTheme = createTheme({
         },
         text: {
           "&.MuiButton-textSizeSmall": {
-            padding: "3px 10px",
+            padding: "4px 10px",
           },
           "&.MuiButton-textSizeMedium": {
             padding: "6px 12px",
@@ -441,24 +430,6 @@ export const cjbsTheme = createTheme({
           },
         },
       },
-      variants: [
-        {
-          props: { variant: "dashed" },
-          style: {
-            textTransform: "none",
-            border: `2px dashed blue`,
-          },
-        },
-        {
-          props: { variant: "xSmall", color: "secondary" },
-          style: {
-            padding: "0 10px",
-            border: "1px solid #CED4DA",
-            borderRadius: "2px",
-            fontSize: 14,
-          },
-        },
-      ],
     },
     MuiIconButton: {
       styleOverrides: {

@@ -89,9 +89,6 @@ export const ContainedButton = ({
         variant="contained"
         sx={{
           ...props.sx,
-          // "&.MuiButton-containedSizeSmall": {
-          //   p: "3px 10px",
-          // },
         }}
       >
         {buttonName}

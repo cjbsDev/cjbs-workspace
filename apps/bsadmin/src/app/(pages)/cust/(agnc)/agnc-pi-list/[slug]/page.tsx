@@ -167,7 +167,7 @@ export default function AgncPage({ params }: CustViewProps) {
         </Table>
       </TableContainer>
 
-      {/* 
+      {/*
       <Typography variant="subtitle1">
         소속 연구원( 총 {agncCustList.length}명 )
       </Typography>
@@ -217,12 +217,10 @@ export default function AgncPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>선결제 금액</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                  }}
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
                 >
                   <Box>{agncData.pymnPrice ?? "-"}</Box>
                   <OutlinedButton
@@ -230,7 +228,7 @@ export default function AgncPage({ params }: CustViewProps) {
                     size="small"
                     onClick={handleStatementChkModalOpen}
                   />
-                </Box>
+                </Stack>
               </TD>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>

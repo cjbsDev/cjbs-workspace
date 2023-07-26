@@ -99,24 +99,28 @@ a {
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/bsadmin/public/fonts/Inter-Bold.ttf');
+  src: url('/../../public/fonts/Inter-Bold.ttf');
   font-weight: 700;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/bsadmin/public/fonts/Inter-SemiBold.ttf');
+  src: url('/../../public/fonts/Inter-SemiBold.ttf');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/bsadmin/public/fonts/Inter-Regular.ttf');
+  src: url('/../../public/fonts/Inter-Regular.ttf');
   font-weight: 400;
   font-style: normal;
 }
+
+/*html, body {*/
+/*  font-family: 'Inter';*/
+/*}*/
 
 .navLink {
   font-size: 14px;
