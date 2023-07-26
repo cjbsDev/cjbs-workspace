@@ -7,9 +7,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { matcher } = config;
 
-  console.log("$$$", process.env.NEXTAUTH_SECRET)
   // eslint-disable-next-line turbo/no-undeclared-env-vars
-  console.log("123123", process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+  console.log("$$$", process.env.NEXT_PUBLIC_NEXTAUTH_SECRET)
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
+  console.log("$$$", process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+
 
   //Page url 외의 요청은 Pass한다.
   if (!matcher.includes(pathname)) {
@@ -18,7 +20,7 @@ export async function middleware(request: NextRequest) {
 
   const token = await getToken({
     req: request,
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   });
 
   // console.log('token > ', token?.error);
