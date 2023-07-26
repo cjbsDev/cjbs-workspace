@@ -58,7 +58,7 @@ const AgncSearchModal = ({
       },
       {
         name: "분류",
-        selector: (row) => row.instTypeCc,
+        selector: (row) => row.instTypeVal,
       },
       {
         name: "특성",
@@ -85,7 +85,6 @@ const AgncSearchModal = ({
     []
   );
 
-  console.log("data.data.instList", data.data.instList);
   const filteredData = data.data.instList;
 
   const subHeaderComponentMemo = React.useMemo(() => {

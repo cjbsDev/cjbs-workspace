@@ -33,6 +33,7 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
 import LoadingSvg from "public/svg/loading_wh.svg";
+import { toast } from "react-toastify";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
@@ -161,11 +162,12 @@ const AgncAdd = () => {
   // [ 등록 ]
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    let saveMemberList = selectedMembers.map(({ custUkey }) => ({
-      custUkey,
-    }));
 
-    console.log("data", data);
+    const saveMemberList = selectedMembers
+      .filter((member) => member.custUkey !== data.custUkey)
+      .map(({ custUkey }) => ({
+        custUkey,
+      }));
 
     let saveObj = {
       addr: data.addr,
@@ -221,7 +223,8 @@ const AgncAdd = () => {
                   <InputValidation
                     sx={{ width: 600 }}
                     inputName="instNm"
-                    errorMessage="소속기관을 입력해 주세요."
+                    required={true}
+                    errorMessage="기관을 검색 선택해 주세요."
                     InputProps={{
                       readOnly: true,
                     }}
@@ -229,10 +232,8 @@ const AgncAdd = () => {
 
                   <InputValidation
                     disabled={true}
-                    required={true}
                     sx={{ display: "none" }}
                     inputName="instUkey"
-                    errorMessage="필수 값입니다."
                     InputProps={{
                       readOnly: true,
                     }}
@@ -254,9 +255,11 @@ const AgncAdd = () => {
                     inputName="agncNm"
                     sx={{ width: 600 }}
                     required={true}
-                    errorMessage={"거래처(PI)를 입력해 주세요."}
-                    pattern={/^[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]*$/}
-                    patternErrMsg="거래처 이름은 한글 또는 영문으로 10자리 이내로 입력해주세요."
+                    errorMessage={
+                      "거래처 이름을 한글 또는 영문으로 10자리 이내로 입력해주세요."
+                    }
+                    pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
+                    patternErrMsg="거래처 이름을 한글 또는 영문으로 10자리 이내로 입력해주세요."
                     maxLength={10}
                     maxLengthErrMsg="거래처 이름은 10자 이내로 입력해주세요."
                   />
@@ -270,7 +273,6 @@ const AgncAdd = () => {
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
                       inputName="zip"
-                      errorMessage={false}
                       placeholder="우편번호"
                       sx={{ width: 77 }}
                       InputProps={{
@@ -283,7 +285,6 @@ const AgncAdd = () => {
                     <InputValidation
                       sx={{ width: 600 }}
                       inputName="addr"
-                      errorMessage={false}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -293,7 +294,8 @@ const AgncAdd = () => {
                     <InputValidation
                       sx={{ width: 600 }}
                       inputName="addrDetail"
-                      errorMessage={false}
+                      maxLength={50}
+                      maxLengthErrMsg="50자 이내로 입력해주세요."
                       placeholder="상세주소"
                     />
                   </Stack>
@@ -317,7 +319,6 @@ const AgncAdd = () => {
                     disabled={true}
                     sx={{ display: "none" }}
                     inputName="custUkey"
-                    errorMessage="필수 값입니다."
                   />
 
                   <OutlinedButton
@@ -385,8 +386,9 @@ const AgncAdd = () => {
                   multiline
                   rows={4}
                   inputName="memo"
-                  errorMessage={false}
                   placeholder="메모"
+                  maxLength={500}
+                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                 />
               </TD>
             </TableRow>

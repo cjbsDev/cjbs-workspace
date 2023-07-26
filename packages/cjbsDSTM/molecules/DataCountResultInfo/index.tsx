@@ -17,9 +17,11 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
       sx={{ display: "flex", alignItems: "center", m: 0, mt: 0, p: 0 }}
     >
       <Box component="dt" sx={{ m: 0, mr: 1.2, p: 0, pt: 0.5 }}>
+        {/* 
         <Typography variant="subtitle2">
           <b>검색 결과</b>
         </Typography>
+        */}
       </Box>
       <Box
         component="dd"

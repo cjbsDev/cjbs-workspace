@@ -201,12 +201,11 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="brno"
-                        errorMessage={
-                          errors.brno
-                            ? "중복된 사업자 등록번호가 있습니다."
-                            : "사업자 등록번호를 입력해 주세요."
-                        }
-                        placeholder="사업자 등록번호 10자리를 입력해주세요."
+                        required={true}
+                        errorMessage="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                        pattern={/^\d{10}$/}
+                        patternErrMsg="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                        placeholder="사업자 등록번호 숫자 10자리를 입력해 주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>
@@ -219,7 +218,14 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="rprsNm"
+                        required={true}
+                        pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
+                        patternErrMsg="이름은 한글 또는 영문으로 20자리 이내로 입력해주세요."
                         errorMessage="대표자명은 필수 입력입니다."
+                        minLength={2}
+                        minLengthErrMsg="최소 2자 이상 입력해주세요."
+                        maxLength={50}
+                        maxLengthErrMsg="50자 이내로 입력해주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>
@@ -230,11 +236,7 @@ export default function InstModifyPage() {
                   <TH sx={{ width: "15%" }}>업태 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        inputName="itbsns"
-                        sx={{ width: 450 }}
-                        errorMessage={false}
-                      />
+                      <InputValidation inputName="itbsns" sx={{ width: 450 }} />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -243,11 +245,7 @@ export default function InstModifyPage() {
                   <TH sx={{ width: "15%" }}>업종 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        inputName="tpbsns"
-                        sx={{ width: 450 }}
-                        errorMessage={false}
-                      />
+                      <InputValidation inputName="tpbsns" sx={{ width: 450 }} />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -275,6 +273,8 @@ export default function InstModifyPage() {
                         <InputValidation
                           sx={{ width: 450 }}
                           inputName="addrDetail"
+                          maxLength={50}
+                          maxLengthErrMsg="50자 이내로 입력해주세요."
                           placeholder="상세주소"
                         />
                       </Stack>
@@ -319,7 +319,10 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="ftr"
+                        required={true}
                         errorMessage="특성은 필수 값입니다."
+                        maxLength={20}
+                        maxLengthErrMsg="20자 이내로 입력해주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>

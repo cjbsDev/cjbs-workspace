@@ -161,9 +161,15 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="custNm"
+                        required={true}
                         errorMessage="필수 값입니다."
-                        //maxLength={3}
-                        //minLength={2}
+                        pattern={/^[A-Za-z0-9가-힣\s]*$/}
+                        patternErrMsg="이름은 한글 또는 영문 입력해주세요.(띄어쓰기와 숫자도 허용합니다.)"
+                        minLength={2}
+                        minLengthErrMsg="최소 2자 이상 입력해주세요."
+                        maxLength={50}
+                        maxLengthErrMsg="50자 이내로 입력해주세요."
+                        sx={{ width: 600 }}
                       />
                     </Stack>
                   </TD>
@@ -188,6 +194,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         maxLength={15}
                         maxLengthErrMsg="15자리 이내로 입력해주세요."
                         placeholder="01012345678"
+                        sx={{ width: 600 }}
                       />
                     </Stack>
                     <Stack
@@ -205,6 +212,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         maxLength={15}
                         maxLengthErrMsg="15자리 이내로 입력해주세요."
                         placeholder="01012345678"
+                        sx={{ width: 600 }}
                       />
                     </Stack>
                     <Stack
@@ -222,6 +230,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                         maxLength={15}
                         maxLengthErrMsg="15자리 이내로 입력해주세요."
                         placeholder="01012345678"
+                        sx={{ width: 600 }}
                       />
                     </Stack>
                   </TD>
@@ -256,7 +265,8 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       multiline
                       rows={4}
                       inputName="memo"
-                      errorMessage={false}
+                      maxLength={500}
+                      maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                     />
                   </TD>
                 </TableRow>

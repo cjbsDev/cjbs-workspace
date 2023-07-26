@@ -44,7 +44,7 @@ export function SelectBox({
           pr: 1,
         }}
       >
-        {defaultOption == true && <option value="">선택하세요</option>}
+        {defaultOption == true && <option value="">선택</option>}
 
         {options.map((item) => {
           return (

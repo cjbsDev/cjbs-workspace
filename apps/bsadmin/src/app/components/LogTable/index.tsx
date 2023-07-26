@@ -28,7 +28,6 @@ const LogTable = (props: LogProps) => {
   const { logData }: LogDataProps = useLogList(apiName, uKey);
 
   const modifyLogList = logData.data.updateLogList;
-  console.log("LogData", modifyLogList);
 
   const columns = [
     {

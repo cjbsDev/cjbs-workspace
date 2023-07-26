@@ -29,6 +29,7 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
   );
 
   const custEBCData = custEBCTemp.data;
+  console.log("custEBCData", custEBCData);
 
   const handleToggle = () => {
     setSelected(!selected);
@@ -48,7 +49,7 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
 
       <TableContainer
         sx={{
-          height: selected ? "58px" : "fit-content",
+          height: selected ? "42px" : "fit-content",
           overflowY: "hidden",
           mb: 5,
         }}
@@ -58,21 +59,24 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
           <TableBody>
             <TableRow>
               <TH sx={{ width: "15%" }}>고객번호</TH>
-              <TD colSpan={5} sx={{ width: "85%" }}>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  {/* <LeaderCip /> */}
-                  <Box>{custEBCData.ebcUid}</Box>
-                </Stack>
+              <TD sx={{ width: "35%" }} colSpan={2}>
+                <Box>{custEBCData.ebcUid ?? "-"}</Box>
               </TD>
-            </TableRow>
-            <TableRow>
               <TH sx={{ width: "15%" }}>아이디</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {custEBCData.ebcEmail ?? "-"}
               </TD>
+            </TableRow>
+
+            <TableRow>
               <TH sx={{ width: "15%" }}>서브 이메일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {custEBCData.ebcSubEmail ?? "-"}
+              </TD>
+
+              <TH sx={{ width: "15%" }}>academic</TH>
+              <TD sx={{ width: "35%" }} colSpan={2}>
+                {custEBCData.ebcIsSchl ?? "-"}
               </TD>
             </TableRow>
 
@@ -95,16 +99,6 @@ const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
               <TH sx={{ width: "15%" }}>소속 단체</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {custEBCData.ebcInstNm ?? "-"}
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>academic</TH>
-              <TD sx={{ width: "35%" }} colSpan={2}>
-                {custEBCData.ebcIsSchl ?? "-"}
-              </TD>
-              <TH sx={{ width: "15%" }}>가입일</TH>
-              <TD sx={{ width: "35%" }} colSpan={2}>
-                {custEBCData.ebcJoinedAt ? custEBCData.ebcJoinedAt : "-"}
               </TD>
             </TableRow>
           </TableBody>

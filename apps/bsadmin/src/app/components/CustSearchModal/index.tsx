@@ -44,8 +44,6 @@ const CustSearchModal = ({
   );
   const { setValue, clearErrors, resetField } = useFormContext();
 
-  console.log("Modal data", data.data);
-
   // [고객] 컬럼세팅
   const columns = useMemo(
     () => [
@@ -133,8 +131,6 @@ const CustSearchModal = ({
 
   //console.log("data.data.custList", data.data.custList);
   const filteredData = data.data.custList;
-
-  console.log(filteredData);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {

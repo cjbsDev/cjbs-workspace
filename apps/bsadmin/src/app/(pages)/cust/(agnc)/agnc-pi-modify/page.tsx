@@ -117,7 +117,7 @@ export default function AgncPIModifyPage() {
             return;
           }
 
-          console.log("data", data);
+          console.log("///////data", data);
           setSelectedMembers(data.custDetail);
           setIsLoading(false);
 
@@ -152,8 +152,6 @@ export default function AgncPIModifyPage() {
     handleSubmit,
   } = methods;
 
-  console.log("11");
-
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = React.useState<Member[]>([]);
 
@@ -179,9 +177,18 @@ export default function AgncPIModifyPage() {
     console.log("in onSubmit");
     //console.log("selectedMembers", selectedMembers);
 
+    /*
     let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
     }));
+*/
+
+    const saveMemberList = selectedMembers
+      .filter((member) => member.custUkey !== data.custUkey)
+      .map(({ custUkey }) => ({
+        custUkey,
+      }));
+
     let isSpecialMngFlag = getValues("isSpecialMngFlag");
     let bsnsMngrUkey = getValues("bsnsMngrUkey");
 
@@ -216,7 +223,7 @@ export default function AgncPIModifyPage() {
       });
   };
 
-  console.log("selectedMembers", selectedMembers);
+  console.log("selectedMembers page", selectedMembers);
 
   return (
     <FormProvider {...methods}>
@@ -259,7 +266,7 @@ export default function AgncPIModifyPage() {
                         sx={{ width: 600 }}
                         required={true}
                         errorMessage={"거래처(PI)를 입력해 주세요."}
-                        pattern={/^[A-Za-zㄱ-ㅎㅏ-ㅣ가-힣]*$/}
+                        pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
                         patternErrMsg="거래처 이름은 한글 또는 영문으로 10자리 이내로 입력해주세요."
                         maxLength={10}
                         maxLengthErrMsg="거래처 이름은 10자 이내로 입력해주세요."
@@ -294,6 +301,8 @@ export default function AgncPIModifyPage() {
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           inputName="addrDetail"
+                          maxLength={50}
+                          maxLengthErrMsg="50자 이내로 입력해주세요."
                           placeholder="상세주소"
                           sx={{ width: 600 }}
                         />
@@ -379,6 +388,8 @@ export default function AgncPIModifyPage() {
                       multiline
                       rows={4}
                       inputName="memo"
+                      maxLength={500}
+                      maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                     />
                   </TD>
                 </TableRow>
