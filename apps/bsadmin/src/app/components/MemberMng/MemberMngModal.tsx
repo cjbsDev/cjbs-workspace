@@ -27,11 +27,14 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import MyIcon from "icon/myIcon";
+import { toast } from "react-toastify";
 
 interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
+  agncNm?: string;
+  instNm?: string;
 }
 
 const initialData: Member[] = [];
@@ -88,7 +91,7 @@ const MemberMngtNewModal = ({
     () => [
       {
         name: "고객",
-        cell: (row: { custNm: any; ebcEmail: any }) => (
+        cell: (row: Member) => (
           <>
             <Stack
               direction="row"
@@ -106,7 +109,7 @@ const MemberMngtNewModal = ({
       },
       {
         name: "거래처(PI)",
-        cell: (row: { agncNm: any; instNm: any }) => (
+        cell: (row: Member) => (
           <>
             <Stack
               direction="row"
@@ -125,6 +128,7 @@ const MemberMngtNewModal = ({
     ],
     []
   );
+
   const filteredData = data.data.custList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -147,6 +151,11 @@ const MemberMngtNewModal = ({
           (member) => member.custUkey === row.custUkey
         );
         if (existingMember) {
+          return;
+        }
+
+        if (row.instNm) {
+          toast("이미 거래처가 있는 고객은 연구원으로 등록 할 수 없습니다.");
           return;
         }
 
@@ -269,8 +278,8 @@ const MemberMngtNewModal = ({
               }
               paginationPerPage={10}
               paginationRowsPerPageOptions={[5, 10, 15]}
-              keyField="uniqueKey" // Set a unique key field for re-rendering
-              key={key} // Use the key for re-rendering DataTable
+              keyField="uniqueKey"
+              key={key}
             />
           </Grid>
 

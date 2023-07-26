@@ -117,7 +117,6 @@ export default function AgncPIModifyPage() {
             return;
           }
 
-          console.log("///////data", data);
           setSelectedMembers(data.custDetail);
           setIsLoading(false);
 
@@ -222,8 +221,6 @@ export default function AgncPIModifyPage() {
         console.error("request failed:", error);
       });
   };
-
-  console.log("selectedMembers page", selectedMembers);
 
   return (
     <FormProvider {...methods}>
