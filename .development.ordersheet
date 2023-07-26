@@ -2,3 +2,4 @@ NEXT_PUBLIC_API_URL=https://dev.bsa.api.cjbioscience.com
 NEXTAUTH_SECRET=QeN+D2lB6Ayngv96Z5OT2ZGt3wvyh9rjIQmbbLdDzKdmt2P+WSKhcFFiTcVMJ+mK
 #NEXTAUTH_URL=http://localhost:3000
 NEXTAUTH_URL=https://dev.order.cjbioscience.com
+NEXT_PUBLIC_NEXTAUTH_URL=https://dev.order.cjbioscience.com/11111
