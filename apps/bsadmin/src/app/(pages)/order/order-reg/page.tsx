@@ -606,6 +606,8 @@ export default function Page() {
                   rows={4}
                   inputName="memo"
                   placeholder="메모"
+                  maxLength={500}
+                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                 />
               </TD>
             </TableRow>

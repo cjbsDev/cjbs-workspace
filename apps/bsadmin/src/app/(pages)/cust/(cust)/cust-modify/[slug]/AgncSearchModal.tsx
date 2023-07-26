@@ -43,8 +43,6 @@ const AgncSearchModal = ({
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { setValue } = useFormContext();
 
-  console.log("Modal data", data.data);
-
   // useMemo will only be created once
   const columns = useMemo(
     () => [

@@ -33,8 +33,6 @@ const ListCust = () => {
     //setSelectedRows(rows.map((row) => row.id));
   };
 
-  console.log(filteredData);
-
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
     () => [
@@ -43,25 +41,16 @@ const ListCust = () => {
         selector: (row: { ebcUid: number }) => row.ebcUid,
         width: "100px",
       },
+
+      {
+        name: "아이디",
+        selector: (row: { ebcEmail: string }) => row.ebcEmail,
+        width: "200px",
+      },
       {
         name: "이름",
-        cell: (row: { custNm: any; ebcEmail: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={0.4}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-              data-tag="allowRowEvents"
-            >
-              <Box data-tag="allowRowEvents">{row.custNm}</Box>
-              {/* <Box data-tag="allowRowEvents"><LeaderCip /></Box> */}
-              <Box data-tag="allowRowEvents">{row.ebcEmail}</Box>
-            </Stack>
-          </>
-        ),
-        minWidth: "150px",
+        selector: (row: { custNm: string }) => row.custNm,
+        width: "150px",
       },
 
       {
@@ -87,21 +76,12 @@ const ListCust = () => {
       },
 
       {
-        name: "가입일",
-        selector: (row: { ebcJoinedAt: any }) =>
-          row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
-      },
-      {
         name: "마지막 수정",
+        width: "150px",
         selector: (row: { modifiedAt: any }) =>
           row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
       },
 
-      {
-        name: "선결제 금액",
-        selector: (row: { pymnPrice: number }) =>
-          row.pymnPrice ? row.pymnPrice + " 원" : "금액",
-      },
       {
         name: "메모",
         cell: (row: { memo: string }) => {

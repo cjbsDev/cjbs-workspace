@@ -218,7 +218,14 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="rprsNm"
+                        required={true}
+                        pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
+                        patternErrMsg="이름은 한글 또는 영문으로 20자리 이내로 입력해주세요."
                         errorMessage="대표자명은 필수 입력입니다."
+                        minLength={2}
+                        minLengthErrMsg="최소 2자 이상 입력해주세요."
+                        maxLength={50}
+                        maxLengthErrMsg="50자 이내로 입력해주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>
@@ -266,6 +273,8 @@ export default function InstModifyPage() {
                         <InputValidation
                           sx={{ width: 450 }}
                           inputName="addrDetail"
+                          maxLength={50}
+                          maxLengthErrMsg="50자 이내로 입력해주세요."
                           placeholder="상세주소"
                         />
                       </Stack>
@@ -310,7 +319,10 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="ftr"
+                        required={true}
                         errorMessage="특성은 필수 값입니다."
+                        maxLength={20}
+                        maxLengthErrMsg="20자 이내로 입력해주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>

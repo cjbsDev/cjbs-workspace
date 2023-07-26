@@ -195,7 +195,13 @@ const InstAdd = () => {
                   <InputValidation
                     inputName="rprsNm"
                     required={true}
+                    pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
+                    patternErrMsg="이름은 한글 또는 영문으로 20자리 이내로 입력해주세요."
                     errorMessage="대표자명은 필수 입력입니다."
+                    minLength={2}
+                    minLengthErrMsg="최소 2자 이상 입력해주세요."
+                    maxLength={50}
+                    maxLengthErrMsg="50자 이내로 입력해주세요."
                     sx={{ width: 600 }}
                   />
                 </Stack>
@@ -206,7 +212,12 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>업태 [선택]</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation inputName="itbsns" sx={{ width: 600 }} />
+                  <InputValidation
+                    inputName="itbsns"
+                    maxLength={50}
+                    maxLengthErrMsg="50자 이내로 입력해주세요."
+                    sx={{ width: 600 }}
+                  />
                 </Stack>
               </TD>
             </TableRow>
@@ -215,7 +226,12 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>업종 [선택]</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation inputName="tpbsns" sx={{ width: 600 }} />
+                  <InputValidation
+                    inputName="tpbsns"
+                    maxLength={20}
+                    maxLengthErrMsg="20자 이내로 입력해주세요."
+                    sx={{ width: 600 }}
+                  />
                 </Stack>
               </TD>
             </TableRow>
@@ -245,7 +261,7 @@ const InstAdd = () => {
                       sx={{ width: 600 }}
                       inputName="addrDetail"
                       maxLength={50}
-                      maxLengthErrMsg="상세주소는 50자 이내로 입력해주세요."
+                      maxLengthErrMsg="50자 이내로 입력해주세요."
                       placeholder="상세주소"
                     />
                   </Stack>
@@ -288,6 +304,8 @@ const InstAdd = () => {
                     inputName="ftr"
                     required={true}
                     errorMessage="특성은 필수 값입니다."
+                    maxLength={20}
+                    maxLengthErrMsg="20자 이내로 입력해주세요."
                     sx={{ width: 600 }}
                   />
                 </Stack>

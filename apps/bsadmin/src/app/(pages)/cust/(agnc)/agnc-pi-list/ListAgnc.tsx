@@ -78,12 +78,13 @@ const ListAgnc = () => {
             <Box data-tag="allowRowEvents">({row.instNm})</Box>
           </Stack>
         ),
-        minWidth: "150px",
+        width: "300px",
       },
 
       {
         name: "연구책임자 아이디",
         selector: (row: { ebcEmail: any }) => row.ebcEmail,
+        width: "200px",
       },
       {
         name: "연구책임자 이름",
