@@ -2,6 +2,7 @@
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { cjbsTheme } from "cjbsDSTM";
+import CssBaseline from "@mui/material/CssBaseline";
 
 interface ContextProps {
   children: React.ReactNode;
