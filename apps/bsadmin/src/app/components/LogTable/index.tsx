@@ -58,7 +58,7 @@ const LogTable = (props: LogProps) => {
 
     {
       name: "컬럼",
-      selector: (row: { targetColNm: any }) => row.targetColNm,
+      selector: (row: { targetColVal: any }) => row.targetColVal,
       width: "20%",
     },
     {

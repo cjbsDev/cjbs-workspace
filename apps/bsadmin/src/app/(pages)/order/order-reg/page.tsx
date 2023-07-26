@@ -635,6 +635,7 @@ export default function Page() {
         onClose={handleCustSearchModalClose}
         open={custSearchModalOpen}
         modalWidth={800}
+        type="order"
       />
     </Form>
   );

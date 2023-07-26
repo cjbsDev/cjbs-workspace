@@ -280,7 +280,7 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="zip"
-                          placeholder="zip code"
+                          placeholder="우편번호"
                         />
                         <PostCodeBtn />
                       </Stack>
@@ -391,6 +391,7 @@ export default function AgncPIModifyPage() {
             onClose={handleCustSearchModalClose}
             open={custSearchModalOpen}
             modalWidth={800}
+            type="agnc"
           />
 
           <Stack direction="row" spacing={0.5} justifyContent="center">

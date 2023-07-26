@@ -228,7 +228,7 @@ const InstAdd = () => {
                     <InputValidation
                       disabled={true}
                       inputName="zip"
-                      placeholder="zip code"
+                      placeholder="우편번호"
                       sx={{ width: 147 }}
                     />
                     <PostCodeBtn />

@@ -201,12 +201,11 @@ export default function InstModifyPage() {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="brno"
-                        errorMessage={
-                          errors.brno
-                            ? "중복된 사업자 등록번호가 있습니다."
-                            : "사업자 등록번호를 입력해 주세요."
-                        }
-                        placeholder="사업자 등록번호 10자리를 입력해주세요."
+                        required={true}
+                        errorMessage="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                        pattern={/^\d{10}$/}
+                        patternErrMsg="사업자 등록번호 숫자 10자리를 입력해 주세요."
+                        placeholder="사업자 등록번호 숫자 10자리를 입력해 주세요."
                         sx={{ width: 450 }}
                       />
                     </Stack>
@@ -230,11 +229,7 @@ export default function InstModifyPage() {
                   <TH sx={{ width: "15%" }}>업태 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        inputName="itbsns"
-                        sx={{ width: 450 }}
-                        errorMessage={false}
-                      />
+                      <InputValidation inputName="itbsns" sx={{ width: 450 }} />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -243,11 +238,7 @@ export default function InstModifyPage() {
                   <TH sx={{ width: "15%" }}>업종 [선택]</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        inputName="tpbsns"
-                        sx={{ width: 450 }}
-                        errorMessage={false}
-                      />
+                      <InputValidation inputName="tpbsns" sx={{ width: 450 }} />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -260,8 +251,7 @@ export default function InstModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="zip"
-                          errorMessage={false}
-                          placeholder="zip code"
+                          placeholder="우편번호"
                         />
                         <PostCodeBtn />
                       </Stack>
@@ -270,14 +260,12 @@ export default function InstModifyPage() {
                           disabled={true}
                           sx={{ width: 450 }}
                           inputName="addr"
-                          errorMessage={false}
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           sx={{ width: 450 }}
                           inputName="addrDetail"
-                          errorMessage={false}
                           placeholder="상세주소"
                         />
                       </Stack>

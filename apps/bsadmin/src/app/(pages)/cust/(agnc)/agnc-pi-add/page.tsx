@@ -399,6 +399,7 @@ const AgncAdd = () => {
         onClose={handleCustSearchModalClose}
         open={custSearchModalOpen}
         modalWidth={800}
+        type="agnc"
       />
 
       {/* 기관 검색 모달 */}

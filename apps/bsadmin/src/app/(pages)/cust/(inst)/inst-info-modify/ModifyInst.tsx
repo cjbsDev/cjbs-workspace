@@ -260,8 +260,7 @@ export default function InstModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="zip"
-                          errorMessage={false}
-                          placeholder="zip code"
+                          placeholder="우편번호"
                         />
                         <PostCodeBtn />
                       </Stack>
@@ -270,14 +269,12 @@ export default function InstModifyPage() {
                           disabled={true}
                           sx={{ width: 450 }}
                           inputName="addr"
-                          errorMessage={false}
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           sx={{ width: 450 }}
                           inputName="addrDetail"
-                          errorMessage={false}
                           placeholder="상세주소"
                         />
                       </Stack>
