@@ -75,7 +75,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
     return (
         <AppBar position="fixed" open={open} color="inherit" sx={{ zIndex: 1000 }}>
             <Toolbar>
-                <Box sx={{width: 120}}>
+                <Box sx={{width: 120, mt:1}}>
                     <MyIcon icon="cj_bk"/>
                 </Box>
                 <Box sx={{ flexGrow: 1 }} />

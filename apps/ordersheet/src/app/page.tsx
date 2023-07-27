@@ -139,7 +139,7 @@ export default function Page() {
                                 <Typography variant="button">
                                     아직 회원이 아니신가요?
                                 </Typography>
-                                <Link href="#" variant="body2" underline="none">
+                                <Link href="https://www.ezbiocloud.net/signup?from=mydata" variant="body2" underline="none" target="_blank">
                                     회원가입
                                 </Link>
                             </Grid>

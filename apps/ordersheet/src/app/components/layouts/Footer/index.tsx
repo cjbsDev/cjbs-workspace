@@ -39,6 +39,9 @@ const Footer = () => {
                                 info1={item.info1}
                                 info2={item.info2}
                                 info3={item.info3}
+                                twIcon={item.twIcon}
+                                lkIcon={item.lkIcon}
+                                fbIcon={item.fbIcon}
                             />
                         ))}
                     </Grid>

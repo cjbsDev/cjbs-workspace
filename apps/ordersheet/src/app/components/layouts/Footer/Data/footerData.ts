@@ -1,6 +1,9 @@
 import logoEn from '@public/img/logo/logo-en.png';
 import logoEnWhite from '@public/img/logo/logo-en-white.png';
 import flagKoreaImg from '@public/img/logo/logo-en-white.png';
+import twIcon from '@public/img/icons/twitter.svg';
+import lkIcon from '@public/img/icons/linkedIn.svg';
+import fbIcon from '@public/img/icons/facebook.svg';
 
 export const footerInfoData = [
     {
@@ -13,8 +16,10 @@ export const footerInfoData = [
         info1: '서울특별시 중구 세종대로14 그랜드센트럴 B동 7층',
         info2: 'Tel 02-6078-3456 ㅣ Fax 02-6078-3456 ㅣ E-mail bs.ngs@cj.net',
         info3: 'CJ Bioscience, Inc. ',
-        aboutUs:
-            'CJ Bioscience is a clinical-stage biotech company developing several microbiome-based novel therapeutics for various diseases. Empowered by industry-leading microbiome bioinformatics expertise, we provide solutions beyond therapeutics, including fast, reliable, and high-quality metagenomics and microbiome sequencing. Our proprietary bioinformatics platform, EzBiome Bioinformatics App, is a validated and comprehensive suite of cutting-edge tools for microbial identification, profiling and biomarker discovery.',
+        aboutUs: 'CJ Bioscience is a clinical-stage biotech company developing several microbiome-based novel therapeutics for various diseases. Empowered by industry-leading microbiome bioinformatics expertise, we provide solutions beyond therapeutics, including fast, reliable, and high-quality metagenomics and microbiome sequencing. Our proprietary bioinformatics platform, EzBiome Bioinformatics App, is a validated and comprehensive suite of cutting-edge tools for microbial identification, profiling and biomarker discovery.',
+        twIcon: twIcon,
+        lkIcon: lkIcon,
+        fbIcon: fbIcon,
     },
     // {
     //     logo: ezBiome,
