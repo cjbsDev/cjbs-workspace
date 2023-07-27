@@ -149,7 +149,7 @@ const ListCust = () => {
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
           </Stack>
         </Grid>
