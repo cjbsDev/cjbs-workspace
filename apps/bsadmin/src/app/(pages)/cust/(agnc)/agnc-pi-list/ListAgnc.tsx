@@ -157,7 +157,7 @@ const ListAgnc = () => {
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
             <ContainedButton
               buttonName="거래처(PI)등록"
@@ -193,7 +193,7 @@ const ListAgnc = () => {
       title={<Title1 titleName="거래처(PI) 관리" />}
       data={filteredData}
       columns={columns}
-      onRowClicked={goDetailPage}
+      // onRowClicked={goDetailPage}
       // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
