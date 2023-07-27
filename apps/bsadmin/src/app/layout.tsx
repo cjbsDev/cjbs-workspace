@@ -4,6 +4,16 @@ import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import { cjbsTheme } from "cjbsDSTM";
+// Color
+import {
+  blue,
+  yellow,
+  red,
+  orange,
+  cyan,
+  grey,
+  green,
+} from "cjbsDSTM/themes/color";
 import "./globals.css";
 import { Inter } from "next/font/google";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -30,7 +40,7 @@ export default function RootLayout({
             {children}
             <ProgressBar
               height="6px"
-              color={cjbsTheme.palette.primary.main}
+              color={yellow["300"]}
               options={{ showSpinner: false }}
               shallowRouting
             />

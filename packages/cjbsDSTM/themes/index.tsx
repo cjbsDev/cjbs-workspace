@@ -52,6 +52,16 @@ declare module "@mui/material/Button" {
   }
 }
 
+declare module "@mui/material/styles" {
+  interface Palette {
+    custom: Palette["primary"];
+  }
+
+  interface PaletteOptions {
+    custom?: PaletteOptions["primary"];
+  }
+}
+
 export const cjbsTheme = createTheme({
   palette: {
     text: {
@@ -71,12 +81,12 @@ export const cjbsTheme = createTheme({
       light: "#CED4DA",
       contrastText: "#fff",
     },
-    // tertiary: {
-    //   main: "#FF9700",
-    //   dark: "#CC7800",
-    //   light: "#FFCA7F",
-    //   contrastText: "#fff",
-    // },
+    tertiary: {
+      main: "#FF9700",
+      dark: "#CC7800",
+      light: "#FFCA7F",
+      contrastText: "#fff",
+    },
     error: {
       main: "#EF151E",
       dark: "#B50D0D",

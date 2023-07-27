@@ -1,24 +1,24 @@
 export const snbMenuListData = [
-  {
-    menuLabel: "홈",
-    menuIcon: "home",
-    menuPath: {
-      name: "/dashboard",
-      nestedPath: [],
-    },
-  },
   // {
-  //   menuLabel: '고객상담',
-  //   menuIcon: '',
+  //   menuLabel: "홈",
+  //   menuIcon: "home",
   //   menuPath: {
-  //     name: '',
+  //     name: "/dashboard",
+  //     nestedPath: [],
+  //   },
+  // },
+  // {
+  //   menuLabel: "고객상담",
+  //   menuIcon: "",
+  //   menuPath: {
+  //     name: "",
   //     nestedPath: [
   //       {
-  //         menuLabel: '상담관리',
-  //         menuPath: ''
-  //       }
-  //     ]
-  //   }
+  //         menuLabel: "상담관리",
+  //         menuPath: "",
+  //       },
+  //     ],
+  //   },
   // },
   // {
   //   menuLabel: '견적서',
@@ -163,7 +163,7 @@ export const snbMenuListData = [
 
   {
     menuLabel: "관리",
-    menuIcon: "customer",
+    menuIcon: "manage",
     menuPath: {
       name: "/set",
       nestedPath: [

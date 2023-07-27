@@ -51,7 +51,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "flex-start",
   padding: theme.spacing(0, 0),
-  marginLeft: 12,
+  marginLeft: 16,
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
@@ -79,36 +79,47 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [nestedOpen, setNestedOpen] = React.useState(false);
-  const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+  const [selectedIndex, setSelectedIndex] = React.useState<number>();
+  const [currentIndex, setCurrentIndex] = React.useState<number>();
   const router = useRouter();
   const currentPathname = usePathname();
 
+  // React.useEffect(() => {
+  //   setSelectedIndex()
+  // }, [])
+
   const handleDrawerOpen = () => {
     setOpen(true);
+    console.log("selectedIndex", selectedIndex);
+    setSelectedIndex(currentIndex);
   };
 
   const handleDrawerClose = () => {
     setOpen(false);
+    setSelectedIndex(snbMenuListData.length + 1);
   };
 
-  const handleHomeClick = (item: {
-    menuLabel?: string;
-    menuIcon?: string;
-    menuPath: any;
-  }) => {
-    console.log(";;;;;;;");
-    router.push(item.menuPath.name);
-    setSelectedIndex(0);
-    // setOpen(false)
-  };
+  // const handleHomeClick = (item: {
+  //   menuLabel?: string;
+  //   menuIcon?: string;
+  //   menuPath: any;
+  // }) => {
+  //   router.push(item.menuPath.name);
+  //   setSelectedIndex(0);
+  // };
   const handleClick = (index: number) => {
+    // console.log([selectedIndex, index]);
+    setCurrentIndex(index);
     if (selectedIndex === index) {
-      setSelectedIndex(0);
+      setSelectedIndex(snbMenuListData.length + 1);
     } else {
       setSelectedIndex(index);
     }
-    // router.push(path)
   };
+
+  const handleMenuOpenClick = React.useCallback(() => {
+    setOpen(true);
+  }, [open]);
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -120,25 +131,50 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
       <Drawer variant="permanent" open={open} sx={{ zIndex: 1000 }}>
         <DrawerHeader>
-          {/*<IconButton*/}
-          {/*  onClick={!open ? handleDrawerOpen : handleDrawerClose}*/}
-          {/*  sx={{ color: "red", right: -30, zIndex: 10 }}*/}
-          {/*>*/}
-          {/*  {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
-          {/*</IconButton>*/}
-
           {open ? (
-            <MyIcon icon="cj_mix" width={119} />
+            <MyIcon icon="cj_mix" width={118} height={36} />
           ) : (
             <MyIcon icon="cj_mix_updown" width={28} />
           )}
         </DrawerHeader>
         <Divider />
         <List sx={{ color: "white" }}>
+          <Link href="/dashboard" replace={true}>
+            <ListItem disablePadding sx={{ display: "block" }}>
+              <ListItemButton
+                onClick={() => setSelectedIndex(-1)}
+                selected={currentPathname.includes("/dashboard")}
+                sx={{
+                  minHeight: 50,
+                  justifyContent: open ? "initial" : "center",
+                  px: 2,
+                  "&.MuiListItemButton-root": {
+                    "&:hover": {
+                      backgroundColor: theme.palette.primary.main,
+                    },
+                  },
+                  "&.Mui-selected": {
+                    backgroundColor: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 2 : "auto",
+                    justifyContent: "center",
+                    color: "white",
+                  }}
+                >
+                  <MyIcon icon="home" size={20} />
+                </ListItemIcon>
+                <ListItemText primary="홈" sx={{ opacity: open ? 1 : 0 }} />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
-            //console.log("hhhh", currentPathname.includes(depthOne.split("/")));
-            //console.log("pppp", depthOne.split("/")[1]);
             return (
               <ListItem
                 key={item.menuLabel}
@@ -147,9 +183,11 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
               >
                 <ListItemButton
                   onClick={() => {
-                    item.menuPath.nestedPath.length === 0
-                      ? handleHomeClick(item)
-                      : handleClick(index);
+                    handleMenuOpenClick();
+                    handleClick(index);
+                    // item.menuPath.nestedPath.length === 0
+                    //   ? handleHomeClick(item)
+                    //   : handleClick(index);
                   }}
                   selected={currentPathname.includes(depthOne.split("/")[1])}
                   disabled={
@@ -183,7 +221,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                     <MyIcon icon={item.menuIcon} size={20} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={item.menuLabel}
+                    primary={item.menuLabel + index}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                   {item.menuPath.nestedPath.length !== 0 && open ? (
@@ -196,10 +234,10 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                 </ListItemButton>
 
                 <Collapse
-                  // in={currentPathname.includes(depthOne.split("/")[0])}
                   in={
-                    index === selectedIndex ||
-                    currentPathname.includes(depthOne.split("/")[1])
+                    index === selectedIndex
+                    // index === selectedIndex ||
+                    // currentPathname.includes(depthOne.split("/")[1])
                   }
                   timeout="auto"
                   unmountOnExit

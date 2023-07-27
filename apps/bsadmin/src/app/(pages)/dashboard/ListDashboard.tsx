@@ -111,7 +111,11 @@ const ListDashboardPage = () => {
         <Box>
           <ContainedButton buttonName="Small" size="small" />
           <ContainedButton buttonName="Medium" />
-          <ContainedButton buttonName="Large" size="large" />
+          <ContainedButton
+            buttonName="Large"
+            size="large"
+            sx={{ backgroundColor: cjbsTheme.palette.text.primary }}
+          />
           <XlargeButton buttonName="Xlarge" variant="contained" />
         </Box>
         <Box>
@@ -129,8 +133,8 @@ const ListDashboardPage = () => {
         키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다.
       */}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <Typography sx={{ mb: 1, color: blue["800"] }} variant="h3">
-          Form Test
+        <Typography sx={{ mb: 1, color: blue["800"] }} variant="h1">
+          Form EX
         </Typography>
 
         <CheckboxM5 inputName="checkTest" labelText="체크박스1" value="Y" />
