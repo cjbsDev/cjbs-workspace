@@ -214,6 +214,8 @@ export default function AgncPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>선결제 금액</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
+                -
+                {/* 
                 <Box
                   sx={{
                     display: "flex",
@@ -228,6 +230,7 @@ export default function AgncPage({ params }: CustViewProps) {
                     onClick={handleStatementChkModalOpen}
                   />
                 </Box>
+                */}
               </TD>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>

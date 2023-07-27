@@ -174,13 +174,11 @@ const MCItemModifyModal = ({
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "25%" }}>상세코드명(영문)</TH>
+                  <TH sx={{ width: "25%" }}>상세코드명(영문) 선택</TH>
                   <TD sx={{ width: "75%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeValue"
-                        required={true}
-                        errorMessage={"상세코드명(영문)을 입력해주세요."}
                         //pattern={/^[A-Za-z]*$/}
                         //patternErrMsg="영어만 입력가능합니다."
                         maxLength={100}
