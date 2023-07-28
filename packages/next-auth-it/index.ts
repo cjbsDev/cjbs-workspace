@@ -100,6 +100,8 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             }),
           }).then((res) => res.json());
 
+          // console.log('%%%%%', response)
+
           if (response.success) {
             return response.data;
           } else {

@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import MyIcon from "icon/myIcon";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
@@ -42,15 +42,16 @@ export default function Page() {
         console.log(data);
         let email = data.email;
         let password = data.password
-        signIn('credentials', { email, password, redirect: false }).then((res) => {
+        signIn('credentials', { email, password, callbackUrl: '/main' }).then((res) => {
             //const isError = res && res.error ? res.error : null
             console.log("!!!!res=", res)
+            console.log("QWEQWEQWEQWEQWEQWEQWEQWEQWEQWE")
             if (res?.error) {
                 const errorMessage = res.error.split('Error:')[1];
                 // toast(errorMessage, { type: 'info' });
             } else {
                 //로그인성공
-                router.push('/main');
+                //router.push('/main');
             }
         });
     };
