@@ -42,6 +42,8 @@ const ListAgnc = () => {
     suspense: true,
   });
 
+  console.log("list agnc data", data);
+
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
@@ -66,6 +68,8 @@ const ListAgnc = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
+            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
+            <Box data-tag="allowRowEvents">({row.instNm})</Box>
             {row.isSpecialMng === "Y" && (
               <MyIcon
                 data-tag="allowRowEvents"
@@ -74,8 +78,6 @@ const ListAgnc = () => {
                 color="#FFAB33"
               />
             )}
-            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
-            <Box data-tag="allowRowEvents">({row.instNm})</Box>
           </Stack>
         ),
         width: "300px",
@@ -116,7 +118,8 @@ const ListAgnc = () => {
         name: "메모",
         cell: (row: { memo: string }) => {
           return (
-            row.memo !== null && (
+            row.memo !== null &&
+            row.memo !== "" && (
               <Tooltip title={row.memo} arrow>
                 <IconButton>
                   <MyIcon icon="memo" size={24} />
@@ -154,7 +157,7 @@ const ListAgnc = () => {
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
             <ContainedButton
               buttonName="거래처(PI)등록"

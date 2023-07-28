@@ -113,20 +113,20 @@ export default function InstModifyPage() {
   // [ 수정 ]
   const onSubmit = (data: any) => {
     let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
+      addr: data.addr ?? "",
+      addrDetail: data.addrDetail ?? "",
+      zip: data.zip ?? "",
+      itbsns: data.itbsns ?? "",
+      tpbsns: data.tpbsns ?? "",
       brno: data.brno,
       ftr: data.ftr,
       instTypeCc: data.inst_type_cc,
       instUkey: data.instUkey,
-      itbsns: data.itbsns,
       lctnTypeCc: "BS_0200002", // 국내 고정
       region1Gc: data.region1Gc,
       region2Gc: data.region2Gc,
       rprsNm: data.rprsNm,
       statusCodeCc: data.statusCodeCc,
-      tpbsns: data.tpbsns,
-      zip: data.zip,
     };
 
     console.log("==saveObj", saveObj);

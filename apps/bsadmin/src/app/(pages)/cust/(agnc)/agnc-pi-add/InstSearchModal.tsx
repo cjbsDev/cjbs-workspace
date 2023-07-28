@@ -32,7 +32,7 @@ const AgncSearchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(30);
+  const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
@@ -50,19 +50,23 @@ const AgncSearchModal = ({
     () => [
       {
         name: "사업자등록번호",
-        selector: (row) => row.brno,
+        selector: (row: { brno: number }) => row.brno,
+        width: "120px",
       },
       {
         name: "기관명",
-        selector: (row) => row.instNm,
+        selector: (row: { instNm: string }) => row.instNm,
+        width: "320px",
       },
       {
         name: "분류",
-        selector: (row) => row.instTypeVal,
+        selector: (row: { instTypeVal: string }) => row.instTypeVal,
+        width: "150px",
       },
       {
         name: "특성",
-        selector: (row) => row.ftr,
+        selector: (row: { ftr: string }) => row.ftr,
+        width: "250px",
       },
       {
         name: "선택",
@@ -80,6 +84,7 @@ const AgncSearchModal = ({
             />
           );
         },
+        width: "100px",
       },
     ],
     []

@@ -33,7 +33,6 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
 import LoadingSvg from "public/svg/loading_wh.svg";
-import { toast } from "react-toastify";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
@@ -170,14 +169,14 @@ const AgncAdd = () => {
       }));
 
     let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
+      addr: data.addr ?? "",
+      addrDetail: data.addrDetail ?? "",
+      zip: data.zip ?? "",
       agncNm: data.agncNm,
       bsnsMngrUkey: data.bsnsMngrUkey,
       custDetailList: saveMemberList,
       custUkey: data.custUkey,
       instUkey: data.instUkey,
-      zip: data.zip,
       isSpecialMng: data.isSpecialMng == true ? "Y" : "N",
       memo: data.memo,
     };
@@ -408,7 +407,7 @@ const AgncAdd = () => {
       <LazyAgncSearchModal
         onClose={agncSearchModalClose}
         open={showAgncSearchModal}
-        modalWidth={800}
+        modalWidth={1000}
       />
 
       <Stack direction="row" spacing={0.5} justifyContent="center">

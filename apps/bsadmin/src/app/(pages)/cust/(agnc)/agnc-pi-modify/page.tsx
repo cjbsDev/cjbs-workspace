@@ -125,13 +125,13 @@ export default function AgncPIModifyPage() {
             agncId: data.agncId,
             agncNm: data.agncNm,
             agncUkey: data.agncUkey,
-            addr: data.addr,
-            addrDetail: data.addrDetail,
+            addr: data.addr ?? "",
+            addrDetail: data.addrDetail ?? "",
+            zip: data.zip ?? "",
             bsnsMngrNm: data.bsnsMngrNm,
 
             bsnsMngrUkey: data.bsnsMngrUkey,
             custDetail: data.custDetail,
-            zip: data.zip,
             isSpecialMng: data.isSpecialMng,
             isSpecialMngFlag: data.isSpecialMng === "Y",
             memo: data.memo,
@@ -192,13 +192,13 @@ export default function AgncPIModifyPage() {
     let bsnsMngrUkey = getValues("bsnsMngrUkey");
 
     let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
+      addr: data.addr ?? "",
+      addrDetail: data.addrDetail ?? "",
+      zip: data.zip ?? "",
       agncNm: data.agncNm,
       agncUkey: data.agncUkey, // 수정에서 생김
       bsnsMngrUkey,
       custDetailList: saveMemberList,
-      zip: data.zip,
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
       //custUkey: data.custUkey,

@@ -33,13 +33,41 @@ const ListCust = () => {
     //setSelectedRows(rows.map((row) => row.id));
   };
 
+  console.log("filteredData", filteredData);
+
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
     () => [
+      /*
       {
         name: "고객 번호",
         selector: (row: { ebcUid: number }) => row.ebcUid,
         width: "100px",
+      },
+      */
+
+      {
+        name: "고객 번호",
+        cell: (row: { ebcUid: number; agncUkey: string }) => (
+          <Stack
+            direction="row"
+            spacing={0.5}
+            alignItems="center"
+            // useFlexGap
+            // flexWrap="wrap"
+          >
+            <Box data-tag="allowRowEvents">{row.ebcUid} </Box>
+            {row.agncUkey == null && (
+              <MyIcon
+                data-tag="allowRowEvents"
+                icon="exclamation-triangle-fill"
+                size={20}
+                color="#FFAB33"
+              />
+            )}
+          </Stack>
+        ),
+        width: "200px",
       },
 
       {
@@ -85,9 +113,9 @@ const ListCust = () => {
       {
         name: "메모",
         cell: (row: { memo: string }) => {
-          //console.log(row.memo);
           return (
-            row.memo !== null && (
+            row.memo !== null &&
+            row.memo !== "" && (
               <Tooltip title={row.memo} arrow>
                 <IconButton size="small">
                   <MyIcon icon="memo" size={24} />
@@ -121,7 +149,7 @@ const ListCust = () => {
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
           </Stack>
         </Grid>
@@ -154,6 +182,7 @@ const ListCust = () => {
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows={false}
     />
   );
 };

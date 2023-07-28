@@ -95,24 +95,25 @@ const InstAdd = () => {
   // [ 등록 ]
   const onSubmit = (data: any) => {
     let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
+      zip: data.zip ?? "",
+      addr: data.addr ?? "",
+      addrDetail: data.addrDetail ?? "",
       brno: data.brno,
       ftr: data.ftr,
       instTypeCc: data.inst_type_cc,
       instUniqueCodeMc: data.instUniqueCodeMc,
-      itbsns: data.itbsns,
+      itbsns: data.itbsns ?? "",
+      tpbsns: data.tpbsns ?? "",
       lctnTypeCc: "BS_0200002", // 국내
       region1Gc: data.region1Gc,
       region2Gc: data.region2Gc,
       rprsNm: data.rprsNm,
       statusCodeCc: data.statusCodeCc,
-      tpbsns: data.tpbsns,
-      zip: data.zip,
     };
 
-    // console.log("==saveObj", saveObj);
-    // console.log("saveObj stringify", JSON.stringify(saveObj));
+    console.log("==saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+    //return;
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst`; // Replace with your API URL
     axios
