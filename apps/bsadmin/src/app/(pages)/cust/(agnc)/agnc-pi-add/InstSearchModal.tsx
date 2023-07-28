@@ -35,7 +35,7 @@ const AgncSearchModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/inst/list/unRgst?page.page=${pageIndex}&page.size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
