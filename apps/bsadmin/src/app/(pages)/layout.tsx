@@ -12,6 +12,7 @@ import {
   ListItemIcon,
   ListItemText,
   Collapse,
+  Stack,
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -20,6 +21,7 @@ import AppBar from "../components/AppBar";
 import { snbMenuListData } from "../data/snbMenuListData";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
+import { yellow } from "cjbsDSTM/themes/color";
 import Link from "next/link";
 import MyIcon from "icon/myIcon";
 
@@ -131,48 +133,20 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
       <Drawer variant="permanent" open={open} sx={{ zIndex: 1000 }}>
         <DrawerHeader>
-          {open ? (
-            <MyIcon icon="cj_mix" width={118} height={36} />
-          ) : (
-            <MyIcon icon="cj_mix_updown" width={28} />
-          )}
+          <Link
+            href="/dashboard"
+            replace={true}
+            onClick={() => setSelectedIndex(-1)}
+          >
+            {open ? (
+              <MyIcon icon="cj_mix" width={118} height={36} />
+            ) : (
+              <MyIcon icon="cj_mix_updown" width={28} />
+            )}
+          </Link>
         </DrawerHeader>
         <Divider />
         <List sx={{ color: "white" }}>
-          <Link href="/dashboard" replace={true}>
-            <ListItem disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                onClick={() => setSelectedIndex(-1)}
-                selected={currentPathname.includes("/dashboard")}
-                sx={{
-                  minHeight: 50,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2,
-                  "&.MuiListItemButton-root": {
-                    "&:hover": {
-                      backgroundColor: theme.palette.primary.main,
-                    },
-                  },
-                  "&.Mui-selected": {
-                    backgroundColor: theme.palette.primary.main,
-                  },
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 2 : "auto",
-                    justifyContent: "center",
-                    color: "white",
-                  }}
-                >
-                  <MyIcon icon="home" size={20} />
-                </ListItemIcon>
-                <ListItemText primary="홈" sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-
           {snbMenuListData.map((item, index) => {
             const depthOne = item.menuPath.name;
             return (
@@ -221,7 +195,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                     <MyIcon icon={item.menuIcon} size={20} />
                   </ListItemIcon>
                   <ListItemText
-                    primary={item.menuLabel + index}
+                    primary={item.menuLabel}
                     sx={{ opacity: open ? 1 : 0 }}
                   />
                   {item.menuPath.nestedPath.length !== 0 && open ? (
@@ -252,32 +226,6 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                         item.menuPath
                       );
                       return (
-                        // <ListItemButton
-                        //   component="a"
-                        //   key={item.menuLabel}
-                        //   sx={{
-                        //     pl: 8.3,
-                        //     color: theme.palette.secondary.main,
-                        //     "&.MuiListItemButton-root": {
-                        //       "&:hover": {
-                        //         backgroundColor: "transparent",
-                        //         color: theme.palette.common.white,
-                        //         fontWeight: "600",
-                        //       },
-                        //     },
-                        //     "&.Mui-selected": {
-                        //       backgroundColor: "transparent",
-                        //       color: theme.palette.common.white,
-                        //       fontWeight: "600",
-                        //     },
-                        //   }}
-                        //   // onClick={() => router.replace(item.menuPath)}
-                        //   href={item.menuPath}
-                        //   selected={currentPathname === item.menuPath}
-                        //   disabled={item.menuPath === "" ? true : false}
-                        // >
-                        //   <ListItemText primary={item.menuLabel} />
-                        // </ListItemButton>
                         <Link
                           key={item.menuPath}
                           href={item.menuPath}
@@ -295,6 +243,20 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
               </ListItem>
             );
           })}
+        </List>
+        <List>
+          <ListItem sx={{ color: "white" }}>
+            <Link
+              href="/code-box"
+              replace={true}
+              onClick={() => setSelectedIndex(-1)}
+            >
+              <Stack direction="row" spacing={2}>
+                <MyIcon icon="lightning" size={20} color={yellow["300"]} />
+                <Box component="span">CodeBox</Box>
+              </Stack>
+            </Link>
+          </ListItem>
         </List>
       </Drawer>
 

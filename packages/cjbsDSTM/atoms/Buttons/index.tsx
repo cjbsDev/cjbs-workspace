@@ -59,16 +59,22 @@ export const XlargeButton = ({ buttonName, ...props }: CustomButtonProps) => {
         size="large"
         sx={{
           "&.MuiButton-containedSizeLarge": {
-            padding: "12px 20px !important",
+            padding: "12px 20px",
             fontSize: 18,
+            fontWeight: 400,
+            lineHeight: "26px",
           },
           "&.MuiButton-textSizeLarge": {
-            padding: "12px 20px !important",
+            padding: "12px 20px",
             fontSize: 18,
+            fontWeight: 400,
+            lineHeight: "26px",
           },
           "&.MuiButton-outlinedSizeLarge": {
-            padding: "12px 20px !important",
+            padding: "12px 20px",
             fontSize: 18,
+            fontWeight: 400,
+            lineHeight: "26px",
           },
         }}
       >

@@ -40,7 +40,7 @@ export default function RootLayout({
             {children}
             <ProgressBar
               height="6px"
-              color={yellow["300"]}
+              color={yellow["500"]}
               options={{ showSpinner: false }}
               shallowRouting
             />

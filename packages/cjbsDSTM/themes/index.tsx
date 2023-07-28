@@ -320,37 +320,61 @@ export const cjbsTheme = createTheme({
         outlined: {
           "&.MuiButton-outlinedSizeSmall": {
             padding: "4px 10px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "20px",
           },
           "&.MuiButton-outlinedSizeMedium": {
             padding: "6px 12px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "22px",
           },
           "&.MuiButton-outlinedSizeLarge": {
             padding: "8px 16px",
             fontSize: 16,
+            fontWeight: 400,
+            lineHeight: "24px",
           },
         },
         contained: {
           "&.MuiButton-containedSizeSmall": {
             padding: "4px 10px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "20px",
           },
           "&.MuiButton-containedSizeMedium": {
             padding: "6px 12px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "22px",
           },
           "&.MuiButton-containedSizeLarge": {
             padding: "8px 16px",
             fontSize: 16,
+            fontWeight: 400,
+            lineHeight: "24px",
           },
         },
         text: {
           "&.MuiButton-textSizeSmall": {
             padding: "4px 10px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "20px",
           },
           "&.MuiButton-textSizeMedium": {
             padding: "6px 12px",
+            fontSize: 14,
+            fontWeight: 400,
+            lineHeight: "22px",
           },
           "&.MuiButton-textSizeLarge": {
             padding: "8px 16px",
             fontSize: 16,
+            fontWeight: 400,
+            lineHeight: "24px",
           },
         },
       },
@@ -375,17 +399,17 @@ export const cjbsTheme = createTheme({
         //     letterSpacing: "-0.5px",
         //   },
         // },
-        {
-          props: { variant: "title2" },
-          style: {
-            color: "rgba(0, 0, 0, 0.87)",
-            fontFamily: "Inter",
-            fontStyle: "normal",
-            fontWeight: 600,
-            fontSize: 18,
-            letterSpacing: "-0.5px",
-          },
-        },
+        // {
+        //   props: { variant: "title2" },
+        //   style: {
+        //     color: "rgba(0, 0, 0, 0.87)",
+        //     fontFamily: "Inter",
+        //     fontStyle: "normal",
+        //     fontWeight: 600,
+        //     fontSize: 18,
+        //     letterSpacing: "-0.5px",
+        //   },
+        // },
       ],
     },
     MuiNativeSelect: {
@@ -401,8 +425,8 @@ export const cjbsTheme = createTheme({
       styleOverrides: {
         select: {
           fontSize: 14,
-          paddingBottom: "3.5px",
-          paddingTop: "3.5px",
+          paddingBottom: "3px",
+          paddingTop: "3px",
         },
       },
     },
