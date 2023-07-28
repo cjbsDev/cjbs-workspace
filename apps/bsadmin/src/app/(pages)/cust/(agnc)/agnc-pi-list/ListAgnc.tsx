@@ -193,7 +193,7 @@ const ListAgnc = () => {
       title={<Title1 titleName="거래처(PI) 관리" />}
       data={filteredData}
       columns={columns}
-      // onRowClicked={goDetailPage}
+      onRowClicked={goDetailPage}
       // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
