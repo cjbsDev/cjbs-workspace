@@ -274,6 +274,12 @@ export const cjbsTheme = createTheme({
         },
       },
     },
+    MuiInputBase: {
+      defaultProps: {
+        // The props to change the default for.
+        style: {},
+      },
+    },
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
@@ -298,7 +304,7 @@ export const cjbsTheme = createTheme({
       },
       defaultProps: {
         style: {
-          borderRadius: 2,
+          borderRadius: 4,
         },
       },
     },
@@ -308,7 +314,7 @@ export const cjbsTheme = createTheme({
         disableRipple: true, // No more ripple, on the whole application 💣!
         style: {
           boxShadow: "none",
-          borderRadius: 2,
+          borderRadius: 4,
           textTransform: "initial",
           minWidth: "fit-content",
           // minWidth: 74,

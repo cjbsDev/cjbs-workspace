@@ -19,16 +19,17 @@ export const DataTableFilter = ({
 }: FilterProps) => {
   return (
     <InputDefaultType
+      sx={{ width: 238 }}
+      placeholder="검색"
       value={filterText}
       onChange={onFilter}
       InputProps={{
         startAdornment: (
           <InputAdornment position="start">
             <MyIcon icon="search" size={20} />
-            검색
           </InputAdornment>
         ),
-        endAdornment: (
+        endAdornment: filterText !== "" && (
           <InputAdornment position="end">
             <IconButton onClick={onClear}>
               <MyIcon icon="x" size={20} />

@@ -11,11 +11,6 @@ export default function ServiceTypeSelectbox() {
       suspense: true,
     }
   );
-  console.log("data ==>>", data.data);
-  // const methods = useFormContext();
-  // const { setValue, getValues } = methods;
-  // const values = getValues(["custNm", "ebcEmail"]);
-
   return (
     <SelectBox required={true} inputName="srvcTypeMc" options={data.data} />
   );

@@ -43,6 +43,7 @@ import {
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
+import ColorBox from "./ColorBox";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -132,10 +133,7 @@ const CodeBoxPage = () => {
 
       <Divider sx={{ mb: 5, mt: 5 }} />
 
-      <Typography sx={{ mb: 1, color: blue["800"] }} variant="title1">
-        Color
-      </Typography>
-
+      <ColorBox />
       <Divider sx={{ mb: 5, mt: 5 }} />
       {/*
         <Form key={formKey} 페이지가 다른 기본 값(defaultValues)으로 여러 번 구동 될 때 데이터가 제대로 다시 렌더링 안될 때 key prop 활용가능
@@ -226,6 +224,9 @@ const CodeBoxPage = () => {
       <div>{JSON.stringify(log)}</div>
 
       <Divider sx={{ mb: 5, mt: 5 }} />
+      <Typography sx={{ mb: 1, color: blue["800"] }} variant="title1">
+        Modal
+      </Typography>
       <ContainedButton
         buttonName="Alert"
         onClick={handleAlertOpen}
