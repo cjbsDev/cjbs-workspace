@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import {
   CheckboxGV,
-  CheckboxM5,
+  CheckboxSV,
   ContainedButton,
   ErrorContainer,
   Fallback,
@@ -337,17 +337,17 @@ export default function Page() {
               <TH sx={{ width: "15%" }}>메일 수신 설정[선택]</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <Stack direction="row">
-                  <CheckboxM5
+                  <CheckboxSV
                     inputName="mailRcpnList"
                     labelText="연구책임자"
                     value="agncLeaderRcpn"
                   />
-                  <CheckboxM5
+                  <CheckboxSV
                     inputName="mailRcpnList"
                     labelText="신청인"
                     value="ordrRcpn"
                   />
-                  <CheckboxM5
+                  <CheckboxSV
                     inputName="mailRcpnList"
                     labelText="추가(직접입력)"
                     value="etcRcpn"

@@ -1,16 +1,14 @@
 "use client";
 
 import React, { useState } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
   AlertModal,
-  CheckboxM5,
+  CheckboxSV,
   CheckboxGV,
   ContainedButton,
   LinkButton,
   Form,
-  RadioM1,
   RadioGV,
   SelectBox,
   OutlinedButton,
@@ -30,17 +28,7 @@ import {
   green,
 } from "cjbsDSTM/themes/color";
 import { useRouter } from "next-nprogress-bar";
-import {
-  Box,
-  Checkbox,
-  DialogContent,
-  Divider,
-  FormControlLabel,
-  FormGroup,
-  InputAdornment,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Box, Divider, InputAdornment, Stack, Typography } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 import ColorBox from "./ColorBox";
@@ -144,10 +132,10 @@ const CodeBoxPage = () => {
         Form & Validation
       </Typography>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <CheckboxM5 inputName="checkTest" labelText="체크박스1" value="Y" />
-        <CheckboxM5 inputName="checkTest" labelText="체크박스2" value="Naa" />
-        <CheckboxM5 inputName="checkTest" labelText="체크박스3" value="Nbb" />
-        <CheckboxM5 inputName="checkTest" labelText="체크박스4" value="Ycc" />
+        <CheckboxSV inputName="checkTest" labelText="체크박스1" value="Y" />
+        <CheckboxSV inputName="checkTest" labelText="체크박스2" value="Naa" />
+        <CheckboxSV inputName="checkTest" labelText="체크박스3" value="Nbb" />
+        <CheckboxSV inputName="checkTest" labelText="체크박스4" value="Ycc" />
         <ShowBox />
         <br />
         <br />
@@ -159,18 +147,17 @@ const CodeBoxPage = () => {
         />
         <br />
         <br />
-        {/*Deprecated*/}
-        <Typography variant="subtitle1" sx={{ color: red["600"] }}>
-          !Deprecated
-        </Typography>
-        <RadioM1 inputName="radioTest" labelText="국내" value="in" />
-        <RadioM1 inputName="radioTest" labelText="해외" value="out" />
-        <br />
-        <br />
+        {/*/!*Deprecated*!/*/}
+        {/*<Typography variant="subtitle1" sx={{ color: red["600"] }}>*/}
+        {/*  !Deprecated*/}
+        {/*</Typography>*/}
+        {/*<RadioSV inputName="radioTest" labelText="국내" value="in" />*/}
+        {/*<RadioSV inputName="radioTest" labelText="해외" value="out" />*/}
+        {/*<br />*/}
+        {/*<br />*/}
         <Typography variant="subtitle1" sx={{ color: green["200"] }}>
           !New RadioGV(Group Validation)
         </Typography>
-        {/*<RadioGV data={dataRadioGVTest} inputName="testRadioGV" />*/}
         <RadioGV
           data={dataRadioGVTest}
           inputName="testRadioGV"

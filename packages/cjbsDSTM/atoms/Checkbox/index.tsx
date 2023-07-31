@@ -11,25 +11,27 @@ import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 
-interface CheckboxM5Props extends InputProps {
+interface CheckboxSVProps extends InputProps {
   inputName: string;
   labelText?: string;
   waringIs?: boolean;
-  subMessage?: string;
+  errorMessage?: string;
   value?: string | boolean;
   required?: boolean;
 }
 
-export const CheckboxM5 = ({
+export const CheckboxSV = ({
   inputName,
   labelText,
   value,
   waringIs,
-  subMessage,
+  errorMessage,
   required = false,
   ...props
-}: CheckboxM5Props) => {
+}: CheckboxSVProps) => {
   const methods = useFormContext();
+  const { formState } = methods;
+  const { errors } = formState;
   return (
     <ThemeProvider theme={cjbsTheme}>
       <FormControlLabel
@@ -42,7 +44,7 @@ export const CheckboxM5 = ({
           <Input
             {...methods.register(inputName, {
               required: required,
-              onChange: (e) => console.log("Check Selected!", e.target.value),
+              // onChange: (e) => console.log("Check Selected!", e.target.value),
             })}
             {...props}
             type="checkbox"
@@ -57,17 +59,25 @@ export const CheckboxM5 = ({
         }
         label={labelText}
       />
-      <Typography
-        variant="body2"
-        sx={{ ml: "-8px !important", display: "inline-block" }}
-      >
-        {subMessage}
-      </Typography>
+      {errors[inputName]?.type === "required" && (
+        <Typography
+          variant="body2"
+          sx={{ color: cjbsTheme.palette.warning.main }}
+        >
+          {errorMessage}
+        </Typography>
+      )}
+      {/*<Typography*/}
+      {/*  variant="body2"*/}
+      {/*  sx={{ ml: "-8px !important", display: "inline-block" }}*/}
+      {/*>*/}
+      {/*  {subMessage}*/}
+      {/*</Typography>*/}
     </ThemeProvider>
   );
 };
 
-interface CheckboxGVProps extends CheckboxM5Props {
+interface CheckboxGVProps extends CheckboxSVProps {
   data: object;
   errorMessage?: string;
   direction?: "column-reverse" | "column" | "row-reverse" | "row";
@@ -85,7 +95,7 @@ export const CheckboxGV = (props: CheckboxGVProps) => {
           <Stack direction={direction}>
             {data.map((item: any) => {
               return (
-                <CheckboxM5
+                <CheckboxSV
                   key={item.value}
                   required={required}
                   inputName={inputName}
