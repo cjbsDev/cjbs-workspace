@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 const SignOutPage = () => {
 
     useEffect(() => {
-        signOut({ redirect: true, callbackUrl: '/test' });
+        signOut({ redirect: true, callbackUrl: '/' });
 
         return () => {};
     }, []);

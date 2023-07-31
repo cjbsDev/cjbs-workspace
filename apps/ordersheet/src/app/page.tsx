@@ -42,7 +42,7 @@ export default function Page() {
         console.log(data);
         let email = data.email;
         let password = data.password
-        signIn('credentials', { email, password, callbackUrl: '/main' }).then((res) => {
+        signIn('credentials', { email, password, redirect: false }).then((res) => {
             //const isError = res && res.error ? res.error : null
             console.log("!!!!res=", res)
             console.log("QWEQWEQWEQWEQWEQWEQWEQWEQWEQWE")
@@ -51,7 +51,7 @@ export default function Page() {
                 // toast(errorMessage, { type: 'info' });
             } else {
                 //로그인성공
-                //router.push('/main');
+                router.push('/main');
             }
         });
     };
