@@ -20,20 +20,22 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListSvcCate = () => {
+const ListMachine = () => {
   const router = useRouter();
   const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
-    router.push("/set/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
+    router.push(
+      "/set/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc
+    );
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const enumMngrCode = "SRVC_CTGR";
+  const enumMngrCode = "MCHN_KIT";
   let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  //console.log("SRVC_CTGR ", data.data);
+  //console.log("MCHN_KIT ", data.data);
 
   const columns = useMemo(
     () => [
@@ -45,18 +47,12 @@ const ListSvcCate = () => {
         width: "5%",
       },
       {
-        name: "분류",
+        name: "장비",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "10%",
+        width: "20%",
       },
       {
-        name: "분석종류",
-        selector: (row: { midValue: string }) => row.midValue,
-        width: "10%",
-      },
-
-      {
-        name: "분석 단계",
+        name: "Kit",
         cell: (row: { btmValueList: any }) => {
           return row.btmValueList.length > 0 ? (
             <Box sx={{ mb: -1 }}>
@@ -114,10 +110,6 @@ const ListSvcCate = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
-            {/* 서비스 분류 등록*/}
-            <Link href="/set/svc-cate-add">
-              <ContainedButton buttonName="서비스 분류 등록" size="small" />{" "}
-            </Link>
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -142,7 +134,7 @@ const ListSvcCate = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="서비스 분류 관리" />}
+      title={<Title1 titleName="장비 Kit 분류 관리" />}
       data={data.data}
       columns={columns}
       highlightOnHover
@@ -155,4 +147,4 @@ const ListSvcCate = () => {
   );
 };
 
-export default ListSvcCate;
+export default ListMachine;
