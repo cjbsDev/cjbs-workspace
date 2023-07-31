@@ -1,5 +1,5 @@
 import React from "react";
-import { Radio } from "cjbsDSTM";
+import { RadioSV } from "cjbsDSTM";
 
 interface RadioboxListProps {
   inputName: string;
@@ -13,7 +13,7 @@ const RadioboxList: React.FC<RadioboxListProps> = ({ inputName, dataList }) => {
   return (
     <>
       {dataList.map((item: any) => (
-        <Radio
+        <RadioSV
           key={item.btmCodeMc}
           inputName={inputName}
           labelText={item.btmCodeVal}
