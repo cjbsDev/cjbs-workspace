@@ -92,7 +92,7 @@ export default function SvcCatePage({ params }: ViewProps) {
       .then((response) => {
         console.log("request successful:", response.data);
         if (response.data.success) {
-          toast("수정 성공");
+          toast("수정 되었습니다.");
           router.push("/set/svc-cate-list/");
         } else {
           toast(response.data.message ?? "에러 발생");
