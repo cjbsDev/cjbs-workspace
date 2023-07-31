@@ -17,6 +17,7 @@ interface RadioSVProps {
   value: string | boolean;
   required?: boolean;
   errorMessage?: string;
+  rowIs?: boolean;
 }
 
 export const RadioSV = (props: RadioSVProps) => {
@@ -26,6 +27,7 @@ export const RadioSV = (props: RadioSVProps) => {
     value,
     required = false,
     errorMessage,
+    rowIs = true,
     ...rest
   } = props;
   const methods = useFormContext();

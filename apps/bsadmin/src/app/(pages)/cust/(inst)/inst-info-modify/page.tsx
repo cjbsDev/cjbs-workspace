@@ -12,7 +12,7 @@ import {
   InputValidation,
   PostCodeBtn,
   SelectBox,
-  RadioGV,
+  RadioSV,
   Form,
 } from "cjbsDSTM";
 import {
@@ -135,7 +135,7 @@ export default function InstModifyPage() {
     };
 
     console.log("==saveObj", saveObj);
-    //console.log("saveObj stringify", JSON.stringify(saveObj));
+    console.log("saveObj stringify", JSON.stringify(saveObj));
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst`; // Replace with your API URL
     axios
       .put(apiUrl, saveObj)
@@ -337,24 +337,26 @@ export default function InstModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
+                    {/*
                     <RadioGV
                       data={dataRadioGVstatusCodeCc}
                       inputName="statusCodeCc"
                       required={true}
                       errorMessage="필수 선택입니다."
                     />
-                    {/* 
-                    <Radio
-                      inputName="statusCodeCc"
-                      labelText="운영"
-                      value="BS_0602001"
-                    />
-                    <Radio
-                      inputName="statusCodeCc"
-                      labelText="폐업"
-                      value="BS_0602002"
-                    />
-*/}
+                     */}
+                    <Stack direction="row">
+                      <RadioSV
+                        inputName="statusCodeCc"
+                        labelText="운영"
+                        value="BS_0602001"
+                      />
+                      <RadioSV
+                        inputName="statusCodeCc"
+                        labelText="폐업"
+                        value="BS_0602002"
+                      />
+                    </Stack>
                   </TD>
                 </TableRow>
               </TableBody>
