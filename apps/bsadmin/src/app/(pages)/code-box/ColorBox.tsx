@@ -35,7 +35,7 @@ export default function ColorBox() {
 
       {ColorNameList.map((item) => {
         return (
-          <>
+          <Box key={item.name}>
             <SubTitle variant="subtitle1">{item.name}</SubTitle>
             <Stack direction="row" sx={{ mb: 2.5 }}>
               {item.data.map((item, index) => {
@@ -54,7 +54,7 @@ export default function ColorBox() {
                 );
               })}
             </Stack>
-          </>
+          </Box>
         );
       })}
     </>

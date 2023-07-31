@@ -2,9 +2,13 @@
 import useSWR from "swr";
 import fetcher from "../func/fetcher";
 
-export const useList = (apiName: string) => {
+export const useList = (
+  apiName: string,
+  page: number = 1,
+  perPage: number = 20
+) => {
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/${apiName}/list`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${apiName}/list?page=${page}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
