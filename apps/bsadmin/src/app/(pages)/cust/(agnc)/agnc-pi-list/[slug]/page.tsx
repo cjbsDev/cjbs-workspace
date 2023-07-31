@@ -71,10 +71,7 @@ export default function AgncPage({ params }: CustViewProps) {
     data: agncTempData,
     error,
     isLoading,
-  } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${slug}`,
-    fetcher
-  );
+  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
@@ -167,7 +164,7 @@ export default function AgncPage({ params }: CustViewProps) {
         </Table>
       </TableContainer>
 
-      {/*
+      {/* 
       <Typography variant="subtitle1">
         소속 연구원( 총 {agncCustList.length}명 )
       </Typography>
@@ -217,10 +214,14 @@ export default function AgncPage({ params }: CustViewProps) {
             <TableRow>
               <TH sx={{ width: "15%" }}>선결제 금액</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
+                -
+                {/* 
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
                 >
                   <Box>{agncData.pymnPrice ?? "-"}</Box>
                   <OutlinedButton
@@ -228,11 +229,12 @@ export default function AgncPage({ params }: CustViewProps) {
                     size="small"
                     onClick={handleStatementChkModalOpen}
                   />
-                </Stack>
+                </Box>
+                */}
               </TD>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {agncData.bsnsManagedByNm ?? "-"}
+                {agncData.bsnsMngrNm ?? "-"}
               </TD>
             </TableRow>
           </TableBody>

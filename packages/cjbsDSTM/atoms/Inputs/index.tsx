@@ -37,7 +37,7 @@ export const InputValidation = ({
           {...props}
           error={methods.formState.errors[inputName] ? true : false}
           variant="outlined"
-          size="small"
+          // size="small"
           sx={{
             ...props.sx,
           }}

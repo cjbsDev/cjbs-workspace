@@ -28,7 +28,6 @@ const LogTable = (props: LogProps) => {
   const { logData }: LogDataProps = useLogList(apiName, uKey);
 
   const modifyLogList = logData.data.updateLogList;
-  // console.log("LogData", modifyLogList);
 
   const columns = [
     {
@@ -58,7 +57,7 @@ const LogTable = (props: LogProps) => {
 
     {
       name: "컬럼",
-      selector: (row: { targetColNm: any }) => row.targetColNm,
+      selector: (row: { targetColVal: any }) => row.targetColVal,
       width: "20%",
     },
     {

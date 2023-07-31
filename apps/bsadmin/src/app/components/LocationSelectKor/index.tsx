@@ -41,7 +41,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
 
   // 첫번째 선택 ( 국내 lev1 )
   const { data: domesticData } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic`,
+    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topValue=domestic`,
     fetcher,
     {
       onSuccess: (data) => {
@@ -60,7 +60,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
 
   // 두번째 선택 ( 국내 lev2 )
   const { data: domesticDataLv2 } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/code/list/shortly?topValue=domestic&midValue=` +
+    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topValue=domestic&midValue=` +
       selectReg1Option,
     fetcher,
     {
@@ -79,7 +79,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
   );
 
   const { data: custModifyLogTemp } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/${apiName}/log/${uKey}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/${apiName}/log/${uKey}`,
     fetcher,
     {
       suspense: true,
@@ -116,7 +116,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
 
     {
       name: "컬럼",
-      selector: (row: { targetColNm: any }) => row.targetColNm,
+      selector: (row: { targetColVal: any }) => row.targetColVal,
       width: "20%",
     },
     {

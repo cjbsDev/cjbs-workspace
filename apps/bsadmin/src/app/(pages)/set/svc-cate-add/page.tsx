@@ -8,8 +8,6 @@ import {
   TD,
   Title1,
   Form,
-  Checkbox,
-  Radio,
   Fallback,
   ErrorContainer,
 } from "cjbsDSTM";
@@ -18,29 +16,34 @@ import { useRouter, useSearchParams } from "next/navigation";
 import {
   Box,
   Container,
-  Chip,
   Stack,
   Table,
   TableBody,
-  TableCell,
   TableRow,
   TableContainer,
 } from "@mui/material";
 import axios from "axios";
+import useSWR from "swr";
+import { toast } from "react-toastify";
+
 import SkeletonLoading from "../../../components/SkeletonLoading";
-import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
-import codeDataTemp from "./tempCodeList.json";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-const LazyCheckboxList = dynamic(() => import("../CheckboxSetCode"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
-const LazyRadioboxList = dynamic(() => import("../RadioboxSetCode"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
+const LazyCheckboxList = dynamic(
+  () => import("../../../components/CheckboxSetCode"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={82} />,
+  }
+);
+const LazyRadioboxList = dynamic(
+  () => import("../../../components/RadioboxSetCode"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={82} />,
+  }
+);
 
 /**
  * 1. 서비스 분류 등록
@@ -53,7 +56,6 @@ const LazyRadioboxList = dynamic(() => import("../RadioboxSetCode"), {
       "optionName": "illumina MiSeq 2x250"
     },
     {
- *
  */
 
 export default function SvcCatePage() {
@@ -61,27 +63,41 @@ export default function SvcCatePage() {
   const enumMngrCode = "SRVC_CTGR";
   const router = useRouter();
 
-  /*
   // load
   const {
     data: codeDataTemp,
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mngr/add?enumMngrCode=${enumMngrCode}`,
     fetcher,
     { revalidateOnFocus: true }
   );
   if (isLoading) {
     return <SkeletonLoading />;
   }
-  */
+
   const codeData = codeDataTemp.data;
-  console.log("codeData", codeData);
+  //console.log("codeData", codeData);
 
   const onSubmit = (data: any) => {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
+    if (selectCodeList.length <= 0) {
+      toast("분석 방법을 선택해주세요.");
+      return;
+    }
+    if (!data.topCodeMc) {
+      toast("분류를 선택해주세요.");
+      return;
+    }
+    if (!data.midCodeMc) {
+      toast("분석 종류를 선택해주세요.");
+      return;
+    }
+
+    //toast(response.data.message ?? "에러 발생");
+
     let saveObj = {
       btmCodeMcList: selectCodeList,
       midCodeMc: data.midCodeMc,
@@ -89,19 +105,22 @@ export default function SvcCatePage() {
     };
     //console.log("saveObj", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
-
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
 
     axios
-      .put(apiUrl, saveObj)
+      .post(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
+          toast("등록 성공");
           router.push("/set/svc-cate-list/");
+        } else {
+          toast(response.data.message ?? "에러 발생");
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
+        toast("[SVC-CATE-ADD]500 에러 발생");
       });
   };
 
@@ -121,21 +140,24 @@ export default function SvcCatePage() {
                 <TH sx={{ width: "252px" }}>분류</TH>
                 <TD>
                   {/* 라디오 */}
-                  <LazyRadioboxList
-                    inputName="topCodeMc"
-                    dataList={codeData.topCodeMc}
-                  />
+                  <Stack direction="row">
+                    <LazyRadioboxList
+                      inputName="topCodeMc"
+                      dataList={codeData.topCodeMc}
+                    />
+                  </Stack>
                 </TD>
               </TableRow>
 
               <TableRow>
                 <TH sx={{ width: "252px" }}>분석 종류</TH>
                 <TD>
-                  {/* 라디오 */}
-                  <LazyRadioboxList
-                    inputName="midCodeMc"
-                    dataList={codeData.midCodeMc}
-                  />
+                  <Stack direction="row">
+                    <LazyRadioboxList
+                      inputName="midCodeMc"
+                      dataList={codeData.midCodeMc}
+                    />
+                  </Stack>
                 </TD>
               </TableRow>
 

@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import { Metadata } from "next";
+import './globals.css'
 
 const inter = Inter({
   subsets: ["latin"],

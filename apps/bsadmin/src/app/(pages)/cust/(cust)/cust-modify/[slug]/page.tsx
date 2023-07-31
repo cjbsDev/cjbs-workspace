@@ -67,7 +67,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
   const methods = useForm<FormData>({
     defaultValues: async () => {
       const res = await fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`
+        `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`
       );
       const getData = await res.json();
       const data = getData.data;
@@ -94,8 +94,19 @@ export default function CustModifyPage({ params }: ParamsProps) {
 
   const onSubmit = (data: any) => {
     console.log("onSubmit data", data);
+    let telList = [];
+    if (data.tel_0) {
+      telList.push(data.tel_0);
+    }
+    if (data.tel_1) {
+      telList.push(data.tel_1);
+    }
+    if (data.tel_2) {
+      telList.push(data.tel_2);
+    }
+
     // validation 체크
-    let telList = [data.tel_0, data.tel_1, data.tel_2];
+    //let telList = [data.tel_0, data.tel_1, data.tel_2];
     let custNm = data.custNm;
     let memo = data.memo;
 
@@ -105,18 +116,18 @@ export default function CustModifyPage({ params }: ParamsProps) {
       memo,
     };
     console.log("==saveObj", saveObj);
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/detail/${slug}`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`; // Replace with your API URL
 
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           router.push("/cust/cust-list/" + slug);
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
       });
   };
 
@@ -150,9 +161,15 @@ export default function CustModifyPage({ params }: ParamsProps) {
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="custNm"
+                        required={true}
                         errorMessage="필수 값입니다."
-                        //maxLength={3}
-                        //minLength={2}
+                        pattern={/^[A-Za-z0-9가-힣\s]*$/}
+                        patternErrMsg="이름은 한글 또는 영문 입력해주세요.(띄어쓰기와 숫자도 허용합니다.)"
+                        minLength={2}
+                        minLengthErrMsg="최소 2자 이상 입력해주세요."
+                        maxLength={50}
+                        maxLengthErrMsg="50자 이내로 입력해주세요."
+                        sx={{ width: 600 }}
                       />
                     </Stack>
                   </TD>
@@ -168,7 +185,17 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation inputName="tel_0" errorMessage={false} />
+                      <InputValidation
+                        inputName="tel_0"
+                        pattern={/^[0-9]+$/}
+                        patternErrMsg="숫자만 입력해주세요."
+                        minLength={8}
+                        minLengthErrMsg="8자리 이상 입력해주세요."
+                        maxLength={15}
+                        maxLengthErrMsg="15자리 이내로 입력해주세요."
+                        placeholder="01012345678"
+                        sx={{ width: 600 }}
+                      />
                     </Stack>
                     <Stack
                       direction="row"
@@ -176,7 +203,17 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation inputName="tel_1" errorMessage={false} />
+                      <InputValidation
+                        inputName="tel_1"
+                        pattern={/^[0-9]+$/}
+                        patternErrMsg="숫자만 입력해주세요."
+                        minLength={8}
+                        minLengthErrMsg="8자리 이상 입력해주세요."
+                        maxLength={15}
+                        maxLengthErrMsg="15자리 이내로 입력해주세요."
+                        placeholder="01012345678"
+                        sx={{ width: 600 }}
+                      />
                     </Stack>
                     <Stack
                       direction="row"
@@ -184,7 +221,17 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       sx={{ mb: 1 }}
                       alignItems="center"
                     >
-                      <InputValidation inputName="tel_2" errorMessage={false} />
+                      <InputValidation
+                        inputName="tel_2"
+                        pattern={/^[0-9]+$/}
+                        patternErrMsg="숫자만 입력해주세요."
+                        minLength={8}
+                        minLengthErrMsg="8자리 이상 입력해주세요."
+                        maxLength={15}
+                        maxLengthErrMsg="15자리 이내로 입력해주세요."
+                        placeholder="01012345678"
+                        sx={{ width: 600 }}
+                      />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -218,7 +265,8 @@ export default function CustModifyPage({ params }: ParamsProps) {
                       multiline
                       rows={4}
                       inputName="memo"
-                      errorMessage={false}
+                      maxLength={500}
+                      maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                     />
                   </TD>
                 </TableRow>

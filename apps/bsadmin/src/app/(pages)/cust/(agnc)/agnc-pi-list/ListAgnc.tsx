@@ -30,8 +30,7 @@ import IconDescBar from "../../../../components/IconDescBar";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const tempUrl =
-  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=0&page.size=50";
+const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
   // init
   const theme = useTheme();
@@ -42,6 +41,8 @@ const ListAgnc = () => {
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
+
+  console.log("list agnc data", data);
 
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
@@ -67,6 +68,8 @@ const ListAgnc = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
+            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
+            <Box data-tag="allowRowEvents">({row.instNm})</Box>
             {row.isSpecialMng === "Y" && (
               <MyIcon
                 data-tag="allowRowEvents"
@@ -75,16 +78,15 @@ const ListAgnc = () => {
                 color="#FFAB33"
               />
             )}
-            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
-            <Box data-tag="allowRowEvents">({row.instNm})</Box>
           </Stack>
         ),
-        minWidth: "150px",
+        width: "300px",
       },
 
       {
         name: "연구책임자 아이디",
         selector: (row: { ebcEmail: any }) => row.ebcEmail,
+        width: "200px",
       },
       {
         name: "연구책임자 이름",
@@ -116,7 +118,8 @@ const ListAgnc = () => {
         name: "메모",
         cell: (row: { memo: string }) => {
           return (
-            row.memo !== null && (
+            row.memo !== null &&
+            row.memo !== "" && (
               <Tooltip title={row.memo} arrow>
                 <IconButton>
                   <MyIcon icon="memo" size={24} />
@@ -154,7 +157,7 @@ const ListAgnc = () => {
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
             <ContainedButton
               buttonName="거래처(PI)등록"

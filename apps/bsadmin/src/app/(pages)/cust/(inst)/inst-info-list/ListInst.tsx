@@ -37,8 +37,7 @@ interface InstData {
   region2GcNm?: any;
 }
 
-const tempUrl =
-  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/list?page.page=0&page.size=50";
+const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=0&page.size=50`;
 
 const ListInst = () => {
   // init

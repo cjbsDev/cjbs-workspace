@@ -19,6 +19,7 @@ interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
   modalWidth: number;
+  type?: string;
 }
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
@@ -27,11 +28,12 @@ const CustSearchModal = ({
   onClose,
   open,
   modalWidth,
+  type,
 }: ModalContainerProps) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
@@ -41,8 +43,6 @@ const CustSearchModal = ({
     }
   );
   const { setValue, clearErrors, resetField } = useFormContext();
-
-  //console.log("Modal data", data.data);
 
   // [고객] 컬럼세팅
   const columns = useMemo(
@@ -88,19 +88,30 @@ const CustSearchModal = ({
           ebcEmail: string;
           telList: string;
           agncUkey: string;
+          agncNm: string;
+          instNm: string;
         }) => {
+          const { agncUkey, custUkey, custNm, ebcEmail, telList } = row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
+
+          if (agncUkey && type === "agnc") {
+            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
+          }
           return (
             <OutlinedButton
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("custUkey", row.custUkey);
-                setValue("custNm", row.custNm);
-                setValue("ebcEmail", row.ebcEmail);
-                setValue("telList", row.telList);
-                setValue("agncNm", agncInstNm);
-                setValue("agncUkey", row.agncUkey);
+                setValue("custUkey", custUkey);
+                setValue("custNm", custNm);
+                setValue("ebcEmail", ebcEmail);
+                setValue("telList", telList);
+
+                if (type === "order") {
+                  setValue("agncNm", agncInstNm);
+                  setValue("agncUkey", agncUkey);
+                }
+
                 onClose();
                 clearErrors("custNm");
                 clearErrors("ebcEmail");
@@ -120,8 +131,6 @@ const CustSearchModal = ({
 
   //console.log("data.data.custList", data.data.custList);
   const filteredData = data.data.custList;
-
-  console.log(filteredData);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {

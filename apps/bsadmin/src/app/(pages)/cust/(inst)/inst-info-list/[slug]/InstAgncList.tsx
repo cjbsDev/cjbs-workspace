@@ -15,7 +15,7 @@ interface AgncInfoDataProps {
 }
 
 const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
-  let getInstAgncUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/inst/agncList/${instUkey}`;
+  let getInstAgncUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst/agncList/${instUkey}`;
   const { data } = useSWR(getInstAgncUrl, fetcher, {
     suspense: true,
   });

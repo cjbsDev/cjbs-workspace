@@ -27,11 +27,14 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import MyIcon from "icon/myIcon";
+import { toast } from "react-toastify";
 
 interface Member {
   custUkey: any;
   ebcEmail: string;
   custNm: string;
+  agncNm?: string;
+  instNm?: string;
 }
 
 const initialData: Member[] = [];
@@ -73,10 +76,10 @@ const MemberMngtNewModal = ({
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
 
-  const [perPage, setPerPage] = useState(10);
+  const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list?page=${pageIndex}&size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -88,7 +91,7 @@ const MemberMngtNewModal = ({
     () => [
       {
         name: "고객",
-        cell: (row: { custNm: any; ebcEmail: any }) => (
+        cell: (row: Member) => (
           <>
             <Stack
               direction="row"
@@ -106,7 +109,7 @@ const MemberMngtNewModal = ({
       },
       {
         name: "거래처(PI)",
-        cell: (row: { agncNm: any; instNm: any }) => (
+        cell: (row: Member) => (
           <>
             <Stack
               direction="row"
@@ -125,6 +128,7 @@ const MemberMngtNewModal = ({
     ],
     []
   );
+
   const filteredData = data.data.custList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -147,6 +151,11 @@ const MemberMngtNewModal = ({
           (member) => member.custUkey === row.custUkey
         );
         if (existingMember) {
+          return;
+        }
+
+        if (row.instNm) {
+          toast("이미 거래처가 있는 고객은 연구원으로 등록 할 수 없습니다.");
           return;
         }
 
@@ -202,13 +211,15 @@ const MemberMngtNewModal = ({
   // [멤버 관리] - 멤버 선택
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    custUkey: any
+    //custUkey: any
+    row: any
   ) => {
     if (event.target.checked) {
-      setSelectedMemberRows([...selectedMemberRows, custUkey]);
+      console.log("custUkey", row);
+      setSelectedMemberRows([...selectedMemberRows, row.custUkey]);
     } else {
       setSelectedMemberRows(
-        selectedMemberRows.filter((rowId) => rowId !== custUkey)
+        selectedMemberRows.filter((rowId) => rowId !== row.custUkey)
       );
     }
   };
@@ -267,8 +278,8 @@ const MemberMngtNewModal = ({
               }
               paginationPerPage={10}
               paginationRowsPerPageOptions={[5, 10, 15]}
-              keyField="uniqueKey" // Set a unique key field for re-rendering
-              key={key} // Use the key for re-rendering DataTable
+              keyField="uniqueKey"
+              key={key}
             />
           </Grid>
 
@@ -319,7 +330,7 @@ const MemberMngtNewModal = ({
                             size="small"
                             checked={selectedMemberRows.includes(row.custUkey)}
                             onChange={(event) =>
-                              handleCheckboxChange(event, row.custUkey)
+                              handleCheckboxChange(event, row)
                             }
                           />
                         </TableCell>

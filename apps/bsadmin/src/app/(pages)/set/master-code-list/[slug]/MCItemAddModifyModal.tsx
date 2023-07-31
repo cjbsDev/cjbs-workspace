@@ -76,9 +76,7 @@ const MCItemModifyModal = ({
     let apiUrl = "";
     if (selectItem.detailUniqueCode) {
       console.log("수정");
-      apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/` +
-        uniqueCode;
+      apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
 
       axios
         .put(apiUrl, saveObj)
@@ -98,8 +96,7 @@ const MCItemModifyModal = ({
     } else {
       console.log("추가");
       apiUrl =
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/mngr/masterCode/` +
-        uniqueCode;
+        `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
 
       axios
         .post(apiUrl, saveObj)
@@ -147,7 +144,12 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="douzoneCode"
-                        errorMessage="필수 입력 입니다."
+                        required={true}
+                        errorMessage={"더존 코드를 입력해주세요."}
+                        pattern={/^[A-Za-z0-9-]*$/}
+                        patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
+                        maxLength={16}
+                        maxLengthErrMsg="상세 코드는 16자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>
@@ -160,19 +162,27 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeNm"
-                        errorMessage="필수 입력 입니다."
+                        required={true}
+                        errorMessage={"상세코드명(국문)을 입력해주세요."}
+                        //pattern={/^[가-힣]*$/}
+                        //patternErrMsg="한국어만 입력가능합니다."
+                        maxLength={100}
+                        maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "25%" }}>상세코드명(영문)</TH>
+                  <TH sx={{ width: "25%" }}>상세코드명(영문) 선택</TH>
                   <TD sx={{ width: "75%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeValue"
-                        errorMessage="필수 입력 입니다."
+                        //pattern={/^[A-Za-z]*$/}
+                        //patternErrMsg="영어만 입력가능합니다."
+                        maxLength={100}
+                        maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
                       />
                     </Stack>
@@ -188,6 +198,7 @@ const MCItemModifyModal = ({
                           { value: "Y", optionName: "노출" },
                           { value: "N", optionName: "노출안함" },
                         ]}
+                        defaultOption={false}
                       />
                     </Stack>
                   </TD>
@@ -203,6 +214,7 @@ const MCItemModifyModal = ({
                           { value: "Y", optionName: "사용" },
                           { value: "N", optionName: "사용안함" },
                         ]}
+                        defaultOption={false}
                       />
                     </Stack>
                   </TD>

@@ -45,37 +45,54 @@ const ListCust = () => {
     //setSelectedRows(rows.map((row) => row.id));
   };
 
-  console.log(filteredData);
+  console.log("filteredData", filteredData);
 
   // useEffect(() => {}, []);
 
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
     () => [
+      /*
       {
         name: "고객 번호",
         selector: (row: { ebcUid: number }) => row.ebcUid,
         width: "100px",
       },
+      */
+
+      {
+        name: "고객 번호",
+        cell: (row: { ebcUid: number; agncUkey: string }) => (
+          <Stack
+            direction="row"
+            spacing={0.5}
+            alignItems="center"
+            // useFlexGap
+            // flexWrap="wrap"
+          >
+            <Box data-tag="allowRowEvents">{row.ebcUid} </Box>
+            {row.agncUkey == null && (
+              <MyIcon
+                data-tag="allowRowEvents"
+                icon="exclamation-triangle-fill"
+                size={20}
+                color="#FFAB33"
+              />
+            )}
+          </Stack>
+        ),
+        width: "200px",
+      },
+
+      {
+        name: "아이디",
+        selector: (row: { ebcEmail: string }) => row.ebcEmail,
+        width: "200px",
+      },
       {
         name: "이름",
-        cell: (row: { custNm: any; ebcEmail: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={0.4}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-              data-tag="allowRowEvents"
-            >
-              <Box data-tag="allowRowEvents">{row.custNm}</Box>
-              {/* <Box data-tag="allowRowEvents"><LeaderCip /></Box> */}
-              <Box data-tag="allowRowEvents">{row.ebcEmail}</Box>
-            </Stack>
-          </>
-        ),
-        minWidth: "150px",
+        selector: (row: { custNm: string }) => row.custNm,
+        width: "150px",
       },
 
       {
@@ -101,27 +118,18 @@ const ListCust = () => {
       },
 
       {
-        name: "가입일",
-        selector: (row: { ebcJoinedAt: any }) =>
-          row.ebcJoinedAt && Dayjs(row.ebcJoinedAt).format("YYYY-MM-DD"),
-      },
-      {
         name: "마지막 수정",
+        width: "150px",
         selector: (row: { modifiedAt: any }) =>
           row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
       },
 
       {
-        name: "선결제 금액",
-        selector: (row: { pymnPrice: number }) =>
-          row.pymnPrice ? row.pymnPrice + " 원" : "금액",
-      },
-      {
         name: "메모",
         cell: (row: { memo: string }) => {
-          //console.log(row.memo);
           return (
-            row.memo !== null && (
+            row.memo !== null &&
+            row.memo !== "" && (
               <Tooltip title={row.memo} arrow>
                 <IconButton size="small">
                   <MyIcon icon="memo" size={24} />
@@ -155,13 +163,13 @@ const ListCust = () => {
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
               totalCount={data.data.pageInfo.totalElements}
-              selectedCount={selectedRowCnt}
+              //selectedCount={selectedRowCnt}
             />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/cust/list/download" />
+            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

@@ -37,7 +37,7 @@ import SampleTotal from "./SampleTotal";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import SixteenCheck from "./SixteenCheck";
 
-const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/extr`;
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -50,7 +50,7 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 });
 
 const LazySalesManagerSelctbox = dynamic(
-  () => import("./SalesManagerSelectbox"),
+  () => import("../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -590,6 +590,8 @@ export default function Page() {
                   rows={4}
                   inputName="memo"
                   placeholder="메모"
+                  maxLength={500}
+                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                 />
               </TD>
             </TableRow>
@@ -619,6 +621,7 @@ export default function Page() {
         onClose={handleCustSearchModalClose}
         open={custSearchModalOpen}
         modalWidth={800}
+        type="order"
       />
     </Form>
   );

@@ -11,7 +11,6 @@ export default function SalesManagerSelectbox() {
       suspense: true,
     }
   );
-  console.log("SalesManager Data ==>>", data.data);
   // const methods = useFormContext();
   // const { setValue, getValues } = methods;
   // const values = getValues(["custNm", "ebcEmail"]);

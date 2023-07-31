@@ -18,6 +18,7 @@ const RadioboxList: React.FC<RadioboxListProps> = ({ inputName, dataList }) => {
           inputName={inputName}
           labelText={item.btmCodeVal}
           value={item.btmCodeMc}
+          required={false}
         />
       ))}
     </>

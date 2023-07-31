@@ -70,6 +70,15 @@ const LazyCustSearchModal = dynamic(
   }
 );
 
+// 영업 담당자
+const LazySalesManagerSelctbox = dynamic(
+  () => import("../../../../components/SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
 interface FormData {
   agncNm?: string;
   agncUkey?: string;
@@ -98,9 +107,7 @@ export default function AgncPIModifyPage() {
 
   const methods = useForm<FormData>({
     defaultValues: () => {
-      return fetch(
-        `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/${uKey}`
-      )
+      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${uKey}`)
         .then((res) => res.json())
         .then((getData) => {
           const data = getData.data;
@@ -110,7 +117,6 @@ export default function AgncPIModifyPage() {
             return;
           }
 
-          console.log("data", data);
           setSelectedMembers(data.custDetail);
           setIsLoading(false);
 
@@ -119,12 +125,13 @@ export default function AgncPIModifyPage() {
             agncId: data.agncId,
             agncNm: data.agncNm,
             agncUkey: data.agncUkey,
-            addr: data.addr,
-            addrDetail: data.addrDetail,
-            bsnsManagedByNm: data.bsnsManagedByNm,
+            addr: data.addr ?? "",
+            addrDetail: data.addrDetail ?? "",
+            zip: data.zip ?? "",
+            bsnsMngrNm: data.bsnsMngrNm,
+
             bsnsMngrUkey: data.bsnsMngrUkey,
             custDetail: data.custDetail,
-            zip: data.zip,
             isSpecialMng: data.isSpecialMng,
             isSpecialMngFlag: data.isSpecialMng === "Y",
             memo: data.memo,
@@ -143,8 +150,6 @@ export default function AgncPIModifyPage() {
     setValue,
     handleSubmit,
   } = methods;
-
-  console.log("11");
 
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = React.useState<Member[]>([]);
@@ -171,20 +176,29 @@ export default function AgncPIModifyPage() {
     console.log("in onSubmit");
     //console.log("selectedMembers", selectedMembers);
 
+    /*
     let saveMemberList = selectedMembers.map(({ custUkey }) => ({
       custUkey,
     }));
+*/
+
+    const saveMemberList = selectedMembers
+      .filter((member) => member.custUkey !== data.custUkey)
+      .map(({ custUkey }) => ({
+        custUkey,
+      }));
+
     let isSpecialMngFlag = getValues("isSpecialMngFlag");
     let bsnsMngrUkey = getValues("bsnsMngrUkey");
 
     let saveObj = {
-      addr: data.addr,
-      addrDetail: data.addrDetail,
+      addr: data.addr ?? "",
+      addrDetail: data.addrDetail ?? "",
+      zip: data.zip ?? "",
       agncNm: data.agncNm,
       agncUkey: data.agncUkey, // 수정에서 생김
       bsnsMngrUkey,
       custDetailList: saveMemberList,
-      zip: data.zip,
       isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
       memo: data.memo,
       //custUkey: data.custUkey,
@@ -192,19 +206,19 @@ export default function AgncPIModifyPage() {
     console.log("==modify", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc`; // Replace with your API URL
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
 
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
           //router.push("/cust/cust-list/" + slug);
           router.push("/cust/agnc-pi-list/" + uKey);
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
       });
   };
 
@@ -232,8 +246,8 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }}>
                     <InputValidation
                       inputName="instNm"
-                      errorMessage={false}
                       disabled={true}
+                      required={true}
                       sx={{ width: 600 }}
                     />
                   </TD>
@@ -245,14 +259,14 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
-                        error={errors.agncNm ? true : false}
                         inputName="agncNm"
-                        errorMessage={
-                          errors.agncNm
-                            ? "중복된 거래처명이 있습니다."
-                            : "거래처(PI)를 입력해 주세요."
-                        }
                         sx={{ width: 600 }}
+                        required={true}
+                        errorMessage={"거래처(PI)를 입력해 주세요."}
+                        pattern={/^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣\s()-]*$/}
+                        patternErrMsg="거래처 이름은 한글 또는 영문으로 10자리 이내로 입력해주세요."
+                        maxLength={10}
+                        maxLengthErrMsg="거래처 이름은 10자 이내로 입력해주세요."
                       />
                       {/*<OutlinedButton*/}
                       {/*  size="small"*/}
@@ -270,8 +284,7 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="zip"
-                          errorMessage={false}
-                          placeholder="zip code"
+                          placeholder="우편번호"
                         />
                         <PostCodeBtn />
                       </Stack>
@@ -279,14 +292,14 @@ export default function AgncPIModifyPage() {
                         <InputValidation
                           disabled={true}
                           inputName="addr"
-                          errorMessage={false}
                           sx={{ width: 600 }}
                         />
                       </Stack>
                       <Stack direction="row" spacing={0.5}>
                         <InputValidation
                           inputName="addrDetail"
-                          errorMessage={false}
+                          maxLength={50}
+                          maxLengthErrMsg="50자 이내로 입력해주세요."
                           placeholder="상세주소"
                           sx={{ width: 600 }}
                         />
@@ -305,8 +318,8 @@ export default function AgncPIModifyPage() {
                     >
                       <InputValidation
                         disabled={true}
+                        required={true}
                         inputName="ebcEmail"
-                        errorMessage={false}
                         sx={{ width: 600 }}
                       />
                     </Stack>
@@ -322,8 +335,8 @@ export default function AgncPIModifyPage() {
                     >
                       <InputValidation
                         disabled={true}
+                        required={true}
                         inputName="custNm"
-                        errorMessage={false}
                         sx={{ width: 600 }}
                       />
                     </Stack>
@@ -361,16 +374,7 @@ export default function AgncPIModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <SelectBox
-                      inputName="bsnsMngrUkey"
-                      options={[
-                        { value: "user656014", optionName: "키웨스트" },
-                        { value: "user483349", optionName: "라이언" },
-                        { value: "user369596", optionName: "모씨" },
-                        { value: "user809094", optionName: "LINK" },
-                        { value: "user623719", optionName: "코로그" },
-                      ]}
-                    />
+                    <LazySalesManagerSelctbox />
                   </TD>
                 </TableRow>
                 <TableRow>
@@ -381,7 +385,8 @@ export default function AgncPIModifyPage() {
                       multiline
                       rows={4}
                       inputName="memo"
-                      errorMessage={false}
+                      maxLength={500}
+                      maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                     />
                   </TD>
                 </TableRow>
@@ -394,6 +399,7 @@ export default function AgncPIModifyPage() {
             onClose={handleCustSearchModalClose}
             open={custSearchModalOpen}
             modalWidth={800}
+            type="agnc"
           />
 
           <Stack direction="row" spacing={0.5} justifyContent="center">

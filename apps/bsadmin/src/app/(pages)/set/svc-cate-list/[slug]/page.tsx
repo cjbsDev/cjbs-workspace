@@ -28,16 +28,21 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import useSWR from "swr";
+import { toast } from "react-toastify";
+
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm } from "react-hook-form";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import dynamic from "next/dynamic";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-const LazyCheckboxList = dynamic(() => import("../../CheckboxSetCode"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
+const LazyCheckboxList = dynamic(
+  () => import("../../../../components/CheckboxSetCode"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={82} />,
+  }
+);
 
 interface ViewProps {
   params: {
@@ -85,13 +90,17 @@ export default function SvcCatePage({ params }: ViewProps) {
     axios
       .put(apiUrl, saveObj)
       .then((response) => {
-        console.log("PUT request successful:", response.data);
+        console.log("request successful:", response.data);
         if (response.data.success) {
+          toast("수정 성공");
           router.push("/set/svc-cate-list/");
+        } else {
+          toast(response.data.message ?? "에러 발생");
         }
       })
       .catch((error) => {
-        console.error("PUT request failed:", error);
+        console.error("request failed:", error);
+        toast("에러 발생");
       });
   };
 

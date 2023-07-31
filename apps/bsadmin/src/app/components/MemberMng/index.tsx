@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from "react";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/myIcon";
 import {
@@ -46,9 +46,12 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
   );
 
   // [멤버 관리] 멤버 저장
-  const [selectedMembers, setSelectedMembers] = React.useState<Member[]>(
-    memberData ?? []
-  );
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+
+  useEffect(() => {
+    setSelectedMembers(memberData ?? []);
+  }, [memberData]);
+
   // [멤버 관리] 타 컴포넌트에서 멤버 정보 공유용
 
   const handleMemberSelection = (selectedMembers: Member[]) => {
@@ -58,9 +61,6 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
 
     //onMemberSelection(selectedMembers);
   };
-
-  //console.log("get Member data", memberData);
-  //console.log("member datatable selectedMembers", selectedMembers);
 
   const columns = React.useMemo(
     () => [

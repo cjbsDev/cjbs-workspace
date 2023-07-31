@@ -34,7 +34,7 @@ const AgncSearchModal = ({
   const [perPage, setPerPage] = useState(20);
 
   const { data } = useSWR(
-    `http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/agnc/list?page.page=${pageIndex}&page.size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -42,8 +42,6 @@ const AgncSearchModal = ({
   );
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { setValue } = useFormContext();
-
-  console.log("Modal data", data.data);
 
   // useMemo will only be created once
   const columns = useMemo(
