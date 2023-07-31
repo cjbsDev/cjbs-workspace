@@ -11,7 +11,7 @@ import {
   InputValidation,
   Form,
   PostCodeBtn,
-  Checkbox,
+  CheckboxSV,
   SelectBox,
 } from "cjbsDSTM";
 import {
@@ -361,7 +361,7 @@ const AgncAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <Checkbox
+                <CheckboxSV
                   inputName="isSpecialMng"
                   labelText="특별 관리(SP)하는 거래처 입니다."
                   value=""

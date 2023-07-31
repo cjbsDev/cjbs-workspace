@@ -36,7 +36,7 @@ import {
   InputValidation,
   OutlinedButton,
   SelectBox,
-  Checkbox,
+  CheckboxSV,
   TD,
   TH,
   Title1,
@@ -364,7 +364,7 @@ export default function AgncPIModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Checkbox
+                    <CheckboxSV
                       inputName="isSpecialMngFlag"
                       labelText="특별 관리(SP)하는 거래처 입니다"
                       value=""

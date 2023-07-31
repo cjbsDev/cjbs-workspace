@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox } from "cjbsDSTM";
+import { CheckboxSV } from "cjbsDSTM";
 
 interface CheckboxListProps {
   inputName: string;
@@ -13,7 +13,7 @@ const CheckboxList: React.FC<CheckboxListProps> = ({ inputName, dataList }) => {
   return (
     <>
       {dataList.map((item: any) => (
-        <Checkbox
+        <CheckboxSV
           key={item.btmCodeMc}
           inputName={inputName}
           labelText={item.btmCodeVal}
