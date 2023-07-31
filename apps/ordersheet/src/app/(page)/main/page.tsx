@@ -296,7 +296,7 @@ const Page = () => {
                         내 주문내역 보기&nbsp;
                     </Typography>
                     <Typography variant="title2" sx={{color: '#006ECD'}}>
-                        <Link href="/test">
+                        <Link href="#">
                         17건
                         </Link>
                     </Typography>
