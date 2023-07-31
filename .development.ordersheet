@@ -1,4 +1,4 @@
 NEXT_PUBLIC_API_URL=https://dev.bsa.api.cjbioscience.com
-NEXTAUTH_SECRET=g9x2+wDMxLkQ7VGuxcWSZS0kuLA4FXWWuulRrDtWKwI=
+NEXT_PUBLIC_NEXTAUTH_SECRET=g9x2+wDMxLkQ7VGuxcWSZS0kuLA4FXWWuulRrDtWKwI=
 NEXTAUTH_URL=https://dev.order.cjbioscience.com
 
