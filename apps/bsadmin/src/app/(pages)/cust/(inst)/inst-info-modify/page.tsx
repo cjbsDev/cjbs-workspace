@@ -12,7 +12,7 @@ import {
   InputValidation,
   PostCodeBtn,
   SelectBox,
-  Radio,
+  RadioGV,
   Form,
 } from "cjbsDSTM";
 import {
