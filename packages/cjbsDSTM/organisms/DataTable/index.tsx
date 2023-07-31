@@ -11,7 +11,7 @@ export function DataTableBase<T>(props: TableProps<T>) {
       selectableRowsVisibleOnly={true}
       selectableRows
       fixedHeader
-      paginationPerPage={50}
+      paginationPerPage={20}
       paginationRowsPerPageOptions={[20, 50, 100]}
       {...props}
     />

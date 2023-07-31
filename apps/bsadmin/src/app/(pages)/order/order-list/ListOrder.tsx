@@ -27,21 +27,27 @@ import {
   dataTableCustomStyles2,
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import fetcher from "../../../func/fetcher";
+import { useList } from "../../../hooks/useList";
 
 const ListOrder = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
-  const { data } = useSWR("https://dummyjson.com/products", fetcher, {
-    suspense: true,
-  });
+  const [page, setPage] = useState<number>(0);
+  const [perPage, setPerPage] = useState<number>(20);
+  // ListAPI Call
+  const { data } = useList("order", page, perPage);
+  // const { data } = useSWR("https://dummyjson.com/products", fetcher, {
+  //   suspense: true,
+  // });
   const columns = useMemo(
     () => [
       {
         name: "No",
         width: "120px",
         sortable: true,
-        selector: (row) => row.id,
+        // selector: (row) => row.orderId,
         cell: (row) => {
+          const { orderId, isFastTrack } = row;
           return (
             <Stack
               direction="row"
@@ -50,10 +56,15 @@ const ListOrder = () => {
               data-tag="allowRowEvents"
             >
               <Typography variant="body2" data-tag="allowRowEvents">
-                000{row.id}
+                {orderId}
               </Typography>
-              <MyIcon icon="re" size={20} data-tag="allowRowEvents" />
-              <MyIcon icon="fast" size={20} data-tag="allowRowEvents" />
+
+              {isFastTrack === "Y" && (
+                <MyIcon icon="fast" size={20} data-tag="allowRowEvents" />
+              )}
+              {isFastTrack === "Y" && (
+                <MyIcon icon="re" size={20} data-tag="allowRowEvents" />
+              )}
             </Stack>
           );
         },
@@ -63,17 +74,18 @@ const ListOrder = () => {
         width: "105px",
         sortable: true,
         cell: (row) => {
+          const { orderStatusVal } = row;
           return (
             <Chip
               data-tag="allowRowEvents"
               label={"미접수"}
               size="small"
               color={
-                row.category === "smartphones"
-                  ? "primary"
-                  : row.category === "laptops"
+                orderStatusVal === "샘플 미접수"
+                  ? "secondary"
+                  : orderStatusVal === "laptops"
                   ? "success"
-                  : row.category === "skincare"
+                  : orderStatusVal === "skincare"
                   ? "error"
                   : "default"
               }
@@ -85,20 +97,21 @@ const ListOrder = () => {
         name: "타입",
         width: "110px",
         sortable: true,
-        selector: (row) => "외부 (테스트)",
+        selector: (row) => row.typeVal,
       },
       {
         name: "고객",
         width: "200px",
-        selector: (row) => "외부 (무료)",
+        // selector: (row) => "외부 (무료)",
         cell: (row) => {
+          const { custNm, custEmail } = row;
           return (
             <Stack data-tag="allowRowEvents">
               <Typography variant="body2" data-tag="allowRowEvents">
-                홍길동
+                {custNm}
               </Typography>
               <Typography variant="body2" data-tag="allowRowEvents">
-                musontytyg.choi@cj.net
+                {custEmail}
               </Typography>
             </Stack>
           );
@@ -107,15 +120,26 @@ const ListOrder = () => {
       {
         name: "거래처",
         width: "170px",
-        selector: (row) => "외부 (무료)",
+        // selector: (row) => "외부 (무료)",
         cell: (row) => {
+          const { isSpecialMng, instNm, agncNm } = row;
           return (
             <Stack data-tag="allowRowEvents">
               <Typography data-tag="allowRowEvents" variant="body2">
-                임상연구팀
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Box component="span">{agncNm}</Box>
+                  {isSpecialMng === "Y" && (
+                    <MyIcon
+                      icon="vip-fill"
+                      width={15}
+                      data-tag="allowRowEvents"
+                      color="#FFAB33"
+                    />
+                  )}
+                </Stack>
               </Typography>
               <Typography data-tag="allowRowEvents" variant="body2">
-                (CJ바이오사이언스)
+                ({instNm})
               </Typography>
             </Stack>
           );
@@ -124,24 +148,24 @@ const ListOrder = () => {
       {
         name: "샘플종류",
         width: "120px",
-        selector: (row) => "샘플/strain",
+        selector: (row) => (row.sampleType === null ? "-" : row.sampleType),
       },
       {
-        name: "Title",
-        sortable: true,
-        selector: (row) => row.title,
+        name: "16S 확인",
+        selector: (row) => row.is16S,
       },
       {
-        name: "Description",
-        selector: (row) => row.description,
+        name: "DNA반송",
+        selector: (row) => row.isDnaReturn,
       },
       {
-        name: "Brand",
-        selector: (row) => row.brand,
+        name: "샘플반송",
+        selector: (row) => row.isSampleReturn,
       },
       {
-        name: "Price",
-        selector: (row) => row.price,
+        name: "오더금액",
+        selector: (row) =>
+          row.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "Rating",
@@ -159,9 +183,16 @@ const ListOrder = () => {
 
   const { register, control, handleSubmit } = useForm();
 
-  const filteredData = data.products.filter(
+  // const filteredData = data.products.filter(
+  //   (item) =>
+  //     item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
+  // );
+  const filteredData = data.data.orderList.filter(
     (item) =>
-      item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
+      (item.custNm &&
+        item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.ebcEmail &&
+        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
   );
 
   console.log("filteredData ==>>", filteredData);

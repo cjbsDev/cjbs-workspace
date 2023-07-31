@@ -9,57 +9,66 @@ import {
   ExcelDownloadButton,
   LeaderCip,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Tooltip, IconButton } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Grid,
+  Tooltip,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
-import useSWR from "swr";
-import fetcher from "../../../../func/fetcher";
-import axios from "axios";
+// import useSWR from "swr";
+// import fetcher from "../../../../func/fetcher";
+// import axios from "axios";
 
 const ListCust = () => {
+  const [page, setPage] = useState<number>(0);
+  const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
-  // const { data } = useList("cust");
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
-  const { data, mutate } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${page}&size=${perPage}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useList("cust", page, perPage);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const { data, isLoading, mutate } = useSWR(
+  //   `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${page}&size=${perPage}`,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   }
+  // );
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const filteredData = data.data.custList;
+  // const filteredData = data.data.custList;
+
+  const filteredData = data.data.custList.filter(
+    (item) =>
+      (item.custNm &&
+        item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.ebcEmail &&
+        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
+  );
+
+  const totalElements = data.data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     //console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
   };
 
+  // console.log("filteredData totalElements", data.data.pageInfo.totalElements);
   console.log("filteredData", filteredData);
-
-  // useEffect(() => {}, []);
 
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
     () => [
-      /*
-      {
-        name: "고객 번호",
-        selector: (row: { ebcUid: number }) => row.ebcUid,
-        width: "100px",
-      },
-      */
-
       {
         name: "고객 번호",
         cell: (row: { ebcUid: number; agncUkey: string }) => (
@@ -162,7 +171,7 @@ const ListCust = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
+              totalCount={totalElements}
               //selectedCount={selectedRowCnt}
             />
           </Stack>
@@ -183,25 +192,15 @@ const ListCust = () => {
     );
   }, [filterText, resetPaginationToggle, selectedRowCnt]);
 
-  const handlePageChange = (page) => {
-    // fetchUsers(page);
-    console.log("Page", page);
+  const handlePageChange = (page: number) => {
+    // console.log("Page", page);
     setPage(page);
-    // mutate(page);
   };
 
-  const handlePerRowsChange = async (newPerPage, page) => {
-    // setLoading(true);
-    console.log("Row change.....", newPerPage, page);
-
-    // const response = await axios.get(
-    //   `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${page}&size=${perPage}`
-    // );
-
-    // filteredData = response.data.data;
-    // setData(response.data.data);
-    // setPerPage(newPerPage);
-    // setLoading(false);
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    // console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setPerPage(newPerPage);
   };
 
   return (
@@ -219,7 +218,7 @@ const ListCust = () => {
       paginationResetDefaultPage={resetPaginationToggle}
       pagination
       paginationServer
-      paginationTotalRows={102}
+      paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
     />

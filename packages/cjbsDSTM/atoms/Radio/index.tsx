@@ -11,70 +11,71 @@ import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 
-// interface RadioSVProps {
-//   inputName: string;
-//   labelText: string;
-//   value: string | boolean;
-//   required?: boolean;
-//   errorMessage?: string;
-// }
+interface RadioSVProps {
+  inputName: string;
+  labelText: string;
+  value: string | boolean;
+  required?: boolean;
+  errorMessage?: string;
+}
 
-// export const RadioSV = (props: RadioSVProps) => {
-//   const {
-//     inputName,
-//     labelText,
-//     value,
-//     required = false,
-//     errorMessage,
-//     ...rest
-//   } = props;
-//   const methods = useFormContext();
-//   return (
-//     <ThemeProvider theme={cjbsTheme}>
-//       <Stack>
-//         <FormControlLabel
-//           control={
-//             <Input
-//               {...methods.register(inputName, {
-//                 required: required,
-//               })}
-//               {...rest}
-//               type="radio"
-//               defaultValue={value}
-//               disableUnderline={true}
-//               sx={{ width: 18, ml: 1.5 }}
-//             />
-//           }
-//           label={
-//             <Typography
-//               variant="body2"
-//               sx={{
-//                 ml: 1,
-//                 color: cjbsTheme.palette.common.black,
-//               }}
-//             >
-//               {labelText}
-//             </Typography>
-//           }
-//         />
-//         {methods.formState.errors[inputName]?.type === "required" && (
-//           <Typography
-//             variant="body2"
-//             sx={{ color: cjbsTheme.palette.warning.main }}
-//           >
-//             {errorMessage}
-//           </Typography>
-//         )}
-//       </Stack>
-//     </ThemeProvider>
-//   );
-// };
+export const RadioSV = (props: RadioSVProps) => {
+  const {
+    inputName,
+    labelText,
+    value,
+    required = false,
+    errorMessage,
+    ...rest
+  } = props;
+  const methods = useFormContext();
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Stack>
+        <FormControlLabel
+          control={
+            <Input
+              {...methods.register(inputName, {
+                required: required,
+              })}
+              {...rest}
+              type="radio"
+              defaultValue={value}
+              disableUnderline={true}
+              sx={{ width: 18, ml: 1.5 }}
+            />
+          }
+          label={
+            <Typography
+              variant="body2"
+              sx={{
+                ml: 1,
+                color: cjbsTheme.palette.common.black,
+              }}
+            >
+              {labelText}
+            </Typography>
+          }
+        />
+        {methods.formState.errors[inputName]?.type === "required" && (
+          <Typography
+            variant="body2"
+            sx={{ color: cjbsTheme.palette.warning.main }}
+          >
+            {errorMessage}
+          </Typography>
+        )}
+      </Stack>
+    </ThemeProvider>
+  );
+};
 
 interface RadioGVProps {
   data: object;
   inputName: string;
   required?: boolean;
   errorMessage?: string;
+  defaultValue?: any;
   rowIs?: boolean;
 }
 export const RadioGV = (props: RadioGVProps) => {
@@ -84,6 +85,7 @@ export const RadioGV = (props: RadioGVProps) => {
     required = false,
     errorMessage,
     rowIs = true,
+    defaultValue = undefined,
     ...rest
   } = props;
   const methods = useFormContext();
@@ -98,7 +100,12 @@ export const RadioGV = (props: RadioGVProps) => {
           }}
           name={inputName}
           render={({ field }) => (
-            <RadioGroup {...field} value={undefined} row={rowIs}>
+            <RadioGroup
+              {...field}
+              defaultValue={defaultValue}
+              // value={undefined}
+              row={rowIs}
+            >
               {data.map((item: any) => {
                 const { value, optionName } = item;
                 return (
