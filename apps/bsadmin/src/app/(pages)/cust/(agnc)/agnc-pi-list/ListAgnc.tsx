@@ -42,8 +42,6 @@ const ListAgnc = () => {
     suspense: true,
   });
 
-  console.log("list agnc data", data);
-
   const handleRowSelected = (rows: any) => {
     console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);

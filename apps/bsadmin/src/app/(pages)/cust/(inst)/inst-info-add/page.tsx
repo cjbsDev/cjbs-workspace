@@ -11,7 +11,7 @@ import {
   InputValidation,
   PostCodeBtn,
   SelectBox,
-  Radio,
+  RadioGV,
   Form,
 } from "cjbsDSTM";
 import useSWR from "swr";
@@ -64,6 +64,11 @@ const LazyRegion1 = dynamic(
  * API 에서 validation 관련하여 리턴 처리
  *
  */
+
+const dataRadioGVstatusCodeCc = [
+  { value: "BS_0602001", optionName: "운영" },
+  { value: "BS_0602002", optionName: "폐업" },
+];
 
 // 기관 등록
 const InstAdd = () => {
@@ -316,6 +321,14 @@ const InstAdd = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>상태</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
+                {/* 운영, 폐업 */}
+                <RadioGV
+                  data={dataRadioGVstatusCodeCc}
+                  inputName="statusCodeCc"
+                  required={true}
+                  errorMessage="필수 선택입니다."
+                />
+                {/* 
                 <Radio
                   inputName="statusCodeCc"
                   labelText="운영"
@@ -326,6 +339,7 @@ const InstAdd = () => {
                   labelText="폐업"
                   value="BS_0602002"
                 />
+*/}
               </TD>
             </TableRow>
           </TableBody>

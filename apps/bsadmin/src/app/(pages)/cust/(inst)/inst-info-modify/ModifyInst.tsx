@@ -12,7 +12,7 @@ import {
   InputValidation,
   PostCodeBtn,
   SelectBox,
-  Radio,
+  RadioGV,
   Form,
 } from "cjbsDSTM";
 import {
@@ -54,6 +54,11 @@ const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
   ssr: false,
   loading: () => <SkeletonLoading height={272} />,
 });
+
+const dataRadioGVstatusCodeCc = [
+  { value: "BS_0602001", optionName: "운영" },
+  { value: "BS_0602002", optionName: "폐업" },
+];
 
 // 기관 수정
 export default function InstModifyPage() {
@@ -332,6 +337,13 @@ export default function InstModifyPage() {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
+                    <RadioGV
+                      data={dataRadioGVstatusCodeCc}
+                      inputName="statusCodeCc"
+                      required={true}
+                      errorMessage="필수 선택입니다."
+                    />
+                    {/* 
                     <Radio
                       inputName="statusCodeCc"
                       labelText="운영"
@@ -342,6 +354,7 @@ export default function InstModifyPage() {
                       labelText="폐업"
                       value="BS_0602002"
                     />
+                  */}
                   </TD>
                 </TableRow>
               </TableBody>
