@@ -180,16 +180,16 @@ export const snbMenuListData = [
           menuPath: "/set/svc-cate-list",
         },
         {
-          menuLabel: "Machine Kit 분류 관리",
-          menuPath: "/set/machine-kit",
-        },
-        {
-          menuLabel: "과제 관리",
-          menuPath: "/set/project-list",
+          menuLabel: "장비 Kit 분류 관리",
+          menuPath: "/set/machine-kit-list",
         },
         {
           menuLabel: "담당자 관리",
           menuPath: "/set/contact-list",
+        },
+        {
+          menuLabel: "과제 관리",
+          menuPath: "/set/project-list",
         },
 
         {
