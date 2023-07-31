@@ -63,6 +63,7 @@ const CodeBoxPage = () => {
     // checkTest: ["Y", "Nbb"],
     // inputTest: "defaultTextValue",
     // gender: "user623719",
+    testRadioGV: "Y",
   };
 
   return (
