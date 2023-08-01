@@ -6,37 +6,30 @@ import MyIcon from "icon/myIcon";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
     Box,
-    DialogContent,
-    Divider,
     InputAdornment,
-    Stack,
     Typography,
     Container,
     Link,
     Grid,
-    Checkbox,
-    CssBaseline,
-    TextField,
-    FormControlLabel
+    IconButton,
 } from "@mui/material";
 import {
-    AlertModal,
-    // Checkbox,
-    ContainedButton,
-    LinkButton,
     Form,
-    Radio,
-    SelectBox,
-    OutlinedButton,
     InputValidation,
-    ResetButton,
     XlargeButton,
 } from "cjbsDSTM";
+import { toast } from "react-toastify";
 import { signIn } from 'next-auth/react';
 
 const theme = createTheme();
 export default function Page() {
     const router = useRouter();
+
+    const [showPassword, setShowPassword] = React.useState(false);
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     const onSubmit = (data:any) => {
         console.log(data);
@@ -45,10 +38,9 @@ export default function Page() {
         signIn('credentials', { email, password, redirect: false }).then((res) => {
             //const isError = res && res.error ? res.error : null
             console.log("!!!!res=", res)
-            console.log("QWEQWEQWEQWEQWEQWEQWEQWEQWEQWE")
             if (res?.error) {
                 const errorMessage = res.error.split('Error:')[1];
-                // toast(errorMessage, { type: 'info' });
+                toast(errorMessage, { type: 'info' });
             } else {
                 //로그인성공
                 router.push('/main');
@@ -77,10 +69,10 @@ export default function Page() {
                     <Box sx={{marginTop: 25, marginBottom:5, width: 210}}>
                         <MyIcon icon="cj_bk"/>
                     </Box>
-                    <Typography variant="title1" sx={{marginBottom: 2}}>
+                    <Typography variant="h4" sx={{marginBottom: 2}}>
                         NGS Service
                     </Typography>
-                    <Typography variant="body2" sx={{marginBottom: 2}}>
+                    <Typography variant="body2" sx={{marginBottom: 2, textAlign: 'center'}}>
                         NGS 서비스 주문 시스템을 이용하시려면<br/>EzBioCloud 계정이 필요합니다.
                     </Typography>
                     <Form onSubmit={onSubmit} defaultValues={undefined} >
@@ -95,6 +87,11 @@ export default function Page() {
                             pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
                             patternErrMsg="이메일 형식이 아닙니다."
                             sx={{ width: 380 }}
+                            inputProps={{
+                                style: {
+                                    height: 39.6,
+                                },
+                            }}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
@@ -110,28 +107,36 @@ export default function Page() {
                             placeholder="label"
                             required={true}
                             errorMessage="비밀번호를 입력해 주세요."
-                            type="password"
-                            // sx={{ width: 100 }}
+                            type={showPassword ? 'text' : 'password'}
+                            sx={{ width: 380 }}
+                            inputProps={{
+                                style: {
+                                    height: 39.6,
+                                },
+                            }}
                             InputProps={{
                                 startAdornment: (
                                     <InputAdornment position="start">
                                         <MyIcon icon="lock" size={20}/>
                                     </InputAdornment>
                                 ),
+                                endAdornment: (
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                        >
+                                            {showPassword ? <MyIcon icon="eye-slash-fill" size={24} /> : <MyIcon icon="eye-fill" size={24} />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                ),
                             }}
                         />
-                        {/*<FormControlLabel*/}
-                        {/*    control={<Checkbox value="remember" color="primary" />}*/}
-                        {/*    label="Remember me"*/}
-                        {/*/>*/}
-                        {/*<LinkButton*/}
-                        {/*    fullWidth*/}
-                        {/*    buttonName="Sign In"*/}
-                        {/*    onClick={() => router.push("main")}*/}
-                        {/*/>*/}
-                        <ContainedButton
+                        <XlargeButton
                             buttonName="로그인"
                             type="submit"
+                            variant="contained"
                             fullWidth
                             style={{marginTop:10, marginBottom:10 }}
                         />
