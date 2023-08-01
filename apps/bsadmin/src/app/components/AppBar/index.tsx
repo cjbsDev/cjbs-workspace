@@ -8,6 +8,7 @@ import {
   Box,
   Badge,
   Stack,
+  Link,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
@@ -28,6 +29,7 @@ import {
 import MyIcon from "icon/myIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import { useSession } from "next-auth/react"
 
 const drawerWidth = 228;
 
@@ -57,6 +59,7 @@ const AppBar = styled(MuiAppBar, {
   margin: 0,
 }));
 const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
+  const { data: session, status } = useSession()
   const popupState = usePopupState({
     variant: "popover",
     popupId: "useInfoMenu",
@@ -104,7 +107,10 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                 spacing={1}
               >
                 <MyIcon icon="profile-circle-fill" size={24} />
-                <Typography variant="body2">eunjung.lee9</Typography>
+                <Typography variant="body2">
+                  {/*eunjung.lee9*/}
+                  {status === "authenticated" ? session.user.email : (<button>sign in</button>)}
+                </Typography>
                 <IconButton
                   {...bindTrigger(popupState)}
                   edge="end"
@@ -116,9 +122,11 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
               </Stack>
               <Menu {...bindMenu(popupState)}>
                 <MenuItem onClick={popupState.close}>
-                  <Typography textAlign="center" variant="body2">
-                    Sign Out
-                  </Typography>
+                  <Link href="/signout" underline="none">
+                    <Typography textAlign="center" variant="body2">
+                      Sign Out
+                    </Typography>
+                  </Link>
                 </MenuItem>
               </Menu>
             </Box>
