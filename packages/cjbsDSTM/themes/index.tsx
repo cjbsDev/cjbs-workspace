@@ -139,14 +139,14 @@ export const cjbsTheme = createTheme({
       letterSpacing: "0em",
       lineHeight: 1.16,
     },
-    title1: {
+    h4: {
       fontFamily: "Inter",
       fontSize: 22,
       fontWeight: 600,
       letterSpacing: "0em",
       lineHeight: 1.75,
     },
-    title2: {
+    h5: {
       fontFamily: "Inter",
       fontSize: 18,
       fontWeight: 600,
@@ -181,90 +181,6 @@ export const cjbsTheme = createTheme({
       lineHeight: 1.43,
       letterSpacing: "0em",
     },
-    // buttonxl: {
-    //   fontFamily: "Inter",
-    //   fontSize: 18,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // buttonlg: {
-    //   fontFamily: "Inter",
-    //   fontSize: 16,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // buttonmd: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // buttonsm: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // helptxt: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // inputtxt: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // chip: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 400,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // tooltip: {
-    //   fontFamily: "Inter",
-    //   fontSize: 12,
-    //   fontWeight: 400,
-    //   lineHeight: 1.5,
-    //   letterSpacing: "0em",
-    // },
-    // alert: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 600,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // tableheader: {
-    //   fontFamily: "Inter",
-    //   fontSize: 14,
-    //   fontWeight: 600,
-    //   lineHeight: 1.75,
-    //   letterSpacing: "0em",
-    // },
-    // badge: {
-    //   fontFamily: "Inter",
-    //   fontSize: 12,
-    //   fontWeight: 600,
-    //   lineHeight: 1.5,
-    //   letterSpacing: "0em",
-    // },
-    // caption: {
-    //   fontFamily: "Inter",
-    //   fontSize: 12,
-    //   fontWeight: 400,
-    //   lineHeight: 1.5,
-    //   letterSpacing: "0em",
-    // },
   },
   components: {
     MuiFormControlLabel: {
@@ -393,30 +309,12 @@ export const cjbsTheme = createTheme({
       },
     },
     MuiTypography: {
-      variants: [
-        // {
-        //   props: { variant: "title1" },
-        //   style: {
-        //     color: "black",
-        //     fontFamily: "Inter",
-        //     fontStyle: "normal",
-        //     fontWeight: 600,
-        //     fontSize: 28,
-        //     letterSpacing: "-0.5px",
-        //   },
-        // },
-        // {
-        //   props: { variant: "title2" },
-        //   style: {
-        //     color: "rgba(0, 0, 0, 0.87)",
-        //     fontFamily: "Inter",
-        //     fontStyle: "normal",
-        //     fontWeight: 600,
-        //     fontSize: 18,
-        //     letterSpacing: "-0.5px",
-        //   },
-        // },
-      ],
+      // defaultProps: {
+      //   variantMapping: {
+      //     title1: "h4",
+      //     title2: "h5",
+      //   },
+      // },
     },
     MuiNativeSelect: {
       styleOverrides: {
@@ -434,6 +332,25 @@ export const cjbsTheme = createTheme({
           paddingBottom: "3px",
           paddingTop: "3px",
         },
+      },
+    },
+    MuiChip: {
+      styleOverrides: {
+        root: {},
+        sizeSmall: {},
+        sizeMedium: {},
+        icon: {},
+        iconSmall: {},
+        iconMedium: {},
+        avatar: {},
+        avatarSmall: {},
+        avatarMedium: {},
+        deleteIcon: {},
+        deleteIconMedium: {},
+        deleteIconSmall: {},
+        label: {},
+        labelSmall: {},
+        labelMedium: {},
       },
     },
   },

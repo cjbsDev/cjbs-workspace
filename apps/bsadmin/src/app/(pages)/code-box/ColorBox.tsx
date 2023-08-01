@@ -31,7 +31,7 @@ const ColorNameList = [
 export default function ColorBox() {
   return (
     <>
-      <Title variant="title1">Color</Title>
+      <Title variant="h4">Color</Title>
 
       {ColorNameList.map((item) => {
         return (

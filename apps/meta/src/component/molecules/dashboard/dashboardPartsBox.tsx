@@ -22,7 +22,7 @@ const DashboardPartsBox = ({ type, typeCount, data }: Props) => {
           <Typography variant="body2" marginRight={'7px'}>
             대상자 수
           </Typography>
-          <Typography variant="title1">{typeCount.toLocaleString()}</Typography>
+          <Typography variant="h4">{typeCount.toLocaleString()}</Typography>
         </FlexBox>
       </TitleBox>
       <ListBox>

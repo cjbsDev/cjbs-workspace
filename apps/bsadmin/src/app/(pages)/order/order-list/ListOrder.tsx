@@ -10,8 +10,20 @@ import {
   ExcelDownloadButton,
   UnStyledButton,
   OutlinedButton,
+  ContainedButton,
+  CheckboxGV,
+  Form,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Grid,
+  Typography,
+  Chip,
+  FormControl,
+  FormLabel,
+  FormGroup,
+} from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -28,17 +40,38 @@ import {
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
+import { MultiCheckbox } from "./MultiCheckbox";
+
+const dataRadioGVTest = [
+  { value: "Y", optionName: "요청함" },
+  { value: "N", optionName: "요청안함" },
+];
 
 const ListOrder = () => {
-  const [checked, setChecked] = useState(false);
-  const router = useRouter();
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
-  // const { data } = useSWR("https://dummyjson.com/products", fetcher, {
-  //   suspense: true,
-  // });
+  const totalElements = data.data.pageInfo.totalElements;
+  const [filterText, setFilterText] = useState("");
+  const [checked, setChecked] = useState(false);
+  const router = useRouter();
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [state, setState] = React.useState({
+    gilad: true,
+    jason: false,
+    antoine: false,
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked,
+    });
+  };
+
+  const { gilad, jason, antoine } = state;
+
   const columns = useMemo(
     () => [
       {
@@ -62,9 +95,9 @@ const ListOrder = () => {
               {isFastTrack === "Y" && (
                 <MyIcon icon="fast" size={20} data-tag="allowRowEvents" />
               )}
-              {isFastTrack === "Y" && (
-                <MyIcon icon="re" size={20} data-tag="allowRowEvents" />
-              )}
+              {/*{isFastTrack === "Y" && (*/}
+              {/*  <MyIcon icon="re" size={20} data-tag="allowRowEvents" />*/}
+              {/*)}*/}
             </Stack>
           );
         },
@@ -178,15 +211,7 @@ const ListOrder = () => {
     ],
     []
   );
-  const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const { register, control, handleSubmit } = useForm();
-
-  // const filteredData = data.products.filter(
-  //   (item) =>
-  //     item.title && item.title.toLowerCase().includes(filterText.toLowerCase())
-  // );
   const filteredData = data.data.orderList.filter(
     (item) =>
       (item.custNm &&
@@ -197,9 +222,14 @@ const ListOrder = () => {
 
   console.log("filteredData ==>>", filteredData);
 
-  const goDetailPage = (row) => {
-    const path = row.title;
-    router.push("/order/order-list/" + path.toString());
+  const dataRadioGVTest = [
+    { value: "Y", optionName: "요청함" },
+    { value: "N", optionName: "요청안함" },
+  ];
+
+  const goDetailPage = (row: any) => {
+    const path = row.orderUkey;
+    router.push("/order/order-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -210,33 +240,23 @@ const ListOrder = () => {
       }
     };
 
+    const onSubmit = (data) => {
+      console.log(data);
+    };
+
+    const onChange = (e) => {
+      console.log(e);
+    };
+
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={20} />
-            <OutlinedButton
+            <DataCountResultInfo totalCount={totalElements} />
+            <ContainedButton
               buttonName="오더 등록"
               size="small"
-              color="secondary"
               onClick={() => router.push("/order/order-reg")}
-            />
-            <FormControlLabel
-              control={
-                <Checkbox
-                  size="small"
-                  sx={{ p: 0, m: 0 }}
-                  checked={checked}
-                  onChange={() => setChecked(!checked)}
-                />
-              }
-              sx={{
-                ".MuiFormControlLabel-label": {
-                  fontSize: 14,
-                  pt: 0.2,
-                },
-              }}
-              label="내가 등록한 오더만 보기"
             />
           </Stack>
         </Grid>
@@ -247,7 +267,7 @@ const ListOrder = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
-            <IconDescBar freeDisabled={true} />
+            <IconDescBar freeDisabled={true} reOrder={true} />
             <ExcelDownloadButton downloadUrl={""} />
             <DataTableFilter
               onFilter={(e: {
@@ -258,9 +278,67 @@ const ListOrder = () => {
             />
           </Stack>
         </Grid>
+        <Grid item xs={12}>
+          <MultiCheckbox />
+          {/*<Form onSubmit={onSubmit} defaultValues={undefined}>*/}
+          {/*  <CheckboxGV*/}
+          {/*    data={dataRadioGVTest}*/}
+          {/*    inputName="filterTest"*/}
+          {/*    onChange={onSubmit}*/}
+          {/*  />*/}
+          {/*  <OutlinedButton buttonName="send" type="submit" />*/}
+          {/*</Form>*/}
+
+          {/*<FormControl sx={{ m: 3 }} component="fieldset" variant="standard">*/}
+          {/*  <FormLabel component="legend">Filter</FormLabel>*/}
+          {/*  <FormGroup>*/}
+          {/*    <FormControlLabel*/}
+          {/*      control={*/}
+          {/*        <Checkbox*/}
+          {/*          checked={gilad}*/}
+          {/*          onChange={handleChange}*/}
+          {/*          name="gilad"*/}
+          {/*        />*/}
+          {/*      }*/}
+          {/*      label="Gilad Gray"*/}
+          {/*    />*/}
+          {/*    <FormControlLabel*/}
+          {/*      control={*/}
+          {/*        <Checkbox*/}
+          {/*          checked={jason}*/}
+          {/*          onChange={handleChange}*/}
+          {/*          name="jason"*/}
+          {/*        />*/}
+          {/*      }*/}
+          {/*      label="Jason Killian"*/}
+          {/*    />*/}
+          {/*    <FormControlLabel*/}
+          {/*      control={*/}
+          {/*        <Checkbox*/}
+          {/*          checked={antoine}*/}
+          {/*          onChange={handleChange}*/}
+          {/*          name="antoine"*/}
+          {/*        />*/}
+          {/*      }*/}
+          {/*      label="Antoine Llorca"*/}
+          {/*    />*/}
+          {/*  </FormGroup>*/}
+          {/*</FormControl>*/}
+        </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked]);
+  }, [filterText, resetPaginationToggle, checked, state, onchange]);
+
+  const handlePageChange = (page: number) => {
+    // console.log("Page", page);
+    setPage(page);
+  };
+
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    // console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setPerPage(newPerPage);
+  };
 
   return (
     <DataTableBase
@@ -275,6 +353,11 @@ const ListOrder = () => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
     />
   );
 };

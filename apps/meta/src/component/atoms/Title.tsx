@@ -4,7 +4,7 @@ import React from 'react';
 const Title = ({ children }: { children: React.ReactNode }) => {
   return (
     <Box sx={{ mb: '21px' }}>
-      <Typography variant="title1">{children}</Typography>
+      <Typography variant="h4">{children}</Typography>
     </Box>
   );
 };

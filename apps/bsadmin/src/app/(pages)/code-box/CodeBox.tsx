@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState } from "react";
 import Link from "next/link";
 import {
@@ -28,10 +27,18 @@ import {
   green,
 } from "cjbsDSTM/themes/color";
 import { useRouter } from "next-nprogress-bar";
-import { Box, Divider, InputAdornment, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Divider,
+  IconButton,
+  InputAdornment,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 import ColorBox from "./ColorBox";
+import MyIcon from "icon/myIcon";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -71,7 +78,20 @@ const CodeBoxPage = () => {
       <Typography variant="h1">Component Review</Typography>
       <br />
       <br />
-      <Typography variant="title1">Link & Router</Typography>
+      <Typography variant="h1">H1</Typography>
+      <Typography variant="h2">H2</Typography>
+      <Typography variant="h3">H3</Typography>
+      <Typography variant="h4">H4</Typography>
+      <Typography variant="h5">H5</Typography>
+      <Typography variant="h6">H6</Typography>
+      <Typography variant="subtitle1">Subtitle1</Typography>
+      <Typography variant="subtitle2">Subtitle2</Typography>
+      <Typography variant="body1">Body1</Typography>
+      <Typography variant="body2">Body2</Typography>
+
+      <Divider sx={{ mb: 5, mt: 5 }} />
+
+      <Typography variant="h4">Link & Router</Typography>
       <Stack direction={"row"} spacing={1}>
         <Link href="/cust/cust-list">고객관리</Link>
         <Link href="/cust/agnc-pi-add">거래처(PI) 등록</Link>
@@ -90,7 +110,7 @@ const CodeBoxPage = () => {
       </Stack>
       <Divider sx={{ mb: 5, mt: 5 }} />
 
-      <Typography variant="title1">Button</Typography>
+      <Typography variant="h4">Button</Typography>
       <Box sx={{ "& button": { m: 1 } }}>
         <Box>
           <OutlinedButton
@@ -129,7 +149,7 @@ const CodeBoxPage = () => {
         이 키는 기본값이 변경될 때마다 업데이트 필요.
         키를 업데이트하면 React는 키를 다른 구성 요소 인스턴스로 인식하고 다시 렌더링을 트리거하여 새 기본값을 효과적으로 적용합니다.
       */}
-      <Typography sx={{ mb: 1, color: blue["800"] }} variant="title1">
+      <Typography sx={{ mb: 1, color: blue["800"] }} variant="h4">
         Form & Validation
       </Typography>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -167,6 +187,7 @@ const CodeBoxPage = () => {
         />
         <br />
         <br />
+        <Typography variant="body1">height 40</Typography>
         <InputValidation
           required={true}
           inputName="sampleCnt"
@@ -174,6 +195,11 @@ const CodeBoxPage = () => {
           pattern={/^[0-9]+$/}
           patternErrMsg="숫자만 입력 하세요."
           sx={{ width: 100 }}
+          inputProps={{
+            style: {
+              height: 40,
+            },
+          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -187,6 +213,26 @@ const CodeBoxPage = () => {
         <br />
         <br />
         <InputValidation inputName="agncNm" sx={{ width: 100 }} />
+        <br />
+        <br />
+        <InputValidation
+          inputName="agncNm"
+          sx={{ width: 100 }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <MyIcon icon="share-fill" size={18} />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton>
+                  <MyIcon icon="eye-fill" size={18} />
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
+        />
         <br />
         <br />
         <SelectBox
@@ -212,7 +258,7 @@ const CodeBoxPage = () => {
       <div>{JSON.stringify(log)}</div>
 
       <Divider sx={{ mb: 5, mt: 5 }} />
-      <Typography sx={{ mb: 1, color: blue["800"] }} variant="title1">
+      <Typography sx={{ mb: 1, color: blue["800"] }} variant="h4">
         Modal
       </Typography>
       <ContainedButton

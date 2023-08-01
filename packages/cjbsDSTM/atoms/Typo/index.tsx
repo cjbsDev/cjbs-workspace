@@ -12,7 +12,7 @@ interface Title1Props extends TypographyProps {
 export const Title1 = ({ titleName, ...props }: Title1Props) => {
   return (
     <ThemeProvider theme={cjbsTheme}>
-      <Typography variant={"title1"} {...props}>
+      <Typography variant={"h4"} {...props}>
         {titleName}
       </Typography>
     </ThemeProvider>

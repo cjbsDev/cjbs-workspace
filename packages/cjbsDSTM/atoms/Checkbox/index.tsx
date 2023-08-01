@@ -10,6 +10,7 @@ import {
 import { Controller, useFormContext } from "react-hook-form";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
+import { SyntheticEvent } from "react";
 
 interface CheckboxSVProps extends InputProps {
   inputName: string;
@@ -18,6 +19,7 @@ interface CheckboxSVProps extends InputProps {
   errorMessage?: string;
   value?: string | boolean;
   required?: boolean;
+  onChange?: (e: SyntheticEvent) => void;
 }
 
 export const CheckboxSV = ({
@@ -26,6 +28,7 @@ export const CheckboxSV = ({
   value,
   waringIs,
   errorMessage,
+  onChange,
   required = false,
   ...props
 }: CheckboxSVProps) => {
@@ -44,7 +47,8 @@ export const CheckboxSV = ({
           <Input
             {...methods.register(inputName, {
               required: required,
-              // onChange: (e) => console.log("Check Selected!", e.target.value),
+              // onChange: onChange,
+              onChange: onChange,
             })}
             {...props}
             type="checkbox"
