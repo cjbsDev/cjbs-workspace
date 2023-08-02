@@ -114,7 +114,7 @@ export default function Page() {
   const defaultValues = {
     srvcTypeMc: "BS_0100007004",
     anlsTypeMc: "BS_0100006004",
-    platformMc: "BS_0100008001",
+    pltfMc: "BS_0100008001",
     taxonBCnt: 0,
     taxonECnt: 0,
     taxonACnt: 0,
@@ -138,10 +138,10 @@ export default function Page() {
       mailRcpnList: data.mailRcpnList,
       memo: data.memo,
       orderTypeCc: data.orderTypeCc,
-      ordrRcpnEmail: data.ordrRcpnEmail,
-      ordrRcpnNm: data.ordrRcpnNm,
-      ordrRcpnTel: data.ordrRcpnTel,
-      platformMc: data.platformMc,
+      ordrAplcEmail: data.ordrAplcEmail,
+      ordrAplcNm: data.ordrAplcNm,
+      ordrAplcTel: data.ordrAplcTel,
+      pltfMc: data.pltfMc,
       price: typeNumberPrice,
       reqReturnList: data.reqReturnList,
       srvcTypeMc: data.srvcTypeMc,
@@ -288,7 +288,7 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    inputName="ordrRcpnNm"
+                    inputName="ordrAplcNm"
                     required={true}
                     errorMessage="이름을 입력해 주세요."
                     sx={{ width: 600 }}
@@ -301,7 +301,7 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    inputName="ordrRcpnEmail"
+                    inputName="ordrAplcEmail"
                     required={true}
                     errorMessage="이메일을 입력해 주세요."
                     sx={{ width: 600 }}
@@ -314,7 +314,7 @@ export default function Page() {
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
-                    inputName="ordrRcpnTel"
+                    inputName="ordrAplcTel"
                     required={true}
                     errorMessage="연락처 입력해 주세요."
                     sx={{ width: 600 }}
@@ -345,7 +345,7 @@ export default function Page() {
                   <CheckboxSV
                     inputName="mailRcpnList"
                     labelText="신청인"
-                    value="ordrRcpn"
+                    value="ordrAplcRcpn"
                   />
                   <CheckboxSV
                     inputName="mailRcpnList"
@@ -602,7 +602,7 @@ export default function Page() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/cust/agnc-pi-list")}
+          onClick={() => router.push("/order/order-list")}
         />
 
         <ContainedButton

@@ -41,6 +41,7 @@ import {
 import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
+import Link from "next/link";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -253,11 +254,9 @@ const ListOrder = () => {
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
-            <ContainedButton
-              buttonName="오더 등록"
-              size="small"
-              onClick={() => router.push("/order/order-reg")}
-            />
+            <Link href="/order/order-reg">
+              <ContainedButton buttonName="오더 등록" size="small" />
+            </Link>
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
