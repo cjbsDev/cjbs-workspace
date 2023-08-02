@@ -8,6 +8,9 @@ import {
   Title1,
   ExcelDownloadButton,
   LeaderCip,
+  ContainedButton,
+  SelectBox,
+  Form,
 } from "cjbsDSTM";
 import {
   Box,
@@ -27,7 +30,7 @@ import { useList } from "../../../hooks/useList";
 // import fetcher from "../../../../func/fetcher";
 // import axios from "axios";
 
-const ListCust = () => {
+const ListContact = () => {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
@@ -48,7 +51,7 @@ const ListCust = () => {
 
   // const filteredData = data.data.custList;
 
-  const filteredData = data.data.custList.filter(
+  const filteredData = data.data.userList.filter(
     (item: any) =>
       (item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.email &&
@@ -93,29 +96,24 @@ const ListCust = () => {
       {
         name: "부서",
         selector: (row: { departVal: string }) => row.departVal,
-        width: "150px",
       },
       {
         name: "권한",
         selector: (row: { authVal: string }) => row.authVal,
-        width: "150px",
       },
       {
         name: "가입일",
-        width: "150px",
         selector: (row: { signupAt: any }) =>
           row.signupAt && Dayjs(row.signupAt).format("YYYY-MM-DD"),
       },
       {
         name: "가입일",
-        width: "150px",
         selector: (row: { lastLoginAt: any }) =>
           row.lastLoginAt && Dayjs(row.lastLoginAt).format("YYYY-MM-DD"),
       },
       {
         name: "상태",
         selector: (row: { statusVal: string }) => row.statusVal,
-        width: "150px",
       },
     ],
     []
@@ -125,6 +123,21 @@ const ListCust = () => {
     const path = row.ukey;
     router.push("/set/contact-list/" + path);
   };
+
+  const onSubmit = (data: any) => {
+    console.log("onSubmit", data);
+  };
+
+  const setUserStatus = () => {
+    console.log("setUserStatus");
+  };
+  const setUserAuth = () => {
+    console.log("setUserAuth");
+  };
+
+  //setUserStatus,setUserAuth
+
+  const defaultValues = {};
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -142,6 +155,39 @@ const ListCust = () => {
               totalCount={totalElements}
               //selectedCount={selectedRowCnt}
             />
+
+            <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+              <Stack direction="row" spacing={1}>
+                <SelectBox
+                  inputName="userStatus"
+                  options={[
+                    { value: "user656014", optionName: "가입 대기" },
+                    { value: "user483349", optionName: "사용" },
+                    { value: "user369596", optionName: "사용 정지" },
+                  ]}
+                  defaultMsg="회원 상태 변경"
+                />
+                <ContainedButton
+                  buttonName="상태 일괄 변경"
+                  size="small"
+                  onClick={setUserStatus}
+                />
+                <SelectBox
+                  inputName="userAuth"
+                  options={[
+                    { value: "user656014", optionName: "일반" },
+                    { value: "user483349", optionName: "부서 관리자" },
+                    { value: "user369596", optionName: "통합 관리자" },
+                  ]}
+                  defaultMsg="회원 권한 변경"
+                />
+                <ContainedButton
+                  buttonName="권한 일괄 변경"
+                  size="small"
+                  onClick={setUserAuth}
+                />
+              </Stack>
+            </Form>
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -193,4 +239,4 @@ const ListCust = () => {
   );
 };
 
-export default ListCust;
+export default ListContact;
