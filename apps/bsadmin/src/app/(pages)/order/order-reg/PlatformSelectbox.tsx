@@ -8,8 +8,6 @@ export default function PlatformSelectbox() {
   const { setValue, getValues, watch } = methods;
   const initValue = getValues("anlsTypeMc");
   const analysisValue = watch("anlsTypeMc");
-  console.log("Init", initValue);
-  console.log("Watch", analysisValue);
 
   const { data, isLoading, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/code/mngr/list?enumMngrCode=SRVC_CTGR&topUniqueCode=BS_0100005001&midUniqueCode=${initValue}`,
