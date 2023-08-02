@@ -82,18 +82,18 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                 <Box sx={{ flexGrow: 1 }} />
                 <Box>
                     <Stack direction="row" justifyContent="center" alignItems="center">
-                        <Box sx={{ mr: 1 }}>
-                            <IconButton size="large" color="inherit">
-                                <Badge
-                                    overlap="circular"
-                                    badgeContent=" "
-                                    variant="dot"
-                                    color="error"
-                                >
-                                    <MyIcon icon="bell" size={24} />
-                                </Badge>
-                            </IconButton>
-                        </Box>
+                        {/*<Box sx={{ mr: 1 }}>*/}
+                        {/*    <IconButton size="large" color="inherit">*/}
+                        {/*        <Badge*/}
+                        {/*            overlap="circular"*/}
+                        {/*            badgeContent=" "*/}
+                        {/*            variant="dot"*/}
+                        {/*            color="error"*/}
+                        {/*        >*/}
+                        {/*            <MyIcon icon="bell" size={24} />*/}
+                        {/*        </Badge>*/}
+                        {/*    </IconButton>*/}
+                        {/*</Box>*/}
                         <Box>
                             <Stack
                                 direction="row"

@@ -136,7 +136,7 @@ const Page = () => {
                                     Shotgun<br/>Metagenome
                                 </Typography>
 
-                                <Divider sx={{mb: 2, mt:1.5, backgroundColor: cjbsTheme.palette.grey['400']}} />
+                                <Divider sx={{mb: 2, mt:3, backgroundColor: cjbsTheme.palette.grey['400']}} />
 
                                 <Typography variant="subtitle2">
                                     Shotgun Sequencing
