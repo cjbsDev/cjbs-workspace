@@ -337,20 +337,39 @@ export const cjbsTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         root: {},
-        sizeSmall: {},
-        sizeMedium: {},
+        sizeSmall: {
+          height: 22,
+          fontSize: 14,
+          fontWeight: 400,
+          lineHeight: "16px",
+        },
+        sizeMedium: {
+          height: 32,
+          fontSize: 14,
+          fontWeight: 400,
+          lineHeight: "16px",
+        },
         icon: {},
-        iconSmall: {},
-        iconMedium: {},
-        avatar: {},
-        avatarSmall: {},
-        avatarMedium: {},
+        iconSmall: {
+          marginLeft: 2,
+        },
+        iconMedium: {
+          marginLeft: 4,
+        },
         deleteIcon: {},
-        deleteIconMedium: {},
-        deleteIconSmall: {},
+        deleteIconMedium: {
+          marginRight: 4,
+        },
+        deleteIconSmall: {
+          marginRight: 2,
+        },
         label: {},
-        labelSmall: {},
-        labelMedium: {},
+        labelSmall: {
+          padding: "0px 8px",
+        },
+        labelMedium: {
+          padding: "0px 8px",
+        },
       },
     },
   },

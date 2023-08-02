@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   AlertModal,
@@ -15,6 +15,10 @@ import {
   ResetButton,
   XlargeButton,
   cjbsTheme,
+  Title1,
+  DataTableBase,
+  ErrorContainer,
+  Fallback,
 } from "cjbsDSTM";
 // Color
 import {
@@ -33,12 +37,16 @@ import {
   IconButton,
   InputAdornment,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 import ColorBox from "./ColorBox";
 import MyIcon from "icon/myIcon";
+import { useList } from "../../hooks/useList";
+import Dayjs from "dayjs";
+import RemotePaging from "./RemotePaging";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -49,6 +57,7 @@ const CodeBoxPage = () => {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [log, setLog] = useState<string>("Send Form Value...");
+
   const { register, setValue } = useForm();
 
   const handleAlertOpen = () => {
@@ -276,6 +285,14 @@ const CodeBoxPage = () => {
         }
         subMessage={"삭제를 진행하시겠습니까?"}
       />
+
+      <Divider sx={{ mb: 5, mt: 5 }} />
+      <Typography sx={{ mb: 1, color: blue["800"] }} variant="h4">
+        Remote Pagination
+      </Typography>
+      <ErrorContainer FallbackComponent={Fallback}>
+        <RemotePaging />
+      </ErrorContainer>
     </Box>
   );
 };
