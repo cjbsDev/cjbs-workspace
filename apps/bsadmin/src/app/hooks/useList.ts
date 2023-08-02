@@ -12,6 +12,7 @@ export const useList = (
     fetcher,
     {
       suspense: true,
+      retry: 1,
     }
   );
 
