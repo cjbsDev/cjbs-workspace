@@ -150,7 +150,7 @@ export default function Page() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2" underline="none">
+                                <Link href="https://www.ezbiocloud.net/forgotPassword?from=mydata" variant="body2" underline="none" target="_blank">
                                     비밀번호 찾기
                                 </Link>
                             </Grid>
