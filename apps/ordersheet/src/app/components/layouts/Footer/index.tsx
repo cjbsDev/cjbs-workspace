@@ -29,22 +29,20 @@ const Footer = () => {
                 }}
             >
                 <Container maxWidth='lg' disableGutters={true}>
-                    <Grid container spacing={0} sx={{marginTop: 0}}>
-                        {footerInfoData.map((item) => (
-                            <FooterInfo
-                                key={uuid()}
-                                companyLogo={item.logoWh}
-                                country={item.country}
-                                countryFlag={item.countryFlag}
-                                info1={item.info1}
-                                info2={item.info2}
-                                info3={item.info3}
-                                twIcon={item.twIcon}
-                                lkIcon={item.lkIcon}
-                                fbIcon={item.fbIcon}
-                            />
-                        ))}
-                    </Grid>
+                    {footerInfoData.map((item) => (
+                        <FooterInfo
+                            key={uuid()}
+                            companyLogo={item.logoWh}
+                            country={item.country}
+                            countryFlag={item.countryFlag}
+                            info1={item.info1}
+                            info2={item.info2}
+                            info3={item.info3}
+                            twIcon={item.twIcon}
+                            lkIcon={item.lkIcon}
+                            fbIcon={item.fbIcon}
+                        />
+                    ))}
                 </Container>
             </Box>
             {/*<SuccessSnackbar />*/}

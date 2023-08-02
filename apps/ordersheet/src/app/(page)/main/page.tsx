@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import { useRouter } from "next/navigation";
-import {Box, Container, Typography, Stack, Divider} from "@mui/material";
+import {Box, Container, Typography, Stack, Divider, Button, Popover} from "@mui/material";
 import MyIcon from "icon/myIcon";
 import {cjbsTheme, ContainedButton, LinkButton} from "cjbsDSTM";
 import Link from "next/link";
@@ -15,6 +15,16 @@ import rsImg from '@public/img/icons/RS.png';
 
 const Page = () => {
     const router = useRouter();
+
+    const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
     return (
         <Container disableGutters={true}>
@@ -31,13 +41,9 @@ const Page = () => {
                 }}
             >
 
-                <Box sx={{
-                        display: 'flex',
-                        alignContent: 'center'
-                    }}
-                >
+                <Box sx={{ display: 'flex', alignContent: 'center' }}>
                     <MyIcon icon="registration" size={24} />
-                    <Typography variant="title2" sx={{ml:"4px"}}>
+                    <Typography variant="h5" sx={{ml:"4px"}}>
                         주문서 등록
                     </Typography>
                 </Box>
@@ -72,10 +78,10 @@ const Page = () => {
                                     <Image src={mtpImg} alt="mtpImg" width={47} />
                                 </Box>
 
-                                <Typography variant="title1" sx={{mt:1}}>
+                                <Typography variant="h4" sx={{mt:1}}>
                                     MTP
                                 </Typography>
-                                <Typography variant="title2" sx={{fontSize:14}}>
+                                <Typography sx={{fontSize:12}}>
                                     (Microbiome Taxonomic Profiling)
                                 </Typography>
 
@@ -87,7 +93,7 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     미생물 군집 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="Large" sx={{mt:3}}/>
+                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/mtp"
                                     target="_blank"
@@ -132,11 +138,11 @@ const Page = () => {
                                     <Image src={shotgunImg} alt="mtpImg" width={50} />
                                 </Box>
 
-                                <Typography variant="title1" sx={{mt:1, lineHeight:1.2}}>
+                                <Typography variant="h4" sx={{mt:1, lineHeight:1.2}}>
                                     Shotgun<br/>Metagenome
                                 </Typography>
 
-                                <Divider sx={{mb: 2, mt:1.5, backgroundColor: cjbsTheme.palette.grey['400']}} />
+                                <Divider sx={{mb: 2, mt:2, backgroundColor: cjbsTheme.palette.grey['400']}} />
 
                                 <Typography variant="subtitle2">
                                     Shotgun Sequencing
@@ -144,7 +150,7 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     샷건 메타지놈 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="Large" sx={{mt:3}}/>
+                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/shotgun"
                                     target="_blank"
@@ -189,7 +195,7 @@ const Page = () => {
                                     <Image src={wgImg} alt="mtpImg" width={47} />
                                 </Box>
 
-                                <Typography variant="title1" sx={{mt:1}}>
+                                <Typography variant="h4" sx={{mt:1}}>
                                     WG
                                 </Typography>
 
@@ -201,7 +207,7 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     전장 유전체 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="Large" sx={{mt:3}}/>
+                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/genome"
                                     target="_blank"
@@ -246,7 +252,7 @@ const Page = () => {
                                     <Image src={rsImg} alt="mtpImg" width={43} />
                                 </Box>
 
-                                <Typography variant="title1" sx={{mt:1}}>
+                                <Typography variant="h4" sx={{mt:1}}>
                                     RS
                                 </Typography>
 
@@ -258,7 +264,7 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     전사체 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="Large" sx={{mt:3}}/>
+                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/rna"
                                     target="_blank"
@@ -292,10 +298,10 @@ const Page = () => {
                     borderColor: cjbsTheme.palette.grey['400'],
                     mt: '21px'
                 }}>
-                    <Typography variant="title2">
+                    <Typography variant="subtitle1">
                         내 주문내역 보기&nbsp;
                     </Typography>
-                    <Typography variant="title2" sx={{color: '#006ECD'}}>
+                    <Typography variant="subtitle1" sx={{color: '#006ECD'}}>
                         <Link href="#">
                         17건
                         </Link>
@@ -303,7 +309,87 @@ const Page = () => {
                     <MyIcon icon="cheveron-right" size={18} />
                 </Box>
 
+                <Box sx={{
+                    position: 'absolute',
+                    bottom: '50px',
+                    right: '0px'
+                }}>
 
+                    <Button
+                        aria-describedby={id}
+                        variant="contained"
+                        onClick={handleClick}
+                        sx={{
+                            p:"0px !important",
+                            backgroundColor: cjbsTheme.palette.grey['700'],
+                            width: '90px',
+                            height: '90px',
+                            borderRadius: "0px !important",
+                            color: "#FFF"
+                        }}
+                    >
+                        <Stack
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="center"
+                        >
+                            <MyIcon icon="delivery" size={30} />
+                            <Typography sx={{fontSize:12, mt:"6px"}}>
+                                샘플 배송지
+                            </Typography>
+                        </Stack>
+                    </Button>
+                    <Popover
+                        id={id}
+                        open={open}
+                        anchorEl={anchorEl}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'left',
+                        }}
+                        transformOrigin={{
+                            vertical: 'center',
+                            horizontal: 'right',
+                        }}
+                    >
+                        <Stack
+                            sx={{p: 2}}
+                            direction="column"
+                            justifyContent="center"
+                            alignItems="start"
+                        >
+                            <Typography variant="h5">샘플 접수처 : NGS 실험실</Typography>
+                            <Typography variant="subtitle2">(16495) 경기 수원시 영통구 광교로42번길 55.</Typography>
+                            <Typography variant="subtitle2">CJ 블로썸파크 블루동 12층</Typography>
+                            <Typography variant="subtitle2">TEL. 031-8099-0670</Typography>
+                        </Stack>
+
+                    </Popover>
+                    <Link href="http://www.cjbioscience.com/ngs/faq" target="_blank">
+                        <Box sx={{
+                            backgroundColor: cjbsTheme.palette.grey['200'],
+                            width: '90px',
+                            height: '90px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            flexDirection: "column",
+                        }}>
+                            <Stack
+                                direction="column"
+                                justifyContent="center"
+                                alignItems="center"
+                            >
+                                <MyIcon icon="FAQ" size={20} />
+                                <Typography sx={{fontSize:12, mt:"6px"}}>
+                                    FAQ
+                                </Typography>
+                            </Stack>
+                        </Box>
+                    </Link>
+
+                </Box>
 
             </Box>
         </Container>

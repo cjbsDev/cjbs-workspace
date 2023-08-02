@@ -32,7 +32,7 @@ export default function Page() {
     };
 
     const onSubmit = (data:any) => {
-        console.log(data);
+        //console.log(data);
         let email = data.email;
         let password = data.password
         signIn('credentials', { email, password, redirect: false }).then((res) => {
@@ -150,7 +150,7 @@ export default function Page() {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2" underline="none">
+                                <Link href="https://www.ezbiocloud.net/forgotPassword?from=mydata" variant="body2" underline="none" target="_blank">
                                     비밀번호 찾기
                                 </Link>
                             </Grid>

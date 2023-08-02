@@ -82,18 +82,18 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                 <Box sx={{ flexGrow: 1 }} />
                 <Box>
                     <Stack direction="row" justifyContent="center" alignItems="center">
-                        <Box sx={{ mr: 1 }}>
-                            <IconButton size="large" color="inherit">
-                                <Badge
-                                    overlap="circular"
-                                    badgeContent=" "
-                                    variant="dot"
-                                    color="error"
-                                >
-                                    <MyIcon icon="bell" size={24} />
-                                </Badge>
-                            </IconButton>
-                        </Box>
+                        {/*<Box sx={{ mr: 1 }}>*/}
+                        {/*    <IconButton size="large" color="inherit">*/}
+                        {/*        <Badge*/}
+                        {/*            overlap="circular"*/}
+                        {/*            badgeContent=" "*/}
+                        {/*            variant="dot"*/}
+                        {/*            color="error"*/}
+                        {/*        >*/}
+                        {/*            <MyIcon icon="bell" size={24} />*/}
+                        {/*        </Badge>*/}
+                        {/*    </IconButton>*/}
+                        {/*</Box>*/}
                         <Box>
                             <Stack
                                 direction="row"
@@ -117,10 +117,16 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                             </Stack>
                             <Menu {...bindMenu(popupState)}>
                                 <MenuItem onClick={popupState.close}>
-
+                                    <Link href="#" underline="none">
+                                        <Typography textAlign="center" variant="body2">
+                                            내 주문내역
+                                        </Typography>
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem onClick={popupState.close}>
                                     <Link href="/signout" underline="none">
                                         <Typography textAlign="center" variant="body2">
-                                            Sign Out
+                                            로그아웃
                                         </Typography>
                                     </Link>
                                 </MenuItem>
