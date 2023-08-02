@@ -44,6 +44,7 @@ export default function RootLayout({
                     backgroundSize: "100% 308px",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "top 58px left",
+                    position: 'relative'
                 }}
             >
 
@@ -114,7 +115,7 @@ export default function RootLayout({
                         <Box>
                             <Link href="mailto:bs.ngs@cj.net" target="_top">
                                 <OutlinedButton
-                                    sx={{ width: "300px", borderRadius:'10px', marginTop: 5}}
+                                    sx={{ width: "300px", borderRadius:'10px', marginTop: 5, backgroundColor: '#FFF'}}
                                     buttonName='문의하기'
                                     startIcon={<MyIcon icon="mail" size={18} />}
                                     size="medium"

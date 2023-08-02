@@ -117,10 +117,16 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                             </Stack>
                             <Menu {...bindMenu(popupState)}>
                                 <MenuItem onClick={popupState.close}>
-
+                                    <Link href="#" underline="none">
+                                        <Typography textAlign="center" variant="body2">
+                                            내 주문내역
+                                        </Typography>
+                                    </Link>
+                                </MenuItem>
+                                <MenuItem onClick={popupState.close}>
                                     <Link href="/signout" underline="none">
                                         <Typography textAlign="center" variant="body2">
-                                            Sign Out
+                                            로그아웃
                                         </Typography>
                                     </Link>
                                 </MenuItem>
