@@ -19,7 +19,7 @@ export const refreshAccessToken = mem(
 
     return new Promise(async function (resolve, reject) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orsh/token/accessToken`, {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
           method: 'GET',
           headers: {
             emSW: refreshToken,
@@ -88,7 +88,7 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             return null;
           }
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orsh/user/authenticate`, {
+          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -99,6 +99,8 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
               password,
             }),
           }).then((res) => res.json());
+
+          // console.log('%%%%%', response)
 
           if (response.success) {
             return response.data;

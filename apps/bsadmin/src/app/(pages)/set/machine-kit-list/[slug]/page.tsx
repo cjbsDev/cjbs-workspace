@@ -51,12 +51,12 @@ interface ViewProps {
   };
 }
 
-export default function SvcCatePage({ params }: ViewProps) {
+export default function MachineKitPage({ params }: ViewProps) {
   // init
   const { slug } = params;
   const searchParams = useSearchParams();
   const midCodeMc = searchParams.get("midCodeMc");
-  const enumMngrCode = "SRVC_CTGR";
+  const enumMngrCode = "MCHN_KIT";
   const topCodeMc = slug;
   const router = useRouter();
 
@@ -73,6 +73,9 @@ export default function SvcCatePage({ params }: ViewProps) {
   if (isLoading) {
     return <SkeletonLoading />;
   }
+
+  //http://localhost:3000/set/machine-kit/BS_0100012003?midCodeMc=none
+  ///mngr/BS_0100012003/none?enumMngrCode=MCHN_KIT
 
   const onSubmit = (data: any) => {
     console.log("data", data);
@@ -93,7 +96,7 @@ export default function SvcCatePage({ params }: ViewProps) {
         console.log("request successful:", response.data);
         if (response.data.success) {
           toast("수정 되었습니다.");
-          router.push("/set/svc-cate-list/");
+          router.push("/set/machine-kit-list/");
         } else {
           toast(response.data.message ?? "에러 발생");
         }
@@ -145,7 +148,7 @@ export default function SvcCatePage({ params }: ViewProps) {
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName="서비스 분류 수정" />
+        <Title1 titleName="장비 Kit 분류 수정" />
       </Box>
       <Form key={formKey} onSubmit={onSubmit} defaultValues={defaultValues}>
         {/* key={formKey} 마스터 코드 - 상세 코드 컴포넌트 */}
@@ -155,11 +158,6 @@ export default function SvcCatePage({ params }: ViewProps) {
               <TableRow>
                 <TH sx={{ width: "252px" }}>분류</TH>
                 <TD>{codeData.topValue}</TD>
-              </TableRow>
-
-              <TableRow>
-                <TH sx={{ width: "252px" }}>분석 종류</TH>
-                <TD>{codeData.midValue}</TD>
               </TableRow>
 
               <TableRow>
@@ -179,7 +177,7 @@ export default function SvcCatePage({ params }: ViewProps) {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("/set/svc-cate-list")}
+            onClick={() => router.push("/set/machine-kit-list")}
           />
           <ContainedButton buttonName="저장" type="submit" />
         </Stack>

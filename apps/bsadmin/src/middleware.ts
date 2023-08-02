@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     rtToken !== undefined &&
     token?.error !== 'RefreshAccessTokenError'
   ) {
-    return NextResponse.rewrite(new URL('/main', request.url));
+    return NextResponse.rewrite(new URL('/code-box', request.url));
   } else if (
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === 'RefreshAccessTokenError')
@@ -45,5 +45,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/clinical/:path*', '/clinical/subject/:path*', '/', '/main'],
+  matcher: ['/', '/code-box', '/dashboard', '/order/:path*', '/cust/:path*', '/set/:path*'],
 };

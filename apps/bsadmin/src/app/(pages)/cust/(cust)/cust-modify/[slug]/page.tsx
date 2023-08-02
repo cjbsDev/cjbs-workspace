@@ -8,7 +8,7 @@ import {
   InputValidation,
   ErrorContainer,
   Fallback,
-  Checkbox,
+  CheckboxSV,
 } from "cjbsDSTM";
 
 import {
@@ -247,7 +247,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <Checkbox
+                    <CheckboxSV
                       inputName="isAcsFlag"
                       labelText="사용자를 차단 합니다."
                       value="N"
