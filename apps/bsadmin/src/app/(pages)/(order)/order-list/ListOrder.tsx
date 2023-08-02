@@ -42,6 +42,15 @@ import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";
+import {
+  blue,
+  yellow,
+  red,
+  orange,
+  cyan,
+  grey,
+  green,
+} from "cjbsDSTM/themes/color";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -112,17 +121,20 @@ const ListOrder = () => {
           return (
             <Chip
               data-tag="allowRowEvents"
-              label={"미접수"}
+              label={orderStatusVal}
               size="small"
-              color={
-                orderStatusVal === "샘플 미접수"
-                  ? "secondary"
-                  : orderStatusVal === "laptops"
-                  ? "success"
-                  : orderStatusVal === "skincare"
-                  ? "error"
-                  : "default"
-              }
+              sx={{
+                backgroundColor: grey["100"],
+              }}
+              // color={
+              //   orderStatusVal === "샘플 미접수"
+              //     ? "secondary"
+              //     : orderStatusVal === "laptops"
+              //     ? "success"
+              //     : orderStatusVal === "skincare"
+              //     ? "error"
+              //     : "default"
+              // }
             />
           );
         },
@@ -230,7 +242,7 @@ const ListOrder = () => {
 
   const goDetailPage = (row: any) => {
     const path = row.orderUkey;
-    router.push("/order/order-list/" + path);
+    router.push("/order-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -241,13 +253,13 @@ const ListOrder = () => {
       }
     };
 
-    const onSubmit = (data) => {
-      console.log(data);
-    };
-
-    const onChange = (e) => {
-      console.log(e);
-    };
+    // const onSubmit = (data) => {
+    //   console.log(data);
+    // };
+    //
+    // const onChange = (e) => {
+    //   console.log(e);
+    // };
 
     return (
       <Grid container>
