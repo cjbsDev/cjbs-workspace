@@ -1,10 +1,10 @@
-import { NativeSelect, Typography } from "@mui/material";
+import { NativeSelect, NativeSelectProps, Typography } from "@mui/material";
 import * as React from "react";
 import { cjbsTheme } from "../../themes";
 import { useFormContext } from "react-hook-form";
 import { ThemeProvider } from "@mui/material/styles";
 
-interface SelectBoxProps {
+interface SelectBoxProps extends NativeSelectProps {
   options: {
     value: string;
     optionName: string;
@@ -24,7 +24,7 @@ export function SelectBox({
   errorMessage,
   defaultOption = true,
   defaultMsg = "선택",
-  ...rest
+  ...props
 }: SelectBoxProps) {
   const methods = useFormContext();
   return (
@@ -34,10 +34,11 @@ export function SelectBox({
           required: required,
           onChange: () => methods.resetField(resetFiledName),
         })}
-        {...rest}
+        {...props}
         color="secondary"
         disableUnderline={true}
         sx={{
+          ...props.sx,
           border: methods.formState.errors[inputName]
             ? `1px solid ${cjbsTheme.palette.warning.main}`
             : `1px solid ${cjbsTheme.palette.grey["A400"]}`,

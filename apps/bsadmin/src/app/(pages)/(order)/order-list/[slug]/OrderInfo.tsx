@@ -3,7 +3,7 @@ import { useRouter } from "next-nprogress-bar";
 import { ContainedButton, Title1 } from "cjbsDSTM";
 import { Box, Container, Typography } from "@mui/material";
 import React from "react";
-import fetcher from "../../../../func/fetcher";
+import { fetcher } from "api";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
 import Link from "next/link";
@@ -11,13 +11,9 @@ export default function OrderInfo() {
   const params = useParams();
   const orderUkey = params.slug;
   const router = useRouter();
-  const { data, isLoading, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/order/detail/${orderUkey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR(`/order/detail/${orderUkey}`, fetcher, {
+    suspense: true,
+  });
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -33,7 +29,7 @@ export default function OrderInfo() {
       {/*  buttonName="목록"*/}
       {/*  onClick={() => router.push("/order/order-list")}*/}
       {/*/>*/}
-      <Link href="/order/order-list">
+      <Link href="/order-list">
         <ContainedButton buttonName="목록" />
       </Link>
     </Container>
