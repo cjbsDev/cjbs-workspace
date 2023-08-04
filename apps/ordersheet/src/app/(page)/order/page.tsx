@@ -112,7 +112,8 @@ const Page = () => {
                     alignContent: 'start',
                     alignItems: 'center',
                     width: '100%',
-                    backgroundColor: cjbsTheme.palette.grey["700"],
+                    //backgroundColor: cjbsTheme.palette.grey["700"],
+                    backgroundColor: "#5a86c7",
                     p: '12px 20px',
                     borderRadius: '4px',
                 }}>
