@@ -13,6 +13,7 @@ import {
   ContainedButton,
   CheckboxGV,
   Form,
+  CustomToggleButton,
 } from "cjbsDSTM";
 import {
   Box,
@@ -23,6 +24,7 @@ import {
   FormControl,
   FormLabel,
   FormGroup,
+  Popover,
 } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
@@ -51,6 +53,7 @@ import {
   grey,
   green,
 } from "cjbsDSTM/themes/color";
+import ResultInSearch from "./ResultInSearch";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -62,6 +65,7 @@ const ListOrder = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
+  console.log("jkjkjkjkj", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -253,14 +257,6 @@ const ListOrder = () => {
       }
     };
 
-    // const onSubmit = (data) => {
-    //   console.log(data);
-    // };
-    //
-    // const onChange = (e) => {
-    //   console.log(e);
-    // };
-
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
@@ -280,6 +276,7 @@ const ListOrder = () => {
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
             <ExcelDownloadButton downloadUrl={""} />
+
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
@@ -287,58 +284,15 @@ const ListOrder = () => {
               onClear={handleClear}
               filterText={filterText}
             />
+            <ResultInSearch />
           </Stack>
         </Grid>
-        <Grid item xs={12}>
-          <MultiCheckbox />
-          {/*<Form onSubmit={onSubmit} defaultValues={undefined}>*/}
-          {/*  <CheckboxGV*/}
-          {/*    data={dataRadioGVTest}*/}
-          {/*    inputName="filterTest"*/}
-          {/*    onChange={onSubmit}*/}
-          {/*  />*/}
-          {/*  <OutlinedButton buttonName="send" type="submit" />*/}
-          {/*</Form>*/}
-
-          {/*<FormControl sx={{ m: 3 }} component="fieldset" variant="standard">*/}
-          {/*  <FormLabel component="legend">Filter</FormLabel>*/}
-          {/*  <FormGroup>*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={gilad}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="gilad"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Gilad Gray"*/}
-          {/*    />*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={jason}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="jason"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Jason Killian"*/}
-          {/*    />*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={antoine}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="antoine"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Antoine Llorca"*/}
-          {/*    />*/}
-          {/*  </FormGroup>*/}
-          {/*</FormControl>*/}
-        </Grid>
+        {/*<Grid item xs={12}>*/}
+        {/*  <MultiCheckbox />*/}
+        {/*</Grid>*/}
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, state, onchange]);
+  }, [filterText, resetPaginationToggle, checked]);
 
   const handlePageChange = (page: number) => {
     // console.log("Page", page);

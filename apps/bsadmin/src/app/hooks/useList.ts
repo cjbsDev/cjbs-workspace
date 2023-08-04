@@ -1,6 +1,7 @@
 "use client";
 import useSWR from "swr";
 import fetcher from "../func/fetcher";
+// import { fetcher } from "api";
 
 export const useList = (
   apiName: string,
