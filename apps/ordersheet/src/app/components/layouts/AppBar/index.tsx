@@ -7,12 +7,9 @@ import {
     Typography,
     IconButton,
     Box,
-    Badge,
     Stack,
     Link,
 } from "@mui/material";
-import { styled } from "@mui/material/styles";
-// import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 
 import MenuIcon from "@mui/icons-material/Menu";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -28,53 +25,22 @@ import {
     bindMenu,
 } from "material-ui-popup-state/hooks";
 import MyIcon from "icon/myIcon";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AppBar from '@mui/material/AppBar';
-import { useSession } from "next-auth/react"
-
-// const drawerWidth = 228;
+import { useSession, signOut } from "next-auth/react"
 
 // interface AppBarProps extends MuiAppBarProps {
 //     open?: boolean;
 // }
 
-// const AppBar = styled(MuiAppBar, {
-//     shouldForwardProp: (prop) => prop !== "open",
-// })<AppBarProps>(({ theme, open }) => ({
-//     zIndex: theme.zIndex.drawer + 1,
-//     transition: theme.transitions.create(["width", "margin"], {
-//         easing: theme.transitions.easing.sharp,
-//         duration: theme.transitions.duration.leavingScreen,
-//     }),
-//     ...(open && {
-//         marginLeft: drawerWidth,
-//         width: `calc(100% - ${drawerWidth}px)`,
-//         transition: theme.transitions.create(["width", "margin"], {
-//             easing: theme.transitions.easing.sharp,
-//             duration: theme.transitions.duration.enteringScreen,
-//         }),
-//     }),
-//     borderBottom: "1px solid #CED4DA",
-//     boxShadow: "none",
-//     padding: 0,
-//     margin: 0,
-// }));
-const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
+const Header = ({}) => {
     const { data: session, status } = useSession()
-    const [email, setEmail] = useState<string>(null);
-    //console.log('session : ', session);
-    // if (status === "authenticated") {
-    //     console.log('login email : ', session.user.email);
-    //     //setEmail(session.user.email);
-    // }
 
     const popupState = usePopupState({
         variant: "popover",
         popupId: "useInfoMenu",
     });
     return (
-        <AppBar position="fixed" open={open} color="inherit" sx={{ zIndex: 1000 }}>
+        <AppBar position="fixed" color="inherit" sx={{ zIndex: 1000 }}>
             <Toolbar>
                 <Box sx={{width: 120, mt:1}}>
                     <MyIcon icon="cj_bk"/>
@@ -103,7 +69,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                             >
                                 <MyIcon icon="profile-circle-fill" size={24} />
                                 <Typography variant="body2">
-                                    {status === "authenticated" ? session.user.email : (<button>sign in</button>)}
+                                    {status === "authenticated" ? session.user.email : "..."}
 
                                 </Typography>
                                 <IconButton
@@ -129,6 +95,14 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
                                             로그아웃
                                         </Typography>
                                     </Link>
+                                </MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        popupState.close();
+                                        signOut();
+                                    }}
+                                >
+                                    로그아웃
                                 </MenuItem>
                             </Menu>
                         </Box>

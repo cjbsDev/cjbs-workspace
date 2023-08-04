@@ -93,7 +93,14 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     미생물 군집 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
+                                <Link
+                                    href={{
+                                        pathname: '/order',
+                                        query: { name: 'mtp' },
+                                    }}
+                                >
+                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}}/>
+                                </Link>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/mtp"
                                     target="_blank"
@@ -150,7 +157,14 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     샷건 메타지놈 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
+                                <Link
+                                    href={{
+                                        pathname: '/order',
+                                        query: { name: 'mtp-shotgun' },
+                                    }}
+                                >
+                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}}/>
+                                </Link>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/shotgun"
                                     target="_blank"
@@ -207,7 +221,14 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     전장 유전체 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
+                                <Link
+                                    href={{
+                                        pathname: '/order',
+                                        query: { name: 'wg' },
+                                    }}
+                                >
+                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}}/>
+                                </Link>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/genome"
                                     target="_blank"
@@ -264,7 +285,14 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     전사체 분석
                                 </Typography>
-                                <ContainedButton buttonName="주문하기" size="large" sx={{mt:3}}/>
+                                <Link
+                                    href={{
+                                        pathname: '/order',
+                                        query: { name: 'rs' },
+                                    }}
+                                >
+                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}}/>
+                                </Link>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/rna"
                                     target="_blank"

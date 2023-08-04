@@ -12,11 +12,12 @@ export async function middleware(request: NextRequest) {
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   // console.log("$$$", process.env.NEXT_PUBLIC_NEXTAUTH_URL)
 
-
+  console.log("pathname : ", pathname)
+  console.log("matcher : ", matcher)
   //Page url 외의 요청은 Pass한다.
-  if (!matcher.includes(pathname)) {
-    return NextResponse.next();
-  }
+  // if (!matcher.includes(pathname)) {
+  //   return NextResponse.next();
+  // }
 
   const token = await getToken({
     req: request,
@@ -38,12 +39,12 @@ export async function middleware(request: NextRequest) {
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === 'RefreshAccessTokenError')
   ) {
-    return NextResponse.redirect(new URL('/signout', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   } else {
     return NextResponse.next();
   }
 }
 
 export const config = {
-  matcher: ['/clinical/:path*', '/clinical/subject/:path*', '/', '/main'],
+  matcher: ['/', '/main', '/order:path*'],
 };
