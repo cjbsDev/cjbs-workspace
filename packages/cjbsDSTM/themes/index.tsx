@@ -6,13 +6,11 @@ declare module "@mui/material/styles" {
   interface ThemeOptions {}
 
   interface Palette {
-    neutral: Palette["primary"];
-    danger: Palette["primary"];
+    custom: Palette["tertiary"];
   }
 
   interface PaletteOptions {
-    neutral: PaletteOptions["primary"];
-    danger: Palette["primary"];
+    custom?: PaletteOptions["tertiary"];
   }
 
   interface PaletteColor {
@@ -39,26 +37,13 @@ declare module "@mui/material/styles" {
 }
 
 declare module "@mui/material/Typography" {
-  interface TypographyPropsVariantOverrides {
-    title1: true;
-    title2: true;
-  }
+  interface TypographyPropsVariantOverrides {}
 }
 
 declare module "@mui/material/Button" {
   interface ButtonPropsVariantOverrides {
     dashed: true;
     xSmall: true;
-  }
-}
-
-declare module "@mui/material/styles" {
-  interface Palette {
-    custom: Palette["primary"];
-  }
-
-  interface PaletteOptions {
-    custom?: PaletteOptions["primary"];
   }
 }
 
@@ -142,14 +127,14 @@ export const cjbsTheme = createTheme({
     h4: {
       fontFamily: "Inter",
       fontSize: 22,
-      fontWeight: 600,
+      fontWeight: 700,
       letterSpacing: "0em",
       lineHeight: 1.75,
     },
     h5: {
       fontFamily: "Inter",
       fontSize: 18,
-      fontWeight: 600,
+      fontWeight: 700,
       letterSpacing: "0em",
       lineHeight: 1.75,
     },

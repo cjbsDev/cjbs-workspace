@@ -246,11 +246,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
         </List>
         <List>
           <ListItem sx={{ color: "white" }}>
-            <Link
-              href="/code-box"
-              replace={true}
-              onClick={() => setSelectedIndex(-1)}
-            >
+            <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>
               <Stack direction="row" spacing={2}>
                 <MyIcon icon="lightning" size={20} color={yellow["300"]} />
                 <Box component="span">CodeBox</Box>

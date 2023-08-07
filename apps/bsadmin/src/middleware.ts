@@ -47,8 +47,8 @@ export const config = {
   matcher: [
     "/",
     "/dashboard",
-    "/order-list/:path*",
-    "/order-reg/:path*",
+    // "/order-list/:path*",
+    // "/order-reg/:path*",
     "/agnc-pi-list/:path*",
     "/agnc-pi-add/:path*",
     "/agnc-pi-modify/:path*",

@@ -26,6 +26,7 @@ const AgncSearchModal = ({
   onClose,
   open,
   modalWidth,
+  data,
 }: ModalContainerProps) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);

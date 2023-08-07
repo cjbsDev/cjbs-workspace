@@ -14,6 +14,7 @@ import {
   CheckboxGV,
   Form,
   CustomToggleButton,
+  cjbsTheme,
 } from "cjbsDSTM";
 import {
   Box,
@@ -128,17 +129,23 @@ const ListOrder = () => {
               label={orderStatusVal}
               size="small"
               sx={{
-                backgroundColor: grey["100"],
+                backgroundColor:
+                  orderStatusVal === "진행"
+                    ? blue["50"]
+                    : orderStatusVal === "완료"
+                    ? green["50"]
+                    : orderStatusVal === "취소"
+                    ? red["50"]
+                    : grey["100"],
+                color:
+                  orderStatusVal === "진행"
+                    ? cjbsTheme.palette.primary.main
+                    : orderStatusVal === "완료"
+                    ? cjbsTheme.palette.success.main
+                    : orderStatusVal === "취소"
+                    ? cjbsTheme.palette.error.main
+                    : cjbsTheme.palette.common.black,
               }}
-              // color={
-              //   orderStatusVal === "샘플 미접수"
-              //     ? "secondary"
-              //     : orderStatusVal === "laptops"
-              //     ? "success"
-              //     : orderStatusVal === "skincare"
-              //     ? "error"
-              //     : "default"
-              // }
             />
           );
         },
