@@ -8,8 +8,6 @@ import {
   DataTableFilter,
   Title1,
   OutlinedButton,
-  ContainedButton,
-  LinkButton,
 } from "cjbsDSTM";
 import { Chip, Stack, Grid, Box, Typography } from "@mui/material";
 import axios from "axios";
@@ -20,22 +18,24 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListMachine = () => {
+const ListEstProduct = () => {
   const router = useRouter();
-  const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
-    router.push(
-      "/set/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc
-    );
+  const goModifyPage = (esPrMngUkey: string) => {
+    router.push("/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
+  };
+
+  const goDetailPage = (row: { esPrMngUkey: string }) => {
+    router.push("/es-pr-list/" + row.esPrMngUkey);
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const enumMngrCode = "MCHN_KIT";
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  //console.log("MCHN_KIT ", data.data);
+
+  console.log("SRVC_CTGR ", data.data);
 
   const columns = useMemo(
     () => [
@@ -47,47 +47,43 @@ const ListMachine = () => {
         width: "5%",
       },
       {
-        name: "장비",
-        selector: (row: { topValue: string }) => row.topValue,
+        name: "분석종류",
+        selector: (row: { anlsTypeMcVal: string }) => row.anlsTypeMcVal,
+        width: "15%",
+      },
+      {
+        name: "품명",
+        selector: (row: { prNm: string }) => row.prNm,
         width: "20%",
       },
       {
-        name: "Kit",
-        cell: (row: { btmValueList: any }) => {
-          return row.btmValueList.length > 0 ? (
-            <Box sx={{ mb: -1 }}>
-              {row.btmValueList.map((item: any) => (
-                <Chip
-                  key={item.btmCodeMc}
-                  label={item.btmCodeVal}
-                  size="small"
-                  sx={{
-                    border: "1px solid #ADB5BD",
-                    backgroundColor: "#FFFFFF",
-                    color: "#000000",
-                    mr: 1,
-                    mb: 1,
-                  }}
-                />
-              ))}
-            </Box>
-          ) : (
-            <Typography variant="body2">
-              등록된 분석 단계가 없습니다.
-            </Typography>
-          );
-        },
-        width: "65%",
+        name: "포함 사항",
+        selector: (row: { inclInfo: string }) => row.inclInfo,
+        width: "50%",
         wrap: true,
+        cell: (row: { inclInfo: string }) => (
+          <div style={{ whiteSpace: "pre-line" }}>
+            {row.inclInfo ? (
+              row.inclInfo.split("\n").map((item, index) => (
+                <React.Fragment key={index}>
+                  {item}
+                  <br />
+                </React.Fragment>
+              ))
+            ) : (
+              <span>-</span>
+            )}
+          </div>
+        ),
       },
       {
         name: "관리",
-        cell: (row: { topCodeMc: string; midCodeMc: string }) => {
+        cell: (row: { esPrMngUkey: string }) => {
           return (
             <OutlinedButton
               buttonName="관리"
               size="small"
-              onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
+              onClick={() => goModifyPage(row.esPrMngUkey)}
             />
           );
         },
@@ -134,9 +130,10 @@ const ListMachine = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="장비 Kit 분류 관리" />}
+      title={<Title1 titleName="견적 품명 관리" />}
       data={data.data}
       columns={columns}
+      onRowClicked={goDetailPage}
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader
@@ -147,4 +144,4 @@ const ListMachine = () => {
   );
 };
 
-export default ListMachine;
+export default ListEstProduct;

@@ -23,7 +23,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const ListSvcCate = () => {
   const router = useRouter();
   const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
-    router.push("/set/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
+    router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
@@ -115,7 +115,7 @@ const ListSvcCate = () => {
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
             {/* 서비스 분류 등록*/}
-            <Link href="/set/svc-cate-add">
+            <Link href="/svc-cate-add">
               <ContainedButton buttonName="서비스 분류 등록" size="small" />{" "}
             </Link>
           </Stack>

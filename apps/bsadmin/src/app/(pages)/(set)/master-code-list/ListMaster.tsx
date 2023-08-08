@@ -21,7 +21,7 @@ const ListMaster = () => {
   const router = useRouter();
 
   const goDetailPage = (row: { uniqueCode: string }) => {
-    router.push("/set/master-code-list/" + row.uniqueCode);
+    router.push("/master-code-list/" + row.uniqueCode);
   };
 
   const columns = useMemo(

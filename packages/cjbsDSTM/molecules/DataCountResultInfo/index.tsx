@@ -28,13 +28,17 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
         sx={{
           m: 0,
           p: 0,
+          width: "70px",
         }}
       >
         <Typography variant="body2">
           총{" "}
           <Box
             component="b"
-            sx={{ fontSize: 18, color: theme.palette.primary.main }}
+            sx={{
+              fontSize: 18,
+              color: theme.palette.primary.main,
+            }}
           >
             {totalCount}
           </Box>{" "}

@@ -21,7 +21,7 @@ const ListSvcType = () => {
   const router = useRouter();
 
   const goDetailPage = (topCodeMc: string) => {
-    router.push("/set/svc-type-list/" + topCodeMc);
+    router.push("/svc-type-list/" + topCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
