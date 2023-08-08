@@ -1,29 +1,20 @@
 "use client";
 import { Inter } from "next/font/google";
-import Provider from "client-provider";
-import JeJuProvider from "@app/jejuProvider";
-//import { Metadata } from "next";
 import { useRouter } from "next/navigation";
 import {Box, Typography, Stack, Container, Link} from "@mui/material";
 import AppBar from '@components/layouts/AppBar';
 import Footer from '@components/layouts/Footer';
-import {cjbsTheme, OutlinedButton, UnStyledButton} from "cjbsDSTM";
+import {cjbsTheme, OutlinedButton} from "cjbsDSTM";
 import Image from 'next/image'
 import mailImg from '@public/img/icons/mail.png';
 import React from "react";
 import MyIcon from "icon/myIcon";
-
 
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
   weight: ["400", "600", "700"],
 });
-
-// export const metadata: Metadata = {
-//   title: "...",
-//   description: "...",
-// };
 
 export default function RootLayout({
   children,
@@ -33,8 +24,6 @@ export default function RootLayout({
     const router = useRouter();
     return (
         <>
-            <AppBar />
-
             <Box
                 component="main"
                 sx={{
@@ -44,6 +33,7 @@ export default function RootLayout({
                     backgroundSize: "100% 308px",
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "top 58px left",
+                    position: 'relative'
                 }}
             >
 
@@ -95,36 +85,34 @@ export default function RootLayout({
                 }}
             >
                 <Container disableGutters={true} sx={{display: "flex", justifyContent: 'space-between', alignItems: 'space-between'}}>
-                        <Box sx={{ marginTop: 4 }}>
-                            <Stack direction="row" spacing={3}>
-                                <Box sx={{mt:1.5}}>
-                                    <Image src={mailImg} alt="mailImg" width={60} />
-                                </Box>
-                                <Box>
-                                    <Typography variant="subtitle1" sx={{ fontWeight: "600" }} >
-                                        상담이 필요하신가요?
-                                    </Typography>
-                                    <Typography variant="body2" sx={{}} >
-                                        Email 로 문의를 보내주시면 빠른 시일 내로 회신드리겠습니다. CG
-                                        및 GRIIS 서비스는 별도 문의 부탁드립니다.
-                                    </Typography>
-                                </Box>
-                            </Stack>
-                        </Box>
-                        <Box>
-                            <Link href="mailto:bs.ngs@cj.net" target="_top">
-                                <OutlinedButton
-                                    sx={{ width: "300px", borderRadius:'10px', marginTop: 5}}
-                                    buttonName='문의하기'
-                                    startIcon={<MyIcon icon="mail" size={18} />}
-                                    size="medium"
-                                />
-                            </Link>
-                        </Box>
+                    <Box sx={{ marginTop: 4 }}>
+                        <Stack direction="row" spacing={3}>
+                            <Box sx={{mt:1.5}}>
+                                <Image src={mailImg} alt="mailImg" width={60} />
+                            </Box>
+                            <Box>
+                                <Typography variant="subtitle1" sx={{ fontWeight: "600" }} >
+                                    상담이 필요하신가요?
+                                </Typography>
+                                <Typography variant="body2" sx={{}} >
+                                    Email 로 문의를 보내주시면 빠른 시일 내로 회신드리겠습니다. CG
+                                    및 GRIIS 서비스는 별도 문의 부탁드립니다.
+                                </Typography>
+                            </Box>
+                        </Stack>
+                    </Box>
+                    <Box>
+                        <Link href="mailto:bs.ngs@cj.net" target="_top">
+                            <OutlinedButton
+                                sx={{ width: "300px", borderRadius:'10px', marginTop: 5, backgroundColor: '#FFF'}}
+                                buttonName='문의하기'
+                                startIcon={<MyIcon icon="mail" size={18} />}
+                                size="medium"
+                            />
+                        </Link>
+                    </Box>
                 </Container>
             </Box>
-
-            <Footer />
         </>
     );
 }

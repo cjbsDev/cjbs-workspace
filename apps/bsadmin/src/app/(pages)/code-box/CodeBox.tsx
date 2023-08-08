@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import Link from "next/link";
 import {
   AlertModal,
@@ -15,6 +15,11 @@ import {
   ResetButton,
   XlargeButton,
   cjbsTheme,
+  Title1,
+  DataTableBase,
+  ErrorContainer,
+  Fallback,
+  DateRangePicker,
 } from "cjbsDSTM";
 // Color
 import {
@@ -33,12 +38,16 @@ import {
   IconButton,
   InputAdornment,
   Stack,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 import ColorBox from "./ColorBox";
 import MyIcon from "icon/myIcon";
+import { useList } from "../../hooks/useList";
+import Dayjs from "dayjs";
+import RemotePaging from "./RemotePaging";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -49,6 +58,7 @@ const CodeBoxPage = () => {
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [log, setLog] = useState<string>("Send Form Value...");
+
   const { register, setValue } = useForm();
 
   const handleAlertOpen = () => {
@@ -75,7 +85,7 @@ const CodeBoxPage = () => {
 
   return (
     <Box>
-      <Typography variant="h1">Component Review</Typography>
+      <Typography variant="h1">CodeBox</Typography>
       <br />
       <br />
       <Typography variant="h1">H1</Typography>
@@ -88,9 +98,7 @@ const CodeBoxPage = () => {
       <Typography variant="subtitle2">Subtitle2</Typography>
       <Typography variant="body1">Body1</Typography>
       <Typography variant="body2">Body2</Typography>
-
       <Divider sx={{ mb: 5, mt: 5 }} />
-
       <Typography variant="h4">Link & Router</Typography>
       <Stack direction={"row"} spacing={1}>
         <Link href="/cust/cust-list">고객관리</Link>
@@ -109,7 +117,6 @@ const CodeBoxPage = () => {
         />
       </Stack>
       <Divider sx={{ mb: 5, mt: 5 }} />
-
       <Typography variant="h4">Button</Typography>
       <Box sx={{ "& button": { m: 1 } }}>
         <Box>
@@ -139,9 +146,7 @@ const CodeBoxPage = () => {
           <XlargeButton buttonName="Xlarge" variant="text" />
         </Box>
       </Box>
-
       <Divider sx={{ mb: 5, mt: 5 }} />
-
       <ColorBox />
       <Divider sx={{ mb: 5, mt: 5 }} />
       {/*
@@ -215,6 +220,11 @@ const CodeBoxPage = () => {
         <InputValidation inputName="agncNm" sx={{ width: 100 }} />
         <br />
         <br />
+        <Box sx={{ width: 180 }}>
+          <DateRangePicker inputName="testDateRangePicker" />
+        </Box>
+        <br />
+        <br />
         <InputValidation
           inputName="agncNm"
           sx={{ width: 100 }}
@@ -249,6 +259,9 @@ const CodeBoxPage = () => {
         />
         <br />
         <br />
+
+        {/*<DataRange*/}
+
         <Stack direction="row" spacing={1}>
           <OutlinedButton buttonName="Send" type="submit" />
           <ResetButton buttonName="Reset" variant="contained" />
@@ -256,7 +269,6 @@ const CodeBoxPage = () => {
         </Stack>
       </Form>
       <div>{JSON.stringify(log)}</div>
-
       <Divider sx={{ mb: 5, mt: 5 }} />
       <Typography sx={{ mb: 1, color: blue["800"] }} variant="h4">
         Modal
@@ -276,6 +288,13 @@ const CodeBoxPage = () => {
         }
         subMessage={"삭제를 진행하시겠습니까?"}
       />
+      {/*<Divider sx={{ mb: 5, mt: 5 }} />*/}
+      {/*<Typography sx={{ mb: 1, color: blue["800"] }} variant="h4">*/}
+      {/*  Remote Pagination*/}
+      {/*</Typography>*/}
+      {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+      {/*  <RemotePaging />*/}
+      {/*</ErrorContainer>*/}
     </Box>
   );
 };

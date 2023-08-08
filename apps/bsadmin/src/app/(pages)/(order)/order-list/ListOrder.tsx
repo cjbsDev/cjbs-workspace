@@ -13,6 +13,7 @@ import {
   ContainedButton,
   CheckboxGV,
   Form,
+  CustomToggleButton,
 } from "cjbsDSTM";
 import {
   Box,
@@ -23,6 +24,7 @@ import {
   FormControl,
   FormLabel,
   FormGroup,
+  Popover,
 } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
@@ -42,6 +44,16 @@ import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";
+import {
+  blue,
+  yellow,
+  red,
+  orange,
+  cyan,
+  grey,
+  green,
+} from "cjbsDSTM/themes/color";
+import ResultInSearch from "./ResultInSearch";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -53,6 +65,7 @@ const ListOrder = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
+  console.log("jkjkjkjkj", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -112,17 +125,20 @@ const ListOrder = () => {
           return (
             <Chip
               data-tag="allowRowEvents"
-              label={"미접수"}
+              label={orderStatusVal}
               size="small"
-              color={
-                orderStatusVal === "샘플 미접수"
-                  ? "secondary"
-                  : orderStatusVal === "laptops"
-                  ? "success"
-                  : orderStatusVal === "skincare"
-                  ? "error"
-                  : "default"
-              }
+              sx={{
+                backgroundColor: grey["100"],
+              }}
+              // color={
+              //   orderStatusVal === "샘플 미접수"
+              //     ? "secondary"
+              //     : orderStatusVal === "laptops"
+              //     ? "success"
+              //     : orderStatusVal === "skincare"
+              //     ? "error"
+              //     : "default"
+              // }
             />
           );
         },
@@ -230,7 +246,7 @@ const ListOrder = () => {
 
   const goDetailPage = (row: any) => {
     const path = row.orderUkey;
-    router.push("/order/order-list/" + path);
+    router.push("/order-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -239,14 +255,6 @@ const ListOrder = () => {
         setResetPaginationToggle(!resetPaginationToggle);
         setFilterText("");
       }
-    };
-
-    const onSubmit = (data) => {
-      console.log(data);
-    };
-
-    const onChange = (e) => {
-      console.log(e);
     };
 
     return (
@@ -268,6 +276,7 @@ const ListOrder = () => {
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
             <ExcelDownloadButton downloadUrl={""} />
+
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
@@ -275,58 +284,15 @@ const ListOrder = () => {
               onClear={handleClear}
               filterText={filterText}
             />
+            <ResultInSearch />
           </Stack>
         </Grid>
-        <Grid item xs={12}>
-          <MultiCheckbox />
-          {/*<Form onSubmit={onSubmit} defaultValues={undefined}>*/}
-          {/*  <CheckboxGV*/}
-          {/*    data={dataRadioGVTest}*/}
-          {/*    inputName="filterTest"*/}
-          {/*    onChange={onSubmit}*/}
-          {/*  />*/}
-          {/*  <OutlinedButton buttonName="send" type="submit" />*/}
-          {/*</Form>*/}
-
-          {/*<FormControl sx={{ m: 3 }} component="fieldset" variant="standard">*/}
-          {/*  <FormLabel component="legend">Filter</FormLabel>*/}
-          {/*  <FormGroup>*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={gilad}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="gilad"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Gilad Gray"*/}
-          {/*    />*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={jason}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="jason"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Jason Killian"*/}
-          {/*    />*/}
-          {/*    <FormControlLabel*/}
-          {/*      control={*/}
-          {/*        <Checkbox*/}
-          {/*          checked={antoine}*/}
-          {/*          onChange={handleChange}*/}
-          {/*          name="antoine"*/}
-          {/*        />*/}
-          {/*      }*/}
-          {/*      label="Antoine Llorca"*/}
-          {/*    />*/}
-          {/*  </FormGroup>*/}
-          {/*</FormControl>*/}
-        </Grid>
+        {/*<Grid item xs={12}>*/}
+        {/*  <MultiCheckbox />*/}
+        {/*</Grid>*/}
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, state, onchange]);
+  }, [filterText, resetPaginationToggle, checked]);
 
   const handlePageChange = (page: number) => {
     // console.log("Page", page);

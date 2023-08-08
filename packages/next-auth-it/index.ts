@@ -46,8 +46,8 @@ export const refreshAccessToken = mem(
           ...data,
         };
         console.log('토큰 갱신됌! ^^');
-
         return resolve(newToken);
+
       } catch (error) {
         console.log('ERROR => ', error);
         return resolve({

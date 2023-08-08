@@ -58,11 +58,11 @@ export const snbMenuListData = [
       nestedPath: [
         {
           menuLabel: "오더 관리",
-          menuPath: "/order/order-list",
+          menuPath: "/order-list",
         },
         {
           menuLabel: "오더 등록",
-          menuPath: "/order/order-reg",
+          menuPath: "/order-reg",
         },
       ],
     },
@@ -147,15 +147,15 @@ export const snbMenuListData = [
       nestedPath: [
         {
           menuLabel: "고객 관리",
-          menuPath: "/cust/cust-list",
+          menuPath: "/cust-list",
         },
         {
           menuLabel: "거래처(PI) 관리",
-          menuPath: "/cust/agnc-pi-list",
+          menuPath: "/agnc-pi-list",
         },
         {
           menuLabel: "기관 정보 관리",
-          menuPath: "/cust/inst-info-list",
+          menuPath: "/inst-info-list",
         },
       ],
     },
@@ -169,23 +169,23 @@ export const snbMenuListData = [
       nestedPath: [
         {
           menuLabel: "마스터 코드 관리",
-          menuPath: "/set/master-code-list",
+          menuPath: "/master-code-list",
         },
         {
           menuLabel: "서비스 타입 관리",
-          menuPath: "/set/svc-type-list",
+          menuPath: "/svc-type-list",
         },
         {
           menuLabel: "서비스 분류 관리",
-          menuPath: "/set/svc-cate-list",
+          menuPath: "/svc-cate-list",
         },
         {
           menuLabel: "장비 Kit 분류 관리",
-          menuPath: "/set/machine-kit-list",
+          menuPath: "/machine-kit-list",
         },
         {
           menuLabel: "담당자 관리",
-          menuPath: "/set/contact-list",
+          menuPath: "/contact-list",
         },
         {
           menuLabel: "견적 품명 관리",
@@ -193,7 +193,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "서비스 기준가 관리",
-          menuPath: "/set/svc-std-price-list",
+          menuPath: "/svc-std-price-list",
         },
         {
           menuLabel: "과제 관리",

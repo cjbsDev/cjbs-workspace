@@ -22,7 +22,7 @@ const FooterInfo = (props: FooterInfoProps) => {
     // const setAboutUsModalOpenIs = useSetRecoilState(aboutUsModalAtom);
     return (
         <Grid item xs={12} sx={{mt:0, pt:3, display: 'flex', justifyContent: 'space-between'}}>
-            <Box sx={{display: 'flex', justifyContent: 'space-between', width:600 }}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', width:620 }}>
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <Image src={companyLogo} alt='cjbioscience' width={110} />
