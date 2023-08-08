@@ -23,9 +23,7 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const ListMachine = () => {
   const router = useRouter();
   const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
-    router.push(
-      "/set/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc
-    );
+    router.push("/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");

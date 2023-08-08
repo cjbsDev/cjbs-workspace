@@ -115,12 +115,12 @@ export default function EstProductPage({ params }: viewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/set/es-pr-list")}
+          onClick={() => router.push("/es-pr-list")}
         />
 
         <Link
           href={{
-            pathname: "/set/es-pr-modify",
+            pathname: "/es-pr-modify",
             query: { esPrMngUkey: estProductData.esPrMngUkey },
           }}
         >

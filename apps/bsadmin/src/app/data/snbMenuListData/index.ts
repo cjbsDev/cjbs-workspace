@@ -189,7 +189,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "견적 품명 관리",
-          menuPath: "/set/es-pr-list",
+          menuPath: "/es-pr-list",
         },
         {
           menuLabel: "서비스 기준가 관리",
@@ -197,7 +197,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "과제 관리",
-          menuPath: "/set/project-list",
+          menuPath: "/project-list",
         },
       ],
     },

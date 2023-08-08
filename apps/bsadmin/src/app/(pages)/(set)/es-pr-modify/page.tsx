@@ -69,7 +69,7 @@ export default function AgncPIModifyPage() {
           const data = getData.data;
           if (!data) {
             console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
-            router.push("/cust/agnc-pi-list");
+            router.push("/agnc-pi-list");
             return;
           }
 
@@ -116,7 +116,7 @@ export default function AgncPIModifyPage() {
       .then((response) => {
         console.log("request successful:", response.data);
         if (response.data.success) {
-          router.push("/set/es-pr-list/" + uKey);
+          router.push("/es-pr-list/" + uKey);
         }
       })
       .catch((error) => {
@@ -179,7 +179,7 @@ export default function AgncPIModifyPage() {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("/set/es-pr-list/")}
+              onClick={() => router.push("/es-pr-list/")}
             />
             <ContainedButton buttonName="수정" type="submit" />
           </Stack>

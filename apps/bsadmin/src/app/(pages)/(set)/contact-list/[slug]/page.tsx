@@ -50,11 +50,11 @@ export default function UserPage({ params }: UserViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/set/contact-list")}
+          onClick={() => router.push("/contact-list")}
         />
         <Link
           href={{
-            pathname: "/set/contact-modify/",
+            pathname: "/contact-modify/",
             query: { userUkey: slug },
           }}
         >

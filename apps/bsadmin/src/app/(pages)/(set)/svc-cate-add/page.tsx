@@ -113,7 +113,7 @@ export default function SvcCatePage() {
         console.log("request successful:", response.data);
         if (response.data.success) {
           toast("등록 성공");
-          router.push("/set/svc-cate-list/");
+          router.push("/svc-cate-list/");
         } else {
           toast(response.data.message ?? "에러 발생");
         }
@@ -178,7 +178,7 @@ export default function SvcCatePage() {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("/set/svc-cate-list")}
+            onClick={() => router.push("/svc-cate-list")}
           />
           <ContainedButton buttonName="저장" type="submit" />
         </Stack>

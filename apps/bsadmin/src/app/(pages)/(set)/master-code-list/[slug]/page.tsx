@@ -38,7 +38,7 @@ export default function MasterCodePage({ params }: CustViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/set/master-code-list")}
+          onClick={() => router.push("/master-code-list")}
         />
       </Stack>
     </Container>

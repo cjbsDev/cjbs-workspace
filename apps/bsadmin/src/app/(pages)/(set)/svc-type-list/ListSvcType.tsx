@@ -9,33 +9,29 @@ import {
   Title1,
   OutlinedButton,
 } from "cjbsDSTM";
-import { Chip, Stack, Grid, Box, Typography } from "@mui/material";
+import { Chip, Stack, Grid } from "@mui/material";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-const ListEstProduct = () => {
+const ListSvcType = () => {
   const router = useRouter();
-  const goModifyPage = (esPrMngUkey: string) => {
-    router.push("/set/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
-  };
 
-  const goDetailPage = (row: { esPrMngUkey: string }) => {
-    router.push("/set/es-pr-list/" + row.esPrMngUkey);
+  const goDetailPage = (topCodeMc: string) => {
+    router.push("/svc-type-list/" + topCodeMc);
   };
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng`;
+  const enumMngrCode = "SRVC_TYPE";
+  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-
-  console.log("SRVC_CTGR ", data.data);
+  console.log("SRVC_TYPE ", data.data);
 
   const columns = useMemo(
     () => [
@@ -44,46 +40,42 @@ const ListEstProduct = () => {
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "5%",
+        width: "100px",
       },
       {
-        name: "분석종류",
-        selector: (row: { anlsTypeMcVal: string }) => row.anlsTypeMcVal,
-        width: "15%",
+        name: "서비스 타입",
+        selector: (row: { topValue: string }) => row.topValue,
+        width: "25%",
       },
       {
-        name: "품명",
-        selector: (row: { prNm: string }) => row.prNm,
-        width: "20%",
-      },
-      {
-        name: "포함 사항",
-        selector: (row: { inclInfo: string }) => row.inclInfo,
-        width: "50%",
-        wrap: true,
-        cell: (row: { inclInfo: string }) => (
-          <div style={{ whiteSpace: "pre-line" }}>
-            {row.inclInfo ? (
-              row.inclInfo.split("\n").map((item, index) => (
-                <React.Fragment key={index}>
-                  {item}
-                  <br />
-                </React.Fragment>
+        name: "분석 단계",
+        cell: (row: { btmValueList: any }) => {
+          return row.btmValueList.length > 0
+            ? row.btmValueList.map((item: any) => (
+                <Chip
+                  key={item.btmCodeMc}
+                  label={item.btmCodeVal}
+                  size="small"
+                  sx={{
+                    border: "1px solid #ADB5BD",
+                    backgroundColor: "#FFFFFF",
+                    color: "#000000",
+                    mr: "8px",
+                  }}
+                />
               ))
-            ) : (
-              <span>-</span>
-            )}
-          </div>
-        ),
+            : "등록된 분석 단계가 없습니다.";
+        },
+        width: "60%",
       },
       {
         name: "관리",
-        cell: (row: { esPrMngUkey: string }) => {
+        cell: (row: { topCodeMc: string }) => {
           return (
             <OutlinedButton
               buttonName="관리"
               size="small"
-              onClick={() => goModifyPage(row.esPrMngUkey)}
+              onClick={() => goDetailPage(row.topCodeMc)}
             />
           );
         },
@@ -130,11 +122,9 @@ const ListEstProduct = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="견적 품명 관리" />}
+      title={<Title1 titleName="서비스 타입 관리" />}
       data={data.data}
       columns={columns}
-      onRowClicked={goDetailPage}
-      pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader
@@ -145,4 +135,4 @@ const ListEstProduct = () => {
   );
 };
 
-export default ListEstProduct;
+export default ListSvcType;

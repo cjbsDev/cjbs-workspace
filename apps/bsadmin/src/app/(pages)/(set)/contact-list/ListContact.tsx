@@ -146,7 +146,7 @@ export default function ListContact() {
 
   const goDetailPage = (row: { ukey: string }) => {
     const path = row.ukey;
-    router.push("/set/contact-list/" + path);
+    router.push("/contact-list/" + path);
   };
 
   const setUserStatus = () => {

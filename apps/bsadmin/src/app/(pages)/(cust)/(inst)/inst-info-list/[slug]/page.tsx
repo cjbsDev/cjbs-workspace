@@ -156,11 +156,11 @@ export default function InstPage({ params }: CustViewProps) {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/cust/inst-info-list")}
+          onClick={() => router.push("/inst-info-list")}
         />
         <Link
           href={{
-            pathname: "/cust/inst-info-modify",
+            pathname: "/inst-info-modify",
             query: { instUkey: instTempData.data.instUkey },
           }}
         >
