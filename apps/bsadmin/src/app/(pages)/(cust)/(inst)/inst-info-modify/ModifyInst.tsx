@@ -142,7 +142,7 @@ export default function InstModifyPage() {
       .then((response) => {
         console.log("수정 successful:", response.data);
         if (response.data.success) {
-          router.push("/cust/inst-info-list");
+          router.push("/inst-info-list");
         } else {
         }
       })
@@ -371,7 +371,7 @@ export default function InstModifyPage() {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("/cust/inst-info-list")}
+              onClick={() => router.push("/inst-info-list")}
             />
             <ContainedButton type="submit" buttonName="저장" />
           </Stack>

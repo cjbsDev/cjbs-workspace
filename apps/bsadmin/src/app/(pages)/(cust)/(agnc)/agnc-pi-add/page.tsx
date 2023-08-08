@@ -191,8 +191,7 @@ const AgncAdd = () => {
       .then((response) => {
         console.log("request successful:", response.data);
         if (response.data.success) {
-          //router.push("/cust/cust-list/" + slug);
-          router.push("/cust/agnc-pi-list");
+          router.push("/agnc-pi-list");
           setIsLoading(false);
         }
       })
@@ -413,7 +412,7 @@ const AgncAdd = () => {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/cust/agnc-pi-list")}
+          onClick={() => router.push("/agnc-pi-list")}
         />
 
         <ContainedButton

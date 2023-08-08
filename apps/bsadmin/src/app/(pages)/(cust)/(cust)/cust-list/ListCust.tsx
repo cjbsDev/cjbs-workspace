@@ -155,7 +155,7 @@ const ListCust = () => {
 
   const goDetailPage = (row: { custUkey: string }) => {
     const path = row.custUkey;
-    router.push("/cust/cust-list/" + path);
+    router.push("/cust-list/" + path);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

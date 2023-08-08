@@ -74,9 +74,6 @@ export default function MachineKitPage({ params }: ViewProps) {
     return <SkeletonLoading />;
   }
 
-  //http://localhost:3000/set/machine-kit/BS_0100012003?midCodeMc=none
-  ///mngr/BS_0100012003/none?enumMngrCode=MCHN_KIT
-
   const onSubmit = (data: any) => {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
@@ -96,7 +93,7 @@ export default function MachineKitPage({ params }: ViewProps) {
         console.log("request successful:", response.data);
         if (response.data.success) {
           toast("수정 되었습니다.");
-          router.push("/set/machine-kit-list/");
+          router.push("/machine-kit-list/");
         } else {
           toast(response.data.message ?? "에러 발생");
         }
@@ -177,7 +174,7 @@ export default function MachineKitPage({ params }: ViewProps) {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("/set/machine-kit-list")}
+            onClick={() => router.push("/machine-kit-list")}
           />
           <ContainedButton buttonName="저장" type="submit" />
         </Stack>

@@ -158,7 +158,7 @@ const ListInst = () => {
 
   const goDetailPage = (row: { instUkey: string }) => {
     const path = row.instUkey;
-    router.push("/cust/inst-info-list/" + path);
+    router.push("/inst-info-list/" + path);
   };
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -179,7 +179,7 @@ const ListInst = () => {
             <ContainedButton
               buttonName="기관 정보 등록"
               size="small"
-              onClick={() => router.push("/cust/inst-info-add")}
+              onClick={() => router.push("/inst-info-add")}
             />
           </Stack>
         </Grid>
