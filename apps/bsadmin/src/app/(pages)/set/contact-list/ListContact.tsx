@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -12,44 +12,33 @@ import {
   SelectBox,
   Form,
 } from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Tooltip,
-  IconButton,
-  Typography,
-} from "@mui/material";
+import { Stack, Grid, Box, Container } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import MyIcon from "icon/myIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
-// import useSWR from "swr";
-// import fetcher from "../../../../func/fetcher";
-// import axios from "axios";
+import { useForm, FormProvider } from "react-hook-form";
+import useSWR from "swr";
+import fetcher from "../../../func/fetcher";
+import axios from "axios";
+import { toast } from "react-toastify";
 
-const ListContact = () => {
+export default function ListContact() {
+  //const tableRef = React.useRef<any>(null);
+  const table = useRef(null);
+
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("user", page, perPage);
-  const [loading, setLoading] = useState<boolean>(false);
-  // const { data, isLoading, mutate } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${page}&size=${perPage}`,
-  //   fetcher,
-  //   {
-  //     suspense: true,
-  //   }
-  // );
   const router = useRouter();
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  // const filteredData = data.data.custList;
+  const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
   const filteredData = data.data.userList.filter(
     (item: any) =>
@@ -60,13 +49,49 @@ const ListContact = () => {
 
   const totalElements = data.data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
-    //console.log("rows", rows);
+    setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
-    //setSelectedRows(rows.map((row) => row.id));
   };
 
-  // console.log("filteredData totalElements", data.data.pageInfo.totalElements);
-  //console.log("filteredData", filteredData);
+  /*
+  const handleUncheckAll = () => {
+    if (tableRef.current) {
+      tableRef.current.toggleAllRowsSelected(false);
+    }
+  };
+  */
+
+  const topValue = "user";
+  const { data: userAuthorityData } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=authority`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+
+  const { data: userStatusData } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=status`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+
+  const defaultValues = {
+    userStatus: "",
+    userAuth: "",
+  };
+
+  const methods = useForm({
+    defaultValues, // Pass the default values when calling useForm
+  });
+
+  const {
+    getValues,
+    formState: { errors, isDirty },
+    handleSubmit,
+  } = methods;
 
   //ukey
   // 아이디, 이름, 영문 이니셜, 연락처, 부서, 권한, 가입일, 최근 접속일, 상태
@@ -91,7 +116,7 @@ const ListContact = () => {
       {
         name: "연락처",
         selector: (row: { tel: string }) => row.tel,
-        width: "150px",
+        //width: "150px",
       },
       {
         name: "부서",
@@ -107,7 +132,7 @@ const ListContact = () => {
           row.signupAt && Dayjs(row.signupAt).format("YYYY-MM-DD"),
       },
       {
-        name: "가입일",
+        name: "최근 접속일",
         selector: (row: { lastLoginAt: any }) =>
           row.lastLoginAt && Dayjs(row.lastLoginAt).format("YYYY-MM-DD"),
       },
@@ -124,20 +149,106 @@ const ListContact = () => {
     router.push("/set/contact-list/" + path);
   };
 
+  const setUserStatus = () => {
+    console.log("상태 일괄 변경");
+
+    let selectedUserStatus = getValues("userStatus");
+    console.log("선택 userStatus", selectedUserStatus);
+    console.log("선택 ROW", selectedOption);
+    console.log("선택 ROW CNT", selectedRowCnt);
+
+    // validation
+    if (selectedRowCnt == 0) {
+      toast("선택된 값이 없습니다.");
+      return;
+    }
+    if (!selectedUserStatus) {
+      toast("변경할 상태를 선택해주세요.");
+      return;
+    }
+    //handleUncheckAll();
+    const ukeyList = selectedOption?.map((item) => item.ukey) || [];
+    const saveObj = {
+      userStatusCc: selectedUserStatus,
+      userUkeyList: ukeyList,
+    };
+    console.log("saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/status`; // Replace with your API URL
+    axios
+      .put(apiUrl, saveObj)
+      .then((response) => {
+        console.log("상태 변경 successful:", response.data);
+        if (response.data.success) {
+          // 체크 해제 로직필요.
+          console.log("체크 해제 로직");
+          handleClearRows();
+        }
+      })
+      .catch((error) => {
+        console.error("상태 변경 failed:", error);
+      });
+  };
+
+  const setUserAuth = () => {
+    console.log("setUserAuth");
+
+    console.log("권한 일괄 변경");
+    const selectedUserAuth = getValues("userAuth");
+    console.log("선택 userAuth", selectedUserAuth);
+    console.log("선택 ROW", selectedOption);
+
+    /*
+    [PUT] /user/auth
+    {
+      "userAuthCc": "BS_0301001",
+      "userUkeyList": [
+        "string"
+      ]
+    }
+    */
+
+    // validation
+    if (selectedRowCnt == 0) {
+      toast("선택된 값이 없습니다.");
+      return;
+    }
+    if (!selectedUserAuth) {
+      toast("변경할 권한을 선택해주세요.");
+      return;
+    }
+    //handleUncheckAll();
+    const ukeyList = selectedOption?.map((item) => item.ukey) || [];
+    const saveObj = {
+      userStatusCc: selectedUserAuth,
+      userUkeyList: ukeyList,
+    };
+    console.log("saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/auth`; // Replace with your API URL
+    axios
+      .put(apiUrl, saveObj)
+      .then((response) => {
+        console.log("권한 변경 successful:", response.data);
+        if (response.data.success) {
+          // 체크 해제 로직필요.
+          console.log("체크 해제 로직");
+          handleClearRows();
+        }
+      })
+      .catch((error) => {
+        if (error.response.status == 403) {
+          toast("실행 권한이 없습니다.");
+        }
+        console.error("권한 변경 failed:", error.response.status);
+      });
+  };
+
   const onSubmit = (data: any) => {
     console.log("onSubmit", data);
   };
-
-  const setUserStatus = () => {
-    console.log("setUserStatus");
-  };
-  const setUserAuth = () => {
-    console.log("setUserAuth");
-  };
-
-  //setUserStatus,setUserAuth
-
-  const defaultValues = {};
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -156,38 +267,43 @@ const ListContact = () => {
               //selectedCount={selectedRowCnt}
             />
 
-            <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-              <Stack direction="row" spacing={1}>
-                <SelectBox
-                  inputName="userStatus"
-                  options={[
-                    { value: "user656014", optionName: "가입 대기" },
-                    { value: "user483349", optionName: "사용" },
-                    { value: "user369596", optionName: "사용 정지" },
-                  ]}
-                  defaultMsg="회원 상태 변경"
-                />
-                <ContainedButton
-                  buttonName="상태 일괄 변경"
-                  size="small"
-                  onClick={setUserStatus}
-                />
-                <SelectBox
-                  inputName="userAuth"
-                  options={[
-                    { value: "user656014", optionName: "일반" },
-                    { value: "user483349", optionName: "부서 관리자" },
-                    { value: "user369596", optionName: "통합 관리자" },
-                  ]}
-                  defaultMsg="회원 권한 변경"
-                />
-                <ContainedButton
-                  buttonName="권한 일괄 변경"
-                  size="small"
-                  onClick={setUserAuth}
-                />
-              </Stack>
-            </Form>
+            <FormProvider {...methods}>
+              <Container maxWidth={false} sx={{ width: "100%" }}>
+                <Box
+                  component="form"
+                  noValidate
+                  autoComplete="off"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <Stack direction="row" spacing={1}>
+                    {userStatusData.data && (
+                      <SelectBox
+                        inputName="userStatus"
+                        options={userStatusData.data}
+                        defaultMsg="회원 상태 변경"
+                      />
+                    )}
+                    <ContainedButton
+                      buttonName="변경"
+                      size="small"
+                      onClick={setUserStatus}
+                    />
+                    {userAuthorityData.data && (
+                      <SelectBox
+                        inputName="userAuth"
+                        options={userAuthorityData.data}
+                        defaultMsg="회원 권한 변경"
+                      />
+                    )}
+                    <ContainedButton
+                      buttonName="변경"
+                      size="small"
+                      onClick={setUserAuth}
+                    />
+                  </Stack>
+                </Box>
+              </Container>
+            </FormProvider>
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -217,6 +333,10 @@ const ListContact = () => {
     setPerPage(newPerPage);
   };
 
+  const handleClearRows = () => {
+    setToggleClearRows(!toggledClearRows);
+  };
+
   return (
     <DataTableBase
       title={<Title1 titleName="담당자 관리" />}
@@ -235,8 +355,8 @@ const ListContact = () => {
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
+      clearSelectedRows={toggledClearRows}
+      //ref={tableRef}
     />
   );
-};
-
-export default ListContact;
+}
