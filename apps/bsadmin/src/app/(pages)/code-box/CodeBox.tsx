@@ -68,7 +68,7 @@ const CodeBoxPage = () => {
     setAlertModalOpen(false);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data);
     setLog(data);
 

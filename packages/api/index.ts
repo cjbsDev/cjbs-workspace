@@ -29,7 +29,14 @@ const request: REQUEST_API = async (url, method, body, option) => {
 
   return new Promise(async function (resolve, reject) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+      let defalutUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
+      console.log("$$$$$$$$$$$$$$", defalutUrl)
+      if(defalutUrl.indexOf("/orsh") !== -1){
+        console.log("$$$$$$$$$$$$$$", defalutUrl.indexOf("/orsh"))
+        defalutUrl = defalutUrl.replace("/orsh",  "")
+      }
+
+      const response = await fetch(defalutUrl+`${url}`, {
         method,
         body: body ? JSON.stringify(body) : null,
         headers: {
