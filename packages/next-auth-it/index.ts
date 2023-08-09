@@ -14,12 +14,20 @@ dayjs.tz.setDefault('Asia/Seoul');
 export const TOKEN_EALRY_EXPIRE_MINUTE = 10;
 
 export const refreshAccessToken = mem(
-  (refreshToken: string, email: string, uid: number, authorities: string): Promise<RetrunRefreshAccessToken> => {
+  (refreshToken: string, email: string, uid: number, authorities: string, serviceType: string): Promise<RetrunRefreshAccessToken> => {
     console.log('refreshAccessToken > ', refreshToken);
+    console.log('serviceType > ', serviceType);
+
+    let defaultUrl = "";
+    if(serviceType && serviceType === "orsh") {
+      defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/token/accessToken`
+    } else {
+      defaultUrl =`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`
+    }
 
     return new Promise(async function (resolve, reject) {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`, {
+        const response = await fetch(defaultUrl, {
           method: 'GET',
           headers: {
             emSW: refreshToken,
@@ -79,16 +87,25 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
+        serviceType: {label: '', type:'text'}
       },
       async authorize(credentials, req) {
+        console.log(credentials)
         try {
           const email = credentials?.email;
           const password = credentials?.password;
+          const serviceType = credentials?.serviceType;
           if (!email || !password) {
             return null;
           }
+          let defaultUrl = "";
+          if(serviceType && serviceType === "orsh") {
+            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/user/authenticate`
+          } else {
+            defaultUrl =`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`
+          }
 
-          const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, {
+          const response = await fetch(defaultUrl, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -103,7 +120,7 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
           // console.log('%%%%%', response)
 
           if (response.success) {
-            return response.data;
+            return {...response.data, serviceType};
           } else {
             throw new Error(response.message);
           }
@@ -126,6 +143,7 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
         token.needInfo = tokenDto.needInfo;
         token.email = user.email;
         token.uid = user.userId;
+        token.serviceType = user.serviceType;
         token.authorities = user.authorities;
       }
 
@@ -148,8 +166,9 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
         const email: string = user && user.email ? user.email : token.email ? token.email : '';
         const uid: number = user && user.userId ? user.userId : token.uid;
         const authorities: string = user && user.authorities ? user.authorities : token.authorities;
+        const serviceType: string = user && user.serviceType ? user.serviceType : token.serviceType ? token.serviceType : '';
 
-        const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities);
+        const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities, serviceType);
 
         if (newToken.error) {
           return newToken;

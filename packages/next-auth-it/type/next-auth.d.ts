@@ -8,6 +8,7 @@ export interface TokenDto {
     rtExpires?: number
     needInfo?: string
     error?: string
+    serviceType?: string
 }
 
 export interface RetrunRefreshAccessToken {
@@ -20,6 +21,7 @@ export interface RetrunRefreshAccessToken {
     uid?: number
     authorities?: string
     error?: "RefreshAccessTokenError"
+    serviceType?: string
 }
 
 declare module "next-auth" {
@@ -38,6 +40,7 @@ declare module "next-auth" {
     email: string
     authorities: string
     error?: "RefreshAccessTokenError"
+    serviceType?: string
   }
 
   interface User {
@@ -46,6 +49,7 @@ declare module "next-auth" {
     email: string
     authorities: string
     error?: "RefreshAccessTokenError"
+    serviceType?: string
   }
 }
 
@@ -58,6 +62,7 @@ declare module "next-auth/jwt" {
     needInfo?: string
     uid: number
     authorities: string
+    serviceType?: string
     error?: "RefreshAccessTokenError"
   }
 }

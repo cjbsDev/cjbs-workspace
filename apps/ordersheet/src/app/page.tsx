@@ -35,7 +35,7 @@ export default function Page() {
         //console.log(data);
         let email = data.email;
         let password = data.password
-        signIn('credentials', { email, password, redirect: false }).then((res) => {
+        signIn('credentials', { email, password, serviceType:'orsh', redirect: false }).then((res) => {
             //const isError = res && res.error ? res.error : null
             console.log("!!!!res=", res)
             if (res?.error) {

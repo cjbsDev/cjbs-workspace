@@ -29,14 +29,8 @@ const request: REQUEST_API = async (url, method, body, option) => {
 
   return new Promise(async function (resolve, reject) {
     try {
-      let defalutUrl = `${process.env.NEXT_PUBLIC_API_URL}`;
-      console.log("$$$$$$$$$$$$$$", defalutUrl)
-      if(defalutUrl.indexOf("/orsh") !== -1){
-        console.log("$$$$$$$$$$$$$$", defalutUrl.indexOf("/orsh"))
-        defalutUrl = defalutUrl.replace("/orsh",  "")
-      }
 
-      const response = await fetch(defalutUrl+`${url}`, {
+      const response = await fetch(url, {
         method,
         body: body ? JSON.stringify(body) : null,
         headers: {
@@ -94,7 +88,7 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
 
   return new Promise(async function (resolve, reject) {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${url}`, {
+      const response = await fetch(url, {
         method,
         body: body ? JSON.stringify(body) : null,
         headers: {
@@ -147,5 +141,6 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
   });
 };
 
-export const fetcher = (url: string) => GET(url);
-export const fetcherPost = (data: any[]) => POST(data[0], data[1]);
+export const fetcher = (url: string) => GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`);
+export const fetcherOrsh = (url: string) => GET(`${process.env.NEXT_PUBLIC_API_URL_ORSH}${url}`);
+export const fetcherPost = (data: any[]) => POST(`${process.env.NEXT_PUBLIC_API_URL}${data[0]}` , data[1]);

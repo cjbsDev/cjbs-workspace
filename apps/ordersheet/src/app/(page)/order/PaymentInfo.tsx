@@ -9,7 +9,8 @@ import {
     TableRow,
     Typography,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
+    styled
 } from "@mui/material";
 import {
     CheckboxSV, ContainedButton, ErrorContainer, Fallback,
@@ -30,17 +31,25 @@ import MyIcon from "icon/myIcon";
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
-const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
-    ssr: false,
-});
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+    '& .MuiToggleButtonGroup-grouped': {
+        margin: theme.spacing(0),
+        border: '1px solid #CED4DA',
+        '&.Mui-disabled': {
+            border: 0,
+        },
+        '&:not(:first-of-type)': {
+            borderRadius: theme.shape.borderRadius,
+            border: '1px solid #CED4DA',
+        },
+        '&:first-of-type': {
+            borderRadius: theme.shape.borderRadius,
+            border: '1px solid #CED4DA',
+        },
+    },
+}));
 
-const LazySalesManagerSelctbox = dynamic(
-    () => import("../../components/SalesManagerSelectbox"),
-    {
-        ssr: false,
-        loading: () => <Typography variant="body2">Loading...</Typography>,
-    }
-);
+
 
 export default function Page() {
     const router = useRouter();
@@ -110,7 +119,7 @@ export default function Page() {
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
             <Stack direction="row" alignItems="center" spacing={0.5}>
                 <Typography variant="subtitle1">세금계산서 정보</Typography>
-                <Typography variant="body2" sx={{ml:2}}>
+                <Typography variant="body2" sx={{pl:1}}>
                     접수된 주문의 분석 완료 시 기입해주신 결제 정보에 따라 계산서 발행이 진행됩니다.
                 </Typography>
             </Stack>
@@ -126,6 +135,7 @@ export default function Page() {
                                         required={true}
                                         errorMessage="이름을 입력해 주세요."
                                         sx={{ width: 306 }}
+                                        placeholder="- 없이 숫자만 입력해주세요"
                                         InputProps={{
                                             // readOnly: true,
                                         }}
@@ -190,9 +200,9 @@ export default function Page() {
                 justifyContent="space-between"
                 alignItems="center"
                 spacing={2}
-                sx={{ mb: 5, width:'100%' }}
+                sx={{ mb: 3, width:'100%' }}
             >
-                <ToggleButtonGroup
+                <StyledToggleButtonGroup
                     color="primary"
                     value={alignment}
                     exclusive
@@ -200,21 +210,35 @@ export default function Page() {
                     aria-label="Platform"
                     sx={{ width: '100%', justifyContent: 'space-between' }}
                 >
-                    <ToggleButton value="account" sx={{width:'50%'}}>
-                        계좌이체
-                        <MyIcon icon="person" size={24} />
+                    <ToggleButton value="account" sx={{width:'49%'}}>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            sx={{ width:'100%' }}
+                        >
+                            <Typography variant="body2">계좌이체</Typography>
+                            <MyIcon icon="transfer" size={24} />
+                        </Stack>
                     </ToggleButton>
-                    <ToggleButton value="card" sx={{width:'50%'}}>
-                        카드결제
-                        <MyIcon icon="person" size={24} />
+                    <ToggleButton value="card" sx={{width:'49%'}}>
+                        <Stack
+                            direction="row"
+                            justifyContent="space-between"
+                            alignItems="center"
+                            sx={{ width:'100%' }}
+                        >
+                            <Typography variant="body2">카드결제</Typography>
+                            <MyIcon icon="card" size={24} />
+                        </Stack>
                     </ToggleButton>
-                </ToggleButtonGroup>
+                </StyledToggleButtonGroup>
             </Stack>
 
             <Stack direction="row" alignItems="center" spacing={0.5}>
                 <CheckboxSV
                     inputName="mailRcpnList"
-                    labelText="개인정보 수집 및 활용에 동의합니다.(필수)"
+                    labelText="개인정보 수집 및 활용에 동의합니다 (필수)"
                     value="agncLeaderRcpn"
                 />
             </Stack>
