@@ -135,6 +135,7 @@ const ListEstProduct = () => {
       columns={columns}
       onRowClicked={goDetailPage}
       highlightOnHover
+      pointerOnHover
       customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
