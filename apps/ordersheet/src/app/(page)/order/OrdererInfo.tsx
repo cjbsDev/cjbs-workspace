@@ -31,13 +31,13 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
 
-const LazySalesManagerSelctbox = dynamic(
-    () => import("../../components/SalesManagerSelectbox"),
-    {
-        ssr: false,
-        loading: () => <Typography variant="body2">Loading...</Typography>,
-    }
-);
+// const LazySalesManagerSelctbox = dynamic(
+//     () => import("../../components/SalesManagerSelectbox"),
+//     {
+//         ssr: false,
+//         loading: () => <Typography variant="body2">Loading...</Typography>,
+//     }
+// );
 
 export default function Page() {
     const router = useRouter();
@@ -204,7 +204,7 @@ export default function Page() {
                 <Table>
                     <TableBody>
                         <TableRow>
-                            <TH sx={{ width: "20%" }}>신청인</TH>
+                            <TH sx={{ width: "20%" }}>신청인 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
@@ -218,7 +218,7 @@ export default function Page() {
                                     />
                                 </Stack>
                             </TD>
-                            <TH sx={{ width: "20%" }}>신청인 이메일</TH>
+                            <TH sx={{ width: "20%" }}>신청인 이메일 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
@@ -325,14 +325,14 @@ export default function Page() {
                                 </Stack>
                             </TD>
                         </TableRow>
-                        <TableRow>
-                            <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>
-                            <TD sx={{ width: "80%" }} colSpan={5}>
-                                <ErrorContainer FallbackComponent={Fallback}>
-                                    <LazySalesManagerSelctbox />
-                                </ErrorContainer>
-                            </TD>
-                        </TableRow>
+                        {/*<TableRow>*/}
+                        {/*    <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>*/}
+                        {/*    <TD sx={{ width: "80%" }} colSpan={5}>*/}
+                        {/*        <ErrorContainer FallbackComponent={Fallback}>*/}
+                        {/*            <LazySalesManagerSelctbox />*/}
+                        {/*        </ErrorContainer>*/}
+                        {/*    </TD>*/}
+                        {/*</TableRow>*/}
                     </TableBody>
                 </Table>
             </TableContainer>

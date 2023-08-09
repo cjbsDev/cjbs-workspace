@@ -51,7 +51,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-    padding: theme.spacing(2),
+    //padding: theme.spacing(2),
+    padding: '19px 0px',
     borderTop: '1px solid rgba(0, 0, 0, .125)',
     //backgroundColor: '#FFF',
     minHeight: '400px'
@@ -67,7 +68,7 @@ export default function MtpFullService(){
         };
 
     return (
-        <Container disableGutters={true} sx={{pt:'30px'}}>
+        <Container disableGutters={true} sx={{pt:'55px'}}>
 
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
@@ -98,7 +99,7 @@ export default function MtpFullService(){
                             // color: "#FFF"
                         }}>
                             <Typography variant="body2">
-                                <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box> 은 필수항목 입니다
+                                * 은 필수항목 입니다
                             </Typography>
                         </Box>
                     </Stack>
@@ -133,7 +134,7 @@ export default function MtpFullService(){
                             // color: "#FFF"
                         }}>
                             <Typography variant="body2">
-                                <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box> 은 필수항목 입니다
+                                * 은 필수항목 입니다
                             </Typography>
                         </Box>
                     </Stack>
@@ -168,7 +169,7 @@ export default function MtpFullService(){
                             // color: "#FFF"
                         }}>
                             <Typography variant="body2">
-                                <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box> 은 필수항목 입니다
+                                * 은 필수항목 입니다
                             </Typography>
                         </Box>
                     </Stack>
