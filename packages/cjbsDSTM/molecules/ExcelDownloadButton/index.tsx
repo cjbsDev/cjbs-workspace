@@ -18,18 +18,18 @@ export const ExcelDownloadButton = ({
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const handleDownload = useCallback(async (serverUrl: string) => {
-    setIsDownloading(true);
-
-    try {
-      const response = await POST_BLOB(serverUrl, data); // API 요청
-      console.log("response> ", response);
-    } catch (error) {
-      console.error("Error occurred while downloading data:", error);
-    }
-
-    setIsDownloading(false);
-  }, []);
+  // const handleDownload = useCallback(async (serverUrl: string) => {
+  //   setIsDownloading(true);
+  //
+  //   try {
+  //     const response = await POST_BLOB(serverUrl, data); // API 요청
+  //     console.log("response> ", response);
+  //   } catch (error) {
+  //     console.error("Error occurred while downloading data:", error);
+  //   }
+  //
+  //   setIsDownloading(false);
+  // }, []);
 
   return (
     <UnStyledButton

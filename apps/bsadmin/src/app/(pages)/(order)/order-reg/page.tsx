@@ -72,7 +72,7 @@ const LazyAnalysisTypeSelctbox = dynamic(
   }
 );
 
-const LazyOrderType = dynamic(() => import("./OrderType"), {
+const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
@@ -602,7 +602,7 @@ export default function Page() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/order/order-list")}
+          onClick={() => router.push("/order-list")}
         />
 
         <ContainedButton

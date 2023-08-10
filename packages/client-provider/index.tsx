@@ -35,7 +35,10 @@ export default function Providers({ children }: ContextProps) {
             revalidateOnFocus: false,
             revalidateOnReconnect: false,
             shouldRetryOnError: false,
-            errorRetryCount: 3,
+            onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+              // 404에서 재시도 안함
+              if (error.status === 404) return;
+            },
           }}
         >
           <StyledJsxRegistry>

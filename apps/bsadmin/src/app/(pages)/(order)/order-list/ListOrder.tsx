@@ -15,6 +15,7 @@ import {
   Form,
   CustomToggleButton,
   cjbsTheme,
+  exportCSVData,
 } from "cjbsDSTM";
 import {
   Box,
@@ -30,7 +31,6 @@ import {
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import { exportCSVData } from "cjbsDSTM";
 import { useForm, useWatch } from "react-hook-form";
 import Select from "react-select";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -55,6 +55,8 @@ import {
   green,
 } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
+import FileSaver from "file-saver";
+// import excelDownload from "cjbsDSTM/atoms/excel/ExcelDownload";
 
 const dataRadioGVTest = [
   { value: "Y", optionName: "요청함" },
@@ -66,7 +68,7 @@ const ListOrder = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
-  console.log("jkjkjkjkj", data);
+  // console.log("jkjkjkjkj", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -130,7 +132,7 @@ const ListOrder = () => {
               size="small"
               sx={{
                 backgroundColor:
-                  orderStatusVal === "진행"
+                  orderStatusVal === "진행중"
                     ? blue["50"]
                     : orderStatusVal === "완료"
                     ? green["50"]
@@ -138,7 +140,7 @@ const ListOrder = () => {
                     ? red["50"]
                     : grey["100"],
                 color:
-                  orderStatusVal === "진행"
+                  orderStatusVal === "진행중"
                     ? cjbsTheme.palette.primary.main
                     : orderStatusVal === "완료"
                     ? cjbsTheme.palette.success.main
@@ -264,12 +266,21 @@ const ListOrder = () => {
       }
     };
 
+    const ex = async (exportUrl: string) => {
+      await axios.post(exportUrl).then((res) => {
+        const resData = res.data;
+        console.log("Excel Data ==>>", encodeURI(resData));
+        const resultData = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,${resData}`;
+        FileSaver.saveAs(resultData, "testExcel.xlsx");
+      });
+    };
+
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
-            <Link href="/order/order-reg">
+            <Link href="/order-reg">
               <ContainedButton buttonName="오더 등록" size="small" />
             </Link>
           </Stack>
@@ -282,7 +293,21 @@ const ListOrder = () => {
             alignItems="center"
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
-            <ExcelDownloadButton downloadUrl={""} />
+
+            <ContainedButton
+              buttonName="Excel"
+              onClick={() =>
+                ex(
+                  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/list/download"
+                )
+              }
+            />
+
+            {/*<ExcelDownloadButton*/}
+            {/*  downloadUrl={*/}
+            {/*    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/list/download"*/}
+            {/*  }*/}
+            {/*/>*/}
 
             <DataTableFilter
               onFilter={(e: {

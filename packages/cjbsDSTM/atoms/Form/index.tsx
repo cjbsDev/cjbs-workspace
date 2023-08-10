@@ -1,8 +1,26 @@
 import { Box } from "@mui/material";
 import React from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import {
+  useForm,
+  FormProvider,
+  Controller,
+  FormProps,
+  FormProviderProps,
+} from "react-hook-form";
 
-export const Form = ({ defaultValues, children, onSubmit }) => {
+interface FormContainerProps {
+  id?: string;
+  children: React.ReactNode;
+  onSubmit: (data: any) => void;
+  defaultValues: object;
+}
+
+export const Form = ({
+  defaultValues,
+  children,
+  onSubmit,
+  id,
+}: FormContainerProps) => {
   const methods = useForm({ defaultValues });
   const { handleSubmit, register } = methods;
 
@@ -13,6 +31,7 @@ export const Form = ({ defaultValues, children, onSubmit }) => {
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit)}
+        id={id}
       >
         {Array.isArray(children)
           ? children.map((child) => {

@@ -56,14 +56,13 @@ const OrderShortInfo = () => {
       <Box
         sx={{
           backgroundColor:
-            orderStatusVal === "진행"
+            orderStatusVal === "진행중"
               ? cjbsTheme.palette.primary.light
               : orderStatusVal === "완료"
               ? cjbsTheme.palette.success.light
               : orderStatusVal === "취소"
               ? cjbsTheme.palette.error.light
               : cjbsTheme.palette.secondary.light,
-
           borderRadius: 4,
         }}
       >
