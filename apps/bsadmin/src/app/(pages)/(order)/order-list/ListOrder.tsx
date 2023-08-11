@@ -297,9 +297,7 @@ const ListOrder = () => {
             <ContainedButton
               buttonName="Excel"
               onClick={() =>
-                ex(
-                  "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/list/download"
-                )
+                ex(`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`)
               }
             />
 

@@ -1,71 +1,59 @@
-"use client";
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
-import { cjbsTheme } from "cjbsDSTM";
+import { grey } from "cjbsDSTM";
 
-const SampleBEA = (props) => {
-  const { bcount, ecount, acount } = props;
+const AnalysisStatus = (props) => {
+  const { pcrLibComp, seqComp, anlsComp } = props;
   return (
     <Box>
-      <Typography variant="subtitle1">
-        샘플 {bcount + ecount + acount}개
-      </Typography>
+      <Typography variant="subtitle1">분석현황</Typography>
       <Stack direction="row" spacing={1}>
         <Box
           sx={{
-            padding: "10px 40px",
-            border: `1px solid ${cjbsTheme.palette.primary.light}`,
+            padding: "10px 20px",
+            border: `1px solid ${grey["400"]}`,
             borderRadius: 4,
             textAlign: "center",
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{ color: cjbsTheme.palette.primary.main }}
-          >
-            B
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>
+            PCR/Lib 완료
           </Typography>
 
           <Typography variant="h3">
-            {bcount}
+            {pcrLibComp}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
         </Box>
         <Box
           sx={{
-            padding: "10px 40px",
-            border: `1px solid ${cjbsTheme.palette.success.light}`,
+            padding: "10px 20px",
+            border: `1px solid ${grey["400"]}`,
             borderRadius: 4,
             textAlign: "center",
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{ color: cjbsTheme.palette.success.main }}
-          >
-            E
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>
+            Seq 완료
           </Typography>
           <Typography variant="h3">
-            {ecount}
+            {seqComp}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
         </Box>
         <Box
           sx={{
-            padding: "10px 40px",
-            border: `1px solid ${cjbsTheme.palette.tertiary.light}`,
+            padding: "10px 20px",
+            border: `1px solid ${grey["400"]}`,
             borderRadius: 4,
             textAlign: "center",
           }}
         >
-          <Typography
-            variant="h4"
-            sx={{ color: cjbsTheme.palette.tertiary.main }}
-          >
-            A
+          <Typography variant="subtitle2" sx={{ mb: 2 }}>
+            분석 완료
           </Typography>
           <Typography variant="h3">
-            {acount}
+            {anlsComp}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
         </Box>
@@ -74,4 +62,4 @@ const SampleBEA = (props) => {
   );
 };
 
-export default SampleBEA;
+export default AnalysisStatus;
