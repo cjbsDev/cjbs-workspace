@@ -37,19 +37,21 @@ export const snbMenuListData = [
   //     ]
   //   },
   // },
-  // {
-  //   menuLabel: '주문서',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '주문서 관리',
-  //         menuPath: ''
-  //       }
-  //     ]
-  //   },
-  // },
+
+  {
+    menuLabel: "주문서",
+    menuIcon: "",
+    menuPath: {
+      name: "/orshbs",
+      nestedPath: [
+        {
+          menuLabel: "주문서 관리",
+          menuPath: "/orshbs-list",
+        },
+      ],
+    },
+  },
+
   {
     menuLabel: "오더",
     menuIcon: "order",
@@ -139,6 +141,7 @@ export const snbMenuListData = [
   //     ]
   //   }
   // },
+
   {
     menuLabel: "고객",
     menuIcon: "customer",

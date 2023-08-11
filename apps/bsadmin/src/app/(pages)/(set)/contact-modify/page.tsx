@@ -33,6 +33,14 @@ import LogUpdateTitle from "../../../components/LogUpdateTitle";
 
 import axios from "axios";
 
+const LazyRegion1 = dynamic(
+  () => import("../../../components/Region/Region1"),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  }
+);
+
 // 담당자 수정
 export default function InstModifyPage() {
   // init
