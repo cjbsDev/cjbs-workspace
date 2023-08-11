@@ -35,7 +35,7 @@ import Link from "next/link";
 import MyIcon from "icon/myIcon";
 import dynamic from "next/dynamic";
 
-const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo"), {
+const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo/index"), {
   ssr: false,
   loading: () => <SkeletonLoading height={176} />,
 });
@@ -85,6 +85,15 @@ export default function OrderInfo() {
         </ErrorContainer>
       </Box>
 
+      {/* 오더 정보 변경 */}
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyOrderInfoModifyModal
+          onClose={orderInfoModifyModalClose}
+          open={showOrderInfoModifyModal}
+          modalWidth={800}
+        />
+      </ErrorContainer>
+
       {/* 목록, 이전, 다음 버튼 */}
       <Grid container justifyContent="space-between">
         <Grid item>
@@ -111,15 +120,6 @@ export default function OrderInfo() {
           </Stack>
         </Grid>
       </Grid>
-
-      {/* 오더 정보 변경 */}
-      <ErrorContainer FallbackComponent={Fallback}>
-        <LazyOrderInfoModifyModal
-          onClose={orderInfoModifyModalClose}
-          open={showOrderInfoModifyModal}
-          modalWidth={800}
-        />
-      </ErrorContainer>
     </Container>
   );
 }

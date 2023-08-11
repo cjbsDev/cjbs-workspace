@@ -2,7 +2,6 @@ import React from "react";
 import { Box, Chip, Divider, Stack, Typography } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
 import useSWR from "swr";
-import fetcher from "../../../../func/fetcher";
 import { useParams } from "next/navigation";
 import {
   blue,
@@ -13,6 +12,8 @@ import {
   grey,
   green,
 } from "cjbsDSTM/themes/color";
+import fetcher from "../../../../../func/fetcher";
+import SampleBEA from "./SampleBEA";
 
 const OrderShortInfo = () => {
   const params = useParams();
@@ -52,46 +53,46 @@ const OrderShortInfo = () => {
   } = data.data;
 
   return (
-    <Stack direction="row" spacing={2}>
-      <Box
-        sx={{
-          backgroundColor:
-            orderStatusVal === "진행중"
-              ? cjbsTheme.palette.primary.light
-              : orderStatusVal === "완료"
-              ? cjbsTheme.palette.success.light
-              : orderStatusVal === "취소"
-              ? cjbsTheme.palette.error.light
-              : cjbsTheme.palette.secondary.light,
-          borderRadius: 4,
-        }}
-      >
-        <Typography
-          variant="h3"
-          sx={{
-            width: 176,
-            height: 176,
-            color: "white",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          No.{orderId}
-        </Typography>
-      </Box>
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          border: `1px solid ${grey["400"]}`,
-          borderRadius: 4,
-          padding: "26px 30px",
-          width: "-webkit-fill-available",
-        }}
-      >
+    <Box
+      sx={{
+        border: `1px solid ${grey["400"]}`,
+        borderRadius: 4,
+        padding: "26px 30px",
+        width: "-webkit-fill-available",
+      }}
+    >
+      <Stack direction="row" spacing={5}>
+        {/*<Box*/}
+        {/*  sx={{*/}
+        {/*    backgroundColor:*/}
+        {/*      orderStatusVal === "진행중"*/}
+        {/*        ? cjbsTheme.palette.primary.light*/}
+        {/*        : orderStatusVal === "완료"*/}
+        {/*        ? cjbsTheme.palette.success.light*/}
+        {/*        : orderStatusVal === "취소"*/}
+        {/*        ? cjbsTheme.palette.error.light*/}
+        {/*        : cjbsTheme.palette.secondary.light,*/}
+        {/*    borderRadius: 4,*/}
+        {/*  }}*/}
+        {/*>*/}
+        {/*  <Typography*/}
+        {/*    variant="h3"*/}
+        {/*    sx={{*/}
+        {/*      width: 176,*/}
+        {/*      height: 176,*/}
+        {/*      color: "white",*/}
+        {/*      display: "flex",*/}
+        {/*      justifyContent: "center",*/}
+        {/*      alignItems: "center",*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    No.{orderId}*/}
+        {/*  </Typography>*/}
+        {/*</Box>*/}
+
         <Box>
           <Stack direction="row" spacing={0.5} sx={{ mb: 1 }}>
+            <Typography variant="subtitle1">No.{orderId}</Typography>
             {isFastTrack === "Y" && (
               <Chip label="Fast Track" variant="outlined" size="small" />
             )}
@@ -134,71 +135,7 @@ const OrderShortInfo = () => {
           </Box>
         </Box>
 
-        <Box>
-          <Typography variant="subtitle1">
-            샘플 {bcount + ecount + acount}개
-          </Typography>
-          <Stack direction="row" spacing={1}>
-            <Box
-              sx={{
-                padding: "10px 20px",
-                border: `1px solid ${cjbsTheme.palette.primary.light}`,
-                borderRadius: 4,
-                width: "130px",
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{ color: cjbsTheme.palette.primary.main }}
-              >
-                B
-              </Typography>
-
-              <Typography variant="h3">
-                {bcount}
-                <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                padding: "10px 20px",
-                border: `1px solid ${cjbsTheme.palette.success.light}`,
-                borderRadius: 4,
-                width: "130px",
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{ color: cjbsTheme.palette.success.main }}
-              >
-                E
-              </Typography>
-              <Typography variant="h3">
-                {ecount}
-                <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
-              </Typography>
-            </Box>
-            <Box
-              sx={{
-                padding: "10px 20px",
-                border: `1px solid ${cjbsTheme.palette.tertiary.light}`,
-                borderRadius: 4,
-                width: "130px",
-              }}
-            >
-              <Typography
-                variant="h4"
-                sx={{ color: cjbsTheme.palette.tertiary.main }}
-              >
-                A
-              </Typography>
-              <Typography variant="h3">
-                {acount}
-                <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
-              </Typography>
-            </Box>
-          </Stack>
-        </Box>
+        <SampleBEA bcount={bcount} ecount={ecount} acount={acount} />
 
         <Box>
           <Typography variant="subtitle1">분석현황</Typography>
@@ -208,7 +145,7 @@ const OrderShortInfo = () => {
                 padding: "10px 20px",
                 border: `1px solid ${grey["400"]}`,
                 borderRadius: 4,
-                width: "130px",
+                // width: "130px",
               }}
             >
               <Typography variant="subtitle2" sx={{ mb: 2 }}>
@@ -225,7 +162,7 @@ const OrderShortInfo = () => {
                 padding: "10px 20px",
                 border: `1px solid ${grey["400"]}`,
                 borderRadius: 4,
-                width: "130px",
+                // width: "130px",
               }}
             >
               <Typography variant="subtitle2" sx={{ mb: 2 }}>
@@ -241,7 +178,7 @@ const OrderShortInfo = () => {
                 padding: "10px 20px",
                 border: `1px solid ${grey["400"]}`,
                 borderRadius: 4,
-                width: "130px",
+                // width: "130px",
               }}
             >
               <Typography variant="subtitle2" sx={{ mb: 2 }}>
@@ -254,8 +191,8 @@ const OrderShortInfo = () => {
             </Box>
           </Stack>
         </Box>
-      </Box>
-    </Stack>
+      </Stack>
+    </Box>
   );
 };
 
