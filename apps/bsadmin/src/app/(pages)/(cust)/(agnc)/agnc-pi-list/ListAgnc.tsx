@@ -138,7 +138,7 @@ const ListAgnc = () => {
 
   const goDetailPage = (row: { agncUkey: string }) => {
     const path = row.agncUkey;
-    router.push("/cust/agnc-pi-list/" + path);
+    router.push("/agnc-pi-list/" + path);
   };
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -160,7 +160,7 @@ const ListAgnc = () => {
             <ContainedButton
               buttonName="거래처(PI)등록"
               size="small"
-              onClick={() => router.push("/cust/agnc-pi-add")}
+              onClick={() => router.push("/agnc-pi-add")}
             />
           </Stack>
         </Grid>

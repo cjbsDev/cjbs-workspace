@@ -9,6 +9,10 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MyIcon from "icon/myIcon";
 import {cjbsTheme} from "cjbsDSTM";
+import OrdererInfo from "../OrdererInfo";
+import PaymentInfo from "../PaymentInfo";
+import OrderMtpSampleList from "../OrderMtpSampleList";
+
 
 
 const Accordion = styled((props: AccordionProps) => (
@@ -47,7 +51,8 @@ const AccordionSummary = styled((props: AccordionSummaryProps) => (
 }));
 
 const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
-    padding: theme.spacing(2),
+    //padding: theme.spacing(2),
+    padding: '19px 0px',
     borderTop: '1px solid rgba(0, 0, 0, .125)',
     //backgroundColor: '#FFF',
     minHeight: '400px'
@@ -63,7 +68,7 @@ export default function MtpFullService(){
         };
 
     return (
-        <Container disableGutters={true} sx={{pt:'10px'}}>
+        <Container disableGutters={true} sx={{pt:'55px'}}>
 
             <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
@@ -94,44 +99,83 @@ export default function MtpFullService(){
                             // color: "#FFF"
                         }}>
                             <Typography variant="body2">
-                                <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box> 은 필수항목 입니다
+                                * 은 필수항목 입니다
                             </Typography>
                         </Box>
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget.
-                    </Typography>
+                    <OrdererInfo />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
-                <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-                    <Typography>Collapsible Group Item #2</Typography>
+                <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={0}
+                        sx={{width: "100%"}}
+                    >
+                        <Box sx={{
+                            display: 'flex',
+                            alignContent: 'start',
+                            alignItems: 'center',
+                            // color: "#FFF"
+                        }}>
+                            <Typography variant="subtitle1">
+                                주문서 작성
+                            </Typography>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            alignContent: 'start',
+                            alignItems: 'center',
+                            // color: "#FFF"
+                        }}>
+                            <Typography variant="body2">
+                                * 은 필수항목 입니다
+                            </Typography>
+                        </Box>
+                    </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget.
-                    </Typography>
+                    <OrderMtpSampleList />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
-                <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-                    <Typography>Collapsible Group Item #3</Typography>
+                <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
+                    <Stack
+                        direction="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        spacing={0}
+                        sx={{width: "100%"}}
+                    >
+                        <Box sx={{
+                            display: 'flex',
+                            alignContent: 'start',
+                            alignItems: 'center',
+                            // color: "#FFF"
+                        }}>
+                            <Typography variant="subtitle1">
+                                결제 정보
+                            </Typography>
+                        </Box>
+                        <Box sx={{
+                            display: 'flex',
+                            alignContent: 'start',
+                            alignItems: 'center',
+                            // color: "#FFF"
+                        }}>
+                            <Typography variant="body2">
+                                * 은 필수항목 입니다
+                            </Typography>
+                        </Box>
+                    </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <Typography>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-                        malesuada lacus ex, sit amet blandit leo lobortis eget. Lorem ipsum dolor
-                        sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                        sit amet blandit leo lobortis eget.
-                    </Typography>
+                    <PaymentInfo />
                 </AccordionDetails>
             </Accordion>
 

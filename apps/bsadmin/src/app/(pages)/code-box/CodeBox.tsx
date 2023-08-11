@@ -68,7 +68,7 @@ const CodeBoxPage = () => {
     setAlertModalOpen(false);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = (data: any) => {
     console.log(data);
     setLog(data);
 
@@ -101,19 +101,19 @@ const CodeBoxPage = () => {
       <Divider sx={{ mb: 5, mt: 5 }} />
       <Typography variant="h4">Link & Router</Typography>
       <Stack direction={"row"} spacing={1}>
-        <Link href="/cust/cust-list">고객관리</Link>
-        <Link href="/cust/agnc-pi-add">거래처(PI) 등록</Link>
+        <Link href="/cust-list">고객관리</Link>
+        <Link href="/agnc-pi-add">거래처(PI) 등록</Link>
         <LinkButton
           buttonName="고객관리"
-          onClick={() => router.push("/cust/cust-list")}
+          onClick={() => router.push("/cust-list")}
         />
         <LinkButton
           buttonName="주문"
-          onClick={() => router.push("/order/order-list")}
+          onClick={() => router.push("/order-list")}
         />
         <LinkButton
           buttonName="거래처(PI) 등록"
-          onClick={() => router.push("/cust/agnc-pi-add")}
+          onClick={() => router.push("/agnc-pi-add")}
         />
       </Stack>
       <Divider sx={{ mb: 5, mt: 5 }} />

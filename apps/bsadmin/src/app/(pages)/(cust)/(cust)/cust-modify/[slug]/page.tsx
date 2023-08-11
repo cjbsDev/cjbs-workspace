@@ -123,7 +123,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
       .then((response) => {
         console.log("request successful:", response.data);
         if (response.data.success) {
-          router.push("/cust/cust-list/" + slug);
+          router.push("/cust-list/" + slug);
         }
       })
       .catch((error) => {
@@ -277,7 +277,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("/cust/cust-list")}
+              onClick={() => router.push("/cust-list")}
             />
             <ContainedButton buttonName="저장" type="submit" />
           </Stack>

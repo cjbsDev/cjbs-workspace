@@ -13,7 +13,8 @@ const AntTabs = styled(Tabs)({
     marginTop: "10px",
     // border: '1px solid #e8e8e8',
     '& .MuiTabs-indicator': {
-        backgroundColor: '#006ECD',
+        // backgroundColor: '#006ECD',
+        display: 'none',
     },
     '& .MuiTabs-flexContainer': {
         display: 'flex',
@@ -32,12 +33,14 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
         marginRight: theme.spacing(1),
         color: 'rgba(0, 0, 0, 0.85)',
         '&:hover': {
-            color: '#40a9ff',
             opacity: 1,
+            backgroundColor: cjbsTheme.palette.grey[50],
         },
         '&.Mui-selected': {
-            color: '#006ECD',
+            color: '#000',
             fontWeight: theme.typography.fontWeightMedium,
+            backgroundColor: '#E6F0FA',
+            border: '1px solid #006ECD',
         },
         '&.Mui-focusVisible': {
             backgroundColor: '#d1eaff',
@@ -83,6 +86,7 @@ const Page = () => {
                     justifyContent="space-between"
                     alignItems="center"
                     spacing={0}
+                    sx={{borderBottom: '1px solid #000'}}
                 >
                     <Box sx={{
                         display: 'flex',
@@ -107,69 +111,47 @@ const Page = () => {
                     </Box>
                 </Stack>
 
-                <Box sx={{
-                    display: 'flex',
-                    alignContent: 'start',
-                    alignItems: 'center',
-                    width: '100%',
-                    //backgroundColor: cjbsTheme.palette.grey["700"],
-                    backgroundColor: "#5a86c7",
-                    p: '12px 20px',
-                    borderRadius: '4px',
-                }}>
-                    <Stack
-                        direction="row"
-                        justifyContent="space-between"
-                        alignItems="center"
-                        spacing={0}
-                    >
-                        <Box sx={{
-                            display: 'flex',
-                            alignContent: 'start',
-                            alignItems: 'center',
-                            color: "#FFF"
-                        }}>
-                            <Typography variant="subtitle1">
-                                서비스 타입
-                            </Typography>
-                            <Typography variant="body2" sx={{ml:2}}>
-                                서비스 타입을 선택해주세요
-                            </Typography>
-                        </Box>
-                    </Stack>
-                </Box>
+                {/*<Box sx={{*/}
+                {/*    display: 'flex',*/}
+                {/*    alignContent: 'start',*/}
+                {/*    alignItems: 'center',*/}
+                {/*    width: '100%',*/}
+                {/*    //backgroundColor: cjbsTheme.palette.grey["700"],*/}
+                {/*    backgroundColor: "#5a86c7",*/}
+                {/*    p: '12px 20px',*/}
+                {/*    borderRadius: '4px',*/}
+                {/*}}>*/}
+                {/*    <Stack*/}
+                {/*        direction="row"*/}
+                {/*        justifyContent="space-between"*/}
+                {/*        alignItems="center"*/}
+                {/*        spacing={0}*/}
+                {/*    >*/}
+                {/*        <Box sx={{*/}
+                {/*            display: 'flex',*/}
+                {/*            alignContent: 'start',*/}
+                {/*            alignItems: 'center',*/}
+                {/*            color: "#FFF"*/}
+                {/*        }}>*/}
+                {/*            <Typography variant="subtitle1">*/}
+                {/*                서비스 타입*/}
+                {/*            </Typography>*/}
+                {/*            <Typography variant="body2" sx={{ml:2}}>*/}
+                {/*                서비스 타입을 선택해주세요*/}
+                {/*            </Typography>*/}
+                {/*        </Box>*/}
+                {/*    </Stack>*/}
+                {/*</Box>*/}
 
+                <Typography variant="subtitle1" sx={{mt: 4}}>
+                    서비스 타입
+                </Typography>
 
                 <Box sx={{ width: '100%', typography: 'body1' }}>
-                    {/*<TabContext value={value}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList
-                                onChange={handleChange}
-                                aria-label="lab API tabs example"
-                                sx={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'space-between',
-                                    width: '100%',
-                                }}
-                            >
-                                <Tab label="Item One" value="0" />
-                                <Tab label="Item One" value="1" />
-                                <Tab label="Item Two" value="2" />
-                                <Tab label="Item Three" value="3" />
-                            </TabList>
-                        </Box>
-
-                        <TabPanel value="1">Item One</TabPanel>
-
-                        <TabPanel value="2">Item Two</TabPanel>
-
-                        <TabPanel value="3">Item Three</TabPanel>
-                    </TabContext>*/}
                     <AntTabs value={value} onChange={handleChange} aria-label="ant example">
                         <AntTab label={
                             <Box sx={{
-                                textAlign: 'start',
+                                textAlign: 'center',
                                 width: '100%',
                             }}>
                                 <Typography variant="subtitle1" sx={{}}>
@@ -182,7 +164,7 @@ const Page = () => {
                         } />
                         <AntTab label={
                             <Box sx={{
-                                textAlign: 'start',
+                                textAlign: 'center',
                                 width: '100%'
                             }}>
                                 <Typography variant="subtitle1" sx={{}}>
@@ -195,7 +177,7 @@ const Page = () => {
                         } />
                         <AntTab label={
                             <Box sx={{
-                                textAlign: 'start',
+                                textAlign: 'center',
                                 width: '100%'
                             }}>
                                 <Typography variant="subtitle1" sx={{}}>
