@@ -77,11 +77,12 @@ export default function ListOrshbs() {
       {
         name: "분석 종류",
         selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
-        width: "200px",
+        width: "150px",
       },
       {
         name: "서비스 타입",
         selector: (row: { srvcTypeVal: string }) => row.srvcTypeVal,
+        width: "150px",
       },
       {
         name: "샘플수량",
@@ -93,34 +94,32 @@ export default function ListOrshbs() {
         cell: (row: { agncNm: string; instNm: string }) => (
           <Stack>
             <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box>{row.agncNm} </Box>
+              <Box>{row.agncNm}</Box>
             </Stack>
             <Stack direction="row" spacing={0.5} alignItems="center">
               <Box>({row.instNm})</Box>
             </Stack>
           </Stack>
         ),
-        width: "300px",
+        width: "200px",
       },
-      // 주문번호, 오더번호,  분석 종류,     서비스 타입,     샘플수량,     거래처(기관),       연구책임자(ID),         담당자,         주문상태, 주문일시
-      // orshNo, orderId, anlsTypeVal, srvcTypeVal, sampleCount, instNm(agncNm), rhpiNm(rhpiEbcEmail), bsnsMngrVal, isOrderStatus,orshDttm
       {
         name: "연구책임자(ID)",
         cell: (row: { rhpiNm: string; rhpiEbcEmail: string }) => (
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            <Box data-tag="allowRowEvents">{row.rhpiNm} </Box>
-            <Box data-tag="allowRowEvents">({row.rhpiEbcEmail})</Box>
+          <Stack>
+            <Stack direction="row" spacing={0.5} alignItems="center">
+              <Box>{row.rhpiNm}</Box>
+            </Stack>
+            <Stack direction="row" spacing={0.5} alignItems="center">
+              <Box>({row.rhpiEbcEmail})</Box>
+            </Stack>
           </Stack>
         ),
-        width: "300px",
+        width: "200px",
       },
       {
         name: "담당자",
-        selector: (row: { authVal: string }) => row.authVal,
-      },
-      {
-        name: "주문상태",
-        selector: (row: { authVal: string }) => row.authVal,
+        selector: (row: { bsnsMngrVal: string }) => row.bsnsMngrVal,
       },
       //"isOrderStatus": "주문상태(Y: 등록, N : 요청)"
       {
@@ -130,7 +129,7 @@ export default function ListOrshbs() {
             <Stack direction="row" spacing={0.5} alignItems="center">
               <Box data-tag="allowRowEvents">요청</Box>
               <OutlinedButton
-                buttonName="관리"
+                buttonName="+오더등록"
                 size="small"
                 onClick={() => goLinkOrderPage()}
               />
@@ -141,12 +140,14 @@ export default function ListOrshbs() {
             </Stack>
           );
         },
+        width: "200px",
       },
 
       {
         name: "주문일시",
         selector: (row: { orshDttm: any }) =>
           row.orshDttm && Dayjs(row.orshDttm).format("YYYY-MM-DD"),
+        width: "150px",
       },
     ],
     []
@@ -158,7 +159,7 @@ export default function ListOrshbs() {
   };
 
   const goLinkOrderPage = () => {
-    router.push("/contact-list/");
+    router.push("/order-reg/");
   };
 
   const onSubmit = (data: any) => {
