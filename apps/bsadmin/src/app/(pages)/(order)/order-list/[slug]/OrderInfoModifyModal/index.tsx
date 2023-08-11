@@ -34,13 +34,14 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
 import SingleDatePicker from "./DatePicker";
 import { useParams } from "next/navigation";
 import fetcher from "../../../../../func/fetcher";
 import dynamic from "next/dynamic";
+import dayjs from "dayjs";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -93,13 +94,14 @@ ModalContainerProps) => {
       suspense: true,
     }
   );
+  const { mutate } = useSWRConfig();
 
   const handleClose = () => {
     onClose();
     setIsLoading(false);
   };
 
-  console.log("Init Date!!@@@@ ==>> ", typeof data.data.check16sAt);
+  console.log("Init Date!!@@@@ ==>> ", data.data.check16sAt);
 
   const defaultValues = {
     check16sAt: new Date(data.data.check16sAt),
@@ -118,10 +120,13 @@ ModalContainerProps) => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("오더 정보 변경 Body Data ==>>", data);
-    console.log("check16At", typeof new Date(data.check16sAt));
+    console.log("check16At", data.check16sAt);
+
+    const newDateValue = dayjs(data.check16sAt).format("YYYY-MM-DD");
+    console.log("NEW check16At", newDateValue);
 
     const body = {
-      check16sAt: new Date(data.check16sAt),
+      check16sAt: newDateValue,
       isFastTrack: data.isFastTrack,
       mailRcpnList: data.mailRcpnList,
       reqReturnCompList: data.reqReturnCompList,
@@ -141,7 +146,12 @@ ModalContainerProps) => {
       )
       .then((res) => {
         console.log(res.data);
-        res.data.success && setIsLoading(false);
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
+        mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/detail/${orderUkey}`);
+        mutate(
+          `${process.env.NEXT_PUBLIC_API_URL}/order/analysis/${orderUkey}`
+        );
+        res.data.success && handleClose();
       })
       .catch((error) => {
         // console.log("오더 정보 변경Error", error.message);
@@ -149,7 +159,6 @@ ModalContainerProps) => {
       });
     // .finally(() => {
     //   console.log("Finally~~~~");
-    //   setIsLoading(false);
     // });
   };
 
@@ -305,11 +314,6 @@ ModalContainerProps) => {
         >
           저장
         </LoadingButton>
-        {/*<ContainedButton*/}
-        {/*  type="submit"*/}
-        {/*  form="orderInfoModifyForm"*/}
-        {/*  buttonName="저장"*/}
-        {/*/>*/}
       </ModalAction>
     </ModalContainer>
   );

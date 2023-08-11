@@ -25,7 +25,7 @@ const OrderShortInfo = () => {
     }
   );
 
-  console.log("OrderShortInfo Value ==>>", data.data);
+  // console.log("OrderShortInfo Value ==>>", data.data);
 
   const {
     orderId,
