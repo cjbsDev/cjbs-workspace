@@ -44,6 +44,8 @@ import {
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 interface FormData {
   esPrMngUkey?: string;
@@ -96,7 +98,7 @@ export default function AgncPIModifyPage() {
   } = methods;
 
   // [ 수정 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
     //console.log("selectedMembers", selectedMembers);
 
@@ -111,17 +113,19 @@ export default function AgncPIModifyPage() {
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng/${uKey}`; // Replace with your API URL
 
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          router.push("/es-pr-list/" + uKey);
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/es-pr-list/" + uKey);
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   return (

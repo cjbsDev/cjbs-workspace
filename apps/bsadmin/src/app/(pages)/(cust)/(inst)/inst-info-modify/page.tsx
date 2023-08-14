@@ -30,6 +30,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 import axios from "axios";
 
@@ -116,7 +118,7 @@ export default function InstModifyPage() {
 
   // Common
   // [ 수정 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     let saveObj = {
       addr: data.addr ?? "",
       addrDetail: data.addrDetail ?? "",
@@ -137,18 +139,20 @@ export default function InstModifyPage() {
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst`; // Replace with your API URL
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("수정 successful:", response.data);
-        if (response.data.success) {
-          router.push("/inst-info-list");
-        } else {
-        }
-      })
-      .catch((error) => {
-        console.error("수정 failed:", error);
-      });
+
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/inst-info-list");
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   return (

@@ -23,6 +23,7 @@ import { useForm, FormProvider } from "react-hook-form";
 import useSWR from "swr";
 import fetcher from "../../../func/fetcher";
 import axios from "axios";
+import { PUT } from "api";
 import { toast } from "react-toastify";
 
 export default function ListContact() {
@@ -149,13 +150,13 @@ export default function ListContact() {
     router.push("/contact-list/" + path);
   };
 
-  const setUserStatus = () => {
+  const setUserStatus = async () => {
     console.log("상태 일괄 변경");
 
     let selectedUserStatus = getValues("userStatus");
-    console.log("선택 userStatus", selectedUserStatus);
-    console.log("선택 ROW", selectedOption);
-    console.log("선택 ROW CNT", selectedRowCnt);
+    // console.log("선택 userStatus", selectedUserStatus);
+    // console.log("선택 ROW", selectedOption);
+    // console.log("선택 ROW CNT", selectedRowCnt);
 
     // validation
     if (selectedRowCnt == 0) {
@@ -176,19 +177,20 @@ export default function ListContact() {
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/status`; // Replace with your API URL
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("상태 변경 successful:", response.data);
-        if (response.data.success) {
-          // 체크 해제 로직필요.
-          console.log("체크 해제 로직");
-          handleClearRows();
-        }
-      })
-      .catch((error) => {
-        console.error("상태 변경 failed:", error);
-      });
+
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        handleClearRows();
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   const setUserAuth = () => {

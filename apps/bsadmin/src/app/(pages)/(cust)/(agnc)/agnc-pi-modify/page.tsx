@@ -45,6 +45,8 @@ import {
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 const LazyAgncModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
@@ -172,15 +174,9 @@ export default function AgncPIModifyPage() {
   };
 
   // [ 수정 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("in onSubmit");
     //console.log("selectedMembers", selectedMembers);
-
-    /*
-    let saveMemberList = selectedMembers.map(({ custUkey }) => ({
-      custUkey,
-    }));
-*/
 
     const saveMemberList = selectedMembers
       .filter((member) => member.custUkey !== data.custUkey)
@@ -208,18 +204,19 @@ export default function AgncPIModifyPage() {
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
 
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          //router.push("/cust-list/" + slug);
-          router.push("/agnc-pi-list/" + uKey);
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/agnc-pi-list/" + uKey);
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   return (

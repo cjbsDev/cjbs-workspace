@@ -20,8 +20,9 @@ import {
   TableContainer,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
-
 import axios from "axios";
+import { PUT, POST } from "api";
+import { toast } from "react-toastify";
 
 interface DataItem {
   detailUniqueCode: string;
@@ -56,7 +57,7 @@ const MCItemModifyModal = ({
   //console.log("yes selectItem", selectItem);
 
   // [ 추가 & 수정 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
 
     const saveObj: DataItem = {
@@ -75,44 +76,41 @@ const MCItemModifyModal = ({
 
     let apiUrl = "";
     if (selectItem.detailUniqueCode) {
-      console.log("수정");
       apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
 
-      axios
-        .put(apiUrl, saveObj)
-        .then((response) => {
-          console.log("수정", response.data);
-          if (response.data.success) {
-            onClose(); // 모달 닫기
-            renderList();
-          } else {
-            console.log("act");
-            console.log("코드 수정 오류 1 ", response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("코드 수정 오류 2", error);
-        });
+      try {
+        const response = await PUT(apiUrl, saveObj); // API 요청
+        if (response.success) {
+          onClose(); // 모달 닫기
+          renderList();
+        } else if (response.code == "INVALID_AUTHORITY") {
+          toast("권한이 없습니다.");
+        } else {
+          toast("코드 수정 오류. 01");
+        }
+      } catch (error) {
+        console.error("request failed:", error);
+        toast("문제가 발생했습니다. 02");
+      }
     } else {
-      console.log("추가");
+      console.log("추가 -01");
       apiUrl =
         `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
 
-      axios
-        .post(apiUrl, saveObj)
-        .then((response) => {
-          console.log("추가", response.data);
-          if (response.data.success) {
-            onClose(); // 모달 닫기
-            renderList();
-          } else {
-            console.log("act");
-            console.log("코드 추가 오류 1 ", response.data.message);
-          }
-        })
-        .catch((error) => {
-          console.error("코드 추가 오류 2", error);
-        });
+      try {
+        const response = await POST(apiUrl, saveObj); // API 요청
+        if (response.success) {
+          onClose(); // 모달 닫기
+          renderList();
+        } else if (response.code == "INVALID_AUTHORITY") {
+          toast("권한이 없습니다.");
+        } else {
+          toast("코드 수정 오류. 01");
+        }
+      } catch (error) {
+        console.error("request failed:", error);
+        toast("문제가 발생했습니다. 02");
+      }
     }
   };
 

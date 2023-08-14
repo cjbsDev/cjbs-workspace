@@ -8,7 +8,6 @@ import {
   TD,
   Title1,
   Form,
-  Checkbox,
 } from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import {
@@ -24,6 +23,8 @@ import axios from "axios";
 import useSWR from "swr";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const LazyCheckboxList = dynamic(
@@ -62,7 +63,7 @@ export default function SvcTypePage({ params }: ViewProps) {
     return <SkeletonLoading />;
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
       btmCodeMcList: selectCodeList,
@@ -73,17 +74,19 @@ export default function SvcTypePage({ params }: ViewProps) {
     // console.log("modify stringify", JSON.stringify(saveObj));
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
 
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          router.push("/svc-type-list/");
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/svc-type-list/");
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   const codeData = codeDataTemp.data;
