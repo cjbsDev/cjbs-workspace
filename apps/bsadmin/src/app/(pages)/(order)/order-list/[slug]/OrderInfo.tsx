@@ -20,10 +20,12 @@ import {
   Grid,
   IconButton,
   Stack,
+  Tab,
   Table,
   TableBody,
   TableContainer,
   TableRow,
+  Tabs,
   Typography,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -34,16 +36,22 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import MyIcon from "icon/myIcon";
 import dynamic from "next/dynamic";
+import TabBox from "./TabBox";
+import CustomTabPanel from "./CustomTabPanel";
 
+// 오더 요약 정보 영역
 const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo/index"), {
   ssr: false,
   loading: () => <SkeletonLoading height={176} />,
 });
 
+// 오더탭
 const LazyOrderTab = dynamic(() => import("./(OrderTab)/OrderTab"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });
+
+// 오더 정보 변경 모달
 const LazyOrderInfoModifyModal = dynamic(
   () => import("./OrderInfoModifyModal"),
   {
@@ -56,21 +64,32 @@ export default function OrderInfo() {
   // [오더 정보 변경] 모달
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
+  const [tabValue, setTabValue] = React.useState(0);
+
+  const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    setTabValue(newValue);
+  };
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box sx={{ mb: 4 }}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h4">오더 정보</Typography>
-          <ContainedButton
-            buttonName="오더 정보 변경"
-            onClick={() => setShowOrderInfoModifyModal(true)}
-            endIcon={<MyIcon icon="cheveron-right" size={18} />}
-          />
-        </Stack>
+      <Box sx={{ mb: 1 }}>
+        <Grid container gap={1.5} alignItems="center">
+          <Grid item>
+            <Typography variant="h4">오더 정보</Typography>
+          </Grid>
+          <Grid item>
+            <OutlinedButton
+              size="small"
+              buttonName="오더 정보 변경"
+              color="secondary"
+              onClick={() => setShowOrderInfoModifyModal(true)}
+              endIcon={<MyIcon icon="cheveron-right" size={18} />}
+            />
+          </Grid>
+        </Grid>
       </Box>
       <Box sx={{ mb: 5 }}>
         <ErrorContainer FallbackComponent={Fallback}>
@@ -78,14 +97,25 @@ export default function OrderInfo() {
         </ErrorContainer>
       </Box>
 
-      <Box sx={{ mb: 5 }}>
+      {/* Tabs */}
+      <TabBox tabValue={tabValue} handleTabChange={handleTabChange} />
+      <CustomTabPanel value={tabValue} index={0}>
         {/* 오더 */}
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyOrderTab />
         </ErrorContainer>
-      </Box>
+      </CustomTabPanel>
+      <CustomTabPanel value={tabValue} index={1}>
+        Sample
+      </CustomTabPanel>
+      <CustomTabPanel value={tabValue} index={2}>
+        File
+      </CustomTabPanel>
+      <CustomTabPanel value={tabValue} index={3}>
+        Coment
+      </CustomTabPanel>
 
-      {/* 오더 정보 변경 */}
+      {/* 오더 정보 변경 Modal */}
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyOrderInfoModifyModal
           onClose={orderInfoModifyModalClose}
