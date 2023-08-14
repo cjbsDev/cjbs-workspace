@@ -34,6 +34,9 @@ const OrderTab = () => {
       suspense: true,
     }
   );
+
+  console.log("주문 정보", data.data.orderInfo);
+
   // [거래처(PI)] 모달
   const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
   // [연구책임자] 모달

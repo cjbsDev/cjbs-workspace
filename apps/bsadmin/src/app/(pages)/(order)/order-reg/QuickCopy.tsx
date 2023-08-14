@@ -1,13 +1,7 @@
 "use client";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  Checkbox,
-  ContainedButton,
-  LinkButton,
-  OutlinedButton,
-} from "cjbsDSTM";
-import ToggleButton from "@mui/material/ToggleButton";
+import { ContainedButton, LinkButton, OutlinedButton } from "cjbsDSTM";
 import MyIcon from "icon/myIcon";
 
 export default function QuickCopy() {
@@ -16,35 +10,36 @@ export default function QuickCopy() {
   const { setValue, getValues, watch, clearErrors, control } = methods;
   const values = getValues(["custNm", "ebcEmail", "telList"]);
 
-  const watcher = watch("quickCopyChck");
-  console.log("Checkbox Watch", watcher);
+  // const watcher = watch("quickCopyChck");
+  // console.log("Checkbox Watch", watcher);
 
-  console.log(values);
+  // console.log(values);
 
   const quickCopyValue = () => {
-    setValue("ordrRcpnNm", values[0]);
-    setValue("ordrRcpnEmail", values[1]);
-    setValue("ordrRcpnTel", values[2]);
+    setValue("ordrAplcNm", values[0]);
+    setValue("ordrAplcEmail", values[1]);
+    setValue("ordrAplcTel", values[2]);
   };
 
   const quickCopyValueClearErr = () => {
     // setChecked(!checked);
     quickCopyValue();
-    values[0] !== null && clearErrors("ordrRcpnNm");
-    values[1] !== null && clearErrors("ordrRcpnEmail");
-    values[2] !== null && clearErrors("ordrRcpnTel");
+    values[0] !== null && clearErrors("ordrAplcNm");
+    values[1] !== null && clearErrors("ordrAplcEmail");
+    values[2] !== null && clearErrors("ordrAplcTel");
   };
 
   return (
     <>
-      <LinkButton
+      <OutlinedButton
         buttonName="연구책임자 정보와 동일"
         size="small"
         onClick={quickCopyValueClearErr}
-        startIcon={<MyIcon icon={"files"} size={20} />}
-        sx={{
-          color: "black",
-        }}
+        color="primary"
+        endIcon={<MyIcon icon={"cheveron-right"} size={20} />}
+        // sx={{
+        //   color: "black",
+        // }}
       />
     </>
   );

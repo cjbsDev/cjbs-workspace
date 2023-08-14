@@ -267,12 +267,26 @@ const ListOrder = () => {
     };
 
     const ex = async (exportUrl: string) => {
-      await axios.post(exportUrl).then((res) => {
-        const resData = res.data;
-        console.log("Excel Data ==>>", encodeURI(resData));
-        const resultData = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,${resData}`;
-        FileSaver.saveAs(resultData, "testExcel.xlsx");
-      });
+      await axios
+        .post(exportUrl, {
+          responseType: "blob",
+          headers: {
+            "Content-Type":
+              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
+          },
+        })
+        .then((res) => {
+          const resData = res.data;
+          console.log("Excel Data ==>>", resData);
+          // const resultData = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,${resData}`;
+
+          // new File([resData], "hello world.xlsx", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"});
+          const blob = new Blob([resData], {
+            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
+          });
+
+          FileSaver.saveAs(blob, "hello world.xlsx");
+        });
     };
 
     return (

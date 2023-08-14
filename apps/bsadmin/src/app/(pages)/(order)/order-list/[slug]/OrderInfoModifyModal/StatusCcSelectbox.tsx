@@ -15,6 +15,11 @@ export default function StatusCcSelectbox() {
   console.log(data.data);
 
   return (
-    <SelectBox required={true} inputName="orderStatusCc" options={data.data} />
+    <SelectBox
+      required={true}
+      errorMessage="진행사황을 선택헤 주세요."
+      inputName="orderStatusCc"
+      options={data.data}
+    />
   );
 }
