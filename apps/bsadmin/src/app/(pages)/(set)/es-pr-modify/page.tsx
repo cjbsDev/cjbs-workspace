@@ -134,7 +134,7 @@ export default function AgncPIModifyPage() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <Box sx={{ mb: 4 }}>
-            <Title1 titleName="거래처(PI) 수정" />
+            <Title1 titleName="견적 품명 수정" />
           </Box>
 
           <Typography variant="subtitle1" sx={{ mt: 5 }}>
@@ -154,7 +154,6 @@ export default function AgncPIModifyPage() {
                   <TD sx={{ width: "85%" }}>
                     <InputValidation
                       inputName="prNm"
-                      disabled={true}
                       required={true}
                       sx={{ width: 600 }}
                     />

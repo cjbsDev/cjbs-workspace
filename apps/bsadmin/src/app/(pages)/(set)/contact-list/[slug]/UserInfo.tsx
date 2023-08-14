@@ -65,6 +65,8 @@ const UserInfo: React.FC<UserInfoProps> = ({ slug }) => {
                 {userDetail.tel ?? "-"}
               </TD>
 
+              {/* 아이디 email, 이름 nm, 영문 이니셜 nmEnInit, 연락처 tel, 부서 departVal, 가입일 singupAt, 최근 접속일 lastLoginAt, 권한 authVal, 상태 statusVal*/}
+
               <TH sx={{ width: "15%" }}>부서</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {userDetail.departVal ?? "-"}

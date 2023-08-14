@@ -52,7 +52,6 @@ export default function UserPage({ params }: UserViewProps) {
           buttonName="목록"
           onClick={() => router.push("/contact-list")}
         />
-        {/* 
         <Link
           href={{
             pathname: "/contact-modify/",
@@ -61,7 +60,6 @@ export default function UserPage({ params }: UserViewProps) {
         >
           <ContainedButton buttonName="수정" />
         </Link>
-        */}
       </Stack>
     </Container>
   );
