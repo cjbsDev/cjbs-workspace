@@ -12,7 +12,7 @@ type InputValidationProps = TextFieldProps & {
   pattern?: ValidationRule<RegExp> | undefined;
   maxLength?: number;
   minLength?: number;
-  errorMessage?: string;
+  errorMessage?: string | null;
   patternErrMsg?: string;
   maxLengthErrMsg?: string;
   minLengthErrMsg?: string;

@@ -36,6 +36,12 @@ import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import SixteenCheck from "./SixteenCheck";
+import axios from "axios";
+import {
+  emailReceiveSettingData,
+  reqReturnListData,
+} from "../../../data/inputDataLists";
+import { useState } from "react";
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
@@ -100,17 +106,13 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
   }
 );
 
-const reqReturnListData = [
-  { value: "dnaReturnReq", optionName: "DNA 반송 요청" },
-  { value: "sampleReturnReq", optionName: "샘플 반송 요청" },
-];
-
 export default function Page() {
   const router = useRouter();
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] =
     React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const defaultValues = {
     srvcTypeMc: "BS_0100007004",
     anlsTypeMc: "BS_0100006004",
@@ -118,12 +120,18 @@ export default function Page() {
     taxonBCnt: 0,
     taxonECnt: 0,
     taxonACnt: 0,
+    mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
   };
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
-    const typeNumberPrice = Number(data.price);
+
+    if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
+      setAddEmailChck(true);
+    }
+
+    const typeNumberPrice = Number(data.price.replace(",", ""));
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
@@ -152,18 +160,18 @@ export default function Page() {
 
     console.log("Body Data ==>>", bodyData);
 
-    // await axios
-    //   .post(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response.data);
-    //     if (response.data.success) {
-    //       router.push("/order/order-list");
-    //       setIsLoading(false);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //   });
+    await axios
+      .post(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response.data);
+        if (response.data.success) {
+          setIsLoading(false);
+          router.push("/order-list");
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+      });
   };
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -275,7 +283,13 @@ export default function Page() {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        spacing={0.5}
+        sx={{ mb: 1 }}
+      >
         <Typography variant="subtitle1">신청인 정보</Typography>
         <LazyQuickCopy />
       </Stack>
@@ -334,27 +348,22 @@ export default function Page() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>메일 수신 설정[선택]</TH>
+              <TH sx={{ width: "15%" }}>메일 수신 설정</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                <Stack direction="row">
-                  <CheckboxSV
+                <Stack direction="row" alignItems="center">
+                  <CheckboxGV
+                    data={emailReceiveSettingData}
                     inputName="mailRcpnList"
-                    labelText="연구책임자"
-                    value="agncLeaderRcpn"
-                  />
-                  <CheckboxSV
-                    inputName="mailRcpnList"
-                    labelText="신청인"
-                    value="ordrAplcRcpn"
-                  />
-                  <CheckboxSV
-                    inputName="mailRcpnList"
-                    labelText="추가(직접입력)"
-                    value="etcRcpn"
+                    required={true}
+                    errorMessage="메일 수신 설정을 선택해 주세요."
                   />
                   <InputValidation
+                    required={addEmailChck}
+                    errorMessage={
+                      addEmailChck ? "이메일을 입력해 주세요." : null
+                    }
                     inputName="addEmailList"
-                    placeholder="여러개 입력시','로 구분하세요."
+                    placeholder="example@gmail.com, example2@gmail.com"
                     sx={{ width: 450 }}
                   />
                 </Stack>
@@ -503,7 +512,7 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>반송 요청[선택]</TH>
+              <TH sx={{ width: "15%" }}>반송 요청</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <CheckboxGV
                   data={reqReturnListData}

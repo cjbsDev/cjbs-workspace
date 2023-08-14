@@ -1,9 +1,5 @@
 import React, { useState, useMemo } from "react";
 import {
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  ExcelDownloadButton,
   ModalContainer,
   ModalTitle,
   ModalAction,
@@ -16,7 +12,6 @@ import {
   CheckboxGV,
   ErrorContainer,
   Fallback,
-  ContainedButton,
 } from "cjbsDSTM";
 import {
   Box,
@@ -33,15 +28,14 @@ import {
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR, { useSWRConfig } from "swr";
-import axios from "axios";
-import { useFormContext } from "react-hook-form";
 import SingleDatePicker from "./DatePicker";
 import { useParams } from "next/navigation";
 import fetcher from "../../../../../func/fetcher";
 import dynamic from "next/dynamic";
 import dayjs from "dayjs";
+import { emailReceiveSettingData } from "../../../../../data/inputDataLists";
+import axios from "axios";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -84,7 +78,10 @@ const OrderInfoModifyModal = ({
   modalWidth,
 }: // data,
 ModalContainerProps) => {
+  // const methods = useFormContext();
+  // const { setValue, getValues, watch, clearErrors, control } = methods;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(
@@ -101,10 +98,10 @@ ModalContainerProps) => {
     setIsLoading(false);
   };
 
-  console.log("Init Date!!@@@@ ==>> ", data.data.check16sAt);
+  // console.log("Init Data!!@@@@ ==>> ", data.data);
 
   const defaultValues = {
-    check16sAt: new Date(data.data.check16sAt),
+    check16sAt: data.data.check16sAt,
     isFastTrack: data.data.isFastTrack,
     mailRcpnList: data.data.mailRcpnList,
     reqReturnCompList: data.data.reqReturnCompList,
@@ -119,8 +116,13 @@ ModalContainerProps) => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log("오더 정보 변경 Body Data ==>>", data);
-    console.log("check16At", data.check16sAt);
+    // console.log("오더 정보 변경 Body Data ==>>", data.mailRcpnList);
+    // console.log("추가(직접입력) 선택", data.mailRcpnList.includes("etcRcpn"));
+    // console.log("추가 이메일 입력 값", data.addEmailList);
+
+    if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
+      setAddEmailChck(true);
+    }
 
     const newDateValue = dayjs(data.check16sAt).format("YYYY-MM-DD");
     console.log("NEW check16At", newDateValue);
@@ -157,9 +159,6 @@ ModalContainerProps) => {
         // console.log("오더 정보 변경Error", error.message);
         console.log("오더 정보 변경Error", error.response.data.data);
       });
-    // .finally(() => {
-    //   console.log("Finally~~~~");
-    // });
   };
 
   return (
@@ -175,9 +174,7 @@ ModalContainerProps) => {
             <Table>
               <TableBody>
                 <TableRow>
-                  <TH sx={{ width: "35%" }}>
-                    진행상황<NotRequired>[선택]</NotRequired>
-                  </TH>
+                  <TH sx={{ width: "35%" }}>진행상황</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyStatusCcSelctbox />
@@ -185,31 +182,22 @@ ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "35%" }}>
-                    메일 수신 설정<NotRequired>[선택]</NotRequired>
-                  </TH>
+                  <TH sx={{ width: "35%" }}>메일 수신 설정</TH>
                   <TD>
                     <Stack spacing={1}>
-                      <Stack direction="row">
-                        <CheckboxSV
-                          inputName="mailRcpnList"
-                          labelText="연구책임자"
-                          value="agncLeaderRcpn"
-                        />
-                        <CheckboxSV
-                          inputName="mailRcpnList"
-                          labelText="신청인"
-                          value="ordrAplcRcpn"
-                        />
-                        <CheckboxSV
-                          inputName="mailRcpnList"
-                          labelText="추가(직접입력)"
-                          value="etcRcpn"
-                        />
-                      </Stack>
+                      <CheckboxGV
+                        data={emailReceiveSettingData}
+                        inputName="mailRcpnList"
+                        required={true}
+                        errorMessage="메일 수신 설정을 선택해 주세요."
+                      />
                       <InputValidation
+                        required={addEmailChck}
+                        errorMessage={
+                          addEmailChck ? "이메일을 입력해 주세요." : null
+                        }
                         inputName="addEmailList"
-                        placeholder="여러개 입력시','로 구분하세요."
+                        placeholder="example@gmail.com, example2@gmail.com"
                       />
                     </Stack>
                   </TD>
@@ -278,9 +266,7 @@ ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "35%" }}>
-                    오더 타입<NotRequired>[선택]</NotRequired>
-                  </TH>
+                  <TH sx={{ width: "35%" }}>오더 타입</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyOrderType />
