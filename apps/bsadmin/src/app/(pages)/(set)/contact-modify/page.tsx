@@ -38,6 +38,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
 import useSWR from "swr";
 import fetcher from "../../../func/fetcher";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 interface FormData {
   nmEnInit?: string;
@@ -117,20 +119,9 @@ export default function ContactModifyPage() {
   );
 
   // [ 수정 ]
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
 
-    // /user/{userUkey}
-
-    // {
-    //   "authCc": "BS_0301001",
-    //   "departMc": "BS_0100003001",
-    //   "nmEnInit": "영문이니셜",
-    //   "statusCc": "BS_0302001",
-    //   "tel": "연락처"
-    // }
-
-    ///mngr/esPrMng/{esPrMngUkey}
     let saveObj = {
       authCc: data.authCc,
       departMc: data.departMc,
@@ -138,22 +129,20 @@ export default function ContactModifyPage() {
       statusCc: data.statusCc,
       tel: data.tel,
     };
-    console.log("==modify", saveObj);
-    console.log("modify stringify", JSON.stringify(saveObj));
-
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/${uKey}`; // Replace with your API URL
-    console.log("apiUrl", apiUrl);
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          router.push("/contact-list/" + uKey);
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/contact-list/" + uKey);
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   return (
@@ -289,7 +278,7 @@ export default function ContactModifyPage() {
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton
               buttonName="목록"
-              onClick={() => router.push("/agnc-pi-list")}
+              onClick={() => router.push("/contact-list")}
             />
             <ContainedButton buttonName="수정" type="submit" />
           </Stack>

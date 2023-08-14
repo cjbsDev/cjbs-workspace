@@ -21,13 +21,14 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import axios from "axios";
 import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 const LazyCustEBCInfo = dynamic(() => import("../../CustEBCInfo"), {
   ssr: false,
@@ -71,7 +72,6 @@ export default function CustModifyPage({ params }: ParamsProps) {
       );
       const getData = await res.json();
       const data = getData.data;
-      console.log("modity data", data);
 
       return {
         custNm: data.custNm,
@@ -92,7 +92,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
     handleSubmit,
   } = methods;
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("onSubmit data", data);
     let telList = [];
     if (data.tel_0) {
@@ -118,17 +118,19 @@ export default function CustModifyPage({ params }: ParamsProps) {
     console.log("==saveObj", saveObj);
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`; // Replace with your API URL
 
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          router.push("/cust-list/" + slug);
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        router.push("/cust-list/" + slug);
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   return (

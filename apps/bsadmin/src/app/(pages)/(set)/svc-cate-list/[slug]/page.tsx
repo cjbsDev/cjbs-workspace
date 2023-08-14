@@ -28,6 +28,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import useSWR from "swr";
+import { PUT } from "api";
 import { toast } from "react-toastify";
 
 import SkeletonLoading from "../../../../components/SkeletonLoading";
@@ -74,7 +75,7 @@ export default function SvcCatePage({ params }: ViewProps) {
     return <SkeletonLoading />;
   }
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any) => {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
@@ -87,21 +88,20 @@ export default function SvcCatePage({ params }: ViewProps) {
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
 
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
-          toast("수정 되었습니다.");
-          router.push("/svc-cate-list/");
-        } else {
-          toast(response.data.message ?? "에러 발생");
-        }
-      })
-      .catch((error) => {
-        console.error("request failed:", error);
-        toast("에러 발생");
-      });
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        toast("수정 되었습니다.");
+        router.push("/svc-cate-list/");
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   const codeData = codeDataTemp.data;
