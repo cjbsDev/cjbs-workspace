@@ -1,10 +1,10 @@
 "use client";
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Container, Stack, Typography, Tabs, Tab, TabProps, styled, Button} from "@mui/material";
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import MyIcon from "icon/myIcon";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
-import {cjbsTheme} from "cjbsDSTM";
+import {AlertModal, cjbsTheme} from "cjbsDSTM";
 import MtpFullService from "./mtp/MtpFullService";
 import MtpAnalysis from "./mtp/MtpAnalysis";
 import MtpSequencing from "./mtp/MtpSequencing";
@@ -53,9 +53,24 @@ interface StyledTabProps extends TabProps{
 }
 
 const Page = () => {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = useState(0);
+    const [tempValue, setTempValue] = useState(0);
+    const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-        setValue(newValue);
+        handleAlertOpen();
+        setTempValue(newValue);
+    };
+
+    const handleAlertOpen = () => {
+        setAlertModalOpen(true);
+    };
+    const handleAlertClose = () => {
+        setAlertModalOpen(false);
+    };
+
+    const handleServiceTypeChange = () => {
+        setValue(tempValue);
+        handleAlertClose();
     };
 
     return (
@@ -191,6 +206,17 @@ const Page = () => {
                     <MtpSequencing />
                 ) : ('')}
             </Box>
+
+            <AlertModal
+                alertBtnName="확인"
+                alertMainFunc={handleServiceTypeChange}
+                onClose={handleAlertClose}
+                open={alertModalOpen}
+                mainMessage={
+                    "서비스 타입를 변경하면 작성 중인 내용이 저장되지 않습니다.\n"
+                }
+                subMessage={"그래도 이동하시겠습니까?"}
+            />
         </Container>
     );
 };
