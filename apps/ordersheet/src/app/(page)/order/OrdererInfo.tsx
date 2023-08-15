@@ -19,13 +19,16 @@ import {
     TH,
     Title1,
 } from "cjbsDSTM";
-import * as React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
+import useSWR from "swr";
+import {fetcherOrsh} from "api";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
+
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/ordersheet/cust/info`;
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
@@ -41,10 +44,15 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 
 export default function Page() {
     const router = useRouter();
-    // [고객 검색] 모달
-    const [custSearchModalOpen, setCustSearchModalOpen] =
-        React.useState<boolean>(false);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+
+    const { data: custTemp } = useSWR(
+        `/cust/info`,
+        fetcherOrsh,
+        { suspense: true }
+    );
+    const custData = custTemp.data;
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const defaultValues = {
         srvcTypeMc: "BS_0100007004",
         anlsTypeMc: "BS_0100006004",
@@ -87,9 +95,7 @@ export default function Page() {
         console.log("Body Data ==>>", bodyData);
     };
     // [ 고객 검색 ] 모달 오픈
-    const handleCustSearchModalOpen = () => {
-        setCustSearchModalOpen(true);
-    };
+
 
     return (
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -103,32 +109,19 @@ export default function Page() {
                             <TH sx={{ width: "15%" }}>Ezbiocloud 계정</TH>
                             <TD sx={{ width: "85%" }} colSpan={3}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                                    {/*<InputValidation*/}
-                                    {/*    inputName="ebcEmail"*/}
-                                    {/*    required={true}*/}
-                                    {/*    errorMessage="아이디(이메일) 입력해 주세요."*/}
-                                    {/*    sx={{ width: 600 }}*/}
-                                    {/*    InputProps={{*/}
-                                    {/*        readOnly: true,*/}
-                                    {/*    }}*/}
-                                    {/*/>*/}
-
-                                    {/*<InputValidation*/}
-                                    {/*    sx={{ display: "none" }}*/}
-                                    {/*    inputName="custUkey"*/}
-                                    {/*    required={true}*/}
-                                    {/*    // errorMessage="키값 입력하세요."*/}
-                                    {/*    InputProps={{*/}
-                                    {/*        readOnly: true,*/}
-                                    {/*        hidden: true,*/}
-                                    {/*    }}*/}
-                                    {/*/>*/}
-
-                                    {/*<OutlinedButton*/}
-                                    {/*    size="small"*/}
-                                    {/*    buttonName="아이디 검색"*/}
-                                    {/*    onClick={handleCustSearchModalOpen}*/}
-                                    {/*/>*/}
+                                    <Typography variant="body2" sx={{}}>
+                                        {custData.custAgnc.ebcEmail ?? ""}
+                                        &nbsp;<Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>
+                                    </Typography>
+                                    <InputValidation
+                                        sx={{ display: "none" }}
+                                        inputName="ebcEmail"
+                                        required={true}
+                                        InputProps={{
+                                            readOnly: true,
+                                            hidden: true,
+                                        }}
+                                    />
                                 </Stack>
                             </TD>
                         </TableRow>
@@ -137,13 +130,15 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="rhpiNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="연구책임자 이름을 입력해 주세요."
+                                        placeholder="연구책임자 이름을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
                                         }}
+                                        value={custData.custAgnc.rhpiNm ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -151,13 +146,14 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
-                                        required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        inputName="rhpiTel"
+                                        required={false}
+                                        // errorMessage="이름을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
                                         }}
+                                        value={custData.custAgnc.rhpiTel ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -167,13 +163,15 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="instNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="기관명을 입력해 주세요."
+                                        placeholder="기관명을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
                                         }}
+                                        value={custData.custAgnc.instNm ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -181,13 +179,15 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="agncNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="연구 부서를 입력해 주세요."
+                                        placeholder="연구 부서를 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
                                         }}
+                                        value={custData.custAgnc.agncNm ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -210,7 +210,8 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="신청인 이름을 입력해 주세요."
+                                        placeholder="신청인 이름을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -224,7 +225,8 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="이메일을 입력해 주세요."
+                                        placeholder="이메일을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -240,7 +242,8 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="연락처를 입력해 주세요."
+                                        placeholder="연락처를 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -266,8 +269,9 @@ export default function Page() {
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
                                             disabled={true}
-                                            inputName="zip"
+                                            inputName="agncZip"
                                             placeholder="우편번호"
+                                            value={custData.custAgnc.agncZip ?? ""}
                                         />
                                         <PostCodeBtn />
                                         <OutlinedButton
@@ -280,17 +284,19 @@ export default function Page() {
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
                                             disabled={true}
-                                            inputName="addr"
+                                            inputName="agncAddr"
                                             sx={{ width: 600 }}
+                                            value={custData.custAgnc.agncAddr ?? ""}
                                         />
                                     </Stack>
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
-                                            inputName="addrDetail"
+                                            inputName="agncAddrDetail"
                                             maxLength={50}
                                             maxLengthErrMsg="50자 이내로 입력해주세요."
                                             placeholder="상세주소"
                                             sx={{ width: 600 }}
+                                            value={custData.custAgnc.agncAddrDetail ?? ""}
                                         />
                                     </Stack>
                                 </Stack>
@@ -338,10 +344,10 @@ export default function Page() {
             </TableContainer>
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                <OutlinedButton
-                    buttonName="이전"
-                    // onClick={() => router.push("/order/order-list")}
-                />
+                {/*<OutlinedButton*/}
+                {/*    buttonName="이전"*/}
+                {/*    onClick={() => router.push("/order/order-list")}*/}
+                {/*/>*/}
 
                 <ContainedButton
                     type="submit"

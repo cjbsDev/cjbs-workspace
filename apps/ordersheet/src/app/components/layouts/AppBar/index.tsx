@@ -89,20 +89,22 @@ const Header = ({}) => {
                                         </Typography>
                                     </Link>
                                 </MenuItem>
-                                <MenuItem onClick={popupState.close}>
-                                    <Link href="/signout" underline="none">
-                                        <Typography textAlign="center" variant="body2">
-                                            로그아웃
-                                        </Typography>
-                                    </Link>
-                                </MenuItem>
+                                {/*<MenuItem onClick={popupState.close}>*/}
+                                {/*    <Link href="/signout" underline="none">*/}
+                                {/*        <Typography textAlign="center" variant="body2">*/}
+                                {/*            로그아웃*/}
+                                {/*        </Typography>*/}
+                                {/*    </Link>*/}
+                                {/*</MenuItem>*/}
                                 <MenuItem
                                     onClick={() => {
                                         popupState.close();
                                         signOut();
                                     }}
                                 >
-                                    로그아웃
+                                    <Typography textAlign="center" variant="body2">
+                                        로그아웃
+                                    </Typography>
                                 </MenuItem>
                             </Menu>
                         </Box>

@@ -11,7 +11,8 @@ import {
     TableCell,
     Typography,
     TextField,
-    Fab
+    Fab,
+    Button,
 } from "@mui/material";
 import {
     CheckboxSV, ContainedButton, ErrorContainer, Fallback,
@@ -24,13 +25,16 @@ import {
     Title1,
     UnStyledButton,
 } from "cjbsDSTM";
-import * as React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
 import {cjbsTheme} from "cjbsDSTM";
+import ExcelUploadModal from "@app/(page)/order/ExcelUploadModal";
+
+
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
@@ -110,6 +114,27 @@ export default function Page() {
         setAlignment(newAlignment);
     };
 
+    const [uploadFile, setUploadFile] = React.useState(null);
+
+    const handleFileUpload = (event:any) => {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            setUploadFile(file.name);
+        };
+         reader.readAsDataURL(file);
+    };
+
+    // [오더 정보 변경] 모달
+    const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =  useState<boolean>(false);
+    const orderInfoModifyModalClose = () => {
+        setShowOrderInfoModifyModal(false);
+    };
+
+
+
+    // @ts-ignore
     return (
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
             <Box
@@ -146,75 +171,44 @@ export default function Page() {
             <TableContainer sx={{ mb: 5 }}>
                 <Table>
                     <TableBody>
-                        {/*<TableRow>*/}
-                        {/*    <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
-                        {/*    <TD sx={{ width: "80%" }}>*/}
-                        {/*        <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
-                        {/*            <InputValidation*/}
-                        {/*                inputName="custNm"*/}
-                        {/*                required={true}*/}
-                        {/*                errorMessage="이름을 입력해 주세요."*/}
-                        {/*                sx={{ width: 306 }}*/}
-                        {/*                InputProps={{*/}
-                        {/*                    // readOnly: true,*/}
-                        {/*                }}*/}
-                        {/*            />*/}
-                        {/*        </Stack>*/}
-                        {/*    </TD>*/}
-                        {/*</TableRow>*/}
-                        {/*<TableRow>*/}
-                        {/*    <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
-                        {/*    <TD sx={{ width: "80%" }}>*/}
-                        {/*        <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
-                        {/*            <InputValidation*/}
-                        {/*                inputName="custNm"*/}
-                        {/*                required={true}*/}
-                        {/*                errorMessage="이름을 입력해 주세요."*/}
-                        {/*                sx={{ width: 306 }}*/}
-                        {/*                InputProps={{*/}
-                        {/*                    // readOnly: true,*/}
-                        {/*                }}*/}
-                        {/*            />*/}
-                        {/*        </Stack>*/}
-                        {/*    </TD>*/}
-                        {/*</TableRow>*/}
-                        {/*<TableRow>*/}
-                        {/*    <TH sx={{ width: "20%" }}>Library kit 정보</TH>*/}
-                        {/*    <TD sx={{ width: "80%" }}>*/}
-                        {/*        <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
-                        {/*            <InputValidation*/}
-                        {/*                inputName="custNm"*/}
-                        {/*                required={true}*/}
-                        {/*                errorMessage="이름을 입력해 주세요."*/}
-                        {/*                sx={{ width: 306 }}*/}
-                        {/*                InputProps={{*/}
-                        {/*                    // readOnly: true,*/}
-                        {/*                }}*/}
-                        {/*            />*/}
-                        {/*        </Stack>*/}
-                        {/*    </TD>*/}
-                        {/*</TableRow>*/}
                         <TableRow>
                             <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
                             <TD sx={{ width: "80%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                                    <InputValidation
-                                        inputName="custNm"
-                                        required={true}
-                                        errorMessage="이름을 입력해 주세요."
-                                        sx={{ width: 500 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
-                                        type="file"
-                                    />
-                                    <OutlinedButton
-                                        buttonName="파일 추가"
-                                        color={"secondary"}
-                                        sx={{color: "#000"}}
-                                        size="small"
-                                        // onClick={() => router.push("/order/order-list")}
-                                    />
+                                    {/*<InputValidation*/}
+                                    {/*    inputName="custNm"*/}
+                                    {/*    required={true}*/}
+                                    {/*    errorMessage="이름을 입력해 주세요."*/}
+                                    {/*    sx={{ width: 500 }}*/}
+                                    {/*    InputProps={{*/}
+                                    {/*        // readOnly: true,*/}
+                                    {/*    }}*/}
+                                    {/*    type="file"*/}
+                                    {/*/>*/}
+
+
+                                    <Stack direction="row" alignItems="center" spacing={2}>
+                                        <label htmlFor="upload-image">
+                                            <Button
+                                                variant="outlined"
+                                                color={"secondary"}
+                                                component="span"
+                                                sx={{color: "#000"}}
+                                                size="small"
+                                            >
+                                                파일 추가
+                                            </Button>
+                                            <input
+                                                id="upload-image"
+                                                hidden
+                                                accept="image/*"
+                                                type="file"
+                                                onChange={handleFileUpload}
+                                            />
+                                        </label>
+                                        {uploadFile && <Typography variant="body2">{uploadFile}</Typography>}
+                                    </Stack>
+
                                 </Stack>
                             </TD>
                         </TableRow>
@@ -230,8 +224,10 @@ export default function Page() {
                         buttonName='엑셀 등록'
                         startIcon={<MyIcon icon="xls3" size={18} />}
                         size="small"
+                        onClick={() => setShowOrderInfoModifyModal(true)}
                     />
                 </Stack>
+                <ExcelUploadModal onClose={orderInfoModifyModalClose} open={showOrderInfoModifyModal} modalWidth={600}/>
                 <Stack direction="row" alignItems="center" spacing={0.5}>
                     <TextField
                         id="outlined-required"
@@ -252,71 +248,71 @@ export default function Page() {
                 <Table>
                     <TableHead>
                         <TableRow sx={{backgroundColor: cjbsTheme.palette.grey[100]}}>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="subtitle2">No.</Typography>
                             </TableCell>
-                            <TableCell align="left" sx={{padding:1}}>
-                                <Stack direction="row" alignItems="center" spacing={2}>
+                            <TableCell align="left" sx={{paddingX:2, paddingY:1}}>
+                                <Stack direction="row" alignItems="center" spacing={1}>
                                     <Typography variant="subtitle2">샘플명 </Typography> <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left" sx={{padding:1}}>
-                                <Stack direction="row" alignItems="center" spacing={2}>
+                            <TableCell align="left" sx={{paddingX:2, paddingY:1}}>
+                                <Stack direction="row" alignItems="center" spacing={1}>
                                     <Typography variant="subtitle2">샘플출처 </Typography> <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left" sx={{padding:1}}>
-                                <Stack direction="row" alignItems="center" spacing={2}>
+                            <TableCell align="left" sx={{paddingX:2, paddingY:1}}>
+                                <Stack direction="row" alignItems="center" spacing={1}>
                                     <Typography variant="subtitle2">샘플 상태 </Typography> <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box>
                                 </Stack>
                             </TableCell>
-                            <TableCell align="left" sx={{padding:1}}>
-                                <Stack direction="row" alignItems="center" spacing={2}>
+                            <TableCell align="left" sx={{paddingX:2, paddingY:1}}>
+                                <Stack direction="row" alignItems="center" spacing={1}>
                                     <Typography variant="subtitle2">분석 타겟 유전자 </Typography> <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box>
                                 </Stack>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="subtitle2">자체 DNA QC</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="subtitle2">비고</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                             </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         <TableRow>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>예시</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>CJ01</Typography>
                                 <Typography variant="caption" sx={{color: "#666"}}>(영문, 숫자, -(hyphen)만 입력 가능)</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>토양</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>gDNA</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>Bacteria (16S rRNA V3-V4)</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>농도, 사이즈</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>gDNA</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                             </TableCell>
                         </TableRow>
                         <TableRow>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2">1</Typography>
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <InputValidation
                                     inputName="sampleName1"
                                     required={true}
@@ -324,7 +320,7 @@ export default function Page() {
                                     sx={{ width: 176 }}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <InputValidation
                                     inputName="sampleName1"
                                     required={true}
@@ -332,7 +328,7 @@ export default function Page() {
                                     sx={{ width: 116 }}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <SelectBox
                                     required={true}
                                     errorMessage="값을 선택해 주세요."
@@ -345,7 +341,7 @@ export default function Page() {
                                     sx={{width: '200px'}}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <SelectBox
                                     required={true}
                                     errorMessage="값을 선택해 주세요."
@@ -358,7 +354,7 @@ export default function Page() {
                                     sx={{width: '200px'}}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <InputValidation
                                     inputName="sampleName1"
                                     required={true}
@@ -366,7 +362,7 @@ export default function Page() {
                                     sx={{ width: 117 }}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <InputValidation
                                     inputName="sampleName1"
                                     required={true}
@@ -374,73 +370,7 @@ export default function Page() {
                                     sx={{ width: 117 }}
                                 />
                             </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <MyIcon icon="trash" size={20}/>
-                            </TableCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableCell sx={{padding:1}}>
-                                <Typography variant="body2">2</Typography>
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 176 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 116 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <SelectBox
-                                    required={true}
-                                    errorMessage="값을 선택해 주세요."
-                                    inputName="gender"
-                                    options={[
-                                        { value: "Sample", optionName: "Sample" },
-                                        { value: "gDNA", optionName: "gDNA" },
-                                        { value: "Amplicon", optionName: "Amplicon" },
-                                    ]}
-                                    sx={{width: '200px'}}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <SelectBox
-                                    required={true}
-                                    errorMessage="값을 선택해 주세요."
-                                    inputName="gender"
-                                    options={[
-                                        { value: "Sample", optionName: "Sample" },
-                                        { value: "gDNA", optionName: "gDNA" },
-                                        { value: "Amplicon", optionName: "Amplicon" },
-                                    ]}
-                                    sx={{width: '200px'}}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 117 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 117 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{padding:1}}>
+                            <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <MyIcon icon="trash" size={20}/>
                             </TableCell>
                         </TableRow>
@@ -471,10 +401,10 @@ export default function Page() {
             />
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                <OutlinedButton
-                    buttonName="이전"
-                    // onClick={() => router.push("/order/order-list")}
-                />
+                {/*<OutlinedButton*/}
+                {/*    buttonName="이전"*/}
+                {/*    onClick={() => router.push("/order/order-list")}*/}
+                {/*/>*/}
 
                 <ContainedButton
                     type="submit"

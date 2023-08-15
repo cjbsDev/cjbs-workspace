@@ -9,6 +9,7 @@ import mailImg from '@public/img/icons/mail.png';
 import React from "react";
 import MyIcon from "icon/myIcon";
 
+
 export default function SubLayout({ children }: { children: React.ReactNode }) {
     const router = useRouter();
 

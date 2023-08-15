@@ -48,25 +48,16 @@ const AntTab = styled((props: StyledTabProps) => <Tab disableRipple {...props} /
     }),
 );
 
-interface StyledTabsProps {
-    children?: React.ReactNode;
-    value: number;
-    onChange: (event: React.SyntheticEvent, newValue: number) => void;
-}
-
 interface StyledTabProps extends TabProps{
     label: React.ReactNode;
 }
 
 const Page = () => {
-
     const [value, setValue] = React.useState(0);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
-    // @ts-ignore
-    // @ts-ignore
     return (
         <Container disableGutters={true}>
             <Box

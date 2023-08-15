@@ -10,7 +10,7 @@ import {
     Typography,
     ToggleButton,
     ToggleButtonGroup,
-    styled
+    styled, Link
 } from "@mui/material";
 import {
     CheckboxSV, ContainedButton, ErrorContainer, Fallback,
@@ -48,7 +48,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
         },
     },
 }));
-
 
 
 export default function Page() {
@@ -133,9 +132,9 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="사업자 등록번호를 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        placeholder="- 없이 숫자만 입력해주세요"
+                                        placeholder="- 없이 숫자만 입력해 주세요."
                                         InputProps={{
                                             // readOnly: true,
                                         }}
@@ -149,6 +148,7 @@ export default function Page() {
                                         inputName="custNm"
                                         required={true}
                                         errorMessage="이름을 입력해 주세요."
+                                        placeholder="상호를 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -164,7 +164,8 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="대표자명을 입력해 주세요."
+                                        placeholder="대표자명을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -178,7 +179,8 @@ export default function Page() {
                                     <InputValidation
                                         inputName="custNm"
                                         required={true}
-                                        errorMessage="이름을 입력해 주세요."
+                                        errorMessage="수취 이메일을 입력해 주세요."
+                                        placeholder="수취 이메일을 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -244,13 +246,14 @@ export default function Page() {
             </Stack>
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                <OutlinedButton
-                    buttonName="이전"
-                    // onClick={() => router.push("/order/order-list")}
-                />
+                {/*<OutlinedButton*/}
+                {/*    buttonName="이전"*/}
+                {/*    onClick={() => router.push("/order/order-list")}*/}
+                {/*/>*/}
 
                 <ContainedButton
-                    type="submit"
+                    // type="submit"
+                    onClick={() => router.push("/order/complete")}
                     buttonName="주문 요청"
                     endIcon={
                         isLoading ? (
