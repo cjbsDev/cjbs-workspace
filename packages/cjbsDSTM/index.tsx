@@ -26,6 +26,7 @@ export * from "./molecules/Chips";
 export * from "./molecules/ErrorBoundary";
 export * from "./molecules/PostCodeBtn";
 export * from "./molecules/AlertModal";
+export * from "./molecules/ConfirmModal";
 export * from "./molecules/SkeletonLoading";
 export * from "./molecules/DateRangePicker";
 // export * from "./molecules/InputValidation";

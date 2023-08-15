@@ -8,6 +8,7 @@ import {AlertModal, cjbsTheme} from "cjbsDSTM";
 import MtpFullService from "./mtp/MtpFullService";
 import MtpAnalysis from "./mtp/MtpAnalysis";
 import MtpSequencing from "./mtp/MtpSequencing";
+import {ConfirmModal} from "cjbsDSTM";
 
 const AntTabs = styled(Tabs)({
     marginTop: "10px",
@@ -207,7 +208,7 @@ const Page = () => {
                 ) : ('')}
             </Box>
 
-            <AlertModal
+            <ConfirmModal
                 alertBtnName="확인"
                 alertMainFunc={handleServiceTypeChange}
                 onClose={handleAlertClose}
