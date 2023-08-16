@@ -50,7 +50,7 @@ const LazySalesManagerSelctbox = dynamic(
     }
 );
 
-const LazyPrepSelectbox = dynamic(() => import("@components/CommonSelectbox"), {
+const LazyPrepSelectbox = dynamic(() => import("../../components/CommonSelectbox"), {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
 });
