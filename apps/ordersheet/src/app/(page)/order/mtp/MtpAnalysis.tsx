@@ -13,6 +13,8 @@ import OrdererInfo from "../OrdererInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
 import dynamic from "next/dynamic";
+import {useRecoilState} from "recoil";
+import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 
 
 
@@ -66,17 +68,20 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 export default function MtpAnalysis(){
 
-    const [expanded, setExpanded] = React.useState<string | false>('panel1');
+    const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
+
+    const [expanded, setExpanded] = React.useState<string | false>('1');
 
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
             setExpanded(newExpanded ? panel : false);
+            setStepperNo(Number(panel));
         };
 
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
             MtpAnalysis
-            <Accordion expanded={expanded === 'panel1'} onChange={handleChange('panel1')}>
+            <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack
                         direction="row"
@@ -116,7 +121,7 @@ export default function MtpAnalysis(){
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
+            <Accordion expanded={expanded === '2'} onChange={handleChange('2')}>
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
                     <Stack
                         direction="row"
@@ -151,7 +156,7 @@ export default function MtpAnalysis(){
                     <OrderMtpSampleList serviceType={"ao"} />
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
+            <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
                     <Stack
                         direction="row"

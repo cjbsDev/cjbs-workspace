@@ -2,6 +2,8 @@ import * as React from 'react';
 import {Box, Stepper, Step, StepLabel, Button, Typography, StepIconProps, styled} from '@mui/material';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import {Check} from "@mui/icons-material";
+import {useRecoilState} from "recoil";
+import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 
 const steps = ['서비스 타입', '주문자 정보', '주문서 작성', '결제 정보', '주문 완료'];
 
@@ -52,8 +54,12 @@ const QontoStepIconRoot = styled('div')<{ ownerState: { active?: boolean } }>(
 );
 
 export default function HorizontalLinearStepper() {
-    const [activeStep, setActiveStep] = React.useState(0);
+
+    // const [activeStep, setActiveStep] = React.useState(1);
     const [skipped, setSkipped] = React.useState(new Set<number>());
+    const [activeStep, setActiveStep] = useRecoilState(stepperStatusAtom);
+
+    //console.log("^^^^^^^^^^^^^^ " + activeStep);
 
     const isStepSkipped = (step: number) => {
         return skipped.has(step);
@@ -84,7 +90,7 @@ export default function HorizontalLinearStepper() {
     };
 
     const handleReset = () => {
-        setActiveStep(0);
+        setActiveStep(1);
     };
 
     function QontoStepIcon(props: StepIconProps) {
