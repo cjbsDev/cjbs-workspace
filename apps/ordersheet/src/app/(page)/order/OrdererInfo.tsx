@@ -352,11 +352,11 @@ export default function Page() {
                 <ContainedButton
                     type="submit"
                     buttonName="다음"
-                    endIcon={
-                        isLoading ? (
-                            <LoadingSvg stroke="white" width={20} height={20} />
-                        ) : null
-                    }
+                    // endIcon={
+                    //     isLoading ? (
+                    //         <LoadingSvg stroke="white" width={20} height={20} />
+                    //     ) : null
+                    // }
                 />
             </Stack>
 

@@ -8,12 +8,18 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MyIcon from "icon/myIcon";
-import {cjbsTheme} from "cjbsDSTM";
+import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
 import PaymentInfo from "../PaymentInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
+import dynamic from "next/dynamic";
 
 
+
+const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -105,7 +111,9 @@ export default function MtpAnalysis(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrdererInfo />
+                    <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyOrdererInfo />
+                    </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel2'} onChange={handleChange('panel2')}>
