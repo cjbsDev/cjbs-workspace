@@ -50,7 +50,17 @@ const LazySalesManagerSelctbox = dynamic(
     }
 );
 
-export default function Page() {
+const LazyPrepSelectbox = dynamic(() => import("@components/CommonSelectbox"), {
+    ssr: true,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+});
+
+
+export default function Page(props: any) {
+
+    console.log("$$$$$$$$$$", props.serviceType);
+    let serviceType = props.serviceType;
+
     const router = useRouter();
     // [고객 검색] 모달
     const [custSearchModalOpen, setCustSearchModalOpen] =
@@ -104,7 +114,6 @@ export default function Page() {
 
 
 
-
     const [alignment, setAlignment] = React.useState('account');
 
     const handleChange = (
@@ -132,9 +141,69 @@ export default function Page() {
         setShowOrderInfoModifyModal(false);
     };
 
+    const CommonServiceSelect = () => {
+        switch (serviceType){
+            case 'fs' :
+                return (
+                    <TableRow>
+                        <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
+                        <TD sx={{ width: "80%" }}>
+                            <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                                <Stack direction="row" alignItems="center" spacing={2}>
+                                    <label htmlFor="upload-image">
+                                        <Button
+                                            variant="outlined"
+                                            color={"secondary"}
+                                            component="span"
+                                            sx={{color: "#000"}}
+                                            size="small"
+                                        >
+                                            파일 추가
+                                        </Button>
+                                        <input
+                                            id="upload-image"
+                                            hidden
+                                            accept="image/!*"
+                                            type="file"
+                                            onChange={handleFileUpload}
+                                        />
+                                    </label>
+                                    {uploadFile && <Typography variant="body2">{uploadFile}</Typography>}
+                                </Stack>
+                            </Stack>
+                        </TD>
+                    </TableRow>
+                )
+            case 'ao' :
+                return (
+                    <TableRow>
+                        <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
+                        <TD sx={{ width: "80%" }}>
+                            <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                                <ErrorContainer FallbackComponent={Fallback}>
+                                    <LazyPrepSelectbox url={"/code/orsh/pltf/list?type=mtpAO"} inputName={"pltfMc"} />
+                                </ErrorContainer>
+                            </Stack>
+                        </TD>
+                    </TableRow>
+                )
+            case 'so' :
+                return (
+                    <TableRow>
+                        <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
+                        <TD sx={{ width: "80%" }}>
+                            <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                                <ErrorContainer FallbackComponent={Fallback}>
+                                    <LazyPrepSelectbox url={"/code/orsh/pltf/list?type=mtpSO"} inputName={"pltfMc"} />
+                                </ErrorContainer>
+                            </Stack>
+                        </TD>
+                    </TableRow>
+                )
+        }
+    }
 
 
-    // @ts-ignore
     return (
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
             <Box
@@ -171,47 +240,7 @@ export default function Page() {
             <TableContainer sx={{ mb: 5 }}>
                 <Table>
                     <TableBody>
-                        <TableRow>
-                            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-                            <TD sx={{ width: "80%" }}>
-                                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                                    {/*<InputValidation*/}
-                                    {/*    inputName="custNm"*/}
-                                    {/*    required={true}*/}
-                                    {/*    errorMessage="이름을 입력해 주세요."*/}
-                                    {/*    sx={{ width: 500 }}*/}
-                                    {/*    InputProps={{*/}
-                                    {/*        // readOnly: true,*/}
-                                    {/*    }}*/}
-                                    {/*    type="file"*/}
-                                    {/*/>*/}
-
-
-                                    <Stack direction="row" alignItems="center" spacing={2}>
-                                        <label htmlFor="upload-image">
-                                            <Button
-                                                variant="outlined"
-                                                color={"secondary"}
-                                                component="span"
-                                                sx={{color: "#000"}}
-                                                size="small"
-                                            >
-                                                파일 추가
-                                            </Button>
-                                            <input
-                                                id="upload-image"
-                                                hidden
-                                                accept="image/*"
-                                                type="file"
-                                                onChange={handleFileUpload}
-                                            />
-                                        </label>
-                                        {uploadFile && <Typography variant="body2">{uploadFile}</Typography>}
-                                    </Stack>
-
-                                </Stack>
-                            </TD>
-                        </TableRow>
+                        <CommonServiceSelect />
                     </TableBody>
                 </Table>
             </TableContainer>

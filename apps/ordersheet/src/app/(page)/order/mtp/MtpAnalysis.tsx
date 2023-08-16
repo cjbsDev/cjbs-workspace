@@ -140,7 +140,7 @@ export default function MtpAnalysis(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList />
+                    <OrderMtpSampleList serviceType={"ao"} />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>

@@ -4,11 +4,11 @@ import {Box, Container, Stack, Typography, Tabs, Tab, TabProps, styled, Button} 
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import MyIcon from "icon/myIcon";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
-import {AlertModal, cjbsTheme} from "cjbsDSTM";
+import {ConfirmModal, cjbsTheme} from "cjbsDSTM";
 import MtpFullService from "./mtp/MtpFullService";
 import MtpAnalysis from "./mtp/MtpAnalysis";
 import MtpSequencing from "./mtp/MtpSequencing";
-import {ConfirmModal} from "cjbsDSTM";
+
 
 const AntTabs = styled(Tabs)({
     marginTop: "10px",

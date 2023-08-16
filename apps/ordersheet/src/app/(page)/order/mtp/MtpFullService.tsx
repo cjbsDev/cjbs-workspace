@@ -14,7 +14,6 @@ import PaymentInfo from "../PaymentInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
 
 
-
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -140,7 +139,7 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList />
+                    <OrderMtpSampleList serviceType={"fs"}/>
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>

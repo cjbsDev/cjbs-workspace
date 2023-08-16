@@ -140,7 +140,7 @@ export default function MtpSequencing(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList />
+                    <OrderMtpSampleList serviceType={"so"} />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === 'panel3'} onChange={handleChange('panel3')}>
