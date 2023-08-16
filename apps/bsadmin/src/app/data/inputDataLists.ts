@@ -7,3 +7,11 @@ export const emailReceiveSettingData = [
   { value: "ordrAplcRcpn", optionName: "신청인" },
   { value: "etcRcpn", optionName: "추가(직접입력)" },
 ];
+
+export const yieldData = [
+  { value: "null", optionName: "없음" },
+  { value: "2g", optionName: "2G" },
+  { value: "5g", optionName: "5G" },
+  { value: "10g", optionName: "10G" },
+  { value: "20g", optionName: "20G" },
+];
