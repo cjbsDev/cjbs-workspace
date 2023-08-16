@@ -58,7 +58,7 @@ const LazyPrepSelectbox = dynamic(() => import("../../components/CommonSelectbox
 
 export default function Page(props: any) {
 
-    console.log("$$$$$$$$$$", props.serviceType);
+    // console.log("$$$$$$$$$$", props.serviceType);
     let serviceType = props.serviceType;
 
     const router = useRouter();

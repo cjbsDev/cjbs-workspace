@@ -8,6 +8,8 @@ import {ConfirmModal, cjbsTheme} from "cjbsDSTM";
 import MtpFullService from "./mtp/MtpFullService";
 import MtpAnalysis from "./mtp/MtpAnalysis";
 import MtpSequencing from "./mtp/MtpSequencing";
+import {useRecoilState} from 'recoil';
+import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 
 
 const AntTabs = styled(Tabs)({
@@ -56,6 +58,7 @@ interface StyledTabProps extends TabProps{
 const Page = () => {
     const [value, setValue] = useState(0);
     const [tempValue, setTempValue] = useState(0);
+    const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
     const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         handleAlertOpen();
@@ -71,6 +74,7 @@ const Page = () => {
 
     const handleServiceTypeChange = () => {
         setValue(tempValue);
+        setStepperNo(1);
         handleAlertClose();
     };
 

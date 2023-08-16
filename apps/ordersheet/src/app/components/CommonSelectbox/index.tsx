@@ -10,8 +10,8 @@ export default function CommonSelectbox({
   url,
   inputName,
 }: CommonSelectboxProps) {
-  console.log("&&&&&&&&&&&&&&&&&&&&")
-  console.log(url+" : "+inputName);
+  // console.log("&&&&&&&&&&&&&&&&&&&&")
+  // console.log(url+" : "+inputName);
   const { data } = useSWR(
       url,
       fetcher,
