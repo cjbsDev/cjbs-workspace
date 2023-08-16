@@ -51,7 +51,7 @@ const LazySalesManagerSelctbox = dynamic(
 );
 
 const LazyPrepSelectbox = dynamic(() => import("@components/CommonSelectbox"), {
-    ssr: true,
+    ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
