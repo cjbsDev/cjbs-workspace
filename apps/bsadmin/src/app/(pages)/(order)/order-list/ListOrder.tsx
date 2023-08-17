@@ -16,6 +16,7 @@ import {
   CustomToggleButton,
   cjbsTheme,
   exportCSVData,
+  FileDownloadBtn,
 } from "cjbsDSTM";
 import {
   Box,
@@ -55,39 +56,16 @@ import {
   green,
 } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
-import FileSaver from "file-saver";
-// import excelDownload from "cjbsDSTM/atoms/excel/ExcelDownload";
-
-const dataRadioGVTest = [
-  { value: "Y", optionName: "요청함" },
-  { value: "N", optionName: "요청안함" },
-];
-
 const ListOrder = () => {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
-  // console.log("jkjkjkjkj", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [state, setState] = React.useState({
-    gilad: true,
-    jason: false,
-    antoine: false,
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked,
-    });
-  };
-
-  const { gilad, jason, antoine } = state;
 
   const columns = useMemo(
     () => [
@@ -246,12 +224,7 @@ const ListOrder = () => {
         item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
   );
 
-  console.log("filteredData ==>>", filteredData);
-
-  const dataRadioGVTest = [
-    { value: "Y", optionName: "요청함" },
-    { value: "N", optionName: "요청안함" },
-  ];
+  // console.log("filteredData ==>>", filteredData);
 
   const goDetailPage = (row: any) => {
     const path = row.orderUkey;
@@ -264,29 +237,6 @@ const ListOrder = () => {
         setResetPaginationToggle(!resetPaginationToggle);
         setFilterText("");
       }
-    };
-
-    const ex = async (exportUrl: string) => {
-      await axios
-        .post(exportUrl, {
-          responseType: "blob",
-          headers: {
-            "Content-Type":
-              "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
-          },
-        })
-        .then((res) => {
-          const resData = res.data;
-          console.log("Excel Data ==>>", resData);
-          // const resultData = `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,${resData}`;
-
-          // new File([resData], "hello world.xlsx", {type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"});
-          const blob = new Blob([resData], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8",
-          });
-
-          FileSaver.saveAs(blob, "hello world.xlsx");
-        });
     };
 
     return (
@@ -308,18 +258,10 @@ const ListOrder = () => {
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
 
-            <ContainedButton
-              buttonName="Excel"
-              onClick={() =>
-                ex(`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`)
-              }
+            <FileDownloadBtn
+              exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
+              iconName="xls3"
             />
-
-            {/*<ExcelDownloadButton*/}
-            {/*  downloadUrl={*/}
-            {/*    "http://cjbs-it-alb-980593920.ap-northeast-2.elb.amazonaws.com:9000/order/list/download"*/}
-            {/*  }*/}
-            {/*/>*/}
 
             <DataTableFilter
               onFilter={(e: {
@@ -331,9 +273,6 @@ const ListOrder = () => {
             <ResultInSearch />
           </Stack>
         </Grid>
-        {/*<Grid item xs={12}>*/}
-        {/*  <MultiCheckbox />*/}
-        {/*</Grid>*/}
       </Grid>
     );
   }, [filterText, resetPaginationToggle, checked]);
