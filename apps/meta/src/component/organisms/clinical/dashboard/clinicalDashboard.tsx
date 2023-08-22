@@ -5,7 +5,7 @@ import Person from '../../../../../public/img/dashboard/person.png';
 import Disease from '../../../../../public/img/dashboard/disease.png';
 import Check from '../../../../../public/img/dashboard/check.png';
 import Sylinder from '../../../../../public/img/dashboard/sylinder.png';
-import { DashboardValues, StudyPerVoList } from '../../../../app/clinical/page';
+import { DashboardValues, StudyPerVoList } from '../../../../app/clinical/(mainlayout)/dashboard/page';
 import DashboardPie from '../../../molecules/chart/pie/dashboard/dashboardPie';
 import DashboardPieLegend from '../../../molecules/chart/pie/dashboard/dashboardPieLegend';
 
@@ -48,13 +48,9 @@ const ClinicalDashboard = ({ pieData, values }: Props) => {
 
   return (
     <GridContainer container>
-      <FlexCenterGrid xs={4} justifyContent={'flex-start'} item>
+      <FlexCenterGrid xs={4} justifyContent={'center'} item>
         <Box mr={'31px'}>
-          <DashboardPie
-            totalStudy={values.totalStudy}
-            colorChart={colorChart}
-            data={pieData}
-          />
+          <DashboardPie totalStudy={values.totalStudy} colorChart={colorChart} data={pieData} />
         </Box>
         <Box>
           <DashboardPieLegend colorChart={colorChart} data={pieData} />
@@ -63,32 +59,16 @@ const ClinicalDashboard = ({ pieData, values }: Props) => {
       <FlexCenterGrid justifyContent={'center'} xs={8} item>
         <ItemsBox>
           <RightBorderBox>
-            <DashboardItem
-              imgPath={Disease}
-              name={'총 질환 수'}
-              text={values.totalDisease.toLocaleString()}
-            />
+            <DashboardItem imgPath={Disease} name={'총 질환 수'} text={values.totalDisease.toLocaleString()} />
           </RightBorderBox>
           <RightBorderBox>
-            <DashboardItem
-              imgPath={Sylinder}
-              name={'총 샘플 수'}
-              text={values.totalSample.toLocaleString()}
-            />
+            <DashboardItem imgPath={Sylinder} name={'총 샘플 수'} text={values.totalSample.toLocaleString()} />
           </RightBorderBox>
           <RightBorderBox>
-            <DashboardItem
-              imgPath={Person}
-              name={'총 대상자 수'}
-              text={values.totalSubject.toLocaleString()}
-            />
+            <DashboardItem imgPath={Person} name={'총 대상자 수'} text={values.totalSubject.toLocaleString()} />
           </RightBorderBox>
           <RightBorderBox sx={{ borderRight: 'none' }}>
-            <DashboardItem
-              imgPath={Check}
-              name={'총 업데이트 일자'}
-              text={values.lastUpdatedDate}
-            />
+            <DashboardItem imgPath={Check} name={'총 업데이트 일자'} text={values.lastUpdatedDate} />
           </RightBorderBox>
         </ItemsBox>
       </FlexCenterGrid>

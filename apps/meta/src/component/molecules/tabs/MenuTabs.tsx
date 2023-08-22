@@ -7,7 +7,8 @@ import Box from '@mui/material/Box';
 import { useRouter, usePathname } from 'next/navigation';
 import { SxProps } from '@mui/material';
 import CJBSLogo from '../../atoms/CJBSLogo';
-
+import { _Link } from 'cjbsDSTM/atoms/Link';
+import { DASHBOARD_URL } from 'src/const/common';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
@@ -75,13 +76,15 @@ export default function MenuTabs({
     let value = 0;
     if (type === 'SUB') {
       data.map((item, index) => {
-        if (item.url === pathname) {
+        if (pathname.indexOf(item.url) > -1) {
+          console.log('item.url > ', item.url);
+
           value = index;
         }
       });
       setValue(value);
     }
-  }, []);
+  }, [pathname]);
 
   return (
     <Box
@@ -89,22 +92,30 @@ export default function MenuTabs({
         width: '100%',
         backgroundColor: 'white',
         display: 'flex',
+        justifyContent: type === 'SUB' ? 'center' : 'flex-start',
         alignItems: 'center',
         paddingLeft: '24px',
         ...sx,
       }}
     >
-      {onLogo && <CJBSLogo />}
+      {onLogo && (
+        <_Link href={DASHBOARD_URL}>
+          <CJBSLogo />
+        </_Link>
+      )}
       <Tabs
         centered={centered}
         value={value}
         onChange={handleChange}
-        aria-label="basic tabs example"
+        aria-label="basic tabs"
       >
         {data.map((menu, index) => (
           <Tab
             onClick={() => router.push(menu.url)}
-            sx={{ marginRight: '25px', marginLeft: '25px' }}
+            sx={{
+              marginRight: '25px',
+              marginLeft: type === 'SUB' ? '25px' : '192px',
+            }}
             key={index}
             label={
               <Typography color={fontColor} variant="subtitle2">
