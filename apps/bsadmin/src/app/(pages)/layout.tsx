@@ -166,15 +166,14 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                   selected={currentPathname.includes(depthOne.split("/")[1])}
                   disabled={
                     item.menuPath.name === "" &&
-                    item.menuPath.nestedPath.length === 0
-                      ? true
-                      : false
+                      item.menuPath.nestedPath.length === 0
                   }
                   sx={{
                     minHeight: 50,
                     justifyContent: open ? "initial" : "center",
                     px: 2,
                     "&.MuiListItemButton-root": {
+                      borderRadius: '0px !important',
                       "&:hover": {
                         backgroundColor: theme.palette.primary.main,
                       },
