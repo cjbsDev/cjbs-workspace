@@ -162,9 +162,11 @@ const ListOrder = () => {
           const { isSpecialMng, instNm, agncNm } = row;
           return (
             <Stack data-tag="allowRowEvents">
-              <Typography data-tag="allowRowEvents" variant="body2">
+              <Box data-tag="allowRowEvents">
                 <Stack direction="row" spacing={"2px"} alignItems="center">
-                  <Box component="span">{agncNm}</Box>
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                      {agncNm}
+                  </Typography>
                   {isSpecialMng === "Y" && (
                     <MyIcon
                       icon="vip-fill"
@@ -174,7 +176,7 @@ const ListOrder = () => {
                     />
                   )}
                 </Stack>
-              </Typography>
+              </Box>
               <Typography data-tag="allowRowEvents" variant="body2">
                 ({instNm})
               </Typography>
