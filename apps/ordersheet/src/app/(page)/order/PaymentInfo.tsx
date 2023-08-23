@@ -126,6 +126,23 @@ export default function Page() {
                 <Table>
                     <TableBody>
                         <TableRow>
+                            <TH sx={{ width: "20%" }}>상호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+                            <TD sx={{ width: "80%" }} colSpan={3}>
+                                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                                    <InputValidation
+                                        inputName="custNm"
+                                        required={true}
+                                        errorMessage="이름을 입력해 주세요."
+                                        placeholder="상호를 입력해 주세요."
+                                        sx={{ width: 800 }}
+                                        InputProps={{
+                                            // readOnly: true,
+                                        }}
+                                    />
+                                </Stack>
+                            </TD>
+                        </TableRow>
+                        <TableRow>
                             <TH sx={{ width: "20%" }}>사업자 등록번호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
@@ -141,7 +158,7 @@ export default function Page() {
                                     />
                                 </Stack>
                             </TD>
-                            <TH sx={{ width: "20%" }}>상호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+                            <TH sx={{ width: "20%" }}>대표자명 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
@@ -158,7 +175,7 @@ export default function Page() {
                             </TD>
                         </TableRow>
                         <TableRow>
-                            <TH sx={{ width: "20%" }}>대표자명 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+                            <TH sx={{ width: "20%" }}>수취자명 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation

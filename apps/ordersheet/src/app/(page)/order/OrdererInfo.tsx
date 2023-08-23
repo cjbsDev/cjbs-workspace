@@ -52,49 +52,39 @@ export default function Page() {
     );
     const custData = custTemp.data;
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+    // const [isLoading, setIsLoading] = useState<boolean>(false);
     const defaultValues = {
-        srvcTypeMc: "BS_0100007004",
-        anlsTypeMc: "BS_0100006004",
-        pltfMc: "BS_0100008001",
-        taxonBCnt: 0,
-        taxonECnt: 0,
-        taxonACnt: 0,
+
     };
 
     const onSubmit = async (data: any) => {
-        setIsLoading(true);
+        // setIsLoading(true);
         console.log("Submit Data ==>>", data);
-        const typeNumberPrice = Number(data.price);
-        const typeNumbertaxonACnt = Number(data.taxonACnt);
-        const typeNumbertaxonBCnt = Number(data.taxonBCnt);
-        const typeNumbertaxonECnt = Number(data.taxonECnt);
 
-        const bodyData = {
-            addEmailList: data.addEmailList,
-            agncUkey: data.agncUkey,
-            anlsTypeMc: data.anlsTypeMc,
-            bsnsMngrUkey: data.bsnsMngrUkey,
-            custUkey: data.custUkey,
-            isCheck16s: data.isCheck16s,
-            mailRcpnList: data.mailRcpnList,
-            memo: data.memo,
-            orderTypeCc: data.orderTypeCc,
-            ordrAplcEmail: data.ordrAplcEmail,
-            ordrAplcNm: data.ordrAplcNm,
-            ordrAplcTel: data.ordrAplcTel,
-            pltfMc: data.pltfMc,
-            price: typeNumberPrice,
-            reqReturnList: data.reqReturnList,
-            srvcTypeMc: data.srvcTypeMc,
-            taxonACnt: typeNumbertaxonACnt,
-            taxonBCnt: typeNumbertaxonBCnt,
-            taxonECnt: typeNumbertaxonECnt,
-        };
+        // const bodyData = {
+        //     addEmailList: data.addEmailList,
+        //     agncUkey: data.agncUkey,
+        //     anlsTypeMc: data.anlsTypeMc,
+        //     bsnsMngrUkey: data.bsnsMngrUkey,
+        //     custUkey: data.custUkey,
+        //     isCheck16s: data.isCheck16s,
+        //     mailRcpnList: data.mailRcpnList,
+        //     memo: data.memo,
+        //     orderTypeCc: data.orderTypeCc,
+        //     ordrAplcEmail: data.ordrAplcEmail,
+        //     ordrAplcNm: data.ordrAplcNm,
+        //     ordrAplcTel: data.ordrAplcTel,
+        //     pltfMc: data.pltfMc,
+        //     price: typeNumberPrice,
+        //     reqReturnList: data.reqReturnList,
+        //     srvcTypeMc: data.srvcTypeMc,
+        //     taxonACnt: typeNumbertaxonACnt,
+        //     taxonBCnt: typeNumbertaxonBCnt,
+        //     taxonECnt: typeNumbertaxonECnt,
+        // };
 
         console.log("Body Data ==>>", bodyData);
     };
-    // [ 고객 검색 ] 모달 오픈
 
 
     return (

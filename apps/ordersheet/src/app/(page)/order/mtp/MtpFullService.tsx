@@ -98,9 +98,9 @@ export default function MtpFullService(){
                             <Typography variant="subtitle1">
                                 주문자 및 거래처 정보
                             </Typography>
-                            <Typography variant="body2" sx={{ml:2}}>
-                                주문자 및 거래처 정보를 확인해주세요
-                            </Typography>
+                            {/*<Typography variant="body2" sx={{ml:2}}>*/}
+                            {/*    주문자 및 거래처 정보를 확인해주세요*/}
+                            {/*</Typography>*/}
                         </Box>
                         <Box sx={{
                             display: 'flex',

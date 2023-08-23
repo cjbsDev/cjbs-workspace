@@ -59,8 +59,7 @@ export default function HorizontalLinearStepper() {
     const [skipped, setSkipped] = React.useState(new Set<number>());
     const [activeStep, setActiveStep] = useRecoilState(stepperStatusAtom);
 
-    //console.log("^^^^^^^^^^^^^^ " + activeStep);
-
+    // console.log("^^^^^^^^^^^^^^ " + activeStep);
     const isStepSkipped = (step: number) => {
         return skipped.has(step);
     };

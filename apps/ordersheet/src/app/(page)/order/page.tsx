@@ -122,38 +122,6 @@ const Page = () => {
                     </Box>
                 </Stack>
 
-                {/*<Box sx={{*/}
-                {/*    display: 'flex',*/}
-                {/*    alignContent: 'start',*/}
-                {/*    alignItems: 'center',*/}
-                {/*    width: '100%',*/}
-                {/*    //backgroundColor: cjbsTheme.palette.grey["700"],*/}
-                {/*    backgroundColor: "#5a86c7",*/}
-                {/*    p: '12px 20px',*/}
-                {/*    borderRadius: '4px',*/}
-                {/*}}>*/}
-                {/*    <Stack*/}
-                {/*        direction="row"*/}
-                {/*        justifyContent="space-between"*/}
-                {/*        alignItems="center"*/}
-                {/*        spacing={0}*/}
-                {/*    >*/}
-                {/*        <Box sx={{*/}
-                {/*            display: 'flex',*/}
-                {/*            alignContent: 'start',*/}
-                {/*            alignItems: 'center',*/}
-                {/*            color: "#FFF"*/}
-                {/*        }}>*/}
-                {/*            <Typography variant="subtitle1">*/}
-                {/*                서비스 타입*/}
-                {/*            </Typography>*/}
-                {/*            <Typography variant="body2" sx={{ml:2}}>*/}
-                {/*                서비스 타입을 선택해주세요*/}
-                {/*            </Typography>*/}
-                {/*        </Box>*/}
-                {/*    </Stack>*/}
-                {/*</Box>*/}
-
                 <Typography variant="subtitle1" sx={{mt: 4}}>
                     서비스 타입
                 </Typography>

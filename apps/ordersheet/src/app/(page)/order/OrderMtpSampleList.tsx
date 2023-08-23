@@ -11,120 +11,80 @@ import {
     TableCell,
     Typography,
     TextField,
-    Fab,
     Button,
 } from "@mui/material";
 import {
-    CheckboxSV, ContainedButton, ErrorContainer, Fallback,
+    ContainedButton,
+    ErrorContainer,
+    Fallback,
     Form,
-    InputValidation,
-    OutlinedButton,
-    PostCodeBtn, SelectBox,
     TD,
     TH,
-    Title1,
     UnStyledButton,
 } from "cjbsDSTM";
 import React, { useState } from "react";
-import { useRouter } from "next-nprogress-bar";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
 import {cjbsTheme} from "cjbsDSTM";
 import ExcelUploadModal from "@app/(page)/order/ExcelUploadModal";
+import TableRows from "./TableRows"
 
-
-
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
-
-const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
-    ssr: false,
-});
-
-const LazySalesManagerSelctbox = dynamic(
-    () => import("../../components/SalesManagerSelectbox"),
-    {
-        ssr: false,
-        loading: () => <Typography variant="body2">Loading...</Typography>,
-    }
-);
 
 const LazyPrepSelectbox = dynamic(() => import("../../components/CommonSelectbox"), {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-
 export default function Page(props: any) {
 
     // console.log("$$$$$$$$$$", props.serviceType);
     let serviceType = props.serviceType;
 
-    const router = useRouter();
-    // [고객 검색] 모달
-    const [custSearchModalOpen, setCustSearchModalOpen] =
-        React.useState<boolean>(false);
-    const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const defaultValues = {
-        srvcTypeMc: "BS_0100007004",
-        anlsTypeMc: "BS_0100006004",
-        pltfMc: "BS_0100008001",
-        taxonBCnt: 0,
-        taxonECnt: 0,
-        taxonACnt: 0,
-    };
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const defaultValues = {};
+
+    // 행 추가 될 값 저장
+    const onChange = (e: any) => {
+        const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
+        setInputs({
+            ...inputs, // 기존의 input 객체를 복사한 뒤
+            [name]: value // name 키를 가진 값을 value 로 설정
+        });
+    }
 
     const onSubmit = async (data: any) => {
-        setIsLoading(true);
+        // setIsLoading(true);
         console.log("Submit Data ==>>", data);
-        const typeNumberPrice = Number(data.price);
-        const typeNumbertaxonACnt = Number(data.taxonACnt);
-        const typeNumbertaxonBCnt = Number(data.taxonBCnt);
-        const typeNumbertaxonECnt = Number(data.taxonECnt);
-
-        const bodyData = {
-            addEmailList: data.addEmailList,
-            agncUkey: data.agncUkey,
-            anlsTypeMc: data.anlsTypeMc,
-            bsnsMngrUkey: data.bsnsMngrUkey,
-            custUkey: data.custUkey,
-            isCheck16s: data.isCheck16s,
-            mailRcpnList: data.mailRcpnList,
-            memo: data.memo,
-            orderTypeCc: data.orderTypeCc,
-            ordrAplcEmail: data.ordrAplcEmail,
-            ordrAplcNm: data.ordrAplcNm,
-            ordrAplcTel: data.ordrAplcTel,
-            pltfMc: data.pltfMc,
-            price: typeNumberPrice,
-            reqReturnList: data.reqReturnList,
-            srvcTypeMc: data.srvcTypeMc,
-            taxonACnt: typeNumbertaxonACnt,
-            taxonBCnt: typeNumbertaxonBCnt,
-            taxonECnt: typeNumbertaxonECnt,
-        };
-
-        console.log("Body Data ==>>", bodyData);
-    };
-    // [ 고객 검색 ] 모달 오픈
-    const handleCustSearchModalOpen = () => {
-        setCustSearchModalOpen(true);
+        // const bodyData = {
+        //     addEmailList: data.addEmailList,
+        //     agncUkey: data.agncUkey,
+        //     anlsTypeMc: data.anlsTypeMc,
+        //     bsnsMngrUkey: data.bsnsMngrUkey,
+        //     custUkey: data.custUkey,
+        //     isCheck16s: data.isCheck16s,
+        //     mailRcpnList: data.mailRcpnList,
+        //     memo: data.memo,
+        //     orderTypeCc: data.orderTypeCc,
+        //     ordrAplcEmail: data.ordrAplcEmail,
+        //     ordrAplcNm: data.ordrAplcNm,
+        //     ordrAplcTel: data.ordrAplcTel,
+        //     pltfMc: data.pltfMc,
+        //     price: typeNumberPrice,
+        //     reqReturnList: data.reqReturnList,
+        //     srvcTypeMc: data.srvcTypeMc,
+        //     taxonACnt: typeNumbertaxonACnt,
+        //     taxonBCnt: typeNumbertaxonBCnt,
+        //     taxonECnt: typeNumbertaxonECnt,
+        // };
+        // console.log("Body Data ==>>", bodyData);
     };
 
 
+    const [uploadFile, setUploadFile] = useState(null);
+    const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =  useState<boolean>(false);
 
-    const [alignment, setAlignment] = React.useState('account');
-
-    const handleChange = (
-        event: React.MouseEvent<HTMLElement>,
-        newAlignment: string,
-    ) => {
-        setAlignment(newAlignment);
-    };
-
-    const [uploadFile, setUploadFile] = React.useState(null);
-
+    // file upload
     const handleFileUpload = (event:any) => {
         const file = event.target.files[0];
         const reader = new FileReader();
@@ -135,8 +95,6 @@ export default function Page(props: any) {
          reader.readAsDataURL(file);
     };
 
-    // [오더 정보 변경] 모달
-    const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =  useState<boolean>(false);
     const orderInfoModifyModalClose = () => {
         setShowOrderInfoModifyModal(false);
     };
@@ -203,6 +161,51 @@ export default function Page(props: any) {
         }
     }
 
+    const [rowsData, setRowsData] = useState<any>([]);
+
+    const [inputs, setInputs] = useState<any>({
+        addRowCnt: 1
+    });
+    const { addRowCnt } = inputs;
+
+    const rowsInput= {
+        sampleNo: 0,
+        sampleNm: "",
+        source: "",
+        sampleCategoryCc: "",
+        anlsTargetGene: "",
+        qc: "",
+        memo: "",
+    }
+
+    const addTableRows = () => {
+        const newArray = Array.from({ length: addRowCnt }, (_, index) => rowsInput);
+        console.log(newArray);
+        setRowsData([...rowsData, ...newArray]);
+    }
+
+    const deleteTableRows = (index:number) => {
+        const rows = [...rowsData];
+        rows.splice(index, 1);
+        setRowsData(rows);
+    }
+
+    const addExcelDataTableRows = (newArray) => {
+        // const rows = [...rowsData];
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%")
+        console.log(newArray)
+        setRowsData([...rowsData, ...newArray]);
+    }
+
+    // const handleChange = (index, evnt)=>{
+    //     const { name, value } = evnt.target;
+    //     console.log("!!!!!!name : " +name)
+    //     console.log("!!!!!!value : " +value)
+    //     const rowsInput = [...rowsData];
+    //     rowsInput[index][name] = value;
+    //     setRowsData(rowsInput);
+    // }
+
 
     return (
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -256,20 +259,22 @@ export default function Page(props: any) {
                         onClick={() => setShowOrderInfoModifyModal(true)}
                     />
                 </Stack>
-                <ExcelUploadModal onClose={orderInfoModifyModalClose} open={showOrderInfoModifyModal} modalWidth={600}/>
+                <ExcelUploadModal onClose={orderInfoModifyModalClose} open={showOrderInfoModifyModal} modalWidth={800} addExcelDataTableRows={addExcelDataTableRows}/>
                 <Stack direction="row" alignItems="center" spacing={0.5}>
                     <TextField
                         id="outlined-required"
-                        defaultValue="0"
+                        defaultValue="1"
                         inputProps={{ maxLength: 3, inputMode: 'numeric', pattern: '[0-9]*' }}
                         sx={{width: '55px'}}
                         size="small"
+                        name="addRowCnt"
+                        onChange={onChange}
                     />
                     <ContainedButton
-                        sx={{}}
                         buttonName='행 추가'
                         size="small"
                         color={"secondary"}
+                        onClick={addTableRows}
                     />
                 </Stack>
             </Stack>
@@ -313,7 +318,7 @@ export default function Page(props: any) {
                     <TableBody>
                         <TableRow>
                             <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <Typography variant="body2" sx={{color: "#666"}}>예시</Typography>
+                                <Typography variant="body2" sx={{color: "#666", width:"30px"}}>예시</Typography>
                             </TableCell>
                             <TableCell sx={{paddingX:2, paddingY:1}}>
                                 <Typography variant="body2" sx={{color: "#666"}}>CJ01</Typography>
@@ -337,72 +342,8 @@ export default function Page(props: any) {
                             <TableCell sx={{paddingX:2, paddingY:1}}>
                             </TableCell>
                         </TableRow>
-                        <TableRow>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <Typography variant="body2">1</Typography>
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 176 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 116 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <SelectBox
-                                    required={true}
-                                    errorMessage="값을 선택해 주세요."
-                                    inputName="gender"
-                                    options={[
-                                        { value: "Sample", optionName: "Sample" },
-                                        { value: "gDNA", optionName: "gDNA" },
-                                        { value: "Amplicon", optionName: "Amplicon" },
-                                    ]}
-                                    sx={{width: '200px'}}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <SelectBox
-                                    required={true}
-                                    errorMessage="값을 선택해 주세요."
-                                    inputName="gender"
-                                    options={[
-                                        { value: "Sample", optionName: "Sample" },
-                                        { value: "gDNA", optionName: "gDNA" },
-                                        { value: "Amplicon", optionName: "Amplicon" },
-                                    ]}
-                                    sx={{width: '200px'}}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 117 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <InputValidation
-                                    inputName="sampleName1"
-                                    required={true}
-                                    errorMessage=""
-                                    sx={{ width: 117 }}
-                                />
-                            </TableCell>
-                            <TableCell sx={{paddingX:2, paddingY:1}}>
-                                <MyIcon icon="trash" size={20}/>
-                            </TableCell>
-                        </TableRow>
+
+                        <TableRows rowsData={rowsData} deleteTableRows={deleteTableRows}/>
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -410,31 +351,17 @@ export default function Page(props: any) {
             <Stack direction="row" alignItems="center" spacing={0.5}>
                 <Typography variant="subtitle1">추가 요청 사항</Typography>
             </Stack>
-            {/*<InputValidation*/}
-            {/*    inputName="custNm"*/}
-            {/*    required={true}*/}
-            {/*    errorMessage="이름을 입력해 주세요."*/}
-            {/*    sx={{ width: '100%' }}*/}
-            {/*    InputProps={{*/}
-            {/*        // readOnly: true,*/}
-            {/*    }}*/}
-            {/*    label={"multiline"}*/}
-            {/*    maxRows={4}*/}
-            {/*/>*/}
+
             <TextField
                 id="outlined-multiline-flexible"
                 multiline
                 maxRows={4}
                 sx={{ width: '100%', mb:4 }}
                 placeholder={"추가 요청 사항을 입력해주세요."}
+
             />
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                {/*<OutlinedButton*/}
-                {/*    buttonName="이전"*/}
-                {/*    onClick={() => router.push("/order/order-list")}*/}
-                {/*/>*/}
-
                 <ContainedButton
                     type="submit"
                     buttonName="다음"

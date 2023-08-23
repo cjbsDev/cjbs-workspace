@@ -1,22 +1,25 @@
 "use client";
 import React from 'react';
-import { useRouter } from "next/navigation";
 import {Box, Container, Typography, Stack, Divider, Button, Popover} from "@mui/material";
 import MyIcon from "icon/myIcon";
-import {cjbsTheme, ContainedButton, LinkButton} from "cjbsDSTM";
+import {cjbsTheme, ContainedButton} from "cjbsDSTM";
 import Link from "next/link";
-import mailImg from "@public/img/icons/mail.png";
 import Image from "next/image";
 import mtpImg from '@public/img/icons/MTP.png';
 import shotgunImg from '@public/img/icons/Shotgun.png';
 import wgImg from '@public/img/icons/wc.png';
 import rsImg from '@public/img/icons/RS.png';
+import {useRecoilState} from "recoil";
+import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 
 
 const Page = () => {
-    const router = useRouter();
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
+    setStepperNo(1);
+    console.log(stepperNo);
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -37,7 +40,7 @@ const Page = () => {
                     alignItems: 'space-between',
                     padding: '50px 0 50px 0',
                     flexDirection: 'column',
-                    height:"100%"
+                    height:"100%",
                 }}
             >
 
