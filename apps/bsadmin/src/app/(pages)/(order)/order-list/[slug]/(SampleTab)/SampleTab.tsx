@@ -19,9 +19,12 @@ import MyIcon from "icon/myIcon";
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 
-const LazySampleInfoModal = dynamic(() => import("./SampleInfoModal"), {
-  ssr: false,
-});
+const LazySampleInfoModal = dynamic(
+  () => import("./(SampleInfoModal)/SampleInfoModal"),
+  {
+    ssr: false,
+  }
+);
 const LazySampleAddModal = dynamic(() => import("./SampleAddModal"), {
   ssr: false,
 });
