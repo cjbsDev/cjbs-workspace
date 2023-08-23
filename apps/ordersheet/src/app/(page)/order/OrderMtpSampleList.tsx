@@ -18,6 +18,7 @@ import {
     ErrorContainer,
     Fallback,
     Form,
+    InputValidation,
     TD,
     TH,
     UnStyledButton,
@@ -29,6 +30,7 @@ import MyIcon from "icon/myIcon";
 import {cjbsTheme} from "cjbsDSTM";
 import ExcelUploadModal from "@app/(page)/order/ExcelUploadModal";
 import TableRows from "./TableRows"
+import MtpFullService from "@app/(page)/order/mtp/MtpFullService";
 
 
 const LazyPrepSelectbox = dynamic(() => import("../../components/CommonSelectbox"), {
@@ -56,27 +58,22 @@ export default function Page(props: any) {
     const onSubmit = async (data: any) => {
         // setIsLoading(true);
         console.log("Submit Data ==>>", data);
-        // const bodyData = {
-        //     addEmailList: data.addEmailList,
-        //     agncUkey: data.agncUkey,
-        //     anlsTypeMc: data.anlsTypeMc,
-        //     bsnsMngrUkey: data.bsnsMngrUkey,
-        //     custUkey: data.custUkey,
-        //     isCheck16s: data.isCheck16s,
-        //     mailRcpnList: data.mailRcpnList,
-        //     memo: data.memo,
-        //     orderTypeCc: data.orderTypeCc,
-        //     ordrAplcEmail: data.ordrAplcEmail,
-        //     ordrAplcNm: data.ordrAplcNm,
-        //     ordrAplcTel: data.ordrAplcTel,
-        //     pltfMc: data.pltfMc,
-        //     price: typeNumberPrice,
-        //     reqReturnList: data.reqReturnList,
-        //     srvcTypeMc: data.srvcTypeMc,
-        //     taxonACnt: typeNumbertaxonACnt,
-        //     taxonBCnt: typeNumbertaxonBCnt,
-        //     taxonECnt: typeNumbertaxonECnt,
-        // };
+        // console.log("length", Object.keys(data).length);
+        const samples = [];
+        const sampleCnt = (Object.keys(data).length-1) / 6;
+        for (let i = 0; i < sampleCnt; i++) {
+            const sample = {
+                anlsTargetGene: data[i+"_anlsTargetGene"],
+                memo: data[i+"_memo"],
+                qc: data[i+"_qc"],
+                sampleCategoryCc: data[i+"_sampleCategoryCc"],
+                sampleNm: data[i+"_sampleNm"],
+                source: data[i+"_source"],
+            }
+            samples.push(sample);
+        }
+        console.log(samples)
+
         // console.log("Body Data ==>>", bodyData);
     };
 
@@ -145,19 +142,19 @@ export default function Page(props: any) {
                         </TD>
                     </TableRow>
                 )
-            case 'so' :
-                return (
-                    <TableRow>
-                        <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-                        <TD sx={{ width: "80%" }}>
-                            <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                                <ErrorContainer FallbackComponent={Fallback}>
-                                    <LazyPrepSelectbox url={"/code/orsh/pltf/list?type=mtpSO"} inputName={"pltfMc"} />
-                                </ErrorContainer>
-                            </Stack>
-                        </TD>
-                    </TableRow>
-                )
+            // case 'so' :
+            //     return (
+            //         <TableRow>
+            //             <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
+            //             <TD sx={{ width: "80%" }}>
+            //                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
+            //                     <ErrorContainer FallbackComponent={Fallback}>
+            //                         <LazyPrepSelectbox url={"/code/orsh/pltf/list?type=mtpSO"} inputName={"pltfMc"} />
+            //                     </ErrorContainer>
+            //                 </Stack>
+            //             </TD>
+            //         </TableRow>
+            //     )
         }
     }
 
@@ -190,7 +187,7 @@ export default function Page(props: any) {
         setRowsData(rows);
     }
 
-    const addExcelDataTableRows = (newArray) => {
+    const addExcelDataTableRows = (newArray:any) => {
         // const rows = [...rowsData];
         console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%")
         console.log(newArray)
@@ -238,7 +235,9 @@ export default function Page(props: any) {
             </Box>
 
             <Stack direction="row" alignItems="center" spacing={0.5}>
-                <Typography variant="subtitle1">공통 항목 선택</Typography>
+                {serviceType !== 'so' ? (
+                    <Typography variant="subtitle1">공통 항목 선택</Typography>
+                ) : ('')}
             </Stack>
             <TableContainer sx={{ mb: 5 }}>
                 <Table>
@@ -352,13 +351,14 @@ export default function Page(props: any) {
                 <Typography variant="subtitle1">추가 요청 사항</Typography>
             </Stack>
 
-            <TextField
-                id="outlined-multiline-flexible"
+            <InputValidation
+                inputName="test"
+                required={true}
+                errorMessage="추가 요청 사항을 입력해주세요."
                 multiline
                 maxRows={4}
                 sx={{ width: '100%', mb:4 }}
                 placeholder={"추가 요청 사항을 입력해주세요."}
-
             />
 
             <Stack direction="row" spacing={0.5} justifyContent="center">

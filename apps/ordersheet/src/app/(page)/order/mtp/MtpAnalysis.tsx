@@ -80,7 +80,6 @@ export default function MtpAnalysis(){
 
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
-            MtpAnalysis
             <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack

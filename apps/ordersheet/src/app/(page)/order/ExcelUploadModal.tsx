@@ -68,9 +68,9 @@ const ExcelUploadModal = ({ onClose,
         console.log("inputFile", inputFile);
 
         if(!inputFile?.files?.item(0)){
-            alert(123);
+            //
         } else {
-            alert(456);
+            // file 데이터가 있을경우
 
             const formData = new FormData();
             formData.append("file", inputFile?.files?.item(0) as File);
@@ -87,6 +87,7 @@ const ExcelUploadModal = ({ onClose,
             );
             console.log("res", res);
             addExcelDataTableRows(res.data.data);
+            handleClose();
 
         }
         setIsLoading(false);
@@ -137,7 +138,7 @@ const ExcelUploadModal = ({ onClose,
                         {/*    sx={{width: '560px'}}*/}
                         {/*    type="file"*/}
                         {/*/>*/}
-                        <input id="fileInput" type="file" />
+                        <input id="fileInput" type="file" style={{width:"600px"}}/>
                         <LoadingButton
                             loading={isLoading}
                             variant="contained"
@@ -146,25 +147,25 @@ const ExcelUploadModal = ({ onClose,
                         >
                             파일 업로드
                         </LoadingButton>
-                        <OutlinedButton
-                            buttonName="식제"
-                            color={"error"}
-                        />
+                        {/*<OutlinedButton*/}
+                        {/*    buttonName="식제"*/}
+                        {/*    color={"error"}*/}
+                        {/*/>*/}
                     </Stack>
                 </Form>
             </DialogContent>
-            <ModalAction>
-                <OutlinedButton
-                    buttonName="취소"
-                    onClick={handleClose}
-                    color="secondary"
-                />
-                <LoadingButton
-                    variant="contained"
-                >
-                    확인
-                </LoadingButton>
-            </ModalAction>
+            {/*<ModalAction>*/}
+            {/*    <OutlinedButton*/}
+            {/*        buttonName="취소"*/}
+            {/*        onClick={handleClose}*/}
+            {/*        color="secondary"*/}
+            {/*    />*/}
+            {/*    <LoadingButton*/}
+            {/*        variant="contained"*/}
+            {/*    >*/}
+            {/*        확인*/}
+            {/*    </LoadingButton>*/}
+            {/*</ModalAction>*/}
         </ModalContainer>
     );
 };
