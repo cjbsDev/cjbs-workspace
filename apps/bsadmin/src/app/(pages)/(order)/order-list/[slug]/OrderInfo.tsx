@@ -59,6 +59,12 @@ const LazyOrderInfoModifyModal = dynamic(
   }
 );
 
+// 샘플탭
+const LazySampleTab = dynamic(() => import("./(SampleTab)/SampleTab"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
 export default function OrderInfo() {
   const router = useRouter();
   // [오더 정보 변경] 모달
@@ -106,7 +112,9 @@ export default function OrderInfo() {
         </ErrorContainer>
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={1}>
-        Sample
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazySampleTab />
+        </ErrorContainer>
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={2}>
         File
