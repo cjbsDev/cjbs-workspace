@@ -25,9 +25,12 @@ const LazySampleInfoModal = dynamic(
     ssr: false,
   }
 );
-const LazySampleAddModal = dynamic(() => import("./SampleAddModal"), {
-  ssr: false,
-});
+const LazySampleAddModal = dynamic(
+  () => import("./(SampleAddModal)/SampleAddModal"),
+  {
+    ssr: false,
+  }
+);
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
