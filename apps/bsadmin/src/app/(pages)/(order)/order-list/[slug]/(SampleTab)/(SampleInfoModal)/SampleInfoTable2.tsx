@@ -12,7 +12,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { TD, TH, transformedNullToHyphon } from "cjbsDSTM";
+import { cjbsTheme, TD, TH, transformedNullToHyphon } from "cjbsDSTM";
 
 const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
   const transformedsampleStatusRes = transformedNullToHyphon(sampleStatusRes);
@@ -58,11 +58,25 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                 <Stack spacing={0.5}>
                   <Box>
                     <Chip
-                      data-tag="allowRowEvents"
                       variant="outlined"
-                      color="primary"
                       label={rcptStatusVal}
                       size="small"
+                      sx={{
+                        border: `1px solid ${
+                          rcptStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : rcptStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          rcptStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : rcptStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{rcptDttm}</Caption>
@@ -74,10 +88,24 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                     <Chip
                       data-tag="allowRowEvents"
                       variant="outlined"
-                      color="secondary"
                       label={qcStatusVal}
                       size="small"
-                      sx={{ color: "black" }}
+                      sx={{
+                        border: `1px solid ${
+                          qcStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : qcStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          qcStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : qcStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{qcCompDttm}</Caption>
@@ -89,9 +117,24 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                     <Chip
                       data-tag="allowRowEvents"
                       variant="outlined"
-                      color="error"
                       label={libStatusVal}
                       size="small"
+                      sx={{
+                        border: `1px solid ${
+                          libStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : libStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          libStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : libStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{libCompDttm}</Caption>
@@ -103,10 +146,24 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                     <Chip
                       data-tag="allowRowEvents"
                       variant="outlined"
-                      color="secondary"
                       label={seqStatusVal}
                       size="small"
-                      sx={{ color: "black" }}
+                      sx={{
+                        border: `1px solid ${
+                          seqStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : seqStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          seqStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : seqStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{seqCompDttm}</Caption>
@@ -118,10 +175,24 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                     <Chip
                       data-tag="allowRowEvents"
                       variant="outlined"
-                      color="secondary"
                       label={biStatusVal}
                       size="small"
-                      sx={{ color: "black" }}
+                      sx={{
+                        border: `1px solid ${
+                          biStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : biStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          biStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : biStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{biCompDttm}</Caption>
@@ -133,10 +204,24 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                     <Chip
                       data-tag="allowRowEvents"
                       variant="outlined"
-                      color="secondary"
                       label={ntfcStatusVal}
                       size="small"
-                      sx={{ color: "black" }}
+                      sx={{
+                        border: `1px solid ${
+                          ntfcStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : ntfcStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                        color: `${
+                          ntfcStatusCc === "BS_0902003"
+                            ? cjbsTheme.palette.primary.main
+                            : ntfcStatusCc === "BS_0902004"
+                            ? cjbsTheme.palette.warning.main
+                            : null
+                        }`,
+                      }}
                     />
                   </Box>
                   <Caption>{ntfcCompDttm}</Caption>
@@ -153,7 +238,7 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
 export default SampleInfoTable2;
 
 const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
-  // marginTop: 4,
   lineHeight: 1,
   fontSize: 12,
+  textAlign: "center",
 }));

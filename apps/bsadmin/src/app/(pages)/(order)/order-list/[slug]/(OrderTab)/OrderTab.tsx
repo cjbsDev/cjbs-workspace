@@ -128,7 +128,7 @@ const OrderTab = () => {
                         <Box>
                           {agncNm} ({instNm})
                         </Box>
-                        {isSpecial === "N" && (
+                        {isSpecial === "Y" && (
                           <MyIcon
                             icon="vip-fill"
                             width={15}
