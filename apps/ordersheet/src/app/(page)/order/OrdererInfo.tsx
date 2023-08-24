@@ -50,28 +50,28 @@ export default function Page(props:JSON) {
         console.log("**************************************");
         // setIsLoading(true);
         console.log("Submit Data ==>>", data);
-        // const inputCustData = {
-        //     addEmailList: data.addEmailList,
-        //     agncAddr: data.addr,
-        //     agncAddrDetail: data.addrDetail,
-        //     agncId: data.agncId,
-        //     agncNm: data.agncNm,
-        //     agncZip: data.zip,
-        //     ebcEmail: data.ebcEmail,
-        //     instMc: data.instMc,
-        //     instNm: data.instNm,
-        //     mailRcpnList: data.mailRcpnList,
-        //     ordrAplcEmail: data.ordrAplcEmail,
-        //     ordrAplcNm: data.ordrAplcNm,
-        //     ordrAplcTel: data.ordrAplcTel,
-        //     rhpiId: data.rhpiId,
-        //     rhpiNm: data.rhpiNm,
-        //     rhpiTel: data.rhpiTel,
-        // };
-        // const returnData = {
-        //     custAgnc: inputCustData,
-        // };
-        // props.addBodyData(returnData);
+        const inputCustData = {
+            addEmailList: data.addEmailList,
+            agncAddr: data.addr,
+            agncAddrDetail: data.addrDetail,
+            agncId: data.agncId,
+            agncNm: data.agncNm,
+            agncZip: data.zip,
+            ebcEmail: data.ebcEmail,
+            instMc: data.instMc,
+            instNm: data.instNm,
+            mailRcpnList: data.mailRcpnList,
+            ordrAplcEmail: data.ordrAplcEmail,
+            ordrAplcNm: data.ordrAplcNm,
+            ordrAplcTel: data.ordrAplcTel,
+            rhpiId: data.rhpiId,
+            rhpiNm: data.rhpiNm,
+            rhpiTel: data.rhpiTel,
+        };
+        const returnData = {
+            custAgnc: inputCustData,
+        };
+        props.addBodyData(returnData);
     };
 
 
@@ -118,6 +118,12 @@ export default function Page(props:JSON) {
                                         sx={{ width: 306 }}
                                         defaultValue={custData.custAgnc.rhpiNm ?? ""}
                                     />
+                                    <InputValidation
+                                        sx={{ display: "none" }}
+                                        inputName="rhpiId"
+                                        required={false}
+                                        defaultValue={custData.custAgnc.rhpiId ?? ""}
+                                    />
                                 </Stack>
                             </TD>
                             <TH sx={{ width: "20%" }}>연락처</TH>
@@ -151,7 +157,7 @@ export default function Page(props:JSON) {
                                         sx={{ display: "none" }}
                                         inputName="instMc"
                                         required={false}
-                                        defaultValue={custData.custAgnc.instMc ?? null}
+                                        defaultValue={custData.custAgnc.instMc ?? ""}
                                     />
                                 </Stack>
                             </TD>

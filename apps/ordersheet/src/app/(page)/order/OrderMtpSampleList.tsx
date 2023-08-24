@@ -57,24 +57,6 @@ export default function Page(props: any) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const defaultValues = {};
-    // const {
-    //     register,
-    //     control,
-    //     handleSubmit,
-    //     formState: { errors }
-    // } = useForm<FormValues>({
-    //     defaultValues: {
-    //         samples: [{
-    //             sampleNm: "",
-    //             source: "",
-    //             sampleCategoryCc: "",
-    //             anlsTargetGene: "",
-    //             qc: "",
-    //             memo: "",
-    //         }]
-    //     },
-    //     mode: "onBlur"
-    // });
 
     // 행 추가 될 값 저장
     const onChange = (e: any) => {
@@ -104,7 +86,10 @@ export default function Page(props: any) {
         }
         console.log(samples)
 
-        // console.log("Body Data ==>>", bodyData);
+        const returnData = {
+            samples: samples,
+        };
+        props.addBodyData(returnData);
     };
 
 
@@ -119,7 +104,7 @@ export default function Page(props: any) {
         reader.onloadend = () => {
             setUploadFile(file.name);
         };
-         reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
     };
 
     const orderInfoModifyModalClose = () => {

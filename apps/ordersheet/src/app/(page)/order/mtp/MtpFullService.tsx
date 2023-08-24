@@ -72,7 +72,7 @@ export default function MtpFullService(){
     const [expanded, setExpanded] = React.useState<string | false>('1');
 
     const [bodyData, setBodyData] = useState<any>({});
-
+    console.log("bodyData : ", bodyData);
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
             setExpanded(newExpanded ? panel : false);
@@ -80,10 +80,9 @@ export default function MtpFullService(){
         };
 
     const addBodyData = (callBackData:any) => {
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-        console.log(callBackData);
-        setBodyData(callBackData);
-        console.log(bodyData);
+        // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        // console.log(callBackData);
+        setBodyData({...bodyData, ...callBackData});
     }
 
     return (
@@ -161,7 +160,7 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList serviceType={"fs"}/>
+                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} />
                 </AccordionDetails>
             </Accordion>
             <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
@@ -196,7 +195,7 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <PaymentInfo />
+                    <PaymentInfo addBodyData={addBodyData} />
                 </AccordionDetails>
             </Accordion>
 

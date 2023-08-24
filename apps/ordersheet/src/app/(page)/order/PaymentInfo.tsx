@@ -29,7 +29,7 @@ import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
+// const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     '& .MuiToggleButtonGroup-grouped': {
@@ -49,61 +49,10 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
 }));
 
-
-export default function Page() {
+export default function Page(props:JSON) {
     const router = useRouter();
-    // [고객 검색] 모달
-    const [custSearchModalOpen, setCustSearchModalOpen] =
-        React.useState<boolean>(false);
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
-    const defaultValues = {
-        srvcTypeMc: "BS_0100007004",
-        anlsTypeMc: "BS_0100006004",
-        pltfMc: "BS_0100008001",
-        taxonBCnt: 0,
-        taxonECnt: 0,
-        taxonACnt: 0,
-    };
-
-    const onSubmit = async (data: any) => {
-        setIsLoading(true);
-        console.log("Submit Data ==>>", data);
-        const typeNumberPrice = Number(data.price);
-        const typeNumbertaxonACnt = Number(data.taxonACnt);
-        const typeNumbertaxonBCnt = Number(data.taxonBCnt);
-        const typeNumbertaxonECnt = Number(data.taxonECnt);
-
-        const bodyData = {
-            addEmailList: data.addEmailList,
-            agncUkey: data.agncUkey,
-            anlsTypeMc: data.anlsTypeMc,
-            bsnsMngrUkey: data.bsnsMngrUkey,
-            custUkey: data.custUkey,
-            isCheck16s: data.isCheck16s,
-            mailRcpnList: data.mailRcpnList,
-            memo: data.memo,
-            orderTypeCc: data.orderTypeCc,
-            ordrAplcEmail: data.ordrAplcEmail,
-            ordrAplcNm: data.ordrAplcNm,
-            ordrAplcTel: data.ordrAplcTel,
-            pltfMc: data.pltfMc,
-            price: typeNumberPrice,
-            reqReturnList: data.reqReturnList,
-            srvcTypeMc: data.srvcTypeMc,
-            taxonACnt: typeNumbertaxonACnt,
-            taxonBCnt: typeNumbertaxonBCnt,
-            taxonECnt: typeNumbertaxonECnt,
-        };
-
-        console.log("Body Data ==>>", bodyData);
-    };
-    // [ 고객 검색 ] 모달 오픈
-    const handleCustSearchModalOpen = () => {
-        setCustSearchModalOpen(true);
-    };
-
-
-
+    const defaultValues = {};
 
     const [alignment, setAlignment] = React.useState('account');
 
@@ -111,7 +60,27 @@ export default function Page() {
         event: React.MouseEvent<HTMLElement>,
         newAlignment: string,
     ) => {
+        if(newAlignment === null) return;
         setAlignment(newAlignment);
+    };
+
+    const onSubmit = async (data: any) => {
+        console.log("**************************************");
+        // setIsLoading(true);
+        console.log("Submit Data ==>>", data);
+        console.log("alignment ==>>", alignment);
+        const inputPaymentData = {
+            brno: data.brno,
+            conm: data.conm,
+            pymtWayCc: alignment,
+            rcpnNm: data.rcpnNm,
+            rcpnEmail: data.rcpnEmail,
+            rprsNm: data.rprsNm,
+        };
+        const returnData = {
+            payment: inputPaymentData,
+        };
+        props.addBodyData(returnData);
     };
 
     return (
@@ -130,14 +99,11 @@ export default function Page() {
                             <TD sx={{ width: "80%" }} colSpan={3}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="conm"
                                         required={true}
                                         errorMessage="이름을 입력해 주세요."
                                         placeholder="상호를 입력해 주세요."
                                         sx={{ width: 800 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
                                     />
                                 </Stack>
                             </TD>
@@ -147,14 +113,13 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="brno"
                                         required={true}
                                         errorMessage="사업자 등록번호를 입력해 주세요."
+                                        pattern={/^[0-9]+$/}
+                                        patternErrMsg="숫자만 입력해주세요."
                                         sx={{ width: 306 }}
                                         placeholder="- 없이 숫자만 입력해 주세요."
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
                                     />
                                 </Stack>
                             </TD>
@@ -162,14 +127,11 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="rprsNm"
                                         required={true}
                                         errorMessage="이름을 입력해 주세요."
                                         placeholder="상호를 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
                                     />
                                 </Stack>
                             </TD>
@@ -179,14 +141,11 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="rcpnNm"
                                         required={true}
-                                        errorMessage="대표자명을 입력해 주세요."
-                                        placeholder="대표자명을 입력해 주세요."
+                                        errorMessage="수취자명을 입력해 주세요."
+                                        placeholder="수취자명을 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
                                     />
                                 </Stack>
                             </TD>
@@ -194,14 +153,13 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="rcpnEmail"
                                         required={true}
                                         errorMessage="수취 이메일을 입력해 주세요."
+                                        pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                                        patternErrMsg="이메일 형식이 아닙니다."
                                         placeholder="수취 이메일을 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
                                     />
                                 </Stack>
                             </TD>
@@ -256,9 +214,9 @@ export default function Page() {
 
             <Stack direction="row" alignItems="center" spacing={0.5}>
                 <CheckboxSV
-                    inputName="mailRcpnList"
+                    inputName="isAgree"
                     labelText="개인정보 수집 및 활용에 동의합니다 (필수)"
-                    value="agncLeaderRcpn"
+                    value="Y"
                 />
             </Stack>
 
@@ -269,8 +227,8 @@ export default function Page() {
                 {/*/>*/}
 
                 <ContainedButton
-                    // type="submit"
-                    onClick={() => router.push("/order/complete")}
+                    type="submit"
+                    // onClick={() => router.push("/order/complete")}
                     buttonName="주문 요청"
                     endIcon={
                         isLoading ? (

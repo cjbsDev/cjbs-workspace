@@ -45,9 +45,9 @@ interface rowsInputProps {
 
 export default function Page({rowsData, deleteTableRows}) {
 
-    console.log('acct', acct);
-    console.log('perm', perm);
-    console.log("!!!!!!!", rowsData)
+    // console.log('acct', acct);
+    // console.log('perm', perm);
+    // console.log("!!!!!!!", rowsData)
 
     return (
 
