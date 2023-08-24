@@ -27,7 +27,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../../../../../../func/fetcher";
 import { useParams } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
@@ -60,6 +60,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
   const orderUkey = params.slug;
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/add`;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate } = useSWRConfig();
   const { data } = useSWR(
     () => `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/add`,
     fetcher,
@@ -68,7 +69,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
     }
   );
   const sampleAddDefaultData = data.data;
-  console.log("sampleAddDefaultData ==>>", sampleAddDefaultData.rcptDttm);
+  console.log("sampleAddDefaultData ==>>", sampleAddDefaultData);
 
   const defaultValues = {
     rcptDttm:
@@ -79,14 +80,18 @@ const SampleInfoModal = (props: ModalContainerProps) => {
     sampleNm: sampleAddDefaultData.sampleNm,
     sampleStatusCc: sampleAddDefaultData.sampleStatusCc,
     prgrAgncNmCc: sampleAddDefaultData.prgrAgncNmCc,
+    memo: sampleAddDefaultData.memo,
+    source: sampleAddDefaultData.source,
+    depth: sampleAddDefaultData.depth,
   };
 
   const handleClose = () => {
-    onClose();
     setIsLoading(false);
+    onClose();
   };
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
     console.log("onSubmit DATA ==>", data);
 
     const newDateValue = dayjs(data.rcptDttm).format("YYYY-MM-DD");
@@ -104,18 +109,20 @@ const SampleInfoModal = (props: ModalContainerProps) => {
 
     console.log("BODYDATA ==>", bodyData);
 
-    // await axios
-    //   .post(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response.data);
-    //     if (response.data.success) {
-    //       setIsLoading(false);
-    //       // router.push("/order-list");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //   });
+    await axios
+      .post(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response.data);
+        if (response.data.success) {
+          mutate(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+          );
+          handleClose();
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+      });
   };
 
   return (
@@ -184,7 +191,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
                       pattern={/^[0-9]+$/}
                       patternErrMsg="숫자만 입력해 주세요."
                       sx={{
-                        width: 80,
+                        width: "100%",
                         ".MuiOutlinedInput-input": {
                           textAlign: "end",
                         },

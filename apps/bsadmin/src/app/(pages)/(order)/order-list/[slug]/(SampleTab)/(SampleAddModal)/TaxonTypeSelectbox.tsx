@@ -20,6 +20,7 @@ export default function TaxonTypeSelectbox() {
       errorMessage="샘플 종류를 선택헤 주세요."
       inputName="taxonCc"
       options={data.data}
+      sx={{ width: 188 }}
     />
   );
 }

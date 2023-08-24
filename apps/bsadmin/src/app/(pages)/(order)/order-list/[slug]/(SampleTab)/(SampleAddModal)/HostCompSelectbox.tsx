@@ -14,5 +14,11 @@ export default function HostCompSelectbox() {
 
   console.log(data.data);
 
-  return <SelectBox inputName="prgrAgncNmCc" options={data.data} />;
+  return (
+    <SelectBox
+      inputName="prgrAgncNmCc"
+      options={data.data}
+      sx={{ width: "100%" }}
+    />
+  );
 }

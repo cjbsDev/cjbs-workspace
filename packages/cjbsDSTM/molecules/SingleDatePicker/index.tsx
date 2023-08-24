@@ -1,10 +1,12 @@
-import React, { useCallback, useState } from "react";
+import React, { forwardRef, useCallback, useState } from "react";
 import DatePicker from "react-datepicker";
 import { ko } from "date-fns/locale";
 import { useFormContext, Controller } from "react-hook-form";
 import "react-datepicker/dist/react-datepicker.css";
 import "./new-react-datepicker.css";
 import styles from "./datepicker.module.scss";
+import { InputAdornment, TextField } from "@mui/material";
+import MyIcon from "icon/myIcon";
 
 interface SingleDatePickerProps {
   inputName: string;
@@ -13,6 +15,34 @@ interface SingleDatePickerProps {
 export const SingleDatePicker = (props: SingleDatePickerProps) => {
   const { inputName } = props;
   const { control } = useFormContext();
+
+  // const CustomInput = forwardRef(({ value, onClick }, ref) => {
+  //   return <TextField />;
+  // };
+
+  const CustomInput = forwardRef(({ value, onClick }, ref) => (
+    <TextField
+      value={value}
+      onClick={onClick}
+      ref={ref}
+      inputProps={{ readOnly: true }}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <MyIcon icon="calendar" size={20} />
+          </InputAdornment>
+        ),
+      }}
+      sx={{
+        width: 188,
+        ".MuiOutlinedInput-input:read-only": {
+          backgroundColor: "white",
+          cursor: "pointer",
+        },
+      }}
+    />
+  ));
+
   return (
     <Controller
       control={control}
@@ -27,6 +57,8 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
             locale={ko}
             onChange={(e) => field.onChange(e)}
             selected={field.value}
+            showPopperArrow={false}
+            customInput={<CustomInput />}
           />
         );
       }}

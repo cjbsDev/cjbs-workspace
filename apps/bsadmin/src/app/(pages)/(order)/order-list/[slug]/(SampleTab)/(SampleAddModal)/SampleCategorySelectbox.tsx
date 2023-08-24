@@ -20,6 +20,7 @@ export default function SampleCategorySelectbox() {
       errorMessage="샘플 종류를 선택헤 주세요."
       inputName="sampleStatusCc"
       options={data.data}
+      sx={{ width: 188 }}
     />
   );
 }
