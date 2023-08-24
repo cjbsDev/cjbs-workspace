@@ -114,6 +114,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
       .then((response) => {
         console.log("POST request successful:", response.data);
         if (response.data.success) {
+          mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
           mutate(
             `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
           );
