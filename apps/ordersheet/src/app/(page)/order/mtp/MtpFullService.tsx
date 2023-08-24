@@ -21,7 +21,6 @@ const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
     loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-
 const Accordion = styled((props: AccordionProps) => (
     <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
@@ -68,27 +67,28 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 export default function MtpFullService(){
 
     const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
-
     const [expanded, setExpanded] = React.useState<string | false>('1');
-
     const [bodyData, setBodyData] = useState<any>({});
     console.log("bodyData : ", bodyData);
-    const handleChange =
-        (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-            setExpanded(newExpanded ? panel : false);
-            setStepperNo(Number(panel));
-        };
+
+    // const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean)=> {
+    //     setExpanded(newExpanded ? panel : false);
+    //     setStepperNo(Number(panel));
+    // };
 
     const addBodyData = (callBackData:any) => {
         // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
         // console.log(callBackData);
         setBodyData({...bodyData, ...callBackData});
+        setExpanded(String(stepperNo+1));
+        setStepperNo(stepperNo+1);
     }
 
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
 
-            <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
+            {/*<Accordion expanded={expanded === '1'} onChange={handleChange('1')}>*/}
+            <Accordion expanded={expanded === '1'} >
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack
                         direction="row"
@@ -128,7 +128,8 @@ export default function MtpFullService(){
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === '2'} onChange={handleChange('2')}>
+            {/*<Accordion expanded={expanded === '2'} onChange={handleChange('2')}>*/}
+            <Accordion expanded={expanded === '2'} >
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
                     <Stack
                         direction="row"
@@ -163,7 +164,8 @@ export default function MtpFullService(){
                     <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} />
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
+            {/*<Accordion expanded={expanded === '3'} onChange={handleChange('3')}>*/}
+            <Accordion expanded={expanded === '3'} >
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
                     <Stack
                         direction="row"

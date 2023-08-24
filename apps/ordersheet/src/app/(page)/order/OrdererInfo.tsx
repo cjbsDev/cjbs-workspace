@@ -231,6 +231,8 @@ export default function Page(props:JSON) {
                                         inputName="ordrAplcTel"
                                         required={true}
                                         errorMessage="연락처를 입력해 주세요."
+                                        pattern={/^[0-9]+$/}
+                                        patternErrMsg="숫자만 입력해주세요."
                                         placeholder="연락처를 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{
