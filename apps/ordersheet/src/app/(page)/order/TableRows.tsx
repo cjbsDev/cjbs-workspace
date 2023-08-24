@@ -54,17 +54,17 @@ export default function Page({rowsData, deleteTableRows}) {
         rowsData.map((data, index) => {
             let {sampleNo, sampleNm, source, sampleCategoryCc, anlsTargetGene, qc, memo} = data;
             // selectbox option 값 변경
-            for (const acctIndex in acct) {
-                if(acct[acctIndex].optionName === sampleCategoryCc){
-                    sampleCategoryCc = acct[acctIndex].value;
-                }
-            }
-            for (const permIndex in perm) {
-                console.log()
-                if(perm[permIndex].optionName === anlsTargetGene){
-                    anlsTargetGene = perm[permIndex].value;
-                }
-            }
+            // for (const acctIndex in acct) {
+            //     if(acct[acctIndex].optionName === sampleCategoryCc){
+            //         sampleCategoryCc = acct[acctIndex].value;
+            //     }
+            // }
+            // for (const permIndex in perm) {
+            //     console.log()
+            //     if(perm[permIndex].optionName === anlsTargetGene){
+            //         anlsTargetGene = perm[permIndex].value;
+            //     }
+            // }
 
             return (
                 <TableRow key={index}>

@@ -11,25 +11,20 @@ export default function QuickCopy() {
   const [checked, setChecked] = React.useState(false);
   const methods = useFormContext();
   const { setValue, getValues, watch, clearErrors, control } = methods;
-  const values = getValues(["custNm", "ebcEmail", "telList"]);
-
-  const watcher = watch("quickCopyChck");
-  console.log("Checkbox Watch", watcher);
-
-  console.log(values);
+  const values = getValues(["rhpiNm", "ebcEmail", "rhpiTel"]);
 
   const quickCopyValue = () => {
-    setValue("ordrRcpnNm", values[0]);
-    setValue("ordrRcpnEmail", values[1]);
-    setValue("ordrRcpnTel", values[2]);
+    setValue("ordrAplcNm", values[0]);
+    setValue("ordrAplcEmail", values[1]);
+    setValue("ordrAplcTel", values[2]);
   };
 
   const quickCopyValueClearErr = () => {
     // setChecked(!checked);
     quickCopyValue();
-    values[0] !== null && clearErrors("ordrRcpnNm");
-    values[1] !== null && clearErrors("ordrRcpnEmail");
-    values[2] !== null && clearErrors("ordrRcpnTel");
+    values[0] !== null && clearErrors("ordrAplcNm");
+    values[1] !== null && clearErrors("ordrAplcEmail");
+    values[2] !== null && clearErrors("ordrAplcTel");
   };
 
   return (

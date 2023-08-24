@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, {useState} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
@@ -71,11 +71,20 @@ export default function MtpFullService(){
 
     const [expanded, setExpanded] = React.useState<string | false>('1');
 
+    const [bodyData, setBodyData] = useState<any>({});
+
     const handleChange =
         (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean) => {
             setExpanded(newExpanded ? panel : false);
             setStepperNo(Number(panel));
         };
+
+    const addBodyData = (callBackData:any) => {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        console.log(callBackData);
+        setBodyData(callBackData);
+        console.log(bodyData);
+    }
 
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
@@ -116,7 +125,7 @@ export default function MtpFullService(){
                 </AccordionSummary>
                 <AccordionDetails>
                     <ErrorContainer FallbackComponent={Fallback}>
-                        <LazyOrdererInfo />
+                        <LazyOrdererInfo addBodyData={addBodyData}/>
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>

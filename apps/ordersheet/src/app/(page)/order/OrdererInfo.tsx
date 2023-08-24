@@ -28,21 +28,11 @@ import useSWR from "swr";
 import {fetcherOrsh} from "api";
 
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/ordersheet/cust/info`;
-
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
 
-// const LazySalesManagerSelctbox = dynamic(
-//     () => import("../../components/SalesManagerSelectbox"),
-//     {
-//         ssr: false,
-//         loading: () => <Typography variant="body2">Loading...</Typography>,
-//     }
-// );
-
-export default function Page() {
+export default function Page(props:JSON) {
     const router = useRouter();
 
     const { data: custTemp } = useSWR(
@@ -50,46 +40,44 @@ export default function Page() {
         fetcherOrsh,
         { suspense: true }
     );
+
     const custData = custTemp.data;
 
     // const [isLoading, setIsLoading] = useState<boolean>(false);
-    const defaultValues = {
-
-    };
+    const defaultValues = {};
 
     const onSubmit = async (data: any) => {
+        console.log("**************************************");
         // setIsLoading(true);
         console.log("Submit Data ==>>", data);
-
-        // const bodyData = {
+        // const inputCustData = {
         //     addEmailList: data.addEmailList,
-        //     agncUkey: data.agncUkey,
-        //     anlsTypeMc: data.anlsTypeMc,
-        //     bsnsMngrUkey: data.bsnsMngrUkey,
-        //     custUkey: data.custUkey,
-        //     isCheck16s: data.isCheck16s,
+        //     agncAddr: data.addr,
+        //     agncAddrDetail: data.addrDetail,
+        //     agncId: data.agncId,
+        //     agncNm: data.agncNm,
+        //     agncZip: data.zip,
+        //     ebcEmail: data.ebcEmail,
+        //     instMc: data.instMc,
+        //     instNm: data.instNm,
         //     mailRcpnList: data.mailRcpnList,
-        //     memo: data.memo,
-        //     orderTypeCc: data.orderTypeCc,
         //     ordrAplcEmail: data.ordrAplcEmail,
         //     ordrAplcNm: data.ordrAplcNm,
         //     ordrAplcTel: data.ordrAplcTel,
-        //     pltfMc: data.pltfMc,
-        //     price: typeNumberPrice,
-        //     reqReturnList: data.reqReturnList,
-        //     srvcTypeMc: data.srvcTypeMc,
-        //     taxonACnt: typeNumbertaxonACnt,
-        //     taxonBCnt: typeNumbertaxonBCnt,
-        //     taxonECnt: typeNumbertaxonECnt,
+        //     rhpiId: data.rhpiId,
+        //     rhpiNm: data.rhpiNm,
+        //     rhpiTel: data.rhpiTel,
         // };
-
-        console.log("Body Data ==>>", bodyData);
+        // const returnData = {
+        //     custAgnc: inputCustData,
+        // };
+        // props.addBodyData(returnData);
     };
 
 
     return (
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-            <Typography variant="subtitle1" sx={{}}>
+            <Typography variant="subtitle1">
                 주문자 정보
             </Typography>
             <TableContainer sx={{ mb: 5 }}>
@@ -107,10 +95,13 @@ export default function Page() {
                                         sx={{ display: "none" }}
                                         inputName="ebcEmail"
                                         required={true}
-                                        InputProps={{
-                                            readOnly: true,
-                                            hidden: true,
-                                        }}
+                                        defaultValue={custData.custAgnc.ebcEmail ?? ""}
+                                    />
+                                    <InputValidation
+                                        sx={{ display: "none" }}
+                                        inputName="agncId"
+                                        required={true}
+                                        defaultValue={custData.custAgnc.agncId ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -125,10 +116,7 @@ export default function Page() {
                                         errorMessage="연구책임자 이름을 입력해 주세요."
                                         placeholder="연구책임자 이름을 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
-                                        value={custData.custAgnc.rhpiNm ?? ""}
+                                        defaultValue={custData.custAgnc.rhpiNm ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -139,11 +127,10 @@ export default function Page() {
                                         inputName="rhpiTel"
                                         required={false}
                                         // errorMessage="이름을 입력해 주세요."
+                                        pattern={/^[0-9,]*$/}
+                                        patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
-                                        value={custData.custAgnc.rhpiTel ?? ""}
+                                        defaultValue={custData.custAgnc.rhpiTel ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -158,10 +145,13 @@ export default function Page() {
                                         errorMessage="기관명을 입력해 주세요."
                                         placeholder="기관명을 입력해 주세요."
                                         sx={{ width: 306 }}
-                                        InputProps={{
-                                            // readOnly: true,
-                                        }}
-                                        value={custData.custAgnc.instNm ?? ""}
+                                        defaultValue={custData.custAgnc.instNm ?? ""}
+                                    />
+                                    <InputValidation
+                                        sx={{ display: "none" }}
+                                        inputName="instMc"
+                                        required={false}
+                                        defaultValue={custData.custAgnc.instMc ?? null}
                                     />
                                 </Stack>
                             </TD>
@@ -177,7 +167,7 @@ export default function Page() {
                                         InputProps={{
                                             // readOnly: true,
                                         }}
-                                        value={custData.custAgnc.agncNm ?? ""}
+                                        defaultValue={custData.custAgnc.agncNm ?? ""}
                                     />
                                 </Stack>
                             </TD>
@@ -198,7 +188,7 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="ordrAplcNm"
                                         required={true}
                                         errorMessage="신청인 이름을 입력해 주세요."
                                         placeholder="신청인 이름을 입력해 주세요."
@@ -213,10 +203,12 @@ export default function Page() {
                             <TD sx={{ width: "30%" }}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="ordrAplcEmail"
                                         required={true}
                                         errorMessage="이메일을 입력해 주세요."
                                         placeholder="이메일을 입력해 주세요."
+                                        pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                                        patternErrMsg="이메일 형식이 아닙니다."
                                         sx={{ width: 306 }}
                                         InputProps={{
                                             // readOnly: true,
@@ -230,7 +222,7 @@ export default function Page() {
                             <TD sx={{ width: "80%" }} colSpan={3}>
                                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                     <InputValidation
-                                        inputName="custNm"
+                                        inputName="ordrAplcTel"
                                         required={true}
                                         errorMessage="연락처를 입력해 주세요."
                                         placeholder="연락처를 입력해 주세요."
@@ -258,10 +250,13 @@ export default function Page() {
                                 <Stack spacing={1}>
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
-                                            disabled={true}
-                                            inputName="agncZip"
+                                            // inputName="agncZip"
+                                            inputName="zip"
                                             placeholder="우편번호"
-                                            value={custData.custAgnc.agncZip ?? ""}
+                                            defaultValue={custData.custAgnc.agncZip ?? ""}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                         <PostCodeBtn />
                                         <OutlinedButton
@@ -273,20 +268,24 @@ export default function Page() {
                                     </Stack>
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
-                                            disabled={true}
-                                            inputName="agncAddr"
+                                            // inputName="agncAddr"
+                                            inputName="addr"
                                             sx={{ width: 600 }}
-                                            value={custData.custAgnc.agncAddr ?? ""}
+                                            defaultValue={custData.custAgnc.agncAddr ?? ""}
+                                            InputProps={{
+                                                readOnly: true,
+                                            }}
                                         />
                                     </Stack>
                                     <Stack direction="row" spacing={0.5}>
                                         <InputValidation
-                                            inputName="agncAddrDetail"
+                                            // inputName="agncAddrDetail"
+                                            inputName="addrDetail"
                                             maxLength={50}
                                             maxLengthErrMsg="50자 이내로 입력해주세요."
                                             placeholder="상세주소"
                                             sx={{ width: 600 }}
-                                            value={custData.custAgnc.agncAddrDetail ?? ""}
+                                            defaultValue={custData.custAgnc.agncAddrDetail ?? ""}
                                         />
                                     </Stack>
                                 </Stack>
@@ -334,11 +333,6 @@ export default function Page() {
             </TableContainer>
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                {/*<OutlinedButton*/}
-                {/*    buttonName="이전"*/}
-                {/*    onClick={() => router.push("/order/order-list")}*/}
-                {/*/>*/}
-
                 <ContainedButton
                     type="submit"
                     buttonName="다음"

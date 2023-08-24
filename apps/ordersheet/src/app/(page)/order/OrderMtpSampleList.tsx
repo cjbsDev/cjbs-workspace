@@ -31,12 +31,24 @@ import {cjbsTheme} from "cjbsDSTM";
 import ExcelUploadModal from "@app/(page)/order/ExcelUploadModal";
 import TableRows from "./TableRows"
 import MtpFullService from "@app/(page)/order/mtp/MtpFullService";
+import {useForm} from "react-hook-form";
 
 
 const LazyPrepSelectbox = dynamic(() => import("../../components/CommonSelectbox"), {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
 });
+
+type FormValues = {
+    samples: {
+        sampleNm: string;
+        source: string;
+        sampleCategoryCc: string;
+        anlsTargetGene: string;
+        qc: string;
+        memo: string;
+    }[];
+};
 
 export default function Page(props: any) {
 
@@ -45,6 +57,24 @@ export default function Page(props: any) {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const defaultValues = {};
+    // const {
+    //     register,
+    //     control,
+    //     handleSubmit,
+    //     formState: { errors }
+    // } = useForm<FormValues>({
+    //     defaultValues: {
+    //         samples: [{
+    //             sampleNm: "",
+    //             source: "",
+    //             sampleCategoryCc: "",
+    //             anlsTargetGene: "",
+    //             qc: "",
+    //             memo: "",
+    //         }]
+    //     },
+    //     mode: "onBlur"
+    // });
 
     // 행 추가 될 값 저장
     const onChange = (e: any) => {
