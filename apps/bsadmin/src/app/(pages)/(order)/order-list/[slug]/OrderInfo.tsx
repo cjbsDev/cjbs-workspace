@@ -124,13 +124,15 @@ export default function OrderInfo() {
       </CustomTabPanel>
 
       {/* 오더 정보 변경 Modal */}
-      <ErrorContainer FallbackComponent={Fallback}>
-        <LazyOrderInfoModifyModal
-          onClose={orderInfoModifyModalClose}
-          open={showOrderInfoModifyModal}
-          modalWidth={800}
-        />
-      </ErrorContainer>
+      {showOrderInfoModifyModal && (
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyOrderInfoModifyModal
+            onClose={orderInfoModifyModalClose}
+            open={showOrderInfoModifyModal}
+            modalWidth={800}
+          />
+        </ErrorContainer>
+      )}
 
       {/* 목록, 이전, 다음 버튼 */}
       <Grid container justifyContent="space-between">

@@ -25,9 +25,12 @@ const LazySampleInfoModal = dynamic(
     ssr: false,
   }
 );
-const LazySampleAddModal = dynamic(() => import("./SampleAddModal"), {
-  ssr: false,
-});
+const LazySampleAddModal = dynamic(
+  () => import("./(SampleAddModal)/SampleAddModal"),
+  {
+    ssr: false,
+  }
+);
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -51,7 +54,7 @@ const SampleTab = () => {
     }
   );
   const sampleList = data.data;
-  // console.log("SAMPLE TAB LIST", sampleList);
+  console.log("SAMPLE TAB LIST", sampleList);
 
   const columns = useMemo(
     () => [
@@ -312,10 +315,10 @@ const SampleTab = () => {
     });
   }, []);
 
-  const handleSelectedRowChange = ({ selectedRows }: any) => {
+  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     // You can set state or dispatch with something like Redux so we can use the retrieved data
     console.log("Selected Rows: ", selectedRows);
-  };
+  }, []);
 
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
@@ -356,11 +359,14 @@ const SampleTab = () => {
       )}
 
       {/* 샘플Add 모달 */}
-      <LazySampleAddModal
-        onClose={handleSampleAddModalClose}
-        open={showSampleAddModal}
-        modalWidth={800}
-      />
+      {showSampleAddModal && (
+        <LazySampleAddModal
+          onClose={handleSampleAddModalClose}
+          open={showSampleAddModal}
+          modalWidth={800}
+        />
+      )}
+
       {/*{showSampleInfoModal.isShow && (*/}
       {/*  */}
       {/*)}*/}
