@@ -99,6 +99,8 @@ const StndPriceSrvcType = () => {
       });
   };
 
+  console.log("scndSrvcTypeList", scndSrvcTypeList);
+
   return (
     <Box>
       <Breadcrumbs
@@ -129,6 +131,7 @@ const StndPriceSrvcType = () => {
                 const { optionName, value } = item;
                 return (
                   <ListItemButton
+                    key={value}
                     sx={{
                       color:
                         selectedIndex === index
@@ -181,6 +184,7 @@ const StndPriceSrvcType = () => {
                       const { optionName, value } = item;
                       return (
                         <ListItemButton
+                          key={value}
                           selected={selectedScndIndex === index}
                           onClick={(event) =>
                             handleListScndItemClick(
@@ -234,6 +238,7 @@ const StndPriceSrvcType = () => {
                       const { optionName, value } = item;
                       return (
                         <ListItemButton
+                          key={value}
                           selected={selectedThrdIndex === index}
                           onClick={() => {
                             console.log("ccccccc");
@@ -250,96 +255,6 @@ const StndPriceSrvcType = () => {
           </Grid>
         </Stack>
       </Grid>
-
-      {/*<Grid*/}
-      {/*  container*/}
-      {/*  sx={{ border: `1px solid ${grey["400"]}`, alignSelf: "stretch" }}*/}
-      {/*>*/}
-      {/*  <Grid item xs={4}>*/}
-      {/*    <List>*/}
-      {/*      {firstSrvcTypeLists.map((item: any, index: number) => {*/}
-      {/*        const { optionName, value } = item;*/}
-      {/*        return (*/}
-      {/*          <ListItemButton*/}
-      {/*            selected={selectedIndex === index}*/}
-      {/*            onClick={(event) => handleListItemClick(event, index, value)}*/}
-      {/*          >*/}
-      {/*            <ListItemText primary={optionName} />*/}
-      {/*            <ListItemIcon>*/}
-      {/*              <MyIcon icon="cheveron-right" size={20} />*/}
-      {/*            </ListItemIcon>*/}
-      {/*          </ListItemButton>*/}
-      {/*        );*/}
-      {/*      })}*/}
-      {/*    </List>*/}
-      {/*  </Grid>*/}
-      {/*  <Grid item xs={4}>*/}
-      {/*    {scndSrvcTypeList.length === 0 ? (*/}
-      {/*      <Box*/}
-      {/*        sx={{*/}
-      {/*          height: "100%",*/}
-      {/*          justifyContent: "center",*/}
-      {/*          alignItems: "center",*/}
-      {/*          display: "flex",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <Typography variant="body2">List Data Empty.</Typography>*/}
-      {/*      </Box>*/}
-      {/*    ) : (*/}
-      {/*      <List>*/}
-      {/*        {scndSrvcTypeList.map((item: any, index: number) => {*/}
-      {/*          const { optionName, value } = item;*/}
-      {/*          return (*/}
-      {/*            <ListItemButton*/}
-      {/*              selected={selectedScndIndex === index}*/}
-      {/*              onClick={(event) =>*/}
-      {/*                handleListScndItemClick(event, index, value, frstValue)*/}
-      {/*              }*/}
-      {/*            >*/}
-      {/*              <ListItemText primary={optionName} />*/}
-      {/*              <ListItemIcon>*/}
-      {/*                <MyIcon icon="cheveron-right" size={20} />*/}
-      {/*              </ListItemIcon>*/}
-      {/*            </ListItemButton>*/}
-      {/*          );*/}
-      {/*        })}*/}
-      {/*      </List>*/}
-      {/*    )}*/}
-      {/*  </Grid>*/}
-      {/*  <Grid item xs={4}>*/}
-      {/*    {thrdSrvcTypeList.length === 0 ? (*/}
-      {/*      <Box*/}
-      {/*        sx={{*/}
-      {/*          height: "100%",*/}
-      {/*          justifyContent: "center",*/}
-      {/*          alignItems: "center",*/}
-      {/*          display: "flex",*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        <Typography variant="body2">List Data Empty.</Typography>*/}
-      {/*      </Box>*/}
-      {/*    ) : (*/}
-      {/*      <List>*/}
-      {/*        {thrdSrvcTypeList.map((item: any, index: number) => {*/}
-      {/*          const { optionName, value } = item;*/}
-      {/*          return (*/}
-      {/*            <ListItemButton*/}
-      {/*              selected={selectedThrdIndex === index}*/}
-      {/*              // onClick={(event) =>*/}
-      {/*              //   handleListScndItemClick(event, index, value, frstValue)*/}
-      {/*              // }*/}
-      {/*            >*/}
-      {/*              <ListItemText primary={optionName} />*/}
-      {/*              <ListItemIcon>*/}
-      {/*                <MyIcon icon="cheveron-right" size={20} />*/}
-      {/*              </ListItemIcon>*/}
-      {/*            </ListItemButton>*/}
-      {/*          );*/}
-      {/*        })}*/}
-      {/*      </List>*/}
-      {/*    )}*/}
-      {/*  </Grid>*/}
-      {/*</Grid>*/}
     </Box>
   );
 };
