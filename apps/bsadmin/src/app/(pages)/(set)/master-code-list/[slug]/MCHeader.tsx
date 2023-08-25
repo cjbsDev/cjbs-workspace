@@ -47,7 +47,6 @@ const MCHeader: React.FC<MCHeaderProps> = ({ slug }) => {
                 {msCodeData.uniqueCode ?? ""}
               </TD>
             </TableRow>
-
             <TableRow>
               <TH sx={{ width: "15%" }}>마스터코드 명(국문)</TH>
 

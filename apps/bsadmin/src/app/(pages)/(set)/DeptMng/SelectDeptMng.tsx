@@ -2,19 +2,18 @@ import { SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import React from "react";
 import useSWR from "swr";
-//import fetcher from "../../func/fetcher";
 
 import axios from "axios";
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-export default function Region2() {
+export default function SelectDeptMng() {
   const { watch } = useFormContext();
-  const region1GcValue = watch("region1Gc");
-
-  // Check if region1GcValue is not undefined before making the API call
-  const { data: domesticData2 } = useSWR(
-    region1GcValue !== undefined
-      ? `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topUniqueCode=BS_0200002&midUniqueCode=${region1GcValue}`
+  const departCode = watch("departCodeMc");
+  const prjcMngrUkey = watch("prjcMngrUkey");
+  // ~/code/user/{depart}/list
+  const { data: deptMngData } = useSWR(
+    departCode !== undefined
+      ? `${process.env.NEXT_PUBLIC_API_URL}/code/user/${departCode}/list`
       : null,
     fetcher,
     {
@@ -23,10 +22,11 @@ export default function Region2() {
   );
 
   // Only render the SelectBox if the API call has successfully fetched the data
-  return domesticData2?.data ? (
+  return deptMngData?.data ? (
     <SelectBox
-      inputName="region2Gc"
-      options={domesticData2.data}
+      sx={{ width: "200px" }}
+      inputName="prjcMngrUkey"
+      options={deptMngData.data}
       defaultOption={false}
     />
   ) : null;
