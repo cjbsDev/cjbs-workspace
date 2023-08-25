@@ -38,11 +38,15 @@ const fetcher = (url: string) =>
     }
     return res.data;
   });
-const LazyMCCodeModifyModal = dynamic(() => import("./MCItemAddModifyModal"), {
-  ssr: false,
-});
 
-interface MCDetailListProps {
+const LazyProjectDetailAddModifyModal = dynamic(
+  () => import("./ProjectDetailAddModifyModal"),
+  {
+    ssr: false,
+  }
+);
+
+interface ProjectDetailListProps {
   slug: string;
 }
 
@@ -55,19 +59,18 @@ interface DataItem {
   isRls: string;
 }
 
-const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
-  // [마스터 코드] 수정 모달
+const ProjectDetailList: React.FC<ProjectDetailListProps> = ({ slug }) => {
+  // [연구 코드] 수정 모달
   const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState<DataItem>();
 
   const {
-    data: msCodeDetailTempData,
+    data: projectDetailTempData,
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/detail/${slug}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}/list`,
     fetcher
-    //{ revalidateOnFocus: true }
   );
   if (isLoading) {
     return <SkeletonLoading />;
@@ -76,13 +79,16 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     console.log("api err", error);
     return;
   }
-  const msCodeDetail = msCodeDetailTempData?.data?.masterCodeDetailList || [];
+  const masterCodeDetailList =
+    projectDetailTempData?.data?.masterCodeDetailList || [];
+
+  const projectDetail = masterCodeDetailList;
 
   const renderList = () => {
-    mutate(`${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/detail/${slug}`);
+    mutate(`${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}/list`);
   };
 
-  // [ 코드 추가 ] 모달 오픈
+  // [ 연구 추가 ] 모달 오픈
   const handleAddRow = () => {
     const tempObj = {
       detailUniqueCode: "",
@@ -95,29 +101,29 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     setSelectItem(tempObj);
     setMcCodeModifyModal(true);
   };
-  // [ 마스터 코드 ] 모달 오픈
+  // [ 연구 코드 ] 모달 오픈
   const mcItemModifyModalOpen = (item: DataItem) => {
     setSelectItem(item);
     setMcCodeModifyModal(true);
   };
 
-  // [ 마스터 코드 ] 모달 닫기
+  // [ 연구 코드 ] 모달 닫기
   const mcItemModifyModalClose = () => {
     setMcCodeModifyModal(false);
   };
 
   return (
     <>
-      {/* 마스터 코드 - 코드 관리 컴포넌트 */}
+      {/* 연구 코드 - 코드 관리 컴포넌트 */}
       <Grid container>
         <Grid item xs={7} sx={{ display: "flex" }}>
           <Typography variant="subtitle1">
-            코드 ( {msCodeDetail.length} 건 )
+            세부 연구 ( {projectDetail.length} 건 )
           </Typography>
         </Grid>
         <Grid item xs={5} sx={{ pt: 0, textAlign: "right", mb: 1 }}>
           <ContainedButton
-            buttonName="코드 추가"
+            buttonName="연구 추가"
             size="small"
             startIcon={<MyIcon icon="plus" size={16} />}
             onClick={handleAddRow}
@@ -130,17 +136,16 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
           <TableHead>
             <TableRow>
               <TH sx={{ width: "5%" }}></TH>
-              <TH sx={{ width: "15" }}>상세코드 ID</TH>
-              <TH sx={{ width: "22.5%" }}>상세코드명(국문)</TH>
-              <TH sx={{ width: "22.5%" }}>상세코드명(영문)</TH>
-              <TH sx={{ width: "10%" }}>주문서 노출</TH>
-              <TH sx={{ width: "10%" }}>사용여부</TH>
+              <TH sx={{ width: "20%" }}>연구 코드</TH>
+              <TH sx={{ width: "25%" }}>연구명(국문)</TH>
+              <TH sx={{ width: "25%" }}>연구명(영문)</TH>
+              <TH sx={{ width: "15%" }}>사용여부</TH>
               <TH sx={{ width: "10%" }}>수정</TH>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {msCodeDetail.length === 0 ? (
+            {projectDetail.length === 0 ? (
               <TableRow>
                 <TD colSpan={7}>
                   <Box sx={{ textAlign: "center" }}>
@@ -149,14 +154,13 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
                 </TD>
               </TableRow>
             ) : (
-              msCodeDetail.map((dataItem: DataItem, index: number) => (
+              projectDetail.map((dataItem: DataItem, index: number) => (
                 <TableRow key={dataItem.detailUniqueCode}>
                   <TD>{index + 1}</TD>
                   <TD>{dataItem.douzoneCode}</TD>
                   <TD>{dataItem.codeNm}</TD>
                   <TD>{dataItem.codeValue}</TD>
-                  <TD>{dataItem.isExpsOrsh}</TD>
-                  <TD>{dataItem.isRls}</TD>
+                  <TD>{dataItem.isRls == "Y" ? "사용" : "사용안함"}</TD>
                   <TD>
                     <OutlinedButton
                       buttonName="수정"
@@ -173,12 +177,12 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
 
       {/* 코드 수정 모달  */}
       {selectItem && (
-        <LazyMCCodeModifyModal
+        <LazyProjectDetailAddModifyModal
           onClose={mcItemModifyModalClose}
           open={mcCodeModifyModal}
           modalWidth={800}
           selectItem={selectItem}
-          uniqueCode={slug}
+          prjcUkey={slug}
           renderList={renderList}
         />
       )}
@@ -186,4 +190,4 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
   );
 };
 
-export default MCDetailList;
+export default ProjectDetailList;

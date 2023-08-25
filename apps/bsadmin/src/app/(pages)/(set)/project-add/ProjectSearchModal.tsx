@@ -23,8 +23,7 @@ interface ModalContainerProps {
 
 const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
-// https://dummyjson.com/products?limit=10&skip=10
-const AgncSearchModal = ({
+const ProjectSearchModal = ({
   onClose,
   open,
   modalWidth,
@@ -35,7 +34,7 @@ const AgncSearchModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=${pageIndex}&page.size=${perPage}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/list/unRgst?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -46,40 +45,32 @@ const AgncSearchModal = ({
   //console.log("Modal data", data.data);
 
   // useMemo will only be created once
+
   const columns = useMemo(
     () => [
       {
-        name: "사업자등록번호",
-        selector: (row: { brno: number }) => row.brno,
-        width: "120px",
+        name: "코드",
+        selector: (row: { prjcUniqueCodeMc: string }) => row.prjcUniqueCodeMc,
+        width: "200px",
       },
       {
-        name: "기관명",
-        selector: (row: { instNm: string }) => row.instNm,
-        width: "320px",
+        name: "과제명",
+        selector: (row: { prjcNm: string }) => row.prjcNm,
+        width: "450px",
       },
-      {
-        name: "분류",
-        selector: (row: { instTypeVal: string }) => row.instTypeVal,
-        width: "150px",
-      },
-      {
-        name: "특성",
-        selector: (row: { ftr: string }) => row.ftr,
-        width: "250px",
-      },
+
       {
         name: "선택",
-        cell: (row: { instUkey: string; instNm: string }) => {
+        cell: (row: any) => {
           return (
             <OutlinedButton
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("instUkey", row.instUkey);
-                setValue("instNm", row.instNm);
+                setValue("prjcUniqueCode", row.prjcUniqueCodeMc);
+                setValue("prjcNm", row.prjcNm);
                 onClose();
-                clearErrors("instNm");
+                clearErrors("prjcNm");
               }}
             />
           );
@@ -157,4 +148,4 @@ const AgncSearchModal = ({
   );
 };
 
-export default AgncSearchModal;
+export default ProjectSearchModal;

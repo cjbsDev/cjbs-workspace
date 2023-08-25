@@ -3,6 +3,7 @@ import { useParams } from "next/navigation";
 import useSWR from "swr";
 import fetcher from "../../../../../func/fetcher";
 import {
+  cjbsTheme,
   ContainedButton,
   DataCountResultInfo,
   DataTableBase,
@@ -13,7 +14,15 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import { Box, Chip, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Grid,
+  Stack,
+  styled,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
 import Link from "next/link";
 import MyIcon from "icon/myIcon";
 import { useRouter } from "next-nprogress-bar";
@@ -25,9 +34,12 @@ const LazySampleInfoModal = dynamic(
     ssr: false,
   }
 );
-const LazySampleAddModal = dynamic(() => import("./SampleAddModal"), {
-  ssr: false,
-});
+const LazySampleAddModal = dynamic(
+  () => import("./(SampleAddModal)/SampleAddModal"),
+  {
+    ssr: false,
+  }
+);
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -51,7 +63,7 @@ const SampleTab = () => {
     }
   );
   const sampleList = data.data;
-  // console.log("SAMPLE TAB LIST", sampleList);
+  console.log("SAMPLE TAB LIST", sampleList);
 
   const columns = useMemo(
     () => [
@@ -104,7 +116,7 @@ const SampleTab = () => {
         sortable: false,
         center: true,
         selector: (row) =>
-          row.runList.length === 0 ? "-" : row.runList.map((item) => item),
+          row.runList.length === 0 ? "-" : row.runList.join(", "),
       },
       {
         name: "접수",
@@ -114,15 +126,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.rcptStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { rcptStatusVal } = sampleStatusRes;
+          const { rcptStatusCc, rcptStatusVal, rcptDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="primary"
-              label={rcptStatusVal}
-              size="small"
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={rcptStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      rcptStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : rcptStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      rcptStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : rcptStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {rcptDttm === null ? "-" : rcptDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -134,16 +168,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.qcStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { qcStatusVal } = sampleStatusRes;
+          const { qcStatusCc, qcStatusVal, qcCompDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="secondary"
-              label={qcStatusVal}
-              size="small"
-              sx={{ color: "black" }}
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={qcStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      qcStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : qcStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      qcStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : qcStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {qcCompDttm === null ? "-" : qcCompDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -155,15 +210,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.libStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { libStatusVal } = sampleStatusRes;
+          const { libStatusCc, libStatusVal, libCompDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="error"
-              label={libStatusVal}
-              size="small"
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={libStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      libStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : libStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      libStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : libStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {libCompDttm === null ? "-" : libCompDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -175,16 +252,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.seqStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { seqStatusVal } = sampleStatusRes;
+          const { seqStatusCc, seqStatusVal, seqCompDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="secondary"
-              label={seqStatusVal}
-              size="small"
-              sx={{ color: "black" }}
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={seqStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      seqStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : seqStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      seqStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : seqStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {seqCompDttm === null ? "-" : seqCompDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -196,16 +294,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.biStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { biStatusVal } = sampleStatusRes;
+          const { biStatusCc, biStatusVal, biCompDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="secondary"
-              label={biStatusVal}
-              size="small"
-              sx={{ color: "black" }}
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={biStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      biStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : biStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      biStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : biStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {biCompDttm === null ? "-" : biCompDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -217,16 +336,37 @@ const SampleTab = () => {
         selector: (row) => row.sampleStatusRes.ntfcStatusVal,
         cell: (row) => {
           const { sampleStatusRes } = row;
-          const { ntfcStatusVal } = sampleStatusRes;
+          const { ntfcStatusCc, ntfcStatusVal, ntfcCompDttm } = sampleStatusRes;
           return (
-            <Chip
-              data-tag="allowRowEvents"
-              variant="outlined"
-              color="secondary"
-              label={ntfcStatusVal === null ? "-" : ntfcStatusVal}
-              size="small"
-              sx={{ color: "black" }}
-            />
+            <Stack spacing={0.5} data-tag="allowRowEvents">
+              <Box sx={{ textAlign: "center" }} data-tag="allowRowEvents">
+                <Chip
+                  data-tag="allowRowEvents"
+                  variant="outlined"
+                  label={ntfcStatusVal}
+                  size="small"
+                  sx={{
+                    border: `1px solid ${
+                      ntfcStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : ntfcStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                    color: `${
+                      ntfcStatusCc === "BS_0902003"
+                        ? cjbsTheme.palette.primary.main
+                        : ntfcStatusCc === "BS_0902004"
+                        ? cjbsTheme.palette.warning.main
+                        : null
+                    }`,
+                  }}
+                />
+              </Box>
+              <Caption data-tag="allowRowEvents">
+                {ntfcCompDttm === null ? "-" : ntfcCompDttm}
+              </Caption>
+            </Stack>
           );
         },
       },
@@ -235,8 +375,7 @@ const SampleTab = () => {
         width: "100px",
         sortable: false,
         center: true,
-        selector: (row) =>
-          row.sampleStatusVal === null ? "-" : row.sampleStatusVal,
+        selector: (row) => (row.isAnlsInst === "Y" ? "생성" : "-"),
       },
     ],
     []
@@ -312,10 +451,10 @@ const SampleTab = () => {
     });
   }, []);
 
-  const handleSelectedRowChange = ({ selectedRows }: any) => {
+  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     // You can set state or dispatch with something like Redux so we can use the retrieved data
     console.log("Selected Rows: ", selectedRows);
-  };
+  }, []);
 
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
@@ -356,11 +495,14 @@ const SampleTab = () => {
       )}
 
       {/* 샘플Add 모달 */}
-      <LazySampleAddModal
-        onClose={handleSampleAddModalClose}
-        open={showSampleAddModal}
-        modalWidth={800}
-      />
+      {showSampleAddModal && (
+        <LazySampleAddModal
+          onClose={handleSampleAddModalClose}
+          open={showSampleAddModal}
+          modalWidth={800}
+        />
+      )}
+
       {/*{showSampleInfoModal.isShow && (*/}
       {/*  */}
       {/*)}*/}
@@ -369,3 +511,9 @@ const SampleTab = () => {
 };
 
 export default SampleTab;
+
+const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
+  lineHeight: 1,
+  fontSize: 12,
+  textAlign: "center",
+}));

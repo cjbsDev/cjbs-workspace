@@ -76,7 +76,10 @@ const MCItemModifyModal = ({
 
     let apiUrl = "";
     if (selectItem.detailUniqueCode) {
-      apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
+      //apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
+      // ~ /mngr/{uniqueCode} -> ~/mngr/masterCode/{uniqueCode}
+      apiUrl =
+        `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
 
       try {
         const response = await PUT(apiUrl, saveObj); // API 요청

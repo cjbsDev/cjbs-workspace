@@ -12,6 +12,7 @@ import {
   CheckboxGV,
   ErrorContainer,
   Fallback,
+  SingleDatePicker,
 } from "cjbsDSTM";
 import {
   Box,
@@ -29,7 +30,6 @@ import {
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import useSWR, { useSWRConfig } from "swr";
-import SingleDatePicker from "./DatePicker";
 import { useParams } from "next/navigation";
 import fetcher from "../../../../../func/fetcher";
 import dynamic from "next/dynamic";
@@ -98,10 +98,11 @@ ModalContainerProps) => {
     setIsLoading(false);
   };
 
-  // console.log("Init Data!!@@@@ ==>> ", data.data);
+  console.log("Init Data!!@@@@ ==>> ", data.data.check16sAt);
 
   const defaultValues = {
-    check16sAt: data.data.check16sAt,
+    check16sAt:
+      data.data.check16sAt === null ? null : new Date(data.data.check16sAt),
     isFastTrack: data.data.isFastTrack,
     mailRcpnList: data.data.mailRcpnList,
     reqReturnCompList: data.data.reqReturnCompList,
@@ -125,7 +126,7 @@ ModalContainerProps) => {
     }
 
     const newDateValue = dayjs(data.check16sAt).format("YYYY-MM-DD");
-    console.log("NEW check16At", newDateValue);
+    // console.log("NEW check16At", newDateValue);
 
     const body = {
       check16sAt: newDateValue,
@@ -232,7 +233,7 @@ ModalContainerProps) => {
                     </Typography>
                   </TH>
                   <TD>
-                    <SingleDatePicker />
+                    <SingleDatePicker inputName="check16sAt" />
                   </TD>
                 </TableRow>
                 <TableRow>

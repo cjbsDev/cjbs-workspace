@@ -29,6 +29,7 @@ export * from "./molecules/AlertModal";
 export * from "./molecules/ConfirmModal";
 export * from "./molecules/SkeletonLoading";
 export * from "./molecules/DateRangePicker";
+export * from "./molecules/SingleDatePicker";
 export * from "./molecules/FileDownloadBtn";
 // export * from "./molecules/InputValidation";
 
