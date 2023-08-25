@@ -70,7 +70,7 @@ const AgncSearchModal = ({
       },
       {
         name: "선택",
-        cell: (row) => {
+        cell: (row: { instUkey: string; instNm: string }) => {
           return (
             <OutlinedButton
               size="small"
