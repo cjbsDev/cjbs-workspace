@@ -54,6 +54,15 @@ export interface POST_API {
   ): Promise<ApiResponse>;
 }
 
+export interface POST_MULTIPART {
+  (
+      url: string,
+      body?: object,
+      option?: any,
+      headers?: any
+  ): Promise<ApiResponse>;
+}
+
 export interface PUT_API {
   (
     url: string,

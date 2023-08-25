@@ -14,6 +14,9 @@ import OrderMtpSampleList from "../OrderMtpSampleList";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
+import axios from "axios";
+import {POST, POST_MULTIPART} from "api";
+import {useRouter} from "next-nprogress-bar";
 
 
 const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
@@ -66,29 +69,80 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 
 export default function MtpFullService(){
 
+    const router = useRouter();
+
     const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
     const [expanded, setExpanded] = React.useState<string | false>('1');
     const [bodyData, setBodyData] = useState<any>({});
     console.log("bodyData : ", bodyData);
 
-    // const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean)=> {
-    //     setExpanded(newExpanded ? panel : false);
-    //     setStepperNo(Number(panel));
-    // };
+    const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean)=> {
+        setExpanded(newExpanded ? panel : false);
+        setStepperNo(Number(panel));
+    };
 
     const addBodyData = (callBackData:any) => {
         // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
         // console.log(callBackData);
+        console.log(stepperNo);
         setBodyData({...bodyData, ...callBackData});
         setExpanded(String(stepperNo+1));
         setStepperNo(stepperNo+1);
+        // 주문서 등록
+        if(stepperNo+1 >= 4) {
+            orderSheetInsertCall();
+        }
     }
+
+    const moveBackFocus = () => {
+        setExpanded(String(stepperNo-1));
+        setStepperNo(stepperNo-1);
+    }
+
+    // 등록 호출
+    const orderSheetInsertCall = async () => {
+        // const uploadFile = document.getElementById("uploadFile") as HTMLInputElement;
+        // console.log("uploadFile", uploadFile);
+        //
+        // const formData = new FormData();
+        // formData.append(
+        //     "req",
+        //     new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+        // );
+        // console.log("formData", formData.get("req"));
+        //
+        // if(uploadFile?.files?.item(0)){
+        //     // file 데이터가 있을경우
+        //     formData.append("file", uploadFile?.files?.item(0) as File);
+        // } else {
+        //     formData.append("file", undefined);
+        // }
+        // console.log("formData", formData.get("file"));
+
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs2`;
+
+        try {
+            // const response = await POST_MULTIPART(apiUrl, formData); // API 요청
+            const response = await POST(apiUrl, bodyData); // API 요청
+            if (response.success) {
+                console.log("response", response);
+                router.push("/order/complete");
+            } else if (response.code == "INVALID_AUTHORITY") {
+                // toast("권한이 없습니다.");
+            } else {
+                // toast("문제가 발생했습니다. 01");
+            }
+        } catch (error) {
+            console.error("request failed:", error);
+        }
+    }
+
 
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
 
-            {/*<Accordion expanded={expanded === '1'} onChange={handleChange('1')}>*/}
-            <Accordion expanded={expanded === '1'} >
+            <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
+            {/*<Accordion expanded={expanded === '1'} >*/}
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack
                         direction="row"
@@ -128,8 +182,8 @@ export default function MtpFullService(){
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
-            {/*<Accordion expanded={expanded === '2'} onChange={handleChange('2')}>*/}
-            <Accordion expanded={expanded === '2'} >
+            <Accordion expanded={expanded === '2'} onChange={handleChange('2')}>
+            {/*<Accordion expanded={expanded === '2'} >*/}
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
                     <Stack
                         direction="row"
@@ -161,11 +215,11 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} />
+                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus}/>
                 </AccordionDetails>
             </Accordion>
-            {/*<Accordion expanded={expanded === '3'} onChange={handleChange('3')}>*/}
-            <Accordion expanded={expanded === '3'} >
+            <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
+            {/*<Accordion expanded={expanded === '3'} >*/}
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
                     <Stack
                         direction="row"
@@ -197,7 +251,7 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <PaymentInfo addBodyData={addBodyData} />
+                    <PaymentInfo addBodyData={addBodyData} moveBackFocus={moveBackFocus}/>
                 </AccordionDetails>
             </Accordion>
 

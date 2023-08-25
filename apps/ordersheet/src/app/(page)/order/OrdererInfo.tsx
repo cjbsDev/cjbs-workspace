@@ -54,11 +54,9 @@ export default function Page(props:JSON) {
             addEmailList: data.addEmailList,
             agncAddr: data.addr,
             agncAddrDetail: data.addrDetail,
-            agncId: data.agncId,
             agncNm: data.agncNm,
             agncZip: data.zip,
             ebcEmail: data.ebcEmail,
-            instMc: data.instMc,
             instNm: data.instNm,
             mailRcpnList: data.mailRcpnList,
             ordrAplcEmail: data.ordrAplcEmail,
@@ -68,8 +66,13 @@ export default function Page(props:JSON) {
             rhpiNm: data.rhpiNm,
             rhpiTel: data.rhpiTel,
         };
+        const termData = {
+            isAgree: 'Y',
+            termId: data.termId
+        }
         const returnData = {
             custAgnc: inputCustData,
+            term: termData
         };
         props.addBodyData(returnData);
     };
@@ -99,10 +102,16 @@ export default function Page(props:JSON) {
                                     />
                                     <InputValidation
                                         sx={{ display: "none" }}
-                                        inputName="agncId"
+                                        inputName="termId"
                                         required={true}
-                                        defaultValue={custData.custAgnc.agncId ?? ""}
+                                        defaultValue={custData.term.termId}
                                     />
+                                    {/*<InputValidation*/}
+                                    {/*    sx={{ display: "none" }}*/}
+                                    {/*    inputName="agncId"*/}
+                                    {/*    required={true}*/}
+                                    {/*    defaultValue={custData.custAgnc.agncId ?? ""}*/}
+                                    {/*/>*/}
                                 </Stack>
                             </TD>
                         </TableRow>
@@ -153,12 +162,12 @@ export default function Page(props:JSON) {
                                         sx={{ width: 306 }}
                                         defaultValue={custData.custAgnc.instNm ?? ""}
                                     />
-                                    <InputValidation
-                                        sx={{ display: "none" }}
-                                        inputName="instMc"
-                                        required={false}
-                                        defaultValue={custData.custAgnc.instMc ?? ""}
-                                    />
+                                    {/*<InputValidation*/}
+                                    {/*    sx={{ display: "none" }}*/}
+                                    {/*    inputName="instMc"*/}
+                                    {/*    required={false}*/}
+                                    {/*    defaultValue={custData.custAgnc.instMc ?? ""}*/}
+                                    {/*/>*/}
                                 </Stack>
                             </TD>
                             <TH sx={{ width: "20%" }}>연구 부서 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
@@ -231,8 +240,8 @@ export default function Page(props:JSON) {
                                         inputName="ordrAplcTel"
                                         required={true}
                                         errorMessage="연락처를 입력해 주세요."
-                                        pattern={/^[0-9]+$/}
-                                        patternErrMsg="숫자만 입력해주세요."
+                                        pattern={/^[0-9,]*$/}
+                                        patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
                                         placeholder="연락처를 입력해 주세요."
                                         sx={{ width: 306 }}
                                         InputProps={{

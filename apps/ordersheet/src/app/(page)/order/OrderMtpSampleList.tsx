@@ -19,6 +19,7 @@ import {
     Fallback,
     Form,
     InputValidation,
+    OutlinedButton,
     TD,
     TH,
     UnStyledButton,
@@ -120,7 +121,7 @@ export default function Page(props: any) {
                         <TD sx={{ width: "80%" }}>
                             <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                 <Stack direction="row" alignItems="center" spacing={2}>
-                                    <label htmlFor="upload-image">
+                                    <label htmlFor="uploadFile">
                                         <Button
                                             variant="outlined"
                                             color={"secondary"}
@@ -131,9 +132,9 @@ export default function Page(props: any) {
                                             파일 추가
                                         </Button>
                                         <input
-                                            id="upload-image"
+                                            id="uploadFile"
                                             hidden
-                                            accept="image/!*"
+                                            accept="*"
                                             type="file"
                                             onChange={handleFileUpload}
                                         />
@@ -377,6 +378,11 @@ export default function Page(props: any) {
             />
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
+                <OutlinedButton
+                    buttonName="이전"
+                    onClick={() => props.moveBackFocus()}
+                />
+
                 <ContainedButton
                     type="submit"
                     buttonName="다음"

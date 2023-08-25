@@ -72,7 +72,7 @@ export default function Page(props:JSON) {
         const inputPaymentData = {
             brno: data.brno,
             conm: data.conm,
-            pymtWayCc: alignment,
+            pymtWayCc: alignment === "account" ? "BS_1300001" : "BS_1300002",
             rcpnNm: data.rcpnNm,
             rcpnEmail: data.rcpnEmail,
             rprsNm: data.rprsNm,
@@ -118,6 +118,10 @@ export default function Page(props:JSON) {
                                         errorMessage="사업자 등록번호를 입력해 주세요."
                                         pattern={/^[0-9]+$/}
                                         patternErrMsg="숫자만 입력해주세요."
+                                        minLength={10}
+                                        minLengthErrMsg="사업자등록 번호는 10자리를 입력해주세요."
+                                        maxLength={10}
+                                        maxLengthErrMsg="사업자등록 번호는 10자리를 입력해주세요."
                                         sx={{ width: 306 }}
                                         placeholder="- 없이 숫자만 입력해 주세요."
                                     />
@@ -217,14 +221,16 @@ export default function Page(props:JSON) {
                     inputName="isAgree"
                     labelText="개인정보 수집 및 활용에 동의합니다 (필수)"
                     value="Y"
+                    required={true}
+                    errorMessage="개인정보 수집 및 활용에 동의해 주세요."
                 />
             </Stack>
 
             <Stack direction="row" spacing={0.5} justifyContent="center">
-                {/*<OutlinedButton*/}
-                {/*    buttonName="이전"*/}
-                {/*    onClick={() => router.push("/order/order-list")}*/}
-                {/*/>*/}
+                <OutlinedButton
+                    buttonName="이전"
+                    onClick={() => props.moveBackFocus()}
+                />
 
                 <ContainedButton
                     type="submit"

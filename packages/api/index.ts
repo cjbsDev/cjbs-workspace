@@ -5,6 +5,7 @@ import {
   DELETE_API,
   GET_API,
   POST_API,
+  POST_MULTIPART,
   POST_BOLB_API,
   PUT_API,
   REQUEST_API,
@@ -21,6 +22,10 @@ export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
 
 export const POST: POST_API = async (url, body, option, headers) => {
   return await request(url, "POST", body, option, headers);
+};
+
+export const POST_MULTIPART: POST_MULTIPART = async (url, body, option, headers) => {
+  return await request_multipart(url, "POST", body, option, headers);
 };
 
 export const PUT: PUT_API = async (url, body, option, headers) => {
@@ -46,6 +51,73 @@ const request: REQUEST_API = async (url, method, body, option) => {
         headers: {
           "Accept-Language": "ko",
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        ...option,
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        resolve(data);
+      } else if (response.status === 401) {
+        // Access token expired, try to refresh it
+
+        const newAuthResponse = await fetch("/api/auth/session?update");
+        const newAuth = await newAuthResponse.json();
+
+        const retryResponse = await fetch(url, {
+          method,
+          body: body ? JSON.stringify(body) : null,
+          headers: {
+            Authorization: `Bearer ${newAuth.accessToken}`,
+            "Accept-Language": "ko",
+            "Content-Type": "application/json",
+          },
+          ...option,
+        });
+
+        if (retryResponse.ok) {
+          const data = await retryResponse.json();
+          resolve(data);
+        } else {
+          console.log("토큰 갱신에 실패함.");
+          //    signOut({ callbackUrl: "/" });
+        }
+      } else if (response.status === 403) {
+        toast("권한이 없습니다.(A103-1)");
+        console.log(`API call failed with status code ${response.status}`);
+      } else {
+        toast("A network problem has occurred.(A102-1)");
+        console.log(`API call failed with status code ${response.status}`);
+      }
+    } catch (error) {
+      toast("A network problem has occurred.(A101)");
+      console.log("error >", error);
+    }
+  });
+};
+
+const request_multipart: REQUEST_API = async (url, method, body, option) => {
+  const session = await getSession();
+  const accessToken = session?.accessToken;
+  if (!session || !accessToken) {
+    window.location.href = "/";
+  }
+
+  // 폼 객체 key 와 value 값을 순회.
+  let entries = body.entries();
+  for (const pair of entries) {
+    console.log(pair[0]+ ', ' + pair[1]);
+  }
+
+  return new Promise(async function (resolve, reject) {
+    try {
+      const response = await fetch(url, {
+        method,
+        body: body,
+        headers: {
+          "Accept-Language": "ko",
+          'Content-Type': 'multipart/form-data; boundary="boundary"',
           Authorization: `Bearer ${accessToken}`,
         },
         ...option,
