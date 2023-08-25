@@ -193,23 +193,9 @@ export default function ListContact() {
     }
   };
 
-  const setUserAuth = () => {
-    console.log("setUserAuth");
-
+  const setUserAuth = async () => {
     console.log("권한 일괄 변경");
     const selectedUserAuth = getValues("userAuth");
-    console.log("선택 userAuth", selectedUserAuth);
-    console.log("선택 ROW", selectedOption);
-
-    /*
-    [PUT] /user/auth
-    {
-      "userAuthCc": "BS_0301001",
-      "userUkeyList": [
-        "string"
-      ]
-    }
-    */
 
     // validation
     if (selectedRowCnt == 0) {
@@ -223,29 +209,27 @@ export default function ListContact() {
     //handleUncheckAll();
     const ukeyList = selectedOption?.map((item) => item.ukey) || [];
     const saveObj = {
-      userStatusCc: selectedUserAuth,
+      userAuthCc: selectedUserAuth,
       userUkeyList: ukeyList,
     };
     console.log("saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/auth`; // Replace with your API URL
-    axios
-      .put(apiUrl, saveObj)
-      .then((response) => {
-        console.log("권한 변경 successful:", response.data);
-        if (response.data.success) {
-          // 체크 해제 로직필요.
-          console.log("체크 해제 로직");
-          handleClearRows();
-        }
-      })
-      .catch((error) => {
-        if (error.response.status == 403) {
-          toast("실행 권한이 없습니다.");
-        }
-        console.error("권한 변경 failed:", error.response.status);
-      });
+
+    try {
+      const response = await PUT(apiUrl, saveObj); // API 요청
+      if (response.success) {
+        handleClearRows();
+      } else if (response.code == "INVALID_AUTHORITY") {
+        toast("실행 권한이 없습니다.");
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
   };
 
   const onSubmit = (data: any) => {
