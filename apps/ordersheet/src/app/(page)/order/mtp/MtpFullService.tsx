@@ -1,5 +1,5 @@
 "use client";
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
@@ -86,13 +86,24 @@ export default function MtpFullService(){
         // console.log(callBackData);
         console.log(stepperNo);
         setBodyData({...bodyData, ...callBackData});
+
         setExpanded(String(stepperNo+1));
         setStepperNo(stepperNo+1);
-        // 주문서 등록
-        if(stepperNo+1 >= 4) {
+
+        // if(stepperNo+1 == 4) {
+        //     orderSheetInsertCall();
+        // } else {
+        //     setExpanded(String(stepperNo+1));
+        //     setStepperNo(stepperNo+1);
+        // }
+    }
+
+    // 주문서 등록
+    useEffect(() => {
+        if(stepperNo === 4) {
             orderSheetInsertCall();
         }
-    }
+    }, [stepperNo])
 
     const moveBackFocus = () => {
         setExpanded(String(stepperNo-1));
@@ -123,6 +134,7 @@ export default function MtpFullService(){
 
         try {
             // const response = await POST_MULTIPART(apiUrl, formData); // API 요청
+            console.log("call body data", bodyData);
             const response = await POST(apiUrl, bodyData); // API 요청
             if (response.success) {
                 console.log("response", response);
@@ -141,8 +153,8 @@ export default function MtpFullService(){
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
 
-            <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
-            {/*<Accordion expanded={expanded === '1'} >*/}
+            {/*<Accordion expanded={expanded === '1'} onChange={handleChange('1')}>*/}
+            <Accordion expanded={expanded === '1'} >
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack
                         direction="row"
@@ -182,8 +194,8 @@ export default function MtpFullService(){
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === '2'} onChange={handleChange('2')}>
-            {/*<Accordion expanded={expanded === '2'} >*/}
+            {/*<Accordion expanded={expanded === '2'} onChange={handleChange('2')}>*/}
+            <Accordion expanded={expanded === '2'} >
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
                     <Stack
                         direction="row"
@@ -218,8 +230,8 @@ export default function MtpFullService(){
                     <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus}/>
                 </AccordionDetails>
             </Accordion>
-            <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
-            {/*<Accordion expanded={expanded === '3'} >*/}
+            {/*<Accordion expanded={expanded === '3'} onChange={handleChange('3')}>*/}
+            <Accordion expanded={expanded === '3'} >
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
                     <Stack
                         direction="row"
