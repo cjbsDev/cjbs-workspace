@@ -1,6 +1,51 @@
 import React from "react";
-import { Table, TableBody, TableContainer, TableRow } from "@mui/material";
-import { TD, TH, transformedNullToHyphon } from "cjbsDSTM";
+import {
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import {
+  ErrorContainer,
+  Fallback,
+  InputValidation,
+  SelectBox,
+  TD,
+  TH,
+  transformedNullToHyphon,
+} from "cjbsDSTM";
+import dynamic from "next/dynamic";
+import { vrfcData } from "../../../../../../data/inputDataLists";
+
+const LazyHostCompSelctbox = dynamic(
+  () => import("../../../../../../components/HostCompSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+const LazySampleCategorySelctbox = dynamic(
+  () => import("../../../../../../components/SampleCategorySelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+const LazyTaxonTypeSelctbox = dynamic(
+  () => import("../../../../../../components/TaxonTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+const LazyMcNmSelctbox = dynamic(
+  () => import("../../../../../../components/McNmSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const SampleInfoTable1 = ({ sampleInfoData }: any) => {
   const transformedData = transformedNullToHyphon(sampleInfoData);
@@ -25,6 +70,8 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
     sampleStatusRes,
   }: any = transformedData;
 
+  console.log("rrrrr", sampleNm);
+
   return (
     <TableContainer sx={{ mb: 5 }}>
       <Table>
@@ -33,35 +80,70 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
             <TH sx={{ width: "15%" }}>샘플번호</TH>
             <TD sx={{ width: "35%" }}>{sampleId}</TD>
             <TH sx={{ width: "15%" }}>RUN</TH>
-            <TD sx={{ width: "35%" }}>{runList}</TD>
+            <TD sx={{ width: "35%" }}>{runList.join(", ")}</TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>샘플명</TH>
-            <TD sx={{ width: "35%" }}>{sampleNm}</TD>
+            <TD sx={{ width: "35%" }}>
+              <InputValidation inputName="sampleNm" />
+            </TD>
             <TH sx={{ width: "15%" }}>대체명</TH>
             <TD sx={{ width: "35%" }}>{altrNm}</TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>샘플종류</TH>
-            <TD sx={{ width: "35%" }}>{sampleId}</TD>
+            <TD sx={{ width: "35%" }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySampleCategorySelctbox />
+              </ErrorContainer>
+            </TD>
             <TH sx={{ width: "15%" }}>Source</TH>
-            <TD sx={{ width: "35%" }}>{source}</TD>
+            <TD sx={{ width: "35%" }}>
+              {/*{source}*/}
+              <InputValidation
+                inputName="source"
+                // sx={{ width: 400 }}
+              />
+            </TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>Depth(GB)</TH>
-            <TD sx={{ width: "35%" }}>{depth}</TD>
+            <TD sx={{ width: "35%" }}>
+              {/*{depth}*/}
+              <InputValidation inputName="depth" />
+            </TD>
             <TH sx={{ width: "15%" }}>Taxon</TH>
-            <TD sx={{ width: "35%" }}>{taxonVal}</TD>
+            <TD sx={{ width: "35%" }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyTaxonTypeSelctbox />
+              </ErrorContainer>
+            </TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>진행업체</TH>
-            <TD sx={{ width: "35%" }}>{prgrAgncNmVal}</TD>
+            <TD sx={{ width: "35%" }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyHostCompSelctbox />
+              </ErrorContainer>
+            </TD>
             <TH sx={{ width: "15%" }}>장비</TH>
-            <TD sx={{ width: "35%" }}>{mcNmVal}</TD>
+            <TD sx={{ width: "35%" }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyMcNmSelctbox />
+              </ErrorContainer>
+            </TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>검증여부</TH>
-            <TD sx={{ width: "35%" }}>{isVrfc}</TD>
+            <TD sx={{ width: "35%" }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <SelectBox
+                  inputName="isVrfc"
+                  options={vrfcData}
+                  sx={{ width: "100%" }}
+                />
+              </ErrorContainer>
+            </TD>
             <TH sx={{ width: "15%" }}>내역서</TH>
             <TD sx={{ width: "35%" }}>{anlsInstId}</TD>
           </TableRow>
@@ -69,7 +151,15 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
           <TableRow>
             <TH sx={{ width: "15%" }}>메모</TH>
             <TD sx={{ width: "85%" }} colSpan={3}>
-              {memo}
+              <InputValidation
+                fullWidth={true}
+                multiline
+                rows={3}
+                inputName="memo"
+                placeholder="메모"
+                maxLength={500}
+                maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
+              />
             </TD>
           </TableRow>
         </TableBody>

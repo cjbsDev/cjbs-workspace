@@ -1,35 +1,127 @@
-import React from "react";
-import { ModalContainer, ModalTitle } from "cjbsDSTM";
+import React, { useState } from "react";
+import {
+  ErrorContainer,
+  Fallback,
+  Form,
+  ModalAction,
+  ModalContainer,
+  ModalTitle,
+  OutlinedButton,
+} from "cjbsDSTM";
 import { DialogContent } from "@mui/material";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../../../../../../func/fetcher";
 import SampleInfoTable1 from "./SampleInfoTable1";
 import SampleInfoTable2 from "./SampleInfoTable2";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
+import { LoadingButton } from "@mui/lab";
+import axios from "axios";
+import { useParams } from "next/navigation";
 
 interface SampleInfoModalProps extends ModalContainerProps {
   sampleUkey: string;
 }
+const LazyAgncModifyLog = dynamic(
+  () => import("../../../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={142} />,
+  }
+);
 
 const SampleInfoModal = (props: SampleInfoModalProps) => {
   const { onClose, open, modalWidth, sampleUkey } = props;
-  const { data } = useSWR(
-    () => `${process.env.NEXT_PUBLIC_API_URL}/sample/${sampleUkey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { mutate } = useSWRConfig();
+  const params = useParams();
+  const orderUkey = params.slug;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/${sampleUkey}`;
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data } = useSWR(() => apiUrl, fetcher, {
+    suspense: true,
+  });
   const sampleInfoData = data.data;
   const sampleStatusRes = sampleInfoData.sampleStatusRes;
+  const defaultValues = async () => {
+    const res = await fetch(apiUrl);
+    const data = await res.json();
+    console.log("resresre", data.data);
+
+    return data.data;
+  };
+
+  const onSubmit = async (data: any) => {
+    console.log("sampleInfoModify Add", data);
+
+    const bodyData = {
+      depth: data.depth,
+      isVrfc: data.isVrfc,
+      mcNmCc: data.mcNmCc,
+      memo: data.memo,
+      prgrAgncNmCc: data.prgrAgncNmCc,
+      sampleNm: data.sampleNm,
+      sampleStatusCc: data.sampleStatusCc,
+      source: data.source,
+      taxonCc: data.taxonCc,
+    };
+
+    console.log("BODYDATA ==>", bodyData);
+
+    await axios
+      .put(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response.data);
+        if (response.data.success) {
+          mutate(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+          );
+          handleClose();
+        }
+      })
+      .catch((error) => {
+        console.error("PUT request failed:", error);
+      });
+  };
+
+  const handleClose = () => {
+    setIsLoading(false);
+    onClose();
+  };
 
   return (
-    <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>샘플 정보</ModalTitle>
+    <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
+      <ModalTitle onClose={handleClose}>샘플 정보</ModalTitle>
       <DialogContent>
-        <SampleInfoTable1 sampleInfoData={sampleInfoData} />
-        <SampleInfoTable2 sampleStatusRes={sampleStatusRes} />
+        <Form
+          onSubmit={onSubmit}
+          defaultValues={defaultValues}
+          id="sampleInfoModify"
+        >
+          <ErrorContainer FallbackComponent={Fallback}>
+            <SampleInfoTable1 sampleInfoData={sampleInfoData} />
+            <SampleInfoTable2 sampleStatusRes={sampleStatusRes} />
+          </ErrorContainer>
+        </Form>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyAgncModifyLog apiName="sample/status" uKey={sampleUkey} />
+        </ErrorContainer>
       </DialogContent>
+      <ModalAction>
+        <OutlinedButton
+          buttonName="닫기"
+          onClick={handleClose}
+          color="secondary"
+        />
+        <LoadingButton
+          loading={isLoading}
+          variant="contained"
+          type="submit"
+          form="sampleInfoModify"
+        >
+          저장
+        </LoadingButton>
+      </ModalAction>
     </ModalContainer>
   );
 };

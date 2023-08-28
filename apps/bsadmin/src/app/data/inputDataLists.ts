@@ -15,3 +15,9 @@ export const yieldData = [
   { value: "10g", optionName: "10G" },
   { value: "20g", optionName: "20G" },
 ];
+
+export const vrfcData = [
+  { value: "Y", optionName: "Y" },
+  { value: "N", optionName: "N" },
+  { value: "NA", optionName: "N/A" },
+];
