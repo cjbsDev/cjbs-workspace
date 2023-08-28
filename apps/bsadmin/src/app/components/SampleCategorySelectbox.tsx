@@ -1,7 +1,7 @@
 import { ContainedButton, SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
-import fetcher from "../../../../../../func/fetcher";
+import fetcher from "../func/fetcher";
 
 export default function SampleCategorySelectbox() {
   const { data } = useSWR(
@@ -20,7 +20,7 @@ export default function SampleCategorySelectbox() {
       errorMessage="샘플 종류를 선택헤 주세요."
       inputName="sampleStatusCc"
       options={data.data}
-      sx={{ width: 188 }}
+      sx={{ width: "100%" }}
     />
   );
 }

@@ -31,27 +31,32 @@ import useSWR, { useSWRConfig } from "swr";
 import fetcher from "../../../../../../func/fetcher";
 import { useParams } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
-import SampleCategorySelectbox from "./SampleCategorySelectbox";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
 
 const LazySampleCategorySelctbox = dynamic(
-  () => import("./SampleCategorySelectbox"),
+  () => import("../../../../../../components/SampleCategorySelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
-const LazyTaxonTypeSelctbox = dynamic(() => import("./TaxonTypeSelectbox"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
-const LazyHostCompSelctbox = dynamic(() => import("./HostCompSelectbox"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+const LazyTaxonTypeSelctbox = dynamic(
+  () => import("../../../../../../components/TaxonTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+const LazyHostCompSelctbox = dynamic(
+  () => import("../../../../../../components/HostCompSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const SampleInfoModal = (props: ModalContainerProps) => {
   const { onClose, open, modalWidth } = props;
@@ -176,7 +181,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
                 </TableRow>
                 <TableRow>
                   <TH sx={{ width: "20%" }}>Taxon</TH>
-                  <TD>
+                  <TD sx={{ width: "30%" }}>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyTaxonTypeSelctbox />
                     </ErrorContainer>
@@ -184,7 +189,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
                   <TH sx={{ width: "20%" }}>
                     Depth(GB)<NotRequired>[선택]</NotRequired>
                   </TH>
-                  <TD>
+                  <TD sx={{ width: "30%" }}>
                     <InputValidation
                       // helperText="숫자만 입력해 주세요."
                       // placeholder="숫자만 입력해 주세요."
