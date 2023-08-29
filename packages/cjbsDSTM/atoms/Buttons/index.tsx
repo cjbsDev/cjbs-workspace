@@ -209,3 +209,22 @@ export const CustomToggleButton = ({
     </ThemeProvider>
   );
 };
+
+export const DeletedButton = ({ buttonName, ...props }: CustomButtonProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <Button
+        {...props}
+        variant="outlined"
+        color="error"
+        size="small"
+        sx={{
+          ...props.sx,
+        }}
+        startIcon={<MyIcon icon="trash" size={20} />}
+      >
+        {buttonName}
+      </Button>
+    </ThemeProvider>
+  );
+};

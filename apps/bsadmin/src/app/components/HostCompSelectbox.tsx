@@ -1,7 +1,7 @@
 import { ContainedButton, SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
-import fetcher from "../../../../../../func/fetcher";
+import fetcher from "../func/fetcher";
 
 export default function HostCompSelectbox() {
   const { data } = useSWR(
