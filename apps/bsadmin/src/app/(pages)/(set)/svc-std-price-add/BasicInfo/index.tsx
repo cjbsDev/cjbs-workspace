@@ -17,6 +17,7 @@ import {
   SkeletonLoading,
   TD,
   TH,
+  Form,
 } from "cjbsDSTM";
 import { yieldData } from "../../../../data/inputDataLists";
 import dynamic from "next/dynamic";
@@ -24,6 +25,11 @@ import dynamic from "next/dynamic";
 const LazyStndPriceSrvcType = dynamic(() => import("./StndPriceSrvcType"), {
   ssr: false,
   loading: () => <SkeletonLoading height={180} />,
+});
+
+const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={82} />,
 });
 
 const BasicInfo = () => {
@@ -46,7 +52,7 @@ const BasicInfo = () => {
               <TD sx={{ width: "85%" }}>
                 <RadioGV
                   data={yieldData}
-                  inputName="testRadioGV"
+                  inputName="prdcSizeMc"
                   required={true}
                   errorMessage="에러메세지는 여기에"
                 />
@@ -55,6 +61,8 @@ const BasicInfo = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <LazyStndPriceDetailList />
     </Box>
   );
 };

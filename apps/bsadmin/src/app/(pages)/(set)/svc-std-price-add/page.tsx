@@ -9,10 +9,34 @@ import { useRouter } from "next-nprogress-bar";
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const router = useRouter();
-  const defaultValues = {};
+  const defaultValues = {
+    prdcSizeMc: "BS_0100010001",
+  };
   const onSubmit = (data: any) => {
     setIsLoading(true);
     console.log("DATA ==>>", data);
+
+    /*
+      {
+        "anlsMtMc": "분석방법(플랫폼)코드",
+        "anlsTypeMc": "분석종류코드",
+        "prdcSizeMc": "생산량코드",
+        "srvcTypeMc": "서비스분류코드",
+        "stndPriceDetailList": [
+          {
+            "bi": 0,
+            "isUse": "사용여부",
+            "lib": 0,
+            "prep": 0,
+            "qc": 0,
+            "sampleSizeEnd": 0,
+            "sampleSizeStart": 0,
+            "seq": 0,
+            "stndDscntPctg": 0
+          }
+        ]
+      }
+    */
   };
 
   return (

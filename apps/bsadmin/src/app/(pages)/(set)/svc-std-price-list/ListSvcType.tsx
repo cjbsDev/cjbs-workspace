@@ -131,20 +131,6 @@ const LazySvcStdPrice = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={data.data.length} />
-
-            <FormProvider {...methods}>
-              <Container maxWidth={false} sx={{ width: "100%" }}>
-                <Box
-                  component="form"
-                  noValidate
-                  autoComplete="off"
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  <Stack direction="row" spacing={1}></Stack>
-                </Box>
-              </Container>
-            </FormProvider>
-
             <Link href="/svc-std-price-add">
               <ContainedButton buttonName="기준가 등록" size="small" />{" "}
             </Link>

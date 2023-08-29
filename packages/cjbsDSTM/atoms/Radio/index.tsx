@@ -73,7 +73,7 @@ export const RadioSV = (props: RadioSVProps) => {
 };
 
 interface RadioGVProps {
-  data: object;
+  data: any[];
   inputName: string;
   required?: boolean;
   errorMessage?: string;
@@ -87,7 +87,7 @@ export const RadioGV = (props: RadioGVProps) => {
     required = false,
     errorMessage,
     rowIs = true,
-    defaultValue = undefined,
+    defaultValue = null,
     ...rest
   } = props;
   const methods = useFormContext();
@@ -104,8 +104,7 @@ export const RadioGV = (props: RadioGVProps) => {
           render={({ field }) => (
             <RadioGroup
               {...field}
-              defaultValue={defaultValue}
-              // value={undefined}
+              defaultValue={defaultValue || null}
               row={rowIs}
             >
               {data.map((item: any) => {
