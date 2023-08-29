@@ -27,29 +27,34 @@ import {
   green,
 } from "cjbsDSTM/themes/color";
 import { cjbsTheme } from "cjbsDSTM";
+import { useFormContext } from "react-hook-form";
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/null/null`;
 const StndPriceSrvcType = () => {
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  const firstSrvcTypeLists = data.data;
-  const [frstValue, setFrstValue] = useState<string>("");
-  const [scndValue, setScndValue] = useState<string>("");
+  const srvcTypeList01 = data.data;
   const [selectedIndex, setSelectedIndex] = useState<number>();
-  const [selectedScndIndex, setSelectedScndIndex] = useState<number>();
-  const [selectedThrdIndex, setSelectedThrdIndex] = useState<number>();
-  const [scndIsLoading, setScndIsLoading] = useState<boolean>(false);
-  const [thrdIsLoading, setThrdIsLoading] = useState<boolean>(false);
-  const [scndSrvcTypeList, setScndSrvcTypeList] = useState([]);
-  const [thrdSrvcTypeList, setThrdSrvcTypeList] = useState([]);
+
+  const [selectValue01, setSelectValue01] = useState<string>("");
+  const [selectValue02, setSelectValue02] = useState<number>();
+  const [selectValue03, setSelectValue03] = useState<number>();
+
+  const [selectLoading02, setSelectLoading02] = useState<boolean>(false);
+  const [selectLoading03, setSelectLoading03] = useState<boolean>(false);
+
+  const [srvcTypeList02, setSrvcTypeList02] = useState([]);
+  const [srvcTypeList03, setSrvcTypeList03] = useState([]);
+
+  const { setValue, clearErrors } = useFormContext();
 
   const handleListItemClick = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
     value: string
   ) => {
-    setScndIsLoading(true);
+    setSelectLoading02(true);
     setSelectedIndex(index);
     await axios
       .get(
@@ -57,12 +62,13 @@ const StndPriceSrvcType = () => {
       )
       .then((res) => {
         if (res.data.success) {
-          const scndSrvcTypeLists = res.data.data;
-          console.log("SecondSrvcType List DATA ==>>", scndSrvcTypeLists);
-          setScndSrvcTypeList(scndSrvcTypeLists);
-          setThrdSrvcTypeList([]);
-          setFrstValue(value);
-          setScndIsLoading(false);
+          const srvcTypeList02Temp = res.data.data;
+          //console.log("SecondSrvcType List DATA ==>>", srvcTypeList02Temp);
+          setSrvcTypeList02(srvcTypeList02Temp);
+          setSrvcTypeList03([]);
+          setSelectValue01(value);
+          //setValue("selectValue01", value);
+          setSelectLoading02(false);
         } else {
           console.log("SUCCESS FALSE!!...");
         }
@@ -76,20 +82,20 @@ const StndPriceSrvcType = () => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
     value: string,
-    frstValue: string
+    selectValue01: string
   ) => {
-    setThrdIsLoading(true);
-    setSelectedScndIndex(index);
+    setSelectLoading03(true);
+    setSelectValue02(index);
     await axios
       .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${frstValue}/${value}`
+        `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${selectValue01}/${value}`
       )
       .then((res) => {
         if (res.data.success) {
-          const thrdSrvcTypeLists = res.data.data;
-          console.log("ThirdSrvcType List DATA ==>>", thrdSrvcTypeLists);
-          setThrdSrvcTypeList(thrdSrvcTypeLists);
-          setThrdIsLoading(false);
+          const srvcTypeList03s = res.data.data;
+          //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
+          setSrvcTypeList03(srvcTypeList03s);
+          setSelectLoading03(false);
         } else {
           console.log("SUCCESS FALSE!!...");
         }
@@ -98,8 +104,6 @@ const StndPriceSrvcType = () => {
         console.log(err.message);
       });
   };
-
-  console.log("scndSrvcTypeList", scndSrvcTypeList);
 
   return (
     <Box>
@@ -125,9 +129,10 @@ const StndPriceSrvcType = () => {
           spacing={0}
           sx={{ width: "100%", border: `1px solid ${grey["400"]}` }}
         >
+          {/* 1차 : srvcTypeMc / srvcTypeMcVal */}
           <Grid item xs={4}>
             <List sx={{ p: 0 }}>
-              {firstSrvcTypeLists.map((item: any, index: number) => {
+              {srvcTypeList01.map((item: any, index: number) => {
                 const { optionName, value } = item;
                 return (
                   <ListItemButton
@@ -139,9 +144,12 @@ const StndPriceSrvcType = () => {
                           : "black",
                     }}
                     selected={selectedIndex === index}
-                    onClick={(event) =>
-                      handleListItemClick(event, index, value)
-                    }
+                    onClick={(event) => {
+                      console.log("1 : " + optionName + " / " + value);
+                      setValue("srvcTypeMc", value);
+                      setValue("srvcTypeMcVal", optionName);
+                      handleListItemClick(event, index, value);
+                    }}
                   >
                     <ListItemText primary={optionName} />
                     <MyIcon icon="cheveron-right" size={20} />
@@ -151,8 +159,9 @@ const StndPriceSrvcType = () => {
             </List>
           </Grid>
 
+          {/* 2차 : anlsTypeMc / anlsTypeMcVal */}
           <Grid item xs={4}>
-            {scndSrvcTypeList.length === 0 ? (
+            {srvcTypeList02.length === 0 ? (
               <Box
                 sx={{
                   justifyContent: "center",
@@ -166,7 +175,7 @@ const StndPriceSrvcType = () => {
               </Box>
             ) : (
               <>
-                {scndIsLoading ? (
+                {selectLoading02 ? (
                   <Box
                     sx={{
                       justifyContent: "center",
@@ -180,20 +189,24 @@ const StndPriceSrvcType = () => {
                   </Box>
                 ) : (
                   <List sx={{ p: 0 }}>
-                    {scndSrvcTypeList.map((item: any, index: number) => {
+                    {srvcTypeList02.map((item: any, index: number) => {
                       const { optionName, value } = item;
                       return (
                         <ListItemButton
                           key={value}
-                          selected={selectedScndIndex === index}
-                          onClick={(event) =>
+                          selected={selectValue02 === index}
+                          onClick={(event) => {
+                            console.log("2 : " + optionName + " / " + value);
+                            setValue("anlsTypeMc", value);
+                            setValue("anlsTypeMcVal", optionName);
+
                             handleListScndItemClick(
                               event,
                               index,
                               value,
-                              frstValue
-                            )
-                          }
+                              selectValue01
+                            );
+                          }}
                         >
                           <ListItemText primary={optionName} />
                           <MyIcon icon="cheveron-right" size={20} />
@@ -206,8 +219,9 @@ const StndPriceSrvcType = () => {
             )}
           </Grid>
 
+          {/* 3차 : anlsMtMc / anlsMtMcVal */}
           <Grid item xs={4}>
-            {thrdSrvcTypeList.length === 0 ? (
+            {srvcTypeList03.length === 0 ? (
               <Box
                 sx={{
                   justifyContent: "center",
@@ -220,7 +234,7 @@ const StndPriceSrvcType = () => {
               </Box>
             ) : (
               <>
-                {thrdIsLoading ? (
+                {selectLoading03 ? (
                   <Box
                     sx={{
                       justifyContent: "center",
@@ -234,14 +248,18 @@ const StndPriceSrvcType = () => {
                   </Box>
                 ) : (
                   <List sx={{ p: 0 }}>
-                    {thrdSrvcTypeList.map((item: any, index: number) => {
+                    {srvcTypeList03.map((item: any, index: number) => {
                       const { optionName, value } = item;
                       return (
                         <ListItemButton
                           key={value}
-                          selected={selectedThrdIndex === index}
+                          selected={selectValue03 === index}
                           onClick={() => {
-                            console.log("ccccccc");
+                            console.log("3 : " + optionName + " / " + value);
+                            setValue("anlsMtMc", value);
+                            setValue("anlsMtMcVal", optionName);
+
+                            setSelectValue03(index);
                           }}
                         >
                           <ListItemText primary={optionName} />
