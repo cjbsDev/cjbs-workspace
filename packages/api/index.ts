@@ -5,10 +5,10 @@ import {
   DELETE_API,
   GET_API,
   POST_API,
-  POST_MULTIPART,
   POST_BOLB_API,
   PUT_API,
   REQUEST_API,
+  POST_MULTIPART_API,
 } from "./type";
 import { REQUEST_BLOB_API } from "./type";
 
@@ -24,7 +24,8 @@ export const POST: POST_API = async (url, body, option, headers) => {
   return await request(url, "POST", body, option, headers);
 };
 
-export const POST_MULTIPART: POST_MULTIPART = async (url, body, option, headers) => {
+// @ts-ignore
+export const POST_MULTIPART: POST_MULTIPART_API = async (url, body, option, headers) => {
   return await request_multipart(url, "POST", body, option, headers);
 };
 
@@ -104,11 +105,12 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
     window.location.href = "/";
   }
 
-  // 폼 객체 key 와 value 값을 순회.
-  let entries = body.entries();
-  for (const pair of entries) {
-    console.log(pair[0]+ ', ' + pair[1]);
-  }
+  // const formData = new FormData();
+  // formData.append(
+  //     "user-data",
+  //     new Blob([JSON.stringify(body)], { type: "application/json" })
+  // );
+  // formData.append('file-data', null);
 
   return new Promise(async function (resolve, reject) {
     try {
@@ -117,7 +119,6 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
         body: body,
         headers: {
           "Accept-Language": "ko",
-          'Content-Type': 'multipart/form-data; boundary="boundary"',
           Authorization: `Bearer ${accessToken}`,
         },
         ...option,

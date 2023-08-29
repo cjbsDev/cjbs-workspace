@@ -10,6 +10,7 @@ import {
     Typography,
 } from "@mui/material";
 import {
+    CheckboxGV,
     CheckboxSV, ContainedButton, ErrorContainer, Fallback,
     Form,
     InputValidation,
@@ -32,6 +33,12 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
 
+const dataMailRcpnListGV = [
+    { value: "agncLeaderRcpn", optionName: "연구책임자" },
+    { value: "ordrAplcRcpn", optionName: "신청인" },
+    { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
+];
+
 export default function Page(props:JSON) {
     const router = useRouter();
 
@@ -44,7 +51,9 @@ export default function Page(props:JSON) {
     const custData = custTemp.data;
 
     // const [isLoading, setIsLoading] = useState<boolean>(false);
-    const defaultValues = {};
+    const defaultValues = {
+        mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
+    };
 
     const onSubmit = async (data: any) => {
         console.log("**************************************");
@@ -313,20 +322,11 @@ export default function Page(props:JSON) {
                             <TH sx={{ width: "20%" }}>진행사항 메일 수신 설정 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
                             <TD sx={{ width: "80%" }} colSpan={5}>
                                 <Stack direction="row">
-                                    <CheckboxSV
+                                    <CheckboxGV
+                                        data={dataMailRcpnListGV}
                                         inputName="mailRcpnList"
-                                        labelText="연구책임자"
-                                        value="agncLeaderRcpn"
-                                    />
-                                    <CheckboxSV
-                                        inputName="mailRcpnList"
-                                        labelText="신청인"
-                                        value="ordrAplcRcpn"
-                                    />
-                                    <CheckboxSV
-                                        inputName="mailRcpnList"
-                                        labelText="추가 이메일(직접입력)"
-                                        value="etcRcpn"
+                                        required={true}
+                                        errorMessage="진행사항 메일 수신 설정 항목은 필수 입니다."
                                     />
                                     <InputValidation
                                         inputName="addEmailList"

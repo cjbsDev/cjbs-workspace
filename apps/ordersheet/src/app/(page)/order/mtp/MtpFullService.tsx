@@ -75,6 +75,7 @@ export default function MtpFullService(){
     const [expanded, setExpanded] = React.useState<string | false>('1');
     const [bodyData, setBodyData] = useState<any>({});
     console.log("bodyData : ", bodyData);
+    const [uploadFile, setUploadFile] = useState<any>(null);
 
     const handleChange = (panel: string) => (event: React.SyntheticEvent, newExpanded: boolean)=> {
         setExpanded(newExpanded ? panel : false);
@@ -98,12 +99,19 @@ export default function MtpFullService(){
         // }
     }
 
+
     // 주문서 등록
     useEffect(() => {
         if(stepperNo === 4) {
             orderSheetInsertCall();
         }
     }, [stepperNo])
+
+    const addFileData = (callBackData:any) => {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+        console.log(callBackData);
+        setUploadFile(callBackData);
+    }
 
     const moveBackFocus = () => {
         setExpanded(String(stepperNo-1));
@@ -113,29 +121,28 @@ export default function MtpFullService(){
     // 등록 호출
     const orderSheetInsertCall = async () => {
         // const uploadFile = document.getElementById("uploadFile") as HTMLInputElement;
-        // console.log("uploadFile", uploadFile);
-        //
-        // const formData = new FormData();
-        // formData.append(
-        //     "req",
-        //     new Blob([JSON.stringify(bodyData)], { type: "application/json" })
-        // );
-        // console.log("formData", formData.get("req"));
-        //
-        // if(uploadFile?.files?.item(0)){
-        //     // file 데이터가 있을경우
-        //     formData.append("file", uploadFile?.files?.item(0) as File);
-        // } else {
-        //     formData.append("file", undefined);
-        // }
-        // console.log("formData", formData.get("file"));
+        console.log("uploadFile", uploadFile);
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs2`;
+        const formData = new FormData();
+        formData.append(
+            "user-data",
+            new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+        );
+
+        if(uploadFile){
+            // file 데이터가 있을경우
+            // formData.append("file-data", uploadFile?.files?.item(0) as File);
+            formData.append("file-data", uploadFile);
+        } else {
+            formData.append("file-data", null);
+        }
+
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
 
         try {
-            // const response = await POST_MULTIPART(apiUrl, formData); // API 요청
-            console.log("call body data", bodyData);
-            const response = await POST(apiUrl, bodyData); // API 요청
+            const response = await POST_MULTIPART(apiUrl, formData); // API 요청
+            // console.log("call body data", bodyData);
+            // const response = await POST(apiUrl, bodyData); // API 요청
             if (response.success) {
                 console.log("response", response);
                 router.push("/order/complete");
@@ -153,8 +160,8 @@ export default function MtpFullService(){
     return (
         <Container disableGutters={true} sx={{pt:'55px'}}>
 
-            {/*<Accordion expanded={expanded === '1'} onChange={handleChange('1')}>*/}
-            <Accordion expanded={expanded === '1'} >
+            <Accordion expanded={expanded === '1'} onChange={handleChange('1')}>
+            {/*<Accordion expanded={expanded === '1'} >*/}
                 <AccordionSummary aria-controls="panel1d-content" id="panel1d-header" >
                     <Stack
                         direction="row"
@@ -194,8 +201,8 @@ export default function MtpFullService(){
                     </ErrorContainer>
                 </AccordionDetails>
             </Accordion>
-            {/*<Accordion expanded={expanded === '2'} onChange={handleChange('2')}>*/}
-            <Accordion expanded={expanded === '2'} >
+            <Accordion expanded={expanded === '2'} onChange={handleChange('2')}>
+            {/*<Accordion expanded={expanded === '2'} >*/}
                 <AccordionSummary aria-controls="panel2d-content" id="panel2d-header" >
                     <Stack
                         direction="row"
@@ -227,11 +234,11 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus}/>
+                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus} addFileData={addFileData}/>
                 </AccordionDetails>
             </Accordion>
-            {/*<Accordion expanded={expanded === '3'} onChange={handleChange('3')}>*/}
-            <Accordion expanded={expanded === '3'} >
+            <Accordion expanded={expanded === '3'} onChange={handleChange('3')}>
+            {/*<Accordion expanded={expanded === '3'} >*/}
                 <AccordionSummary aria-controls="panel3d-content" id="panel3d-header" >
                     <Stack
                         direction="row"

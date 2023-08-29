@@ -25,8 +25,7 @@ function getUserPermissions() {
 
 let acct:any;
 let perm:any;
-Promise
-    .all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
+Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
     .then(
         function (results) { // 응답 결과를 results 배열로 받아서
         acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
@@ -34,7 +33,6 @@ Promise
     });
 
 interface rowsInputProps {
-    sampleNo: number;
     sampleNm: string;
     source: string;
     sampleCategoryCc: string;
@@ -52,7 +50,7 @@ export default function Page({rowsData, deleteTableRows}) {
     return (
 
         rowsData.map((data, index) => {
-            let {sampleNo, sampleNm, source, sampleCategoryCc, anlsTargetGene, qc, memo} = data;
+            let {sampleNo, sampleNm, source, sampleCategoryCc, anlsTargetGene, qc, memo, id} = data;
             // selectbox option 값 변경
             // for (const acctIndex in acct) {
             //     if(acct[acctIndex].optionName === sampleCategoryCc){
@@ -134,7 +132,7 @@ export default function Page({rowsData, deleteTableRows}) {
                         />
                     </TableCell>
                     <TableCell sx={{paddingX: 2, paddingY: 1}}>
-                        <IconButton aria-label="delete" onClick={() => (deleteTableRows(index))}>
+                        <IconButton aria-label="delete" onClick={() => (deleteTableRows(id))}>
                             <MyIcon icon="trash" size={20}/>
                         </IconButton>
                     </TableCell>

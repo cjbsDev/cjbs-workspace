@@ -24,7 +24,7 @@ import {
     TH,
     UnStyledButton,
 } from "cjbsDSTM";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
@@ -68,12 +68,13 @@ export default function Page(props: any) {
         });
     }
 
-    const onSubmit = async (data: any) => {
+    const onSubmit = (data: any, e) => {
+        // e.preventDefault();
         // setIsLoading(true);
         console.log("Submit Data ==>>", data);
         // console.log("length", Object.keys(data).length);
         const samples = [];
-        const sampleCnt = (Object.keys(data).length-1) / 6;
+        const sampleCnt = (Object.keys(data).length-2) / 6;
         for (let i = 0; i < sampleCnt; i++) {
             const sample = {
                 anlsTargetGene: data[i+"_anlsTargetGene"],
@@ -91,22 +92,10 @@ export default function Page(props: any) {
             samples: samples,
         };
         props.addBodyData(returnData);
+        props.addFileData(data.uploadFile[0])
     };
 
-
-    const [uploadFile, setUploadFile] = useState(null);
     const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =  useState<boolean>(false);
-
-    // file upload
-    const handleFileUpload = (event:any) => {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onloadend = () => {
-            setUploadFile(file.name);
-        };
-        reader.readAsDataURL(file);
-    };
 
     const orderInfoModifyModalClose = () => {
         setShowOrderInfoModifyModal(false);
@@ -121,25 +110,12 @@ export default function Page(props: any) {
                         <TD sx={{ width: "80%" }}>
                             <Stack direction="row" spacing={0.5} alignItems="flex-start">
                                 <Stack direction="row" alignItems="center" spacing={2}>
-                                    <label htmlFor="uploadFile">
-                                        <Button
-                                            variant="outlined"
-                                            color={"secondary"}
-                                            component="span"
-                                            sx={{color: "#000"}}
-                                            size="small"
-                                        >
-                                            파일 추가
-                                        </Button>
-                                        <input
-                                            id="uploadFile"
-                                            hidden
-                                            accept="*"
-                                            type="file"
-                                            onChange={handleFileUpload}
-                                        />
-                                    </label>
-                                    {uploadFile && <Typography variant="body2">{uploadFile}</Typography>}
+                                    <InputValidation
+                                        inputName="uploadFile"
+                                        required={false}
+                                        type="file"
+                                        sx={{ width: 306 }}
+                                    />
                                 </Stack>
                             </Stack>
                         </TD>
@@ -181,8 +157,10 @@ export default function Page(props: any) {
     });
     const { addRowCnt } = inputs;
 
+    const nextId = useRef(0);
+
     const rowsInput= {
-        sampleNo: 0,
+        id: nextId.current,
         sampleNm: "",
         source: "",
         sampleCategoryCc: "",
@@ -190,17 +168,20 @@ export default function Page(props: any) {
         qc: "",
         memo: "",
     }
-
     const addTableRows = () => {
         const newArray = Array.from({ length: addRowCnt }, (_, index) => rowsInput);
         console.log(newArray);
         setRowsData([...rowsData, ...newArray]);
+        nextId.current += 1;
     }
 
-    const deleteTableRows = (index:number) => {
+    const deleteTableRows = (id:number) => {
+        console.log("123123", rowsData)
+        console.log("index", id)
         const rows = [...rowsData];
-        rows.splice(index, 1);
-        setRowsData(rows);
+        // rows.splice(id, 1);
+        setRowsData(rowsData.filter(rows => rows.id !== id));
+        // setRowsData(rows);
     }
 
     const addExcelDataTableRows = (newArray:any) => {
@@ -274,6 +255,7 @@ export default function Page(props: any) {
                         onClick={() => setShowOrderInfoModifyModal(true)}
                     />
                 </Stack>
+                {/*{JSON.stringify(rowsData)}*/}
                 <ExcelUploadModal onClose={orderInfoModifyModalClose} open={showOrderInfoModifyModal} modalWidth={800} addExcelDataTableRows={addExcelDataTableRows}/>
                 <Stack direction="row" alignItems="center" spacing={0.5}>
                     <TextField

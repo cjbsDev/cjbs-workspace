@@ -1,38 +1,22 @@
 import React, { useState, useMemo } from "react";
 import {
-    DataCountResultInfo,
-    DataTableBase,
-    DataTableFilter,
-    ExcelDownloadButton,
     ModalContainer,
     ModalTitle,
     ModalAction,
-    OutlinedButton,
-    TH,
-    TD,
     Form,
     InputValidation,
-    Fallback,
     ContainedButton, cjbsTheme,
 } from "cjbsDSTM";
 import {
-    Box,
-    BoxProps,
-    Chip,
     DialogContent,
-    Grid,
     Stack,
-    styled, TextField,
+    styled,
     Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
-import dynamic from "next/dynamic";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
 
 
 interface ModalContainerProps {
@@ -55,25 +39,16 @@ const ExcelUploadModal = ({ onClose,
         setIsLoading(false);
     };
 
-    const defaultValues = {
-        // check16sAt: new Date(data.data.check16sAt),
-    };
+    const defaultValues = {};
 
-    const onSubmit = async () => {
+    const onSubmit = async (data: any, e: any) => {
+        e.preventDefault();
         setIsLoading(true);
-        // console.log("엑셀 업로드 데이터 Body Data ==>>", data);
-        // console.log("check16At", data.check16sAt);
+        console.log("엑셀 업로드 데이터 Body Data ==>>", data);
 
-        const inputFile = document.getElementById("fileInput") as HTMLInputElement;
-        console.log("inputFile", inputFile);
-
-        if(!inputFile?.files?.item(0)){
-            //
-        } else {
-            // file 데이터가 있을경우
-
+        if(data.fileInput[0]){
             const formData = new FormData();
-            formData.append("file", inputFile?.files?.item(0) as File);
+            formData.append("file", data.fileInput[0] as File);
 
             const res = await axios.post<{ url: string }>(
                 `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
@@ -88,6 +63,7 @@ const ExcelUploadModal = ({ onClose,
             console.log("res", res);
             addExcelDataTableRows(res.data.data);
             handleClose();
+        } else {
 
         }
         setIsLoading(false);
@@ -133,12 +109,13 @@ const ExcelUploadModal = ({ onClose,
                             mt: "20px",
                         }}
                     >
-                        {/*<TextField*/}
-                        {/*    id="outlined-required"*/}
-                        {/*    sx={{width: '560px'}}*/}
-                        {/*    type="file"*/}
-                        {/*/>*/}
-                        <input id="fileInput" type="file" style={{width:"600px"}}/>
+                        {/*<input id="fileInput" type="file" style={{width:"600px"}}/>*/}
+                        <InputValidation
+                            inputName="fileInput"
+                            required={false}
+                            type="file"
+                            sx={{ width: 600 }}
+                        />
                         <LoadingButton
                             loading={isLoading}
                             variant="contained"
