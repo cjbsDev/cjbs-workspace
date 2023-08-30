@@ -52,14 +52,14 @@ const TableNewRows = (props) => {
           sx={{ width: "200px" }}
         />
       </TableCell>
-      <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-        <InputValidation
-          // inputName={`samples.${index}.qc`}
-          inputName={`sample[${index}].qc`}
-          required={false}
-          sx={{ width: 117 }}
-        />
-      </TableCell>
+      {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
+      {/*  <InputValidation*/}
+      {/*    // inputName={`samples.${index}.qc`}*/}
+      {/*    inputName={`sample[${index}].qc`}*/}
+      {/*    required={false}*/}
+      {/*    sx={{ width: 117 }}*/}
+      {/*  />*/}
+      {/*</TableCell>*/}
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <InputValidation
           // inputName={`samples.${index}.memo`}

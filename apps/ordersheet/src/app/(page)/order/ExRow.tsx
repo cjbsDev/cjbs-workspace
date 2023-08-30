@@ -32,11 +32,11 @@ const ExRow = () => {
           Bacteria (16S rRNA V3-V4)
         </Typography>
       </TableCell>
-      <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-        <Typography variant="body2" sx={{ color: "#666" }}>
-          농도, 사이즈
-        </Typography>
-      </TableCell>
+      {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
+      {/*  <Typography variant="body2" sx={{ color: "#666" }}>*/}
+      {/*    농도, 사이즈*/}
+      {/*  </Typography>*/}
+      {/*</TableCell>*/}
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <Typography variant="body2" sx={{ color: "#666" }}>
           gDNA
