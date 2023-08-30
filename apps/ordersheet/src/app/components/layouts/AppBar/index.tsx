@@ -44,7 +44,9 @@ const Header = ({}) => {
         <AppBar position="fixed" color="inherit" sx={{ zIndex: 1000 }}>
             <Toolbar>
                 <Box sx={{width: 120, mt:1}}>
-                    <MyIcon icon="cj_bk"/>
+                    <Link href="/main" >
+                        <MyIcon icon="cj_bk"/>
+                    </Link>
                 </Box>
                 <Box sx={{ flexGrow: 1 }} />
                 <Box>
@@ -71,7 +73,6 @@ const Header = ({}) => {
                                 <MyIcon icon="profile-circle-fill" size={24} />
                                 <Typography variant="body2">
                                     {status === "authenticated" ? session.user.email : "..."}
-
                                 </Typography>
                                 <IconButton
                                     {...bindTrigger(popupState)}
