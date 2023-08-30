@@ -21,7 +21,7 @@ const TableNewRows = (props) => {
           // patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
           sx={{ width: 200 }}
         />
-        {errors.items?.[index]?.sampleNm && <p>This can't be empty</p>}
+        {errors.items?.[index]?.sampleNm && <p>샘플명을 입력해 주세요.</p>}
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <InputValidation
