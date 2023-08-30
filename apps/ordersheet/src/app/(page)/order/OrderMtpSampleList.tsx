@@ -49,7 +49,7 @@ type FormValues = {
     sampleNm: string;
     source: string;
     sampleCategoryCc: string;
-    anlsTargetGene: string;
+    anlsTargetGeneCc: string;
     qc: string;
     memo: string;
   }[];
@@ -83,7 +83,7 @@ export default function OrderMtpSampleList(props: any) {
     const sampleCnt = (Object.keys(data.sample).length - 2) / 6;
     for (let i = 0; i < sampleCnt; i++) {
       const sample = {
-        anlsTargetGene: data[i + "_anlsTargetGene"],
+        anlsTargetGeneCc: data[i + "_anlsTargetGeneCc"],
         memo: data[i + "_memo"],
         qc: data[i + "_qc"],
         sampleCategoryCc: data[i + "_sampleCategoryCc"],
@@ -174,7 +174,7 @@ export default function OrderMtpSampleList(props: any) {
     sampleNm: "",
     source: "",
     sampleCategoryCc: "",
-    anlsTargetGene: "",
+    anlsTargetGeneCc: "",
     qc: "",
     memo: "",
   };

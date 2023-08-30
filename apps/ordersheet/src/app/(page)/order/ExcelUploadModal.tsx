@@ -58,7 +58,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
                 sampleNm: res.data.data[i].sampleNm,
                 source: res.data.data[i].source,
                 sampleCategoryCc: res.data.data[i].sampleCategoryCc,
-                anlsTargetGene: res.data.data[i].anlsTargetGene,
+                anlsTargetGeneCc: res.data.data[i].anlsTargetGeneCc,
                 qc: res.data.data[i].qc,
                 memo: res.data.data[i].memo,
               });

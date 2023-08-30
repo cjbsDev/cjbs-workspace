@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
@@ -48,7 +48,7 @@ Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
   });
 
 const OrderMTPSampleDynamicTable = () => {
-  const { watch, control, getValues, formState } = useFormContext();
+  const { watch, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -60,6 +60,13 @@ const OrderMTPSampleDynamicTable = () => {
     setShowOrderInfoModifyModal(false);
   };
 
+  useEffect(() => {
+    handleAddFields(2)
+  }, [])
+
+
+  setValue('count', 1);
+
   const handleAddFields = (count) => {
     console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
@@ -67,7 +74,7 @@ const OrderMTPSampleDynamicTable = () => {
         sampleNm: "",
         source: "",
         sampleCategoryCc: "",
-        anlsTargetGene: "",
+        anlsTargetGeneCc: "",
         qc: "",
         memo: "",
       }); // 입력된 수만큼 항목을 추가합니다.
@@ -91,7 +98,7 @@ const OrderMTPSampleDynamicTable = () => {
           handleAddFields={handleAddFields}
           // addExcelDataTableRows={addExcelDataTableRows}
         />
-        <InputValidation inputName="count" type="number" />
+        <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
         <ContainedButton
           buttonName="행 추가"
           size="small"
