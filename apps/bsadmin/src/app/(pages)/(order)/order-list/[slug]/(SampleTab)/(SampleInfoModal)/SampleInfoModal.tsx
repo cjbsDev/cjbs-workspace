@@ -61,7 +61,7 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
       memo: data.memo,
       prgrAgncNmCc: data.prgrAgncNmCc,
       sampleNm: data.sampleNm,
-      sampleStatusCc: data.sampleStatusCc,
+      sampleTypeCc: data.sampleTypeCc,
       source: data.source,
       taxonCc: data.taxonCc,
     };

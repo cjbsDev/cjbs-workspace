@@ -34,7 +34,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
         ),
       }}
       sx={{
-        width: 188,
+        width: "100%",
         ".MuiOutlinedInput-input:read-only": {
           backgroundColor: "white",
           cursor: "pointer",

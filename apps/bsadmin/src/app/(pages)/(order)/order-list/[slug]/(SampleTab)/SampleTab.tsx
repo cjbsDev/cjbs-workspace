@@ -27,6 +27,7 @@ import Link from "next/link";
 import MyIcon from "icon/myIcon";
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
 
 const LazySampleInfoModal = dynamic(
   () => import("./(SampleInfoModal)/SampleInfoModal"),
@@ -40,9 +41,17 @@ const LazySampleAddModal = dynamic(
     ssr: false,
   }
 );
+const LazyExperimentProgressChangeModal = dynamic(
+  () =>
+    import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
+  {
+    ssr: false,
+  }
+);
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
+  const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // [샘플 정보] 모달
@@ -52,6 +61,8 @@ const SampleTab = () => {
   });
   // [샘플 추가] 모달
   const [showSampleAddModal, setShowSampleAddModal] = useState(false);
+  // [실험 진행 단계 변경] 모달
+  const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
 
   const params = useParams();
   const orderUkey = params.slug;
@@ -87,7 +98,7 @@ const SampleTab = () => {
         sortable: false,
         center: true,
         selector: (row) =>
-          row.sampleStatusVal === null ? "-" : row.sampleStatusVal,
+          row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
       },
       {
         name: "Source",
@@ -389,14 +400,16 @@ const SampleTab = () => {
       }
     };
 
+    const handleExPrgrsPhs = () => {
+      if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
+      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+    };
+
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={sampleList.length} />
-            {/*<Link href="/order-reg">*/}
-            {/*  <ContainedButton buttonName="오더 등록" size="small" />*/}
-            {/*</Link>*/}
             <ContainedButton
               buttonName="샘플 추가"
               size="small"
@@ -414,6 +427,7 @@ const SampleTab = () => {
               size="small"
               color="secondary"
               sx={{ color: "black" }}
+              onClick={handleExPrgrsPhs}
             />
           </Stack>
         </Grid>
@@ -440,7 +454,7 @@ const SampleTab = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked]);
+  }, [filterText, resetPaginationToggle, checked, sampleUkeyList]);
 
   const goDetailModal = useCallback((row: any) => {
     const sampleUkey = row.sampleUkey;
@@ -452,8 +466,9 @@ const SampleTab = () => {
   }, []);
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    // You can set state or dispatch with something like Redux so we can use the retrieved data
-    console.log("Selected Rows: ", selectedRows);
+    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+    setSampleUkeyList(getSampleUkeyList);
   }, []);
 
   const handleSampleInfoModalClose = () => {
@@ -465,6 +480,10 @@ const SampleTab = () => {
 
   const handleSampleAddModalClose = () => {
     setShowSampleAddModal(false);
+  };
+
+  const handleExPrgsChngModal = () => {
+    setShowExPrgsChngModal(false);
   };
 
   return (
@@ -503,9 +522,16 @@ const SampleTab = () => {
         />
       )}
 
-      {/*{showSampleInfoModal.isShow && (*/}
-      {/*  */}
-      {/*)}*/}
+      {/* 실험 진행 단계 변경 */}
+      {/*{sampleUkeyList.length === 0 && toast("ssssss")}*/}
+      {showExPrgsChngModal && (
+        <LazyExperimentProgressChangeModal
+          onClose={handleExPrgsChngModal}
+          open={showExPrgsChngModal}
+          modalWidth={600}
+          sampleUkeyList={sampleUkeyList}
+        />
+      )}
     </>
   );
 };

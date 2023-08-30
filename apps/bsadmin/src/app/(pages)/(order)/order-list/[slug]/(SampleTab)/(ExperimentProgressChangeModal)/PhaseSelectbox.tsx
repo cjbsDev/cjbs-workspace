@@ -1,11 +1,11 @@
 import { ContainedButton, SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
-import fetcher from "../func/fetcher";
+import fetcher from "../../../../../../func/fetcher";
 
-export default function SampleCategorySelectbox() {
+export default function PhaseSelectbox() {
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`,
+    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topUniqueCode=BS_0100004`,
     fetcher,
     {
       suspense: true,
@@ -16,9 +16,7 @@ export default function SampleCategorySelectbox() {
 
   return (
     <SelectBox
-      required={true}
-      errorMessage="샘플 종류를 선택헤 주세요."
-      inputName="sampleTypeCc"
+      inputName="analysisPhaseMc"
       options={data.data}
       sx={{ width: "100%" }}
     />

@@ -83,7 +83,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
         : new Date(sampleAddDefaultData.rcptDttm),
     taxonCc: sampleAddDefaultData.taxonCc,
     sampleNm: sampleAddDefaultData.sampleNm,
-    sampleStatusCc: sampleAddDefaultData.sampleStatusCc,
+    sampleTypeCc: sampleAddDefaultData.sampleTypeCc,
     prgrAgncNmCc: sampleAddDefaultData.prgrAgncNmCc,
     memo: sampleAddDefaultData.memo,
     source: sampleAddDefaultData.source,
@@ -99,15 +99,15 @@ const SampleInfoModal = (props: ModalContainerProps) => {
     setIsLoading(true);
     console.log("onSubmit DATA ==>", data);
 
-    const newDateValue = dayjs(data.rcptDttm).format("YYYY-MM-DD");
+    const convertedDate = dayjs(data.rcptDttm).format("YYYY-MM-DD");
 
     const bodyData = {
       depth: Number(data.depth),
       memo: data.memo,
       prgrAgncNmCc: data.prgrAgncNmCc,
-      rcptDttm: newDateValue,
+      rcptDttm: convertedDate,
       sampleNm: data.sampleNm,
-      sampleStatusCc: data.sampleStatusCc,
+      sampleTypeCc: data.sampleTypeCc,
       source: data.source,
       taxonCc: data.taxonCc,
     };
