@@ -40,7 +40,6 @@ declare module "next-auth" {
 export interface GET_API {
   (url: string, option?: object, headers?: any): Promise<ApiResponse>; //TODO any가 아니라 AxiosResponse 교체
 }
-
 export interface GET_BOLB_API {
   (url: string, option?: object, headers?: any): Promise<any>; //TODO any가 아니라 AxiosResponse 교체
 }

@@ -11,12 +11,6 @@ import {
     Link,
 } from "@mui/material";
 
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 
 import {
@@ -27,18 +21,25 @@ import {
 import MyIcon from "icon/myIcon";
 import AppBar from '@mui/material/AppBar';
 import { useSession, signOut } from "next-auth/react"
+import {useRouter} from "next-nprogress-bar";
 
 // interface AppBarProps extends MuiAppBarProps {
 //     open?: boolean;
 // }
 
 const Header = ({}) => {
+    const router = useRouter();
     const { data: session, status } = useSession()
 
     const popupState = usePopupState({
         variant: "popover",
         popupId: "useInfoMenu",
     });
+
+    const goMyOrderList = () => {
+        router.push("/order-list");
+    }
+
     return (
         <AppBar position="fixed" color="inherit" sx={{ zIndex: 1000 }}>
             <Toolbar>
@@ -82,20 +83,16 @@ const Header = ({}) => {
                                 </IconButton>
                             </Stack>
                             <Menu {...bindMenu(popupState)}>
-                                <MenuItem onClick={popupState.close}>
-                                    <Link href="#" underline="none">
-                                        <Typography textAlign="center" variant="body2">
-                                            내 주문내역
-                                        </Typography>
-                                    </Link>
+                                <MenuItem
+                                    onClick={() => {
+                                        popupState.close();
+                                        goMyOrderList();
+                                    }}
+                                >
+                                    <Typography textAlign="center" variant="body2">
+                                        내 주문내역
+                                    </Typography>
                                 </MenuItem>
-                                {/*<MenuItem onClick={popupState.close}>*/}
-                                {/*    <Link href="/signout" underline="none">*/}
-                                {/*        <Typography textAlign="center" variant="body2">*/}
-                                {/*            로그아웃*/}
-                                {/*        </Typography>*/}
-                                {/*    </Link>*/}
-                                {/*</MenuItem>*/}
                                 <MenuItem
                                     onClick={() => {
                                         popupState.close();
