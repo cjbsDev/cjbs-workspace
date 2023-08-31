@@ -75,22 +75,22 @@ const ExperimentProgressChangeModal = (
 
     console.log("BODYDATA ==>", bodyData);
 
-    // await axios
-    //   .post(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response.data);
-    //     if (response.data.success) {
-    //       mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
-    //       mutate(
-    //         `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-    //       );
-    //       setIsLoading(false);
-    //       handleClose();
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //   });
+    await axios
+      .post(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response.data);
+        if (response.data.success) {
+          mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
+          mutate(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+          );
+          setIsLoading(false);
+          handleClose();
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+      });
   };
 
   return (
