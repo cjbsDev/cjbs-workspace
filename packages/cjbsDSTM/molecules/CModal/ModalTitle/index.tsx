@@ -9,7 +9,7 @@ interface DialogTitleProps {
 export const ModalTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
   return (
-    <DialogTitle sx={{ m: 0, p: 3.5 }} {...other}>
+    <DialogTitle sx={{ m: 0, p: 3 }} {...other}>
       <Typography variant="title2">{children}</Typography>
       <IconButton
         onClick={onClose}
