@@ -19,6 +19,8 @@ export default function PhaseSelectbox() {
       inputName="analysisPhaseMc"
       options={data.data}
       sx={{ width: "100%" }}
+      required={true}
+      errorMessage="단계를 선택해 주세요."
     />
   );
 }

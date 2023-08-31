@@ -19,6 +19,8 @@ export default function ConditionSelectbox() {
       inputName="statusCc"
       options={data.data}
       sx={{ width: "100%" }}
+      required={true}
+      errorMessage="상태를 선택해 주세요."
     />
   );
 }
