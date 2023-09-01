@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import {
   cjbsTheme,
   ErrorContainer,
@@ -28,10 +28,12 @@ import { LoadingButton } from "@mui/lab";
 import { useParams, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import MyIcon from "icon/myIcon";
-import axios from "axios/index";
+import axios from "axios";
+import fetcher from "../../../../../../func/fetcher";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
+  sampleIdList: number[];
 }
 
 const LazySampleNoNm = dynamic(() => import("./SampleNoNm"), {
@@ -45,22 +47,16 @@ const dataRadio = [
   { value: "source", optionName: "Source" },
   { value: "memo", optionName: "메모" },
 ];
+
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/update`;
 const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+  const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
   const { mutate } = useSWRConfig();
   const params = useParams();
   const orderUkey = params.slug;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [value, setValue] = React.useState("female");
 
-  console.log("PARAMS", params);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log((event.target as HTMLInputElement).value);
-    console.log(sampleUkeyList);
-    setValue((event.target as HTMLInputElement).value);
-  };
-
+  console.log("sampleUkeyList", sampleUkeyList);
   const handleClose = () => {
     onClose();
   };
@@ -70,56 +66,45 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   };
 
   const onSubmit = async (data: any) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
 
-    const aaa = {
-      sampleId: "",
-      targetVal: "",
-    };
-
     const arraySampleList = data.sampleList.split("\n");
-    const newResult = sampleUkeyList.reduce((acc, curr, index) => {
-      acc[curr] = arraySampleList[index];
-      return acc;
-    }, new Object());
 
-    // const aas = arraySampleL
-    // aaa.push({
-    //   sampleId: "",
-    //   targetVal: "",
-    // });
-    //
-    // console.log("reerreerer", aaa);
+    const makeNewSampleList = sampleIdList.map((item, index) => ({
+      sampleId: item,
+      targetVal: arraySampleList[index],
+    }));
+
+    console.log("makeNewSampleList", makeNewSampleList);
 
     const bodyData = {
       targetItem: data.categoryNm,
-      sampleList: "",
+      sampleList: makeNewSampleList,
     };
 
     console.log("BODYDATA ==>", bodyData);
 
-    // await axios
-    //   .put(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response.data);
-    //     if (response.data.success) {
-    //       mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
-    //       mutate(
-    //         `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-    //       );
-    //       setIsLoading(false);
-    //       handleClose();
-    //     } else {
-    //       handleAlertClick();
-    //       setErrorMsg(response.data.message);
-    //       setIsLoading(false);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("PUT Request Failed:", error);
-    //     setIsLoading(false);
-    //   });
+    await axios
+      .put(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response.data);
+        if (response.data.success) {
+          mutate(
+            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+          );
+          setIsLoading(false);
+          handleClose();
+        } else {
+          // handleAlertClick();
+          // setErrorMsg(response.data.message);
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("PUT Request Failed:", error);
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -188,6 +173,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
                 multiline
                 rows={10}
                 inputName="sampleList"
+                placeholder="이곳에 변경할 내용을 1줄씩 입력 하거나 엑셀이나 워드에 입력된 데이터를 복사하여 붙여 넣기 해주세요."
                 // maxLength={500}
                 // maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
               />

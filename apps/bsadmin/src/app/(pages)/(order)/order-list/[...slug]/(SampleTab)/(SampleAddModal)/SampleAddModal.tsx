@@ -57,6 +57,13 @@ const LazyHostCompSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
+const LazyDepthSelctbox = dynamic(
+  () => import("../../../../../../components/DepthSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const SampleInfoModal = (props: ModalContainerProps) => {
   const { onClose, open, modalWidth } = props;
@@ -190,30 +197,31 @@ const SampleInfoModal = (props: ModalContainerProps) => {
                     Depth(GB)<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD sx={{ width: "30%" }}>
-                    <InputValidation
-                      // helperText="숫자만 입력해 주세요."
-                      // placeholder="숫자만 입력해 주세요."
-                      inputName="depth"
-                      pattern={/^[0-9]+$/}
-                      patternErrMsg="숫자만 입력해 주세요."
-                      sx={{
-                        width: "100%",
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Typography variant="body2" sx={{ color: "black" }}>
-                              GB
-                            </Typography>
-                          </InputAdornment>
-                        ),
-                      }}
-                      inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}
-                    />
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyDepthSelctbox />
+                    </ErrorContainer>
+                    {/*<InputValidation*/}
+                    {/*  inputName="depth"*/}
+                    {/*  pattern={/^[0-9]+$/}*/}
+                    {/*  patternErrMsg="숫자만 입력해 주세요."*/}
+                    {/*  sx={{*/}
+                    {/*    width: "100%",*/}
+                    {/*    ".MuiOutlinedInput-input": {*/}
+                    {/*      textAlign: "end",*/}
+                    {/*    },*/}
+                    {/*  }}*/}
+                    {/*  inputMode="numeric"*/}
+                    {/*  InputProps={{*/}
+                    {/*    endAdornment: (*/}
+                    {/*      <InputAdornment position="end">*/}
+                    {/*        <Typography variant="body2" sx={{ color: "black" }}>*/}
+                    {/*          GB*/}
+                    {/*        </Typography>*/}
+                    {/*      </InputAdornment>*/}
+                    {/*    ),*/}
+                    {/*  }}*/}
+                    {/*  inputProps={{ inputMode: "numeric", pattern: "[0-9]*" }}*/}
+                    {/*/>*/}
                   </TD>
                 </TableRow>
                 <TableRow>

@@ -58,7 +58,9 @@ const LazySampleBatchChangeModal = dynamic(
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
+  const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
+  const [sampleIdList, setSampleIdList] = useState<number[]>([]);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // [샘플 정보] 모달
@@ -431,7 +433,8 @@ const SampleTab = () => {
               size="small"
               onClick={() => setShowSampleAddModal(true)}
             />
-            <ContainedButton buttonName="분석 내역 보기" size="small" />
+            {/* 개발 예정(10월 중순...) */}
+            {/*<ContainedButton buttonName="분석 내역 보기" size="small" />*/}
             <OutlinedButton
               buttonName="샘플 정보 일괄 변경"
               size="small"
@@ -484,8 +487,11 @@ const SampleTab = () => {
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+    const getSampleIDList = selectedRows.map((row) => row.sampleId);
     console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+    console.log("selectedSampleIdList ==>>", getSampleIDList);
     setSampleUkeyList(getSampleUkeyList);
+    setSampleIdList(getSampleIDList);
   }, []);
 
   const handleSampleInfoModalClose = () => {
@@ -499,12 +505,27 @@ const SampleTab = () => {
     setShowSampleAddModal(false);
   };
 
-  const handleExPrgsChngModal = () => {
+  const handleExPrgsChngModalOpen = () => {
+    setIsClear(false);
+    setShowExPrgsChngModal(true);
+  };
+
+  const handleExPrgsChngModalClose = () => {
     setShowExPrgsChngModal(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
+  };
+
+  const handleSampleBatchChangeModalOpen = () => {
+    setIsClear(false);
+    setShowSampleBatchChangeModal(true);
   };
 
   const handleSampleBatchChangeModalClose = () => {
     setShowSampleBatchChangeModal(false);
+    setSampleUkeyList([]);
+    setSampleIdList([]);
+    setIsClear(true);
   };
 
   return (
@@ -521,6 +542,7 @@ const SampleTab = () => {
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows
         onSelectedRowsChange={handleSelectedRowChange}
+        clearSelectedRows={isClear}
         pagination={false}
       />
 
@@ -547,18 +569,18 @@ const SampleTab = () => {
       {showSampleBatchChangeModal && (
         <LazySampleBatchChangeModal
           onClose={handleSampleBatchChangeModalClose}
-          open={showSampleBatchChangeModal}
+          open={handleSampleBatchChangeModalOpen}
           modalWidth={800}
+          sampleIdList={sampleIdList}
           sampleUkeyList={sampleUkeyList}
         />
       )}
 
       {/* 실험 진행 단계 변경 */}
-      {/*{sampleUkeyList.length === 0 && toast("ssssss")}*/}
       {showExPrgsChngModal && (
         <LazyExperimentProgressChangeModal
-          onClose={handleExPrgsChngModal}
-          open={showExPrgsChngModal}
+          onClose={handleExPrgsChngModalClose}
+          open={handleExPrgsChngModalOpen}
           modalWidth={600}
           sampleUkeyList={sampleUkeyList}
         />
