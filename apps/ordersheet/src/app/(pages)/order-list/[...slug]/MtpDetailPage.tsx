@@ -48,7 +48,7 @@ export default function OrshMtpDetailPage() {
             // borderBottom: '1px solid #000',
             p: '12px 20px',
             borderRadius: '4px',
-            backgroundColor: cjbsTheme.palette.info.main,
+            backgroundColor: cjbsTheme.palette.grey['700'],
             color: "#FFF",
           }}
         >
