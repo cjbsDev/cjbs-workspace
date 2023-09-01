@@ -73,9 +73,24 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
     // setIsLoading(true);
     console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
 
+    const aaa = {
+      sampleId: "",
+      targetVal: "",
+    };
+
     const arraySampleList = data.sampleList.split("\n");
-    const newResult = sampleUkeyList.reduce;
+    const newResult = sampleUkeyList.reduce((acc, curr, index) => {
+      acc[curr] = arraySampleList[index];
+      return acc;
+    }, new Object());
+
     // const aas = arraySampleL
+    // aaa.push({
+    //   sampleId: "",
+    //   targetVal: "",
+    // });
+    //
+    // console.log("reerreerer", aaa);
 
     const bodyData = {
       targetItem: data.categoryNm,
