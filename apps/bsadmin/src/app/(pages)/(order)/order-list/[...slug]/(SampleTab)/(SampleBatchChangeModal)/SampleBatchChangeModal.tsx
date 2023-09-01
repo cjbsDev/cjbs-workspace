@@ -6,6 +6,7 @@ import {
   ErrorContainer,
   Fallback,
   Form,
+  InputValidation,
   ModalAction,
   ModalContainer,
   ModalTitle,
@@ -27,6 +28,7 @@ import { LoadingButton } from "@mui/lab";
 import { useParams, usePathname } from "next/navigation";
 import dynamic from "next/dynamic";
 import MyIcon from "icon/myIcon";
+import axios from "axios/index";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -68,9 +70,43 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   };
 
   const onSubmit = async (data: any) => {
-    setIsLoading(true);
-    console.log(data);
+    // setIsLoading(true);
+    console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
+
+    const arraySampleList = data.sampleList.split("\n");
+    const newResult = sampleUkeyList.reduce;
+    // const aas = arraySampleL
+
+    const bodyData = {
+      targetItem: data.categoryNm,
+      sampleList: "",
+    };
+
+    console.log("BODYDATA ==>", bodyData);
+
+    // await axios
+    //   .put(apiUrl, bodyData)
+    //   .then((response) => {
+    //     console.log("POST request successful:", response.data);
+    //     if (response.data.success) {
+    //       mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
+    //       mutate(
+    //         `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+    //       );
+    //       setIsLoading(false);
+    //       handleClose();
+    //     } else {
+    //       handleAlertClick();
+    //       setErrorMsg(response.data.message);
+    //       setIsLoading(false);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("PUT Request Failed:", error);
+    //     setIsLoading(false);
+    //   });
   };
+
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={handleClose}>샘플 정보 일괄 변경</ModalTitle>
@@ -131,7 +167,16 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
                 <LazySampleNoNm sampleUkeyList={sampleUkeyList} />
               </ErrorContainer>
             </Grid>
-            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <InputValidation
+                fullWidth={true}
+                multiline
+                rows={10}
+                inputName="sampleList"
+                // maxLength={500}
+                // maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
+              />
+            </Grid>
           </Grid>
         </Form>
       </DialogContent>

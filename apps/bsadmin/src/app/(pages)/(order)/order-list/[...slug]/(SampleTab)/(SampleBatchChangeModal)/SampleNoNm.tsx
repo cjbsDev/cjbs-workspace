@@ -9,6 +9,7 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
+import { cjbsTheme } from "cjbsDSTM";
 
 interface SampleNoNmProps {
   sampleUkeyList: string[];
@@ -22,15 +23,55 @@ const SampleNoNm = (props: SampleNoNmProps) => {
       suspense: true,
     }
   );
+  console.log(data.data);
+  const getData = data.data;
   return (
     <TableContainer>
-      <Table>
-        <TableHead>
+      <Table sx={{ textAlign: "center" }}>
+        <TableHead
+          sx={{
+            backgroundColor: cjbsTheme.palette.grey["600"],
+          }}
+        >
           <TableRow>
-            <TableCell>샘플번호</TableCell>
-            <TableCell></TableCell>
+            <TableCell
+              sx={{
+                width: "50%",
+                textAlign: "center",
+                color: "white",
+                borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+              }}
+            >
+              샘플번호
+            </TableCell>
+            <TableCell sx={{ textAlign: "center", color: "white" }}>
+              샘플명
+            </TableCell>
           </TableRow>
         </TableHead>
+        <TableBody
+          sx={{
+            backgroundColor: cjbsTheme.palette.grey["50"],
+          }}
+        >
+          {getData.map((item) => {
+            return (
+              <TableRow key={item.sampleId}>
+                <TableCell
+                  sx={{
+                    textAlign: "center",
+                    borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                  }}
+                >
+                  {item.sampleId}
+                </TableCell>
+                <TableCell sx={{ textAlign: "center" }}>
+                  {item.sampleNm}
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
       </Table>
     </TableContainer>
   );
