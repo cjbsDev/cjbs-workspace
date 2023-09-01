@@ -214,7 +214,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <PaymentInfo addBodyData={addBodyData} />
+          <PaymentInfo />
         </Box>
 
       </Form>
