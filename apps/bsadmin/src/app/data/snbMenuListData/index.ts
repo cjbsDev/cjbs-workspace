@@ -195,12 +195,12 @@ export const snbMenuListData = [
           menuPath: "/es-pr-list",
         },
         {
-          menuLabel: "서비스 기준가 관리",
-          menuPath: "/svc-std-price-list",
-        },
-        {
           menuLabel: "과제 관리",
           menuPath: "/project-list",
+        },
+        {
+          menuLabel: "서비스 기준가 관리",
+          menuPath: "/svc-std-price-list",
         },
       ],
     },

@@ -158,7 +158,7 @@ const LazySvcStdPrice = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="서비스 기준가 관리" />}
+      title={<Title1 titleName="서비스 기준가 관리(개발중)" />}
       data={data.data}
       columns={columns}
       highlightOnHover
