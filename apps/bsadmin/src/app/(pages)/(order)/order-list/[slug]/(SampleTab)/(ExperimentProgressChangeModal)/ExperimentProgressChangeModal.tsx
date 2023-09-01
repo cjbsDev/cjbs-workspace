@@ -137,7 +137,8 @@ const ExperimentProgressChangeModal = (
               않습니다.
             </Typography>
             <Typography variant="body2">
-              - 실험을 진행하지 않는 단계는 "해당 없음" 상태로 변경해 주세요.
+              - 실험을 진행하지 않는 단계는 &quot;해당 없음&quot; 상태로 변경해
+              주세요.
             </Typography>
           </Box>
           <Form
