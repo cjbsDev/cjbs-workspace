@@ -26,7 +26,7 @@
     "eslint-config-custom": "workspace:*",
     "eslint-config-next": "13.4.8",
     "icon": "workspace:*",
-    "next": "13.4.8",
+    "next": "latest",
     "next-auth-it": "workspace:*",
     "react": "18.2.0",
     "react-dom": "18.2.0",

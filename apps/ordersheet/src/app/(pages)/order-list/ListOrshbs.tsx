@@ -2,18 +2,18 @@
 
 import React, { useMemo } from "react";
 import {
-    DataCountResultInfo,
-    DataTableBase,
-    DataTableFilter,
-    Title1,
-    ExcelDownloadButton,
-    LeaderCip,
-    ContainedButton,
-    SelectBox,
-    Form,
-    OutlinedButton, FileDownloadBtn,
+  DataCountResultInfo,
+  DataTableBase,
+  DataTableFilter,
+  Title1,
+  ExcelDownloadButton,
+  LeaderCip,
+  ContainedButton,
+  SelectBox,
+  Form,
+  OutlinedButton, FileDownloadBtn, cjbsTheme,
 } from "cjbsDSTM";
-import { Stack, Grid, Box, Container } from "@mui/material";
+import {Stack, Grid, Box, Container, Typography} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
 import MyIcon from "icon/myIcon";
@@ -71,6 +71,11 @@ export default function ListOrshbs() {
             width: "300px",
         },
         {
+          name: "orshUkey",
+          selector: (row: { orshUkey: string }) => row.orshUkey,
+          width: "0px",
+        },
+        {
             name: "분석 종류",
             selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
             width: "200px",
@@ -96,15 +101,22 @@ export default function ListOrshbs() {
             cell: (row: { isOrderStatus: string }) => {
               return row.isOrderStatus == "N" ? (
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <OutlinedButton
-                    buttonName="수정"
-                    size="small"
-                    onClick={() => goLinkOrderPage()}
-                  />
+                  {/*<OutlinedButton*/}
+                  {/*  buttonName="수정"*/}
+                  {/*  size="small"*/}
+                  {/*  onClick={() => goLinkOrderPage()}*/}
+                  {/*/>*/}
+                  <Typography variant="subtitle2" color={cjbsTheme.palette.info.main}>
+                    주문대기
+                  </Typography>
                 </Stack>
               ) : (
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <Box data-tag="allowRowEvents">등록 완료</Box>
+                  {/*<Box data-tag="allowRowEvents">등록 완료</Box>*/}
+
+                  <Typography variant="subtitle2">
+                    주문완료
+                  </Typography>
                 </Stack>
               );
             },
@@ -113,9 +125,11 @@ export default function ListOrshbs() {
 
   ],  []);
 
-  const goDetailPage = (row: { orshNo: string }) => {
-    const path = row.orshNo;
-    router.push("/order-list/" + path);
+  const goDetailPage = (row: { orshUkey: string, srvcTypeAbb: string, isOrderStatus: string }) => {
+    const path = row.orshUkey;
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    router.push("/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus);
   };
 
   const goLinkOrderPage = () => {

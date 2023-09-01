@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import SkeletonLoading from "../../components/SkeletonLoading";
+import SkeletonLoading from "@components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 
 //Orshbs

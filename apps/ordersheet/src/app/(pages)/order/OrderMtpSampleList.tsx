@@ -29,12 +29,12 @@ import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import MyIcon from "icon/myIcon";
 import { cjbsTheme } from "cjbsDSTM";
-import ExcelUploadModal from "@app/(page)/order/ExcelUploadModal";
+import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
 import TableRows from "./TableRows";
-import MtpFullService from "@app/(page)/order/mtp/MtpFullService";
+import MtpFullService from "@app/(pages)/order/mtp/MtpFullService";
 import { useFieldArray } from "react-hook-form";
-import InputAppendBtn from "@app/(page)/order/InputAppendBtn";
-import OrderMTPSampleDynamicTable from "@app/(page)/order/OrderMTPSampleDynamicTable";
+import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
+import OrderMTPSampleDynamicTable from "@app/(pages)/order/OrderMTPSampleDynamicTable";
 
 const LazyPrepSelectbox = dynamic(
   () => import("../../components/CommonSelectbox"),
@@ -74,9 +74,7 @@ export default function OrderMtpSampleList(props: any) {
     });
   };
 
-  const onSubmit = (data: any, e) => {
-    // e.preventDefault();
-    // setIsLoading(true);
+  const onSubmit = (data: any) => {
     console.log("Submit Data ==>>", data);
     // console.log("length", Object.keys(data).length);
     const samples = [];
@@ -96,6 +94,7 @@ export default function OrderMtpSampleList(props: any) {
 
     const returnData = {
       samples: data.sample,
+      addRqstMemo: {memo: data.memo}
     };
     props.addBodyData(returnData);
     props.addFileData(data.uploadFile[0]);
@@ -285,7 +284,7 @@ export default function OrderMtpSampleList(props: any) {
       </Stack>
 
       <InputValidation
-        inputName="test"
+        inputName="memo"
         required={false}
         // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
