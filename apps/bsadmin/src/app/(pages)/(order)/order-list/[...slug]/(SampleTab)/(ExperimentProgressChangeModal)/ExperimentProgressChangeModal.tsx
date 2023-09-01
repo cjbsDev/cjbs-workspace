@@ -32,6 +32,7 @@ import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import dayjs from "dayjs";
 import axios from "axios";
 import { useSWRConfig } from "swr";
+import { useParams } from "next/navigation";
 
 const LazyPhaseSelectbox = dynamic(() => import("./PhaseSelectbox"), {
   ssr: false,
@@ -53,6 +54,8 @@ const ExperimentProgressChangeModal = (
   props: ExperimentProgressChangeModalProps
 ) => {
   const { onClose, open, modalWidth, sampleUkeyList } = props;
+  const params = useParams();
+  const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState<string>("");

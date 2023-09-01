@@ -48,6 +48,13 @@ const LazyExperimentProgressChangeModal = dynamic(
     ssr: false,
   }
 );
+const LazySampleBatchChangeModal = dynamic(
+  () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
+  {
+    ssr: false,
+  }
+);
+
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -61,10 +68,14 @@ const SampleTab = () => {
   });
   // [샘플 추가] 모달
   const [showSampleAddModal, setShowSampleAddModal] = useState(false);
+  // [샘플 정보 일괄 변경] 모달
+  const [showSampleBatchChangeModal, setShowSampleBatchChangeModal] =
+    useState(false);
   // [실험 진행 단계 변경] 모달
   const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
 
   const params = useParams();
+  console.log("SAMPLE TAB PARAMS", params);
   const orderUkey = params.slug;
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`,
@@ -405,6 +416,11 @@ const SampleTab = () => {
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
     };
 
+    const handleSampleBatchModalOpen = () => {
+      if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
+      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+    };
+
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
@@ -421,6 +437,7 @@ const SampleTab = () => {
               size="small"
               color="secondary"
               sx={{ color: "black" }}
+              onClick={handleSampleBatchModalOpen}
             />
             <OutlinedButton
               buttonName="실험 진행 단계 변경"
@@ -486,6 +503,10 @@ const SampleTab = () => {
     setShowExPrgsChngModal(false);
   };
 
+  const handleSampleBatchChangeModalClose = () => {
+    setShowSampleBatchChangeModal(false);
+  };
+
   return (
     <>
       <DataTableBase
@@ -519,6 +540,16 @@ const SampleTab = () => {
           onClose={handleSampleAddModalClose}
           open={showSampleAddModal}
           modalWidth={800}
+        />
+      )}
+
+      {/* 샘플 정보 일괄 변경 */}
+      {showSampleBatchChangeModal && (
+        <LazySampleBatchChangeModal
+          onClose={handleSampleBatchChangeModalClose}
+          open={showSampleBatchChangeModal}
+          modalWidth={800}
+          sampleUkeyList={sampleUkeyList}
         />
       )}
 

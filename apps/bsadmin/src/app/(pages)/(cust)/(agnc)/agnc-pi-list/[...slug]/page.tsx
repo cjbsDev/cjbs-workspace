@@ -14,7 +14,7 @@ import {
   cjbsTheme,
 } from "cjbsDSTM";
 import useSWR from "swr";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import axios from "axios";
 import {
@@ -57,9 +57,12 @@ interface CustViewProps {
     slug: string;
   };
 }
+// { params }: CustViewProps
 
-export default function AgncPage({ params }: CustViewProps) {
+export default function AgncPage() {
   // init
+  const params = useParams();
+  console.log("@@@@@@PARAMS", params);
   const { slug } = params;
   const router = useRouter();
   const [agncInfoModalOpen, setAgncInfoModalOpen] = useState<boolean>(false);
@@ -164,7 +167,7 @@ export default function AgncPage({ params }: CustViewProps) {
         </Table>
       </TableContainer>
 
-      {/* 
+      {/*
       <Typography variant="subtitle1">
         소속 연구원( 총 {agncCustList.length}명 )
       </Typography>
@@ -215,7 +218,7 @@ export default function AgncPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>선결제 금액</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 -
-                {/* 
+                {/*
                 <Box
                   sx={{
                     display: "flex",

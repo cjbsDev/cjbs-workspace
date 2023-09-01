@@ -15,7 +15,6 @@ import {
   Form,
   CustomToggleButton,
   cjbsTheme,
-  exportCSVData,
   FileDownloadBtn,
 } from "cjbsDSTM";
 import {
@@ -165,7 +164,7 @@ const ListOrder = () => {
               <Box data-tag="allowRowEvents">
                 <Stack direction="row" spacing={"2px"} alignItems="center">
                   <Typography data-tag="allowRowEvents" variant="body2">
-                      {agncNm}
+                    {agncNm}
                   </Typography>
                   {isSpecialMng === "Y" && (
                     <MyIcon

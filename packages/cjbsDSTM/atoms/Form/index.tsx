@@ -12,7 +12,7 @@ interface FormContainerProps {
   id?: string;
   children: React.ReactNode;
   onSubmit: (data: any) => void;
-  defaultValues: object;
+  defaultValues?: object;
 }
 
 export const Form = ({
