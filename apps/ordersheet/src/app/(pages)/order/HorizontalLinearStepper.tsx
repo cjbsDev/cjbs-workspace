@@ -4,6 +4,7 @@ import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector
 import {Check} from "@mui/icons-material";
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
+import {cjbsTheme} from "cjbsDSTM";
 
 const steps = ['서비스 타입', '주문자 정보', '주문서 작성', '결제 정보', '주문 완료'];
 
@@ -15,12 +16,12 @@ const QontoConnector = styled(StepConnector)(({ theme }) => ({
     },
     [`&.${stepConnectorClasses.active}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            borderColor: '#784af4',
+            borderColor: cjbsTheme.palette.primary.main,
         },
     },
     [`&.${stepConnectorClasses.completed}`]: {
         [`& .${stepConnectorClasses.line}`]: {
-            borderColor: '#784af4',
+            borderColor: cjbsTheme.palette.primary.main,
         },
     },
     [`& .${stepConnectorClasses.line}`]: {
@@ -37,10 +38,10 @@ const QontoStepIconRoot = styled('div')<{ ownerState: { active?: boolean } }>(
         height: 22,
         alignItems: 'center',
         ...(ownerState.active && {
-            color: '#784af4',
+            color: cjbsTheme.palette.primary.main,
         }),
         '& .QontoStepIcon-completedIcon': {
-            color: '#784af4',
+            color: cjbsTheme.palette.primary.main,
             zIndex: 1,
             fontSize: 18,
         },

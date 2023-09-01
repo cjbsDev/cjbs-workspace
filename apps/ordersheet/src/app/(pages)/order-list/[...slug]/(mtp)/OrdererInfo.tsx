@@ -112,16 +112,16 @@ export default function Page() {
                                     inputName="ebcEmail"
                                     required={true}
                                     sx={{
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                          backgroundColor: "white",
+                                          cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.ebcEmail ?? ""}
                                 />
@@ -145,17 +145,17 @@ export default function Page() {
                                     errorMessage="연구책임자 이름을 입력해 주세요."
                                     placeholder="연구책임자 이름을 입력해 주세요."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                          backgroundColor: "white",
+                                          cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.rhpiNm ?? ""}
                                 />
@@ -177,17 +177,17 @@ export default function Page() {
                                     pattern={/^[0-9,]*$/}
                                     patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.rhpiTel ?? ""}
                                 />
@@ -204,17 +204,17 @@ export default function Page() {
                                     errorMessage="기관명을 입력해 주세요."
                                     placeholder="기관명을 입력해 주세요."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.instNm ?? ""}
                                 />
@@ -235,17 +235,17 @@ export default function Page() {
                                     errorMessage="연구 부서를 입력해 주세요."
                                     placeholder="연구 부서를 입력해 주세요."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.agncNm ?? ""}
                                 />
@@ -273,17 +273,17 @@ export default function Page() {
                                     errorMessage="신청인 이름을 입력해 주세요."
                                     placeholder="신청인 이름을 입력해 주세요."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -299,17 +299,17 @@ export default function Page() {
                                     pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
                                     patternErrMsg="이메일 형식이 아닙니다."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -327,17 +327,17 @@ export default function Page() {
                                     patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
                                     placeholder="연락처를 입력해 주세요."
                                     sx={{
-                                        width: 306,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'Y' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -366,9 +366,9 @@ export default function Page() {
                                             readOnly: true,
                                         }}
                                         sx={{
-                                            "& .MuiOutlinedInput-root": {
-                                                "& fieldset": { border: "none" },
-                                            },
+                                          "& .MuiOutlinedInput-root": {
+                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                          },
                                         }}
                                         // defaultValue={custData.custAgnc.agncZip ?? ""}
                                     />
@@ -385,11 +385,10 @@ export default function Page() {
                                         // inputName="agncAddr"
                                         inputName="addr"
                                         sx={{
-                                            width: 600,
-                                            "& .MuiOutlinedInput-root": {
-                                            "& fieldset": {
-                                                border: "none" },
-                                            },
+                                          width: 600,
+                                          "& .MuiOutlinedInput-root": {
+                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                          },
                                         }}
                                         InputProps={{
                                             readOnly: true,
@@ -405,14 +404,14 @@ export default function Page() {
                                         maxLengthErrMsg="50자 이내로 입력해주세요."
                                         placeholder="상세주소"
                                         sx={{
-                                            width: 600,
-                                            "& .MuiOutlinedInput-root": {
-                                                "& fieldset": { border: "none" },
-                                            },
-                                            ".MuiOutlinedInput-input:read-only": {
-                                                backgroundColor: "white",
-                                                cursor: "pointer",
-                                            },
+                                          width: 600,
+                                          "& .MuiOutlinedInput-root": {
+                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                          },
+                                          ".MuiOutlinedInput-input:read-only": {
+                                            backgroundColor: "white",
+                                            cursor: "pointer",
+                                          },
                                         }}
                                         InputProps={{
                                             readOnly: updataYn === 'Y' ? false : true
@@ -448,15 +447,14 @@ export default function Page() {
                                     // placeholder="여러개 입력시','로 구분하세요."
                                     placeholder="example@gmail.com, example2@gmail.com"
                                     sx={{
-                                        width: 550,
-                                        "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: "none" },
-                                        },
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                            focus: "none",
-                                        },
+                                      width: 550,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                      },
                                     }}
                                     InputProps={{
                                         readOnly: updataYn === 'Y' ? false : true

@@ -106,6 +106,9 @@ export default function Page() {
                                     placeholder="상호를 입력해 주세요."
                                     sx={{
                                       width: 800,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
@@ -135,6 +138,9 @@ export default function Page() {
                                     placeholder="- 없이 숫자만 입력해 주세요."
                                     sx={{
                                       width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
@@ -156,6 +162,9 @@ export default function Page() {
                                     placeholder="상호를 입력해 주세요."
                                     sx={{
                                       width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
@@ -179,6 +188,9 @@ export default function Page() {
                                     placeholder="수취자명을 입력해 주세요."
                                     sx={{
                                       width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
@@ -202,6 +214,9 @@ export default function Page() {
                                     placeholder="수취 이메일을 입력해 주세요."
                                     sx={{
                                       width: 306,
+                                      "& .MuiOutlinedInput-root": {
+                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                      },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
