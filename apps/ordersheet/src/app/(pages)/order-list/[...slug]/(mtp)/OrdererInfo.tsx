@@ -439,9 +439,9 @@ export default function Page() {
                                             cursor: "pointer",
                                         },
                                     }}
-                                    InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
-                                    }}
+                                    // InputProps={{
+                                    //     readOnly: updataYn === 'Y' ? false : true
+                                    // }}
                                 />
                                 <InputValidation
                                     inputName="addEmailList"

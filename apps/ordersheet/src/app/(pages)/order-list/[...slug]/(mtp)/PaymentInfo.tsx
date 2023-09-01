@@ -46,7 +46,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
 }));
 
-export default function Page(props:JSON) {
+export default function Page() {
     const router = useRouter();
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const [alignment, setAlignment] = React.useState('account');
