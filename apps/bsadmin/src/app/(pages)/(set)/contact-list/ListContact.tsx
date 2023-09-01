@@ -20,7 +20,7 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { useForm, FormProvider } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import fetcher from "../../../func/fetcher";
 import axios from "axios";
 import { PUT } from "api";
@@ -182,6 +182,7 @@ export default function ListContact() {
       const response = await PUT(apiUrl, saveObj); // API 요청
       if (response.success) {
         handleClearRows();
+        renderList();
       } else if (response.code == "INVALID_AUTHORITY") {
         toast("권한이 없습니다.");
       } else {
@@ -221,6 +222,7 @@ export default function ListContact() {
       const response = await PUT(apiUrl, saveObj); // API 요청
       if (response.success) {
         handleClearRows();
+        renderList();
       } else if (response.code == "INVALID_AUTHORITY") {
         toast("실행 권한이 없습니다.");
       } else {
@@ -321,6 +323,12 @@ export default function ListContact() {
 
   const handleClearRows = () => {
     setToggleClearRows(!toggledClearRows);
+  };
+
+  const renderList = () => {
+    mutate(
+      `${process.env.NEXT_PUBLIC_API_URL}/user/list?page=${page}&size=${perPage}`
+    );
   };
 
   return (
