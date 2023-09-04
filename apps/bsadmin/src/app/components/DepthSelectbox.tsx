@@ -16,9 +16,9 @@ export default function DepthSelectbox() {
 
   return (
     <SelectBox
-      required={true}
+      // required={true}
       errorMessage="Depth를 선택헤 주세요."
-      inputName="Depth(GB)"
+      inputName="depthMc"
       options={data.data}
       sx={{ width: "100%" }}
     />

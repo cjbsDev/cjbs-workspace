@@ -30,13 +30,14 @@ const SampleNoNm = (props: SampleNoNmProps) => {
       <Table sx={{ textAlign: "center" }}>
         <TableHead
           sx={{
-            backgroundColor: cjbsTheme.palette.grey["600"],
+            backgroundColor: cjbsTheme.palette.grey["500"],
           }}
         >
           <TableRow>
             <TableCell
               sx={{
                 width: "50%",
+                minHeight: 40,
                 textAlign: "center",
                 color: "white",
                 borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,

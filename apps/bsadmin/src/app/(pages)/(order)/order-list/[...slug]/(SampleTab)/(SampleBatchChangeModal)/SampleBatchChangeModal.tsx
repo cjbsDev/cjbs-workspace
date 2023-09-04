@@ -12,7 +12,10 @@ import {
   ModalTitle,
   OutlinedButton,
   RadioGV,
+  SelectBox,
   SkeletonLoading,
+  TD,
+  TH,
 } from "cjbsDSTM";
 import {
   Box,
@@ -22,6 +25,10 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -30,6 +37,9 @@ import dynamic from "next/dynamic";
 import MyIcon from "icon/myIcon";
 import axios from "axios";
 import fetcher from "../../../../../../func/fetcher";
+import { vrfcData } from "../../../../../../data/inputDataLists";
+import SampleBatchInputs from "./SampleBatchInputs";
+import { useFormContext } from "react-hook-form";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -46,15 +56,18 @@ const dataRadio = [
   { value: "altrNm", optionName: "대체명" },
   { value: "source", optionName: "Source" },
   { value: "memo", optionName: "메모" },
+  { value: "etc", optionName: "기타" },
 ];
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/update`;
+const apiUrl2 = `${process.env.NEXT_PUBLIC_API_URL}/sample/update/options`;
 const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
   const { mutate } = useSWRConfig();
   const params = useParams();
   const orderUkey = params.slug;
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const { getValues } = useFormContext();
 
   console.log("sampleUkeyList", sampleUkeyList);
   const handleClose = () => {
@@ -67,7 +80,11 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
+    console.log("LLLLLLLL", data);
+
+    const selectedCtNm = data.categoryNm;
+    // console.log("<<<<<<>>>>>", getValues("categoryNm"));
+    // console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
 
     const arraySampleList = data.sampleList.split("\n");
 
@@ -78,33 +95,59 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
     console.log("makeNewSampleList", makeNewSampleList);
 
-    const bodyData = {
-      targetItem: data.categoryNm,
-      sampleList: makeNewSampleList,
-    };
+    switch (selectedCtNm) {
+      case "sampleNm":
+        const bodyData = {
+          targetItem: data.categoryNm,
+          sampleList: makeNewSampleList,
+        };
 
-    console.log("BODYDATA ==>", bodyData);
+        console.log("BODYDATA ==>", bodyData);
 
-    await axios
-      .put(apiUrl, bodyData)
-      .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
-          mutate(
-            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-          );
-          setIsLoading(false);
-          handleClose();
-        } else {
-          // handleAlertClick();
-          // setErrorMsg(response.data.message);
-          setIsLoading(false);
-        }
-      })
-      .catch((error) => {
-        console.error("PUT Request Failed:", error);
-        setIsLoading(false);
-      });
+        await axios
+          .put(apiUrl, bodyData)
+          .then((response) => {
+            console.log("POST request successful:", response.data);
+            if (response.data.success) {
+              mutate(
+                `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+              );
+              setIsLoading(false);
+              handleClose();
+            } else {
+              // handleAlertClick();
+              // setErrorMsg(response.data.message);
+              setIsLoading(false);
+            }
+          })
+          .catch((error) => {
+            console.error("PUT Request Failed:", error);
+            setIsLoading(false);
+          });
+
+      case "etc":
+        console.log("ETC ~~!@@@@@");
+        const {
+          isVrfc,
+          mcNmCc,
+          prgrAgncNmCc,
+          sampleList,
+          sampleTypeCc,
+          taxonCc,
+        } = data;
+
+        const bodyData2 = {
+          depthMc: "",
+          isVrfc: isVrfc,
+          mcNmCc: mcNmCc,
+          prgrAgncNmCc: prgrAgncNmCc,
+          sampleTypeCc: sampleTypeCc,
+          taxonCc: taxonCc,
+          sampleList: makeNewSampleList,
+        };
+
+        console.log("BODYDATA2 ==>", bodyData2);
+    }
   };
 
   return (
@@ -161,22 +204,14 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
               업데이트됩니다.
             </Typography>
           </Box>
-          <Grid container>
+          <Grid container spacing={4}>
             <Grid item xs={6}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazySampleNoNm sampleUkeyList={sampleUkeyList} />
               </ErrorContainer>
             </Grid>
             <Grid item xs={6}>
-              <InputValidation
-                fullWidth={true}
-                multiline
-                rows={10}
-                inputName="sampleList"
-                placeholder="이곳에 변경할 내용을 1줄씩 입력 하거나 엑셀이나 워드에 입력된 데이터를 복사하여 붙여 넣기 해주세요."
-                // maxLength={500}
-                // maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-              />
+              <SampleBatchInputs />
             </Grid>
           </Grid>
         </Form>
