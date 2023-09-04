@@ -22,6 +22,12 @@ export default function CommonSelectbox({
 
   // console.log(data.data);
 
-  return <SelectBox inputName={inputName} options={data.data} />;
-}
+  return (
+    <SelectBox
+      inputName={inputName}
+      options={data.data}
+      required={true}
+      errorMessage="값을 선택해 주세요."
+    />
+)}
 

@@ -50,7 +50,7 @@ export default function Page() {
     // const custData = custTemp.data;
 
     const params = useParams();
-    console.log("params", params.slug[2]);
+    // console.log("params", params.slug[2]);
     const updataYn = params.slug[2];
 
     // const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -102,7 +102,7 @@ export default function Page() {
                     <TableRow>
                         <TH sx={{ width: "15%" }}>Ezbiocloud 계정</TH>
                         <TD sx={{ width: "85%" }} colSpan={3}>
-                            <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                            <Stack direction="row" spacing={0.5} alignItems="flex-start" alignItems="center">
                                 {/*<Typography variant="body2" sx={{}}>*/}
                                 {/*    {custData.custAgnc.ebcEmail ?? ""}*/}
                                 {/*    &nbsp;<Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>*/}
@@ -113,15 +113,16 @@ export default function Page() {
                                     required={true}
                                     sx={{
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
-                                          backgroundColor: "white",
-                                          cursor: "pointer",
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.ebcEmail ?? ""}
                                 />
@@ -147,15 +148,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
-                                          backgroundColor: "white",
-                                          cursor: "pointer",
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.rhpiNm ?? ""}
                                 />
@@ -179,15 +181,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.rhpiTel ?? ""}
                                 />
@@ -206,15 +209,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.instNm ?? ""}
                                 />
@@ -237,15 +241,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                     // defaultValue={custData.custAgnc.agncNm ?? ""}
                                 />
@@ -257,8 +262,12 @@ export default function Page() {
         </TableContainer>
 
         <Stack direction="row" alignItems="center" spacing={0.5}>
-            <Typography variant="subtitle1">신청인 정보</Typography>
+          <Typography variant="subtitle1">신청인 정보</Typography>
+          { updataYn === 'N' ? (
             <LazyQuickCopy />
+          ) : (
+            ''
+          )}
         </Stack>
         <TableContainer sx={{ mb: 5 }}>
             <Table>
@@ -275,15 +284,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -301,15 +311,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -329,15 +340,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -367,18 +379,29 @@ export default function Page() {
                                         }}
                                         sx={{
                                           "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                                          },
+                                          ".MuiOutlinedInput-input:read-only": {
+                                            backgroundColor: updataYn === 'N' ? '' : "white",
+                                            cursor: updataYn === 'N' ? '' : "pointer",
+                                            textFillColor: "#000000"
                                           },
                                         }}
                                         // defaultValue={custData.custAgnc.agncZip ?? ""}
                                     />
-                                    <PostCodeBtn />
-                                    <OutlinedButton
+                                  { updataYn === 'N' ? (
+                                    <>
+                                      <PostCodeBtn />
+                                      <OutlinedButton
                                         size="small"
                                         buttonName="삭제"
                                         color="error"
-                                        // onClick={handleClick}
-                                    />
+                                      />
+                                    </>
+                                  ) : (
+                                    ''
+                                  )}
+
                                 </Stack>
                                 <Stack direction="row" spacing={0.5}>
                                     <InputValidation
@@ -387,7 +410,12 @@ export default function Page() {
                                         sx={{
                                           width: 600,
                                           "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                                          },
+                                          ".MuiOutlinedInput-input:read-only": {
+                                            backgroundColor: updataYn === 'N' ? '' : "white",
+                                            cursor: updataYn === 'N' ? '' : "pointer",
+                                            textFillColor: "#000000"
                                           },
                                         }}
                                         InputProps={{
@@ -406,15 +434,16 @@ export default function Page() {
                                         sx={{
                                           width: 600,
                                           "& .MuiOutlinedInput-root": {
-                                            "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                           },
                                           ".MuiOutlinedInput-input:read-only": {
                                             backgroundColor: "white",
                                             cursor: "pointer",
+                                            textFillColor: "#000000"
                                           },
                                         }}
                                         InputProps={{
-                                            readOnly: updataYn === 'Y' ? false : true
+                                            readOnly: updataYn === 'N' ? false : true
                                         }}
                                         // defaultValue={custData.custAgnc.agncAddrDetail ?? ""}
                                     />
@@ -433,10 +462,11 @@ export default function Page() {
                                     required={true}
                                     errorMessage="진행사항 메일 수신 설정 항목은 필수 입니다."
                                     sx={{
-                                        ".MuiOutlinedInput-input:read-only": {
-                                            backgroundColor: "white",
-                                            cursor: "pointer",
-                                        },
+                                      ".MuiOutlinedInput-input:read-only": {
+                                        backgroundColor: "white",
+                                        cursor: "pointer",
+                                        textFillColor: "#000000"
+                                      },
                                     }}
                                     // InputProps={{
                                     //     readOnly: updataYn === 'Y' ? false : true
@@ -446,18 +476,21 @@ export default function Page() {
                                     inputName="addEmailList"
                                     // placeholder="여러개 입력시','로 구분하세요."
                                     placeholder="example@gmail.com, example2@gmail.com"
+                                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                                    patternErrMsg="이메일 형식이 아닙니다."
                                     sx={{
                                       width: 550,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                        readOnly: updataYn === 'Y' ? false : true
+                                        readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
