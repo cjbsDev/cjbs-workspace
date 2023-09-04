@@ -102,7 +102,7 @@ export default function Page() {
                     <TableRow>
                         <TH sx={{ width: "15%" }}>Ezbiocloud 계정</TH>
                         <TD sx={{ width: "85%" }} colSpan={3}>
-                            <Stack direction="row" spacing={0.5} alignItems="flex-start" alignItems="center">
+                            <Stack direction="row" spacing={0.5} alignItems="center">
                                 {/*<Typography variant="body2" sx={{}}>*/}
                                 {/*    {custData.custAgnc.ebcEmail ?? ""}*/}
                                 {/*    &nbsp;<Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>*/}

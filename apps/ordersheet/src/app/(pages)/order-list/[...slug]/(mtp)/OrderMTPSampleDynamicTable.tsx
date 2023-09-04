@@ -54,8 +54,6 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
   const params = useParams();
   console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
-  console.log("props", props.detailData);
-  console.log("props", props.detailData.length);
   const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
