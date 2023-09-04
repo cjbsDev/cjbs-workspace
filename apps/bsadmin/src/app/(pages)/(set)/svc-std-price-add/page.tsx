@@ -5,6 +5,7 @@ import * as React from "react";
 import BasicInfo from "./BasicInfo";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
+import axios from "axios";
 
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -12,31 +13,35 @@ export default function Page() {
   const defaultValues = {
     prdcSizeMc: "BS_0100010001",
   };
-  const onSubmit = (data: any) => {
+
+  const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("DATA ==>>", data);
 
-    /*
-      {
-        "anlsMtMc": "분석방법(플랫폼)코드",
-        "anlsTypeMc": "분석종류코드",
-        "prdcSizeMc": "생산량코드",
-        "srvcTypeMc": "서비스분류코드",
-        "stndPriceDetailList": [
-          {
-            "bi": 0,
-            "isUse": "사용여부",
-            "lib": 0,
-            "prep": 0,
-            "qc": 0,
-            "sampleSizeEnd": 0,
-            "sampleSizeStart": 0,
-            "seq": 0,
-            "stndDscntPctg": 0
-          }
-        ]
-      }
-    */
+    let saveObj = {
+      anlsMtMc: data.anlsMtMc,
+      anlsTypeMc: data.anlsTypeMc,
+      prdcSizeMc: data.prdcSizeMc,
+      srvcTypeMc: data.srvcTypeMc,
+    };
+
+    console.log("==saveObj", saveObj);
+    console.log("saveObj stringify", JSON.stringify(saveObj));
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice`; // Replace with your API URL
+
+    await axios
+      .post(apiUrl, saveObj)
+      .then((response) => {
+        console.log("request successful:", response.data);
+        if (response.data.success) {
+          router.push("/svc-std-price-list");
+          setIsLoading(false);
+        }
+      })
+      .catch((error) => {
+        console.error("request failed:", error);
+      });
   };
 
   return (

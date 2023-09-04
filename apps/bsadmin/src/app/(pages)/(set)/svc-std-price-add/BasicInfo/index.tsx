@@ -27,10 +27,10 @@ const LazyStndPriceSrvcType = dynamic(() => import("./StndPriceSrvcType"), {
   loading: () => <SkeletonLoading height={180} />,
 });
 
-const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
-});
+// const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
+//   ssr: false,
+//   loading: () => <SkeletonLoading height={82} />,
+// });
 
 const BasicInfo = () => {
   return (
@@ -61,8 +61,9 @@ const BasicInfo = () => {
           </TableBody>
         </Table>
       </TableContainer>
-
+      {/* 
       <LazyStndPriceDetailList />
+      */}
     </Box>
   );
 };
