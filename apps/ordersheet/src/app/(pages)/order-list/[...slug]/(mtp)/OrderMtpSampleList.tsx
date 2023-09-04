@@ -33,7 +33,8 @@ import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
 import MtpFullService from "@app/(pages)/order/mtp/MtpFullService";
 import { useFieldArray } from "react-hook-form";
 import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
-import OrderMTPSampleDynamicTable from "@app/(pages)/order/OrderMTPSampleDynamicTable";
+import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
+import {useParams} from "next/navigation";
 
 const LazyPrepSelectbox = dynamic(
   () => import("@components/CommonSelectbox"),
@@ -54,15 +55,19 @@ type FormValues = {
   }[];
 };
 
-export default function OrderMtpSampleList(props: any) {
+export default function OrderMtpSampleList(props: JSON) {
   // const { fields, append } = useFieldArray({
   //   name: "items", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   // });
   // console.log("$$$$$$$$$$", props.serviceType);
-  let serviceType = props.serviceType;
+
+  const params = useParams();
+  console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
+  let serviceType = params.slug[1];
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const defaultValues = {};
+  // const defaultValues = {};
 
   // 행 추가 될 값 저장
   const onChange = (e: any) => {
@@ -115,11 +120,39 @@ export default function OrderMtpSampleList(props: any) {
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <Stack direction="row" alignItems="center" spacing={2}>
+                  { updataYn === 'N' ? (
+                    <Box>
+                      <InputValidation
+                        inputName="uploadFile"
+                        required={false}
+                        type="file"
+                        sx={{ width: 306 }}
+                      />
+                      <Typography variant="body2">
+                        * 파일 재업로드 시, 기존 파일은 삭제됩니다.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )}
+
                   <InputValidation
-                    inputName="uploadFile"
+                    inputName="selfQcFileNm"
                     required={false}
-                    type="file"
-                    sx={{ width: 306 }}
+                    sx={{
+                      width: 300,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000"
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Stack>
               </Stack>
@@ -209,7 +242,7 @@ export default function OrderMtpSampleList(props: any) {
   // }
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <>
       <Box
         alignItems="start"
         sx={{
@@ -276,7 +309,7 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      <OrderMTPSampleDynamicTable />
+      <OrderMTPSampleDynamicTable detailData={props.detailData}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -288,8 +321,23 @@ export default function OrderMtpSampleList(props: any) {
         // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        sx={{ width: "100%", mb: 4 }}
         placeholder={"추가 요청 사항을 입력해주세요."}
+        sx={{
+          width: '100%',
+          mb: 4,
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+          },
+          ".MuiOutlinedInput-input:read-only": {
+            backgroundColor: "white",
+            cursor: "pointer",
+            textFillColor: "#000000"
+          },
+        }}
+        InputProps={{
+          readOnly: updataYn === 'N' ? false : true
+        }}
+
       />
 
       {/*<Stack direction="row" spacing={0.5} justifyContent="center">*/}
@@ -308,6 +356,6 @@ export default function OrderMtpSampleList(props: any) {
       {/*    }*/}
       {/*  />*/}
       {/*</Stack>*/}
-    </Form>
+    </>
   );
 }

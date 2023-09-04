@@ -196,7 +196,7 @@ export default function OrderMtpSampleList(props: any) {
   const addExcelDataTableRows = (newArray: any) => {
     // const rows = [...rowsData];
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(newArray);
+    console.log(newArray);ƒ
     setRowsData([...rowsData, ...newArray]);
   };
 

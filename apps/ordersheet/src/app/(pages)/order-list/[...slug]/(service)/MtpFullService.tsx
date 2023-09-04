@@ -114,6 +114,8 @@ export default function MtpFullService(){
     rprsNm : detailData.payment.rprsNm,
     rcpnNm : detailData.payment.rcpnNm,
     rcpnEmail : detailData.payment.rcpnEmail,
+    selfQcFileNm : detailData.qcFile.selfQcFileNm,
+    memo : detailData.addRqstMemo.memo,
   };
 
   const onSubmit = async (data: any) => {
@@ -184,7 +186,8 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} addFileData={addFileData}/>
+          {/*<OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} addFileData={addFileData}/>*/}
+          <OrderMtpSampleList serviceType={"fs"} detailData={detailData.samples}/>
         </Box>
 
         <Stack

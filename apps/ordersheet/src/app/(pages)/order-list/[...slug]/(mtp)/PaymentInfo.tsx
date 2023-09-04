@@ -52,7 +52,7 @@ export default function Page() {
     const [alignment, setAlignment] = React.useState('account');
 
     const params = useParams();
-    console.log("params", params.slug[2]);
+    // console.log("params", params.slug[2]);
     const updataYn = params.slug[2];
 
     const handleChange = (
@@ -107,15 +107,16 @@ export default function Page() {
                                     sx={{
                                       width: 800,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -139,15 +140,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -163,15 +165,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -189,15 +192,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -215,15 +219,16 @@ export default function Page() {
                                     sx={{
                                       width: 306,
                                       "& .MuiOutlinedInput-root": {
-                                        "& fieldset": { border: updataYn === 'Y' ? '' : 'none' },
+                                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                                       },
                                       ".MuiOutlinedInput-input:read-only": {
                                         backgroundColor: "white",
                                         cursor: "pointer",
+                                        textFillColor: "#000000"
                                       },
                                     }}
                                     InputProps={{
-                                      readOnly: updataYn === 'Y' ? false : true
+                                      readOnly: updataYn === 'N' ? false : true
                                     }}
                                 />
                             </Stack>
@@ -293,7 +298,7 @@ export default function Page() {
                 onClick={() => router.push("/order-list")}
             />
 
-          {updataYn === 'y' ? (
+          {updataYn === 'N' ? (
             <ContainedButton
               type="submit"
               buttonName="주문 수정"
