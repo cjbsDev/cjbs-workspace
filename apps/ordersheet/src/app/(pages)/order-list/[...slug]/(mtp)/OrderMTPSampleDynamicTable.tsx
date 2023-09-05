@@ -149,6 +149,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
         )}
 
       </Stack>
+      {JSON.stringify(fields)}
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
           <TableHeader />
