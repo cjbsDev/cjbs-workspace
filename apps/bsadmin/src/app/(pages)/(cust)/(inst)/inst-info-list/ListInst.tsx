@@ -7,7 +7,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   ContainedButton,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, useTheme } from "@mui/material";
@@ -190,7 +189,6 @@ const ListInst = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

@@ -7,7 +7,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   exportCSVData,
   OutlinedButton,
   ContainedButton,
@@ -27,8 +26,7 @@ import { useState } from "react";
 import MyIcon from "icon/myIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
@@ -172,7 +170,6 @@ const ListAgnc = () => {
             alignItems="center"
           >
             <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

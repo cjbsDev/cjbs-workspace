@@ -23,11 +23,9 @@ import axios from "axios";
 import useSWR from "swr";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import { PUT, fetcher } from "api";
+import { fetcher } from "api"; 
 import { toast } from "react-toastify";
 
-
-// const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface ViewProps {
   params: {
