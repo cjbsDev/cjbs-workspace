@@ -116,6 +116,8 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     remove(props.detailData.length + 1);
   }, [])
 
+  console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
+
   return (
     <>
       <Stack direction="row">
