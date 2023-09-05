@@ -1,7 +1,7 @@
 [
   {
     "name": "Dashboard",
-    "url": "/clinical"
+    "url": "/clinical/dashboard"
   },
   {
     "name": "Search",

@@ -18,7 +18,7 @@ const DashboardItem = ({ imgPath, name, text }: Props) => {
         <Typography variant="body2">{name}</Typography>
       </Box>
       <Box>
-        <Typography variant="h4">{text}</Typography>
+        <Typography variant="title1">{text}</Typography>
       </Box>
     </Box>
   );
