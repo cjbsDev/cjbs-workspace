@@ -16,6 +16,7 @@ import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
 import useSWR from "swr";
 import { Form } from "cjbsDSTM";
+import { toast } from "react-toastify";
 
 
 // const LazyOrdererInfo = dynamic(() => import("../../../order/OrdererInfo"), {
@@ -138,14 +139,15 @@ export default function MtpFullService(){
 
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
+      console.log("response", response);
       if (response.success) {
-        console.log("response", response);
-        // toast("수정 되었습니다.")
+        toast("수정 되었습니다.")
         router.push("/order-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
-        // toast("권한이 없습니다.");
+        toast(response.message);
+
       } else {
-        // toast("문제가 발생했습니다. 01");
+        toast("문제가 발생했습니다. 01");
       }
     } catch (error) {
       console.error("request failed:", error);
