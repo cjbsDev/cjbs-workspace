@@ -23,10 +23,11 @@ import axios from "axios";
 import useSWR from "swr";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import { PUT } from "api";
+import { PUT, fetcher } from "api";
 import { toast } from "react-toastify";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+
+// const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface ViewProps {
   params: {
@@ -42,23 +43,21 @@ export default function SvcStdPricePage({ params }: ViewProps) {
 
   // load
   const {
-    data: codeDataTemp,
+    data : codeData,
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/${stndPriceMpngUkey}`,
+    `/mngr/stndPrice/${stndPriceMpngUkey}`,
     fetcher,
     { revalidateOnFocus: true }
   );
   if (isLoading) {
     return <SkeletonLoading />;
   }
-
   const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
   };
 
-  const codeData = codeDataTemp.data;
   const defaultValues = {};
   console.log("codeData", codeData);
   /*
