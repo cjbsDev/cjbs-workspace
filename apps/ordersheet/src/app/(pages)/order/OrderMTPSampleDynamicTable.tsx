@@ -65,9 +65,9 @@ const OrderMTPSampleDynamicTable = () => {
   }, [])
 
 
-  setValue('count', 1);
+  // setValue('count', 1);
 
-  const handleAddFields = (count) => {
+  const handleAddFields = (count:any) => {
     console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
       append({

@@ -78,7 +78,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     }
   };
 
-  setValue('count', 1);
+  // setValue('count', 1);
 
   const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
@@ -97,6 +97,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   useEffect(() => {
     if(props.detailData.length > 0) {
       for (let i = 0; i < props.detailData.length; i++) {
+        console.log("for~!~!", i);
         const resultData = props.detailData[i];
         // 이후
         if(i === 0 ){
