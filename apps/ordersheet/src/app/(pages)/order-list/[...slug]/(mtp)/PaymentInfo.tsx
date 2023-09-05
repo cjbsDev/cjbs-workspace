@@ -25,7 +25,7 @@ import {
 import React, { useEffect } from "react";
 import { useRouter } from "next-nprogress-bar";
 import LoadingSvg from "@public/svg/loading_wh.svg";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {useParams} from "next/navigation";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({

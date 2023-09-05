@@ -1,7 +1,7 @@
 "use client";
 import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../(mtp)/OrdererInfo";
 import OrderMtpSampleList from "../(mtp)/OrderMtpSampleList";

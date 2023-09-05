@@ -11,7 +11,7 @@ import {
 import { DialogContent, Stack, styled, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Link from "next/link";
 import {useParams} from "next/navigation";
 

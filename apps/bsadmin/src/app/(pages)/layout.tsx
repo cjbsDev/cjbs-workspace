@@ -23,7 +23,7 @@ import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { yellow } from "cjbsDSTM/themes/color";
 import Link from "next/link";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 const drawerWidth = 228;
 

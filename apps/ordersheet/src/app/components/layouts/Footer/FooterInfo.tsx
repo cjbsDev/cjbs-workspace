@@ -5,7 +5,7 @@ import Image from 'next/image';
 //import {themeJeju} from '@components/variables/themeJeju';
 import {CompanyInfoProps} from '@components/layouts/Footer/interface/footerInfoProps';
 import {useSetRecoilState} from 'recoil';
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {OutlinedButton} from "cjbsDSTM";
 
 interface FooterInfoProps extends CompanyInfoProps {

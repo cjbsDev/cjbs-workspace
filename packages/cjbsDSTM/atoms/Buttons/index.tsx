@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { useFormContext } from "react-hook-form";
 
 interface CustomButtonProps extends ButtonProps {

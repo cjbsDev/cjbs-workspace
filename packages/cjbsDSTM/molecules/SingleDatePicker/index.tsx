@@ -6,7 +6,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import "./new-react-datepicker.css";
 import styles from "./datepicker.module.scss";
 import { InputAdornment, TextField } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 interface SingleDatePickerProps {
   inputName: string;

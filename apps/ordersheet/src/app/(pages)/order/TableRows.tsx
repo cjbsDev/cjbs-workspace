@@ -3,7 +3,7 @@
 import { TableRow, TableCell, Typography, IconButton } from "@mui/material";
 import { InputValidation, SelectBox } from "cjbsDSTM";
 import React from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import axios from "axios";
 import { useFieldArray, useFormContext } from "react-hook-form";
 

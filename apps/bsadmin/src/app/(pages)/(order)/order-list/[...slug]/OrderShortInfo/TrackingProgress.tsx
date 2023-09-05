@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Chip, Grid, Stack, Typography } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 const TrackingProgress = (props) => {
   const {

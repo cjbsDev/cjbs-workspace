@@ -2,7 +2,7 @@ import * as React from "react";
 import { Chip, ChipProps } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 export const LeaderCip = ({ ...props }: ChipProps) => {
   return (

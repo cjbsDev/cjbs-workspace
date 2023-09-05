@@ -1,7 +1,7 @@
 import React from "react";
 import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import {InputValidation, SelectBox, cjbsTheme, Fallback, ErrorContainer} from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 

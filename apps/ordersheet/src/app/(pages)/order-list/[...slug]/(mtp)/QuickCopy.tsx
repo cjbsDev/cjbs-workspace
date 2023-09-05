@@ -5,7 +5,7 @@ import {
   Checkbox,
   LinkButton,
 } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 export default function QuickCopy() {
   const [checked, setChecked] = React.useState(false);

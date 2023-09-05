@@ -1,7 +1,7 @@
 "use client";
 import React, {useEffect} from 'react';
 import {Box, Container, Typography, Stack, Divider, Button, Popover} from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ContainedButton, LinkButton} from "cjbsDSTM";
 import Link from "next/link";
 import Image from "next/image";

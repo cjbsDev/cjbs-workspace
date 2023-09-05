@@ -1,7 +1,7 @@
 "use client";
 import React from 'react';
 import {Box, Container, Stack, Typography, Tabs, Tab, TabProps, styled, Button, Grid} from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import {cjbsTheme, ContainedButton, OutlinedButton} from "cjbsDSTM";
 import LoadingSvg from "@public/svg/loading_wh.svg";

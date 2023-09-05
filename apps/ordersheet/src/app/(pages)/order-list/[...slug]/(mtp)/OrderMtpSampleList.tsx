@@ -27,7 +27,7 @@ import {
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingSvg from "@public/svg/loading_wh.svg";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
 import {useParams} from "next/navigation";
