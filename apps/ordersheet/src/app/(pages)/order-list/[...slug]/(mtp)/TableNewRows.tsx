@@ -17,7 +17,7 @@ const TableNewRows = (props) => {
   // const { field, remove, index, acct, perm, errors, callbackRemove } = props;
   const { field, remove, index, errors, callbackRemove } = props;
   const params = useParams();
-  console.log("params", params.slug[2]);
+  // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
 
   return (
@@ -65,6 +65,12 @@ const TableNewRows = (props) => {
             영문, 숫자, -(하이픈)만 입력 가능합니다.
           </Typography>
         )}
+
+        <InputValidation
+            sx={{ display: "none" }}
+            inputName={`sample.[${index}].selfQcResultFileId`}
+            required={false}
+        />
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <InputValidation

@@ -100,8 +100,8 @@ export default function OrderMtpSampleList(props: JSON) {
       samples: data.sample,
       addRqstMemo: {memo: data.memo}
     };
-    props.addBodyData(returnData);
-    props.addFileData(data.uploadFile[0]);
+    // props.addBodyData(returnData);
+    // props.addFileData(data.uploadFile[0]);
   };
 
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
@@ -211,14 +211,13 @@ export default function OrderMtpSampleList(props: JSON) {
   };
   const addTableRows = () => {
     const newArray = Array.from({ length: addRowCnt }, (_, index) => rowsInput);
-    console.log(newArray);
+    // console.log(newArray);
     setRowsData([...rowsData, ...newArray]);
     nextId.current += 1;
   };
 
   const deleteTableRows = (id: number) => {
-    console.log("123123", rowsData);
-    console.log("index", id);
+    // console.log("index", id);
     const rows = [...rowsData];
     // rows.splice(id, 1);
     setRowsData(rowsData.filter((rows) => rows.id !== id));
@@ -227,19 +226,10 @@ export default function OrderMtpSampleList(props: JSON) {
 
   const addExcelDataTableRows = (newArray: any) => {
     // const rows = [...rowsData];
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(newArray);
+    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    // console.log(newArray);
     setRowsData([...rowsData, ...newArray]);
   };
-
-  // const handleChange = (index, evnt)=>{
-  //     const { name, value } = evnt.target;
-  //     console.log("!!!!!!name : " +name)
-  //     console.log("!!!!!!value : " +value)
-  //     const rowsInput = [...rowsData];
-  //     rowsInput[index][name] = value;
-  //     setRowsData(rowsInput);
-  // }
 
   return (
     <>

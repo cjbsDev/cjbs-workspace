@@ -9,7 +9,7 @@ import PaymentInfo from "../(mtp)/PaymentInfo";
 
 import dynamic from "next/dynamic";
 import axios from "axios";
-import {GET, POST, POST_BLOB, POST_MULTIPART} from "api";
+import {GET, POST, POST_BLOB, POST_MULTIPART, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
@@ -26,16 +26,15 @@ import { Form } from "cjbsDSTM";
 export default function MtpFullService(){
 
   const router = useRouter();
-
-  const [bodyData, setBodyData] = useState<any>({});
-  console.log("bodyData : ", bodyData);
   const [uploadFile, setUploadFile] = useState<any>(null);
+  const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
 
   const params = useParams();
   console.log("params", params.slug[1]);
+  const orshUkey = params.slug[0];
 
   const { data: orderDetailData} = useSWR(
-    `/mtp/fs/${params.slug[0]}`,
+    `/mtp/fs/${orshUkey}`,
     fetcherOrsh, {
       suspense: true
     }
@@ -43,54 +42,16 @@ export default function MtpFullService(){
   console.log(orderDetailData.data);
   const detailData = orderDetailData.data;
 
-
-  const addBodyData = (callBackData:any) => {
-      // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      // console.log(callBackData);
-      setBodyData({...bodyData, ...callBackData});
+  const setPymtWayCcValue = (value:string) => {
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(value);
+    setPymtWayCc(value);
   }
 
   const addFileData = (callBackData:any) => {
       console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
       console.log(callBackData);
       setUploadFile(callBackData);
-  }
-
-  // 등록 호출
-  const orderSheetInsertCall = async () => {
-    console.log("uploadFile", uploadFile);
-
-    const formData = new FormData();
-    formData.append(
-        "user-data",
-        new Blob([JSON.stringify(bodyData)], { type: "application/json" })
-    );
-
-    if(uploadFile){
-        // file 데이터가 있을경우
-        // formData.append("file-data", uploadFile?.files?.item(0) as File);
-        formData.append("file-data", uploadFile);
-    } else {
-        formData.append("file-data", null);
-    }
-
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
-
-    try {
-        const response = await POST_MULTIPART(apiUrl, formData); // API 요청
-        // console.log("call body data", bodyData);
-        // const response = await POST(apiUrl, bodyData); // API 요청
-        if (response.success) {
-            console.log("response", response);
-            router.push("/order/complete");
-        } else if (response.code == "INVALID_AUTHORITY") {
-            // toast("권한이 없습니다.");
-        } else {
-            // toast("문제가 발생했습니다. 01");
-        }
-    } catch (error) {
-        console.error("request failed:", error);
-    }
   }
 
   const defaultValues = {
@@ -111,6 +72,7 @@ export default function MtpFullService(){
     addEmailList : detailData.custAgnc.addEmailList,
     conm : detailData.payment.conm,
     brno : detailData.payment.brno,
+    // pymtWayCc : detailData.payment.pymtWayCc,
     rprsNm : detailData.payment.rprsNm,
     rcpnNm : detailData.payment.rcpnNm,
     rcpnEmail : detailData.payment.rcpnEmail,
@@ -118,10 +80,78 @@ export default function MtpFullService(){
     memo : detailData.addRqstMemo.memo,
   };
 
+  // 수정 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
+
+    // selfQcFileNm : detailData.qcFile.selfQcFileNm,
+
+    const bodyData = {
+      addRqstMemo : {
+        memo : data.memo,
+      },
+      custAgnc : {
+        addEmailList : data.addEmailList,
+        agncAddr : data.addr,
+        agncAddrDetail : data.addrDetail,
+        agncNm : data.agncNm,
+        agncZip : data.zip,
+        ebcEmail : data.ebcEmail,
+        instNm : data.instNm,
+        mailRcpnList : data.mailRcpnList,
+        ordrAplcEmail : data.ordrAplcEmail,
+        ordrAplcNm : data.ordrAplcNm,
+        ordrAplcTel : data.ordrAplcTel,
+        rhpiId : data.rhpiId,
+        rhpiNm : data.rhpiNm,
+        rhpiTel : data.rhpiTel,
+      },
+      payment : {
+        brno : data.brno,
+        conm : data.conm,
+        pymtWayCc: pymtWayCc,
+        rcpnEmail : data.rcpnEmail,
+        rcpnNm : data.rcpnNm,
+        rprsNm : data.rprsNm,
+      },
+      samples : data.sample,
+    };
+
+    console.log("call body data", bodyData);
+
+    const formData = new FormData();
+    formData.append(
+      "user-data",
+      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+    );
+
+    if(data.uploadFile.length !== 0){
+      // file 데이터가 있을경우
+      // formData.append("file-data", uploadFile?.files?.item(0) as File);
+      formData.append("file-data", data.uploadFile[0]);
+    } else {
+      formData.append("file-data", null);
+    }
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs/${orshUkey}`;
+
+    try {
+      const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
+      if (response.success) {
+        console.log("response", response);
+        // toast("수정 되었습니다.")
+        router.push("/order-list");
+      } else if (response.code == "INVALID_ETC_EMAIL") {
+        // toast("권한이 없습니다.");
+      } else {
+        // toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+    }
   };
+
 
   return (
     <Container disableGutters={true} sx={{pt:4}}>
@@ -186,7 +216,6 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          {/*<OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} addFileData={addFileData}/>*/}
           <OrderMtpSampleList serviceType={"fs"} detailData={detailData.samples}/>
         </Box>
 
@@ -217,7 +246,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <PaymentInfo />
+          <PaymentInfo detailData={detailData.payment} setPymtWayCcValue={setPymtWayCcValue}/>
         </Box>
 
       </Form>

@@ -9,6 +9,7 @@ import {
   PUT_API,
   REQUEST_API,
   POST_MULTIPART_API,
+  PUT_MULTIPART_API,
   REQUEST_BLOB_API,
 } from "./type";
 import axios from "axios";
@@ -32,6 +33,10 @@ export const POST_MULTIPART: POST_MULTIPART_API = async (url, body, option, head
 
 export const PUT: PUT_API = async (url, body, option, headers) => {
   return await request(url, "PUT", body, option, headers);
+};
+
+export const PUT_MULTIPART: PUT_MULTIPART_API = async (url, body, option, headers) => {
+  return await request_multipart(url, "PUT", body, option, headers);
 };
 
 export const DELETE: DELETE_API = async (url, body) => {
