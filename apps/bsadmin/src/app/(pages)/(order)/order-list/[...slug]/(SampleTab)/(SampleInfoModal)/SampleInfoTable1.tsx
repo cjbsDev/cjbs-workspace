@@ -46,6 +46,13 @@ const LazyMcNmSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
+const LazyDepthSelctbox = dynamic(
+  () => import("../../../../../../components/DepthSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const SampleInfoTable1 = ({ sampleInfoData }: any) => {
   const transformedData = transformedNullToHyphon(sampleInfoData);
@@ -57,7 +64,7 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
     sampleStatusCc,
     sampleStatusVal,
     source,
-    depth,
+    depthMc,
     taxonCc,
     taxonVal,
     prgrAgncNmCc,
@@ -109,8 +116,9 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
           <TableRow>
             <TH sx={{ width: "15%" }}>Depth(GB)</TH>
             <TD sx={{ width: "35%" }}>
-              {/*{depth}*/}
-              <InputValidation inputName="depth" />
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyDepthSelctbox />
+              </ErrorContainer>
             </TD>
             <TH sx={{ width: "15%" }}>Taxon</TH>
             <TD sx={{ width: "35%" }}>

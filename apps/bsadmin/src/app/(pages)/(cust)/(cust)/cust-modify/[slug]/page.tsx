@@ -245,7 +245,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
           <TableContainer sx={{ mb: 5 }}>
             <Table>
               <TableBody>
-                {/* 
+                {/*
                 <TableRow>
                   <TH sx={{ width: "15%" }}>상태</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -262,14 +262,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>메모</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
-                    <InputValidation
-                      fullWidth={true}
-                      multiline
-                      rows={4}
-                      inputName="memo"
-                      maxLength={500}
-                      maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-                    />
+                    모
                   </TD>
                 </TableRow>
               </TableBody>

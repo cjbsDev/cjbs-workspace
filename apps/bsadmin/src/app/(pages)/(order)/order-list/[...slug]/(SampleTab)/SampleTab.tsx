@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import fetcher from "../../../../../func/fetcher";
@@ -28,6 +28,7 @@ import MyIcon from "icon/myIcon";
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
+import SubHeader from "./SubHeader";
 
 const LazySampleInfoModal = dynamic(
   () => import("./(SampleInfoModal)/SampleInfoModal"),
@@ -58,7 +59,9 @@ const LazySampleBatchChangeModal = dynamic(
 const SampleTab = () => {
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
+  const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
+  const [sampleIdList, setSampleIdList] = useState<number[]>([]);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // [샘플 정보] 모달
@@ -86,6 +89,11 @@ const SampleTab = () => {
   );
   const sampleList = data.data;
   console.log("SAMPLE TAB LIST", sampleList);
+
+  useEffect(() => {
+    // isClear 상태 변경 이슈
+    setIsClear(false);
+  }, [isClear]);
 
   const columns = useMemo(
     () => [
@@ -123,7 +131,7 @@ const SampleTab = () => {
         // width: "120px",
         sortable: false,
         center: true,
-        selector: (row) => (row.depth === null ? "-" : row.depth),
+        selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
       },
       {
         name: "Taxon",
@@ -410,66 +418,29 @@ const SampleTab = () => {
         setFilterText("");
       }
     };
-
-    const handleExPrgrsPhs = () => {
+    const handleSampleAddModalOpen = () => {
+      setShowSampleAddModal(true);
+    };
+    const handleExPrgrsPhsOpen = () => {
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      setIsClear(false);
     };
 
     const handleSampleBatchModalOpen = () => {
       if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      setIsClear(false);
     };
 
     return (
-      <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={sampleList.length} />
-            <ContainedButton
-              buttonName="샘플 추가"
-              size="small"
-              onClick={() => setShowSampleAddModal(true)}
-            />
-            <ContainedButton buttonName="분석 내역 보기" size="small" />
-            <OutlinedButton
-              buttonName="샘플 정보 일괄 변경"
-              size="small"
-              color="secondary"
-              sx={{ color: "black" }}
-              onClick={handleSampleBatchModalOpen}
-            />
-            <OutlinedButton
-              buttonName="실험 진행 단계 변경"
-              size="small"
-              color="secondary"
-              sx={{ color: "black" }}
-              onClick={handleExPrgrsPhs}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
-              iconName="xls3"
-            />
-
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
+      <SubHeader
+        exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
+        totalCount={sampleList.length}
+        handleSampleAddModalOpen={handleSampleAddModalOpen}
+        handleSampleBatchModalOpen={handleSampleBatchModalOpen}
+        handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
+      />
     );
   }, [filterText, resetPaginationToggle, checked, sampleUkeyList]);
 
@@ -484,8 +455,11 @@ const SampleTab = () => {
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+    const getSampleIDList = selectedRows.map((row) => row.sampleId);
+    // console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+    // console.log("selectedSampleIdList ==>>", getSampleIDList);
     setSampleUkeyList(getSampleUkeyList);
+    setSampleIdList(getSampleIDList);
   }, []);
 
   const handleSampleInfoModalClose = () => {
@@ -499,12 +473,17 @@ const SampleTab = () => {
     setShowSampleAddModal(false);
   };
 
-  const handleExPrgsChngModal = () => {
+  const handleExPrgsChngModalClose = () => {
     setShowExPrgsChngModal(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
   };
 
   const handleSampleBatchChangeModalClose = () => {
     setShowSampleBatchChangeModal(false);
+    setSampleUkeyList([]);
+    setSampleIdList([]);
+    setIsClear(true);
   };
 
   return (
@@ -521,6 +500,8 @@ const SampleTab = () => {
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows
         onSelectedRowsChange={handleSelectedRowChange}
+        clearSelectedRows={isClear}
+        selectableRowsVisibleOnly={true}
         pagination={false}
       />
 
@@ -549,15 +530,15 @@ const SampleTab = () => {
           onClose={handleSampleBatchChangeModalClose}
           open={showSampleBatchChangeModal}
           modalWidth={800}
+          sampleIdList={sampleIdList}
           sampleUkeyList={sampleUkeyList}
         />
       )}
 
       {/* 실험 진행 단계 변경 */}
-      {/*{sampleUkeyList.length === 0 && toast("ssssss")}*/}
       {showExPrgsChngModal && (
         <LazyExperimentProgressChangeModal
-          onClose={handleExPrgsChngModal}
+          onClose={handleExPrgsChngModalClose}
           open={showExPrgsChngModal}
           modalWidth={600}
           sampleUkeyList={sampleUkeyList}
