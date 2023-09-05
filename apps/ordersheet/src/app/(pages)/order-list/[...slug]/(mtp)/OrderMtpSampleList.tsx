@@ -55,7 +55,7 @@ type FormValues = {
   }[];
 };
 
-export default function OrderMtpSampleList(props: JSON) {
+export default function OrderMtpSampleList(props: any) {
   // const { fields, append } = useFieldArray({
   //   name: "items", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   // });

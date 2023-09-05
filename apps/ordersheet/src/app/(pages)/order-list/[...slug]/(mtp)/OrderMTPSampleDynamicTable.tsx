@@ -50,12 +50,12 @@ import dynamic from "next/dynamic";
 //     perm = results[1].data.data;
 //   });
 
-const OrderMTPSampleDynamicTable = (props: JSON) => {
+const OrderMTPSampleDynamicTable = (props: any) => {
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
-  // console.log("props", props.detailData);
-  // console.log("props", props.detailData.length);
+  console.log("props", props.detailData);
+  console.log("props", props.detailData.length);
   const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -70,7 +70,7 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
     setShowOrderInfoModifyModal(false);
   };
 
-  const callbackRemove = (index) => {
+  const callbackRemove = (index:number) => {
     if(fields.length !== 1){
       remove(index);
     } else {
@@ -80,7 +80,7 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
 
   setValue('count', 1);
 
-  const handleAddFields = (count) => {
+  const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
       append({
