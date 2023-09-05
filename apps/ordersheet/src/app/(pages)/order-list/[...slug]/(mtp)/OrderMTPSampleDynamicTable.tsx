@@ -52,8 +52,10 @@ import dynamic from "next/dynamic";
 
 const OrderMTPSampleDynamicTable = (props: JSON) => {
   const params = useParams();
-  console.log("params", params.slug[2]);
+  // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
+  // console.log("props", props.detailData);
+  // console.log("props", props.detailData.length);
   const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -62,8 +64,8 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   });
   const { errors } = formState;
-  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
-    useState<boolean>(false);
+  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
+  const [fileId, setFileId] = useState(null);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -79,7 +81,7 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
   setValue('count', 1);
 
   const handleAddFields = (count) => {
-    console.log("Count~!~!", count);
+    // console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
       append({
         sampleNm: "",
@@ -87,46 +89,31 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
         sampleCategoryCc: "",
         anlsTargetGeneCc: "",
         memo: "",
-      }); // 입력된 수만큼 항목을 추가합니다.
-    }
-  };
-
-  const handleDetailDataAddFields = (data) => {
-    console.log("Count~!~!", data.length);
-    for (let i = 0; i < data.length; i++) {
-      console.log("for~!~!", i);
-      const resultData = data[i];
-      append({
-        // sampleNm: resultData.sampleNm,
-        sampleNm: i,
-        source: resultData.source,
-        sampleCategoryCc: resultData.sampleCategoryCc,
-        anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-        memo: resultData.memo,
+        selfQcResultFileId: fileId,
       }); // 입력된 수만큼 항목을 추가합니다.
     }
   };
 
   useEffect(() => {
-    console.log("MMMMMMM", props.detailData)
-
-
     if(props.detailData.length > 0) {
       for (let i = 0; i < props.detailData.length; i++) {
-        console.log("for~!~!", i);
         const resultData = props.detailData[i];
+        // 이후
+        if(i === 0 ){
+          setFileId(resultData.selfQcResultFileId);
+        }
         append({
           sampleNm: resultData.sampleNm,
           source: resultData.source,
           sampleCategoryCc: resultData.sampleCategoryCc,
           anlsTargetGeneCc: resultData.anlsTargetGeneCc,
           memo: resultData.memo,
+          selfQcResultFileId: resultData.selfQcResultFileId,
         }); // 입력된 수만큼 항목을 추가합니다.
       }
     }
     remove(props.detailData.length + 1);
   }, [])
-
 
   return (
     <>
