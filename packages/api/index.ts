@@ -14,25 +14,79 @@ import {
 } from "./type";
 import axios from "axios";
 
-export const GET: GET_API = async (url, option, headers) => {
+export const FETCHER_GET: GET_API = async (url, option, headers) => {
   return await request(url, "GET", null, option, headers);
 };
 
-export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
+export const FETCHER_POST_BLOB: POST_BOLB_API = async (
+  url,
+  body,
+  option,
+  headers
+) => {
   return await requestBLOB(url, "POST", body, option, headers);
 };
 
-export const POST: POST_API = async (url, body, option, headers) => {
+export const FETCHER_POST: POST_API = async (url, body, option, headers) => {
   return await request(url, "POST", body, option, headers);
 };
 
+export const FETCHER_PUT: PUT_API = async (url, body, option, headers) => {
+  return await request(url, "PUT", body, option, headers);
+};
+
+export const FETCHER_DELETE: DELETE_API = async (url, body) => {
+  return await request(url, "DELETE", body);
+};
+
+export const GET: GET_API = async (url, option, headers) => {
+  return await request(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "GET",
+    null,
+    option,
+    headers
+  );
+};
+
+export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
+  return await requestBLOB(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "POST",
+    body,
+    option,
+    headers
+  );
+};
+
+export const POST: POST_API = async (url, body, option, headers) => {
+  return await request(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "POST",
+    body,
+    option,
+    headers
+  );
+};
+
 // @ts-ignore
-export const POST_MULTIPART: POST_MULTIPART_API = async (url, body, option, headers) => {
+export const POST_MULTIPART: POST_MULTIPART_API = async (
+  url,
+  body,
+  option,
+  headers
+) => {
   return await request_multipart(url, "POST", body, option, headers);
 };
 
 export const PUT: PUT_API = async (url, body, option, headers) => {
-  return await request(url, "PUT", body, option, headers);
+  return await request(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "PUT",
+    body,
+    option,
+    headers
+  );
 };
 
 export const PUT_MULTIPART: PUT_MULTIPART_API = async (url, body, option, headers) => {
@@ -40,7 +94,11 @@ export const PUT_MULTIPART: PUT_MULTIPART_API = async (url, body, option, header
 };
 
 export const DELETE: DELETE_API = async (url, body) => {
-  return await request(url, "DELETE", body);
+  return await request(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "DELETE",
+    body
+  );
 };
 
 const request: REQUEST_API = async (url, method, body, option) => {
@@ -125,6 +183,7 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
         body: body,
         headers: {
           "Accept-Language": "ko",
+          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         ...option,
@@ -158,10 +217,10 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
           //    signOut({ callbackUrl: "/" });
         }
       } else if (response.status === 403) {
-        toast("권한이 없습니다.(A103-1)");
+        toast("권한이 없습니다.(A103-2)");
         console.log(`API call failed with status code ${response.status}`);
       } else {
-        toast("A network problem has occurred.(A102-1)");
+        toast("A network problem has occurred.(A102-2)");
         console.log(`API call failed with status code ${response.status}`);
       }
     } catch (error) {
@@ -184,13 +243,18 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
         url: url,
         method,
         data: body,
-        responseType: 'blob',
+        responseType: "blob",
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
         validateStatus: function (status) {
-            // 상태 코드가 500 이상일 경우 거부. 나머지(500보다 작은)는 허용.
-          return (status >= 200 && status < 300) || status === 401 || status === 400 || status === 500;
+          // 상태 코드가 500 이상일 경우 거부. 나머지(500보다 작은)는 허용.
+          return (
+            (status >= 200 && status < 300) ||
+            status === 401 ||
+            status === 400 ||
+            status === 500
+          );
         },
       });
       return resolve(response);
@@ -251,8 +315,8 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
 };
 
 export const fetcher = (url: string) =>
-  GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`);
+  FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`);
 export const fetcherOrsh = (url: string) =>
-  GET(`${process.env.NEXT_PUBLIC_API_URL_ORSH}${url}`);
+  FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL_ORSH}${url}`);
 export const fetcherPost = (data: any[]) =>
-  POST(`${process.env.NEXT_PUBLIC_API_URL}${data[0]}`, data[1]);
+  FETCHER_POST(`${process.env.NEXT_PUBLIC_API_URL}${data[0]}`, data[1]);

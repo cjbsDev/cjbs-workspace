@@ -24,8 +24,8 @@ const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 const LazySvcStdPrice = () => {
   const router = useRouter();
 
-  const goDetailPage = (srvcType: string, anlsType: string) => {
-    router.push("/mngr/stndPrice/srvcType/" + srvcType + "/" + anlsType);
+  const goDetailPage = (stndPriceMpngUkey: string) => {
+    router.push("/svc-std-price-list/" + stndPriceMpngUkey);
   };
 
   const [filterText, setFilterText] = useState("");
@@ -87,12 +87,12 @@ const LazySvcStdPrice = () => {
 
       {
         name: "관리",
-        cell: (row: { srvcTypeMc: string; anlsTypeMc: string }) => {
+        cell: (row: { stndPriceMpngUkey: string }) => {
           return (
             <OutlinedButton
               buttonName="관리"
               size="small"
-              onClick={() => goDetailPage(row.srvcTypeMc, row.anlsTypeMc)}
+              onClick={() => goDetailPage(row.stndPriceMpngUkey)}
             />
           );
         },

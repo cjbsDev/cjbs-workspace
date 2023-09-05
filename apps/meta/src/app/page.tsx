@@ -19,26 +19,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/system';
+import { DASHBOARD_URL } from 'src/const/common';
+import CJBSLogoEn from 'src/component/atoms/CJBSLogoBlack';
 
 interface IFormInput {
   email: string;
-  password: number | string;
+  password: string;
 }
 
-export const _Link = styled(Link)`
-  &:link {
-    color: #006ecd;
-  }
-  &:active {
-    color: #006ecd;
-  }
-  &:visited {
-    color: #006ecd;
-  }
-  text-decoration: none;
-`;
-
-export const _Container = styled(Container)`
+const _Container = styled(Container)`
   background-image: url('/img/background/backgroundBlue.png'),
     url('/img/background/backgroundRed.png'),
     url('/img/background/backgroundYellow.png');
@@ -85,10 +74,10 @@ const LoginPage = () => {
   });
 
   const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-    // const email = `${data.email}`;
-    // const password = data.password;
-    const email = 'moonpang1@cj.net';
-    const password = 'Dnagkgk!dlek23';
+    const email = data.email;
+    const password = data.password;
+    // const email = 'moonpang1@cj.net';
+    // const password = 'Dnagkgk!dlek23';
 
     signIn('credentials', { email, password, redirect: false }).then((res) => {
       //const isError = res && res.error ? res.error : null
@@ -98,7 +87,7 @@ const LoginPage = () => {
         const errorMessage = res.error.split('Error:')[1];
         toast(errorMessage, { type: 'info' });
       } else {
-        router.push('/clinical');
+        router.push(DASHBOARD_URL);
       }
     });
   };
@@ -113,8 +102,15 @@ const LoginPage = () => {
           style={{ maxWidth: 380 }}
         >
           <Grid container>
-            <Grid item xs={12}>
-              <Typography>Kang's System</Typography>
+            <Grid
+              item
+              xs={12}
+              display={'flex'}
+              justifyContent={'center'}
+              alignItems={'center'}
+            >
+              <CJBSLogoEn width={180} height={60} />
+              {/* <Typography variant='title1'>Clinical research</Typography> */}
             </Grid>
             <Grid item xs={12}>
               <Controller
@@ -126,7 +122,6 @@ const LoginPage = () => {
                     required
                     fullWidth
                     id="email"
-                    value={'moonpang1@cj.net'}
                     label={'이메일'}
                     type="email"
                     name="email"
@@ -154,7 +149,6 @@ const LoginPage = () => {
                     margin="normal"
                     required
                     fullWidth
-                    value={'Dnagkgk!dlek23'}
                     label={'패스워드'}
                     type="password"
                     id="password"
@@ -186,13 +180,7 @@ const LoginPage = () => {
               <Typography>로그인</Typography>
             </Button>
             <Grid container sx={{ justifyContent: 'flex-end' }}>
-              {/* <Grid item>
-                <Lnk linkName={t('forgetPassword')} href="/user/forgetPassword" />
-              </Grid> */}
               <Grid xs={6} item></Grid>
-              {/* <Grid xs={6} item sx={{display:'flex', justifyContent:'flex-end'}}>
-                <_Link  href="/user/signup">계정 만들기</_Link>
-              </Grid> */}
             </Grid>
           </Grid>
         </Box>

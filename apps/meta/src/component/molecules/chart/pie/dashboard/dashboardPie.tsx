@@ -8,10 +8,10 @@ import {
   Tooltip,
   Text,
 } from 'recharts';
-import { StudyPerVoList } from '../../../../../app/clinical/page';
 import React from 'react';
 import { Box, Typography, styled } from '@mui/material';
 import DashboardPieLegend from './dashboardPieLegend';
+import { StudyPerVoList } from 'src/app/clinical/(mainlayout)/dashboard/page';
 
 export interface Props {
   data: StudyPerVoList[];
@@ -80,13 +80,18 @@ const DashboardPie = ({ totalStudy, data, colorChart }: Props) => {
     return null;
   };
   return (
-    <Box ml={'118px'} position={'relative'}>
-      <Box sx={{ position: 'absolute', left: '36%', top: '37%' }}>
-        <Box alignItems={'center'} display={'flex'} flexDirection={'column'}>
+    <Box position={'relative'}>
+      <Box sx={{ position: 'absolute', left: '34%', top: '37%' }}>
+        <Box
+          alignItems={'center'}
+          justifyContent={'center'}
+          display={'flex'}
+          flexDirection={'column'}
+        >
           <Typography variant={'subtitle2'}>{`총 연구 수`}</Typography>
-          <Typography variant={'subtitle2'}>
-            {`${totalStudy.toLocaleString()}`}
-          </Typography>
+          <Typography
+            variant={'title1'}
+          >{`${totalStudy.toLocaleString()}`}</Typography>
         </Box>
       </Box>
       <PieChart width={170} height={166}>
