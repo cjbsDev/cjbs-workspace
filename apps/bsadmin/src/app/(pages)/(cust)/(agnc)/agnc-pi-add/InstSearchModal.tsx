@@ -3,7 +3,6 @@ import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
-  ExcelDownloadButton,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
@@ -13,6 +12,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
+import { fetcher } from "api";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -20,8 +20,6 @@ interface ModalContainerProps {
   open: boolean;
   modalWidth: number;
 }
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 // https://dummyjson.com/products?limit=10&skip=10
 const AgncSearchModal = ({
