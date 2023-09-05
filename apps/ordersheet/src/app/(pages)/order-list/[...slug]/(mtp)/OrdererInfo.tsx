@@ -39,7 +39,7 @@ const dataMailRcpnListGV = [
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
-export default function Page() {
+export default function OrdererInfo() {
 
     // const { data: custTemp } = useSWR(
     //     `/cust/info`,

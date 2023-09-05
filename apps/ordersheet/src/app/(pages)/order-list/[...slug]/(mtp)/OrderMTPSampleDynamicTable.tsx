@@ -50,7 +50,7 @@ import dynamic from "next/dynamic";
 //     perm = results[1].data.data;
 //   });
 
-const OrderMTPSampleDynamicTable = (props: any) => {
+export default function OrderMTPSampleDynamicTable(props: any) {
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -174,5 +174,3 @@ const OrderMTPSampleDynamicTable = (props: any) => {
     </>
   );
 };
-
-export default OrderMTPSampleDynamicTable;
