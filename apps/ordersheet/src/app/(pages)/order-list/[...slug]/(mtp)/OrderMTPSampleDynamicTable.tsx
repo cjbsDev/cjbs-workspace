@@ -154,7 +154,7 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
           <TableBody>
             <ExRow />
             {fields.map((field, index) => {
-              // console.log("FFFFFFFF", field, index)
+              console.log("FFFFFFFF", field, index)
               return (
                 <TableNewRows
                   key={field.id}

@@ -13,7 +13,7 @@ const LazyPrepSelectbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
-const TableNewRows = (props) => {
+const TableNewRows = (props: any) => {
   // const { field, remove, index, acct, perm, errors, callbackRemove } = props;
   const { field, remove, index, errors, callbackRemove } = props;
   const params = useParams();
