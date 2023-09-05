@@ -91,6 +91,7 @@ export default function OrderInfo() {
               size="small"
               buttonName="오더 정보 변경"
               color="secondary"
+              sx={{ color: "black" }}
               onClick={() => setShowOrderInfoModifyModal(true)}
               endIcon={<MyIcon icon="cheveron-right" size={18} />}
             />

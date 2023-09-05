@@ -243,6 +243,10 @@ export const dataTableCustomStyles3 = {
       borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
     },
+    highlightOnHoverStyle: {
+      backgroundColor: cjbsTheme.palette.grey["200"],
+      borderBottomColor: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+    },
   },
   pagination: {
     style: {
