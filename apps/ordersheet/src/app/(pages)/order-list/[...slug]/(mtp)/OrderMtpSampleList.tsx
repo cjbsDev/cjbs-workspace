@@ -220,7 +220,7 @@ export default function OrderMtpSampleList(props: any) {
     // console.log("index", id);
     const rows = [...rowsData];
     // rows.splice(id, 1);
-    setRowsData(rowsData.filter((rows) => rows.id !== id));
+    setRowsData(rowsData.filter((rows:any) => rows.id !== id));
     // setRowsData(rows);
   };
 
