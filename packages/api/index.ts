@@ -315,8 +315,15 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
 };
 
 export const fetcher = (url: string) =>
+  FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`).then(
+    (res) => res.data
+  );
+
+export const metaFetcher = (url: string) =>
   FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`);
+
 export const fetcherOrsh = (url: string) =>
   FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL_ORSH}${url}`);
+
 export const fetcherPost = (data: any[]) =>
   FETCHER_POST(`${process.env.NEXT_PUBLIC_API_URL}${data[0]}`, data[1]);
