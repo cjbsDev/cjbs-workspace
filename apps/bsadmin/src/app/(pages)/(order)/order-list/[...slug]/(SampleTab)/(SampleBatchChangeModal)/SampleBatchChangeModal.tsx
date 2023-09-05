@@ -2,44 +2,23 @@ import React, { useState } from "react";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
 import useSWR, { useSWRConfig } from "swr";
 import {
-  cjbsTheme,
   ErrorContainer,
   Fallback,
   Form,
-  InputValidation,
   ModalAction,
   ModalContainer,
   ModalTitle,
-  OutlinedButton,
   RadioGV,
-  SelectBox,
   SkeletonLoading,
-  TD,
-  TH,
 } from "cjbsDSTM";
-import {
-  Box,
-  DialogContent,
-  FormControlLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  Stack,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { useParams, usePathname } from "next/navigation";
+import { Box, DialogContent, Grid } from "@mui/material";
+import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import MyIcon from "icon/myIcon";
 import axios from "axios";
-import fetcher from "../../../../../../func/fetcher";
-import { vrfcData } from "../../../../../../data/inputDataLists";
 import SampleBatchInputs from "./SampleBatchInputs";
-import { useFormContext } from "react-hook-form";
+import AlertContentBox from "./AlertContentBox";
+import DialogContentTitle from "./DialogContentTitle";
+import ActionButtons from "./ActionButtons";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -48,7 +27,7 @@ interface SampleBathcChangeModalProps extends ModalContainerProps {
 
 const LazySampleNoNm = dynamic(() => import("./SampleNoNm"), {
   ssr: false,
-  loading: () => <SkeletonLoading />,
+  loading: () => <SkeletonLoading height={300} />,
 });
 
 const dataRadio = [
@@ -67,86 +46,78 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   const params = useParams();
   const orderUkey = params.slug;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const { getValues } = useFormContext();
+  const defaultValues = {
+    categoryNm: "sampleNm",
+  };
 
   console.log("sampleUkeyList", sampleUkeyList);
   const handleClose = () => {
     onClose();
   };
 
-  const defaultValues = {
-    categoryNm: "sampleNm",
-  };
-
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log("LLLLLLLL", data);
+    console.log("Form DATA ==>>", data);
 
-    const selectedCtNm = data.categoryNm;
-    // console.log("<<<<<<>>>>>", getValues("categoryNm"));
-    // console.log("SUBMIT DATA ==>>", data.sampleList.split("\n"));
+    try {
+      const selectedCtNm = data.categoryNm;
+      const arraySampleList = data.changeContentList.split("\n");
 
-    const arraySampleList = data.sampleList.split("\n");
-
-    const makeNewSampleList = sampleIdList.map((item, index) => ({
-      sampleId: item,
-      targetVal: arraySampleList[index],
-    }));
-
-    console.log("makeNewSampleList", makeNewSampleList);
-
-    switch (selectedCtNm) {
-      case "sampleNm":
-        const bodyData = {
-          targetItem: data.categoryNm,
-          sampleList: makeNewSampleList,
-        };
-
-        console.log("BODYDATA ==>", bodyData);
-
-        await axios
-          .put(apiUrl, bodyData)
-          .then((response) => {
-            console.log("POST request successful:", response.data);
-            if (response.data.success) {
-              mutate(
-                `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-              );
-              setIsLoading(false);
-              handleClose();
-            } else {
-              // handleAlertClick();
-              // setErrorMsg(response.data.message);
-              setIsLoading(false);
-            }
-          })
-          .catch((error) => {
-            console.error("PUT Request Failed:", error);
-            setIsLoading(false);
-          });
-
-      case "etc":
+      let bodyData = {};
+      if (selectedCtNm === "etc") {
         console.log("ETC ~~!@@@@@");
-        const {
-          isVrfc,
+        const makeNewSampleList2 = sampleIdList.map((item) => ({
+          sampleId: item,
+        }));
+
+        const { isVrfc, mcNmCc, prgrAgncNmCc, sampleTypeCc, taxonCc, depthMc } =
+          data;
+
+        bodyData = {
+          depthMc,
+          isVrfc: isVrfc === "" ? null : isVrfc,
           mcNmCc,
           prgrAgncNmCc,
-          sampleList,
           sampleTypeCc,
           taxonCc,
-        } = data;
+          sampleList: makeNewSampleList2,
+        };
+      } else {
+        const makeNewSampleList = sampleIdList.map((item, index) => ({
+          sampleId: item,
+          targetVal: arraySampleList[index],
+        }));
 
-        const bodyData2 = {
-          depthMc: "",
-          isVrfc: isVrfc,
-          mcNmCc: mcNmCc,
-          prgrAgncNmCc: prgrAgncNmCc,
-          sampleTypeCc: sampleTypeCc,
-          taxonCc: taxonCc,
+        bodyData = {
+          targetItem: selectedCtNm,
           sampleList: makeNewSampleList,
         };
+      }
 
-        console.log("BODYDATA2 ==>", bodyData2);
+      console.log("BODYDATA ==>", bodyData);
+
+      const response = await axios.put(
+        selectedCtNm === "etc" ? apiUrl2 : apiUrl,
+        bodyData
+      );
+
+      console.log("PUT request successful:", response.data);
+
+      if (response.data.success) {
+        mutate(
+          `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+        );
+        handleClose();
+      } else {
+        // 실패 처리 로직
+        // handleAlertClick();
+        // setErrorMsg(response.data.message);
+      }
+    } catch (error) {
+      console.error("Request Failed:", error);
+      // 에러 처리 로직
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -159,27 +130,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
           defaultValues={defaultValues}
           id="sampleBatchChange"
         >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="subtitle1">항목</Typography>
-
-            <Stack direction="row" spacing={0.5}>
-              <MyIcon
-                icon="exclamation-circle"
-                size={18}
-                color={cjbsTheme.palette.error.main}
-              />
-              <Typography
-                variant="body2"
-                sx={{ color: cjbsTheme.palette.error.main }}
-              >
-                항목 이동 시 변경 내용이 저장되지 않습니다.
-              </Typography>
-            </Stack>
-          </Stack>
+          <DialogContentTitle />
           <Box sx={{ mb: 1 }}>
             <RadioGV
               data={dataRadio}
@@ -188,22 +139,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
               errorMessage="항목을 선택 하세요."
             />
           </Box>
-          <Box
-            sx={{
-              p: "12px 20px",
-              mb: 3,
-              backgroundColor: `${cjbsTheme.palette.grey["50"]}`,
-            }}
-          >
-            <Typography variant="body2">
-              · 데이터는 행을 기준으로 처리되며, 선택한 샘플 순서대로
-              업데이트됩니다.
-            </Typography>
-            <Typography variant="body2">
-              · 입력된 데이터가 선택한 샘플 개수를 초과하면, 샘플 개수만큼만
-              업데이트됩니다.
-            </Typography>
-          </Box>
+          <AlertContentBox />
           <Grid container spacing={4}>
             <Grid item xs={6}>
               <ErrorContainer FallbackComponent={Fallback}>
@@ -217,19 +153,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
         </Form>
       </DialogContent>
       <ModalAction>
-        <OutlinedButton
-          buttonName="닫기"
-          onClick={handleClose}
-          color="secondary"
-        />
-        <LoadingButton
-          loading={isLoading}
-          variant="contained"
-          type="submit"
-          form="sampleBatchChange"
-        >
-          저장
-        </LoadingButton>
+        <ActionButtons handleClose={handleClose} isLoading={isLoading} />
       </ModalAction>
     </ModalContainer>
   );

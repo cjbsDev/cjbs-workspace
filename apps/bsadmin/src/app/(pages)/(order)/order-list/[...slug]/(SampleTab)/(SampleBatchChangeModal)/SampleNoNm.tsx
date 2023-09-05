@@ -27,9 +27,10 @@ const SampleNoNm = (props: SampleNoNmProps) => {
   const getData = data.data;
   return (
     <TableContainer>
-      <Table sx={{ textAlign: "center" }}>
+      <Table sx={{ textAlign: "center" }} size="small">
         <TableHead
           sx={{
+            height: 40,
             backgroundColor: cjbsTheme.palette.grey["500"],
           }}
         >
@@ -37,7 +38,6 @@ const SampleNoNm = (props: SampleNoNmProps) => {
             <TableCell
               sx={{
                 width: "50%",
-                minHeight: 40,
                 textAlign: "center",
                 color: "white",
                 borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,

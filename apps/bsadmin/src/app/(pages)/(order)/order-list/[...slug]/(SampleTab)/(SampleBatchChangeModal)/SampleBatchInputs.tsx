@@ -125,9 +125,12 @@ const SampleBatchInputs = () => {
           <InputValidation
             fullWidth={true}
             multiline
-            rows={10}
-            inputName="sampleList"
+            rows={13}
+            inputName="changeContentList"
             placeholder="이곳에 변경할 내용을 1줄씩 입력 하거나 엑셀이나 워드에 입력된 데이터를 복사하여 붙여 넣기 해주세요."
+            sx={{ minHeight: 313 }}
+            required={true}
+            errorMessage="변경할 내용을 입력해 주세요."
             // maxLength={500}
             // maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
           />

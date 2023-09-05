@@ -131,7 +131,7 @@ const SampleTab = () => {
         // width: "120px",
         sortable: false,
         center: true,
-        selector: (row) => (row.depth === null ? "-" : row.depth),
+        selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
       },
       {
         name: "Taxon",
