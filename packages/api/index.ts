@@ -169,59 +169,74 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
     window.location.href = "/";
   }
 
-  // const formData = new FormData();
-  // formData.append(
-  //     "user-data",
-  //     new Blob([JSON.stringify(body)], { type: "application/json" })
-  // );
-  // formData.append('file-data', null);
-
   return new Promise(async function (resolve, reject) {
     try {
-      const response = await fetch(url, {
+
+      const response = await axios({
+        url: url,
         method,
-        body: body,
+        data: body,
         headers: {
-          "Accept-Language": "ko",
           Authorization: `Bearer ${accessToken}`,
         },
-        ...option,
+        validateStatus: function (status) {
+          // 상태 코드가 500 이상일 경우 거부. 나머지(500보다 작은)는 허용.
+          return (
+            (status >= 200 && status < 300) ||
+            status === 401 ||
+            status === 400 ||
+            status === 500
+          );
+        },
       });
+      return resolve(response);
 
-      if (response.ok) {
-        const data = await response.json();
-        resolve(data);
-      } else if (response.status === 401) {
-        // Access token expired, try to refresh it
 
-        const newAuthResponse = await fetch("/api/auth/session?update");
-        const newAuth = await newAuthResponse.json();
+      // const response = await fetch(url, {
+      //   method,
+      //   body: body,
+      //   headers: {
+      //     "Accept-Language": "ko",
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      //   ...option,
+      // });
+      //
+      // if (response.ok) {
+      //   const data = await response.json();
+      //   resolve(data);
+      // } else if (response.status === 401) {
+      //   // Access token expired, try to refresh it
+      //
+      //   const newAuthResponse = await fetch("/api/auth/session?update");
+      //   const newAuth = await newAuthResponse.json();
+      //
+      //   const retryResponse = await fetch(url, {
+      //     method,
+      //     body: body ? JSON.stringify(body) : null,
+      //     headers: {
+      //       Authorization: `Bearer ${newAuth.accessToken}`,
+      //       "Accept-Language": "ko",
+      //       "Content-Type": "application/json",
+      //     },
+      //     ...option,
+      //   });
+      //
+      //   if (retryResponse.ok) {
+      //     const data = await retryResponse.json();
+      //     resolve(data);
+      //   } else {
+      //     console.log("토큰 갱신에 실패함.");
+      //     //    signOut({ callbackUrl: "/" });
+      //   }
+      // } else if (response.status === 403) {
+      //   toast("권한이 없습니다.(A103-2)");
+      //   console.log(`API call failed with status code ${response.status}`);
+      // } else {
+      //   toast("A network problem has occurred.(A102-2)");
+      //   console.log(`API call failed with status code ${response.status}`);
+      // }
 
-        const retryResponse = await fetch(url, {
-          method,
-          body: body ? JSON.stringify(body) : null,
-          headers: {
-            Authorization: `Bearer ${newAuth.accessToken}`,
-            "Accept-Language": "ko",
-            "Content-Type": "application/json",
-          },
-          ...option,
-        });
-
-        if (retryResponse.ok) {
-          const data = await retryResponse.json();
-          resolve(data);
-        } else {
-          console.log("토큰 갱신에 실패함.");
-          //    signOut({ callbackUrl: "/" });
-        }
-      } else if (response.status === 403) {
-        toast("권한이 없습니다.(A103-2)");
-        console.log(`API call failed with status code ${response.status}`);
-      } else {
-        toast("A network problem has occurred.(A102-2)");
-        console.log(`API call failed with status code ${response.status}`);
-      }
     } catch (error) {
       toast("A network problem has occurred.(A101)");
       console.log("error >", error);

@@ -141,11 +141,11 @@ export default function MtpFullService(){
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
-      if (response.success) {
+      if (response.data.success) {
         toast("수정 되었습니다.")
         router.push("/order-list");
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
 
       } else {
         toast("문제가 발생했습니다. 01");
