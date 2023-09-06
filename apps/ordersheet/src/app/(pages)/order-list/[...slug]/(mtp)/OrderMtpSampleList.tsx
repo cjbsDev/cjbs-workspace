@@ -195,7 +195,8 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-
+      orderMTP :
+      {JSON.stringify(props.detailData)}
       <OrderMTPSampleDynamicTable detailData={props.detailData}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>

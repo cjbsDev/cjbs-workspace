@@ -218,6 +218,8 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
+          mtpfull:
+          {JSON.stringify(detailData.samples)}
           <OrderMtpSampleList serviceType={"fs"} detailData={detailData.samples}/>
         </Box>
 
