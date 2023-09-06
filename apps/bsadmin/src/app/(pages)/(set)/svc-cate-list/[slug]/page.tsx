@@ -86,7 +86,7 @@ export default function SvcCatePage({ params }: ViewProps) {
     //console.log("saveObj", saveObj);
     //console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
+    const apiUrl = `/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청

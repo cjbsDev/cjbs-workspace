@@ -138,7 +138,7 @@ export default function InstModifyPage() {
 
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst`; // Replace with your API URL
+    const apiUrl = `/inst`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청

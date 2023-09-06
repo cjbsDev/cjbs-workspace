@@ -78,8 +78,7 @@ const MCItemModifyModal = ({
     if (selectItem.detailUniqueCode) {
       //apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
       // ~ /mngr/{uniqueCode} -> ~/mngr/masterCode/{uniqueCode}
-      apiUrl =
-        `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
+      apiUrl = `/mngr/masterCode/` + uniqueCode;
 
       try {
         const response = await PUT(apiUrl, saveObj); // API 요청
@@ -97,8 +96,7 @@ const MCItemModifyModal = ({
       }
     } else {
       console.log("추가 -01");
-      apiUrl =
-        `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/` + uniqueCode;
+      apiUrl = `/mngr/masterCode/` + uniqueCode;
 
       try {
         const response = await POST(apiUrl, saveObj); // API 요청

@@ -70,7 +70,7 @@ const ProjectHeader = () => {
     };
     // console.log("==saveObj", saveObj);
     // console.log("saveObj stringify", JSON.stringify(saveObj));
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/`; // Replace with your API URL
+    const apiUrl = `/mngr/prjc/`; // Replace with your API URL
 
     try {
       const response = await POST(apiUrl, saveObj); // API 요청
