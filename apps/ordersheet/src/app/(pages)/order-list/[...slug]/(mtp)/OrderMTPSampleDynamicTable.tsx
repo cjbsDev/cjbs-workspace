@@ -94,7 +94,10 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     }
   };
 
+
+
   useEffect(() => {
+    console.log("$$$$$$$$$$$$$$$", props.detailData);
     if(props.detailData.length > 0) {
       for (let i = 0; i < props.detailData.length; i++) {
         console.log("for~!~!", i);
