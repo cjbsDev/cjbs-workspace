@@ -19,6 +19,7 @@ import SampleBatchInputs from "./SampleBatchInputs";
 import AlertContentBox from "./AlertContentBox";
 import DialogContentTitle from "./DialogContentTitle";
 import ActionButtons from "./ActionButtons";
+import { PUT } from "api";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -38,8 +39,8 @@ const dataRadio = [
   { value: "etc", optionName: "기타" },
 ];
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/update`;
-const apiUrl2 = `${process.env.NEXT_PUBLIC_API_URL}/sample/update/options`;
+const apiUrl = `/sample/update`;
+const apiUrl2 = `/sample/update/options`;
 const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
   const { mutate } = useSWRConfig();
@@ -96,17 +97,15 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
       console.log("BODYDATA ==>", bodyData);
 
-      const response = await axios.put(
+      const response = await PUT(
         selectedCtNm === "etc" ? apiUrl2 : apiUrl,
         bodyData
       );
 
-      console.log("PUT request successful:", response.data);
+      console.log("PUT request successful:", response.success);
 
-      if (response.data.success) {
-        mutate(
-          `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-        );
+      if (response.success) {
+        mutate(`/order/${orderUkey}/sample/list`);
         handleClose();
       } else {
         // 실패 처리 로직

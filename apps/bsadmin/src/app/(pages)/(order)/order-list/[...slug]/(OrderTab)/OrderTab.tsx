@@ -13,7 +13,8 @@ import {
 import { ContainedButton, TD, TH } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import useSWR from "swr";
-import fetcher from "../../../../../func/fetcher";
+// import fetcher from "../../../../../func/fetcher";
+import { fetcher } from "api";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -27,15 +28,11 @@ const LazyRearchInfoModal = dynamic(() => import("./RearchInfoModal"), {
 const OrderTab = () => {
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/order/detail/${orderUkey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR(`/order/detail/${orderUkey}`, fetcher, {
+    suspense: true,
+  });
 
-  console.log("주문 정보", data.data.orderInfo);
+  console.log("주문 정보", data.orderInfo);
 
   // [거래처(PI)] 모달
   const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
@@ -63,7 +60,7 @@ const OrderTab = () => {
     isSpecial,
     agncInfoDetail,
     agncLeaderInfoDetail,
-  } = data.data.agncInfo;
+  } = data.agncInfo;
 
   // 주문 정보
   const {
@@ -89,7 +86,7 @@ const OrderTab = () => {
     is16S,
     check16sAt,
     price,
-  } = data.data.orderInfo;
+  } = data.orderInfo;
 
   // 담당자 정보
   const {
@@ -107,10 +104,10 @@ const OrderTab = () => {
     bsnsMngrNm,
     orderCreatorId,
     orderCreatorNm,
-  } = data.data.mngrInfo;
+  } = data.mngrInfo;
 
   // 메모
-  const { memo } = data.data;
+  const { memo } = data;
   return (
     <>
       <Box>

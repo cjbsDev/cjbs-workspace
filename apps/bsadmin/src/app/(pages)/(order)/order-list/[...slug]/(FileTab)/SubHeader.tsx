@@ -31,25 +31,9 @@ const SubHeader = (props: SubHeaderProps) => {
         <Stack direction="row" spacing={1.5} alignItems="center">
           <DataCountResultInfo totalCount={totalCount} />
           <ContainedButton
-            buttonName="샘플 추가"
+            buttonName="파일 업로드"
             size="small"
-            onClick={handleSampleAddModalOpen}
-          />
-          {/* 개발 예정(10월 중순...) */}
-          {/*<ContainedButton buttonName="분석 내역 보기" size="small" />*/}
-          <OutlinedButton
-            buttonName="샘플 정보 일괄 변경"
-            size="small"
-            color="secondary"
-            sx={{ color: "black" }}
-            onClick={handleSampleBatchModalOpen}
-          />
-          <OutlinedButton
-            buttonName="실험 진행 단계 변경"
-            size="small"
-            color="secondary"
-            sx={{ color: "black" }}
-            onClick={handleExPrgrsPhsOpen}
+            // onClick={handleSampleAddModalOpen}
           />
         </Stack>
       </Grid>

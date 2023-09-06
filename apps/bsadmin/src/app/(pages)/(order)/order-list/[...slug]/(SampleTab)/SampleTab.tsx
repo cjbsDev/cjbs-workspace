@@ -1,31 +1,18 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
-import fetcher from "../../../../../func/fetcher";
-import {
-  cjbsTheme,
-  ContainedButton,
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  ErrorContainer,
-  Fallback,
-  FileDownloadBtn,
-  OutlinedButton,
-} from "cjbsDSTM";
+import { fetcher } from "api";
+// import fetcher from "../../../../../func/fetcher";
+import { cjbsTheme, DataTableBase } from "cjbsDSTM";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
   Box,
   Chip,
-  Grid,
   Stack,
   styled,
-  Tooltip,
   Typography,
   TypographyProps,
 } from "@mui/material";
-import Link from "next/link";
-import MyIcon from "icon/MyIcon";
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
@@ -81,15 +68,11 @@ const SampleTab = () => {
   const params = useParams();
   // console.log("SAMPLE TAB PARAMS", params);
   const orderUkey = params.slug;
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
-  const sampleList = data.data;
-  // console.log("SAMPLE TAB LIST", sampleList);
+  const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
+    suspense: true,
+  });
+  const sampleList = data;
+  console.log("SAMPLE TAB LIST", sampleList);
 
   useEffect(() => {
     // isClear 상태 변경 이슈
@@ -100,21 +83,18 @@ const SampleTab = () => {
     () => [
       {
         name: "샘플번호",
-        // width: "120px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleId,
       },
       {
         name: "샘플명",
-        // width: "120px",
         sortable: false,
         center: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
       },
       {
         name: "샘플종류",
-        // width: "120px",
         sortable: false,
         center: true,
         selector: (row) =>
@@ -122,21 +102,20 @@ const SampleTab = () => {
       },
       {
         name: "Source",
-        // width: "120px",
         sortable: false,
         center: true,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
         name: "Depth",
-        // width: "120px",
+        width: "100px",
         sortable: false,
         center: true,
         selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
       },
       {
         name: "Taxon",
-        // width: "120px",
+        width: "80px",
         sortable: false,
         center: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),

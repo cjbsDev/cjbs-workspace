@@ -1,6 +1,7 @@
 import React from "react";
 import useSWR from "swr";
-import fetcher from "../../../../../../func/fetcher";
+import { fetcher } from "api";
+// import fetcher from "../../../../../../func/fetcher";
 import {
   TableContainer,
   Table,
@@ -17,14 +18,14 @@ interface SampleNoNmProps {
 const SampleNoNm = (props: SampleNoNmProps) => {
   const { sampleUkeyList } = props;
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/sample/update?sampleUkeyList=${sampleUkeyList}`,
+    `/sample/update?sampleUkeyList=${sampleUkeyList}`,
     fetcher,
     {
       suspense: true,
     }
   );
-  console.log(data.data);
-  const getData = data.data;
+  console.log(data);
+  const getData = data;
   return (
     <TableContainer>
       <Table sx={{ textAlign: "center" }} size="small">

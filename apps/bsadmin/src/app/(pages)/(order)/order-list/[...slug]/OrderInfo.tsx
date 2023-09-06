@@ -1,38 +1,14 @@
 "use client";
 import { useRouter } from "next-nprogress-bar";
 import {
-  cjbsTheme,
-  ContainedButton,
   ErrorContainer,
   Fallback,
   OutlinedButton,
-  Title1,
   SkeletonLoading,
-  TH,
-  TD,
-  InputValidation,
 } from "cjbsDSTM";
-import {
-  Box,
-  Chip,
-  Container,
-  Divider,
-  Grid,
-  IconButton,
-  Stack,
-  Tab,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-  Tabs,
-  Typography,
-} from "@mui/material";
+import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import React, { useState } from "react";
-// import { fetcher } from "api";
-import fetcher from "../../../../func/fetcher";
-import useSWR from "swr";
-import { useParams } from "next/navigation";
+import { fetcher } from "api";
 import Link from "next/link";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
@@ -61,6 +37,12 @@ const LazyOrderInfoModifyModal = dynamic(
 
 // 샘플탭
 const LazySampleTab = dynamic(() => import("./(SampleTab)/SampleTab"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
+// 파일탭
+const LazyFileTab = dynamic(() => import("./(FileTab)/FileTab"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });
@@ -118,7 +100,9 @@ export default function OrderInfo() {
         </ErrorContainer>
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={2}>
-        File
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyFileTab />
+        </ErrorContainer>
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={3}>
         Coment

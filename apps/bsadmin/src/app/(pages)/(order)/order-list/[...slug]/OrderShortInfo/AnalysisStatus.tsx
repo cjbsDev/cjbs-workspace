@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  Box,
-  BoxProps,
-  Stack,
-  styled,
-  TableCell,
-  TableCellProps,
-  Typography,
-} from "@mui/material";
+import { Box, BoxProps, Stack, styled, Typography } from "@mui/material";
 import { grey } from "cjbsDSTM";
 
 const AnalysisStatus = (props) => {

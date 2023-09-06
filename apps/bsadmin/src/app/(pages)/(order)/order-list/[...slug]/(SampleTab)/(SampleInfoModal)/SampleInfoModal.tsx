@@ -11,7 +11,8 @@ import {
 import { DialogContent } from "@mui/material";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
 import useSWR, { useSWRConfig } from "swr";
-import fetcher from "../../../../../../func/fetcher";
+import { fetcher, GET, PUT } from "api";
+// import fetcher from "../../../../../../func/fetcher";
 import SampleInfoTable1 from "./SampleInfoTable1";
 import SampleInfoTable2 from "./SampleInfoTable2";
 import dynamic from "next/dynamic";
@@ -36,19 +37,21 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
   const { mutate } = useSWRConfig();
   const params = useParams();
   const orderUkey = params.slug;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/${sampleUkey}`;
+  const apiUrl = `/sample/${sampleUkey}`;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { data } = useSWR(() => apiUrl, fetcher, {
     suspense: true,
   });
-  const sampleInfoData = data.data;
+  const sampleInfoData = data;
+
+  console.log("EEEEEEEE", data);
   const sampleStatusRes = sampleInfoData.sampleStatusRes;
   const defaultValues = async () => {
-    const res = await fetch(apiUrl);
-    const data = await res.json();
-    console.log("resresre", data.data);
+    const res = await GET(apiUrl);
+    // const data = await res.json();
+    console.log("resresre", res.data);
 
-    return data.data;
+    return res.data;
   };
 
   const onSubmit = async (data: any) => {
@@ -68,14 +71,11 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
 
     console.log("BODYDATA ==>", bodyData);
 
-    await axios
-      .put(apiUrl, bodyData)
+    await PUT(apiUrl, bodyData)
       .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
-          mutate(
-            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-          );
+        console.log("POST request successful:", response.success);
+        if (response.success) {
+          mutate(`/order/${orderUkey}/sample/list`);
           handleClose();
         }
       })
