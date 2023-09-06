@@ -111,7 +111,7 @@ export default function AgncPIModifyPage() {
     console.log("==modify", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng/${uKey}`; // Replace with your API URL
+    const apiUrl = `/mngr/esPrMng/${uKey}`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청

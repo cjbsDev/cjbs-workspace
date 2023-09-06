@@ -131,7 +131,7 @@ export default function ContactModifyPage() {
     };
     console.log("saveObj", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/${uKey}`; // Replace with your API URL
+    const apiUrl = `/user/${uKey}`; // Replace with your API URL
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
       if (response.success) {

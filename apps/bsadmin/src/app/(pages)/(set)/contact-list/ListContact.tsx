@@ -175,7 +175,7 @@ export default function ListContact() {
     console.log("saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/status`; // Replace with your API URL
+    const apiUrl = `/user/status`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
@@ -215,7 +215,7 @@ export default function ListContact() {
     console.log("saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/auth`; // Replace with your API URL
+    const apiUrl = `/user/auth`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
