@@ -27,7 +27,7 @@ import {
   bindTrigger,
   bindMenu,
 } from "material-ui-popup-state/hooks";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useSession } from "next-auth/react";

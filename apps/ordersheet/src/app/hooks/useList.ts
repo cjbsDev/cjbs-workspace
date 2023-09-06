@@ -1,16 +1,14 @@
 "use client";
 import useSWR from "swr";
-import { POST, fetcher } from 'api';
-// import { fetcher } from "api";
+import { fetcherOrsh } from 'api';
 
 export const useList = (
-  apiName: string,
   page: number = 1,
   perPage: number = 20
 ) => {
   const { data } = useSWR(
-    `/${apiName}/list?page=${page}&size=${perPage}`,
-      fetcher,
+    `/list?page=${page}&size=${perPage}`,
+    fetcherOrsh,
     {
       suspense: true,
       retry: 1,

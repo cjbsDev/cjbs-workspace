@@ -30,7 +30,7 @@ import {
   TableHead,
   IconButton,
 } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";

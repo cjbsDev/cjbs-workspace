@@ -23,7 +23,7 @@ import {
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
 import { fetcher } from "api";

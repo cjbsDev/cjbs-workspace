@@ -7,7 +7,7 @@ import {
   OutlinedButton,
   cjbsTheme,
 } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 // import { ModalAction, ModalContainer } from "cjbsDSTM";
 // import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 import * as React from "react";

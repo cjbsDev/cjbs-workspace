@@ -11,7 +11,7 @@ import {
 import { DialogContent, Stack, styled, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import axios from "axios";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Link from "next/link";
 import {useParams} from "next/navigation";
 
@@ -30,16 +30,58 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
     setIsLoading(false);
   };
 
+  // const handleFileChange = async (event) => {
+  //   const file = event.target.files[0]; // 선택된 파일 객체
+  //   console.log("File Input Data ==>>", file);
+  //
+  //   if (file) {
+  //     const formData = new FormData();
+  //     formData.append("file", file as File);
+  //
+  //     await axios
+  //       .post(
+  //         `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
+  //         formData,
+  //         {
+  //           withCredentials: false,
+  //           headers: {
+  //             "Access-Control-Allow-Origin": "*",
+  //           },
+  //         }
+  //       )
+  //       .then((res) => {
+  //         if (res.data.success) {
+  //           console.log("RES VALUE ==>>", res.data.data);
+  //           console.log("RES VALUE Length ==>>", res.data.data.length);
+  //
+  //           for (let i = 0; i < res.data.data.length; i++) {
+  //             append({
+  //               sampleNm: res.data.data[i].sampleNm,
+  //               source: res.data.data[i].source,
+  //               sampleCategoryCc: res.data.data[i].sampleCategoryCc,
+  //               anlsTargetGeneCc: res.data.data[i].anlsTargetGeneCc,
+  //               qc: res.data.data[i].qc,
+  //               memo: res.data.data[i].memo,
+  //             });
+  //           }
+  //
+  //           handleClose();
+  //         } else {
+  //           console.log("EERROORRSS!!");
+  //         }
+  //       });
+  //   }
+  // };
+
   const handleFileChange = async (event) => {
     const file = event.target.files[0]; // 선택된 파일 객체
-    console.log("File Input Data ==>>", file);
 
-    if (file) {
-      const formData = new FormData();
-      formData.append("file", file as File);
+    try {
+      if (file) {
+        const formData = new FormData();
+        formData.append("file", file);
 
-      await axios
-        .post(
+        const response = await axios.post(
           `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
           formData,
           {
@@ -48,28 +90,33 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
               "Access-Control-Allow-Origin": "*",
             },
           }
-        )
-        .then((res) => {
-          if (res.data.success) {
-            console.log("RES VALUE ==>>", res.data.data);
-            console.log("RES VALUE Length ==>>", res.data.data.length);
+        );
 
-            for (let i = 0; i < res.data.data.length; i++) {
-              append({
-                sampleNm: res.data.data[i].sampleNm,
-                source: res.data.data[i].source,
-                sampleCategoryCc: res.data.data[i].sampleCategoryCc,
-                anlsTargetGeneCc: res.data.data[i].anlsTargetGeneCc,
-                qc: res.data.data[i].qc,
-                memo: res.data.data[i].memo,
-              });
-            }
+        if (response.data.success) {
+          const data = response.data.data;
+          console.log("RES VALUE ==>>", data);
+          console.log("RES VALUE Length ==>>", data.length);
 
-            handleClose();
-          } else {
-            console.log("EERROORRSS!!");
-          }
-        });
+          const appendedData = data.map((item) => ({
+            sampleNm: item.sampleNm,
+            source: item.source,
+            sampleCategoryCc: item.sampleCategoryCc,
+            anlsTargetGeneCc: item.anlsTargetGeneCc,
+            qc: item.qc,
+            memo: item.memo,
+          }));
+          appendedData.forEach((item) => {
+            append(item);
+          });
+          handleClose();
+        } else {
+          console.log("Error: ", response.data.message);
+          // 오류 처리 로직 추가
+        }
+      }
+    } catch (error) {
+      console.error("Request Failed:", error);
+      // 오류 처리 로직 추가
     }
   };
 

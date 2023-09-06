@@ -1,6 +1,6 @@
 "use client";
 import { ModalNoneTextTitle } from "../CModal/ModalTitle";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { ModalAction, ModalContainer } from "../CModal";
 import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 import React from "react";

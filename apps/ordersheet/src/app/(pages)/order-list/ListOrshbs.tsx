@@ -6,7 +6,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   LeaderCip,
   ContainedButton,
   SelectBox,
@@ -16,7 +15,7 @@ import {
 import {Stack, Grid, Box, Container, Typography} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../hooks/useList";
@@ -28,7 +27,7 @@ export default function ListOrshbs() {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
-  const { data } = useList("orsh", page, perPage);
+  const { data } = useList(page, perPage);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -37,6 +36,7 @@ export default function ListOrshbs() {
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
   const totalElements = data.data.pageInfo.totalElements;
+
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
@@ -188,9 +188,8 @@ export default function ListOrshbs() {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            {/*<ExcelDownloadButton downloadUrl="" />*/}
             <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/orsh/list/download`}
+              exportUrl={`${process.env.NEXT_PUBLIC_API_URL_ORSH}/list/download`}
               iconName="xls3"
             />
             <DataTableFilter

@@ -1,40 +1,33 @@
 import React, { useState } from "react";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import {
-  cjbsTheme,
   ErrorContainer,
   Fallback,
   Form,
   ModalAction,
   ModalContainer,
   ModalTitle,
-  OutlinedButton,
   RadioGV,
   SkeletonLoading,
 } from "cjbsDSTM";
-import {
-  Box,
-  DialogContent,
-  FormControlLabel,
-  Grid,
-  Radio,
-  RadioGroup,
-  Stack,
-  Typography,
-} from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { useParams, usePathname } from "next/navigation";
+import { Box, DialogContent, Grid } from "@mui/material";
+import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
-import MyIcon from "icon/myIcon";
+import axios from "axios";
+import SampleBatchInputs from "./SampleBatchInputs";
+import AlertContentBox from "./AlertContentBox";
+import DialogContentTitle from "./DialogContentTitle";
+import ActionButtons from "./ActionButtons";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
+  sampleIdList: number[];
 }
 
 const LazySampleNoNm = dynamic(() => import("./SampleNoNm"), {
   ssr: false,
-  loading: () => <SkeletonLoading />,
+  loading: () => <SkeletonLoading height={300} />,
 });
 
 const dataRadio = [
@@ -42,35 +35,92 @@ const dataRadio = [
   { value: "altrNm", optionName: "대체명" },
   { value: "source", optionName: "Source" },
   { value: "memo", optionName: "메모" },
+  { value: "etc", optionName: "기타" },
 ];
+
+const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/update`;
+const apiUrl2 = `${process.env.NEXT_PUBLIC_API_URL}/sample/update/options`;
 const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+  const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
   const { mutate } = useSWRConfig();
   const params = useParams();
   const orderUkey = params.slug;
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [value, setValue] = React.useState("female");
-
-  console.log("PARAMS", params);
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log((event.target as HTMLInputElement).value);
-    console.log(sampleUkeyList);
-    setValue((event.target as HTMLInputElement).value);
-  };
-
-  const handleClose = () => {
-    onClose();
-  };
-
   const defaultValues = {
     categoryNm: "sampleNm",
   };
 
+  console.log("sampleUkeyList", sampleUkeyList);
+  const handleClose = () => {
+    onClose();
+  };
+
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log(data);
+    console.log("Form DATA ==>>", data);
+
+    try {
+      const selectedCtNm = data.categoryNm;
+      const arraySampleList = data.changeContentList.split("\n");
+
+      let bodyData = {};
+      if (selectedCtNm === "etc") {
+        console.log("ETC ~~!@@@@@");
+        const makeNewSampleList2 = sampleIdList.map((item) => ({
+          sampleId: item,
+        }));
+
+        const { isVrfc, mcNmCc, prgrAgncNmCc, sampleTypeCc, taxonCc, depthMc } =
+          data;
+
+        bodyData = {
+          depthMc,
+          isVrfc: isVrfc === "" ? null : isVrfc,
+          mcNmCc,
+          prgrAgncNmCc,
+          sampleTypeCc,
+          taxonCc,
+          sampleList: makeNewSampleList2,
+        };
+      } else {
+        const makeNewSampleList = sampleIdList.map((item, index) => ({
+          sampleId: item,
+          targetVal: arraySampleList[index],
+        }));
+
+        bodyData = {
+          targetItem: selectedCtNm,
+          sampleList: makeNewSampleList,
+        };
+      }
+
+      console.log("BODYDATA ==>", bodyData);
+
+      const response = await axios.put(
+        selectedCtNm === "etc" ? apiUrl2 : apiUrl,
+        bodyData
+      );
+
+      console.log("PUT request successful:", response.data);
+
+      if (response.data.success) {
+        mutate(
+          `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
+        );
+        handleClose();
+      } else {
+        // 실패 처리 로직
+        // handleAlertClick();
+        // setErrorMsg(response.data.message);
+      }
+    } catch (error) {
+      console.error("Request Failed:", error);
+      // 에러 처리 로직
+    } finally {
+      setIsLoading(false);
+    }
   };
+
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={handleClose}>샘플 정보 일괄 변경</ModalTitle>
@@ -80,27 +130,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
           defaultValues={defaultValues}
           id="sampleBatchChange"
         >
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-          >
-            <Typography variant="subtitle1">항목</Typography>
-
-            <Stack direction="row" spacing={0.5}>
-              <MyIcon
-                icon="exclamation-circle"
-                size={18}
-                color={cjbsTheme.palette.error.main}
-              />
-              <Typography
-                variant="body2"
-                sx={{ color: cjbsTheme.palette.error.main }}
-              >
-                항목 이동 시 변경 내용이 저장되지 않습니다.
-              </Typography>
-            </Stack>
-          </Stack>
+          <DialogContentTitle />
           <Box sx={{ mb: 1 }}>
             <RadioGV
               data={dataRadio}
@@ -109,46 +139,21 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
               errorMessage="항목을 선택 하세요."
             />
           </Box>
-          <Box
-            sx={{
-              p: "12px 20px",
-              mb: 3,
-              backgroundColor: `${cjbsTheme.palette.grey["50"]}`,
-            }}
-          >
-            <Typography variant="body2">
-              · 데이터는 행을 기준으로 처리되며, 선택한 샘플 순서대로
-              업데이트됩니다.
-            </Typography>
-            <Typography variant="body2">
-              · 입력된 데이터가 선택한 샘플 개수를 초과하면, 샘플 개수만큼만
-              업데이트됩니다.
-            </Typography>
-          </Box>
-          <Grid container>
+          <AlertContentBox />
+          <Grid container spacing={4}>
             <Grid item xs={6}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazySampleNoNm sampleUkeyList={sampleUkeyList} />
               </ErrorContainer>
             </Grid>
-            <Grid item xs={6}></Grid>
+            <Grid item xs={6}>
+              <SampleBatchInputs />
+            </Grid>
           </Grid>
         </Form>
       </DialogContent>
       <ModalAction>
-        <OutlinedButton
-          buttonName="닫기"
-          onClick={handleClose}
-          color="secondary"
-        />
-        <LoadingButton
-          loading={isLoading}
-          variant="contained"
-          type="submit"
-          form="sampleBatchChange"
-        >
-          저장
-        </LoadingButton>
+        <ActionButtons handleClose={handleClose} isLoading={isLoading} />
       </ModalAction>
     </ModalContainer>
   );

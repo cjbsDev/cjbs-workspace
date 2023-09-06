@@ -26,7 +26,7 @@ import {
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
 import axios from "axios";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { toast } from "react-toastify";
 
 interface Member {

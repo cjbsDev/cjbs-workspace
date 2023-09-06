@@ -16,7 +16,7 @@ export default function SampleCategorySelectbox() {
 
   return (
     <SelectBox
-      required={true}
+      // required={true}
       errorMessage="샘플 종류를 선택헤 주세요."
       inputName="sampleTypeCc"
       options={data}

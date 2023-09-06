@@ -27,13 +27,10 @@ import {
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingSvg from "@public/svg/loading_wh.svg";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
-import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
-import MtpFullService from "@app/(pages)/order/mtp/MtpFullService";
-import { useFieldArray } from "react-hook-form";
-import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
-import OrderMTPSampleDynamicTable from "@app/(pages)/order/OrderMTPSampleDynamicTable";
+import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
+import {useParams} from "next/navigation";
 
 const LazyPrepSelectbox = dynamic(
   () => import("@components/CommonSelectbox"),
@@ -43,68 +40,12 @@ const LazyPrepSelectbox = dynamic(
   }
 );
 
-type FormValues = {
-  samples: {
-    sampleNm: string;
-    source: string;
-    sampleCategoryCc: string;
-    anlsTargetGeneCc: string;
-    qc: string;
-    memo: string;
-  }[];
-};
-
 export default function OrderMtpSampleList(props: any) {
-  // const { fields, append } = useFieldArray({
-  //   name: "items", // 이름은 폼 데이터에 저장될 필드 이름입니다.
-  // });
   // console.log("$$$$$$$$$$", props.serviceType);
-  let serviceType = props.serviceType;
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const defaultValues = {};
-
-  // 행 추가 될 값 저장
-  const onChange = (e: any) => {
-    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
-    setInputs({
-      ...inputs, // 기존의 input 객체를 복사한 뒤
-      [name]: value, // name 키를 가진 값을 value 로 설정
-    });
-  };
-
-  const onSubmit = (data: any) => {
-    console.log("Submit Data ==>>", data);
-    // console.log("length", Object.keys(data).length);
-    const samples = [];
-    const sampleCnt = (Object.keys(data.sample).length - 2) / 6;
-    for (let i = 0; i < sampleCnt; i++) {
-      const sample = {
-        anlsTargetGeneCc: data[i + "_anlsTargetGeneCc"],
-        memo: data[i + "_memo"],
-        qc: data[i + "_qc"],
-        sampleCategoryCc: data[i + "_sampleCategoryCc"],
-        sampleNm: data[i + "_sampleNm"],
-        source: data[i + "_source"],
-      };
-      samples.push(sample);
-    }
-    console.log("SAMPLES ==>>", samples);
-
-    const returnData = {
-      samples: data.sample,
-      addRqstMemo: {memo: data.memo}
-    };
-    props.addBodyData(returnData);
-    props.addFileData(data.uploadFile[0]);
-  };
-
-  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
-    useState<boolean>(false);
-
-  const orderInfoModifyModalClose = () => {
-    setShowOrderInfoModifyModal(false);
-  };
+  const params = useParams();
+  console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
+  let serviceType = params.slug[1];
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
@@ -115,11 +56,39 @@ export default function OrderMtpSampleList(props: any) {
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <Stack direction="row" alignItems="center" spacing={2}>
+                  { updataYn === 'N' ? (
+                    <Box>
+                      <InputValidation
+                        inputName="uploadFile"
+                        required={false}
+                        type="file"
+                        sx={{ width: 306 }}
+                      />
+                      <Typography variant="body2">
+                        * 파일 재업로드 시, 기존 파일은 삭제됩니다.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )}
+
                   <InputValidation
-                    inputName="uploadFile"
+                    inputName="selfQcFileNm"
                     required={false}
-                    type="file"
-                    sx={{ width: 306 }}
+                    sx={{
+                      width: 300,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000"
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Stack>
               </Stack>
@@ -158,58 +127,8 @@ export default function OrderMtpSampleList(props: any) {
     }
   };
 
-  const [rowsData, setRowsData] = useState<any>([]);
-
-  const [inputs, setInputs] = useState<any>({
-    addRowCnt: 1,
-  });
-  const { addRowCnt } = inputs;
-
-  const nextId = useRef(0);
-
-  const rowsInput = {
-    id: nextId.current,
-    sampleNm: "",
-    source: "",
-    sampleCategoryCc: "",
-    anlsTargetGeneCc: "",
-    qc: "",
-    memo: "",
-  };
-  const addTableRows = () => {
-    const newArray = Array.from({ length: addRowCnt }, (_, index) => rowsInput);
-    console.log(newArray);
-    setRowsData([...rowsData, ...newArray]);
-    nextId.current += 1;
-  };
-
-  const deleteTableRows = (id: number) => {
-    console.log("123123", rowsData);
-    console.log("index", id);
-    const rows = [...rowsData];
-    // rows.splice(id, 1);
-    setRowsData(rowsData.filter((rows) => rows.id !== id));
-    // setRowsData(rows);
-  };
-
-  const addExcelDataTableRows = (newArray: any) => {
-    // const rows = [...rowsData];
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(newArray);
-    setRowsData([...rowsData, ...newArray]);
-  };
-
-  // const handleChange = (index, evnt)=>{
-  //     const { name, value } = evnt.target;
-  //     console.log("!!!!!!name : " +name)
-  //     console.log("!!!!!!value : " +value)
-  //     const rowsInput = [...rowsData];
-  //     rowsInput[index][name] = value;
-  //     setRowsData(rowsInput);
-  // }
-
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <>
       <Box
         alignItems="start"
         sx={{
@@ -276,7 +195,9 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      <OrderMTPSampleDynamicTable />
+      orderMTP :
+      {JSON.stringify(props.detailData)}
+      <OrderMTPSampleDynamicTable detailData={props.detailData}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -288,26 +209,24 @@ export default function OrderMtpSampleList(props: any) {
         // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        sx={{ width: "100%", mb: 4 }}
         placeholder={"추가 요청 사항을 입력해주세요."}
+        sx={{
+          width: '100%',
+          mb: 4,
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+          },
+          ".MuiOutlinedInput-input:read-only": {
+            backgroundColor: "white",
+            cursor: "pointer",
+            textFillColor: "#000000"
+          },
+        }}
+        InputProps={{
+          readOnly: updataYn === 'N' ? false : true
+        }}
       />
 
-      {/*<Stack direction="row" spacing={0.5} justifyContent="center">*/}
-      {/*  <OutlinedButton*/}
-      {/*    buttonName="이전"*/}
-      {/*    onClick={() => props.moveBackFocus()}*/}
-      {/*  />*/}
-
-      {/*  <ContainedButton*/}
-      {/*    type="submit"*/}
-      {/*    buttonName="다음"*/}
-      {/*    endIcon={*/}
-      {/*      isLoading ? (*/}
-      {/*        <LoadingSvg stroke="white" width={20} height={20} />*/}
-      {/*      ) : null*/}
-      {/*    }*/}
-      {/*  />*/}
-      {/*</Stack>*/}
-    </Form>
+    </>
   );
 }

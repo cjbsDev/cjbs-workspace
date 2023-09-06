@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { OutlinedButton } from "../../atoms/Buttons";
 import { CircularProgress } from "@mui/material";
 import { useFileDownload } from "./useFileDownload";

@@ -34,7 +34,7 @@ import fetcher from "../../../../func/fetcher";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import TabBox from "./TabBox";
 import CustomTabPanel from "./CustomTabPanel";

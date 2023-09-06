@@ -34,7 +34,7 @@ import { useForm, useWatch } from "react-hook-form";
 import Select from "react-select";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import IconDescBar from "../../../components/IconDescBar";
 import {
   dataTableCustomStyles,

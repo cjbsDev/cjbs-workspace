@@ -8,7 +8,7 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import ToggleButton from "@mui/material/ToggleButton";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { FormControlLabel, Radio, RadioGroup } from "@mui/material";
 
 export default function SixteenRadio() {

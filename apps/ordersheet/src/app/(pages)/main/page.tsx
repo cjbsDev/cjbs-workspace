@@ -1,8 +1,8 @@
 "use client";
 import React, {useEffect} from 'react';
 import {Box, Container, Typography, Stack, Divider, Button, Popover} from "@mui/material";
-import MyIcon from "icon/myIcon";
-import {cjbsTheme, ContainedButton} from "cjbsDSTM";
+import MyIcon from "icon/MyIcon";
+import {cjbsTheme, ContainedButton, LinkButton} from "cjbsDSTM";
 import Link from "next/link";
 import Image from "next/image";
 import mtpImg from '@public/img/icons/MTP.png';
@@ -377,11 +377,11 @@ const Page = () => {
                         anchorEl={anchorEl}
                         onClose={handleClose}
                         anchorOrigin={{
-                            vertical: 'center',
+                            vertical: 'top',
                             horizontal: 'left',
                         }}
                         transformOrigin={{
-                            vertical: 'center',
+                            vertical: 'top',
                             horizontal: 'right',
                         }}
                     >
@@ -391,10 +391,28 @@ const Page = () => {
                             justifyContent="center"
                             alignItems="start"
                         >
-                            <Typography variant="h5">샘플 접수처 : NGS 실험실</Typography>
-                            <Typography variant="subtitle2">(16495) 경기 수원시 영통구 광교로42번길 55.</Typography>
-                            <Typography variant="subtitle2">CJ 블로썸파크 블루동 12층</Typography>
-                            <Typography variant="subtitle2">TEL. 031-8099-0670</Typography>
+                            <Box sx={{width: "100%"}}>
+                                <Stack
+                                  sx={{}}
+                                  direction="row"
+                                  justifyContent="space-between"
+                                  alignItems="center"
+                                >
+                                    <Typography variant="subtitle2">샘플 접수처</Typography>
+                                    <LinkButton
+                                      buttonName="복사"
+                                      startIcon={<MyIcon icon="duplicate" size={20} color={cjbsTheme.palette.primary.main}/>}
+                                      // onClick={() => router.push("/cust-list")}
+                                    />
+                                </Stack>
+                            </Box>
+                            <Box sx={{width: "100%", marginY: 1}}>
+                                <Divider />
+                            </Box>
+                            <Typography variant="subtitle2">NGS 실험실</Typography>
+                            <Typography variant="body2">(16495) 경기 수원시 영통구 광교로42번길 55.</Typography>
+                            <Typography variant="body2">CJ 블로썸파크 블루동 12층</Typography>
+                            <Typography variant="body2">TEL. 031-8099-0670</Typography>
                         </Stack>
 
                     </Popover>
