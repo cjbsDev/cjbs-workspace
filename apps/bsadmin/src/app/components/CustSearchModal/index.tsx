@@ -3,7 +3,6 @@ import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
-  ExcelDownloadButton,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
@@ -22,7 +21,7 @@ interface ModalContainerProps {
   type?: string;
 }
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const CustSearchModal = ({
   onClose,
@@ -36,7 +35,7 @@ const CustSearchModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
+    `/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -129,8 +128,8 @@ const CustSearchModal = ({
     []
   );
 
-  //console.log("data.data.custList", data.data.custList);
-  const filteredData = data.data.custList;
+  //console.log("data.custList", data.custList);
+  const filteredData = data.custList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -144,9 +143,7 @@ const CustSearchModal = ({
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
-            />
+            <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>

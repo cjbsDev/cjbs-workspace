@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Typography, styled } from '@mui/material';
-import { StudyPerVoList } from '../../../../../app/clinical/page';
+import { StudyPerVoList } from '../../../../../app/clinical/(mainlayout)/dashboard/page';
 
 const LegendBox = styled(Box)`
   min-width: 145px;
@@ -19,6 +19,7 @@ const FlexBox = styled(Box)`
   display: flex;
   align-items: center;
   justify-items: center;
+  min-width: 118px;
 `;
 
 export interface Props {
@@ -30,16 +31,18 @@ const DashboardPieLegend = ({ data, colorChart }: Props) => {
   return (
     <LegendBox>
       {data.map((item, index) => (
-        <FlexBox key={index} justifyContent={'space-between'}>
+        <FlexBox key={index}>
           <FlexBox>
             <Circle sx={{ background: colorChart.get(item.name) }} />
-            <Typography mb="9px" variant="body2">
+            <Typography mb='9px' variant='body2'>
               {item.name}
             </Typography>
           </FlexBox>
-          <Typography mb="9px" variant="body2">
-            {item.totalPer}%
-          </Typography>
+          <Box>
+            <Typography mb='9px' textAlign={'left'} variant='body2'>
+              {item.totalPer}%
+            </Typography>
+          </Box>
         </FlexBox>
       ))}
     </LegendBox>

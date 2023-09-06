@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { useList } from "../../hooks/useList";
 import { Box, IconButton, Stack, Tooltip } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { DataTableBase, Title1 } from "cjbsDSTM";
@@ -11,8 +11,8 @@ const RemotePaging = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("cust", page, perPage);
-  const filteredData = data.data.custList;
-  const totalElements = data.data.pageInfo.totalElements;
+  const filteredData = data.custList;
+  const totalElements = data.pageInfo.totalElements;
   const columns = useMemo(
     () => [
       {

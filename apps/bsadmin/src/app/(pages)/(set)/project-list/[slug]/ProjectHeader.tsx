@@ -17,7 +17,7 @@ import {
 
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 interface ProjectHeaderProps {
   slug: string;
@@ -46,18 +46,16 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
 
   // load
   const {
-    data: getData,
+    data: projectData,
     error,
     isLoading,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}`, fetcher);
+  } = useSWR(`/mngr/prjc/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
-  const projectData = getData.data;
-
   const renderList = () => {
-    mutate(`${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}`);
+    mutate(`/mngr/prjc/${slug}`);
   };
 
   const defaultValues = {

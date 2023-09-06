@@ -1,7 +1,7 @@
 import React from "react";
 import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import {InputValidation, SelectBox, cjbsTheme, Fallback, ErrorContainer} from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 
@@ -13,11 +13,11 @@ const LazyPrepSelectbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
-const TableNewRows = (props) => {
+const TableNewRows = (props: any) => {
   // const { field, remove, index, acct, perm, errors, callbackRemove } = props;
   const { field, remove, index, errors, callbackRemove } = props;
   const params = useParams();
-  console.log("params", params.slug[2]);
+  // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
 
   return (
@@ -65,6 +65,12 @@ const TableNewRows = (props) => {
             영문, 숫자, -(하이픈)만 입력 가능합니다.
           </Typography>
         )}
+
+        <InputValidation
+            sx={{ display: "none" }}
+            inputName={`sample.[${index}].selfQcResultFileId`}
+            required={false}
+        />
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <InputValidation

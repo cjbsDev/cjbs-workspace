@@ -29,6 +29,7 @@
   },
   "packageManager": "pnpm@7.15.0",
   "dependencies": {
+    "mem": "^9.0.2",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "@mui/lab": "5.0.0-alpha.138",

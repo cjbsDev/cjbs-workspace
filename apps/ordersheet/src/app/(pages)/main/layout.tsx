@@ -8,7 +8,7 @@ import {cjbsTheme, OutlinedButton} from "cjbsDSTM";
 import Image from 'next/image'
 import mailImg from '@public/img/icons/mail.png';
 import React from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -1,7 +1,7 @@
 import React from "react";
 import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
 import { InputValidation, SelectBox, cjbsTheme } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 const TableNewRows = (props) => {
   const { field, remove, index, acct, perm, errors } = props;

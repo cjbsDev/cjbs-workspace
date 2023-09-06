@@ -1,6 +1,6 @@
 import React from "react";
 import { Chip, Stack } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 interface IconDescBarProps {
   reOrder?: boolean;

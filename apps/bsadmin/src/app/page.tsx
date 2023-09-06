@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import { useRouter } from "next-nprogress-bar";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import {
     Box,

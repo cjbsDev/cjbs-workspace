@@ -4,7 +4,7 @@ import { IconButton } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import MyIcon from "../../../icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 interface FilterProps {
   filterText: string;

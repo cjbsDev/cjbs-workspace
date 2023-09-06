@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import useSWR from "swr";
-import fetcher from "../../../../func/fetcher";
+import { fetcher } from "api";
 import {
   Box,
   Breadcrumbs,
@@ -15,7 +15,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import axios from "axios";
 import {
   blue,
@@ -29,7 +29,7 @@ import {
 import { cjbsTheme } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/null/null`;
+const apiUrl = `/mngr/stndPrice/srvcType/null/null`;
 const StndPriceSrvcType = () => {
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,

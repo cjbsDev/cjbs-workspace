@@ -7,20 +7,15 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import fetcher from "../../../../../func/fetcher";
-
+import { fetcher } from "api";
 interface CustInfoProps {
   slug: string;
 }
 
 const CustInfo: React.FC<CustInfoProps> = ({ slug }) => {
-  const { data: custTemp } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`,
-    fetcher,
-    { suspense: true }
-  );
-
-  const custData = custTemp.data;
+  const { data: custData } = useSWR(`/cust/list/detail/${slug}`, fetcher, {
+    suspense: true,
+  });
 
   return (
     <>

@@ -25,7 +25,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import Link from "next/link";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";

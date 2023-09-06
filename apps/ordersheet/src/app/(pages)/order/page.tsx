@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {Box, Container, Stack, Typography, Tabs, Tab, TabProps, styled, Button} from "@mui/material";
 import {TabContext, TabList, TabPanel} from '@mui/lab';
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import HorizontalLinearStepper from "./HorizontalLinearStepper";
 import {ConfirmModal, cjbsTheme} from "cjbsDSTM";
 import MtpFullService from "./mtp/MtpFullService";

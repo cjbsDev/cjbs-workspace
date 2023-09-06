@@ -6,7 +6,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   LeaderCip,
 } from "cjbsDSTM";
 import {
@@ -19,13 +18,10 @@ import {
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
-// import useSWR from "swr";
-// import fetcher from "../../../../func/fetcher";
-// import axios from "axios";
 
 const ListCust = () => {
   const [page, setPage] = useState<number>(0);
@@ -33,22 +29,13 @@ const ListCust = () => {
   // ListAPI Call
   const { data } = useList("cust", page, perPage);
   const [loading, setLoading] = useState<boolean>(false);
-  // const { data, isLoading, mutate } = useSWR(
-  //   `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${page}&size=${perPage}`,
-  //   fetcher,
-  //   {
-  //     suspense: true,
-  //   }
-  // );
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  // const filteredData = data.data.custList;
-
-  const filteredData = data.data.custList.filter(
+  const filteredData = data.custList.filter(
     (item) =>
       (item.custNm &&
         item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
@@ -56,15 +43,14 @@ const ListCust = () => {
         item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
   );
 
-  const totalElements = data.data.pageInfo.totalElements;
+  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     //console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
   };
 
-  // console.log("filteredData totalElements", data.data.pageInfo.totalElements);
-  console.log("filteredData", filteredData);
+  // console.log("filteredData totalElements", data.pageInfo.totalElements);
 
   // 고객 번호, 이름, 거래처(PI), 가입일, 마지막 수정일, 상태, 메모
   const columns = useMemo(
@@ -178,7 +164,6 @@ const ListCust = () => {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

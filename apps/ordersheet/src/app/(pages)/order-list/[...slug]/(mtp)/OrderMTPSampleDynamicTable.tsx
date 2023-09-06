@@ -19,7 +19,7 @@ import {
   UnStyledButton,
 } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import axios from "axios";
 import ExRow from "@app/(pages)/order/ExRow";
 import TableHeader from "@app/(pages)/order/TableHeader";
@@ -50,10 +50,12 @@ import dynamic from "next/dynamic";
 //     perm = results[1].data.data;
 //   });
 
-const OrderMTPSampleDynamicTable = (props: JSON) => {
+export default function OrderMTPSampleDynamicTable(props: any) {
   const params = useParams();
-  console.log("params", params.slug[2]);
+  // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
+  console.log("props", props.detailData);
+  console.log("props", props.detailData.length);
   const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -62,13 +64,14 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   });
   const { errors } = formState;
-  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
-    useState<boolean>(false);
+  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
+  const [fileId, setFileId] = useState(null);
+  // const [testVal, setTestVal] = useState(null);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
 
-  const callbackRemove = (index) => {
+  const callbackRemove = (index:number) => {
     if(fields.length !== 1){
       remove(index);
     } else {
@@ -76,10 +79,10 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
     }
   };
 
-  setValue('count', 1);
+  // setValue('count', 1);
 
-  const handleAddFields = (count) => {
-    console.log("Count~!~!", count);
+  const handleAddFields = (count:any) => {
+    // console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
       append({
         sampleNm: "",
@@ -87,46 +90,53 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
         sampleCategoryCc: "",
         anlsTargetGeneCc: "",
         memo: "",
+        selfQcResultFileId: fileId,
       }); // 입력된 수만큼 항목을 추가합니다.
     }
   };
 
-  const handleDetailDataAddFields = (data) => {
-    console.log("Count~!~!", data.length);
-    for (let i = 0; i < data.length; i++) {
-      console.log("for~!~!", i);
-      const resultData = data[i];
-      append({
-        // sampleNm: resultData.sampleNm,
-        sampleNm: i,
-        source: resultData.source,
-        sampleCategoryCc: resultData.sampleCategoryCc,
-        anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-        memo: resultData.memo,
-      }); // 입력된 수만큼 항목을 추가합니다.
-    }
-  };
+  // const testFunction = () => {
+  //   // console.log("Count~!~!", count);
+  //   const appendedData = props.detailData.map((item) => ({
+  //     sampleNm: item.sampleNm,
+  //     source: item.source,
+  //     sampleCategoryCc: item.sampleCategoryCc,
+  //     anlsTargetGeneCc: item.anlsTargetGeneCc,
+  //     selfQcResultFileId: item.selfQcResultFileId,
+  //     memo: item.memo,
+  //   }));
+  //   appendedData.forEach((item) => {
+  //     append(item, { focusIndex: 1 });
+  //   });
+  // };
 
-  useEffect(() => {
-    console.log("MMMMMMM", props.detailData)
+  // useEffect(() => {
+  //   console.log("$$$$$$$$$$$$$$$", props.detailData);
+  //   // testFunction();
+  //   if(props.detailData.length > 0) {
+  //     for (let i = 0; i < props.detailData.length; i++) {
+  //       console.log("for~!~!", i);
+  //       const resultData = props.detailData[i];
+  //       console.log("11111111111111", resultData);
+  //       // 이후
+  //       if(i === 0 ){
+  //         setFileId(resultData.selfQcResultFileId);
+  //       }
+  //       append({
+  //         sampleNm: resultData.sampleNm,
+  //         source: resultData.source,
+  //         sampleCategoryCc: resultData.sampleCategoryCc,
+  //         anlsTargetGeneCc: resultData.anlsTargetGeneCc,
+  //         memo: resultData.memo,
+  //         selfQcResultFileId: resultData.selfQcResultFileId,
+  //       }); // 입력된 수만큼 항목을 추가합니다.
+  //       console.log("222222222222222", resultData);
+  //     }
+  //   }
+  //   // remove(props.detailData.length + 1);
+  // }, [remove])
 
-
-    if(props.detailData.length > 0) {
-      for (let i = 0; i < props.detailData.length; i++) {
-        console.log("for~!~!", i);
-        const resultData = props.detailData[i];
-        append({
-          sampleNm: resultData.sampleNm,
-          source: resultData.source,
-          sampleCategoryCc: resultData.sampleCategoryCc,
-          anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-          memo: resultData.memo,
-        }); // 입력된 수만큼 항목을 추가합니다.
-      }
-    }
-    remove(props.detailData.length + 1);
-  }, [])
-
+  console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
 
   return (
     <>
@@ -167,7 +177,7 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
           <TableBody>
             <ExRow />
             {fields.map((field, index) => {
-              // console.log("FFFFFFFF", field, index)
+              console.log("FFFFFFFF", field, index)
               return (
                 <TableNewRows
                   key={field.id}
@@ -187,5 +197,3 @@ const OrderMTPSampleDynamicTable = (props: JSON) => {
     </>
   );
 };
-
-export default OrderMTPSampleDynamicTable;

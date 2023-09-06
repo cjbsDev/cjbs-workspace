@@ -3,7 +3,6 @@ import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
-  ExcelDownloadButton,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
@@ -13,7 +12,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
-import fetcher from "../../../../../func/fetcher";
+import { fetcher } from "api";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -34,8 +33,8 @@ const AgncSearchModal = ({
   const [pageIndex, setPageIndex] = useState(0);
   const [perPage, setPerPage] = useState(20);
 
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=${pageIndex}&page.size=${perPage}`,
+  const { data: getData } = useSWR(
+    `/agnc/list?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -79,7 +78,7 @@ const AgncSearchModal = ({
     []
   );
 
-  const filteredData = data.data.agncList.filter(
+  const filteredData = getData.agncList.filter(
     (item) =>
       item.agncNm &&
       item.agncNm.toLowerCase().includes(filterText.toLowerCase())
@@ -93,15 +92,13 @@ const AgncSearchModal = ({
       }
     };
 
-    console.log("data.data.pageInfo", data.data.pageInfo);
+    console.log("getData.pageInfo", getData.pageInfo);
 
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
-            />
+            <DataCountResultInfo totalCount={getData.pageInfo.totalElements} />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>

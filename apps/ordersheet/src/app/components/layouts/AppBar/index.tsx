@@ -18,7 +18,7 @@ import {
     bindTrigger,
     bindMenu,
 } from "material-ui-popup-state/hooks";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import AppBar from '@mui/material/AppBar';
 import { useSession, signOut } from "next-auth/react"
 import {useRouter} from "next-nprogress-bar";

@@ -1,5 +1,5 @@
+import Providers from 'client-provider';
 import './globals.css';
-import Provider from 'client-provider';
 import JeJuProvider from './jejuProvider';
 export default function RootLayout({
   children,
@@ -8,12 +8,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <title>Meta</title>
+      <title>Ez-Cx</title>
       <link rel="icon" href="/favicon.ico" />
       <head />
       <body>
         <JeJuProvider>
-          <Provider>{children}</Provider>
+          <Providers>{children}</Providers>
         </JeJuProvider>
       </body>
     </html>

@@ -1,20 +1,18 @@
 import { ContainedButton, SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
-import fetcher from "../func/fetcher";
+import { fetcher } from "api";
 
 export default function HostCompSelectbox() {
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=Experiment Machine`,
+    `/code/list/shortly/value?topValue=Experiment Machine`,
     fetcher,
     {
       suspense: true,
     }
   );
 
-  console.log(data.data);
+  console.log(data);
 
-  return (
-    <SelectBox inputName="mcNmCc" options={data.data} sx={{ width: "100%" }} />
-  );
+  return <SelectBox inputName="mcNmCc" options={data} sx={{ width: "100%" }} />;
 }

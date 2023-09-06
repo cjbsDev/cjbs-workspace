@@ -7,7 +7,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   ContainedButton,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, useTheme } from "@mui/material";
@@ -15,8 +14,7 @@ import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 interface InstData {
   instId?: any;
@@ -37,7 +35,7 @@ interface InstData {
   region2GcNm?: any;
 }
 
-const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst/list?page.page=0&page.size=50`;
+const tempUrl = `/inst/list?page.page=0&page.size=50`;
 
 const ListInst = () => {
   // init
@@ -173,9 +171,7 @@ const ListInst = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
-            />
+            <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
             <ContainedButton
               buttonName="기관 정보 등록"
               size="small"
@@ -190,7 +186,6 @@ const ListInst = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
@@ -208,7 +203,7 @@ const ListInst = () => {
     <DataTableBase
       title={<Title1 titleName="기관 관리" />}
       //data={instList}
-      data={data.data.instList}
+      data={data.instList}
       columns={columns}
       onRowClicked={goDetailPage}
       // onSelectedRowsChange={handleRowSelected}

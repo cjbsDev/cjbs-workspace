@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import { ContainedButton, TD, TH } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import useSWR from "swr";
 import fetcher from "../../../../../func/fetcher";
 import { useParams } from "next/navigation";

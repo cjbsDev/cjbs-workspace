@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@mui/material";
 import { ModalContainerProps } from "../../../../../types/ModalContainerProps";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 const StatementCheckModal = (props: ModalContainerProps) => {
   const { open, onClose, modalWidth } = props;

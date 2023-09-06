@@ -39,7 +39,7 @@ const dataMailRcpnListGV = [
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
-export default function Page() {
+export default function OrdererInfo() {
 
     // const { data: custTemp } = useSWR(
     //     `/cust/info`,
@@ -476,8 +476,8 @@ export default function Page() {
                                     inputName="addEmailList"
                                     // placeholder="여러개 입력시','로 구분하세요."
                                     placeholder="example@gmail.com, example2@gmail.com"
-                                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
-                                    patternErrMsg="이메일 형식이 아닙니다."
+                                    // pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                                    // patternErrMsg="이메일 형식이 아닙니다."
                                     sx={{
                                       width: 550,
                                       "& .MuiOutlinedInput-root": {

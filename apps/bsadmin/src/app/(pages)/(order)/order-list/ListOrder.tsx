@@ -7,7 +7,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   UnStyledButton,
   OutlinedButton,
   ContainedButton,
@@ -35,13 +34,12 @@ import { useForm, useWatch } from "react-hook-form";
 import Select from "react-select";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import IconDescBar from "../../../components/IconDescBar";
 import {
   dataTableCustomStyles,
   dataTableCustomStyles2,
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";

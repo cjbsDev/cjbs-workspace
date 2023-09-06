@@ -37,7 +37,7 @@ import {
 import { useForm, FormProvider } from "react-hook-form";
 import axios from "axios";
 import useSWR from "swr";
-import fetcher from "../../../func/fetcher";
+import { fetcher } from "api";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
@@ -63,7 +63,7 @@ export default function ContactModifyPage() {
       return fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/detail/${uKey}`)
         .then((res) => res.json())
         .then((getData) => {
-          const userData = getData.data;
+          const userData = getData;
           if (!userData) {
             console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
             router.push("/contact-list");
@@ -94,7 +94,7 @@ export default function ContactModifyPage() {
 
   const topValue = "user";
   const { data: userStatusData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=status`,
+    `/code/list/shortly/value?topValue=${topValue}&midValue=status`,
     fetcher,
     {
       suspense: true,
@@ -102,7 +102,7 @@ export default function ContactModifyPage() {
     }
   );
   const { data: userAuthorityData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=authority`,
+    `/code/list/shortly/value?topValue=${topValue}&midValue=authority`,
     fetcher,
     {
       suspense: true,
@@ -110,7 +110,7 @@ export default function ContactModifyPage() {
     }
   );
   const { data: userDepartMc } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/?topUniqueCode=BS_0100003`,
+    `/code/list/shortly/?topUniqueCode=BS_0100003`,
     fetcher,
     {
       suspense: true,
@@ -131,7 +131,7 @@ export default function ContactModifyPage() {
     };
     console.log("saveObj", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/${uKey}`; // Replace with your API URL
+    const apiUrl = `/user/${uKey}`; // Replace with your API URL
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
       if (response.success) {
@@ -219,11 +219,11 @@ export default function ContactModifyPage() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
-                      {userDepartMc.data && (
+                      {userDepartMc && (
                         <SelectBox
                           key="departMc"
                           inputName="departMc"
-                          options={userDepartMc.data}
+                          options={userDepartMc}
                           defaultMsg="부서 선택"
                           sx={{ width: 200 }}
                         />
@@ -240,11 +240,11 @@ export default function ContactModifyPage() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
-                      {userAuthorityData.data && (
+                      {userAuthorityData && (
                         <SelectBox
                           key="authCc"
                           inputName="authCc"
-                          options={userAuthorityData.data}
+                          options={userAuthorityData}
                           defaultMsg="권한 선택"
                           sx={{ width: 200 }}
                         />
@@ -261,11 +261,11 @@ export default function ContactModifyPage() {
                       spacing={0.5}
                       alignItems="flex-start"
                     >
-                      {userStatusData.data && (
+                      {userStatusData && (
                         <SelectBox
                           key="statusCc"
                           inputName="statusCc"
-                          options={userStatusData.data}
+                          options={userStatusData}
                           defaultMsg="상태 선택"
                           sx={{ width: 200 }}
                         />

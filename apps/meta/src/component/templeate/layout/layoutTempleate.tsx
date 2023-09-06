@@ -29,13 +29,12 @@ LayoutTempleate.Menu = MenuTabs;
 LayoutTempleate.Contents = Content;
 
 const ContainerBox = styled(Box)`
-  height: 100vh;
+  height: 101vh;
   width: 100%;
-  overflow: hidden;
 `;
 
 const SideMainBox = styled(Box)`
-  overflow: hidden;
+  position: relative;
   height: 100%;
   width: 288px;
   min-width: 288px;

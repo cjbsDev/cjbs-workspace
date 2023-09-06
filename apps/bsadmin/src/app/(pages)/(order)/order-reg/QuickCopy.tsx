@@ -2,7 +2,7 @@
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import { ContainedButton, LinkButton, OutlinedButton } from "cjbsDSTM";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 
 export default function QuickCopy() {
   const [checked, setChecked] = React.useState(false);

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import {
   DataTableBase,
   LeaderCip,

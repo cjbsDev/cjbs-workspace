@@ -115,8 +115,7 @@ export default function CustModifyPage({ params }: ParamsProps) {
       telList,
       memo,
     };
-    console.log("==saveObj", saveObj);
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/cust/list/detail/${slug}`; // Replace with your API URL
+    const apiUrl = `/cust/list/detail/${slug}`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청

@@ -44,7 +44,7 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import ShowBox from "./ShowBox";
 import ColorBox from "./ColorBox";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { useList } from "../../hooks/useList";
 import Dayjs from "dayjs";
 import RemotePaging from "./RemotePaging";

@@ -1,6 +1,5 @@
 import React from "react";
 import { RadioGV } from "cjbsDSTM";
-import fetcher from "../../../func/fetcher";
 import useSWR from "swr";
 import axios from "axios";
 

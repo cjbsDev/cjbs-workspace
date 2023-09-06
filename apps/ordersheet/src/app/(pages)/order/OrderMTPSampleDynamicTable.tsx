@@ -19,7 +19,7 @@ import {
   UnStyledButton,
 } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import axios from "axios";
 import ExRow from "@app/(pages)/order/ExRow";
 import TableHeader from "@app/(pages)/order/TableHeader";
@@ -65,9 +65,9 @@ const OrderMTPSampleDynamicTable = () => {
   }, [])
 
 
-  setValue('count', 1);
+  // setValue('count', 1);
 
-  const handleAddFields = (count) => {
+  const handleAddFields = (count:any) => {
     console.log("Count~!~!", count);
     for (let i = 0; i < count; i++) {
       append({

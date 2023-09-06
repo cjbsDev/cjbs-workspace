@@ -1,5 +1,4 @@
 import { atom } from 'recoil';
-import { AgeType, CheckType } from 'src/app/clinical/search/types';
 
 export const sampleSearchInputState = atom<string>({
   key: 'sampleSearchInputState', // unique ID (with respect to other atoms/selectors)

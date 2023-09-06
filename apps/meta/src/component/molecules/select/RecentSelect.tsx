@@ -9,9 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
-import { Theme, useTheme } from '@mui/material/styles';
-import MyIcon from '../../../../../../packages/icon/MyIcon';
-import { FlexBox } from '@components/atoms/box/FlexBox';
+import MyIcon from 'icon/MyIcon';
+import { FlexBox } from 'cjbsDSTM/atoms/box/FlexBox';
 
 const RECENT_SEARCH_LOCAL_STORAGE_KEY = 'META_SEARCH_LOCAL';
 const ITEM_HEIGHT = 48;
@@ -36,7 +35,7 @@ const MenuProps = {
 // }
 
 const RecentSelect = () => {
-  const [recent, setRecent] = useState<string>([]);
+  const [recent, setRecent] = useState<string>('');
   const [recentList, setRecentList] = useState<string[]>([]);
 
   useEffect(() => {
@@ -73,7 +72,7 @@ const RecentSelect = () => {
         MenuProps={MenuProps}
       >
         {recentList.map((name, index) => (
-          <Box>
+          <Box key={index}>
             <FlexBox width={'100%'} justifyContent={'space-between'}>
               <MenuItem key={name} value={name} sx={{ width: ITEM_WIDTH - 20 }}>
                 <Typography variant="body2"> {name}</Typography>

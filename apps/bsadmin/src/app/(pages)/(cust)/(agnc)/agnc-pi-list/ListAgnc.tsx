@@ -7,7 +7,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   exportCSVData,
   OutlinedButton,
   ContainedButton,
@@ -24,13 +23,12 @@ import {
 import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
+import { fetcher } from "api";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
-const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=0&page.size=50`;
+const tempUrl = `/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
   // init
   const theme = useTheme();
@@ -134,7 +132,7 @@ const ListAgnc = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const filteredData = data.data.agncList;
+  const filteredData = data.agncList;
 
   const goDetailPage = (row: { agncUkey: string }) => {
     const path = row.agncUkey;
@@ -154,7 +152,7 @@ const ListAgnc = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
+              totalCount={data.pageInfo.totalElements}
               //selectedCount={selectedRowCnt}
             />
             <ContainedButton
@@ -172,7 +170,6 @@ const ListAgnc = () => {
             alignItems="center"
           >
             <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };

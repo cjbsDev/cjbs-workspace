@@ -6,7 +6,6 @@ import {
   DataTableBase,
   DataTableFilter,
   Title1,
-  ExcelDownloadButton,
   LeaderCip,
   ContainedButton,
   SelectBox,
@@ -15,13 +14,13 @@ import {
 import { Stack, Grid, Box, Container } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { useForm, FormProvider } from "react-hook-form";
 import useSWR, { mutate } from "swr";
-import fetcher from "../../../func/fetcher";
+import { fetcher } from "api";
 import axios from "axios";
 import { PUT } from "api";
 import { toast } from "react-toastify";
@@ -41,14 +40,14 @@ export default function ListContact() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  const filteredData = data.data.userList.filter(
+  const filteredData = data.userList.filter(
     (item: any) =>
       (item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.email &&
         item.email.toLowerCase().includes(filterText.toLowerCase()))
   );
 
-  const totalElements = data.data.pageInfo.totalElements;
+  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
@@ -64,7 +63,7 @@ export default function ListContact() {
 
   const topValue = "user";
   const { data: userAuthorityData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=authority`,
+    `/code/list/shortly/value?topValue=${topValue}&midValue=authority`,
     fetcher,
     {
       suspense: true,
@@ -72,7 +71,7 @@ export default function ListContact() {
   );
 
   const { data: userStatusData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=${topValue}&midValue=status`,
+    `/code/list/shortly/value?topValue=${topValue}&midValue=status`,
     fetcher,
     {
       suspense: true,
@@ -176,7 +175,7 @@ export default function ListContact() {
     console.log("saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/status`; // Replace with your API URL
+    const apiUrl = `/user/status`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
@@ -216,7 +215,7 @@ export default function ListContact() {
     console.log("saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/auth`; // Replace with your API URL
+    const apiUrl = `/user/auth`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
@@ -264,10 +263,10 @@ export default function ListContact() {
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <Stack direction="row" spacing={1}>
-                    {userStatusData.data && (
+                    {userStatusData && (
                       <SelectBox
                         inputName="userStatus"
-                        options={userStatusData.data}
+                        options={userStatusData}
                         defaultMsg="회원 상태 변경"
                       />
                     )}
@@ -276,10 +275,10 @@ export default function ListContact() {
                       size="small"
                       onClick={setUserStatus}
                     />
-                    {userAuthorityData.data && (
+                    {userAuthorityData && (
                       <SelectBox
                         inputName="userAuth"
-                        options={userAuthorityData.data}
+                        options={userAuthorityData}
                         defaultMsg="회원 권한 변경"
                       />
                     )}
@@ -296,7 +295,6 @@ export default function ListContact() {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <ExcelDownloadButton downloadUrl="" />
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
@@ -326,9 +324,7 @@ export default function ListContact() {
   };
 
   const renderList = () => {
-    mutate(
-      `${process.env.NEXT_PUBLIC_API_URL}/user/list?page=${page}&size=${perPage}`
-    );
+    mutate(`/user/list?page=${page}&size=${perPage}`);
   };
 
   return (
