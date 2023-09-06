@@ -97,7 +97,11 @@ const TableNewRows = (props: any) => {
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <ErrorContainer FallbackComponent={Fallback}>
-          <LazyPrepSelectbox url={"/code/list/shortly/value?topValue=sample&midValue=category"} inputName={`sample.[${index}].sampleCategoryCc`} />
+          <LazyPrepSelectbox
+            url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+            inputName={`sample.[${index}].sampleCategoryCc`}
+            disabled={updataYn === 'N' ? false : true}
+          />
         </ErrorContainer>
         {/*<SelectBox*/}
         {/*  required={true}*/}
@@ -124,7 +128,11 @@ const TableNewRows = (props: any) => {
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
         <ErrorContainer FallbackComponent={Fallback}>
-          <LazyPrepSelectbox url={"/code/list/shortly/value?topValue=sample&midValue=genome"} inputName={`sample.[${index}].anlsTargetGeneCc`} />
+          <LazyPrepSelectbox
+            url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+            inputName={`sample.[${index}].anlsTargetGeneCc`}
+            disabled={updataYn === 'N' ? false : true}
+          />
         </ErrorContainer>
         {/*<SelectBox*/}
         {/*  required={true}*/}

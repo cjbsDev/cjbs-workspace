@@ -31,7 +31,7 @@ export default function MtpFullService(){
   const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
 
   const params = useParams();
-  console.log("params", params.slug[1]);
+  // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
   const { data: orderDetailData} = useSWR(
@@ -42,18 +42,6 @@ export default function MtpFullService(){
   );
   console.log(orderDetailData.data);
   const detailData = orderDetailData.data;
-
-  const setPymtWayCcValue = (value:string) => {
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(value);
-    setPymtWayCc(value);
-  }
-
-  const addFileData = (callBackData:any) => {
-      console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      console.log(callBackData);
-      setUploadFile(callBackData);
-  }
 
   const defaultValues = {
     // custAgnc
@@ -81,6 +69,18 @@ export default function MtpFullService(){
     memo : detailData.addRqstMemo.memo,
     sample : detailData.samples
   };
+
+  const setPymtWayCcValue = (value:string) => {
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(value);
+    setPymtWayCc(value);
+  }
+
+  const addFileData = (callBackData:any) => {
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+    console.log(callBackData);
+    setUploadFile(callBackData);
+  }
 
   // 수정 호출
   const onSubmit = async (data: any) => {
@@ -141,11 +141,11 @@ export default function MtpFullService(){
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
-      if (response.success) {
+      if (response.data.success) {
         toast("수정 되었습니다.")
         router.push("/order-list");
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
 
       } else {
         toast("문제가 발생했습니다. 01");
@@ -219,8 +219,6 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          mtpfull:
-          {JSON.stringify(detailData.samples)}
           <OrderMtpSampleList serviceType={"fs"} detailData={detailData.samples}/>
         </Box>
 

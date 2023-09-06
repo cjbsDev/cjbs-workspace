@@ -55,7 +55,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   console.log("props", props.detailData);
-  console.log("props", props.detailData.length);
+  // console.log("props", props.detailData.length);
   const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -90,7 +90,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
         sampleCategoryCc: "",
         anlsTargetGeneCc: "",
         memo: "",
-        selfQcResultFileId: fileId,
+        selfQcResultFileId: props.detailData[0].selfQcResultFileId,
       }); // 입력된 수만큼 항목을 추가합니다.
     }
   };
@@ -136,8 +136,6 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   //   // remove(props.detailData.length + 1);
   // }, [remove])
 
-  console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
-
   return (
     <>
       <Stack direction="row">
@@ -177,7 +175,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
           <TableBody>
             <ExRow />
             {fields.map((field, index) => {
-              console.log("FFFFFFFF", field, index)
+              // console.log("FFFFFFFF", field, index)
               return (
                 <TableNewRows
                   key={field.id}

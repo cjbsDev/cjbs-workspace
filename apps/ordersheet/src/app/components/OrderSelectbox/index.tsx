@@ -9,6 +9,7 @@ interface CommonSelectboxProps {
 export default function CommonSelectbox({
   url,
   inputName,
+  ...props
 }: CommonSelectboxProps) {
   // console.log("&&&&&&&&&&&&&&&&&&&&")
   // console.log(url+" : "+inputName);
@@ -24,6 +25,7 @@ export default function CommonSelectbox({
 
   return (
     <SelectBox
+      {...props}
       inputName={inputName}
       options={data}
       required={true}
