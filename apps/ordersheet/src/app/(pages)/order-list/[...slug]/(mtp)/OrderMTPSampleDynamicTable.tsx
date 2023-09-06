@@ -95,42 +95,46 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     }
   };
 
-  useEffect(() => {
-    console.log("$$$$$$$$$$$$$$$", props.detailData);
-    if(props.detailData.length > 0) {
-      /*for (let i = 0; i < props.detailData.length; i++) {
-        console.log("for~!~!", i);
-        const resultData = props.detailData[i];
-        console.log("11111111111111", resultData);
-        // 이후
-        if(i === 0 ){
-          setFileId(resultData.selfQcResultFileId);
-        }
-        append({
-          sampleNm: resultData.sampleNm,
-          source: resultData.source,
-          sampleCategoryCc: resultData.sampleCategoryCc,
-          anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-          memo: resultData.memo,
-          selfQcResultFileId: resultData.selfQcResultFileId,
-        }); // 입력된 수만큼 항목을 추가합니다.
-        console.log("222222222222222", resultData);
-      }*/
+  // const testFunction = () => {
+  //   // console.log("Count~!~!", count);
+  //   const appendedData = props.detailData.map((item) => ({
+  //     sampleNm: item.sampleNm,
+  //     source: item.source,
+  //     sampleCategoryCc: item.sampleCategoryCc,
+  //     anlsTargetGeneCc: item.anlsTargetGeneCc,
+  //     selfQcResultFileId: item.selfQcResultFileId,
+  //     memo: item.memo,
+  //   }));
+  //   appendedData.forEach((item) => {
+  //     append(item, { focusIndex: 1 });
+  //   });
+  // };
 
-      const appendedData = props.detailData.map((item) => ({
-        sampleNm: item.sampleNm,
-        source: item.source,
-        sampleCategoryCc: item.sampleCategoryCc,
-        anlsTargetGeneCc: item.anlsTargetGeneCc,
-        selfQcResultFileId: item.selfQcResultFileId,
-        memo: item.memo,
-      }));
-      appendedData.forEach((item) => {
-        append(item);
-      });
-    }
-    // remove(props.detailData.length + 1);
-  }, [append])
+  // useEffect(() => {
+  //   console.log("$$$$$$$$$$$$$$$", props.detailData);
+  //   // testFunction();
+  //   if(props.detailData.length > 0) {
+  //     for (let i = 0; i < props.detailData.length; i++) {
+  //       console.log("for~!~!", i);
+  //       const resultData = props.detailData[i];
+  //       console.log("11111111111111", resultData);
+  //       // 이후
+  //       if(i === 0 ){
+  //         setFileId(resultData.selfQcResultFileId);
+  //       }
+  //       append({
+  //         sampleNm: resultData.sampleNm,
+  //         source: resultData.source,
+  //         sampleCategoryCc: resultData.sampleCategoryCc,
+  //         anlsTargetGeneCc: resultData.anlsTargetGeneCc,
+  //         memo: resultData.memo,
+  //         selfQcResultFileId: resultData.selfQcResultFileId,
+  //       }); // 입력된 수만큼 항목을 추가합니다.
+  //       console.log("222222222222222", resultData);
+  //     }
+  //   }
+  //   // remove(props.detailData.length + 1);
+  // }, [remove])
 
   console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
 

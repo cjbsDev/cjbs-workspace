@@ -79,6 +79,7 @@ export default function MtpFullService(){
     rcpnEmail : detailData.payment.rcpnEmail,
     selfQcFileNm : detailData.qcFile.selfQcFileNm,
     memo : detailData.addRqstMemo.memo,
+    sample : detailData.samples
   };
 
   // 수정 호출
