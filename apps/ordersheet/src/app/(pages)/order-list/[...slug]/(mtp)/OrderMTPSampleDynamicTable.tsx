@@ -66,6 +66,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
   const [fileId, setFileId] = useState(null);
+  const [testVal, setTestVal] = useState(null);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -119,7 +120,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
       }
     }
     remove(props.detailData.length + 1);
-  }, [])
+  }, [testVal])
 
   console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
 
