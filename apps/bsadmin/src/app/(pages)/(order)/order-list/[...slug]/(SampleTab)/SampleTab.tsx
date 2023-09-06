@@ -79,7 +79,7 @@ const SampleTab = () => {
   const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
 
   const params = useParams();
-  console.log("SAMPLE TAB PARAMS", params);
+  // console.log("SAMPLE TAB PARAMS", params);
   const orderUkey = params.slug;
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`,
@@ -89,7 +89,7 @@ const SampleTab = () => {
     }
   );
   const sampleList = data.data;
-  console.log("SAMPLE TAB LIST", sampleList);
+  // console.log("SAMPLE TAB LIST", sampleList);
 
   useEffect(() => {
     // isClear 상태 변경 이슈

@@ -60,6 +60,7 @@ const ListOrder = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
+  console.log("DATA", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
