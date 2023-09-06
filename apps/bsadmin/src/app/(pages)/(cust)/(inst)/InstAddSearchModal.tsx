@@ -73,7 +73,7 @@ const AgncSearchModal = ({
     []
   );
 
-  const filteredData = data.data.instList;
+  const filteredData = data.instList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -87,9 +87,7 @@ const AgncSearchModal = ({
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
-            />
+            <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>

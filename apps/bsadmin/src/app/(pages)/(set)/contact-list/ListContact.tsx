@@ -40,14 +40,14 @@ export default function ListContact() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  const filteredData = data.data.userList.filter(
+  const filteredData = data.userList.filter(
     (item: any) =>
       (item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.email &&
         item.email.toLowerCase().includes(filterText.toLowerCase()))
   );
 
-  const totalElements = data.data.pageInfo.totalElements;
+  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
