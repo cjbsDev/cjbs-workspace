@@ -102,6 +102,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
       for (let i = 0; i < props.detailData.length; i++) {
         console.log("for~!~!", i);
         const resultData = props.detailData[i];
+        console.log("11111111111111", resultData);
         // 이후
         if(i === 0 ){
           setFileId(resultData.selfQcResultFileId);
@@ -114,6 +115,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
           memo: resultData.memo,
           selfQcResultFileId: resultData.selfQcResultFileId,
         }); // 입력된 수만큼 항목을 추가합니다.
+        console.log("222222222222222", resultData);
       }
     }
     remove(props.detailData.length + 1);
