@@ -128,15 +128,9 @@ export default function OrderMTPSampleDynamicTable(props: any) {
       appendedData.forEach((item) => {
         append(item);
       });
-      appendedData.forEach((item) => {
-        append(item);
-      });
-      appendedData.forEach((item) => {
-        append(item);
-      });
     }
-    remove(props.detailData.length + 1);
-  }, [])
+    // remove(props.detailData.length + 1);
+  }, [append])
 
   console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
 
