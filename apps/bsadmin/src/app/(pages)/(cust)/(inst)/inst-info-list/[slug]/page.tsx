@@ -27,8 +27,7 @@ import {
 } from "@mui/material";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const LazyListInst = dynamic(() => import("./InstAgncList"), {
   ssr: false,
@@ -47,16 +46,16 @@ export default function InstPage({ params }: CustViewProps) {
   const router = useRouter();
 
   const {
-    data: instTempData,
+    data: instDetail,
     error,
     isLoading,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/inst/${slug}`, fetcher);
+  } = useSWR(`/inst/${slug}`, fetcher);
 
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
-  const instDetail = instTempData.data;
+  console.log("instDetail", instDetail);
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -161,7 +160,7 @@ export default function InstPage({ params }: CustViewProps) {
         <Link
           href={{
             pathname: "/inst-info-modify",
-            query: { instUkey: instTempData.data.instUkey },
+            query: { instUkey: instDetail.instUkey },
           }}
         >
           <ContainedButton buttonName="수정" />

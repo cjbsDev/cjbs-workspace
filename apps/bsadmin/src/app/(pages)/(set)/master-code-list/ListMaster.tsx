@@ -14,8 +14,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListMaster = () => {
   const router = useRouter();
@@ -59,7 +58,7 @@ const ListMaster = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  let tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode`;
+  let tempUrl = `/mngr/masterCode`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
@@ -76,7 +75,7 @@ const ListMaster = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -102,7 +101,7 @@ const ListMaster = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="마스터 코드" />}
-      data={data.data}
+      data={data}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

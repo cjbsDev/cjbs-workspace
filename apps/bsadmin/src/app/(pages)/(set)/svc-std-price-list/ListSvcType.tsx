@@ -19,7 +19,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const LazySvcStdPrice = () => {
   const router = useRouter();
@@ -31,11 +31,11 @@ const LazySvcStdPrice = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/list`;
+  let apiUrl = `/mngr/stndPrice/list`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  console.log("stndPrice ", data.data);
+  console.log("stndPrice ", data);
 
   /*{ 
     "stndPriceMpngUkey": "447397",
@@ -130,7 +130,7 @@ const LazySvcStdPrice = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
             <Link href="/svc-std-price-add">
               <ContainedButton buttonName="기준가 등록" size="small" />{" "}
             </Link>
@@ -159,7 +159,7 @@ const LazySvcStdPrice = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="서비스 기준가 관리(개발중)" />}
-      data={data.data}
+      data={data}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

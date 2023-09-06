@@ -7,20 +7,20 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { useSetRecoilState } from "recoil";
 import dynamic from "next/dynamic";
 import axios from "axios";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 interface AgncInfoDataProps {
   instUkey: string;
 }
 
 const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
-  let getInstAgncUrl = `${process.env.NEXT_PUBLIC_API_URL}/inst/agncList/${instUkey}`;
+  let getInstAgncUrl = `/inst/agncList/${instUkey}`;
   const { data } = useSWR(getInstAgncUrl, fetcher, {
     suspense: true,
   });
 
-  const filteredData = data.data;
+  const filteredData = data;
+  console.log("------ filteredData ---- ", filteredData);
 
   const columns = useMemo(
     () => [

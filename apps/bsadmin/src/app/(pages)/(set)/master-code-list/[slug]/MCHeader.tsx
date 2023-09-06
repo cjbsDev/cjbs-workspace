@@ -12,9 +12,7 @@ import {
   Container,
 } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
-
+import { fetcher } from "api";
 interface MCHeaderProps {
   slug: string;
 }
@@ -22,18 +20,13 @@ interface MCHeaderProps {
 const MCHeader: React.FC<MCHeaderProps> = ({ slug }) => {
   // load
   const {
-    data: msCodeTempData,
+    data: msCodeData,
     error,
     isLoading,
-  } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/${slug}`,
-    fetcher
-  );
+  } = useSWR(`/mngr/masterCode/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
-
-  const msCodeData = msCodeTempData.data;
 
   return (
     <>

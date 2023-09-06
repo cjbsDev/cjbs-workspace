@@ -11,8 +11,8 @@ const RemotePaging = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("cust", page, perPage);
-  const filteredData = data.data.custList;
-  const totalElements = data.data.pageInfo.totalElements;
+  const filteredData = data.custList;
+  const totalElements = data.pageInfo.totalElements;
   const columns = useMemo(
     () => [
       {

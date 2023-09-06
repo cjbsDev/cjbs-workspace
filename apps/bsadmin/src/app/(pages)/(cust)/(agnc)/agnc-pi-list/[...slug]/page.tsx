@@ -35,6 +35,7 @@ import Dayjs from "dayjs";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 import { useForm, FormProvider } from "react-hook-form";
+import { fetcher } from "api";
 
 const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
   ssr: false,
@@ -49,8 +50,6 @@ const LazyMemberTable = dynamic(
     loading: () => <SkeletonLoading height={270} />,
   }
 );
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 interface CustViewProps {
   params: {
@@ -70,20 +69,13 @@ export default function AgncPage() {
     useState<boolean>(false);
 
   // load
-  const {
-    data: agncTempData,
-    error,
-    isLoading,
-  } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${slug}`, fetcher);
+  const { data: agncData, error, isLoading } = useSWR(`/agnc/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
-  const agncData = agncTempData.data;
   console.log("agncData", agncData);
   //setSelectedMembers(agncData.custDetail);
-
-  //const agncCustList: DataItem[] = agncTempData.data.custDetail;
 
   const handleAgncInfoModalOpen = () => {
     setAgncInfoModalOpen(true);

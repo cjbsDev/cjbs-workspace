@@ -40,7 +40,6 @@ import {
   dataTableCustomStyles,
   dataTableCustomStyles2,
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";

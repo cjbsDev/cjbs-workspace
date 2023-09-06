@@ -15,8 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListEstProduct = () => {
   const router = useRouter();
@@ -30,12 +29,12 @@ const ListEstProduct = () => {
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng`;
+  let apiUrl = `/mngr/esPrMng`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
 
-  console.log("SRVC_CTGR ", data.data);
+  console.log("SRVC_CTGR ", data);
 
   const columns = useMemo(
     () => [
@@ -105,7 +104,7 @@ const ListEstProduct = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -131,7 +130,7 @@ const ListEstProduct = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="견적 품명 관리" />}
-      data={data.data}
+      data={data}
       columns={columns}
       onRowClicked={goDetailPage}
       highlightOnHover

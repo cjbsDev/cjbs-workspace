@@ -25,8 +25,7 @@ import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { PUT, POST } from "api";
 import { toast } from "react-toastify";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 import dynamic from "next/dynamic";
 
 interface DataItem {

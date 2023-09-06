@@ -14,6 +14,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
+import { fetcher } from "api";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -21,8 +22,6 @@ interface ModalContainerProps {
   open: boolean;
   modalWidth: number;
 }
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
 
 // https://dummyjson.com/products?limit=10&skip=10
 const AgncSearchModal = ({
@@ -35,13 +34,9 @@ const AgncSearchModal = ({
 
   const [perPage, setPerPage] = useState(30);
   const [pageIndex, setPageIndex] = useState(0);
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/inst/list/unRgst`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR(`/inst/list/unRgst`, fetcher, {
+    suspense: true,
+  });
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { setValue } = useFormContext();
 

@@ -47,7 +47,7 @@ interface ModalContainerProps {
   onMemberSelection: (memeberData: Member[]) => void; // 새로 추가 0627
 }
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const MemberMngtNewModal = ({
   onClose,
@@ -79,7 +79,7 @@ const MemberMngtNewModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/cust/list?page=${pageIndex}&size=${perPage}`,
+    `/cust/list?page=${pageIndex}&size=${perPage}`,
     fetcher,
     {
       suspense: true,
@@ -129,7 +129,7 @@ const MemberMngtNewModal = ({
     []
   );
 
-  const filteredData = data.data.custList;
+  const filteredData = data.custList;
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -200,7 +200,7 @@ const MemberMngtNewModal = ({
           />
           {/*<Stack direction="row" spacing={2} alignItems="center">*/}
           {/*  <DataCountResultInfo*/}
-          {/*    totalCount={data.data.pageInfo.totalElements}*/}
+          {/*    totalCount={data.pageInfo.totalElements}*/}
           {/*  />*/}
           {/*</Stack>*/}
         </Grid>

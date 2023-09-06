@@ -30,23 +30,7 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 import MyIcon from "icon/myIcon";
 
-const fetcher = (url: string) =>
-  axios.get(url).then((res) => {
-    if (res.status === 401) {
-      // Handle the "401" error here
-      throw new Error("Unauthorized"); // Throw an error to trigger the error state
-    }
-    return res.data;
-  });
-
-interface DataItem {
-  detailUniqueCode: string;
-  douzoneCode: string;
-  codeNm: string;
-  codeValue: string;
-  isExpsOrsh: string;
-  isRls: string;
-}
+import { fetcher } from "api";
 
 // 세부 기준가 관리
 const StndPriceDetailList = () => {
@@ -55,7 +39,7 @@ const StndPriceDetailList = () => {
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/masterCode/detail/BS_0100001`,
+    `/mngr/masterCode/detail/BS_0100001`,
     fetcher
     //{ revalidateOnFocus: true }
   );
@@ -66,7 +50,7 @@ const StndPriceDetailList = () => {
     console.log("api err", error);
     return;
   }
-  const msCodeDetail = msCodeDetailTempData?.data?.masterCodeDetailList || [];
+  const msCodeDetail = msCodeDetailTempData?.masterCodeDetailList || [];
 
   // 세부 기준가 추가
   const handleAddRow = () => {
