@@ -18,7 +18,7 @@ export default function Providers({ children }: ContextProps) {
       {/*<CssBaseline />*/}
       <ToastContainer
         position="bottom-center"
-        autoClose={1000}
+        autoClose={800}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -27,7 +27,7 @@ export default function Providers({ children }: ContextProps) {
         draggable
         pauseOnHover
         style={{ zIndex: 99999 }}
-        theme="dark"
+        // theme="dark"
       />
       <SessionProvider>
         <SWRConfig

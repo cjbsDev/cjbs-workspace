@@ -20,6 +20,7 @@ import AlertContentBox from "./AlertContentBox";
 import DialogContentTitle from "./DialogContentTitle";
 import ActionButtons from "./ActionButtons";
 import { PUT } from "api";
+import { toast } from "react-toastify";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -86,7 +87,10 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
       } else {
         const makeNewSampleList = sampleIdList.map((item, index) => ({
           sampleId: item,
-          targetVal: arraySampleList[index],
+          targetVal:
+            arraySampleList[index] === undefined
+              ? null
+              : arraySampleList[index],
         }));
 
         bodyData = {
@@ -111,6 +115,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
         // 실패 처리 로직
         // handleAlertClick();
         // setErrorMsg(response.data.message);
+        toast(response.message);
       }
     } catch (error) {
       console.error("Request Failed:", error);
