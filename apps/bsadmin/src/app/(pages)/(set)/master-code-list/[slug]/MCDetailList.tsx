@@ -28,7 +28,7 @@ import {
 } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import MyIcon from "icon/myIcon";
+import MyIcon from "icon/MyIcon";
 import { fetcher } from "api";
 const LazyMCCodeModifyModal = dynamic(() => import("./MCItemAddModifyModal"), {
   ssr: false,
