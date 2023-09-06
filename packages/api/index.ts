@@ -183,7 +183,6 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
         body: body,
         headers: {
           "Accept-Language": "ko",
-          "Content-Type": "application/json",
           Authorization: `Bearer ${accessToken}`,
         },
         ...option,
