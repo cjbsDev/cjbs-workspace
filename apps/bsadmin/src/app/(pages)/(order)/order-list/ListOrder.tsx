@@ -40,7 +40,6 @@ import {
   dataTableCustomStyles,
   dataTableCustomStyles2,
 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import fetcher from "../../../func/fetcher";
 import { useList } from "../../../hooks/useList";
 import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";
@@ -59,6 +58,7 @@ const ListOrder = () => {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
+  console.log("DATA", data);
   const totalElements = data.data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);

@@ -16,8 +16,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListProject = () => {
   const router = useRouter();
@@ -80,7 +79,7 @@ const ListProject = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  let tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/list`;
+  let tempUrl = `/mngr/prjc/list`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
@@ -98,7 +97,7 @@ const ListProject = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
-              totalCount={data.data.prjcListResDetailList.length}
+              totalCount={data.prjcListResDetailList.length}
             />
             <Link href="/project-add">
               <ContainedButton buttonName="과제 등록" size="small" />{" "}
@@ -128,7 +127,7 @@ const ListProject = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="과제 관리" />}
-      data={data.data.prjcListResDetailList}
+      data={data.prjcListResDetailList}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

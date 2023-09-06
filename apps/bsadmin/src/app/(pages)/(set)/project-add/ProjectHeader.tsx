@@ -25,8 +25,7 @@ import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { PUT, POST } from "api";
 import { toast } from "react-toastify";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 import dynamic from "next/dynamic";
 
 interface DataItem {
@@ -71,7 +70,7 @@ const ProjectHeader = () => {
     };
     // console.log("==saveObj", saveObj);
     // console.log("saveObj stringify", JSON.stringify(saveObj));
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/`; // Replace with your API URL
+    const apiUrl = `/mngr/prjc/`; // Replace with your API URL
 
     try {
       const response = await POST(apiUrl, saveObj); // API 요청

@@ -20,6 +20,7 @@ import {
   Grid,
   Stack,
   styled,
+  Tooltip,
   Typography,
   TypographyProps,
 } from "@mui/material";
@@ -78,7 +79,7 @@ const SampleTab = () => {
   const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
 
   const params = useParams();
-  console.log("SAMPLE TAB PARAMS", params);
+  // console.log("SAMPLE TAB PARAMS", params);
   const orderUkey = params.slug;
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`,
@@ -88,7 +89,7 @@ const SampleTab = () => {
     }
   );
   const sampleList = data.data;
-  console.log("SAMPLE TAB LIST", sampleList);
+  // console.log("SAMPLE TAB LIST", sampleList);
 
   useEffect(() => {
     // isClear 상태 변경 이슈
@@ -127,7 +128,7 @@ const SampleTab = () => {
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
-        name: "Depth(GB)",
+        name: "Depth",
         // width: "120px",
         sortable: false,
         center: true,
@@ -145,8 +146,21 @@ const SampleTab = () => {
         // width: "120px",
         sortable: false,
         center: true,
+        wrap: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
+        cell: (row) => {
+          return (
+            // <Tooltip
+            //   title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
+            //   followCursor
+            // >
+            <Typography variant="body2">
+              {row.runList.length === 0 ? "-" : row.runList.join(", ")}
+            </Typography>
+            // </Tooltip>
+          );
+        },
       },
       {
         name: "접수",

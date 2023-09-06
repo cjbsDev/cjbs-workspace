@@ -8,7 +8,7 @@ import useSWR from "swr";
 import axios from "axios";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 interface LogProps {
   region_1_gc?: string;
@@ -41,13 +41,13 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
 
   // 첫번째 선택 ( 국내 lev1 )
   const { data: domesticData } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly?topValue=domestic`,
+    `/code/list/shortly?topValue=domestic`,
     fetcher,
     {
       onSuccess: (data) => {
         console.log("in domesticData", data);
         //console.log("Returned data:", domesticData.data);
-        const reg1KorOptionTemp = data.data.map((item: any) => ({
+        const reg1KorOptionTemp = data.map((item: any) => ({
           value: item.codeValue,
           optionName: item.codeNm,
         }));
@@ -67,7 +67,7 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
       onSuccess: (data) => {
         console.log("in domesticDataLv2", data);
         //console.log("Returned data:", domesticData.data);
-        const reg2KorOptionTemp = data.data.map((item: any) => ({
+        const reg2KorOptionTemp = data.map((item: any) => ({
           value: item.codeValue,
           optionName: item.codeNm,
         }));
@@ -79,14 +79,14 @@ const LocationSelectKor = ({ region_1_gc, region_2_gc }: LogProps) => {
   );
 
   const { data: custModifyLogTemp } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/${apiName}/log/${uKey}`,
+    `/${apiName}/log/${uKey}`,
     fetcher,
     {
       suspense: true,
     }
   );
 
-  const custModifyLogList = custModifyLogTemp.data.updateLogList;
+  const custModifyLogList = custModifyLogTemp.updateLogList;
 
   const columns = [
     {

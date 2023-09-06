@@ -35,8 +35,7 @@ import Dayjs from "dayjs";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 import { useForm, FormProvider } from "react-hook-form";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 interface viewProps {
   params: {
@@ -51,19 +50,13 @@ export default function EstProductPage({ params }: viewProps) {
 
   // load
   const {
-    data: estProductTempData,
+    data: estProductData,
     error,
     isLoading,
-  } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng/${slug}`,
-    fetcher
-  );
+  } = useSWR(`/mngr/esPrMng/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
-
-  const estProductData = estProductTempData.data;
-  console.log("estProductData", estProductData);
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>

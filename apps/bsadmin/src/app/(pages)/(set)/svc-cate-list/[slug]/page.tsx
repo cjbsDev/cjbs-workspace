@@ -36,7 +36,7 @@ import { useForm } from "react-hook-form";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import dynamic from "next/dynamic";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 const LazyCheckboxList = dynamic(
   () => import("../../../../components/CheckboxSetCode"),
   {
@@ -63,11 +63,11 @@ export default function SvcCatePage({ params }: ViewProps) {
 
   // load
   const {
-    data: codeDataTemp,
+    data: codeData,
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
+    `/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
     fetcher,
     { revalidateOnFocus: true }
   );
@@ -86,7 +86,7 @@ export default function SvcCatePage({ params }: ViewProps) {
     //console.log("saveObj", saveObj);
     //console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
+    const apiUrl = `/mngr?enumMngrCode=${enumMngrCode}`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
@@ -104,7 +104,6 @@ export default function SvcCatePage({ params }: ViewProps) {
     }
   };
 
-  const codeData = codeDataTemp.data;
   const formKey = JSON.stringify(codeData);
 
   /**
