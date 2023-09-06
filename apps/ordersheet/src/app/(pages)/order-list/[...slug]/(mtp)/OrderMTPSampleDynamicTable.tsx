@@ -95,8 +95,6 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     }
   };
 
-
-
   useEffect(() => {
     console.log("$$$$$$$$$$$$$$$", props.detailData);
     if(props.detailData.length > 0) {
@@ -130,8 +128,14 @@ export default function OrderMTPSampleDynamicTable(props: any) {
       appendedData.forEach((item) => {
         append(item);
       });
+      appendedData.forEach((item) => {
+        append(item);
+      });
+      appendedData.forEach((item) => {
+        append(item);
+      });
     }
-    // remove(props.detailData.length + 1);
+    remove(props.detailData.length + 1);
   }, [])
 
   console.log("&&&&&&&&&&&&&&&&&&&&&&", fields);
