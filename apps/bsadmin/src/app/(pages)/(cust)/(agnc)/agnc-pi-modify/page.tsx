@@ -109,10 +109,10 @@ export default function AgncPIModifyPage() {
 
   const methods = useForm<FormData>({
     defaultValues: () => {
-      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${uKey}`)
+      return fetch(`/agnc/${uKey}`)
         .then((res) => res.json())
         .then((getData) => {
-          const data = getData.data;
+          const data = getData;
           if (!data) {
             console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
             router.push("/agnc-pi-list");
@@ -202,7 +202,7 @@ export default function AgncPIModifyPage() {
     console.log("==modify", saveObj);
     console.log("modify stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
+    const apiUrl = `/agnc`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청

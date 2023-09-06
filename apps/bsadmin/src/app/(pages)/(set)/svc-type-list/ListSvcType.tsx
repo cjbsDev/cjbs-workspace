@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListSvcType = () => {
   const router = useRouter();
@@ -27,11 +27,11 @@ const ListSvcType = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const enumMngrCode = "SRVC_TYPE";
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  console.log("SRVC_TYPE ", data.data);
+  console.log("SRVC_TYPE ", data);
 
   const columns = useMemo(
     () => [
@@ -97,7 +97,7 @@ const ListSvcType = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -123,7 +123,7 @@ const ListSvcType = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="서비스 타입 관리" />}
-      data={data.data}
+      data={data}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

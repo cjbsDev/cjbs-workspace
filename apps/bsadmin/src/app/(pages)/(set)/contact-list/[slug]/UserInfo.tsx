@@ -8,7 +8,7 @@ import {
   TableRow,
   Box,
 } from "@mui/material";
-import fetcher from "../../../../func/fetcher";
+import { fetcher } from "api";
 
 interface UserInfoProps {
   slug: string;
@@ -20,13 +20,10 @@ interface UserInfoProps {
  */
 
 const UserInfo: React.FC<UserInfoProps> = ({ slug }) => {
-  const { data: userTemp } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/detail/${slug}`,
-    fetcher,
-    { suspense: true }
-  );
+  const { data: userData } = useSWR(`/user/detail/${slug}`, fetcher, {
+    suspense: true,
+  });
 
-  const userData = userTemp.data;
   const userDetail = userData.userDetail;
   const mngAngcDetailList = userData.mngAngcDetail.mngAgncList;
   const mngAngcCnt = userData.mngAngcDetail.mngAgncCnt;

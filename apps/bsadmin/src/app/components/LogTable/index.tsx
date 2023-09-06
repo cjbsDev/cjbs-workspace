@@ -15,9 +15,7 @@ interface LogProps {
 
 interface LogDataProps {
   logData: {
-    data: {
-      updateLogList: any;
-    };
+    updateLogList: any;
   };
 }
 
@@ -27,7 +25,7 @@ const LogTable = (props: LogProps) => {
   // console.log("APIName", apiName, "Key", uKey);
   const { logData }: LogDataProps = useLogList(apiName, uKey);
 
-  const modifyLogList = logData.data.updateLogList;
+  const modifyLogList = logData.updateLogList;
 
   const columns = [
     {

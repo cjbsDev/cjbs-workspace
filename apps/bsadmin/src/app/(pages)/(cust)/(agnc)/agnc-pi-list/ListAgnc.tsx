@@ -28,7 +28,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import IconDescBar from "../../../../components/IconDescBar";
 import { fetcher } from "api";
 
-const tempUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc/list?page.page=0&page.size=50`;
+const tempUrl = `/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
   // init
   const theme = useTheme();
@@ -132,7 +132,7 @@ const ListAgnc = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const filteredData = data.data.agncList;
+  const filteredData = data.agncList;
 
   const goDetailPage = (row: { agncUkey: string }) => {
     const path = row.agncUkey;
@@ -152,7 +152,7 @@ const ListAgnc = () => {
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo
-              totalCount={data.data.pageInfo.totalElements}
+              totalCount={data.pageInfo.totalElements}
               //selectedCount={selectedRowCnt}
             />
             <ContainedButton

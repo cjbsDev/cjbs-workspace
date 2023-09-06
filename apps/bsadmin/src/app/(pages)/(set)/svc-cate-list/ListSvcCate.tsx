@@ -17,7 +17,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListSvcCate = () => {
   const router = useRouter();
@@ -28,11 +28,10 @@ const ListSvcCate = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const enumMngrCode = "SRVC_CTGR";
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  //console.log("SRVC_CTGR ", data.data);
 
   const columns = useMemo(
     () => [
@@ -112,7 +111,7 @@ const ListSvcCate = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
             {/* 서비스 분류 등록*/}
             <Link href="/svc-cate-add">
               <ContainedButton buttonName="서비스 분류 등록" size="small" />{" "}
@@ -142,7 +141,7 @@ const ListSvcCate = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="서비스 분류 관리" />}
-      data={data.data}
+      data={data}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

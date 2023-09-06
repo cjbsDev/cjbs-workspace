@@ -30,14 +30,7 @@ import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 
-const fetcher = (url: string) =>
-  axios.get(url).then((res) => {
-    if (res.status === 401) {
-      // Handle the "401" error here
-      throw new Error("Unauthorized"); // Throw an error to trigger the error state
-    }
-    return res.data;
-  });
+import { fetcher } from "api";
 
 const LazyProjectDetailAddModifyModal = dynamic(
   () => import("./ProjectDetailAddModifyModal"),
@@ -68,10 +61,7 @@ const ProjectDetailList: React.FC<ProjectDetailListProps> = ({ slug }) => {
     data: projectDetailTempData,
     error,
     isLoading,
-  } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}/list`,
-    fetcher
-  );
+  } = useSWR(`/mngr/prjc/${slug}/list`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
@@ -80,12 +70,12 @@ const ProjectDetailList: React.FC<ProjectDetailListProps> = ({ slug }) => {
     return;
   }
   const masterCodeDetailList =
-    projectDetailTempData?.data?.masterCodeDetailList || [];
+    projectDetailTempData?.masterCodeDetailList || [];
 
   const projectDetail = masterCodeDetailList;
 
   const renderList = () => {
-    mutate(`${process.env.NEXT_PUBLIC_API_URL}/mngr/prjc/${slug}/list`);
+    mutate(`/mngr/prjc/${slug}/list`);
   };
 
   // [ 연구 추가 ] 모달 오픈

@@ -26,7 +26,7 @@ import dynamic from "next/dynamic";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 const LazyCheckboxList = dynamic(
   () => import("../../../../components/CheckboxSetCode"),
   {
@@ -51,11 +51,11 @@ export default function SvcTypePage({ params }: ViewProps) {
 
   // load
   const {
-    data: codeDataTemp,
+    data: codeData,
     error,
     isLoading,
   } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
+    `/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
     fetcher,
     { revalidateOnFocus: true }
   );
@@ -89,7 +89,6 @@ export default function SvcTypePage({ params }: ViewProps) {
     }
   };
 
-  const codeData = codeDataTemp.data;
   const formKey = JSON.stringify(codeData); // 매번 defaultValues 를 변환시켜야 될 필요성이 있어서 함 ( 여러번 동일한 페이지를 올 때 갱신 )
   console.log("codeData", codeData);
 

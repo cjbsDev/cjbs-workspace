@@ -17,8 +17,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 
 const ListMachine = () => {
   const router = useRouter();
@@ -29,11 +28,11 @@ const ListMachine = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const enumMngrCode = "MCHN_KIT";
-  let apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/list?enumMngrCode=${enumMngrCode}`;
+  let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  //console.log("MCHN_KIT ", data.data);
+  //console.log("MCHN_KIT ", data);
 
   const columns = useMemo(
     () => [
@@ -107,7 +106,7 @@ const ListMachine = () => {
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.data.length} />
+            <DataCountResultInfo totalCount={data.length} />
           </Stack>
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -133,7 +132,7 @@ const ListMachine = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="장비 Kit 분류 관리" />}
-      data={data.data}
+      data={data}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}

@@ -29,7 +29,7 @@ import { toast } from "react-toastify";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 
-const fetcher = (url: string) => axios.get(url).then((res) => res.data);
+import { fetcher } from "api";
 const LazyCheckboxList = dynamic(
   () => import("../../../components/CheckboxSetCode"),
   {
@@ -65,19 +65,16 @@ export default function SvcCatePage() {
 
   // load
   const {
-    data: codeDataTemp,
+    data: codeData,
     error,
     isLoading,
-  } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/mngr/add?enumMngrCode=${enumMngrCode}`,
-    fetcher,
-    { revalidateOnFocus: true }
-  );
+  } = useSWR(`/mngr/add?enumMngrCode=${enumMngrCode}`, fetcher, {
+    revalidateOnFocus: true,
+  });
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
-  const codeData = codeDataTemp.data;
   //console.log("codeData", codeData);
 
   const onSubmit = (data: any) => {

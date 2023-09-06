@@ -100,8 +100,6 @@ const AgncAdd = () => {
     formState: { errors, isDirty },
   } = methods;
 
-  const ddd = watch("instNm");
-
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
 
@@ -184,7 +182,7 @@ const AgncAdd = () => {
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/agnc`; // Replace with your API URL
+    const apiUrl = `/agnc`; // Replace with your API URL
 
     await axios
       .post(apiUrl, saveObj)

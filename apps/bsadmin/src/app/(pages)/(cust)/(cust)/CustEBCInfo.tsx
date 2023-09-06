@@ -12,7 +12,7 @@ import {
   TableRow,
   Box,
 } from "@mui/material";
-import fetcher from "../../../func/fetcher";
+import { fetcher } from "api";
 
 interface CustEBCInfoProps {
   slug: string;
@@ -22,14 +22,9 @@ interface CustEBCInfoProps {
 const CustEBCInfo: React.FC<CustEBCInfoProps> = ({ slug, ebcShow }) => {
   const [selected, setSelected] = useState(ebcShow);
 
-  const { data: custEBCTemp } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/cust/list/ebc/${slug}`,
-    fetcher,
-    { suspense: true }
-  );
-
-  const custEBCData = custEBCTemp.data;
-  console.log("custEBCData", custEBCData);
+  const { data: custEBCData } = useSWR(`/cust/list/ebc/${slug}`, fetcher, {
+    suspense: true,
+  });
 
   const handleToggle = () => {
     setSelected(!selected);
