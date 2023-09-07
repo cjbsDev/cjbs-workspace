@@ -41,7 +41,6 @@ const ListAgnc = () => {
   });
 
   const handleRowSelected = (rows: any) => {
-    console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
   };

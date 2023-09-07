@@ -109,10 +109,11 @@ export default function AgncPIModifyPage() {
 
   const methods = useForm<FormData>({
     defaultValues: () => {
-      return fetch(`/agnc/${uKey}`)
+      return fetch(`${process.env.NEXT_PUBLIC_API_URL}/agnc/${uKey}`)
         .then((res) => res.json())
         .then((getData) => {
-          const data = getData;
+          const data = getData.data;
+          console.log("in AgncPIModifyPage data", data);
           if (!data) {
             console.log("데이터가 없습니다. 메세지 보이고 페이지 이동");
             router.push("/agnc-pi-list");
@@ -343,7 +344,6 @@ export default function AgncPIModifyPage() {
             </Table>
           </TableContainer>
 
-          {/* memberData={getValues("custDetail")} */}
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyMemberTable
               selectMemberCallbak={handleMemberSelection}
