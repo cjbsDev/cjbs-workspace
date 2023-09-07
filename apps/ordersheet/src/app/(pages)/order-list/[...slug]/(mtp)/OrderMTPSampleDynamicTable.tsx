@@ -27,6 +27,8 @@ import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
+import {useRecoilState} from "recoil";
+import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 
 // function getUserAccount() {
 //   return axios.get(
@@ -50,13 +52,10 @@ import dynamic from "next/dynamic";
 //     perm = results[1].data.data;
 //   });
 
-export default function OrderMTPSampleDynamicTable(props: any) {
+export default function OrderMTPSampleDynamicTable() {
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
-  console.log("props", props.detailData);
-  // console.log("props", props.detailData.length);
-  const detailData = props.detailData;
 
   const { watch, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -65,8 +64,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   });
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
-  const [fileId, setFileId] = useState(null);
-  // const [testVal, setTestVal] = useState(null);
+  const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -83,6 +81,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
 
   const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
+    // console.log("fileId~!~!", fileId);
     for (let i = 0; i < count; i++) {
       append({
         sampleNm: "",
@@ -90,7 +89,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
         sampleCategoryCc: "",
         anlsTargetGeneCc: "",
         memo: "",
-        selfQcResultFileId: props.detailData[0].selfQcResultFileId,
+        selfQcResultFileId: fileId,
       }); // 입력된 수만큼 항목을 추가합니다.
     }
   };

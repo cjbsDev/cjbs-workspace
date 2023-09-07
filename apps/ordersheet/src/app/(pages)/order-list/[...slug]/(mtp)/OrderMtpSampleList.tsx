@@ -195,7 +195,7 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      <OrderMTPSampleDynamicTable detailData={props.detailData}/>
+      <OrderMTPSampleDynamicTable />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>

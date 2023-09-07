@@ -27,6 +27,8 @@ import { useRouter } from "next-nprogress-bar";
 import LoadingSvg from "@public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import {useParams} from "next/navigation";
+import {useRecoilState} from "recoil";
+import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     '& .MuiToggleButtonGroup-grouped': {
@@ -50,6 +52,7 @@ export default function Page(props: any) {
   const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [alignment, setAlignment] = React.useState('BS_1300001');
+  const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
   const params = useParams();
   // console.log("params", params.slug[2]);
@@ -57,9 +60,9 @@ export default function Page(props: any) {
   const updataYn = params.slug[2];
 
   useEffect(() => {
-    setAlignment(props.detailData.pymtWayCc);
-    props.setPymtWayCcValue(props.detailData.pymtWayCc);
-  }, [])
+    setAlignment(pymtWayCc);
+
+  }, [pymtWayCc])
 
   const handleChange = (
       event: React.MouseEvent<HTMLElement>,
@@ -67,28 +70,8 @@ export default function Page(props: any) {
   ) => {
     if(newAlignment === null) return;
     setAlignment(newAlignment);
-    props.setPymtWayCcValue(newAlignment);
+    setPymtWayCc(newAlignment);
   };
-
-  // const onSubmit = async (data: any) => {
-  //     console.log("**************************************");
-  //     // setIsLoading(true);
-  //     console.log("Submit Data ==>>", data);
-  //     console.log("alignment ==>>", alignment);
-  //     const inputPaymentData = {
-  //         brno: data.brno,
-  //         conm: data.conm,
-  //         // pymtWayCc: alignment === "account" ? "BS_1300001" : "BS_1300002",
-  //         pymtWayCc: alignment,
-  //         rcpnNm: data.rcpnNm,
-  //         rcpnEmail: data.rcpnEmail,
-  //         rprsNm: data.rprsNm,
-  //     };
-  //     const returnData = {
-  //         payment: inputPaymentData,
-  //     };
-  //     // props.addBodyData(returnData);
-  // };
 
   return (
     <>
