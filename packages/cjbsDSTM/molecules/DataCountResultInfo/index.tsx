@@ -31,7 +31,7 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
           // width: "70px",
         }}
       >
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{width: "max-content"}}>
           총{" "}
           <Box
             component="b"
