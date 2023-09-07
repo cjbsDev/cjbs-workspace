@@ -27,7 +27,7 @@ import LoadingSvg from "@public/svg/loading_wh.svg";
 import useSWR from "swr";
 import {fetcherOrsh} from "api";
 import {useParams} from "next/navigation";
-import {useFormContext} from "react-hook-form";
+import {AddressDeleteButton} from "@components/AddressDeleteButton";
 
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
@@ -45,14 +45,8 @@ export default function OrdererInfo() {
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
-  const { setValue } = useFormContext();
   // const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleClick = () => {
-    setValue("zip", '');
-    setValue("addr", '');
-    setValue("addrDetail", '');
-  };
 
   return (
     <>
@@ -333,13 +327,7 @@ export default function OrdererInfo() {
                     { updataYn === 'N' ? (
                       <>
                         <PostCodeBtn />
-                        <OutlinedButton
-                          size="small"
-                          buttonName="삭제"
-                          color="error"
-                          onClick={handleClick}
-                          sx={{height:"30px"}}
-                        />
+                        <AddressDeleteButton />
                       </>
                     ) : (
                       ''

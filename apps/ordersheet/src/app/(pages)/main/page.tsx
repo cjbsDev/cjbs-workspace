@@ -11,15 +11,24 @@ import wgImg from '@public/img/icons/wc.png';
 import rsImg from '@public/img/icons/RS.png';
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
-
+import {GET} from "api";
 
 const Page = () => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
+    const [totCnt, setTotCnt] = React.useState(0);
+
+    const getTotalCountCall = async() => {
+        const res = await GET(`/orsh/list?page=&size=`);
+        console.log('res', res)
+        console.log('!!!', res.data.pageInfo.totalElements)
+        setTotCnt(res.data.pageInfo.totalElements);
+    }
 
     useEffect(() => {
         setStepperNo(1);
+        getTotalCountCall();
     }, [])
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -335,7 +344,8 @@ const Page = () => {
                     </Typography>
                     <Typography variant="subtitle1" sx={{color: '#006ECD'}}>
                         <Link href="/order-list">
-                        17건
+                        {/*17건*/}
+                            {totCnt}건
                         </Link>
                     </Typography>
                     <MyIcon icon="cheveron-right" size={18} />
