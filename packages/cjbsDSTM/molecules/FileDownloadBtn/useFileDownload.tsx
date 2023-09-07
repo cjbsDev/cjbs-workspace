@@ -32,6 +32,9 @@ export const useFileDownload = (exportUrl: string, keyword:string) => {
   // };
 
   const saverFile = async () => {
+    const bodyData = {
+      keyword: keyword
+    }
     try {
       setIsLoading(true);
       const response = await POST_BLOB(exportUrl, bodyData);
