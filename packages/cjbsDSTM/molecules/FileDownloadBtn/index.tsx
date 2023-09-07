@@ -15,19 +15,22 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
   const { isLoading, fileName, saverFile } = useFileDownload(exportUrl, keyword);
 
   return (
-    <OutlinedButton
-      buttonName="Excel"
-      size="small"
-      color="secondary"
-      sx={{ color: "black" }}
-      startIcon={
-        isLoading ? (
-          <CircularProgress size={16} />
-        ) : (
-          <MyIcon icon={iconName} size={18} />
-        )
-      }
-      onClick={() => saverFile()}
-    />
+    <>
+      <OutlinedButton
+        buttonName="Excel"
+        size="small"
+        color="secondary"
+        sx={{ color: "black" }}
+        startIcon={
+          isLoading ? (
+            <CircularProgress size={16} />
+          ) : (
+            <MyIcon icon={iconName} size={18} />
+          )
+        }
+        onClick={() => saverFile()}
+        disabled={isLoading}
+      />
+    </>
   );
 };

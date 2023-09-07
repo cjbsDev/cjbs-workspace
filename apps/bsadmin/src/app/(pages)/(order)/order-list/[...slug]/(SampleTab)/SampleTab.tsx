@@ -428,7 +428,7 @@ const SampleTab = () => {
 
     return (
       <SubHeader
-        exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
+        exportUrl={`/order/list/download`}
         totalCount={sampleList.length}
         handleSampleAddModalOpen={handleSampleAddModalOpen}
         handleSampleBatchModalOpen={handleSampleBatchModalOpen}
