@@ -92,7 +92,6 @@ export default function MtpAnalysis() {
     setStepperNo(stepperNo+1);
   }
 
-
   // 주문서 등록
   useEffect(() => {
     if(stepperNo === 4) {
@@ -113,29 +112,9 @@ export default function MtpAnalysis() {
 
   // 등록 호출
   const orderSheetInsertCall = async () => {
-    // const uploadFile = document.getElementById("uploadFile") as HTMLInputElement;
-    console.log("uploadFile", uploadFile);
-
-    const formData = new FormData();
-    formData.append(
-      "user-data",
-      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
-    );
-
-    if(uploadFile){
-      // file 데이터가 있을경우
-      // formData.append("file-data", uploadFile?.files?.item(0) as File);
-      formData.append("file-data", uploadFile);
-    } else {
-      formData.append("file-data", null);
-    }
-
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
-
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/so`;
     try {
-      const response = await POST_MULTIPART(apiUrl, formData); // API 요청
-      // console.log("call body data", bodyData);
-      // const response = await POST(apiUrl, bodyData); // API 요청
+      const response = await POST(apiUrl, bodyData); // API 요청
       if (response.data.success) {
         console.log("response", response);
         router.push("/order/complete");
@@ -173,9 +152,6 @@ export default function MtpAnalysis() {
               <Typography variant="subtitle1">
                 주문자 및 거래처 정보
               </Typography>
-              {/*<Typography variant="body2" sx={{ml:2}}>*/}
-              {/*    주문자 및 거래처 정보를 확인해주세요*/}
-              {/*</Typography>*/}
             </Box>
             <Box sx={{
               display: 'flex',

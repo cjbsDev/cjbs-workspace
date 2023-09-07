@@ -1,10 +1,20 @@
 import React from "react";
 import { IconButton, TableCell, TableRow, Typography } from "@mui/material";
-import { InputValidation, SelectBox, cjbsTheme } from "cjbsDSTM";
+import {InputValidation, SelectBox, cjbsTheme, Fallback, ErrorContainer} from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
+import dynamic from "next/dynamic";
+
+const LazyPrepSelectbox = dynamic(
+  () => import("../../components/OrderSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
 
 const TableNewRows = (props) => {
-  const { field, remove, index, acct, perm, errors } = props;
+  // const { field, remove, index, acct, perm, errors } = props;
+  const { field, remove, index, errors } = props;
   return (
     <TableRow>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -49,26 +59,38 @@ const TableNewRows = (props) => {
         {errors.sample?.[index]?.source && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-        <SelectBox
-          required={true}
-          errorMessage="값을 선택해 주세요."
-          // inputName={`samples.${index}.sampleCategoryCc`}
-          inputName={`sample.[${index}].sampleCategoryCc`}
-          options={acct}
-          sx={{ width: "200px" }}
-        />
+        {/*<SelectBox*/}
+        {/*  required={true}*/}
+        {/*  errorMessage="값을 선택해 주세요."*/}
+        {/*  // inputName={`samples.${index}.sampleCategoryCc`}*/}
+        {/*  inputName={`sample.[${index}].sampleCategoryCc`}*/}
+        {/*  options={acct}*/}
+        {/*  sx={{ width: "200px" }}*/}
+        {/*/>*/}
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyPrepSelectbox
+            url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+            inputName={`sample.[${index}].sampleCategoryCc`}
+          />
+        </ErrorContainer>
         {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
       </TableCell>
       <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-        <SelectBox
-          required={true}
-          errorMessage="값을 선택해 주세요."
-          // inputName={`samples.${index}.anlsTargetGeneCc`}
-          inputName={`sample.[${index}].anlsTargetGeneCc`}
-          options={perm}
-          sx={{ width: "200px" }}
-          className={errors.sample?.[index]?.anlsTargetGeneCc && "Mui-error"}
-        />
+        {/*<SelectBox*/}
+        {/*  required={true}*/}
+        {/*  errorMessage="값을 선택해 주세요."*/}
+        {/*  // inputName={`samples.${index}.anlsTargetGeneCc`}*/}
+        {/*  inputName={`sample.[${index}].anlsTargetGeneCc`}*/}
+        {/*  options={perm}*/}
+        {/*  sx={{ width: "200px" }}*/}
+        {/*  className={errors.sample?.[index]?.anlsTargetGeneCc && "Mui-error"}*/}
+        {/*/>*/}
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyPrepSelectbox
+            url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+            inputName={`sample.[${index}].anlsTargetGeneCc`}
+          />
+        </ErrorContainer>
         {errors.sample?.[index]?.anlsTargetGeneCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
       </TableCell>
       {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}

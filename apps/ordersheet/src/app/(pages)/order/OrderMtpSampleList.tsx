@@ -65,15 +65,6 @@ export default function OrderMtpSampleList(props: any) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const defaultValues = {};
 
-  // 행 추가 될 값 저장
-  const onChange = (e: any) => {
-    const { value, name } = e.target; // 우선 e.target 에서 name 과 value 를 추출
-    setInputs({
-      ...inputs, // 기존의 input 객체를 복사한 뒤
-      [name]: value, // name 키를 가진 값을 value 로 설정
-    });
-  };
-
   const onSubmit = (data: any) => {
     console.log("Submit Data ==>>", data);
     // console.log("length", Object.keys(data).length);
@@ -96,16 +87,16 @@ export default function OrderMtpSampleList(props: any) {
       samples: data.sample,
       addRqstMemo: {memo: data.memo}
     };
+    // upload file이 있는경우
     props.addBodyData(returnData);
-    props.addFileData(data.uploadFile[0]);
+    if(data.uploadFile[0]) {
+      props.addFileData(data.uploadFile[0]);
+    }
+
   };
 
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
-
-  const orderInfoModifyModalClose = () => {
-    setShowOrderInfoModifyModal(false);
-  };
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
@@ -158,56 +149,6 @@ export default function OrderMtpSampleList(props: any) {
       //     )
     }
   };
-
-  const [rowsData, setRowsData] = useState<any>([]);
-
-  const [inputs, setInputs] = useState<any>({
-    addRowCnt: 1,
-  });
-  const { addRowCnt } = inputs;
-
-  const nextId = useRef(0);
-
-  const rowsInput = {
-    id: nextId.current,
-    sampleNm: "",
-    source: "",
-    sampleCategoryCc: "",
-    anlsTargetGeneCc: "",
-    qc: "",
-    memo: "",
-  };
-  const addTableRows = () => {
-    const newArray = Array.from({ length: addRowCnt }, (_, index) => rowsInput);
-    console.log(newArray);
-    setRowsData([...rowsData, ...newArray]);
-    nextId.current += 1;
-  };
-
-  const deleteTableRows = (id: number) => {
-    console.log("123123", rowsData);
-    console.log("index", id);
-    const rows = [...rowsData];
-    // rows.splice(id, 1);
-    setRowsData(rowsData.filter((rows) => rows.id !== id));
-    // setRowsData(rows);
-  };
-
-  const addExcelDataTableRows = (newArray: any) => {
-    // const rows = [...rowsData];
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(newArray);ƒ
-    setRowsData([...rowsData, ...newArray]);
-  };
-
-  // const handleChange = (index, evnt)=>{
-  //     const { name, value } = evnt.target;
-  //     console.log("!!!!!!name : " +name)
-  //     console.log("!!!!!!value : " +value)
-  //     const rowsInput = [...rowsData];
-  //     rowsInput[index][name] = value;
-  //     setRowsData(rowsInput);
-  // }
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -277,7 +218,8 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      <OrderMTPSampleDynamicTable />
+
+      <OrderMTPSampleDynamicTable serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
