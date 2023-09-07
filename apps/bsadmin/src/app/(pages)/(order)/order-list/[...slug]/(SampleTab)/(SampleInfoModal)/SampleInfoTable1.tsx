@@ -77,7 +77,7 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
     sampleStatusRes,
   }: any = transformedData;
 
-  console.log("rrrrr", sampleNm);
+  console.log("rrrrr", sampleNm, runList);
 
   return (
     <TableContainer sx={{ mb: 5 }}>
@@ -87,7 +87,10 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
             <TH sx={{ width: "15%" }}>샘플번호</TH>
             <TD sx={{ width: "35%" }}>{sampleId}</TD>
             <TH sx={{ width: "15%" }}>RUN</TH>
-            <TD sx={{ width: "35%" }}>{runList.join(", ")}</TD>
+            <TD sx={{ width: "35%" }}>
+              {runList}
+              {/*{runList !== null ? runList.join(", ") : "-"}*/}
+            </TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>샘플명</TH>

@@ -43,7 +43,7 @@ const LazyPrepSelectbox = dynamic(
 export default function OrderMtpSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
   const params = useParams();
-  console.log("params", params.slug[2]);
+  // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   let serviceType = params.slug[1];
 
@@ -195,9 +195,7 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      orderMTP :
-      {JSON.stringify(props.detailData)}
-      <OrderMTPSampleDynamicTable detailData={props.detailData}/>
+      <OrderMTPSampleDynamicTable />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>

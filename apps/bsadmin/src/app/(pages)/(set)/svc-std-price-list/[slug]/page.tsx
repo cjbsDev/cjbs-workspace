@@ -23,14 +23,13 @@ import axios from "axios";
 import useSWR from "swr";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import { fetcher } from "api"; 
+import { fetcher } from "api";
 import { toast } from "react-toastify";
 
 const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
   ssr: false,
   loading: () => <SkeletonLoading height={82} />,
 });
-
 
 interface ViewProps {
   params: {
@@ -46,14 +45,12 @@ export default function SvcStdPricePage({ params }: ViewProps) {
 
   // load
   const {
-    data : codeData,
+    data: codeData,
     error,
     isLoading,
-  } = useSWR(
-    `/mngr/stndPrice/${stndPriceMpngUkey}`,
-    fetcher,
-    { revalidateOnFocus: true }
-  );
+  } = useSWR(`/mngr/stndPrice/${stndPriceMpngUkey}`, fetcher, {
+    revalidateOnFocus: true,
+  });
   if (isLoading) {
     return <SkeletonLoading />;
   }
@@ -102,7 +99,10 @@ export default function SvcStdPricePage({ params }: ViewProps) {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "252px" }}>서비스 분류</TH>
-                <TD>{codeData.srvcTypeMcVal ?? ""} > {codeData.anlsTypeMcVal} > {codeData.anlsMtMcVal}</TD>
+                <TD>
+                  {codeData.srvcTypeMcVal ?? ""} &gt; {codeData.anlsTypeMcVal}{" "}
+                  &gt; {codeData.anlsMtMcVal}
+                </TD>
               </TableRow>
 
               <TableRow>
@@ -118,8 +118,6 @@ export default function SvcStdPricePage({ params }: ViewProps) {
         </TableContainer>
 
         <LazyStndPriceDetailList slug={slug} />
-     
-
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton

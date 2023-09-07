@@ -19,6 +19,8 @@ import SampleBatchInputs from "./SampleBatchInputs";
 import AlertContentBox from "./AlertContentBox";
 import DialogContentTitle from "./DialogContentTitle";
 import ActionButtons from "./ActionButtons";
+import { PUT } from "api";
+import { toast } from "react-toastify";
 
 interface SampleBathcChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -38,8 +40,8 @@ const dataRadio = [
   { value: "etc", optionName: "기타" },
 ];
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/update`;
-const apiUrl2 = `${process.env.NEXT_PUBLIC_API_URL}/sample/update/options`;
+const apiUrl = `/sample/update`;
+const apiUrl2 = `/sample/update/options`;
 const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
   const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
   const { mutate } = useSWRConfig();
@@ -55,7 +57,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
     onClose();
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data) => {
     setIsLoading(true);
     console.log("Form DATA ==>>", data);
 
@@ -64,6 +66,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
       const arraySampleList = data.changeContentList.split("\n");
 
       let bodyData = {};
+
       if (selectedCtNm === "etc") {
         console.log("ETC ~~!@@@@@");
         const makeNewSampleList2 = sampleIdList.map((item) => ({
@@ -83,9 +86,19 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
           sampleList: makeNewSampleList2,
         };
       } else {
+        if (arraySampleList.length !== sampleUkeyList.length) {
+          toast(
+            `선택한 항목에 값이 입력되지 않았습니다.\n모든 항목에 변경할 값을 입력해주세요.`
+          );
+          setIsLoading(false); // 로딩 상태 해제
+          return; // 함수 종료
+        }
         const makeNewSampleList = sampleIdList.map((item, index) => ({
           sampleId: item,
-          targetVal: arraySampleList[index],
+          targetVal:
+            arraySampleList[index] === undefined
+              ? null
+              : arraySampleList[index],
         }));
 
         bodyData = {
@@ -96,26 +109,26 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
       console.log("BODYDATA ==>", bodyData);
 
-      const response = await axios.put(
+      const response = await PUT(
         selectedCtNm === "etc" ? apiUrl2 : apiUrl,
         bodyData
       );
 
-      console.log("PUT request successful:", response.data);
+      console.log("PUT request successful:", response.success);
 
-      if (response.data.success) {
-        mutate(
-          `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-        );
+      if (response.success) {
+        mutate(`/order/${orderUkey}/sample/list`);
         handleClose();
       } else {
         // 실패 처리 로직
         // handleAlertClick();
         // setErrorMsg(response.data.message);
+        toast("선택한 항목에 값이 입력되지 않았습니다.\n" + response.message);
       }
     } catch (error) {
       console.error("Request Failed:", error);
       // 에러 처리 로직
+      toast("요청 실패");
     } finally {
       setIsLoading(false);
     }

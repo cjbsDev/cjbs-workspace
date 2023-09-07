@@ -18,6 +18,7 @@ import axios from "axios";
 import {POST, POST_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
+import {toast} from "react-toastify";
 
 
 const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
@@ -137,14 +138,15 @@ export default function MtpFullService(){
             const response = await POST_MULTIPART(apiUrl, formData); // API 요청
             // console.log("call body data", bodyData);
             // const response = await POST(apiUrl, bodyData); // API 요청
-            if (response.success) {
+            if (response.data.success) {
                 console.log("response", response);
                 router.push("/order/complete");
-            } else if (response.code == "INVALID_AUTHORITY") {
-                // toast("권한이 없습니다.");
+            } else if (response.data.code == "INVALID_ETC_EMAIL") {
+                toast(response.data.message);
             } else {
-                // toast("문제가 발생했습니다. 01");
+                toast("문제가 발생했습니다. 01");
             }
+
         } catch (error) {
             console.error("request failed:", error);
         }

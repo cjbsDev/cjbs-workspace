@@ -49,6 +49,7 @@ export const PostCodeBtn = () => {
       size="small"
       buttonName="우편번호 찾기"
       onClick={handleClick}
+      sx={{height:"30px"}}
     />
   );
 };

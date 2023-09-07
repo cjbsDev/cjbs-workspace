@@ -4,7 +4,6 @@ import {
   ErrorContainer,
   Fallback,
   Form,
-  InputValidation,
   ModalAction,
   ModalContainer,
   ModalTitle,
@@ -17,7 +16,6 @@ import {
   Alert,
   Box,
   DialogContent,
-  InputAdornment,
   Snackbar,
   Table,
   TableBody,
@@ -28,11 +26,10 @@ import {
 import { LoadingButton } from "@mui/lab";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
 import dynamic from "next/dynamic";
-import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import dayjs from "dayjs";
-import axios from "axios";
 import { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
+import { PUT } from "api";
 
 const LazyPhaseSelectbox = dynamic(() => import("./PhaseSelectbox"), {
   ssr: false,
@@ -48,7 +45,7 @@ interface ExperimentProgressChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
 }
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/sample/status`;
+const apiUrl = `/sample/status`;
 
 const ExperimentProgressChangeModal = (
   props: ExperimentProgressChangeModalProps
@@ -100,20 +97,17 @@ const ExperimentProgressChangeModal = (
 
     console.log("BODYDATA ==>", bodyData);
 
-    await axios
-      .put(apiUrl, bodyData)
+    await PUT(apiUrl, bodyData)
       .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
-          mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
-          mutate(
-            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-          );
+        console.log("POST request successful:", response.success);
+        if (response.success) {
+          mutate(`/order/${orderUkey}`);
+          mutate(`/order/${orderUkey}/sample/list`);
           setIsLoading(false);
           handleClose();
         } else {
           handleAlertClick();
-          setErrorMsg(response.data.message);
+          setErrorMsg(response.message);
           setIsLoading(false);
         }
       })

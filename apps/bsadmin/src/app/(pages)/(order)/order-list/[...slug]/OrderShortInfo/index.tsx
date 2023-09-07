@@ -1,18 +1,9 @@
 import React from "react";
-import { Box, Chip, Divider, Grid, Stack, Typography } from "@mui/material";
-import { cjbsTheme } from "cjbsDSTM";
+import { Box, Stack } from "@mui/material";
 import useSWR from "swr";
 import { useParams } from "next/navigation";
-import {
-  blue,
-  yellow,
-  red,
-  orange,
-  cyan,
-  grey,
-  green,
-} from "cjbsDSTM/themes/color";
-import fetcher from "../../../../../func/fetcher";
+import { grey } from "cjbsDSTM/themes/color";
+import { fetcher } from "api";
 import SampleBEA from "./SampleBEA";
 import AnalysisStatus from "./AnalysisStatus";
 import TrackingProgress from "./TrackingProgress";
@@ -20,13 +11,9 @@ import TrackingProgress from "./TrackingProgress";
 const OrderShortInfo = () => {
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR(`/order/${orderUkey}`, fetcher, {
+    suspense: true,
+  });
 
   // console.log("OrderShortInfo Value ==>>", data.data);
 
@@ -52,7 +39,7 @@ const OrderShortInfo = () => {
     bcount,
     ecount,
     acount,
-  } = data.data;
+  } = data;
 
   return (
     <Box

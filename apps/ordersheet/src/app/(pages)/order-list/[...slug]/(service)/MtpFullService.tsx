@@ -17,31 +17,59 @@ import { fetcherOrsh } from 'api';
 import useSWR from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
+import {useRecoilState} from "recoil";
+import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
+import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
+import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 
-
-// const LazyOrdererInfo = dynamic(() => import("../../../order/OrdererInfo"), {
-//     ssr: false,
-//     loading: () => <SkeletonLoading height={800} />,
-// });
 
 export default function MtpFullService(){
 
   const router = useRouter();
-  const [uploadFile, setUploadFile] = useState<any>(null);
-  const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
+  const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
+  const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
   const params = useParams();
-  console.log("params", params.slug[1]);
+  // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
-  const { data: orderDetailData} = useSWR(
-    `/mtp/fs/${orshUkey}`,
-    fetcherOrsh, {
-      suspense: true
-    }
-  );
-  console.log(orderDetailData.data);
-  const detailData = orderDetailData.data;
+  const defaultValues = async () => {
+    const res = await GET(`/orsh/mtp/fs/${orshUkey}`);
+    console.log("resresre", res.data);
+
+    // return res.data;
+    const returnDefaultValues = {
+      // custAgnc
+      ebcEmail : res.data.custAgnc.ebcEmail,
+      rhpiNm : res.data.custAgnc.rhpiNm,
+      rhpiId : res.data.custAgnc.rhpiId,
+      rhpiTel : res.data.custAgnc.rhpiTel,
+      instNm : res.data.custAgnc.instNm,
+      agncNm : res.data.custAgnc.agncNm,
+      ordrAplcNm : res.data.custAgnc.ordrAplcNm,
+      ordrAplcEmail : res.data.custAgnc.ordrAplcEmail,
+      ordrAplcTel : res.data.custAgnc.ordrAplcTel,
+      zip : res.data.custAgnc.agncZip,
+      addr : res.data.custAgnc.agncAddr,
+      addrDetail : res.data.custAgnc.agncAddrDetail,
+      mailRcpnList : res.data.custAgnc.mailRcpnList,
+      addEmailList : res.data.custAgnc.addEmailList,
+      conm : res.data.payment.conm,
+      brno : res.data.payment.brno,
+      // pymtWayCc : res.data.payment.pymtWayCc,
+      rprsNm : res.data.payment.rprsNm,
+      rcpnNm : res.data.payment.rcpnNm,
+      rcpnEmail : res.data.payment.rcpnEmail,
+      selfQcFileNm : res.data.qcFile.selfQcFileNm,
+      memo : res.data.addRqstMemo.memo,
+      sample : res.data.samples
+    };
+    setFileId(res.data.samples[0].selfQcResultFileId);
+    setPymtWayCc(res.data.payment.pymtWayCc);
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
+    return returnDefaultValues;
+  };
 
   const setPymtWayCcValue = (value:string) => {
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
@@ -49,45 +77,12 @@ export default function MtpFullService(){
     setPymtWayCc(value);
   }
 
-  const addFileData = (callBackData:any) => {
-      console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-      console.log(callBackData);
-      setUploadFile(callBackData);
-  }
-
-  const defaultValues = {
-    // custAgnc
-    ebcEmail : detailData.custAgnc.ebcEmail,
-    rhpiNm : detailData.custAgnc.rhpiNm,
-    rhpiId : detailData.custAgnc.rhpiId,
-    rhpiTel : detailData.custAgnc.rhpiTel,
-    instNm : detailData.custAgnc.instNm,
-    agncNm : detailData.custAgnc.agncNm,
-    ordrAplcNm : detailData.custAgnc.ordrAplcNm,
-    ordrAplcEmail : detailData.custAgnc.ordrAplcEmail,
-    ordrAplcTel : detailData.custAgnc.ordrAplcTel,
-    zip : detailData.custAgnc.agncZip,
-    addr : detailData.custAgnc.agncAddr,
-    addrDetail : detailData.custAgnc.agncAddrDetail,
-    mailRcpnList : detailData.custAgnc.mailRcpnList,
-    addEmailList : detailData.custAgnc.addEmailList,
-    conm : detailData.payment.conm,
-    brno : detailData.payment.brno,
-    // pymtWayCc : detailData.payment.pymtWayCc,
-    rprsNm : detailData.payment.rprsNm,
-    rcpnNm : detailData.payment.rcpnNm,
-    rcpnEmail : detailData.payment.rcpnEmail,
-    selfQcFileNm : detailData.qcFile.selfQcFileNm,
-    memo : detailData.addRqstMemo.memo,
-    sample : detailData.samples
-  };
-
   // 수정 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
 
-    // selfQcFileNm : detailData.qcFile.selfQcFileNm,
+    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -141,11 +136,11 @@ export default function MtpFullService(){
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
-      if (response.success) {
+      if (response.data.success) {
         toast("수정 되었습니다.")
         router.push("/order-list");
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
 
       } else {
         toast("문제가 발생했습니다. 01");
@@ -219,9 +214,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          mtpfull:
-          {JSON.stringify(detailData.samples)}
-          <OrderMtpSampleList serviceType={"fs"} detailData={detailData.samples}/>
+          <OrderMtpSampleList serviceType={"fs"}/>
         </Box>
 
         <Stack
@@ -251,7 +244,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <PaymentInfo detailData={detailData.payment} setPymtWayCcValue={setPymtWayCcValue}/>
+          <PaymentInfo />
         </Box>
 
       </Form>

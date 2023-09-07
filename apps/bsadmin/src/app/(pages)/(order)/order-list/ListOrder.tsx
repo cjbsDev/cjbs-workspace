@@ -1,64 +1,32 @@
 "use client";
 
 import React, { useMemo } from "react";
-import useSWR from "swr";
 import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
   Title1,
-  UnStyledButton,
-  OutlinedButton,
   ContainedButton,
-  CheckboxGV,
-  Form,
-  CustomToggleButton,
   cjbsTheme,
   FileDownloadBtn,
 } from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Typography,
-  Chip,
-  FormControl,
-  FormLabel,
-  FormGroup,
-  Popover,
-} from "@mui/material";
-import axios from "axios";
+import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
-import Select from "react-select";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import MyIcon from "icon/MyIcon";
 import IconDescBar from "../../../components/IconDescBar";
-import {
-  dataTableCustomStyles,
-  dataTableCustomStyles2,
-} from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
-import { MultiCheckbox } from "./MultiCheckbox";
 import Link from "next/link";
-import {
-  blue,
-  yellow,
-  red,
-  orange,
-  cyan,
-  grey,
-  green,
-} from "cjbsDSTM/themes/color";
+import { blue, red, grey, green } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
 const ListOrder = () => {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("order", page, perPage);
-  const totalElements = data.data.pageInfo.totalElements;
+  console.log("DATA", data);
+  const totalElements = data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
   const router = useRouter();
@@ -182,6 +150,96 @@ const ListOrder = () => {
         },
       },
       {
+        name: "거래처",
+        width: "170px",
+        // selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          const { isSpecialMng, instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                  {isSpecialMng === "Y" && (
+                    <MyIcon
+                      icon="vip-fill"
+                      width={15}
+                      data-tag="allowRowEvents"
+                      color="#FFAB33"
+                    />
+                  )}
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
+        name: "거래처",
+        width: "170px",
+        // selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          const { isSpecialMng, instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                  {isSpecialMng === "Y" && (
+                    <MyIcon
+                      icon="vip-fill"
+                      width={15}
+                      data-tag="allowRowEvents"
+                      color="#FFAB33"
+                    />
+                  )}
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
+        name: "거래처",
+        width: "170px",
+        // selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          const { isSpecialMng, instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                  {isSpecialMng === "Y" && (
+                    <MyIcon
+                      icon="vip-fill"
+                      width={15}
+                      data-tag="allowRowEvents"
+                      color="#FFAB33"
+                    />
+                  )}
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
         name: "샘플종류",
         width: "120px",
         selector: (row) => (row.sampleType === null ? "-" : row.sampleType),
@@ -215,7 +273,7 @@ const ListOrder = () => {
     []
   );
 
-  const filteredData = data.data.orderList.filter(
+  const filteredData = data.orderList.filter(
     (item) =>
       (item.custNm &&
         item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
@@ -257,10 +315,7 @@ const ListOrder = () => {
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
 
-            <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
-              iconName="xls3"
-            />
+            <FileDownloadBtn exportUrl="/order/list/download" iconName="xls3" />
 
             <DataTableFilter
               onFilter={(e: {

@@ -12,7 +12,7 @@ import {
   Form,
   OutlinedButton, FileDownloadBtn, cjbsTheme,
 } from "cjbsDSTM";
-import {Stack, Grid, Box, Container, Typography} from "@mui/material";
+import {Stack, Grid, Box, Container, Typography, Divider} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
 import MyIcon from "icon/MyIcon";
@@ -100,15 +100,16 @@ export default function ListOrshbs() {
             name: "",
             cell: (row: { isOrderStatus: string }) => {
               return row.isOrderStatus == "N" ? (
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  {/*<OutlinedButton*/}
-                  {/*  buttonName="수정"*/}
-                  {/*  size="small"*/}
-                  {/*  onClick={() => goLinkOrderPage()}*/}
-                  {/*/>*/}
+                <Stack direction="row" spacing={2} alignItems="center">
                   <Typography variant="subtitle2" color={cjbsTheme.palette.info.main}>
                     주문대기
                   </Typography>
+                  <Divider orientation="vertical" variant="middle" flexItem/>
+                  <OutlinedButton
+                    buttonName="수정"
+                    size="small"
+                    onClick={() => goDetailPage(row)}
+                  />
                 </Stack>
               ) : (
                 <Stack direction="row" spacing={0.5} alignItems="center">
@@ -132,9 +133,9 @@ export default function ListOrshbs() {
     router.push("/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus);
   };
 
-  const goLinkOrderPage = () => {
-    router.push("/order-reg/");
-  };
+  // const goLinkOrderPage = () => {
+  //   router.push("/order-reg/");
+  // };
 
   const onSubmit = (data: any) => {
     console.log("onSubmit", data);
@@ -189,7 +190,8 @@ export default function ListOrshbs() {
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
             <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL_ORSH}/list/download`}
+              exportUrl={`/orsh/list/download`}
+              keyword={''}
               iconName="xls3"
             />
             <DataTableFilter

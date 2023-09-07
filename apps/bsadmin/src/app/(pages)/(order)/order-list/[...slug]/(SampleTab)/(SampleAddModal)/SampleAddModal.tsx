@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import {
-  DataTableBase,
   InputValidation,
   ModalContainer,
   ModalTitle,
@@ -17,8 +16,6 @@ import {
   Box,
   BoxProps,
   DialogContent,
-  InputAdornment,
-  Stack,
   styled,
   Table,
   TableBody,
@@ -28,7 +25,8 @@ import {
 } from "@mui/material";
 import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
 import useSWR, { useSWRConfig } from "swr";
-import fetcher from "../../../../../../func/fetcher";
+import { fetcher, POST } from "api";
+// import fetcher from "../../../../../../func/fetcher";
 import { useParams } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
@@ -70,17 +68,13 @@ const SampleInfoModal = (props: ModalContainerProps) => {
   const router = useRouter();
   const params = useParams();
   const orderUkey = params.slug;
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/add`;
+  const apiUrl = `/order/${orderUkey}/sample/add`;
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { mutate } = useSWRConfig();
-  const { data } = useSWR(
-    () => `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/add`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
-  const sampleAddDefaultData = data.data;
+  const { data } = useSWR(() => `/order/${orderUkey}/sample/add`, fetcher, {
+    suspense: true,
+  });
+  const sampleAddDefaultData = data;
   console.log("sampleAddDefaultData ==>>", sampleAddDefaultData);
 
   const defaultValues = {
@@ -109,7 +103,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
     const convertedDate = dayjs(data.rcptDttm).format("YYYY-MM-DD");
 
     const bodyData = {
-      depth: Number(data.depth),
+      depthMc: data.depthMc,
       memo: data.memo,
       prgrAgncNmCc: data.prgrAgncNmCc,
       rcptDttm: convertedDate,
@@ -121,15 +115,12 @@ const SampleInfoModal = (props: ModalContainerProps) => {
 
     console.log("BODYDATA ==>", bodyData);
 
-    await axios
-      .post(apiUrl, bodyData)
+    await POST(apiUrl, bodyData)
       .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
-          mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
-          mutate(
-            `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/sample/list`
-          );
+        console.log("POST request successful:", response);
+        if (response.success) {
+          mutate(`/order/${orderUkey}`);
+          mutate(`/order/${orderUkey}/sample/list`);
           handleClose();
         }
       })

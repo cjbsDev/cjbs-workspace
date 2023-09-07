@@ -18,7 +18,7 @@ export default function Providers({ children }: ContextProps) {
       {/*<CssBaseline />*/}
       <ToastContainer
         position="bottom-center"
-        autoClose={1000}
+        autoClose={800}
         hideProgressBar={false}
         newestOnTop={false}
         closeOnClick
@@ -26,8 +26,18 @@ export default function Providers({ children }: ContextProps) {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        style={{ zIndex: 99999 }}
-        theme="dark"
+        toastStyle={{
+          background: "white",
+        }}
+        progressStyle={{
+          background: "#FF2C34",
+        }}
+        style={{
+          zIndex: 99999,
+          fontSize: 13,
+          whiteSpace: "pre-wrap",
+        }}
+        // theme="colored"
       />
       <SessionProvider>
         <SWRConfig

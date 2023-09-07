@@ -197,7 +197,7 @@ export default function Page() {
             <TableRow>
               <TH sx={{ width: "15%" }}>아이디(이메일)</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                <Stack direction="row" spacing={0.2} alignItems="flex-start">
                   <InputValidation
                     inputName="ebcEmail"
                     required={true}
@@ -207,7 +207,6 @@ export default function Page() {
                       readOnly: true,
                     }}
                   />
-
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="custUkey"
@@ -238,7 +237,6 @@ export default function Page() {
                       hidden: true,
                     }}
                   />
-
                   <OutlinedButton
                     size="small"
                     buttonName="아이디 검색"
