@@ -3,13 +3,16 @@ import FileSaver from "file-saver";
 import { useState } from "react";
 import {GET_FILE, POST_BLOB} from "api";
 
-export const useFileDownload = (exportUrl: string) => {
+export const useFileDownload = (exportUrl: string, keyword:string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
 
   const saverFile = () => {
+    const bodyData = {
+      keyword: keyword
+    };
     setIsLoading(true);
-      POST_BLOB(exportUrl)
+      POST_BLOB(exportUrl, bodyData)
       .then((res) => {
 
         if(res.status == 200) {

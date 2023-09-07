@@ -190,7 +190,8 @@ export default function ListOrshbs() {
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
             <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL_ORSH}/list/download`}
+              exportUrl={`/orsh/list/download`}
+              keyword={''}
               iconName="xls3"
             />
             <DataTableFilter

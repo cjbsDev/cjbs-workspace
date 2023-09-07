@@ -27,6 +27,7 @@ import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import useSWR from "swr";
 import {fetcherOrsh} from "api";
+import {useFormContext} from "react-hook-form";
 
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
@@ -39,8 +40,9 @@ const dataMailRcpnListGV = [
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
-export default function Page(props:JSON) {
+export default function OrdererInfo(props:JSON) {
     const router = useRouter();
+    const { setValue } = useFormContext();
 
     const { data: custTemp } = useSWR(
         `/cust/info`,
@@ -53,6 +55,12 @@ export default function Page(props:JSON) {
     // const [isLoading, setIsLoading] = useState<boolean>(false);
     const defaultValues = {
         mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
+    };
+
+    const handleClick = () => {
+        setValue("zip", '');
+        setValue("addr", '');
+        setValue("addrDetail", '');
     };
 
     const onSubmit = async (data: any) => {
@@ -286,10 +294,11 @@ export default function Page(props:JSON) {
                                         />
                                         <PostCodeBtn />
                                         <OutlinedButton
-                                            size="small"
-                                            buttonName="삭제"
-                                            color="error"
-                                            // onClick={handleClick}
+                                          size="small"
+                                          buttonName="삭제"
+                                          color="error"
+                                          onClick={handleClick}
+                                          sx={{height:"30px"}}
                                         />
                                     </Stack>
                                     <Stack direction="row" spacing={0.5}>

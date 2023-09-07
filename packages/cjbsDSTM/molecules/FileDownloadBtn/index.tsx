@@ -6,12 +6,13 @@ import { useFileDownload } from "./useFileDownload";
 
 interface FileDownloadBtnProps {
   exportUrl: string;
+  keyword: string;
   iconName?: string;
 }
 
 export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
-  const { exportUrl, iconName } = props;
-  const { isLoading, fileName, saverFile } = useFileDownload(exportUrl);
+  const { exportUrl, keyword, iconName } = props;
+  const { isLoading, fileName, saverFile } = useFileDownload(exportUrl, keyword);
 
   return (
     <OutlinedButton
