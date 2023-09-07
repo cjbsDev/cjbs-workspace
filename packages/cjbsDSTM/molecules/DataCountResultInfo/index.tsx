@@ -14,7 +14,13 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
   return (
     <Box
       component="dl"
-      sx={{ display: "flex", alignItems: "center", m: 0, mt: 0, p: 0 }}
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        m: 0,
+        mt: 0,
+        p: 0,
+      }}
     >
       {/*<Box component="dt" sx={{ m: 0, mr: 1.2, p: 0, pt: 0.5 }}>*/}
       {/*  /!* */}
@@ -31,7 +37,7 @@ export const DataCountResultInfo = (props: DataCountResiltInfoProps) => {
           // width: "70px",
         }}
       >
-        <Typography variant="body2">
+        <Typography variant="body2" sx={{ width: "max-content" }}>
           총{" "}
           <Box
             component="b"

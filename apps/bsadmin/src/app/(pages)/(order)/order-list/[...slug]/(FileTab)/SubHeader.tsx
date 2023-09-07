@@ -3,26 +3,31 @@ import { Grid, Stack } from "@mui/material";
 import {
   ContainedButton,
   DataCountResultInfo,
+  DataTableFilter,
   FileDownloadBtn,
   OutlinedButton,
 } from "cjbsDSTM";
 
 interface SubHeaderProps {
+  filterText: string;
   totalCount: number;
   exportUrl?: string;
   // sampleUkeyList: string[];
-  handleSampleAddModalOpen?: () => void;
-  handleSampleBatchModalOpen?: () => void;
-  handleExPrgrsPhsOpen?: () => void;
+  handleFileUploadModalOpen?: () => void;
+  // handleSampleBatchModalOpen?: () => void;
+  // handleExPrgrsPhsOpen?: () => void;
+  handleClear?: () => void;
+  onFilter: any;
 }
 
 const SubHeader = (props: SubHeaderProps) => {
   const {
+    filterText,
     totalCount,
     exportUrl,
-    handleSampleAddModalOpen,
-    handleSampleBatchModalOpen,
-    handleExPrgrsPhsOpen,
+    handleFileUploadModalOpen,
+    handleClear,
+    onFilter,
   } = props;
 
   return (
@@ -33,21 +38,19 @@ const SubHeader = (props: SubHeaderProps) => {
           <ContainedButton
             buttonName="파일 업로드"
             size="small"
-            // onClick={handleSampleAddModalOpen}
+            onClick={handleFileUploadModalOpen}
           />
         </Stack>
       </Grid>
       <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
-          <FileDownloadBtn exportUrl={exportUrl} iconName="xls3" />
+          {/*<FileDownloadBtn exportUrl={exportUrl} iconName="xls3" />*/}
 
-          {/*<DataTableFilter*/}
-          {/*  onFilter={(e: {*/}
-          {/*    target: { value: React.SetStateAction<string> };*/}
-          {/*  }) => setFilterText(e.target.value)}*/}
-          {/*  onClear={handleClear}*/}
-          {/*  filterText={filterText}*/}
-          {/*/>*/}
+          <DataTableFilter
+            onFilter={onFilter}
+            onClear={handleClear}
+            filterText={filterText}
+          />
         </Stack>
       </Grid>
     </Grid>
