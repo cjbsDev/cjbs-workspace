@@ -315,10 +315,7 @@ const ListOrder = () => {
           >
             <IconDescBar freeDisabled={true} reOrder={true} />
 
-            <FileDownloadBtn
-              exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
-              iconName="xls3"
-            />
+            <FileDownloadBtn exportUrl="/order/list/download" iconName="xls3" />
 
             <DataTableFilter
               onFilter={(e: {
