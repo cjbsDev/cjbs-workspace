@@ -26,6 +26,11 @@ import dynamic from "next/dynamic";
 import { fetcher } from "api";
 import { toast } from "react-toastify";
 
+const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={82} />,
+});
+
 interface ViewProps {
   params: {
     slug: string;
@@ -111,12 +116,14 @@ export default function SvcStdPricePage({ params }: ViewProps) {
             </TableBody>
           </Table>
         </TableContainer>
+
+        <LazyStndPriceDetailList slug={slug} />
+
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("/svc-type-list")}
+            onClick={() => router.push("/svc-std-price-list")}
           />
-          <ContainedButton buttonName="저장" type="submit" />
         </Stack>
       </Form>
     </Container>
