@@ -39,14 +39,14 @@ interface StndPriceDetailListProps {
 interface DataItem {
   stndPriceDetailId: string;
   stndPriceDetailUkey: string;
-  sampleSizeStart: string;
-  sampleSizeEnd: string;
-  stndDscntPctg: string;
-  prep: string;
-  qc: string;
-  lib: string;
-  seq: string;
-  bi: string;
+  sampleSizeStart: number;
+  sampleSizeEnd: number;
+  stndDscntPctg: number;
+  prep: number;
+  qc: number;
+  lib: number;
+  seq: number;
+  bi: number;
   isUse: string;
 }
 
@@ -76,7 +76,6 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
     return;
   }
   const getDataList = tempData?.stndPriceDetailList || [];
-  console.log("getDataList", getDataList);
 
   const renderList = () => {
     mutate(`/mngr/stndPrice/${slug}/list`);
@@ -89,18 +88,22 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
 
   // [ 코드 추가 ] 모달 오픈
   const handleAddRow = () => {
-    /*
     const tempObj = {
-      detailUniqueCode: "",
-      douzoneCode: "",
-      codeNm: "",
-      codeValue: "",
-      isExpsOrsh: "",
-      isRls: "",
+      stndPriceDetailId: "",
+      stndPriceDetailUkey: "",
+      sampleSizeStart: 0,
+      sampleSizeEnd: 0,
+      stndDscntPctg: 0,
+      prep: 0,
+      qc: 0,
+      lib: 0,
+      seq: 0,
+      bi: 0,
+      isUse: "Y",
     };
+
     setSelectItem(tempObj);
     setMcCodeModifyModal(true);
-    */
   };
   // [ 마스터 코드 ] 모달 오픈
   const mcItemModifyModalOpen = (item: DataItem) => {
@@ -135,16 +138,16 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TH sx={{ width: "7%" }}>기준가 코드</TH>
-              <TH sx={{ width: "20%" }}>수량</TH>
-              <TH sx={{ width: "10%" }}>기준 할인율(%)</TH>
+              <TH sx={{ width: "10%" }}>기준가 코드</TH>
+              <TH sx={{ width: "10%" }}>수량</TH>
+              <TH sx={{ width: "14%" }}>기준 할인율(%)</TH>
               <TH sx={{ width: "10%" }}>Prep</TH>
               <TH sx={{ width: "10%" }}>QC</TH>
               <TH sx={{ width: "10%" }}>Lib</TH>
               <TH sx={{ width: "10%" }}>Seq</TH>
               <TH sx={{ width: "10%" }}>BI</TH>
-              <TH sx={{ width: "13%" }}>사용여부</TH>
-              <TH sx={{ width: "7%" }}>수정,삭제</TH>
+              <TH sx={{ width: "8%" }}>사용여부</TH>
+              <TH sx={{ width: "8%" }}>수정</TH>
             </TableRow>
           </TableHead>
 
@@ -176,16 +179,18 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
                       buttonName="수정"
                       size="small"
                       onClick={() => mcItemModifyModalOpen(dataItem)}
+                      sx={{ mr: 1 }}
                     />
+                    {/*                     
                     <OutlinedButton
                       buttonName="삭제"
                       size="small"
                       color="error"
-                      endIcon={<MyIcon icon="trash" size={16} />}
+                      // endIcon={<MyIcon icon="trash" size={16} />}
                       onClick={() =>
                         handleDeleteRow(dataItem.stndPriceDetailUkey)
                       }
-                    />
+                    /> */}
                   </TD>
                   {/* 
                   <TD>

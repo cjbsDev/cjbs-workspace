@@ -27,14 +27,14 @@ import { toast } from "react-toastify";
 interface DataItem {
   stndPriceDetailId: string;
   stndPriceDetailUkey: string;
-  sampleSizeStart: string;
-  sampleSizeEnd: string;
-  stndDscntPctg: string;
-  prep: string;
-  qc: string;
-  lib: string;
-  seq: string;
-  bi: string;
+  sampleSizeStart: number;
+  sampleSizeEnd: number;
+  stndDscntPctg: number;
+  prep: number;
+  qc: number;
+  lib: number;
+  seq: number;
+  bi: number;
   isUse: string;
 }
 
@@ -59,54 +59,47 @@ const SvcStdAddModifyModal = ({
 }: SvcStdAddModifyModalProps) => {
   const router = useRouter();
 
-  //console.log("yes selectItem", selectItem);
-
   // [ 추가 & 수정 ]
   const onSubmit = async (data: any) => {
-    console.log("in onSubmit", data);
+    console.log("in SvcStdAddModifyModal onSubmit", data);
 
-    // {
-    //   "sampleSizeStart": 0,
-    //   "sampleSizeEnd": 0,
-    //   "bi": 0,
-    //   "isUse": "사용여부",
-    //   "lib": 0,
-    //   "prep": 0,
-    //   "qc": 0,
-    //   "seq": 0,
-    //   "stndDscntPctg": 0
-    // }
-
-    /*
     const saveObj: DataItem = {
-      codeNm: data.codeNm,
-      codeValue: data.codeValue,
-      detailUniqueCode: data.detailUniqueCode,
-      douzoneCode: data.douzoneCode,
-      isExpsOrsh: data.isExpsOrsh,
-      isRls: data.isRls,
+      stndPriceDetailId: data.stndPriceDetailId,
+      stndPriceDetailUkey: data.stndPriceDetailUkey,
+      sampleSizeStart: data.sampleSizeStart,
+      sampleSizeEnd: data.sampleSizeEnd,
+      bi: data.bi,
+      lib: data.lib,
+      prep: data.prep,
+      qc: data.qc,
+      seq: data.seq,
+      stndDscntPctg: data.stndDscntPctg,
+      isUse: data.isUse,
     };
-    console.log("==saveObj", saveObj);
-    console.log(stndPriceMpngUkey + "saveObj stringify", JSON.stringify(saveObj));
 
-    //let apiUrl = ${process.env.NEXT_PUBLIC_API_URL}
-    //const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/${stndPriceMpngUkey}`;
+    console.log("==saveObj", saveObj);
+    console.log(
+      stndPriceMpngUkey + "saveObj stringify",
+      JSON.stringify(saveObj)
+    );
 
     let apiUrl = "";
-    if (selectItem.detailUniqueCode) {
-      //apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + stndPriceMpngUkey;
-      // ~ /mngr/{stndPriceMpngUkey} -> ~/mngr/masterCode/{stndPriceMpngUkey}
-      apiUrl = `/mngr/masterCode/` + stndPriceMpngUkey;
-
+    console.log(
+      "selectItem.stndPriceDetailUkey",
+      selectItem.stndPriceDetailUkey
+    );
+    if (selectItem.stndPriceDetailUkey) {
+      apiUrl = `/mngr/stndPrice/` + selectItem.stndPriceDetailUkey;
       try {
         const response = await PUT(apiUrl, saveObj); // API 요청
+        console.log("코드 수정 response", response);
         if (response.success) {
           onClose(); // 모달 닫기
           renderList();
         } else if (response.code == "INVALID_AUTHORITY") {
           toast("권한이 없습니다.");
         } else {
-          toast("코드 수정 오류. 01");
+          toast("코드 수정 오류. 01 \n" + response.message);
         }
       } catch (error) {
         console.error("request failed:", error);
@@ -114,39 +107,25 @@ const SvcStdAddModifyModal = ({
       }
     } else {
       console.log("추가 -01");
-      apiUrl = `/mngr/masterCode/` + stndPriceMpngUkey;
+      apiUrl = `/mngr/stndPrice/` + stndPriceMpngUkey;
 
       try {
         const response = await POST(apiUrl, saveObj); // API 요청
+        console.log("추가 response", response);
         if (response.success) {
           onClose(); // 모달 닫기
           renderList();
         } else if (response.code == "INVALID_AUTHORITY") {
           toast("권한이 없습니다.");
         } else {
-          toast("코드 수정 오류. 01");
+          toast("코드 추가 오류. 01 \n" + response.message);
         }
       } catch (error) {
         console.error("request failed:", error);
-        toast("문제가 발생했습니다. 02");
+        toast("문제가 발생했습니다. 02-2");
       }
     }
-    */
   };
-
-  interface DataItem {
-    stndPriceDetailId: string;
-    stndPriceDetailUkey: string;
-    sampleSizeStart: string;
-    sampleSizeEnd: string;
-    stndDscntPctg: string;
-    prep: string;
-    qc: string;
-    lib: string;
-    seq: string;
-    bi: string;
-    isUse: string;
-  }
 
   const defaultValues = {
     stndPriceDetailId: selectItem.stndPriceDetailId,
@@ -162,32 +141,35 @@ const SvcStdAddModifyModal = ({
     isUse: selectItem.isUse ? selectItem.isUse : "Y",
   };
 
-  //const defaultValues = {};
-  //console.log("selectItem", selectItem);
-
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>
-        코드 {selectItem.stndPriceDetailUkey ? "수정" : "추가"}
+        기준가 코드 {selectItem.stndPriceDetailUkey ? "수정" : "추가"}
       </ModalTitle>
       <DialogContent>
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
           <TableContainer sx={{ mb: 5 }}>
             <Table>
               <TableBody>
-                <TableRow>
-                  {/* <TD>{dataItem.stndPriceDetailId}</TD>
-                  <TD>
-                    {dataItem.sampleSizeStart} ~ {dataItem.sampleSizeEnd}
-                  </TD>
-                  <TD>{dataItem.stndDscntPctg}</TD>
-                  <TD>{dataItem.prep}</TD>
-                  <TD>{dataItem.qc}</TD>
-                  <TD>{dataItem.lib}</TD>
-                  <TD>{dataItem.seq}</TD>
-                  <TD>{dataItem.bi}</TD>
-                  <TD>{dataItem.isUse}</TD> */}
+                {selectItem.stndPriceDetailUkey && (
+                  <>
+                    <TableRow>
+                      <TH sx={{ width: "25%" }}>기준가 코드</TH>
+                      <TD sx={{ width: "75%" }} colSpan={5}>
+                        <Stack
+                          direction="row"
+                          spacing={0.5}
+                          alignItems="center"
+                          sx={{ mr: 1 }}
+                        >
+                          {selectItem.stndPriceDetailId}
+                        </Stack>
+                      </TD>
+                    </TableRow>
+                  </>
+                )}
 
+                <TableRow>
                   <TH sx={{ width: "25%" }}>수량</TH>
                   <TD sx={{ width: "75%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
@@ -240,7 +222,8 @@ const SvcStdAddModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="prep"
-                        disabled={false}
+                        disabled={true}
+                        //disabled={selectItem.stndPriceDetailUkey ? false : true}
                         required={true}
                         pattern={/^[0-9]+$/}
                         patternErrMsg="숫자만 입력해주세요."
@@ -257,7 +240,8 @@ const SvcStdAddModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="qc"
-                        disabled={false}
+                        disabled={true}
+                        //disabled={selectItem.stndPriceDetailUkey ? false : true}
                         required={true}
                         pattern={/^[0-9]+$/}
                         patternErrMsg="숫자만 입력해주세요."
@@ -297,6 +281,23 @@ const SvcStdAddModifyModal = ({
                         patternErrMsg="숫자만 입력해주세요."
                         errorMessage="필수 입력값입니다."
                         placeholder="seq"
+                        sx={{ width: 100 }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "25%" }}>BI</TH>
+                  <TD sx={{ width: "75%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="bi"
+                        disabled={false}
+                        required={true}
+                        pattern={/^[0-9]+$/}
+                        patternErrMsg="숫자만 입력해주세요."
+                        errorMessage="필수 입력값입니다."
+                        placeholder="bi"
                         sx={{ width: 100 }}
                       />
                     </Stack>
