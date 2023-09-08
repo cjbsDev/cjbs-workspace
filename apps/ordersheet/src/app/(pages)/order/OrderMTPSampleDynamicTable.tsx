@@ -21,7 +21,7 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/ExRow";
+import ExRow from "@app/(pages)/order/(mtp)/(contents)/ExRow";
 import TableHeader from "@app/(pages)/order/TableHeader";
 import TableNewRows from "@app/(pages)/order/TableNewRows";
 import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
@@ -48,6 +48,9 @@ import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
 //   });
 
 const OrderMTPSampleDynamicTable = (props: any) => {
+  // console.log("$$$$$$$$$$", props.serviceType);
+  const serviceType = props.serviceType;
+
   const { watch, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -69,16 +72,44 @@ const OrderMTPSampleDynamicTable = (props: any) => {
 
   const handleAddFields = (count:any) => {
     console.log("Count~!~!", count);
-    for (let i = 0; i < count; i++) {
-      append({
-        sampleNm: "",
-        source: "",
-        sampleCategoryCc: "",
-        anlsTargetGeneCc: "",
-        qc: "",
-        memo: "",
-      }); // 입력된 수만큼 항목을 추가합니다.
+    // 입력된 수만큼 항목을 추가합니다.
+    if(serviceType === 'fs') {
+      for (let i = 0; i < count; i++) {
+        append({
+          sampleNm: "",
+          source: "",
+          sampleCategoryCc: "",
+          anlsTargetGeneCc: "",
+          memo: "",
+        });
+      }
+
+    } else if (serviceType === 'ao') {
+      for (let i = 0; i < count; i++) {
+        append({
+          anlsTargetGeneCc: "",
+          frwrPrimer: "",
+          memo: "",
+          pltfMc: "",
+          rvrsPrimer: "",
+          sampleNm: "",
+          source: "",
+        });
+      }
+
+    } else if (serviceType === 'so') {
+      for (let i = 0; i < count; i++) {
+        append({
+          idx1frwr: "",
+          idx1nm: "",
+          idx2nm: "",
+          idx2rvrs: "",
+          memo: "",
+          sampleNm: "",
+        });
+      }
     }
+
   };
 
   return (
@@ -109,9 +140,9 @@ const OrderMTPSampleDynamicTable = (props: any) => {
       </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
-          <TableHeader />
+          <TableHeader serviceType={serviceType} />
           <TableBody>
-            <ExRow />
+            <ExRow serviceType={serviceType} />
             {fields.map((field, index) => {
               return (
                 <TableNewRows
@@ -120,6 +151,7 @@ const OrderMTPSampleDynamicTable = (props: any) => {
                   remove={remove}
                   index={index}
                   errors={errors}
+                  serviceType={serviceType}
                 />
               );
             })}

@@ -21,7 +21,7 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/ExRow";
+import ExRow from "@app/(pages)/order/(mtp)/(contents)/ExRow";
 import TableHeader from "@app/(pages)/order/TableHeader";
 import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
@@ -52,7 +52,8 @@ import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 //     perm = results[1].data.data;
 //   });
 
-export default function OrderMTPSampleDynamicTable() {
+export default function OrderMTPSampleDynamicTable(props:any) {
+  const serviceType = props.serviceType;
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -170,9 +171,9 @@ export default function OrderMTPSampleDynamicTable() {
       </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
-          <TableHeader />
+          <TableHeader serviceType={serviceType}/>
           <TableBody>
-            <ExRow />
+            <ExRow serviceType={serviceType}/>
             {fields.map((field, index) => {
               // console.log("FFFFFFFF", field, index)
               return (
