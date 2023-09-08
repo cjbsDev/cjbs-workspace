@@ -140,7 +140,7 @@ export default function MtpFullService(){
             // const response = await POST(apiUrl, bodyData); // API 요청
             if (response.data.success) {
                 console.log("response", response);
-                router.push("/order/complete");
+                router.push("/order/complete?serviceType=fs");
             } else if (response.data.code == "INVALID_ETC_EMAIL") {
                 toast(response.data.message);
             } else {

@@ -22,6 +22,6 @@ export default function CommonSelectbox({
 
   // console.log(data.data);
 
-  return <SelectBox inputName={inputName} options={data.data} />;
+  return <SelectBox inputName={inputName} options={data} />;
 }
 
