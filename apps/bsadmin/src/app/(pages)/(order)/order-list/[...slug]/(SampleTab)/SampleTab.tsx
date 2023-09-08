@@ -72,7 +72,6 @@ const SampleTab = () => {
     suspense: true,
   });
   const sampleList = data;
-  console.log("SAMPLE TAB LIST", sampleList);
 
   useEffect(() => {
     // isClear 상태 변경 이슈
