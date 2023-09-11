@@ -19,7 +19,7 @@ export const SkeletonLoading = ({ height = 600 }: SkeletonLoadingProps) => {
       {/*<Skeleton variant="rectangular" width={210} height={60} />*/}
       <Skeleton
         variant="rounded"
-        sx={{ backgroundColor: cjbsTheme.palette.grey["100"] }}
+        sx={{ backgroundColor: "#F4F5F7" }}
         height={height}
       />
     </Stack>

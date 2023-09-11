@@ -1,25 +1,16 @@
-import React, { useMemo, useState } from "react";
-import {
-  dataTableCustomStyles2,
-  dataTableCustomStyles3,
-} from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import React, { useMemo, useRef, useState } from "react";
+import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { cjbsTheme, DataTableBase, OutlinedButton } from "cjbsDSTM";
 import { useParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 // import fetcher from "../../../../../func/fetcher";
-import { fetcher, DELETE } from "api";
-import {
-  Box,
-  Chip,
-  CircularProgress,
-  IconButton,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { fetcher, DELETE, GET, POST_BLOB, PUT } from "api";
+import { IconButton } from "@mui/material";
 import { toast } from "react-toastify";
 import SubHeader from "./SubHeader";
 import FileUploadModal from "./FileUploadModal";
 import MyIcon from "icon/MyIcon";
+import FileSaver from "file-saver";
 
 const FileTab = () => {
   const [isFileUploadModal, setIsFileUploadModal] = useState<boolean>(false);
@@ -31,10 +22,9 @@ const FileTab = () => {
   const { data } = useSWR(`/order/${orderUkey}/file/list`, fetcher, {
     suspense: true,
   });
-  const fileList = data;
+  const fileList = Array.from(data);
 
   console.log("FILELIST", fileList);
-
   const rowDelete = async (orderFileUkey: string) => {
     console.log("orderFileUkey ==>>", orderFileUkey);
     try {
@@ -49,6 +39,52 @@ const FileTab = () => {
     }
   };
 
+  const handleDownload = async (
+    orderFileUkey: string,
+    fileOriginNm: string
+  ) => {
+    try {
+      const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
+      if (res.success) {
+        // toast("다운로드 되었습니다.");
+        // console.log(res);
+
+        console.log(res);
+        // if (response.status === 200) {
+        //   // const disposition = response.headers["content-disposition"];
+        //   // const resFileName = decodeURI(
+        //   //   disposition
+        //   //     .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]
+        //   //     .replace(/['"]/g, "")
+        //   // );
+        //   FileSaver.saveAs(response.data, fileOriginNm);
+        // }
+
+        // FileSaver.saveAs(new Blob([res.data]), fileOriginNm);
+        // mutate(`/order/${orderUkey}/file/list`);
+      }
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+    }
+  };
+
+  const filteredItems = fileList.filter((item) => {
+    const filterPattern = new RegExp(
+      filterText.toLowerCase().normalize("NFC"),
+      "i"
+    );
+
+    return (
+      (item.orderFileMemo &&
+        filterPattern.test(
+          item.orderFileMemo.toLowerCase().normalize("NFC")
+        )) ||
+      (item.fileOriginNm &&
+        filterPattern.test(item.fileOriginNm.toLowerCase().normalize("NFC")))
+    );
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -59,7 +95,7 @@ const FileTab = () => {
       {
         name: "파일명",
         sortable: true,
-        selector: (row, index) => row.fileOriginNm + index,
+        selector: (row) => row.fileOriginNm,
       },
       {
         name: "설명",
@@ -97,14 +133,16 @@ const FileTab = () => {
         width: "100px",
         button: true,
         selector: (row) => row.createdDttm,
-        cell: () => {
+        cell: (row) => {
+          const { orderFileUkey, fileOriginNm } = row;
           return (
             <OutlinedButton
-              disabled={true}
+              // disabled={true}
               sx={{ my: 1 }}
               buttonName="다운"
               size="small"
               startIcon={<MyIcon icon="download" size={14} />}
+              onClick={() => handleDownload(orderFileUkey, fileOriginNm)}
             />
           );
         },
@@ -143,28 +181,29 @@ const FileTab = () => {
     };
 
     return (
-      <SubHeader
-        // exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
-        filterText={filterText}
-        onFilter={onFilter}
-        totalCount={fileList.length}
-        handleClear={handleClear}
-        handleFileUploadModalOpen={handleFileUploadModalOpen}
-        // handleSampleBatchModalOpen={handleSampleBatchModalOpen}
-        // handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-      />
+      <>
+        <SubHeader
+          // exportUrl={`${process.env.NEXT_PUBLIC_API_URL}/order/list/download`}
+          filterText={filterText}
+          onFilter={onFilter}
+          totalCount={filteredItems.length}
+          handleClear={handleClear}
+          handleFileUploadModalOpen={handleFileUploadModalOpen}
+          // handleSampleBatchModalOpen={handleSampleBatchModalOpen}
+          // handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
+        />
+      </>
     );
-  }, [fileList]);
+  }, [fileList, filterText]);
 
   const handleFileUploadModalClose = () => {
     setIsFileUploadModal(false);
   };
 
-  let dataTableCustomStyles1;
   return (
     <>
       <DataTableBase
-        data={fileList}
+        data={filteredItems}
         columns={columns}
         pointerOnHover
         highlightOnHover

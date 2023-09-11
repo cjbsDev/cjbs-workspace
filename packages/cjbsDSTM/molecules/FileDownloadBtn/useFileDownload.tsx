@@ -7,30 +7,6 @@ import { toast } from "react-toastify";
 export const useFileDownload = (exportUrl: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
-
-  // const saverFile = () => {
-  //   setIsLoading(true);
-  //     POST_BLOB(exportUrl)
-  //     .then((res) => {
-  //
-  //       if(res.status == 200) {
-  //         const disposition = res.headers["content-disposition"];
-  //         const resFileName = decodeURI(
-  //             disposition
-  //                 .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]
-  //                 .replace(/['"]/g, "")
-  //         );
-  //         setFileName(resFileName);
-  //         setIsLoading(false);
-  //         FileSaver.saveAs(res.data, resFileName);
-  //       }
-  //
-  //     })
-  //     .catch((err) => {
-  //       console.log("Error", err.message);
-  //     });
-  // };
-
   const saverFile = async () => {
     try {
       setIsLoading(true);
