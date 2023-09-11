@@ -12,12 +12,18 @@ import rsImg from '@public/img/icons/RS.png';
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {GET} from "api";
+import useCopyClipBoard from "@app/hooks/useCopyClipBoard";
 
 const Page = () => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
     const [totCnt, setTotCnt] = React.useState(0);
+
+    const [isCopy, onCopy] = useCopyClipBoard();
+    const handleCopyClipBoard = (text: string) => {
+        onCopy(text);
+    };
 
     const getTotalCountCall = async() => {
         const res = await GET(`/orsh/list?page=&size=`);
@@ -412,7 +418,7 @@ const Page = () => {
                                     <LinkButton
                                       buttonName="복사"
                                       startIcon={<MyIcon icon="duplicate" size={20} color={cjbsTheme.palette.primary.main}/>}
-                                      // onClick={() => router.push("/cust-list")}
+                                      onClick={() => handleCopyClipBoard('경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크 블루동 12층')}
                                     />
                                 </Stack>
                             </Box>
