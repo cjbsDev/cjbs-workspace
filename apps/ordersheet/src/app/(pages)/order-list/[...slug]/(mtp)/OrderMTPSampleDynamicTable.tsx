@@ -83,15 +83,53 @@ export default function OrderMTPSampleDynamicTable(props:any) {
   const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
     // console.log("fileId~!~!", fileId);
-    for (let i = 0; i < count; i++) {
-      append({
-        sampleNm: "",
-        source: "",
-        sampleCategoryCc: "",
-        anlsTargetGeneCc: "",
-        memo: "",
-        selfQcResultFileId: fileId,
-      }); // 입력된 수만큼 항목을 추가합니다.
+    // for (let i = 0; i < count; i++) {
+    //   append({
+    //     sampleNm: "",
+    //     source: "",
+    //     sampleCategoryCc: "",
+    //     anlsTargetGeneCc: "",
+    //     memo: "",
+    //     selfQcResultFileId: fileId,
+    //   }); // 입력된 수만큼 항목을 추가합니다.
+    // }
+
+    if(serviceType === 'fs') {
+      for (let i = 0; i < count; i++) {
+        append({
+          sampleNm: "",
+          source: "",
+          sampleCategoryCc: "",
+          anlsTargetGeneCc: "",
+          memo: "",
+          selfQcResultFileId: fileId,
+        });
+      }
+
+    } else if (serviceType === 'ao') {
+      for (let i = 0; i < count; i++) {
+        append({
+          anlsTargetGeneCc: "",
+          frwrPrimer: "",
+          memo: "",
+          pltfMc: fileId,
+          rvrsPrimer: "",
+          sampleNm: "",
+          source: "",
+        });
+      }
+
+    } else if (serviceType === 'so') {
+      for (let i = 0; i < count; i++) {
+        append({
+          idx1frwr: "",
+          idx1nm: "",
+          idx2nm: "",
+          idx2rvrs: "",
+          memo: "",
+          sampleNm: "",
+        });
+      }
     }
   };
 
@@ -182,10 +220,9 @@ export default function OrderMTPSampleDynamicTable(props:any) {
                   field={field}
                   remove={remove}
                   index={index}
-                  // acct={acct}
-                  // perm={perm}
                   errors={errors}
                   callbackRemove={callbackRemove}
+                  serviceType={serviceType}
                 />
               );
             })}
