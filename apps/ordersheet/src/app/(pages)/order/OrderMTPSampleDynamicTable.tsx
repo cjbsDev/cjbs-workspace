@@ -127,6 +127,7 @@ const OrderMTPSampleDynamicTable = (props: any) => {
           open={showOrderInfoModifyModal}
           modalWidth={800}
           append={append}
+          serviceType={serviceType}
           // handleAddFields={handleAddFields}
           // addExcelDataTableRows={addExcelDataTableRows}
         />

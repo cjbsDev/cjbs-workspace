@@ -22,7 +22,7 @@ interface ModalContainerProps {
   append: any;
 }
 
-const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
+const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -82,7 +82,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
         formData.append("file", file);
 
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
           formData,
           {
             withCredentials: false,
@@ -97,18 +97,48 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
           console.log("RES VALUE ==>>", data);
           console.log("RES VALUE Length ==>>", data.length);
 
-          const appendedData = data.map((item) => ({
-            sampleNm: item.sampleNm,
-            source: item.source,
-            sampleCategoryCc: item.sampleCategoryCc,
-            anlsTargetGeneCc: item.anlsTargetGeneCc,
-            qc: item.qc,
-            memo: item.memo,
-          }));
-          appendedData.forEach((item) => {
-            append(item);
-          });
+          if(serviceType === 'fs'){
+            const appendedData = data.map((item) => ({
+              sampleNm: item.sampleNm,
+              source: item.source,
+              sampleCategoryCc: item.sampleCategoryCc,
+              anlsTargetGeneCc: item.anlsTargetGeneCc,
+              qc: item.qc,
+              memo: item.memo,
+            }));
+            appendedData.forEach((item) => {
+              append(item);
+            });
+
+          } else if(serviceType === 'ao') {
+            const appendedData = data.map((item) => ({
+              anlsTargetGeneCc: item.anlsTargetGeneCc,
+              frwrPrimer: item.frwrPrimer,
+              memo: item.memo,
+              pltfMc: item.pltfMc,
+              rvrsPrimer: item.rvrsPrimer,
+              sampleNm: item.sampleNm,
+              source: item.source,
+            }));
+            appendedData.forEach((item) => {
+              append(item);
+            });
+
+          } else if(serviceType === 'so') {
+            const appendedData = data.map((item) => ({
+              idx1frwr: item.idx1frwr,
+              idx1nm: item.idx1nm,
+              idx2nm: item.idx2nm,
+              idx2rvrs: item.idx2rvrs,
+              memo: item.memo,
+              sampleNm: item.sampleNm,
+            }));
+            appendedData.forEach((item) => {
+              append(item);
+            });
+          }
           handleClose();
+
         } else {
           console.log("Error: ", response.data.message);
           // 오류 처리 로직 추가
@@ -135,20 +165,51 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append }) => {
           <Typography variant="body2">
             • 엑셀 양식을 다운로드한 후 데이터를 입력한 파일을 업로드해주세요.
           </Typography>
-          <Link
-            href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Full_service_template.xlsx"
-            target="_blank"
-          >
-            <ContainedButton
-              buttonName="엑셀 양식 다운로드"
-              startIcon={<MyIcon icon="download" size={16} />}
-              color={"secondary"}
-              size="small"
-              sx={{ marginLeft: "20spx !important" }}
-            />
-          </Link>
-          {/*https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Analysis_only_template.xlsx*/}
-          {/*https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Sequencing_only_template.xlsx*/}
+          {serviceType === 'fs' ? (
+            <Link
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Full_service_template.xlsx"
+              target="_blank"
+            >
+              <ContainedButton
+                buttonName="엑셀 양식 다운로드"
+                startIcon={<MyIcon icon="download" size={16} />}
+                color={"secondary"}
+                size="small"
+                sx={{ marginLeft: "20spx !important" }}
+              />
+            </Link>
+          ) : ('')}
+
+          {serviceType === 'ao' ? (
+            <Link
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Analysis_only_template.xlsx"
+              target="_blank"
+            >
+              <ContainedButton
+                buttonName="엑셀 양식 다운로드"
+                startIcon={<MyIcon icon="download" size={16} />}
+                color={"secondary"}
+                size="small"
+                sx={{ marginLeft: "20spx !important" }}
+              />
+            </Link>
+          ) : ('')}
+
+          {serviceType === 'so' ? (
+            <Link
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Sequencing_only_template.xlsx"
+              target="_blank"
+            >
+              <ContainedButton
+                buttonName="엑셀 양식 다운로드"
+                startIcon={<MyIcon icon="download" size={16} />}
+                color={"secondary"}
+                size="small"
+                sx={{ marginLeft: "20spx !important" }}
+              />
+            </Link>
+          ) : ('')}
+
           <Typography variant="body2">
             • 엑셀 등록 시 기존에 입력한 정보는 초기화됩니다.
           </Typography>
