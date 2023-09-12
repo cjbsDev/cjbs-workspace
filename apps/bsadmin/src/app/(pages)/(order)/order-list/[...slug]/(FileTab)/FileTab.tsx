@@ -137,7 +137,7 @@ const FileTab = () => {
           const { orderFileUkey, fileOriginNm } = row;
           return (
             <OutlinedButton
-              // disabled={true}
+              disabled={true}
               sx={{ my: 1 }}
               buttonName="다운"
               size="small"

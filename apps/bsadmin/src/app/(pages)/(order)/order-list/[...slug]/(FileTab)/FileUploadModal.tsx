@@ -26,6 +26,8 @@ import { useParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import { useDropzone } from "react-dropzone";
 import FileDropzone from "./FileDropzone";
+import { useRecoilState } from "recoil";
+import { isDisabledAtom } from "../../../../../recoil/atoms/modalAtom";
 
 const FileUploadModal = (props) => {
   const { onClose, open, modalWidth, formId } = props;
@@ -33,6 +35,12 @@ const FileUploadModal = (props) => {
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
+  const [isDis, setIsDis] = useRecoilState(isDisabledAtom);
+
+  const handleClose = () => {
+    onClose();
+    setIsDis(true);
+  };
 
   const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/file`;
   const onSubmit = async (data: any) => {
@@ -83,30 +91,19 @@ const FileUploadModal = (props) => {
       console.error("request failed:", error);
     } finally {
       setIsLoading(false);
+      setIsDis(true);
     }
   };
 
   return (
     <>
-      <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-        <ModalTitle onClose={onClose}>파일 업로드</ModalTitle>
+      <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
+        <ModalTitle onClose={handleClose}>파일 업로드</ModalTitle>
         <DialogContent>
           <Form onSubmit={onSubmit} id={formId}>
             <Box sx={{ mb: 2 }}>
               <FileDropzone />
             </Box>
-            {/*<Box>*/}
-            {/*  <InputValidation*/}
-            {/*    inputName="uploadFile"*/}
-            {/*    required={false}*/}
-            {/*    type="file"*/}
-            {/*    inputProps={{*/}
-            {/*      multiple: true,*/}
-            {/*    }}*/}
-            {/*    // sx={{ width: 306 }}*/}
-            {/*  />*/}
-            {/*</Box>*/}
-
             <TableContainer>
               <Table>
                 <TableBody>
@@ -152,7 +149,7 @@ const FileUploadModal = (props) => {
         <ModalAction>
           <OutlinedButton
             buttonName="닫기"
-            onClick={onClose}
+            onClick={handleClose}
             color="secondary"
           />
           <LoadingButton
@@ -160,8 +157,9 @@ const FileUploadModal = (props) => {
             variant="contained"
             type="submit"
             form={formId}
+            disabled={isDis}
           >
-            저장
+            등록
           </LoadingButton>
         </ModalAction>
       </ModalContainer>
