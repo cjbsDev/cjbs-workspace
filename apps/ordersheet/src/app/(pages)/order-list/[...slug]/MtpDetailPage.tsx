@@ -5,8 +5,8 @@ import { useRouter } from "next-nprogress-bar";
 import {Box, Container, Stack, styled, Typography} from "@mui/material";
 import * as React from "react";
 import MtpFullService from "./(service)/MtpFullService";
-import MtpAnalysis from "@app/(pages)/order/mtp/MtpAnalysis";
-import MtpSequencing from "@app/(pages)/order/mtp/MtpSequencing";
+import MtpAnalysis from "@app/(pages)/order/(mtp)/MtpAnalysis";
+import MtpSequencing from "@app/(pages)/order/(mtp)/MtpSequencing";
 import {useState} from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "@components/SkeletonLoading";
@@ -17,12 +17,21 @@ const LazyMtpFullService = dynamic(() => import("./(service)/MtpFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
+const LazyMtpAnalysis = dynamic(() => import("./(service)/MtpAnalysis"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
+const LazyMtpSequencing = dynamic(() => import("./(service)/MtpSequencing"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function OrshMtpDetailPage() {
   const router = useRouter();
 
-  // const params = useParams();
-  // console.log("params", params.slug[1]);
+  const params = useParams();
+  console.log("params", params.slug[1]);
+  const serviceType = params.slug[1];
 
   return (
 
@@ -69,14 +78,34 @@ export default function OrshMtpDetailPage() {
             alignContent: 'start',
             alignItems: 'center',
           }}>
-            <Typography variant="subtitle1">
-              Full Service&nbsp;
-            </Typography>
+            {serviceType === 'fs' ? (
+              <Typography variant="subtitle1">
+                Full Service&nbsp;
+              </Typography>
+            ) : ('')}
+            {serviceType === 'ao' ? (
+              <Typography variant="subtitle1">
+                Analysis Only&nbsp;
+              </Typography>
+            ) : ('')}
+            {serviceType === 'so' ? (
+              <Typography variant="subtitle1">
+                Sequencing Only&nbsp;
+              </Typography>
+            ) : ('')}
           </Box>
         </Stack>
 
         <ErrorContainer FallbackComponent={Fallback}>
-          <LazyMtpFullService />
+          {serviceType === 'fs' ? (
+            <LazyMtpFullService />
+          ) : ('')}
+          {serviceType === 'ao' ? (
+            <LazyMtpAnalysis />
+          ) : ('')}
+          {serviceType === 'so' ? (
+            <LazyMtpSequencing />
+          ) : ('')}
         </ErrorContainer>
 
       </Box>

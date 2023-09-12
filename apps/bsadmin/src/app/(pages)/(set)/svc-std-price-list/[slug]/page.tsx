@@ -26,6 +26,11 @@ import dynamic from "next/dynamic";
 import { fetcher } from "api";
 import { toast } from "react-toastify";
 
+const LazyStndPriceDetailList = dynamic(() => import("./StndPriceDetailList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={82} />,
+});
+
 interface ViewProps {
   params: {
     slug: string;
@@ -49,11 +54,6 @@ export default function SvcStdPricePage({ params }: ViewProps) {
   if (isLoading) {
     return <SkeletonLoading />;
   }
-  const onSubmit = async (data: any) => {
-    console.log("in onSubmit", data);
-  };
-
-  const defaultValues = {};
   console.log("codeData", codeData);
   /*
   {
@@ -88,37 +88,37 @@ export default function SvcStdPricePage({ params }: ViewProps) {
       <Box sx={{ mb: 4 }}>
         <Title1 titleName="서비스 기준가 정보" />
       </Box>
-      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "252px" }}>서비스 분류</TH>
-                <TD>
-                  {codeData.srvcTypeMcVal ?? ""} &gt; {codeData.anlsTypeMcVal}{" "}
-                  &gt; {codeData.anlsMtMcVal}
-                </TD>
-              </TableRow>
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "252px" }}>서비스 분류</TH>
+              <TD>
+                {codeData.srvcTypeMcVal ?? ""} &gt; {codeData.anlsTypeMcVal}{" "}
+                &gt; {codeData.anlsMtMcVal}
+              </TD>
+            </TableRow>
 
-              <TableRow>
-                <TH sx={{ width: "252px" }}>생산량</TH>
-                <TD>{codeData.prdcSizeMcVal ?? ""}</TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "252px" }}>서비스 분류 코드</TH>
-                <TD>{codeData.srvcTypeMc ?? ""}</TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <Stack direction="row" spacing={0.5} justifyContent="center">
-          <OutlinedButton
-            buttonName="목록"
-            onClick={() => router.push("/svc-type-list")}
-          />
-          <ContainedButton buttonName="저장" type="submit" />
-        </Stack>
-      </Form>
+            <TableRow>
+              <TH sx={{ width: "252px" }}>생산량</TH>
+              <TD>{codeData.prdcSizeMcVal ?? ""}</TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "252px" }}>서비스 분류 코드</TH>
+              <TD>{codeData.srvcTypeMc ?? ""}</TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <LazyStndPriceDetailList slug={slug} />
+
+      <Stack direction="row" spacing={0.5} justifyContent="center">
+        <OutlinedButton
+          buttonName="목록"
+          onClick={() => router.push("/svc-std-price-list")}
+        />
+      </Stack>
     </Container>
   );
 }

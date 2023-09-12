@@ -31,6 +31,7 @@ import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
 import {useParams} from "next/navigation";
+import NoticeBox from "@app/(pages)/order/(mtp)/(contents)/NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
   () => import("@components/CommonSelectbox"),
@@ -111,64 +112,12 @@ export default function OrderMtpSampleList(props: any) {
             </TD>
           </TableRow>
         );
-      // case 'so' :
-      //     return (
-      //         <TableRow>
-      //             <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-      //             <TD sx={{ width: "80%" }}>
-      //                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-      //                     <ErrorContainer FallbackComponent={Fallback}>
-      //                         <LazyPrepSelectbox url={"/code/orsh/pltf/list?type=mtpSO"} inputName={"pltfMc"} />
-      //                     </ErrorContainer>
-      //                 </Stack>
-      //             </TD>
-      //         </TableRow>
-      //     )
     }
   };
 
   return (
     <>
-      <Box
-        alignItems="start"
-        sx={{
-          backgroundColor: cjbsTheme.palette.grey["50"],
-          paddingX: 5,
-          paddingY: 3,
-          mb: 2,
-        }}
-      >
-        <ul>
-          <li style={{ color: "#EF151E" }}>
-            <Typography variant="body2">
-              보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기
-              바랍니다.
-            </Typography>
-          </li>
-          <li style={{ color: "#EF151E" }}>
-            <Typography variant="body2">
-              분석 결과는 EzBioCloud로 업로드됩니다.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body2">
-              DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타 환경샘플)은
-              1개월 후 자동폐기됩니다.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body2">
-              Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서
-              다운로드 바랍니다.
-            </Typography>
-          </li>
-          <li>
-            <Typography variant="body2">
-              분석 결과는 연구용으로만 사용이 가능합니다.
-            </Typography>
-          </li>
-        </ul>
-      </Box>
+      <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {serviceType !== "so" ? (
@@ -195,7 +144,7 @@ export default function OrderMtpSampleList(props: any) {
           <Typography variant="subtitle1">샘플 리스트</Typography>
         </Stack>
       </Stack>
-      <OrderMTPSampleDynamicTable />
+      <OrderMTPSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>

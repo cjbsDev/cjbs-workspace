@@ -11,15 +11,30 @@ import wgImg from '@public/img/icons/wc.png';
 import rsImg from '@public/img/icons/RS.png';
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
-
+import {GET} from "api";
+import useCopyClipBoard from "@app/hooks/useCopyClipBoard";
 
 const Page = () => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
     const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
+    const [totCnt, setTotCnt] = React.useState(0);
+
+    const [isCopy, onCopy] = useCopyClipBoard();
+    const handleCopyClipBoard = (text: string) => {
+        onCopy(text);
+    };
+
+    const getTotalCountCall = async() => {
+        const res = await GET(`/orsh/list?page=&size=`);
+        console.log('res', res)
+        console.log('!!!', res.data.pageInfo.totalElements)
+        setTotCnt(res.data.pageInfo.totalElements);
+    }
 
     useEffect(() => {
         setStepperNo(1);
+        getTotalCountCall();
     }, [])
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -335,7 +350,8 @@ const Page = () => {
                     </Typography>
                     <Typography variant="subtitle1" sx={{color: '#006ECD'}}>
                         <Link href="/order-list">
-                        17건
+                        {/*17건*/}
+                            {totCnt}건
                         </Link>
                     </Typography>
                     <MyIcon icon="cheveron-right" size={18} />
@@ -402,7 +418,7 @@ const Page = () => {
                                     <LinkButton
                                       buttonName="복사"
                                       startIcon={<MyIcon icon="duplicate" size={20} color={cjbsTheme.palette.primary.main}/>}
-                                      // onClick={() => router.push("/cust-list")}
+                                      onClick={() => handleCopyClipBoard('경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크 블루동 12층')}
                                     />
                                 </Stack>
                             </Box>

@@ -6,7 +6,7 @@ interface CommonSelectboxProps {
   url: string;
   inputName: string;
 }
-export default function CommonSelectbox({
+export default function OrderSelectbox({
   url,
   inputName,
   ...props

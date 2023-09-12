@@ -243,7 +243,6 @@ const MemberMngtNewModal = ({
 
   // 고객 선택된 row 정보 확인
   const handleRowSelected = (rows: any) => {
-    console.log("rows", rows);
     setSelectedRows(rows);
   };
 

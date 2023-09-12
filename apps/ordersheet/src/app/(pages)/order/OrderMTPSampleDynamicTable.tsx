@@ -21,33 +21,36 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/ExRow";
+import ExRow from "@app/(pages)/order/(mtp)/(contents)/ExRow";
 import TableHeader from "@app/(pages)/order/TableHeader";
 import TableNewRows from "@app/(pages)/order/TableNewRows";
 import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
 
-function getUserAccount() {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`
-  );
-}
+// function getUserAccount() {
+//   return axios.get(
+//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`
+//   );
+// }
+//
+// function getUserPermissions() {
+//   return axios.get(
+//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=genome`
+//   );
+// }
+//
+// let acct: any;
+// let perm: any;
+// Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
+//   .then(function (results) {
+//     // 응답 결과를 results 배열로 받아서
+//     acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
+//     perm = results[1].data.data;
+//   });
 
-function getUserPermissions() {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=genome`
-  );
-}
+const OrderMTPSampleDynamicTable = (props: any) => {
+  // console.log("$$$$$$$$$$", props.serviceType);
+  const serviceType = props.serviceType;
 
-let acct: any;
-let perm: any;
-Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
-  .then(function (results) {
-    // 응답 결과를 results 배열로 받아서
-    acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
-    perm = results[1].data.data;
-  });
-
-const OrderMTPSampleDynamicTable = () => {
   const { watch, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -61,7 +64,7 @@ const OrderMTPSampleDynamicTable = () => {
   };
 
   useEffect(() => {
-    handleAddFields(2)
+    handleAddFields(1)
   }, [])
 
 
@@ -69,17 +72,46 @@ const OrderMTPSampleDynamicTable = () => {
 
   const handleAddFields = (count:any) => {
     console.log("Count~!~!", count);
-    for (let i = 0; i < count; i++) {
-      append({
-        sampleNm: "",
-        source: "",
-        sampleCategoryCc: "",
-        anlsTargetGeneCc: "",
-        qc: "",
-        memo: "",
-      }); // 입력된 수만큼 항목을 추가합니다.
+    // 입력된 수만큼 항목을 추가합니다.
+    if(serviceType === 'fs') {
+      for (let i = 0; i < count; i++) {
+        append({
+          sampleNm: "",
+          source: "",
+          sampleCategoryCc: "",
+          anlsTargetGeneCc: "",
+          memo: "",
+        });
+      }
+
+    } else if (serviceType === 'ao') {
+      for (let i = 0; i < count; i++) {
+        append({
+          anlsTargetGeneCc: "",
+          frwrPrimer: "",
+          memo: "",
+          pltfMc: "",
+          rvrsPrimer: "",
+          sampleNm: "",
+          source: "",
+        });
+      }
+
+    } else if (serviceType === 'so') {
+      for (let i = 0; i < count; i++) {
+        append({
+          idx1frwr: "",
+          idx1nm: "",
+          idx2nm: "",
+          idx2rvrs: "",
+          memo: "",
+          sampleNm: "",
+        });
+      }
     }
+
   };
+
   return (
     <>
       <Stack direction="row">
@@ -95,7 +127,8 @@ const OrderMTPSampleDynamicTable = () => {
           open={showOrderInfoModifyModal}
           modalWidth={800}
           append={append}
-          handleAddFields={handleAddFields}
+          serviceType={serviceType}
+          // handleAddFields={handleAddFields}
           // addExcelDataTableRows={addExcelDataTableRows}
         />
         <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
@@ -108,9 +141,9 @@ const OrderMTPSampleDynamicTable = () => {
       </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
-          <TableHeader />
+          <TableHeader serviceType={serviceType} />
           <TableBody>
-            <ExRow />
+            <ExRow serviceType={serviceType} />
             {fields.map((field, index) => {
               return (
                 <TableNewRows
@@ -118,9 +151,8 @@ const OrderMTPSampleDynamicTable = () => {
                   field={field}
                   remove={remove}
                   index={index}
-                  acct={acct}
-                  perm={perm}
                   errors={errors}
+                  serviceType={serviceType}
                 />
               );
             })}
