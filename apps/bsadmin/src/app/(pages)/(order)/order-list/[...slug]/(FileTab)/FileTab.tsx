@@ -11,6 +11,7 @@ import SubHeader from "./SubHeader";
 import FileUploadModal from "./FileUploadModal";
 import MyIcon from "icon/MyIcon";
 import FileSaver from "file-saver";
+import axios from "axios";
 
 const FileTab = () => {
   const [isFileUploadModal, setIsFileUploadModal] = useState<boolean>(false);
@@ -45,24 +46,23 @@ const FileTab = () => {
   ) => {
     try {
       const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
-      if (res.success) {
-        // toast("다운로드 되었습니다.");
-        // console.log(res);
 
-        console.log(res);
-        // if (response.status === 200) {
-        //   // const disposition = response.headers["content-disposition"];
-        //   // const resFileName = decodeURI(
-        //   //   disposition
-        //   //     .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]
-        //   //     .replace(/['"]/g, "")
-        //   // );
-        //   FileSaver.saveAs(response.data, fileOriginNm);
-        // }
-
-        // FileSaver.saveAs(new Blob([res.data]), fileOriginNm);
-        // mutate(`/order/${orderUkey}/file/list`);
-      }
+      await axios({
+        url: res.data,
+        method: "get",
+        responseType: "blob",
+        validateStatus: function (status) {
+          // 상태 코드가 500 이상일 경우 거부. 나머지(500보다 작은)는 허용.
+          return (
+            (status >= 200 && status < 300) ||
+            status === 401 ||
+            status === 400 ||
+            status === 500
+          );
+        },
+      }).then((response) => {
+        FileSaver.saveAs(response.data, fileOriginNm);
+      });
     } catch (e) {
       console.log(e.message);
     } finally {
@@ -137,7 +137,7 @@ const FileTab = () => {
           const { orderFileUkey, fileOriginNm } = row;
           return (
             <OutlinedButton
-              disabled={true}
+              // disabled={true}
               sx={{ my: 1 }}
               buttonName="다운"
               size="small"

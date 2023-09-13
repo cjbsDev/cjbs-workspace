@@ -71,7 +71,9 @@ const SampleTab = () => {
   const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
     suspense: true,
   });
-  const sampleList = data;
+  const sampleList = Array.from(data);
+
+  console.log(sampleList);
 
   useEffect(() => {
     // isClear 상태 변경 이슈
@@ -403,6 +405,39 @@ const SampleTab = () => {
     []
   );
 
+  const filteredItems = sampleList.filter((item) => {
+    const filterPattern = new RegExp(
+      filterText.toLowerCase().normalize("NFC"),
+      "i"
+    );
+
+    return (
+      (item.sampleId && filterPattern.test(item.sampleId)) ||
+      (item.sampleNm &&
+        filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
+      (item.sampleTypeVal &&
+        filterPattern.test(
+          item.sampleTypeVal.toLowerCase().normalize("NFC")
+        )) ||
+      (item.source &&
+        filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
+      (item.depthVal &&
+        filterPattern.test(item.depthVal.toLowerCase().normalize("NFC"))) ||
+      (item.taxonVal &&
+        filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
+      (item.runList.join() &&
+        filterPattern.test(
+          item.runList.join().toLowerCase().normalize("NFC")
+        )) ||
+      (item.sampleStatusRes.rcptStatusVal &&
+        filterPattern.test(
+          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
+        )) ||
+      (item.isAnlsInst &&
+        filterPattern.test(item.isAnlsInst.toLowerCase().normalize("NFC")))
+    );
+  });
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -410,6 +445,9 @@ const SampleTab = () => {
         setFilterText("");
       }
     };
+
+    const onFilter = (e: { target: { value: React.SetStateAction<string> } }) =>
+      setFilterText(e.target.value);
     const handleSampleAddModalOpen = () => {
       setShowSampleAddModal(true);
     };
@@ -428,10 +466,13 @@ const SampleTab = () => {
     return (
       <SubHeader
         exportUrl={`/order/list/download`}
-        totalCount={sampleList.length}
+        totalCount={filteredItems.length}
         handleSampleAddModalOpen={handleSampleAddModalOpen}
         handleSampleBatchModalOpen={handleSampleBatchModalOpen}
         handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
+        handleClear={handleClear}
+        filterText={filterText}
+        onFilter={onFilter}
       />
     );
   }, [filterText, resetPaginationToggle, checked, sampleUkeyList]);
@@ -481,7 +522,7 @@ const SampleTab = () => {
   return (
     <>
       <DataTableBase
-        data={sampleList}
+        data={filteredItems}
         columns={columns}
         onRowClicked={goDetailModal}
         pointerOnHover

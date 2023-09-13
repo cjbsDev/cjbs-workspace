@@ -3,26 +3,33 @@ import { Grid, Stack } from "@mui/material";
 import {
   ContainedButton,
   DataCountResultInfo,
+  DataTableFilter,
   FileDownloadBtn,
   OutlinedButton,
 } from "cjbsDSTM";
 
 interface SubHeaderProps {
+  filterText: string;
   totalCount: number;
   exportUrl?: string;
   // sampleUkeyList: string[];
   handleSampleAddModalOpen?: () => void;
   handleSampleBatchModalOpen?: () => void;
   handleExPrgrsPhsOpen?: () => void;
+  handleClear?: () => void;
+  onFilter: any;
 }
 
 const SubHeader = (props: SubHeaderProps) => {
   const {
+    filterText,
     totalCount,
     exportUrl,
     handleSampleAddModalOpen,
     handleSampleBatchModalOpen,
     handleExPrgrsPhsOpen,
+    handleClear,
+    onFilter,
   } = props;
 
   return (
@@ -35,8 +42,11 @@ const SubHeader = (props: SubHeaderProps) => {
             size="small"
             onClick={handleSampleAddModalOpen}
           />
-          {/* 개발 예정(10월 중순...) */}
-          {/*<ContainedButton buttonName="분석 내역 보기" size="small" />*/}
+          <ContainedButton
+            buttonName="분석 내역 보기"
+            size="small"
+            disabled={true}
+          />
           <OutlinedButton
             buttonName="샘플 정보 일괄 변경"
             size="small"
@@ -57,13 +67,11 @@ const SubHeader = (props: SubHeaderProps) => {
         <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
           <FileDownloadBtn exportUrl={exportUrl} iconName="xls3" />
 
-          {/*<DataTableFilter*/}
-          {/*  onFilter={(e: {*/}
-          {/*    target: { value: React.SetStateAction<string> };*/}
-          {/*  }) => setFilterText(e.target.value)}*/}
-          {/*  onClear={handleClear}*/}
-          {/*  filterText={filterText}*/}
-          {/*/>*/}
+          <DataTableFilter
+            onFilter={onFilter}
+            onClear={handleClear}
+            filterText={filterText}
+          />
         </Stack>
       </Grid>
     </Grid>

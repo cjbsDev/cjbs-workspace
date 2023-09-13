@@ -58,7 +58,7 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
     console.log("sampleInfoModify Add", data);
 
     const bodyData = {
-      depth: data.depth,
+      depthMc: data.depthMc,
       isVrfc: data.isVrfc,
       mcNmCc: data.mcNmCc,
       memo: data.memo,
