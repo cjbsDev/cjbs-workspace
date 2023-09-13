@@ -23,6 +23,9 @@ interface ModalContainerProps {
 
 import { fetcher } from "api";
 
+// /cust/list?page=${pageIndex}&size=${perPage}
+const APIPATH = "/cust/list";
+
 const CustSearchModal = ({
   onClose,
   open,
@@ -32,15 +35,11 @@ const CustSearchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(50);
-  const [pageIndex, setPageIndex] = useState(0);
-  const { data } = useSWR(
-    `/cust/list?page=${pageIndex}&size=${perPage}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  // const [perPage, setPerPage] = useState(10);
+  // const [pageIndex, setPageIndex] = useState(0);
+  const { data } = useSWR(APIPATH, fetcher, {
+    suspense: true,
+  });
   const { setValue, clearErrors, resetField } = useFormContext();
 
   // [고객] 컬럼세팅
@@ -180,12 +179,12 @@ const CustSearchModal = ({
           subHeaderComponent={subHeaderComponentMemo}
           paginationResetDefaultPage={resetPaginationToggle}
           selectableRows={false}
-          paginationServer
-          paginationTotalRows={5}
-          onChangePage={(page, totalRows) => console.log(page, totalRows)}
-          onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-            console.log(currentRowsPerPage, currentPage)
-          }
+          // paginationServer
+          // paginationTotalRows={5}
+          // onChangePage={(page, totalRows) => console.log(page, totalRows)}
+          // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
+          //   console.log(currentRowsPerPage, currentPage)
+          // }
           paginationPerPage={10}
           paginationRowsPerPageOptions={[5, 10, 15]}
         />

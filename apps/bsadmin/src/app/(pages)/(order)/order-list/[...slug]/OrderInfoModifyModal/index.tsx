@@ -117,7 +117,7 @@ ModalContainerProps) => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    // console.log("오더 정보 변경 Body Data ==>>", data.mailRcpnList);
+    // console.log("SUBMIT Data ==>>", data);
     // console.log("추가(직접입력) 선택", data.mailRcpnList.includes("etcRcpn"));
     // console.log("추가 이메일 입력 값", data.addEmailList);
 
@@ -125,7 +125,10 @@ ModalContainerProps) => {
       setAddEmailChck(true);
     }
 
-    const newDateValue = dayjs(data.check16sAt).format("YYYY-MM-DD");
+    const newDateValue =
+      data.check16sAt !== null
+        ? dayjs(data.check16sAt).format("YYYY-MM-DD")
+        : null;
     // console.log("NEW check16At", newDateValue);
 
     const body = {

@@ -47,6 +47,12 @@ const LazyFileTab = dynamic(() => import("./(FileTab)/FileTab"), {
   loading: () => <SkeletonLoading />,
 });
 
+// 코멘트탭
+const LazyCommentTab = dynamic(() => import("./(CommentTab)/CommentTab"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
 export default function OrderInfo() {
   const router = useRouter();
   // [오더 정보 변경] 모달
@@ -105,7 +111,9 @@ export default function OrderInfo() {
         </ErrorContainer>
       </CustomTabPanel>
       <CustomTabPanel value={tabValue} index={3}>
-        Coment
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyCommentTab />
+        </ErrorContainer>
       </CustomTabPanel>
 
       {/* 오더 정보 변경 Modal */}
