@@ -21,10 +21,10 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/(mtp)/(contents)/ExRow";
-import TableHeader from "@app/(pages)/order/TableHeader";
-import TableNewRows from "@app/(pages)/order/TableNewRows";
-import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
+import ExRow from "@app/(pages)/order/mtp/(service)/(contents)/ExRow";
+import TableHeader from "@app/(pages)/order/mtp/(service)/(contents)/TableHeader";
+import TableNewRows from "@app/(pages)/order/mtp/(service)/(contents)/TableNewRows";
+import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
 
 // function getUserAccount() {
 //   return axios.get(

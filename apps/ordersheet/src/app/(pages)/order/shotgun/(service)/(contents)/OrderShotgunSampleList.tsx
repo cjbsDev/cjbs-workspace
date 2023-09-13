@@ -26,38 +26,27 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "@public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
-import ExcelUploadModal from "@app/(pages)/order/ExcelUploadModal";
-import TableRows from "./TableRows";
-import MtpFullService from "@app/(pages)/order/(mtp)/MtpFullService";
+import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
+import TableRows from "../../../TableRows";
+import MtpFullService from "@app/(pages)/order/mtp/(service)/MtpFullService";
 import { useFieldArray } from "react-hook-form";
 import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
-import OrderMTPSampleDynamicTable from "@app/(pages)/order/OrderMTPSampleDynamicTable";
-import NoticeBox from "@app/(pages)/order/(mtp)/(contents)/NoticeBox";
+import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
+import NoticeBox from "@app/(pages)/order/mtp/(service)/(contents)/NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../components/OrderSelectbox"),
+  () => import("@components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
 
-type FormValues = {
-  samples: {
-    sampleNm: string;
-    source: string;
-    sampleCategoryCc: string;
-    anlsTargetGeneCc: string;
-    qc: string;
-    memo: string;
-  }[];
-};
-
-export default function OrderMtpSampleList(props: any) {
+export default function OrderShotgunSampleList(props: any) {
   // const { fields, append } = useFieldArray({
   //   name: "items", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   // });
@@ -69,27 +58,15 @@ export default function OrderMtpSampleList(props: any) {
 
   const onSubmit = (data: any) => {
     console.log("Submit Data ==>>", data);
-    // console.log("length", Object.keys(data).length);
-
-    // const samples = [];
-    // const sampleCnt = (Object.keys(data.sample).length - 2) / 6;
-    // for (let i = 0; i < sampleCnt; i++) {
-    //   const sample = {
-    //     anlsTargetGeneCc: data[i + "_anlsTargetGeneCc"],
-    //     memo: data[i + "_memo"],
-    //     qc: data[i + "_qc"],
-    //     sampleCategoryCc: data[i + "_sampleCategoryCc"],
-    //     sampleNm: data[i + "_sampleNm"],
-    //     source: data[i + "_source"],
-    //   };
-    //   samples.push(sample);
-    // }
-    // console.log("SAMPLES ==>>", samples);
 
     const returnData = {
       samples: data.sample,
       addRqstMemo: {memo: data.memo},
-      commonInput: {pltfMc : data.pltfMc === undefined ? null : data.pltfMc}
+      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
+      groupCmprAnls: {
+        groupCmprAnlsList: data.groupCmprAnls,
+        isGroupCmprAnls: data.isGroupCmprAnls
+      },
     };
 
     // Full service 만
@@ -103,28 +80,42 @@ export default function OrderMtpSampleList(props: any) {
 
   };
 
-  const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
-    useState<boolean>(false);
+  // const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
       case "fs":
         return (
-          <TableRow>
-            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-            <TD sx={{ width: "80%" }}>
-              <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <InputValidation
-                    inputName="uploadFile"
-                    required={false}
-                    type="file"
-                    sx={{ width: 306 }}
-                  />
+          <>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyPrepSelectbox
+                      url={"/code/list/shortly?topUniqueCode=BS_0100010"}
+                      inputName={"depthCc"}
+                    />
+                  </ErrorContainer>
                 </Stack>
-              </Stack>
-            </TD>
-          </TableRow>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
+              <TD sx={{ width: "80%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <Stack direction="row" alignItems="center" spacing={2}>
+                    <InputValidation
+                      inputName="uploadFile"
+                      required={false}
+                      type="file"
+                      sx={{ width: 306 }}
+                    />
+                  </Stack>
+                </Stack>
+              </TD>
+            </TableRow>
+          </>
         );
       case "ao":
         return (
@@ -164,18 +155,7 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={0.5}
-        justifyContent="space-between"
-      >
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Typography variant="subtitle1">샘플 리스트</Typography>
-        </Stack>
-      </Stack>
-
-      <OrderMTPSampleDynamicTable serviceType={serviceType} />
+      <OrderShotgunSampleDynamicTable serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>

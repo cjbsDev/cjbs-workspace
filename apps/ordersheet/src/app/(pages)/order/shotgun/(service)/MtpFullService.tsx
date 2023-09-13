@@ -9,8 +9,8 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import PaymentInfo from "../PaymentInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
+import PaymentInfo from "../../PaymentInfo";
+import OrderShotgunSampleList from "../(service)/(contents)/OrderShotgunSampleList";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
@@ -21,7 +21,7 @@ import SkeletonLoading from "@components/SkeletonLoading";
 import {toast} from "react-toastify";
 
 
-const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
+const LazyOrdererInfo = dynamic(() => import("../../OrdererInfo"), {
     ssr: false,
     loading: () => <SkeletonLoading height={800} />,
 });
@@ -132,7 +132,7 @@ export default function MtpFullService(){
             formData.append("file-data", null);
         }
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/fs`;
 
         try {
             const response = await POST_MULTIPART(apiUrl, formData); // API 요청
@@ -140,7 +140,7 @@ export default function MtpFullService(){
             // const response = await POST(apiUrl, bodyData); // API 요청
             if (response.data.success) {
                 console.log("response", response);
-                router.push("/order/complete?serviceType=fs");
+                router.push("/order/complete?orderNm=shotgun&serviceType=fs");
             } else if (response.data.code == "INVALID_ETC_EMAIL") {
                 toast(response.data.message);
             } else {
@@ -230,7 +230,7 @@ export default function MtpFullService(){
                     </Stack>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <OrderMtpSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus} addFileData={addFileData}/>
+                    <OrderShotgunSampleList serviceType={"fs"} addBodyData={addBodyData} moveBackFocus={moveBackFocus} addFileData={addFileData}/>
                 </AccordionDetails>
             </Accordion>
             {/*<Accordion expanded={expanded === '3'} onChange={handleChange('3')}>*/}

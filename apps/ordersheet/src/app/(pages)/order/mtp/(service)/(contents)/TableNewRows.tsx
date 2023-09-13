@@ -5,7 +5,7 @@ import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../components/OrderSelectbox"),
+  () => import("@components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
