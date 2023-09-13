@@ -44,4 +44,5 @@ apps/meta/.env.development
 # 개발중
 page_exam.tsx
 
-!/pnpm-lock.yaml
+/pnpm-lock.yaml
+pnpm-lock.yaml
