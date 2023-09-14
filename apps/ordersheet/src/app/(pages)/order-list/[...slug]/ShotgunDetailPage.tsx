@@ -13,15 +13,15 @@ import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 
 
-const LazyMtpFullService = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpFullService"), {
+const LazyMtpFullService = dynamic(() => import("./(shotgun)/(service)/ShotgunFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpAnalysis = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpAnalysis"), {
+const LazyMtpAnalysis = dynamic(() => import("./(shotgun)/(service)/ShotgunAnalysis"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpSequencing = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpSequencing"), {
+const LazyMtpSequencing = dynamic(() => import("./(shotgun)/(service)/ShotgunSequencing"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
@@ -66,11 +66,9 @@ export default function OrshMtpDetailPage() {
             alignContent: 'start',
             alignItems: 'center',
           }}>
-            <Typography variant="h4">
-              MTP&nbsp;&nbsp;
-            </Typography>
-            <Typography variant="subtitle2" sx={{pt:"3px"}}>
-              Microbiome Taxonomic Profiling
+            <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+            <Typography variant="subtitle2" sx={{ pt: "3px" }}>
+              Shotgun Sequencing
             </Typography>
           </Box>
           <Box sx={{

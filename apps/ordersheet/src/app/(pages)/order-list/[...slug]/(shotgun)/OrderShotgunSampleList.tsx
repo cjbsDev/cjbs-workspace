@@ -29,17 +29,12 @@ import dynamic from "next/dynamic";
 import LoadingSvg from "@public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
-import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
-import TableRows from "../../../TableRows";
-import MtpFullService from "@app/(pages)/order/mtp/(service)/MtpFullService";
-import {useFieldArray, useFormContext} from "react-hook-form";
-import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
-import NoticeBox from "@app/(pages)/order/mtp/(service)/(contents)/NoticeBox";
-import OrderSelectbox from "@components/OrderSelectbox";
+import {useParams} from "next/navigation";
+import NoticeBox from "@app/(pages)/order/shotgun/(service)/(contents)/NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("@components/OrderSelectbox"),
+  () => import("@components/CommonSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -47,41 +42,11 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function OrderShotgunSampleList(props: any) {
-  // const { fields, append } = useFieldArray({
-  //   name: "items", // 이름은 폼 데이터에 저장될 필드 이름입니다.
-  // });
   // console.log("$$$$$$$$$$", props.serviceType);
-
-  const serviceType = props.serviceType;
-
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const defaultValues = {};
-
-  const onSubmit = (data: any) => {
-    console.log("Submit Data ==>>", data);
-
-    const returnData = {
-      samples: data.sample,
-      addRqstMemo: {memo: data.memo},
-      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
-      groupCmprAnls: {
-        groupCmprAnlsList: data.groupCmprAnls,
-        isGroupCmprAnls: data.isGroupCmprAnls
-      },
-    };
-
-    // Full service 만
-    props.addBodyData(returnData);
-    if(serviceType === 'fs') {
-      // upload file이 있는경우
-      if(data.uploadFile[0]) {
-        props.addFileData(data.uploadFile[0]);
-      }
-    }
-
-  };
-
-  // const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
+  const params = useParams();
+  // console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
+  let serviceType = params.slug[1];
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
@@ -106,22 +71,50 @@ export default function OrderShotgunSampleList(props: any) {
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <Stack direction="row" alignItems="center" spacing={2}>
+                    { updataYn === 'N' ? (
+                      <Box>
+                        <InputValidation
+                          inputName="uploadFile"
+                          required={false}
+                          type="file"
+                          sx={{ width: 306 }}
+                        />
+                        <Typography variant="body2">
+                          * 파일 재업로드 시, 기존 파일은 삭제됩니다.
+                        </Typography>
+                      </Box>
+                    ) : (
+                      ''
+                    )}
                     <InputValidation
-                      inputName="uploadFile"
+                      inputName="selfQcFileNm"
                       required={false}
-                      type="file"
-                      sx={{ width: 306 }}
+                      sx={{
+                        width: 300,
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                        },
+                        ".MuiOutlinedInput-input:read-only": {
+                          backgroundColor: "white",
+                          cursor: "pointer",
+                          textFillColor: "#000000"
+                        },
+                      }}
+                      InputProps={{
+                        readOnly: true
+                      }}
                     />
                   </Stack>
                 </Stack>
               </TD>
             </TableRow>
           </>
+
         );
       case "ao":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+            <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
@@ -138,7 +131,7 @@ export default function OrderShotgunSampleList(props: any) {
   };
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <>
       <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
@@ -156,7 +149,7 @@ export default function OrderShotgunSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderShotgunSampleDynamicTable serviceType={serviceType} />
+      <OrderShotgunSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -168,26 +161,24 @@ export default function OrderShotgunSampleList(props: any) {
         // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        sx={{ width: "100%", mb: 4 }}
         placeholder={"추가 요청 사항을 입력해주세요."}
+        sx={{
+          width: '100%',
+          mb: 4,
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+          },
+          ".MuiOutlinedInput-input:read-only": {
+            backgroundColor: "white",
+            cursor: "pointer",
+            textFillColor: "#000000"
+          },
+        }}
+        InputProps={{
+          readOnly: updataYn === 'N' ? false : true
+        }}
       />
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
-        <OutlinedButton
-          buttonName="이전"
-          onClick={() => props.moveBackFocus()}
-        />
-
-        <ContainedButton
-          type="submit"
-          buttonName="다음"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
-        />
-      </Stack>
-    </Form>
+    </>
   );
 }

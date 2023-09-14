@@ -167,7 +167,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           </Typography>
           {serviceType === 'fs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Full_service_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -182,7 +182,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'ao' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Analysis_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Analysis_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -197,7 +197,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'so' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Sequencing_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Sequencing_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton

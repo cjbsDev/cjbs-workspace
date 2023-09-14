@@ -159,7 +159,6 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
         </Table>
       </TableContainer>
 
-      {JSON.stringify(fields)}
       <OrderShotgunGroupDynamicTable sampleFields={fields}/>
 
     </>

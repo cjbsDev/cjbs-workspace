@@ -30,49 +30,6 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
     setIsLoading(false);
   };
 
-  // const handleFileChange = async (event) => {
-  //   const file = event.target.files[0]; // 선택된 파일 객체
-  //   console.log("File Input Data ==>>", file);
-  //
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("file", file as File);
-  //
-  //     await axios
-  //       .post(
-  //         `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
-  //         formData,
-  //         {
-  //           withCredentials: false,
-  //           headers: {
-  //             "Access-Control-Allow-Origin": "*",
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         if (res.data.success) {
-  //           console.log("RES VALUE ==>>", res.data.data);
-  //           console.log("RES VALUE Length ==>>", res.data.data.length);
-  //
-  //           for (let i = 0; i < res.data.data.length; i++) {
-  //             append({
-  //               sampleNm: res.data.data[i].sampleNm,
-  //               source: res.data.data[i].source,
-  //               sampleCategoryCc: res.data.data[i].sampleCategoryCc,
-  //               anlsTargetGeneCc: res.data.data[i].anlsTargetGeneCc,
-  //               qc: res.data.data[i].qc,
-  //               memo: res.data.data[i].memo,
-  //             });
-  //           }
-  //
-  //           handleClose();
-  //         } else {
-  //           console.log("EERROORRSS!!");
-  //         }
-  //       });
-  //   }
-  // };
-
   const handleFileChange = async (event) => {
     const file = event.target.files[0]; // 선택된 파일 객체
 
@@ -82,7 +39,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         formData.append("file", file);
 
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/sg/${serviceType}`,
           formData,
           {
             withCredentials: false,
@@ -100,11 +57,11 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           if(serviceType === 'fs'){
             const appendedData = data.map((item) => ({
               sampleNm: item.sampleNm,
+              groupNm: item.groupNm,
               source: item.source,
               sampleCategoryCc: item.sampleCategoryCc,
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              qc: item.qc,
               memo: item.memo,
+              depthCc: item.depthCc,
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -167,7 +124,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           </Typography>
           {serviceType === 'fs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Full_service_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/SG_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -182,7 +139,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'ao' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Analysis_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/SG_Analysis_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -197,7 +154,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'so' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/MTP_Sequencing_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/SG_Sequencing_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton

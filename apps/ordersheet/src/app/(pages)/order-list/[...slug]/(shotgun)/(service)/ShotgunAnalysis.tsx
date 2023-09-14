@@ -3,9 +3,9 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../(mtp)/OrdererInfo";
-import OrderMtpSampleList from "../(mtp)/OrderMtpSampleList";
-import PaymentInfo from "../(mtp)/PaymentInfo";
+import OrdererInfo from "../OrdererInfo";
+import OrderMtpSampleList from "../OrderShotgunSampleList";
+import PaymentInfo from "../PaymentInfo";
 
 import dynamic from "next/dynamic";
 import axios from "axios";
@@ -35,7 +35,7 @@ export default function MtpFullService(){
   const orshUkey = params.slug[0];
 
   const defaultValues = async () => {
-    const res = await GET(`/orsh/mtp/so/${orshUkey}`);
+    const res = await GET(`/orsh/mtp/ao/${orshUkey}`);
     console.log("resresre", res.data);
 
     // return res.data;
@@ -61,10 +61,12 @@ export default function MtpFullService(){
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
+      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
+      pltfMc : res.data.commonInput.pltfMc,
       memo : res.data.addRqstMemo.memo,
       sample : res.data.samples
     };
-    // setFileId(res.data.commonInput.pltfMc);
+    setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;
@@ -111,12 +113,13 @@ export default function MtpFullService(){
         rcpnNm : data.rcpnNm,
         rprsNm : data.rprsNm,
       },
+      commonInput: {pltfMc : data.pltfMc},
       samples : data.sample,
     };
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/mtp/so/${orshUkey}`;
+    const apiUrl = `/orsh/mtp/ao/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
@@ -153,7 +156,7 @@ export default function MtpFullService(){
             alignItems: 'center',
           }}>
             <Typography variant="h5">
-              주문자 및 거래처 정보&nbsp;
+                주문자 및 거래처 정보&nbsp;
             </Typography>
           </Box>
           <Box sx={{
@@ -198,7 +201,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"so"}/>
+          <OrderMtpSampleList serviceType={"ao"}/>
         </Box>
 
         <Stack

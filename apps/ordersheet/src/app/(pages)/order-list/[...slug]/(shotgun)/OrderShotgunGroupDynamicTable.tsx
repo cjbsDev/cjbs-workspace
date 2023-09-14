@@ -21,11 +21,14 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "./ExRow";
-import TableHeader from "./TableHeader";
+import ExRow from "../../../order/shotgun/(service)/(contents)/ExRow";
+import TableHeader from "../../../order/shotgun/(service)/(contents)/TableHeader";
 import TableNewRows from "./TableNewRows";
-import ExcelUploadModal from "./ExcelUploadModal";
 import LoadingSvg from "@public/svg/loading_wh.svg";
+import {useRecoilState} from "recoil";
+import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
+import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
+import {testAtom} from "@app/recoil/atoms/testAtom";
 
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -46,7 +49,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   },
 }));
 
-const OrderShotgunGroupSampleDynamicTable = (props) => {
+const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const {sampleFields} = props;
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -55,9 +58,18 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
     name: "groupCmprAnls", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   });
   const { errors } = formState;
+  const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
+  const [groupList, setgroupList] = useRecoilState(testAtom);
   const [isGroupCmprAnls, setIsGroupCmprAnls] = useState<string>("N");
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [groupOptionData, setGroupOptionData] = useState([]);
+
+  useEffect(() => {
+    console.log("groupList : ", groupList)
+
+    setGroupOptionData(groupList);
+    setIsGroupCmprAnls(isGroupUse);
+  }, [isGroupUse])
 
   const handleAlertOpen = () => {
     setAlertModalOpen(true);
