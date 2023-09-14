@@ -21,38 +21,18 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/mtp/(service)/(contents)/ExRow";
-import TableHeader from "@app/(pages)/order/mtp/(service)/(contents)/TableHeader";
+import ExRow from "@app/(pages)/order/shotgun/(service)/(contents)/ExRow";
+import TableHeader from "@app/(pages)/order/shotgun/(service)/(contents)/TableHeader";
 import TableNewRows from "./TableNewRows";
-import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
+import ExcelUploadModal from "@app/(pages)/order/shotgun/(service)/(contents)/ExcelUploadModal";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
+import OrderShotgunGroupDynamicTable from "./OrderShotgunGroupDynamicTable";
 
-// function getUserAccount() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`
-//   );
-// }
-//
-// function getUserPermissions() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=genome`
-//   );
-// }
-//
-//
-// let acct: any;
-// let perm: any;
-// Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
-//   .then(function (results) {
-//     // 응답 결과를 results 배열로 받아서
-//     acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
-//     perm = results[1].data.data;
-//   });
 
-export default function OrderMTPSampleDynamicTable(props:any) {
+export default function OrderShotgunSampleDynamicTable(props:any) {
   const serviceType = props.serviceType;
   const params = useParams();
   // console.log("params", params.slug[2]);
@@ -66,6 +46,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  const [depthCc, setDepthCc] = useRecoilState(fileIdValueAtom);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -98,10 +79,11 @@ export default function OrderMTPSampleDynamicTable(props:any) {
       for (let i = 0; i < count; i++) {
         append({
           sampleNm: "",
+          groupNm: "",
           source: "",
           sampleCategoryCc: "",
-          anlsTargetGeneCc: "",
           memo: "",
+          depthCc: "",
           selfQcResultFileId: fileId,
         });
       }
@@ -133,52 +115,12 @@ export default function OrderMTPSampleDynamicTable(props:any) {
     }
   };
 
-  // const testFunction = () => {
-  //   // console.log("Count~!~!", count);
-  //   const appendedData = props.detailData.map((item) => ({
-  //     sampleNm: item.sampleNm,
-  //     source: item.source,
-  //     sampleCategoryCc: item.sampleCategoryCc,
-  //     anlsTargetGeneCc: item.anlsTargetGeneCc,
-  //     selfQcResultFileId: item.selfQcResultFileId,
-  //     memo: item.memo,
-  //   }));
-  //   appendedData.forEach((item) => {
-  //     append(item, { focusIndex: 1 });
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   console.log("$$$$$$$$$$$$$$$", props.detailData);
-  //   // testFunction();
-  //   if(props.detailData.length > 0) {
-  //     for (let i = 0; i < props.detailData.length; i++) {
-  //       console.log("for~!~!", i);
-  //       const resultData = props.detailData[i];
-  //       console.log("11111111111111", resultData);
-  //       // 이후
-  //       if(i === 0 ){
-  //         setFileId(resultData.selfQcResultFileId);
-  //       }
-  //       append({
-  //         sampleNm: resultData.sampleNm,
-  //         source: resultData.source,
-  //         sampleCategoryCc: resultData.sampleCategoryCc,
-  //         anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-  //         memo: resultData.memo,
-  //         selfQcResultFileId: resultData.selfQcResultFileId,
-  //       }); // 입력된 수만큼 항목을 추가합니다.
-  //       console.log("222222222222222", resultData);
-  //     }
-  //   }
-  //   // remove(props.detailData.length + 1);
-  // }, [remove])
-
   return (
     <>
-      <Stack direction="row">
+      <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Typography variant="subtitle1">샘플 리스트</Typography>
         { updataYn === 'N' ? (
-          <>
+          <Stack direction="row" alignItems="center" spacing={2}>
             <UnStyledButton
               sx={{}}
               buttonName="엑셀 등록"
@@ -191,6 +133,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
               open={showOrderInfoModifyModal}
               modalWidth={800}
               append={append}
+              serviceType={serviceType}
               // handleAddFields={handleAddFields}
               // addExcelDataTableRows={addExcelDataTableRows}
             />
@@ -201,7 +144,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
               color={"secondary"}
               onClick={() => handleAddFields(getValues("count"))}
             />
-          </>
+          </Stack>
         ) : (
           ''
         )}
@@ -229,6 +172,9 @@ export default function OrderMTPSampleDynamicTable(props:any) {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+
     </>
   );
 };

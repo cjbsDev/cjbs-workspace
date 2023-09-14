@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyIcon from "icon/MyIcon";
-import HorizontalLinearStepper from "./HorizontalLinearStepper";
+import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import { ConfirmModal, cjbsTheme } from "cjbsDSTM";
-import MtpFullService from "@app/(pages)/order/(mtp)/MtpFullService";
-import MtpAnalysis from "@app/(pages)/order/(mtp)/MtpAnalysis";
-import MtpSequencing from "@app/(pages)/order/(mtp)/MtpSequencing";
+import MtpFullService from "./(service)/MtpFullService";
+import MtpAnalysis from "./(service)/MtpAnalysis";
+import MtpSequencing from "./(service)/MtpSequencing";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
 
@@ -91,8 +91,6 @@ const Page = () => {
     <Container disableGutters={true}>
       <Box
         sx={{
-          // mb: 20,
-          // mt: 11,
           display: "flex",
           justifyContent: "space-between",
           alignItems: "space-between",
@@ -115,9 +113,9 @@ const Page = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h4">MTP&nbsp;</Typography>
+            <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
             <Typography variant="subtitle2" sx={{ pt: "3px" }}>
-              Microbiome Taxonomic Profiling
+              Shotgun Sequencing
             </Typography>
           </Box>
           <Box

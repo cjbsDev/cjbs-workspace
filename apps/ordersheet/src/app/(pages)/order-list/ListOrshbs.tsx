@@ -10,9 +10,18 @@ import {
   ContainedButton,
   SelectBox,
   Form,
-  OutlinedButton, FileDownloadBtn, cjbsTheme,
+  OutlinedButton,
+  FileDownloadBtn,
+  cjbsTheme,
 } from "cjbsDSTM";
-import {Stack, Grid, Box, Container, Typography, Divider} from "@mui/material";
+import {
+  Stack,
+  Grid,
+  Box,
+  Container,
+  Typography,
+  Divider,
+} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
 import MyIcon from "icon/MyIcon";
@@ -23,7 +32,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function ListOrshbs() {
-
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
@@ -42,95 +50,110 @@ export default function ListOrshbs() {
     setSelectedRowCnt(rows.selectedCount);
   };
 
-    const defaultValues = {
-        userStatus: "",
-        userAuth: "",
-    };
+  const defaultValues = {
+    userStatus: "",
+    userAuth: "",
+  };
 
-    const methods = useForm({
-        defaultValues, // Pass the default values when calling useForm
-    });
+  const methods = useForm({
+    defaultValues, // Pass the default values when calling useForm
+  });
 
-    const {
-        getValues,
-        formState: { errors, isDirty },
-        handleSubmit,
-    } = methods;
+  const {
+    getValues,
+    formState: { errors, isDirty },
+    handleSubmit,
+  } = methods;
 
-    const columns = useMemo(() => [
-        {
-            name: "",
-            cell: (row: any, index: number) => {
-                return index + 1;
-            },
-            width: "60px",
+  const columns = useMemo(
+    () => [
+      {
+        name: "",
+        cell: (row: any, index: number) => {
+          return index + 1;
         },
-        {
-            name: "주문번호",
-            selector: (row: { orshNo: string }) => row.orshNo,
-            width: "300px",
-        },
-        {
-          name: "orshUkey",
-          selector: (row: { orshUkey: string }) => row.orshUkey,
-          width: "0px",
-        },
-        {
-            name: "분석 종류",
-            selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
-            width: "200px",
-        },
-        {
-            name: "서비스 타입",
-            selector: (row: { srvcTypeVal: string }) => row.srvcTypeVal,
-            width: "150px",
-        },
-        {
-            name: "샘플수량",
-            selector: (row: { sampleCount: string }) => row.sampleCount,
-            width: "150px",
-        },
-        {
-            name: "주문일시",
-            selector: (row: { orshDttm: any }) =>
-                row.orshDttm && Dayjs(row.orshDttm).format("YYYY-MM-DD hh:mm:ss"),
-            width: "300px",
-        },
-        {
-            name: "",
-            cell: (row: { isOrderStatus: string }) => {
-              return row.isOrderStatus == "N" ? (
-                <Stack direction="row" spacing={2} alignItems="center">
-                  <Typography variant="subtitle2" color={cjbsTheme.palette.info.main}>
-                    주문대기
-                  </Typography>
-                  <Divider orientation="vertical" variant="middle" flexItem/>
-                  <OutlinedButton
-                    buttonName="수정"
-                    size="small"
-                    onClick={() => goDetailPage(row)}
-                  />
-                </Stack>
-              ) : (
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  {/*<Box data-tag="allowRowEvents">등록 완료</Box>*/}
+        width: "60px",
+      },
+      {
+        name: "주문번호",
+        selector: (row: { orshNo: string }) => row.orshNo,
+        width: "300px",
+      },
+      {
+        name: "orshUkey",
+        selector: (row: { orshUkey: string }) => row.orshUkey,
+        width: "0px",
+      },
+      {
+        name: "분석 종류",
+        selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
+        width: "200px",
+      },
+      {
+        name: "분석 종류",
+        selector: (row: { anlsTypeAbb: string }) => row.anlsTypeAbb,
+        width: "0px",
+      },
+      {
+        name: "서비스 타입",
+        selector: (row: { srvcTypeVal: string }) => row.srvcTypeVal,
+        width: "150px",
+      },
+      {
+        name: "샘플수량",
+        selector: (row: { sampleCount: string }) => row.sampleCount,
+        width: "150px",
+      },
+      {
+        name: "주문일시",
+        selector: (row: { orshDttm: any }) =>
+          row.orshDttm && Dayjs(row.orshDttm).format("YYYY-MM-DD hh:mm:ss"),
+        width: "300px",
+      },
+      {
+        name: "",
+        cell: (row: { isOrderStatus: string }) => {
+          return row.isOrderStatus == "N" ? (
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Typography
+                variant="subtitle2"
+                color={cjbsTheme.palette.info.main}
+              >
+                주문대기
+              </Typography>
+              <Divider orientation="vertical" variant="middle" flexItem />
+              <OutlinedButton
+                buttonName="수정"
+                size="small"
+                onClick={() => goDetailPage(row)}
+              />
+            </Stack>
+          ) : (
+            <Stack direction="row" spacing={0.5} alignItems="center">
+              {/*<Box data-tag="allowRowEvents">등록 완료</Box>*/}
 
-                  <Typography variant="subtitle2">
-                    주문완료
-                  </Typography>
-                </Stack>
-              );
-            },
-            width: "200px",
+              <Typography variant="subtitle2">주문완료</Typography>
+            </Stack>
+          );
         },
+        width: "200px",
+      },
+    ],
+    []
+  );
 
-  ],  []);
-
-  const goDetailPage = (row: { orshUkey: string, srvcTypeAbb: string, isOrderStatus: string }) => {
+  const goDetailPage = (row: {
+    orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+  }) => {
     const path = row.orshUkey;
     const srvcTypeAbb = row.srvcTypeAbb;
     const isOrderStatus = row.isOrderStatus;
-    router.push("/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus);
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push(
+      "/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb
+    );
   };
 
   // const goLinkOrderPage = () => {
@@ -191,7 +214,7 @@ export default function ListOrshbs() {
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
             <FileDownloadBtn
               exportUrl={`/orsh/list/download`}
-              keyword={''}
+              keyword={""}
               iconName="xls3"
             />
             <DataTableFilter
@@ -204,7 +227,6 @@ export default function ListOrshbs() {
           </Stack>
         </Grid>
       </Grid>
-
     );
   }, [filterText, resetPaginationToggle, selectedRowCnt]);
 
@@ -224,30 +246,27 @@ export default function ListOrshbs() {
   };
 
   return (
-      <Container disableGutters={true} maxWidth="xl" sx={{pt:4}}>
-
-          <DataTableBase
-              title={<Title1 titleName="내 주문내역" />}
-              data={data.data.orshList}
-              columns={columns}
-              onRowClicked={goDetailPage}
-              onSelectedRowsChange={handleRowSelected}
-              pointerOnHover
-              highlightOnHover
-              customStyles={dataTableCustomStyles}
-              subHeader
-              subHeaderComponent={subHeaderComponentMemo}
-              paginationResetDefaultPage={resetPaginationToggle}
-              pagination
-              paginationServer
-              paginationTotalRows={totalElements}
-              onChangeRowsPerPage={handlePerRowsChange}
-              onChangePage={handlePageChange}
-              clearSelectedRows={toggledClearRows}
-              selectableRows={false}
-          />
-
-      </Container>
-
+    <Container disableGutters={true} maxWidth="xl" sx={{ pt: 4 }}>
+      <DataTableBase
+        title={<Title1 titleName="내 주문내역" />}
+        data={data.data.orshList}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        clearSelectedRows={toggledClearRows}
+        selectableRows={false}
+      />
+    </Container>
   );
 }

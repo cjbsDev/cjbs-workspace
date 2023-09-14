@@ -9,8 +9,8 @@ import MuiAccordionSummary, {
 import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme, ErrorContainer, Fallback } from "cjbsDSTM";
-import PaymentInfo from "../PaymentInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
+import PaymentInfo from "../../PaymentInfo";
+import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
@@ -20,7 +20,7 @@ import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import { toast } from "react-toastify";
 
-const LazyOrdererInfo = dynamic(() => import("../OrdererInfo"), {
+const LazyOrdererInfo = dynamic(() => import("../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
@@ -68,7 +68,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   minHeight: "400px",
 }));
 
-export default function MtpSequencing() {
+export default function MtpAnalysis() {
   const router = useRouter();
 
   const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
@@ -113,13 +113,13 @@ export default function MtpSequencing() {
 
   // 등록 호출
   const orderSheetInsertCall = async () => {
-    const apiUrl = "/orsh/mtp/so";
+    const apiUrl = "/orsh/mtp/ao";
     console.log(bodyData);
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
       if (response.success) {
         console.log("response", response);
-        router.push("/order/complete?serviceType=so");
+        router.push("/order/complete?orderNm=mtp&serviceType=ao");
       } else if (response.code == "INVALID_ETC_EMAIL") {
         toast(response.message);
       } else {
@@ -151,9 +151,6 @@ export default function MtpSequencing() {
               }}
             >
               <Typography variant="subtitle1">주문자 및 거래처 정보</Typography>
-              {/*<Typography variant="body2" sx={{ml:2}}>*/}
-              {/*    주문자 및 거래처 정보를 확인해주세요*/}
-              {/*</Typography>*/}
             </Box>
             <Box
               sx={{
@@ -207,7 +204,7 @@ export default function MtpSequencing() {
         </AccordionSummary>
         <AccordionDetails>
           <OrderMtpSampleList
-            serviceType={"so"}
+            serviceType={"ao"}
             addBodyData={addBodyData}
             moveBackFocus={moveBackFocus}
             addFileData={addFileData}
