@@ -168,7 +168,7 @@ const FileDropzone = () => {
                       height: 202,
                     }}
                   >
-                    {acceptedFiles.map((item) => {
+                    {acceptedFiles.map((item: File) => {
                       return (
                         <ListItem
                           disablePadding
@@ -179,7 +179,7 @@ const FileDropzone = () => {
                           }}
                         >
                           <ListItemText
-                            primary={item.path}
+                            primary={item.name}
                             primaryTypographyProps={{
                               sx: {
                                 fontSize: 13,

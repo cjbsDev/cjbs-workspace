@@ -29,6 +29,8 @@ import MyIcon from "icon/MyIcon";
 import { toast } from "react-toastify";
 import { useFormContext } from "react-hook-form";
 import { fetcher } from "api";
+import { useSetRecoilState } from "recoil";
+import { mngEmailListAtom } from "../../../../../recoil/atoms/mngEmailListAtom";
 
 interface Member {
   ukey: string;
@@ -44,8 +46,8 @@ interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
   modalWidth: number;
-  selectedMembers: Member[];
-  onMemberSelection: (memeberData: Member[]) => void; // 새로 추가 0627
+  // selectedMembers: Member[];
+  // onMemberSelection: (memeberData: Member[]) => void; // 새로 추가 0627
 }
 
 const APIPATH = "/user/search/list";
@@ -83,6 +85,7 @@ const MngSrchModal = ({
   console.log("담당자 조회 DATA", data);
 
   const { setValue, formState } = useFormContext();
+  const setResEmailList = useSetRecoilState(mngEmailListAtom);
 
   // [고객] 컬럼세팅
   const columns = useMemo(
@@ -143,7 +146,7 @@ const MngSrchModal = ({
       selectedRows.selectedRows.forEach((row: any) => {
         // 기존 멤버 확인 후 있다면 추가를 무시함
         const existingMember = memeberData.find(
-          (member) => member.custUkey === row.ukey
+          (member) => member.ukey === row.ukey
         );
         if (existingMember) {
           return;
@@ -229,11 +232,12 @@ const MngSrchModal = ({
 
   // 멤버 데이터 확인
   const handleMembersInfo = () => {
-    console.log("memeberData", memeberData);
+    console.log("memeberData", typeof memeberData);
     //console.log("memeberData stringify", JSON.stringify(memeberData));
     // onMemberSelection(memeberData);
 
     setValue("rcpnEmailList", memeberData);
+    setResEmailList(memeberData);
     onClose();
   };
 

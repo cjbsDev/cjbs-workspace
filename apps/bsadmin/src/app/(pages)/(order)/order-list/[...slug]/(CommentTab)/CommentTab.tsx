@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Grid, Stack, Typography } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import {
   ContainedButton,
   ErrorContainer,
@@ -15,6 +16,10 @@ import { POST } from "api";
 import { useParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import { useForm } from "react-hook-form";
+import SubmitBtn from "./SubmitBtn";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { mngEmailListAtom } from "../../../../../recoil/atoms/mngEmailListAtom";
+import Memo from "./Memo";
 
 const LazyCommentList = dynamic(() => import("./CommentList"), {
   ssr: false,
@@ -25,22 +30,14 @@ const CommentTab = () => {
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
-  const methods = useForm();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [resEamilList, setResEmailList] = useRecoilState(mngEmailListAtom);
 
-  const handleNestedReset = () => {
-    // 중첩된 컴포넌트에 대한 참조를 얻습니다.
-    const nestedComponentMethods = methods.getValues({ nest: true });
-
-    // 중첩된 컴포넌트의 필드를 리셋합니다.
-    nestedComponentMethods.memo = "";
-
-    // 중첩된 컴포넌트의 값을 다시 설정합니다.
-    // methods.setValue("nestedComponentFieldName", nestedComponentMethods);
-  };
   const onSubmit = async (data: any) => {
     console.log("SUBMIT DATA", data);
+    setIsLoading(true);
 
-    const sortEmailData = data.rcpnEmailList.map((item) => item.email);
+    const sortEmailData = resEamilList.map((item) => item.email);
 
     const bodyData = {
       cmntType: "ORDER",
@@ -50,18 +47,19 @@ const CommentTab = () => {
 
     console.log("BODY DATA", bodyData);
 
-    await POST(`/order/${orderUkey}/cmnt`, bodyData)
-      .then((response) => {
-        console.log("POST request successful:", response);
-        if (response.success) {
-          handleNestedReset();
-          mutate(`/order/${orderUkey}/cmnt/list`);
-        }
-      })
-      .catch((error) => {
-        console.error("POST request failed:", error);
-      })
-      .finally(() => {});
+    try {
+      const response = await POST(`/order/${orderUkey}/cmnt`, bodyData);
+      console.log("POST request successful:", response);
+      if (response.success) {
+        // handleNestedReset();
+        mutate(`/order/${orderUkey}/cmnt/list`);
+        setResEmailList([]);
+      }
+    } catch (error) {
+      console.error("POST request failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -74,26 +72,11 @@ const CommentTab = () => {
                 <MngInput />
               </Box>
               <Box>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={2}
-                  inputName="memo"
-                  placeholder="내용을 입력해 주세요."
-                  maxLength={500}
-                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-                  required={true}
-                  errorMessage="코멘트를 입력하세요."
-                />
+                <Memo />
               </Box>
             </Grid>
             <Grid item xs={1}>
-              <ContainedButton
-                buttonName="등록"
-                type="submit"
-                fullWidth
-                sx={{ height: 122 }}
-              />
+              <SubmitBtn isLoading={isLoading} />
             </Grid>
           </Grid>
         </Form>
