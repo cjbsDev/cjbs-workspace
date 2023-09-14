@@ -28,7 +28,7 @@ import LoadingSvg from "@public/svg/loading_wh.svg";
 import {useRecoilState} from "recoil";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
-import {testAtom} from "@app/recoil/atoms/testAtom";
+import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -59,7 +59,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   });
   const { errors } = formState;
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
-  const [groupList, setgroupList] = useRecoilState(testAtom);
+  const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
   const [isGroupCmprAnls, setIsGroupCmprAnls] = useState<string>("N");
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [groupOptionData, setGroupOptionData] = useState([]);
@@ -203,7 +203,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
         </StyledToggleButtonGroup>
       </Stack>
 
-      <InputValidation inputName="isGroupCmprAnls" sx={{width: "80px"}} defaultValue={isGroupCmprAnls} />
+      <InputValidation inputName="isGroupCmprAnls" sx={{width: "80px", display: 'none'}} defaultValue={isGroupCmprAnls} />
 
       <Stack
         spacing={0}

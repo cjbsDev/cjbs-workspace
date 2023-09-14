@@ -191,7 +191,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
         </StyledToggleButtonGroup>
       </Stack>
 
-      <InputValidation inputName="isGroupCmprAnls" sx={{width: "80px"}} defaultValue={isGroupCmprAnls} />
+      <InputValidation inputName="isGroupCmprAnls" sx={{width: "80px", display: 'none'}} defaultValue={isGroupCmprAnls} />
 
       <Stack
         spacing={0}

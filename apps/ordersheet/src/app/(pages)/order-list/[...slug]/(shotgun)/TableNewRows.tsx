@@ -5,7 +5,6 @@ import MyIcon from "icon/MyIcon";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
-import {testAtom} from "@app/recoil/atoms/testAtom";
 
 
 const LazyPrepSelectbox = dynamic(

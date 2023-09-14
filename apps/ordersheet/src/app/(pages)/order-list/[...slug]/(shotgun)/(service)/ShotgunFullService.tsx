@@ -20,20 +20,21 @@ import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
+import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
-import {testAtom} from "@app/recoil/atoms/testAtom";
+import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 
 
 export default function ShotgunFullService(){
 
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [depthCc, setDepthCc] = useRecoilState(fileIdValueAtom);
+  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
-  const [groupList, setgroupList] = useRecoilState(testAtom);
+  const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);

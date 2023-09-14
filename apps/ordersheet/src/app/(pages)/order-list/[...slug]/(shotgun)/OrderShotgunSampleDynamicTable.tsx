@@ -29,6 +29,7 @@ import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
+import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import OrderShotgunGroupDynamicTable from "./OrderShotgunGroupDynamicTable";
 
 
@@ -46,7 +47,7 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [depthCc, setDepthCc] = useRecoilState(fileIdValueAtom);
+  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -63,7 +64,7 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
 
   const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
-    // console.log("fileId~!~!", fileId);
+    console.log("fileId~!~!", fileId);
     // for (let i = 0; i < count; i++) {
     //   append({
     //     sampleNm: "",
@@ -83,7 +84,7 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
           source: "",
           sampleCategoryCc: "",
           memo: "",
-          depthCc: "",
+          depthCc: depthCc,
           selfQcResultFileId: fileId,
         });
       }
