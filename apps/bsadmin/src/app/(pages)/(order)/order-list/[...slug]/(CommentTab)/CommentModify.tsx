@@ -46,12 +46,15 @@ const CommentModify = (props) => {
           // required={true}
           // errorMessage="코멘트를 입력하세요."
           defaultValue={memo}
+          sx={{ mb: 1 }}
         />
-        <Stack direction="row" justifyContent="flex-end">
-          <OutlinedButton buttonName="확인" type="submit" />
+        <Stack direction="row" justifyContent="flex-end" spacing={1}>
+          <OutlinedButton buttonName="확인" type="submit" size="small" />
           <OutlinedButton
             buttonName="취소"
             color="secondary"
+            sx={{ color: "black" }}
+            size="small"
             onClick={() => onModifyCancel(index)}
           />
         </Stack>

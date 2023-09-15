@@ -2,11 +2,18 @@ import React, { useState, useMemo, useCallback } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { DELETE, fetcher, PUT } from "api";
 import { useParams } from "next/navigation";
-import { Box, Stack, Typography } from "@mui/material";
+import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { cjbsTheme, Form, InputValidation, OutlinedButton } from "cjbsDSTM";
+import {
+  cjbsTheme,
+  Form,
+  InputValidation,
+  LinkButton,
+  OutlinedButton,
+} from "cjbsDSTM";
 import { toast } from "react-toastify";
 import CommentModify from "./CommentModify";
+import MyIcon from "icon/MyIcon";
 
 const CommentList = () => {
   const params = useParams();
@@ -76,8 +83,8 @@ const CommentList = () => {
 
   return (
     <>
-      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-        <Typography variant="subtitle2" sx={{ mt: 0.6 }}>
+      <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
+        <Typography variant="subtitle1" sx={{ mt: 0.4 }}>
           코멘트
         </Typography>
         <Box>
@@ -86,8 +93,9 @@ const CommentList = () => {
             component="span"
             sx={{
               color: cjbsTheme.palette.primary.main,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: 600,
+              mx: 0.3,
             }}
           >
             {comntTotal}
@@ -106,75 +114,131 @@ const CommentList = () => {
             modifiedDttm,
             rcpnNmList,
             memo,
+            cmntType,
           } = item;
           return (
             <Box
               key={totalCmntUkey}
               sx={{
-                mb: 2,
-                p: 2,
-                backgroundColor: cjbsTheme.palette.grey["300"],
+                mb: 3.8,
               }}
             >
               <Stack
                 direction="row"
                 spacing={1}
                 alignItems="center"
+                justifyContent="space-between"
                 sx={{ mb: 1 }}
               >
-                <Typography variant="subtitle1">
-                  {writerNm}({writerDepartVal})
-                </Typography>
-                <Stack
-                  direction="row"
-                  divider={<Typography variant="body2">|</Typography>}
-                  spacing={0.5}
-                  sx={{ color: cjbsTheme.palette.grey["600"] }}
-                >
-                  <Typography variant="body2">작성일 {createdDttm}</Typography>
-                  <Typography variant="body2">
-                    최종 수정일 {modifiedDttm === null ? "-" : modifiedDttm}
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="subtitle1">
+                    {writerNm}({writerDepartVal})
                   </Typography>
+                  <Stack
+                    direction="row"
+                    divider={<Typography variant="body2">|</Typography>}
+                    spacing={0.5}
+                    sx={{ color: cjbsTheme.palette.grey["600"] }}
+                  >
+                    <Typography variant="body2">
+                      작성일 {createdDttm}
+                    </Typography>
+
+                    {modifiedDttm !== null && (
+                      <Typography variant="body2">
+                        최종 수정일 {modifiedDttm}
+                      </Typography>
+                    )}
+                  </Stack>
                 </Stack>
 
                 <Box>
                   <Stack direction="row">
-                    <OutlinedButton
+                    <LinkButton
+                      size="small"
                       buttonName="수정"
+                      sx={{ color: "black" }}
+                      startIcon={<MyIcon icon="pen-fill" size={20} />}
                       onClick={() => handleCommentModify(index)}
                     />
-                    <LoadingButton
-                      loading={isLoading[index]}
-                      variant="outlined"
+
+                    <LinkButton
                       size="small"
+                      buttonName="삭제"
+                      sx={{ color: "black" }}
+                      startIcon={<MyIcon icon="trash" size={20} />}
                       onClick={() => handleCommentDelete(totalCmntUkey, index)}
-                    >
-                      삭제
-                    </LoadingButton>
+                    />
+                    {/*<OutlinedButton*/}
+                    {/*  buttonName="수정"*/}
+                    {/*  onClick={() => handleCommentModify(index)}*/}
+                    {/*/>*/}
+                    {/*<LoadingButton*/}
+                    {/*  loading={isLoading[index]}*/}
+                    {/*  variant="outlined"*/}
+                    {/*  size="small"*/}
+                    {/*  onClick={() => handleCommentDelete(totalCmntUkey, index)}*/}
+                    {/*>*/}
+                    {/*  삭제*/}
+                    {/*</LoadingButton>*/}
                   </Stack>
                 </Box>
               </Stack>
 
-              <Box>
-                <Typography variant="subtitle2">
-                  To. {rcpnNmList.join(", ")}
-                  {/*{item.rcpnNmList.map((item) => item)}*/}
-                </Typography>
+              <Box
+                sx={{
+                  p: 2.3,
+                  border: `1px solid ${cjbsTheme.palette.primary.main}`,
+                  backgroundColor: "white",
+                  borderRadius: 2,
+                }}
+              >
+                <Grid container>
+                  <Grid item xs={0.6}>
+                    <Stack
+                      sx={{
+                        backgroundColor: cjbsTheme.palette.primary.main,
+                        width: 60,
+                        height: 60,
+                        color: "white",
+                        borderRadius: 2.5,
+                      }}
+                      alignItems="center"
+                      justifyContent="center"
+                      spacing={0.2}
+                    >
+                      <MyIcon icon="order" size={17} />
+                      <Typography variant="subtitle2">
+                        {cmntType === "ORDER" && "오더"}
+                      </Typography>
+                    </Stack>
+                  </Grid>
+                  <Grid item xs={11.4}>
+                    <Typography variant="subtitle2">
+                      To. {rcpnNmList.join(", ")}
+                      {/*{item.rcpnNmList.map((item) => item)}*/}
+                    </Typography>
+                    <Divider sx={{ my: 1.2 }} />
 
-                {isModifyShow[index] ? (
-                  <Box>
-                    <CommentModify
-                      totalCmntUkey={totalCmntUkey}
-                      memo={memo}
-                      index={index}
-                      onModifyCancel={handleCommentModifyCancel}
-                    />
-                  </Box>
-                ) : (
-                  <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-                    {memo}
-                  </Typography>
-                )}
+                    {isModifyShow[index] ? (
+                      <Box>
+                        <CommentModify
+                          totalCmntUkey={totalCmntUkey}
+                          memo={memo}
+                          index={index}
+                          onModifyCancel={handleCommentModifyCancel}
+                        />
+                      </Box>
+                    ) : (
+                      <Typography
+                        variant="body2"
+                        sx={{ whiteSpace: "pre-wrap" }}
+                      >
+                        {memo}
+                      </Typography>
+                    )}
+                  </Grid>
+                </Grid>
               </Box>
             </Box>
           );

@@ -166,14 +166,14 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                   selected={currentPathname.includes(depthOne.split("/")[1])}
                   disabled={
                     item.menuPath.name === "" &&
-                      item.menuPath.nestedPath.length === 0
+                    item.menuPath.nestedPath.length === 0
                   }
                   sx={{
                     minHeight: 50,
                     justifyContent: open ? "initial" : "center",
                     px: 2,
                     "&.MuiListItemButton-root": {
-                      borderRadius: '0px !important',
+                      borderRadius: "0px !important",
                       "&:hover": {
                         backgroundColor: theme.palette.primary.main,
                       },
@@ -255,7 +255,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ display: "grid", flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ display: "grid", flexGrow: 1, px: 2, py: 3 }}>
         <DrawerHeader />
         {children}
       </Box>
