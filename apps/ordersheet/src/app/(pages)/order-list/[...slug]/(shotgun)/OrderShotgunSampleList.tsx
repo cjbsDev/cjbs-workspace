@@ -34,7 +34,7 @@ import {useParams} from "next/navigation";
 import NoticeBox from "@app/(pages)/order/shotgun/(service)/(contents)/NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("@components/CommonSelectbox"),
+  () => import("@components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -61,6 +61,7 @@ export default function OrderShotgunSampleList(props: any) {
                     <LazyPrepSelectbox
                       url={"/code/list/shortly?topUniqueCode=BS_0100010"}
                       inputName={"depthCc"}
+                      disabled={updataYn === 'N' ? false : true}
                     />
                   </ErrorContainer>
                 </Stack>
@@ -83,9 +84,7 @@ export default function OrderShotgunSampleList(props: any) {
                           * 파일 재업로드 시, 기존 파일은 삭제됩니다.
                         </Typography>
                       </Box>
-                    ) : (
-                      ''
-                    )}
+                    ) : ('')}
                     <InputValidation
                       inputName="selfQcFileNm"
                       required={false}
@@ -121,6 +120,7 @@ export default function OrderShotgunSampleList(props: any) {
                   <LazyPrepSelectbox
                     url={"/code/list/shortly?topUniqueCode=BS_0100010"}
                     inputName={"depthCc"}
+                    disabled={updataYn === 'N' ? false : true}
                   />
                 </ErrorContainer>
               </Stack>
