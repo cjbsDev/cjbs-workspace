@@ -220,7 +220,7 @@ const FileTab = () => {
         <FileUploadModal
           onClose={handleFileUploadModalClose}
           open={isFileUploadModal}
-          modalWidth={800}
+          modalWidth={1100}
           formId="fileUploadForm"
         />
       )}
