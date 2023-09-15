@@ -69,13 +69,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'ao') {
             const appendedData = data.map((item) => ({
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              frwrPrimer: item.frwrPrimer,
-              memo: item.memo,
-              pltfMc: item.pltfMc,
-              rvrsPrimer: item.rvrsPrimer,
               sampleNm: item.sampleNm,
+              groupNm: item.groupNm,
               source: item.source,
+              memo: item.memo,
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -83,12 +80,13 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'so') {
             const appendedData = data.map((item) => ({
-              idx1frwr: item.idx1frwr,
+              sampleNm: item.sampleNm,
               idx1nm: item.idx1nm,
+              idx1frwr: item.idx1frwr,
               idx2nm: item.idx2nm,
               idx2rvrs: item.idx2rvrs,
+              adapter: item.adapter,
               memo: item.memo,
-              sampleNm: item.sampleNm,
             }));
             appendedData.forEach((item) => {
               append(item);

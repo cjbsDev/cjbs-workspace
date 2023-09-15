@@ -113,10 +113,13 @@ const TableNewRows = (props:any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
+                // inputName={`samples.${index}.sampleNm`}
                 inputName={`sample.[${index}].sampleNm`}
                 required={true}
                 defaultValue={field.sampleNm}
+                //errorMessage="샘플명을 입력해 주세요."
                 pattern={/^[A-Za-z0-9-]*$/}
+                //patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
                 sx={{ width: 200 }}
               />
               {errors.sample?.[index]?.sampleNm?.type === "required" && (
@@ -138,41 +141,28 @@ const TableNewRows = (props:any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
+                // inputName={`samples.${index}.memo`}
+                inputName={`sample.[${index}].groupNm`}
+                required={false}
+                sx={{ width: 200 }}
+              />
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <InputValidation
+                // inputName={`samples.${index}.source`}
                 inputName={`sample.[${index}].source`}
                 required={true}
                 errorMessage="샘플출처를 입력해 주세요."
-                sx={{ width: 100 }}
+                sx={{ width: 200 }}
               />
               {errors.sample?.[index]?.source && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
-                  inputName={`sample.[${index}].anlsTargetGeneCc`}
-                />
-              </ErrorContainer>
-              {errors.sample?.[index]?.anlsTargetGeneCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                inputName={`sample.[${index}].frwrPrimer`}
-                required={false}
-                sx={{ width: 117 }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
-                inputName={`sample.[${index}].rvrsPrimer`}
-                required={false}
-                sx={{ width: 117 }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
+                // inputName={`samples.${index}.memo`}
                 inputName={`sample.[${index}].memo`}
                 required={false}
-                sx={{ width: 117 }}
+                sx={{ width: 200 }}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -252,6 +242,13 @@ const TableNewRows = (props:any) => {
                 sx={{ width: 140 }}
               />
               {errors.sample?.[index]?.idx2rvrs && <Typography variant="body2" color={cjbsTheme.palette.error.main}>필수값을 입력해 주세요.</Typography>}
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <InputValidation
+                inputName={`sample.[${index}].adapter`}
+                required={false}
+                sx={{ width: 117 }}
+              />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation

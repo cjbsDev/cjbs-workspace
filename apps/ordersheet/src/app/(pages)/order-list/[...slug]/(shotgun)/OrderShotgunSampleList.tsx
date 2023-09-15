@@ -111,16 +111,16 @@ export default function OrderShotgunSampleList(props: any) {
           </>
 
         );
-      case "ao":
+      case "so":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
+            <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyPrepSelectbox
-                    url={"/code/orsh/pltf/list?type=mtpAO"}
-                    inputName={"pltfMc"}
+                    url={"/code/list/shortly?topUniqueCode=BS_0100010"}
+                    inputName={"depthCc"}
                   />
                 </ErrorContainer>
               </Stack>
@@ -135,7 +135,7 @@ export default function OrderShotgunSampleList(props: any) {
       <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        {serviceType !== "so" ? (
+        {serviceType !== "ao" ? (
           <Typography variant="subtitle1">공통 항목 선택</Typography>
         ) : (
           ""

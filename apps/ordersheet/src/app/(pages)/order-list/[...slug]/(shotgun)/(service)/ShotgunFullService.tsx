@@ -27,7 +27,6 @@ import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 
 
 export default function ShotgunFullService(){
-
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);

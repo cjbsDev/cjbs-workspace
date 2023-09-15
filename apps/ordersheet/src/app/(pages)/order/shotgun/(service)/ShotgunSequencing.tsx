@@ -10,7 +10,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme, ErrorContainer, Fallback } from "cjbsDSTM";
 import PaymentInfo from "../../PaymentInfo";
-import OrderMtpSampleList from "../../mtp/(service)/(contents)/OrderMtpSampleList";
+import OrderShotgunSampleList from "../(service)/(contents)/OrderShotgunSampleList";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
@@ -68,7 +68,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   minHeight: "400px",
 }));
 
-export default function MtpSequencing() {
+export default function ShotgunSequencing() {
   const router = useRouter();
 
   const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
@@ -113,13 +113,13 @@ export default function MtpSequencing() {
 
   // 등록 호출
   const orderSheetInsertCall = async () => {
-    const apiUrl = "/orsh/mtp/so";
+    const apiUrl = "/orsh/sg/so";
     console.log(bodyData);
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
       if (response.success) {
         console.log("response", response);
-        router.push("/order/complete?serviceType=so");
+        router.push("/order/complete?orderNm=shotgun&serviceType=so");
       } else if (response.code == "INVALID_ETC_EMAIL") {
         toast(response.message);
       } else {
@@ -206,7 +206,7 @@ export default function MtpSequencing() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          <OrderMtpSampleList
+          <OrderShotgunSampleList
             serviceType={"so"}
             addBodyData={addBodyData}
             moveBackFocus={moveBackFocus}

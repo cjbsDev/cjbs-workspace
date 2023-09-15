@@ -83,13 +83,10 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
     } else if (serviceType === 'ao') {
       for (let i = 0; i < count; i++) {
         append({
-          anlsTargetGeneCc: "",
-          frwrPrimer: "",
-          memo: "",
-          pltfMc: "",
-          rvrsPrimer: "",
           sampleNm: "",
+          groupNm: "",
           source: "",
+          memo: "",
         });
       }
 
@@ -159,7 +156,9 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
         </Table>
       </TableContainer>
 
-      <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      {serviceType !== "so" ? (
+        <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      ) : ("")}
 
     </>
   );

@@ -23,7 +23,7 @@ import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 
 
-export default function MtpFullService(){
+export default function MtpSequencing(){
 
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);

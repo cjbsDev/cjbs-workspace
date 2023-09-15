@@ -132,7 +132,7 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li>
                 <Typography variant="body2">
-                  Sequencing only 서비스는sequencing raw data만 제공합니다.
+                  Sequencing only 서비스는 sequencing raw data만 제공합니다.
                 </Typography>
               </li>
               <li>

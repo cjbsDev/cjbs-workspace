@@ -92,21 +92,20 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
     } else if (serviceType === 'ao') {
       for (let i = 0; i < count; i++) {
         append({
-          anlsTargetGeneCc: "",
-          frwrPrimer: "",
-          memo: "",
-          pltfMc: fileId,
-          rvrsPrimer: "",
           sampleNm: "",
+          groupNm: "",
           source: "",
+          memo: "",
         });
       }
 
     } else if (serviceType === 'so') {
       for (let i = 0; i < count; i++) {
         append({
-          idx1frwr: "",
+          adapter: "",
+          depthCc: depthCc,
           idx1nm: "",
+          idx1frwr: "",
           idx2nm: "",
           idx2rvrs: "",
           memo: "",
@@ -174,7 +173,9 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
         </Table>
       </TableContainer>
 
-      <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      {serviceType !== "so" ? (
+        <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      ) : ("")}
 
     </>
   );

@@ -21,12 +21,14 @@ import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
+import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 
 
-export default function MtpFullService(){
+export default function ShotgunSequencing(){
 
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
@@ -35,7 +37,7 @@ export default function MtpFullService(){
   const orshUkey = params.slug[0];
 
   const defaultValues = async () => {
-    const res = await GET(`/orsh/mtp/so/${orshUkey}`);
+    const res = await GET(`/orsh/sg/so/${orshUkey}`);
     console.log("resresre", res.data);
 
     // return res.data;
@@ -62,10 +64,12 @@ export default function MtpFullService(){
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
       memo : res.data.addRqstMemo.memo,
-      sample : res.data.samples
+      sample : res.data.samples,
+      depthCc : res.data.commonInput.depthCc,
     };
     // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
+    setDepthCc(res.data.commonInput.depthCc)
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;
   };
@@ -86,6 +90,9 @@ export default function MtpFullService(){
     const bodyData = {
       addRqstMemo : {
         memo : data.memo,
+      },
+      commonInput: {
+        depthCc: data.depthCc,
       },
       custAgnc : {
         addEmailList : data.addEmailList,
@@ -116,7 +123,7 @@ export default function MtpFullService(){
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/mtp/so/${orshUkey}`;
+    const apiUrl = `/orsh/sg/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청

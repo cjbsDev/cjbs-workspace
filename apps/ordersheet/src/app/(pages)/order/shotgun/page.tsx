@@ -15,9 +15,9 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyIcon from "icon/MyIcon";
 import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import { ConfirmModal, cjbsTheme } from "cjbsDSTM";
-import MtpFullService from "./(service)/MtpFullService";
-import MtpAnalysis from "./(service)/MtpAnalysis";
-import MtpSequencing from "./(service)/MtpSequencing";
+import ShotgunFullService from "./(service)/ShotgunFullService";
+import ShotgunAnalysis from "./(service)/ShotgunAnalysis";
+import ShotgunSequencing from "./(service)/ShotgunSequencing";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
 
@@ -194,9 +194,9 @@ const Page = () => {
             />
           </AntTabs>
         </Box>
-        {value === 0 ? <MtpFullService /> : ""}
-        {value === 1 ? <MtpAnalysis /> : ""}
-        {value === 2 ? <MtpSequencing /> : ""}
+        {value === 0 ? <ShotgunFullService /> : ""}
+        {value === 1 ? <ShotgunAnalysis /> : ""}
+        {value === 2 ? <ShotgunSequencing /> : ""}
       </Box>
 
       <ConfirmModal

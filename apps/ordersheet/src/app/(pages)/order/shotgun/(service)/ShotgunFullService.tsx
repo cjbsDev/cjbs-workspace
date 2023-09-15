@@ -10,7 +10,7 @@ import MuiAccordionDetails from "@mui/material/AccordionDetails";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme, ErrorContainer, Fallback } from "cjbsDSTM";
 import PaymentInfo from "../../PaymentInfo";
-import OrderMtpSampleList from "../../mtp/(service)/(contents)/OrderMtpSampleList";
+import OrderShotgunSampleList from "../(service)/(contents)/OrderShotgunSampleList";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
@@ -68,7 +68,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   minHeight: "400px",
 }));
 
-export default function MtpAnalysis() {
+export default function ShotgunFullService() {
   const router = useRouter();
 
   const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
@@ -113,15 +113,34 @@ export default function MtpAnalysis() {
 
   // 등록 호출
   const orderSheetInsertCall = async () => {
-    const apiUrl = "/orsh/mtp/ao";
-    console.log(bodyData);
+    // const uploadFile = document.getElementById("uploadFile") as HTMLInputElement;
+    console.log("uploadFile", uploadFile);
+
+    const formData = new FormData();
+    formData.append(
+      "user-data",
+      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+    );
+
+    if (uploadFile) {
+      // file 데이터가 있을경우
+      // formData.append("file-data", uploadFile?.files?.item(0) as File);
+      formData.append("file-data", uploadFile);
+    } else {
+      formData.append("file-data", null);
+    }
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/fs`;
+
     try {
-      const response = await POST(apiUrl, bodyData); // API 요청
-      if (response.success) {
+      const response = await POST_MULTIPART(apiUrl, formData); // API 요청
+      // console.log("call body data", bodyData);
+      // const response = await POST(apiUrl, bodyData); // API 요청
+      if (response.data.success) {
         console.log("response", response);
-        router.push("/order/complete?serviceType=ao");
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
+        router.push("/order/complete?orderNm=shotgun&serviceType=fs");
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
       } else {
         toast("문제가 발생했습니다. 01");
       }
@@ -151,6 +170,9 @@ export default function MtpAnalysis() {
               }}
             >
               <Typography variant="subtitle1">주문자 및 거래처 정보</Typography>
+              {/*<Typography variant="body2" sx={{ml:2}}>*/}
+              {/*    주문자 및 거래처 정보를 확인해주세요*/}
+              {/*</Typography>*/}
             </Box>
             <Box
               sx={{
@@ -203,8 +225,8 @@ export default function MtpAnalysis() {
           </Stack>
         </AccordionSummary>
         <AccordionDetails>
-          <OrderMtpSampleList
-            serviceType={"ao"}
+          <OrderShotgunSampleList
+            serviceType={"fs"}
             addBodyData={addBodyData}
             moveBackFocus={moveBackFocus}
             addFileData={addFileData}

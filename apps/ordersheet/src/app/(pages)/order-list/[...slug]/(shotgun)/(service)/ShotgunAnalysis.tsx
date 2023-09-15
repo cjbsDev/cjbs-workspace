@@ -4,7 +4,7 @@ import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderShotgunSampleList";
+import OrderShotgunSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
 import dynamic from "next/dynamic";
@@ -21,22 +21,44 @@ import {useRecoilState} from "recoil";
 import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
+import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
+import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 
 
-export default function MtpFullService(){
-
+export default function ShotgunAnalysis(){
   const router = useRouter();
-  const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  // const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
+  const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
+  const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
   const defaultValues = async () => {
-    const res = await GET(`/orsh/mtp/ao/${orshUkey}`);
+    const res = await GET(`/orsh/sg/ao/${orshUkey}`);
     console.log("resresre", res.data);
+
+    let setGroupList = [];
+    let groupDataList = [];
+    let groupData = {};
+
+    res.data.samples.map((sample, index) => {
+      console.log(index)
+      const getData = res.data.samples[index].groupNm;
+      console.log(getData);
+      if( getData !== '') setGroupList.push(getData);
+    });
+    let uniqueGroupList = [...new Set(setGroupList)];
+    console.log(uniqueGroupList);
+    uniqueGroupList.forEach((item) => {
+      groupData = { value: item, optionName: item };
+      groupDataList.push(groupData);
+    });
+    console.log(groupDataList);
+    setgroupList(groupDataList);
 
     // return res.data;
     const returnDefaultValues = {
@@ -62,13 +84,16 @@ export default function MtpFullService(){
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
       // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-      pltfMc : res.data.commonInput.pltfMc,
+      // pltfMc : res.data.commonInput.pltfMc,
       memo : res.data.addRqstMemo.memo,
-      sample : res.data.samples
+      sample : res.data.samples,
+      groupCmprAnls: res.data.groupCmprAnls.groupCmprAnlsList,
+      isGroupCmprAnls: res.data.groupCmprAnls.isGroupCmprAnls,
     };
-    setFileId(res.data.commonInput.pltfMc);
+    // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
+    setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
+    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;
   };
 
@@ -105,6 +130,10 @@ export default function MtpFullService(){
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
       },
+      groupCmprAnls: {
+        groupCmprAnlsList : data.groupCmprAnls,
+        isGroupCmprAnls : data.isGroupCmprAnls,
+      },
       payment : {
         brno : data.brno,
         conm : data.conm,
@@ -113,13 +142,13 @@ export default function MtpFullService(){
         rcpnNm : data.rcpnNm,
         rprsNm : data.rprsNm,
       },
-      commonInput: {pltfMc : data.pltfMc},
+      // commonInput: {pltfMc : data.pltfMc},
       samples : data.sample,
     };
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/mtp/ao/${orshUkey}`;
+    const apiUrl = `/orsh/sg/ao/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
@@ -201,7 +230,7 @@ export default function MtpFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ao"}/>
+          <OrderShotgunSampleList serviceType={"ao"}/>
         </Box>
 
         <Stack

@@ -76,19 +76,28 @@ const NoticeBox = ( props:any ) => {
               {/*    보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.*/}
               {/*  </Typography>*/}
               {/*</li>*/}
-              <li style={{ color: "#EF151E" }}>
-                <Typography variant="body2">
-                  분석 결과는 EzBioCloud로 업로드됩니다.
-                </Typography>
-              </li>
+              {/*<li style={{ color: "#EF151E" }}>*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    분석 결과는 EzBioCloud로 업로드됩니다.*/}
+              {/*  </Typography>*/}
+              {/*</li>*/}
+              {/*<li>*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    샘플명은 영문, 숫자, -(hyphen)만 입력이 가능합니다.*/}
+              {/*  </Typography>*/}
+              {/*</li>*/}
+              {/*<li style={{ color: "#EF151E" }}>*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    원활한 분석 진행을 위하여 실험에 사용한 primer정보 기재를 권장합니다.*/}
+              {/*  </Typography>*/}
+              {/*</li>*/}
               <li>
                 <Typography variant="body2">
-                  샘플명은 영문, 숫자, -(hyphen)만 입력이 가능합니다.
-                </Typography>
-              </li>
-              <li style={{ color: "#EF151E" }}>
-                <Typography variant="body2">
-                  원활한 분석 진행을 위하여 실험에 사용한 primer정보 기재를 권장합니다.
+                  그룹비교분석을 위해 샘플리스트의
+                  <Typography component='span' variant='body2' sx={{color: "#EF151E"}}>&nbsp;그룹명</Typography>
+                  과&nbsp;
+                  <Typography component='span' variant='body2' sx={{color: "#EF151E"}}>그룹비교분석리스트</Typography>
+                  를 작성해 주세요.
                 </Typography>
               </li>
               <li>
@@ -132,7 +141,7 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li>
                 <Typography variant="body2">
-                  Sequencing only 서비스는sequencing raw data만 제공합니다.
+                  Sequencing only 서비스는 sequencing raw data만 제공합니다.
                 </Typography>
               </li>
               <li>

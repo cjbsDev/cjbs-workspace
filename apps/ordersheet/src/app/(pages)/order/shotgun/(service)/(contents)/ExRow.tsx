@@ -65,22 +65,12 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                환경
+                Control
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                Bacteria (16S rRNA V3-V4)
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <Typography variant="body2" sx={{ color: "#666" }}>
-                CGACCHCCGDAHAA
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <Typography variant="body2" sx={{ color: "#666" }}>
-                YGACCHCCCHCCAA
+                분변
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
@@ -127,6 +117,7 @@ const ExRow = ( props:any ) => {
                 CTCTCTAT
               </Typography>
             </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
           </TableRow>
