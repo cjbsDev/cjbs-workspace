@@ -40,12 +40,16 @@ export const snbMenuListData = [
 
   {
     menuLabel: "주문서",
-    menuIcon: "",
+    menuIcon: "sheet",
     menuPath: {
       name: "/orshbs",
       nestedPath: [
         {
-          menuLabel: "주문서 관리",
+          menuLabel: "고객 주문서 관리",
+          menuPath: "/orsh-list",
+        },
+        {
+          menuLabel: "내부 주문서 관리",
           menuPath: "/orshbs-list",
         },
       ],

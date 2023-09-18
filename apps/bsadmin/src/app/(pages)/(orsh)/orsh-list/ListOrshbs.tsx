@@ -21,10 +21,9 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useFiltersList } from "../../../hooks/useFiltersList";
 import { useForm, FormProvider } from "react-hook-form";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import axios from "axios";
 import { toast } from "react-toastify";
-import ServiceSelectModal from "./ServiceSelectModal";
 
 export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
@@ -34,15 +33,13 @@ export default function ListOrshbs() {
   const [perPage, setPerPage] = useState<number>(20);
   const [filters, setFilters] = useState("");
 
-  const { mutate } = useSWRConfig();
-
   useEffect(() => {
     // setParameter(`test=test`);
     setParameter();
   }, [])
 
   // ListAPI Call
-  const { data } = useFiltersList("orshbs/intn/list", filters);
+  const { data } = useFiltersList("orshbs/extr/list", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -50,11 +47,8 @@ export default function ListOrshbs() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  const [serviceSelectModalOpen, setServiceSelectModalOpen] = useState<boolean>(false);
-
   console.log("data >>>>>>> : ", data);
   const totalElements = data.pageInfo.totalElements;
-  console.log("totalElements >>>>>>> : ", totalElements);
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
@@ -67,9 +61,7 @@ export default function ListOrshbs() {
     } else {
       defaultParam = `${defaultParam}&${addParam}`;
     }
-
     setFilters(defaultParam);
-    mutate(`orshbs/intn/list`);
   };
 
   const defaultValues = {
@@ -233,7 +225,7 @@ export default function ListOrshbs() {
                   autoComplete="off"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  {/*
+                  {/* 
                   <Stack direction="row" spacing={1}>
                     {userStatusData.data && (
                       <SelectBox
@@ -289,49 +281,26 @@ export default function ListOrshbs() {
     setToggleClearRows(!toggledClearRows);
   };
 
-  const handleServiceSelectOpen = () => {
-    setServiceSelectModalOpen(true);
-  };
-  const handleServiceSelectModalClose = () => {
-    setServiceSelectModalOpen(false);
-  };
-
   return (
-    <>
-      <DataTableBase
-        title={
-          <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
-            <Title1 titleName="내부 주문서 관리" />
-            <ContainedButton
-                buttonName="+주문서 등록"
-                size="small"
-                // onClick={() => setParameter(`keyword=${filterText}`)}
-            />
-          </Stack>
-        }
-        data={data.orshList}
-        columns={columns}
-        onRowClicked={goDetailPage}
-        onSelectedRowsChange={handleRowSelected}
-        pointerOnHover
-        highlightOnHover
-        customStyles={dataTableCustomStyles}
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
-        pagination
-        paginationServer
-        paginationTotalRows={totalElements}
-        onChangeRowsPerPage={handlePerRowsChange}
-        onChangePage={handlePageChange}
-        clearSelectedRows={toggledClearRows}
-        //ref={tableRef}
-      />
-      <ServiceSelectModal
-        open={serviceSelectModalOpen}
-        onClose={handleServiceSelectModalClose}
-        modalWidth={500}
-      />
-    </>
+    <DataTableBase
+      title={<Title1 titleName="고객 주문서 관리" />}
+      data={data.orshList}
+      columns={columns}
+      onRowClicked={goDetailPage}
+      onSelectedRowsChange={handleRowSelected}
+      pointerOnHover
+      highlightOnHover
+      customStyles={dataTableCustomStyles}
+      subHeader
+      subHeaderComponent={subHeaderComponentMemo}
+      paginationResetDefaultPage={resetPaginationToggle}
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
+      clearSelectedRows={toggledClearRows}
+      //ref={tableRef}
+    />
   );
 }
