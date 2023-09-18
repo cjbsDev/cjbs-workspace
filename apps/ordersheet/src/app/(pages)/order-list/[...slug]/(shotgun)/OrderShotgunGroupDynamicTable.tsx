@@ -29,6 +29,7 @@ import {useRecoilState} from "recoil";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
+import {useParams} from "next/navigation";
 
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -50,6 +51,9 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 }));
 
 const OrderShotgunGroupSampleDynamicTable = (props: any) => {
+  const params = useParams();
+  // console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
   // console.log("$$$$$$$$$$", props.serviceType);
   const {sampleFields} = props;
   const { watch, control, getValues, formState,setValue } = useFormContext();
@@ -143,12 +147,14 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   return (
     <>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
-        <ContainedButton
-          buttonName="저장"
-          onClick={() => handleAlertOpen()}
-        />
-      </Stack>
+      {updataYn === 'N' ? (
+        <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
+          <ContainedButton
+            buttonName="저장"
+            onClick={() => handleAlertOpen()}
+          />
+        </Stack>
+      ) : ('')}
 
       <ConfirmModal
         alertBtnName="확인"
@@ -180,7 +186,11 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           aria-label="Platform"
           sx={{ width: "100%", justifyContent: "space-between" }}
         >
-          <ToggleButton value="Y" sx={{ width: "49%" }}>
+          <ToggleButton
+            value="Y"
+            sx={{ width: "49%" }}
+            disabled={updataYn === 'N' ? false : true}
+          >
             <Stack
               direction="row"
               justifyContent="space-between"
@@ -190,7 +200,11 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
               <Typography variant="body2">사용</Typography>
             </Stack>
           </ToggleButton>
-          <ToggleButton value="N" sx={{ width: "49%" }}>
+          <ToggleButton
+            value="N"
+            sx={{ width: "49%" }}
+            disabled={updataYn === 'N' ? false : true}
+          >
             <Stack
               direction="row"
               justifyContent="space-between"

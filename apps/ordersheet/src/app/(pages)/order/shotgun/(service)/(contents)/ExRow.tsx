@@ -1,6 +1,6 @@
 import React from "react";
 import {Box, TableCell, TableRow, Typography} from "@mui/material";
-import {cjbsTheme} from "cjbsDSTM";
+import {CheckboxSV, cjbsTheme} from "cjbsDSTM";
 
 const ExRow = ( props:any ) => {
   // console.log("$$$$$$$$$$", props.serviceType);
@@ -135,9 +135,33 @@ const ExRow = ( props:any ) => {
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <Typography variant="body2" sx={{ color: "#666" }}>
-                Cotrol, Disease, Treatment
-              </Typography>
+              {/*<Typography variant="body2" sx={{ color: "#666" }}>*/}
+              {/*  Cotrol, Disease, Treatment*/}
+              {/*</Typography>*/}
+              <CheckboxSV
+                inputName="test1"
+                labelText="Cotrol"
+                value=""
+                inputProps={{
+                  checked: true
+                }}
+                disabled
+              />
+              <CheckboxSV
+                inputName="test2"
+                labelText="Disease"
+                value=""
+                disabled
+              />
+              <CheckboxSV
+                inputName="test3"
+                labelText="Treatment"
+                value=""
+                inputProps={{
+                  checked: true
+                }}
+                disabled
+              />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
           </TableRow>

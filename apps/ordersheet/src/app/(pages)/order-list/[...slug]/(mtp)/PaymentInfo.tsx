@@ -246,7 +246,11 @@ export default function Page(props: any) {
             aria-label="Platform"
             sx={{ width: '100%', justifyContent: 'space-between' }}
           >
-            <ToggleButton value="BS_1300001" sx={{width:'49%'}}>
+            <ToggleButton
+              value="BS_1300001"
+              sx={{width:'49%'}}
+              disabled={updataYn === 'N' ? false : true}
+            >
               <Stack
                 direction="row"
                 justifyContent="space-between"
@@ -257,7 +261,11 @@ export default function Page(props: any) {
                 <MyIcon icon="transfer" size={24} />
               </Stack>
             </ToggleButton>
-            <ToggleButton value="BS_1300002" sx={{width:'49%'}}>
+            <ToggleButton
+              value="BS_1300002"
+              sx={{width:'49%'}}
+              disabled={updataYn === 'N' ? false : true}
+            >
               <Stack
                 direction="row"
                 justifyContent="space-between"

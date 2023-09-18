@@ -165,9 +165,6 @@ export default function OrderShotgunSampleList(props: any) {
         sx={{
           width: '100%',
           mb: 4,
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-          },
           ".MuiOutlinedInput-input:read-only": {
             backgroundColor: "white",
             cursor: "pointer",
