@@ -8,7 +8,6 @@ interface SubmitBtnProps {
 const SubmitBtn = (props: SubmitBtnProps) => {
   const { isLoading } = props;
   const { getValues, watch } = useFormContext();
-  console.log("WATCH MEMO", typeof watch("memo"), getValues("memo"));
   return (
     <LoadingButton
       loading={isLoading}
