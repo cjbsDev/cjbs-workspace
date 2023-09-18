@@ -23,6 +23,7 @@ import {
 import dynamic from "next/dynamic";
 import "react-datepicker/dist/react-datepicker.css";
 import "./custom-datepicker.css";
+import { POST } from "api";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
@@ -54,9 +55,34 @@ const dateOption = [
 const SearchForm = () => {
   // const [startDate, setStartDate] = useState(new Date());
   // const [endDate, setEndDate] = useState(null);
-  const defaultValues = {};
+  const defaultValues = {
+    checkGVTest: "BS_0800001",
+  };
   const onSubmit = (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
+    const bodyData = {
+      keyword: "string",
+      page: {
+        page: 1,
+        size: 50,
+        sort: ["string"],
+      },
+      searchInResults: {
+        agncNmList: ["string"],
+        anlsMngrList: ["string"],
+        anlsTypeMc: "string",
+        bsnsMngrList: ["string"],
+        dateTypeCc: "string",
+        endDttm: "string",
+        expMngrList: ["string"],
+        instNmList: ["string"],
+        isExcludeResult: "N",
+        orderStatusCc: "string",
+        startDttm: "string",
+        typeCc: "string",
+      },
+    };
+    POST("/order/list", bodyData).then((res) => console.log(res));
   };
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
