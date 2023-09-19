@@ -56,7 +56,7 @@ export default function ProjectPage({ params }: CustViewProps) {
           onClick={() => router.push("/project-list")}
         />
       </Stack>
-
+      {/* 
       <Box sx={{ mb: 5 }}>
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyCommontModifyLog
@@ -66,7 +66,7 @@ export default function ProjectPage({ params }: CustViewProps) {
             type="mngr"
           />
         </ErrorContainer>
-      </Box>
+      </Box> */}
     </Container>
   );
 }
