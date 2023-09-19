@@ -28,7 +28,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import {
   ContainedButton,
   ErrorContainer,
@@ -409,9 +408,12 @@ export default function AgncPIModifyPage() {
         </Box>
 
         <Box sx={{ mb: 5 }}>
-          <LogUpdateTitle logTitle="거래처(PI)" />
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyAgncModifyLog apiName="agnc" uKey={uKey} />
+            <LazyAgncModifyLog
+              uKey={uKey}
+              apiName="agnc"
+              logTitle="거래처(PI)"
+            />
           </ErrorContainer>
         </Box>
       </Container>

@@ -26,7 +26,6 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import * as React from "react";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
-import LogUpdateTitle from "../../../../../components/LogUpdateTitle";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
@@ -35,7 +34,7 @@ const LazyCustEBCInfo = dynamic(() => import("../../CustEBCInfo"), {
   loading: () => <SkeletonLoading height={270} />,
 });
 
-const LazyCustModifyLog = dynamic(
+const LazyCommontModifyLog = dynamic(
   () => import("../../../../../components/LogTable"),
   {
     ssr: false,
@@ -279,9 +278,13 @@ export default function CustModifyPage({ params }: ParamsProps) {
 
         {/* 수정 로그 부분 */}
         <Box sx={{ mb: 5 }}>
-          <LogUpdateTitle logTitle="고객정보" />
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyCustModifyLog apiName="cust" uKey={slug} />
+            <LazyCommontModifyLog
+              apiName="cust"
+              uKey={slug}
+              logTitle="고객정보"
+              type="cust"
+            />
           </ErrorContainer>
         </Box>
       </Container>

@@ -41,12 +41,12 @@ const MCHeader: React.FC<MCHeaderProps> = ({ slug }) => {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>마스터코드 명(국문)</TH>
+              <TH sx={{ width: "15%" }}>마스터 코드 명(국문)</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {msCodeData.codeNm ?? "-"}
               </TD>
-              <TH sx={{ width: "15%" }}>마스터코드 명(영문)</TH>
+              <TH sx={{ width: "15%" }}>마스터 코드 명(영문)</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {msCodeData.codeValue ?? "-"}
               </TD>
