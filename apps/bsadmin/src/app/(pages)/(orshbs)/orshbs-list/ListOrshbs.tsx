@@ -39,7 +39,7 @@ export default function ListOrshbs() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  const totalElements = data.data.pageInfo.totalElements;
+  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
@@ -189,7 +189,7 @@ export default function ListOrshbs() {
                   autoComplete="off"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  {/* 
+                  {/*
                   <Stack direction="row" spacing={1}>
                     {userStatusData.data && (
                       <SelectBox
@@ -243,7 +243,7 @@ export default function ListOrshbs() {
   return (
     <DataTableBase
       title={<Title1 titleName="고객 주문서 관리" />}
-      data={data.data.orshList}
+      data={data.orshList}
       columns={columns}
       onRowClicked={goDetailPage}
       onSelectedRowsChange={handleRowSelected}

@@ -1,9 +1,14 @@
 import React from "react";
 import fetcher from "../func/fetcher";
 import useSWR from "swr";
-import { cjbsTheme, RadioGV } from "cjbsDSTM";
+import { CheckboxGV, cjbsTheme, RadioGV } from "cjbsDSTM";
+
+// interface IsChckboxShowProps {
+//   isChckboxShow?: boolean;
+// }
 
 const OrderType = () => {
+  // const { isChckboxShow } = props;
   const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=order&midValue=type`,
     fetcher,
@@ -13,6 +18,9 @@ const OrderType = () => {
   );
   console.log("OrderType List", data.data);
   const orderTypeData = data.data;
+
+  // if (isChckboxShow === true)
+  //   return <CheckboxGV data={orderTypeData} inputName="orderTypeCc" />;
 
   return (
     <RadioGV

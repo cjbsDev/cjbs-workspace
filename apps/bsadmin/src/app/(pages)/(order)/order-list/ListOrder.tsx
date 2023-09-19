@@ -21,13 +21,43 @@ import { useList } from "../../../hooks/useList";
 import Link from "next/link";
 import { blue, red, grey, green } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
+import { fetcher } from "api";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { filteredUrlAtom } from "../../../recoil/atoms/filteredUrlAtom";
+
 const ListOrder = () => {
+  // const currentUrl = window.document.location.href;
+  // console.log("Current Url", currentUrl);
+  // const getFilteredUrl = useRecoilValue(filteredUrlAtom);
+  // console.log("Get FilteredUrl", getFilteredUrl);
   const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
+  const [size, setSize] = useState<number>(20);
   // ListAPI Call
-  const { data } = useList("order", page, perPage);
-  console.log("DATA", data);
+  // const { data } = useList("order", page, perPage);
+  const searchParams = useSearchParams();
+
+  const resultObject = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", result);
+
+  const { data } = useSWR(
+    result !== ""
+      ? `/order/list${result}&page=${page}&size=${size}`
+      : `/order/list?page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("ORDER LIST DATA", data);
+  const orderListData = data.orderList;
   const totalElements = data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
@@ -276,13 +306,13 @@ const ListOrder = () => {
     []
   );
 
-  const filteredData = data.orderList.filter(
-    (item) =>
-      (item.custNm &&
-        item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
-      (item.ebcEmail &&
-        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
-  );
+  // const filteredData = data.orderList.filter(
+  //   (item) =>
+  //     (item.custNm &&
+  //       item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
+  //     (item.ebcEmail &&
+  //       item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
+  // );
 
   // console.log("filteredData ==>>", filteredData);
 
@@ -297,481 +327,6 @@ const ListOrder = () => {
         setResetPaginationToggle(!resetPaginationToggle);
         setFilterText("");
       }
-    };
-
-    const newDataChange = () => {
-      mutate(`/order/list?page=${page}&size=${perPage}`, [
-        {
-          orderId: 168,
-          orderUkey: "3dBRGV",
-          orshId: 47,
-          orshNo: "NMT202309-43251",
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "좋아요",
-          custEmail: "yangkyu.choi@cj.net",
-          agncNm: "좋아요 좋아굿",
-          instNm: "부경대학교",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008001",
-          pltfVal: "illumina MiSeq 2x250",
-          bsnsMngrVal: "윤영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "N",
-          isSampleReturn: "N",
-          price: 0,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 2,
-          createDttm: "2023-09-15",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "",
-        },
-        {
-          orderId: 167,
-          orderUkey: "gLBY4R",
-          orshId: 46,
-          orshNo: "NMT202309-87280",
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "좋아요",
-          custEmail: "yangkyu.choi@cj.net",
-          agncNm: "좋아요 좋아굿",
-          instNm: "부경대학교",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008001",
-          pltfVal: "illumina MiSeq 2x250",
-          bsnsMngrVal: "윤영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "N",
-          isSampleReturn: "N",
-          price: 0,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 2,
-          createDttm: "2023-09-15",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "memo",
-        },
-        {
-          orderId: 166,
-          orderUkey: "kRup5e",
-          orshId: null,
-          orshNo: null,
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800002",
-          typeVal: "무료",
-          custNm: "신지연",
-          custEmail: "jyshin222@cj.net",
-          agncNm: "야호2",
-          instNm: "농촌진흥청 국립농업과학원",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008001",
-          pltfVal: "illumina MiSeq 2x250",
-          bsnsMngrVal: "이영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "Y",
-          isSampleReturn: "N",
-          price: 2222,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 2,
-          createDttm: "2023-09-14",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "",
-        },
-        {
-          orderId: 165,
-          orderUkey: "wmSGcq",
-          orshId: null,
-          orshNo: null,
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "신지연",
-          custEmail: "jyshin222@cj.net",
-          agncNm: "야호2",
-          instNm: "농촌진흥청 국립농업과학원",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008001",
-          pltfVal: "illumina MiSeq 2x250",
-          bsnsMngrVal: "김영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "Y",
-          isSampleReturn: "N",
-          price: 223,
-          runList: ["2"],
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 350,
-          createDttm: "2023-09-06",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "",
-        },
-        {
-          orderId: 164,
-          orderUkey: "qQ4Ke5",
-          orshId: 1,
-          orshNo: "CJCJ012321-1231",
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "서형석",
-          custEmail: "hyungseok.seo@chunlab.com",
-          agncNm: "하하거래처",
-          instNm: "수정테스트",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008006",
-          pltfVal: "Illumina NextSeq 2x150",
-          bsnsMngrVal: "김영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "N",
-          isSampleReturn: "N",
-          price: 0,
-          runList: ["2"],
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 2,
-          createDttm: "2023-09-01",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "memo",
-        },
-        {
-          orderId: 163,
-          orderUkey: "z1XrhG",
-          orshId: 33,
-          orshNo: "NMT202308-21302",
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "좋아요",
-          custEmail: "yangkyu.choi@cj.net",
-          agncNm: "좋아요 좋아굿",
-          instNm: "부경대학교",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008006",
-          pltfVal: "Illumina NextSeq 2x150",
-          bsnsMngrVal: "신영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "N",
-          isSampleReturn: "N",
-          price: 0,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 1,
-          createDttm: "2023-09-01",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "memo",
-        },
-        {
-          orderId: 162,
-          orderUkey: "buJWYU",
-          orshId: 28,
-          orshNo: "NMT202308-18380",
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "신지연",
-          custEmail: "jyshin221@cj.net",
-          agncNm: "하하하하Go",
-          instNm: "엔터바이오",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008004",
-          pltfVal: "MTP Premium Add-on 2",
-          bsnsMngrVal: "윤영업",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "N",
-          isSampleReturn: "N",
-          price: 0,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 1,
-          createDttm: "2023-08-29",
-          rcptDttm: "2023-08-04",
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "메모 입니다~~~~~~~~~~~~~~~",
-        },
-        {
-          orderId: 151,
-          orderUkey: "QDsUmB",
-          orshId: null,
-          orshNo: null,
-          isFastTrack: "Y",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "윤성미2",
-          custEmail: "test1234562@cj.net",
-          agncNm: "첫번째친구",
-          instNm: "유비텍(UBTech)",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008004",
-          pltfVal: "MTP Premium Add-on 2",
-          bsnsMngrVal: "Test",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "Y",
-          isSampleReturn: "N",
-          price: 1242321,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 1,
-          createDttm: "2023-08-16",
-          rcptDttm: null,
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "윤성미 TEST",
-        },
-        {
-          orderId: 150,
-          orderUkey: "RUKLpH",
-          orshId: null,
-          orshNo: null,
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "윤성미2",
-          custEmail: "test1234562@cj.net",
-          agncNm: "첫번째친구",
-          instNm: "유비텍(UBTech)",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008004",
-          pltfVal: "MTP Premium Add-on 2",
-          bsnsMngrVal: "Test",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "Y",
-          isSampleReturn: "N",
-          price: 1242321,
-          runList: ["2"],
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 9,
-          createDttm: "2023-08-16",
-          rcptDttm: "2023-07-04",
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "메모 입니다~~~~~~~~~~~~~~~",
-        },
-        {
-          orderId: 149,
-          orderUkey: "ARu6Cj",
-          orshId: null,
-          orshNo: null,
-          isFastTrack: "N",
-          orderStatusCc: "BS_0802001",
-          orderStatusVal: "미접수",
-          intnExtrClCc: "BS_0805002",
-          intnExtrClVal: "영업용(외부)",
-          typeCc: "BS_0800001",
-          typeVal: "일반",
-          custNm: "윤성미2",
-          custEmail: "test1234562@cj.net",
-          agncNm: "첫번째친구",
-          instNm: "유비텍(UBTech)",
-          isSpecialMng: "N",
-          sampleType: null,
-          anlsTypeMc: "BS_0100006004",
-          anlsTypeVal: "MTP",
-          pltfMc: "BS_0100008004",
-          pltfVal: "MTP Premium Add-on 2",
-          bsnsMngrVal: "Test",
-          expMngrVal: null,
-          anlsMngrVal: null,
-          prjtMngrVal: null,
-          is16S: "N",
-          isDnaReturn: "Y",
-          isSampleReturn: "N",
-          price: 1242321,
-          runList: null,
-          prjtCodeMc: null,
-          prjtCode: null,
-          prjtCodeVal: null,
-          prjtDetailCodeMc: null,
-          prjtDetailCode: null,
-          prjtDetailCodeVal: null,
-          anlsInstCount: 0,
-          sampleCount: 3,
-          createDttm: "2023-08-16",
-          rcptDttm: "2023-09-03",
-          libCompDttm: null,
-          seqCompDttm: null,
-          biCompDttm: null,
-          ntfcCompDttm: null,
-          memo: "메모 입니다~~~~~~~~~~~~~~~",
-        },
-      ]);
     };
 
     return (
@@ -809,23 +364,23 @@ const ListOrder = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked]);
+  }, [filterText, resetPaginationToggle, checked, totalElements]);
 
   const handlePageChange = (page: number) => {
-    // console.log("Page", page);
+    console.log("Page", page);
     setPage(page);
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
-    // console.log("Row change.....", newPerPage, page);
+    console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
+    setSize(newPerPage);
   };
 
   return (
     <DataTableBase
       title={<Title1 titleName="오더 관리" />}
-      data={filteredData}
+      data={orderListData}
       columns={columns}
       onRowClicked={goDetailPage}
       pointerOnHover
