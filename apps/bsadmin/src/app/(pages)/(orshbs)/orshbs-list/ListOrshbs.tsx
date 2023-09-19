@@ -42,7 +42,7 @@ export default function ListOrshbs() {
   }, [])
 
   // ListAPI Call
-  const { data } = useFiltersList("orshbs/intn/list", filters);
+  const { data } = useFiltersList("orshbs/intn", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -68,8 +68,10 @@ export default function ListOrshbs() {
       defaultParam = `${defaultParam}&${addParam}`;
     }
 
+    console.log("%%%%%%%%%%%%",defaultParam);
+
     setFilters(defaultParam);
-    mutate(`orshbs/intn/list`);
+    // mutate(`orshbs/intn/list`);
   };
 
   const defaultValues = {
@@ -305,7 +307,7 @@ export default function ListOrshbs() {
             <ContainedButton
                 buttonName="+주문서 등록"
                 size="small"
-                // onClick={() => setParameter(`keyword=${filterText}`)}
+                onClick={() => handleServiceSelectOpen()}
             />
           </Stack>
         }

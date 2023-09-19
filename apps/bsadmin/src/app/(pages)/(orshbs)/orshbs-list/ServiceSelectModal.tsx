@@ -1,34 +1,60 @@
 import React from "react";
 import {
   ContainedButton,
-  DataTableBase,
+  OutlinedButton,
   ModalAction,
   ModalContainer,
   ModalTitle,
-  TD,
-  TH,
 } from "cjbsDSTM";
 import {
   DialogActions,
-  DialogContent,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
+  DialogContent, Stack,
 } from "@mui/material";
+import Link from "next/link";
 
 
 const ServiceSelectModal = (props) => {
   const { open, onClose, modalWidth } = props;
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>기관 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>내부 주문서 등록</ModalTitle>
       <DialogContent>
-        test1234
+        <Stack spacing={1} alignItems="center" justifyContent="center">
+          <Link
+            href={{
+              pathname: '/orsh-order/in/mtp',
+            }}
+            style={{width:'100%'}}
+          >
+            <OutlinedButton buttonName="MTP" size="large" fullWidth />
+          </Link>
+          <Link
+            href={{
+              pathname: '/orsh-order/in/shotgun',
+            }}
+            style={{width:'100%'}}
+          >
+            <OutlinedButton buttonName="Shotgun" size="large" fullWidth />
+          </Link>
+          {/*<Link*/}
+          {/*  href={{*/}
+          {/*    pathname: '/order/mtp',*/}
+          {/*  }}*/}
+          {/*>*/}
+            <OutlinedButton buttonName="WG" size="large" fullWidth disabled={true}/>
+          {/*</Link>*/}
+          {/*<Link*/}
+          {/*  href={{*/}
+          {/*    pathname: '/order/mtp',*/}
+          {/*  }}*/}
+          {/*>*/}
+            <OutlinedButton buttonName="RS" size="large" fullWidth disabled={true}/>
+          {/*</Link>*/}
+        </Stack>
       </DialogContent>
-      <ModalAction>
-        <ContainedButton buttonName="확인" onClick={onClose} />
-      </ModalAction>
+      {/*<ModalAction>*/}
+      {/*  <ContainedButton buttonName="확인" onClick={onClose} />*/}
+      {/*</ModalAction>*/}
     </ModalContainer>
   );
 };
