@@ -105,13 +105,13 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
     setSelectItem(tempObj);
     setMcCodeModifyModal(true);
   };
-  // [ 마스터 코드 ] 모달 오픈
+  // [ 아이템 수정 ] 모달 오픈
   const mcItemModifyModalOpen = (item: DataItem) => {
     setSelectItem(item);
     setMcCodeModifyModal(true);
   };
 
-  // [ 마스터 코드 ] 모달 닫기
+  // [ 아이템 수정 ] 모달 닫기
   const mcItemModifyModalClose = () => {
     setMcCodeModifyModal(false);
   };
@@ -181,7 +181,8 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
                       onClick={() => mcItemModifyModalOpen(dataItem)}
                       sx={{ mr: 1 }}
                     />
-                    {/*                     
+                    {/*         
+
                     <OutlinedButton
                       buttonName="삭제"
                       size="small"

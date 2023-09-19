@@ -8,8 +8,6 @@ import {
   TD,
   Title1,
   Form,
-  Checkbox,
-  Radio,
   Fallback,
   ErrorContainer,
 } from "cjbsDSTM";
@@ -42,6 +40,14 @@ const LazyCheckboxList = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={82} />,
+  }
+);
+
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
   }
 );
 
@@ -115,7 +121,6 @@ export default function SvcCatePage({ params }: ViewProps) {
    *
    */
 
-  console.log("codeData", codeData);
   // 'codeData'의 'btmValueList' 배열에서 'isSlct' 속성이 true인 아이템들만 필터링하여
   // 해당 아이템들의 'btmCodeMc' 속성만을 새로운 배열인 'selectedCodeArray'에 매핑합니다.
   // 'selectedCodeArray'는 'btmCodeMc' 값들로 이루어진 배열입니다.
@@ -191,6 +196,18 @@ export default function SvcCatePage({ params }: ViewProps) {
         </ErrorContainer>
       </Box>
       */}
+
+      <Box sx={{ mb: 5 }}>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyCommontModifyLog
+            apiName="SRVC_CTGR"
+            uKey={slug}
+            subUkey={midCodeMc}
+            logTitle=""
+            type="topMid"
+          />
+        </ErrorContainer>
+      </Box>
     </Container>
   );
 }

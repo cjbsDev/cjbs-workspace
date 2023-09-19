@@ -1,7 +1,14 @@
 "use client";
 
 import React from "react";
-import { ContainedButton, OutlinedButton, Title1, Form } from "cjbsDSTM";
+import {
+  ContainedButton,
+  OutlinedButton,
+  Title1,
+  Form,
+  ErrorContainer,
+  Fallback,
+} from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import { Box, Container, Stack } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
@@ -12,6 +19,14 @@ interface CustViewProps {
     slug: string;
   };
 }
+
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
 
 const LazyProjectHeader = dynamic(() => import("./ProjectHeader"), {
   ssr: false,
@@ -41,6 +56,17 @@ export default function ProjectPage({ params }: CustViewProps) {
           onClick={() => router.push("/project-list")}
         />
       </Stack>
+
+      <Box sx={{ mb: 5 }}>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyCommontModifyLog
+            apiName="prjc"
+            uKey={slug}
+            logTitle=""
+            type="mngr"
+          />
+        </ErrorContainer>
+      </Box>
     </Container>
   );
 }

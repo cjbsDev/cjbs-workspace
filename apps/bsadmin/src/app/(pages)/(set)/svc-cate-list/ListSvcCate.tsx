@@ -16,7 +16,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-
 import { fetcher } from "api";
 
 const ListSvcCate = () => {
