@@ -29,7 +29,6 @@
     "material-ui-popup-state": "^5.0.8",
     "next": "latest",
     "next-auth-it": "workspace:*",
-    "next-batch-router": "^1.0.0",
     "nextjs-toploader": "^1.4.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

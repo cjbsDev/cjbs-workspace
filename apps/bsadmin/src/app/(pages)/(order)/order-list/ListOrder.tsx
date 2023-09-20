@@ -28,6 +28,7 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { filteredUrlAtom } from "../../../recoil/atoms/filteredUrlAtom";
 import KeywordSearch from "./KeywordSearch";
+import NoDataView from "../../../components/NoDataView";
 
 const ListOrder = () => {
   // const currentUrl = window.document.location.href;
@@ -356,8 +357,6 @@ const ListOrder = () => {
               iconName="xls3"
             />
 
-            <KeywordSearch />
-
             {/*<DataTableFilter2 />*/}
             {/*<DataTableFilter*/}
             {/*  onFilter={(e: {*/}
@@ -366,6 +365,7 @@ const ListOrder = () => {
             {/*  onClear={handleClear}*/}
             {/*  filterText={filterText}*/}
             {/*/>*/}
+            <KeywordSearch />
             <ResultInSearch />
           </Stack>
         </Grid>
@@ -402,6 +402,7 @@ const ListOrder = () => {
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
+      noDataComponent={<NoDataView />}
     />
   );
 };

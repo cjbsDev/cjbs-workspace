@@ -82,19 +82,17 @@ const SearchForm = ({ onClose }) => {
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const defaultValues = {};
+  let nwData;
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
-    const isExcludeResult = data.isExcludeResult === false ? "N" : "Y";
-    let startDttm;
-    let endDttm;
-    if (data.dateRange === undefined) {
-      startDttm = null;
-      endDttm = null;
-    } else {
-      startDttm = dayjs(data.dateRange[0]).format("YYYY-MM-DD");
-      console.log("startDttm", startDttm);
-      endDttm = dayjs(data.dateRange[1]).format("YYYY-MM-DD");
-      console.log("endDttm", endDttm);
+
+    if (data.dateRange !== undefined) {
+      const [startDate, endDate] = data.dateRange.map((dateStr) =>
+        dayjs(dateStr).format("YYYY-MM-DD")
+      );
+      data.startDate = startDate;
+      data.endDate = endDate;
+      data.dateRange = undefined;
     }
 
     const filteredObject = Object.fromEntries(
@@ -108,18 +106,58 @@ const SearchForm = ({ onClose }) => {
         )
     );
 
-    console.log("FILTEREDOBJECT", filteredObject);
-
+    // URLSearchParams() 생성자 ==> Convert Object to Query String
+    // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
     const result = "?" + new URLSearchParams(filteredObject).toString();
-    console.log("RESULT", result);
-
-    // await GET(`/order/list${result}`).then((res) => {
-    //   console.log("RES DATA(@..@)", res.data);
-    //   router.push(`/order-list${result}`);
-    // });
-
     router.push(`/order-list${result}`);
     onClose();
+
+    // if (data.dateRange !== undefined) {
+    //   const [startDate, endDate] = data.dateRange.map((dateStr) =>
+    //     dayjs(dateStr).format("YYYY-MM-DD")
+    //   );
+    //   const newData = {
+    //     ...data,
+    //     startDate,
+    //     endDate,
+    //     dateRange: undefined, // dateRange 배열은 더 이상 필요하지 않으므로 undefined로 설정
+    //   };
+    //
+    //   console.log("NEW DATA ==>>", newData);
+    //
+    //   const filteredObject = Object.fromEntries(
+    //     Object.entries(newData)
+    //       .filter(
+    //         ([key, value]) =>
+    //           value !== "" && value !== undefined && value !== false
+    //       )
+    //       .map(([key, value]) =>
+    //         key === "typeCc" ? [key, value.join(",")] : [key, value]
+    //       )
+    //   );
+    //
+    //   const result = "?" + new URLSearchParams(filteredObject).toString();
+    //   console.log("RESULT", result);
+    //   router.push(`/order-list${result}`);
+    // } else {
+    //   const filteredObject = Object.fromEntries(
+    //     Object.entries(data)
+    //       .filter(
+    //         ([key, value]) =>
+    //           value !== "" && value !== undefined && value !== false
+    //       )
+    //       .map(([key, value]) =>
+    //         key === "typeCc" ? [key, value.join(",")] : [key, value]
+    //       )
+    //   );
+    //
+    //   console.log("FILTEREDOBJECT", filteredObject);
+    //   const result = "?" + new URLSearchParams(filteredObject).toString();
+    //   console.log("RESULT", result);
+    //   router.push(`/order-list${result}`);
+    // }
+    //
+    // onClose();
   };
 
   return (
@@ -144,7 +182,7 @@ const SearchForm = ({ onClose }) => {
               <Typography variant="body2">영업</Typography>
             </Grid>
             <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="mngrSales" fullWidth />
+              <InputValidation inputName="bsnsMngrList" fullWidth />
             </Grid>
 
             <Grid
@@ -170,7 +208,7 @@ const SearchForm = ({ onClose }) => {
               <Typography variant="body2">분석</Typography>
             </Grid>
             <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="mngrAnlyz" fullWidth />
+              <InputValidation inputName="anlsMngrList" fullWidth />
             </Grid>
           </Grid>
         </Section>
@@ -187,7 +225,7 @@ const SearchForm = ({ onClose }) => {
               <Typography variant="body2">거래처</Typography>
             </Grid>
             <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="mngrSales" fullWidth />
+              <InputValidation inputName="agncNmList" fullWidth />
             </Grid>
 
             <Grid
@@ -200,22 +238,30 @@ const SearchForm = ({ onClose }) => {
               <Typography variant="body2">기관</Typography>
             </Grid>
             <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="mngrExpr" fullWidth />
+              <InputValidation inputName="instNmList" fullWidth />
             </Grid>
           </Grid>
         </Section>
         <Section>
           <SectionLabel variant="subtitle2">날짜</SectionLabel>
-          <Grid container spacing={1}>
-            <Grid item xs={6}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyDateTypeSelctbox />
-              </ErrorContainer>
-            </Grid>
-            <Grid item xs={6}>
-              <DateRangePicker inputName="dateRange" />
-            </Grid>
-          </Grid>
+
+          <Stack direction="row" spacing={1}>
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyDateTypeSelctbox />
+            </ErrorContainer>
+            <DateRangePicker inputName="dateRange" />
+          </Stack>
+
+          {/*<Grid container spacing={1}>*/}
+          {/*  <Grid item xs={6}>*/}
+          {/*    <ErrorContainer FallbackComponent={Fallback}>*/}
+          {/*      <LazyDateTypeSelctbox />*/}
+          {/*    </ErrorContainer>*/}
+          {/*  </Grid>*/}
+          {/*  <Grid item xs={6}>*/}
+          {/*    <DateRangePicker inputName="dateRange" />*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
         </Section>
         <Section>
           <SectionLabel variant="subtitle2">오더타입</SectionLabel>
