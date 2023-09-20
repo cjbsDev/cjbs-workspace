@@ -96,6 +96,11 @@ export default function ListOrshbs() {
         selector: (row: { orshNo: string }) => row.orshNo,
         width: "200px",
       },
+      {
+        name: "orshUkey",
+        selector: (row: { orshUkey: string }) => row.orshUkey,
+        width: "0px",
+      },
       // {
       //   name: "오더번호",
       //   selector: (row: { orderId: string }) => row.orderId,
@@ -196,9 +201,17 @@ export default function ListOrshbs() {
     []
   );
 
-  const goDetailPage = (row: { orshNo: string }) => {
-    const path = row.orshNo;
-    router.push("/orshbs-list/" + path);
+  const goDetailPage = (row: {
+    orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+    anlsTypeAbb: string;
+  }) => {
+    const orshUkey = row.orshUkey;
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push("/orshbs-list/" + orshUkey + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
   };
 
   const goLinkOrderPage = () => {
@@ -224,7 +237,6 @@ export default function ListOrshbs() {
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
               totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
             />
 
             <FormProvider {...methods}>
@@ -235,22 +247,6 @@ export default function ListOrshbs() {
                   autoComplete="off"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  {/*
-                  <Stack direction="row" spacing={1}>
-                    {userStatusData.data && (
-                      <SelectBox
-                        inputName="userStatus"
-                        options={userStatusData.data}
-                        defaultMsg="회원 상태 변경"
-                      />
-                    )}
-                    <ContainedButton
-                      buttonName="변경"
-                      size="small"
-                      onClick={setUserStatus}
-                    />
-                  </Stack>
-                  */}
                 </Box>
               </Container>
             </FormProvider>

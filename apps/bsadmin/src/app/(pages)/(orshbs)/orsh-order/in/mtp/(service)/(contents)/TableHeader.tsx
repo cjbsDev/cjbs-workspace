@@ -68,7 +68,7 @@ const TableHeader = (props:any) => {
         )
       }
 
-      {serviceType === 'ao' ?
+      {serviceType === 'ngs' ?
         (
           <TableHead>
             <TableRow sx={{ backgroundColor: cjbsTheme.palette.grey[100] }}>
@@ -93,7 +93,7 @@ const TableHeader = (props:any) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">분석 타겟 유전자 </Typography>{" "}
+                  <Typography variant="subtitle2">샘플 상태 </Typography>{" "}
                   <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
                     *
                   </Box>
@@ -101,12 +101,10 @@ const TableHeader = (props:any) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">Forward primer</Typography>
-                </Stack>
-              </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">Reverse primer</Typography>
+                  <Typography variant="subtitle2">분석 타겟 유전자 </Typography>{" "}
+                  <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                    *
+                  </Box>
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>

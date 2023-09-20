@@ -10,12 +10,12 @@ import {
     Typography,
 } from "@mui/material";
 import {
-    CheckboxGV,
-    InputValidation,
-    OutlinedButton,
-    PostCodeBtn,
-    TD,
-    TH,
+  CheckboxGV,
+  InputValidation,
+  OutlinedButton,
+  PostCodeBtn, RadioGV,
+  TD,
+  TH,
 } from "cjbsDSTM";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
@@ -23,6 +23,10 @@ import useSWR from "swr";
 import {fetcherOrsh} from "api";
 import {AddressDeleteButton} from "../../../components/AddressDeleteButton";
 
+const dataRadioGV = [
+  { value: "Y", optionName: "요청함" },
+  { value: "N", optionName: "요청안함" },
+];
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
@@ -304,6 +308,56 @@ export default function OrdererInfo(props:JSON) {
                     // placeholder="여러개 입력시','로 구분하세요."
                     placeholder="example@gmail.com, example2@gmail.com"
                     sx={{ width: 550 }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <InputValidation
+                    inputName="rstFileRcpnEmail"
+                    // placeholder="여러개 입력시','로 구분하세요."
+                    placeholder="example@cj.net"
+                    sx={{ width: 306 }}
+                  />
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="계정 등록"*/}
+                  {/*  // onClick={() => {}}*/}
+                  {/*/>*/}
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="삭제"*/}
+                  {/*  color={"error"}*/}
+                  {/*  // onClick={() => {}}*/}
+                  {/*/>*/}
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <RadioGV
+                    data={dataRadioGV}
+                    inputName="isRdnaIdnt16S"
+                    required={true}
+                    errorMessage="선택 해주세요"
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <RadioGV
+                    data={dataRadioGV}
+                    inputName="isRtrnRasn"
+                    required={true}
+                    errorMessage="선택 해주세요"
                   />
                 </Stack>
               </TD>

@@ -42,7 +42,7 @@ export const snbMenuListData = [
     menuLabel: "주문서",
     menuIcon: "sheet",
     menuPath: {
-      name: "/orshbs",
+      name: "/orsh",
       nestedPath: [
         {
           menuLabel: "고객 주문서 관리",

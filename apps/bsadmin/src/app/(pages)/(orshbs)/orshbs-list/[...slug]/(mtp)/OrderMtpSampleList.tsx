@@ -4,10 +4,14 @@ import {
   Box,
   Stack,
   Table,
+  TableHead,
   TableBody,
   TableContainer,
   TableRow,
+  TableCell,
   Typography,
+  TextField,
+  Button,
 } from "@mui/material";
 import {
   ContainedButton,
@@ -21,13 +25,13 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
-import NoticeBox from "./NoticeBox";
-import OrderSelectbox from "@components/OrderSelectbox";
+import {useParams} from "next/navigation";
+import NoticeBox from "../../../orsh-order/in/mtp/(service)/(contents)/NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../../../../../../components/OrderSelectbox"),
+  () => import("../../../../../components/CommonSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -36,29 +40,13 @@ const LazyPrepSelectbox = dynamic(
 
 export default function OrderMtpSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
-  const serviceType = props.serviceType;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const params = useParams();
+  // console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
+  let serviceType = params.slug[1];
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
-      case "ngs":
-        return (
-          <TableRow>
-            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-            <TD sx={{ width: "80%" }}>
-              <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <InputValidation
-                    inputName="uploadFile"
-                    required={false}
-                    type="file"
-                    sx={{ width: 306 }}
-                  />
-                </Stack>
-              </Stack>
-            </TD>
-          </TableRow>
-        );
       case "fs":
         return (
           <TableRow>
@@ -66,11 +54,39 @@ export default function OrderMtpSampleList(props: any) {
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <Stack direction="row" alignItems="center" spacing={2}>
+                  { updataYn === 'N' ? (
+                    <Box>
+                      <InputValidation
+                        inputName="uploadFile"
+                        required={false}
+                        type="file"
+                        sx={{ width: 306 }}
+                      />
+                      <Typography variant="body2">
+                        * 파일 재업로드 시, 기존 파일은 삭제됩니다.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )}
+
                   <InputValidation
-                    inputName="uploadFile"
+                    inputName="selfQcFileNm"
                     required={false}
-                    type="file"
-                    sx={{ width: 306 }}
+                    sx={{
+                      width: 300,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000"
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                 </Stack>
               </Stack>
@@ -80,7 +96,7 @@ export default function OrderMtpSampleList(props: any) {
       case "ao":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+            <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
@@ -115,7 +131,17 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderMTPSampleDynamicTable serviceType={serviceType} />
+      <Stack
+        direction="row"
+        alignItems="center"
+        spacing={0.5}
+        justifyContent="space-between"
+      >
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <Typography variant="subtitle1">샘플 리스트</Typography>
+        </Stack>
+      </Stack>
+      <OrderMTPSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -127,36 +153,21 @@ export default function OrderMtpSampleList(props: any) {
         // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        sx={{ width: "100%", mb: 4 }}
         placeholder={"추가 요청 사항을 입력해주세요."}
+        sx={{
+          width: '100%',
+          mb: 4,
+          ".MuiOutlinedInput-input:read-only": {
+            backgroundColor: "white",
+            cursor: "pointer",
+            textFillColor: "#000000"
+          },
+        }}
+        InputProps={{
+          readOnly: updataYn === 'N' ? false : true
+        }}
       />
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
-        {/*<OutlinedButton*/}
-        {/*  buttonName="이전"*/}
-        {/*  onClick={() => props.moveBackFocus()}*/}
-        {/*/>*/}
-
-        {/*<ContainedButton*/}
-        {/*  type="submit"*/}
-        {/*  buttonName="다음"*/}
-        {/*  endIcon={*/}
-        {/*    isLoading ? (*/}
-        {/*      <LoadingSvg stroke="white" width={20} height={20} />*/}
-        {/*    ) : null*/}
-        {/*  }*/}
-        {/*/>*/}
-
-        <ContainedButton
-          type="submit"
-          buttonName="등록"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
-        />
-      </Stack>
     </>
   );
 }

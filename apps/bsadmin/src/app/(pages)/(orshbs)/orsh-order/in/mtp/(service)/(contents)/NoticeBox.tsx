@@ -59,7 +59,7 @@ const NoticeBox = ( props:any ) => {
         )
       }
 
-      {serviceType === 'ao' ?
+      {serviceType === 'ngs' ?
         (
           <Box
             alignItems="start"
@@ -71,11 +71,11 @@ const NoticeBox = ( props:any ) => {
             }}
           >
             <ul>
-              {/*<li style={{ color: "#EF151E" }}>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
+              <li style={{ color: "#EF151E" }}>
+                <Typography variant="body2">
+                  보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
+                </Typography>
+              </li>
               <li style={{ color: "#EF151E" }}>
                 <Typography variant="body2">
                   분석 결과는 EzBioCloud로 업로드됩니다.
@@ -83,12 +83,14 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li>
                 <Typography variant="body2">
-                  샘플명은 영문, 숫자, -(hyphen)만 입력이 가능합니다.
+                  DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타 환경샘플)은
+                  1개월 후 자동폐기됩니다.
                 </Typography>
               </li>
-              <li style={{ color: "#EF151E" }}>
+              <li>
                 <Typography variant="body2">
-                  원활한 분석 진행을 위하여 실험에 사용한 primer정보 기재를 권장합니다.
+                  Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서
+                  다운로드 바랍니다.
                 </Typography>
               </li>
               <li>

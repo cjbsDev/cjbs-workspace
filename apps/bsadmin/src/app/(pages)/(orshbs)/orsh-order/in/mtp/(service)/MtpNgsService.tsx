@@ -4,8 +4,9 @@ import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
 import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
+import StudySelection from "../../../StudySelection";
 import dynamic from "next/dynamic";
-import {POST, PUT} from "api";
+import { POST_MULTIPART } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
@@ -15,11 +16,14 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function MtpAnalysis() {
-  const defaultValues = {
-    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
-  };
+export default function MtpNgsService() {
   const router = useRouter();
+
+  const defaultValues = {
+    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    isRdnaIdnt16S: 'N',
+    isRtrnRasn : 'N',
+  };
 
   // 등록 호출
   const onSubmit = async (data: any) => {
@@ -37,8 +41,8 @@ export default function MtpAnalysis() {
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        isRdnaIdnt16S: '',
-        isRtrnRasn : '',
+        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        isRtrnRasn : data.isRtrnRasn,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -46,26 +50,41 @@ export default function MtpAnalysis() {
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
-        prjcCode : '',
-        prjcDetailCode : '',
-        rstFileRcpnEmail : '',
+        // prjcCode : data.prjcUniqueCode,
+        prjcCode : 'BS_0100002001',
+        prjcDetailCode : data.prjcDetailCode,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
-      commonInput: {pltfMc : data.pltfMc},
       samples : data.sample,
     };
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/mtp/ao/${orshUkey}`;
+    const formData = new FormData();
+    formData.append(
+      "user-data",
+      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+    );
+
+    if(data.uploadFile.length !== 0){
+      // file 데이터가 있을경우
+      // formData.append("file-data", uploadFile?.files?.item(0) as File);
+      formData.append("file-data", data.uploadFile[0]);
+    } else {
+      formData.append("file-data", null);
+    }
+
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/ngs`;
 
     try {
-      const response = await POST(apiUrl, bodyData); // API 요청
+      const response = await POST_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
-      if (response.success) {
-        toast("등 되었습니다.")
+      if (response.data.success) {
+        toast("등록 되었습니다.")
         router.push("/orshbs-list");
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
+
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
 
       } else {
         toast("문제가 발생했습니다. 01");
@@ -73,12 +92,44 @@ export default function MtpAnalysis() {
     } catch (error) {
       console.error("request failed:", error);
     }
+
   };
 
   return (
     <Container disableGutters={true} sx={{ pt: "55px" }}>
 
       <Form onSubmit={onSubmit} defaultValues={defaultValues} >
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              과제 및 연구 선택&nbsp;
+            </Typography>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="body2">
+              * 은 필수항목 입니다
+            </Typography>
+          </Box>
+        </Stack>
+
+        <Box sx={{ p: 2 }}>
+          <StudySelection />
+        </Box>
 
         <Stack
           direction="row"
@@ -140,7 +191,7 @@ export default function MtpAnalysis() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ao"}/>
+          <OrderMtpSampleList serviceType={"ngs"}/>
         </Box>
 
       </Form>

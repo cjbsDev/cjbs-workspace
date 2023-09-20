@@ -8,6 +8,7 @@ import { POST_MULTIPART } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
+import StudySelection from "../../../StudySelection";
 
 const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
@@ -15,10 +16,13 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
 });
 
 export default function MtpFullService() {
-  const defaultValues = {
-    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
-  };
   const router = useRouter();
+  
+  const defaultValues = {
+    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    isRdnaIdnt16S: 'N',
+    isRtrnRasn : 'N',
+  };
 
   const onSubmit = async (data: any) => {
     console.log("**************************************");
@@ -30,16 +34,13 @@ export default function MtpFullService() {
       addRqstMemo : {
         memo : data.memo,
       },
-      user : {
+      custAgnc : {
         addEmailList : data.addEmailList,
-        // agncAddr : data.addr,
-        // agncAddrDetail : data.addrDetail,
         agncNm : data.agncNm,
-        // agncZip : data.zip,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        isRdnaIdnt16S: '',
-        isRtrnRasn : '',
+        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        isRtrnRasn : data.isRtrnRasn,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -47,9 +48,10 @@ export default function MtpFullService() {
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
-        prjcCode : '',
-        prjcDetailCode : '',
-        rstFileRcpnEmail : '',
+        // prjcCode : data.prjcUniqueCode,
+        prjcCode : 'BS_0100002001',
+        prjcDetailCode : data.prjcDetailCode,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       samples : data.sample,
     };
@@ -70,29 +72,60 @@ export default function MtpFullService() {
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/fs`;
+    록
 
-    // try {
-    //   const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
-    //   console.log("response", response);
-    //   if (response.data.success) {
-    //     toast("등록 되었습니다.")
-    //     router.push("/orshbs-list");
-    //
-    //   } else if (response.data.code == "INVALID_ETC_EMAIL") {
-    //     toast(response.data.message);
-    //
-    //   } else {
-    //     toast("문제가 발생했습니다. 01");
-    //   }
-    // } catch (error) {
-    //   console.error("request failed:", error);
-    // }
+    try {
+      const response = await POST_MULTIPART(apiUrl, formData); // API 요청
+      console.log("response", response);
+      if (response.data.success) {
+        toast("등록 되었습니다.")
+        router.push("/orshbs-list");
+
+      } else if (response.data.code == "INVALID_ETC_EMAIL") {
+        toast(response.data.message);
+
+      } else {
+        toast("문제가 발생했습니다. 01");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+    }
   };
 
   return (
     <Container disableGutters={true} sx={{ pt: "55px" }}>
       <Form onSubmit={onSubmit} defaultValues={defaultValues} >
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              과제 및 연구 선택&nbsp;
+            </Typography>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="body2">
+              * 은 필수항목 입니다
+            </Typography>
+          </Box>
+        </Stack>
+
+        <Box sx={{ p: 2 }}>
+          <StudySelection />
+        </Box>
 
         <Stack
           direction="row"

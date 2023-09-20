@@ -146,14 +146,13 @@ export default function ListOrshbs() {
     orshUkey: string;
     srvcTypeAbb: string;
     isOrderStatus: string;
+    anlsTypeAbb: string;
   }) => {
     const path = row.orshUkey;
     const srvcTypeAbb = row.srvcTypeAbb;
     const isOrderStatus = row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
-    router.push(
-      "/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb
-    );
+    router.push("/order-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
   };
 
   // const goLinkOrderPage = () => {

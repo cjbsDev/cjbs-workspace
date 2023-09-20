@@ -51,7 +51,7 @@ const ExRow = ( props:any ) => {
         )
       }
 
-      {serviceType === 'ao' ?
+      {serviceType === 'ngs' ?
         (
           <TableRow>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -69,7 +69,12 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                환경
+                토양
+              </Typography>
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                gDNA
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -79,15 +84,9 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                CGACCHCCGDAHAA
+                gDNA
               </Typography>
             </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <Typography variant="body2" sx={{ color: "#666" }}>
-                YGACCHCCCHCCAA
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
           </TableRow>
         ) : (

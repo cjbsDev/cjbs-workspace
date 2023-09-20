@@ -15,8 +15,8 @@ import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyIcon from "icon/MyIcon";
 import HorizontalLinearStepper from "../../HorizontalLinearStepper";
 import { ConfirmModal, cjbsTheme } from "cjbsDSTM";
+import MtpNgsService from "./(service)/MtpNgsService";
 import MtpFullService from "./(service)/MtpFullService";
-import MtpAnalysis from "./(service)/MtpAnalysis";
 import MtpSequencing from "./(service)/MtpSequencing";
 import { useRecoilState } from "recoil";
 import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
@@ -150,10 +150,10 @@ const Page = () => {
                   }}
                 >
                   <Typography variant="subtitle1" sx={{}}>
-                    Full Service
+                    NGS 실험
                   </Typography>
                   <Typography variant="body2" sx={{}}>
-                    시퀀싱 및 BI 분석을 함께 의뢰합니다
+                    NGS 실험을 의뢰합니다.
                   </Typography>
                 </Box>
               }
@@ -167,14 +167,31 @@ const Page = () => {
                   }}
                 >
                   <Typography variant="subtitle1" sx={{}}>
-                    Analysis Only
+                    Full Service
                   </Typography>
                   <Typography variant="body2" sx={{}}>
-                    BI 분석만 의뢰합니다
+                    시퀀싱 및 BI 분석을 함께 의뢰합니다
                   </Typography>
                 </Box>
               }
             />
+            {/*<AntTab*/}
+            {/*  label={*/}
+            {/*    <Box*/}
+            {/*      sx={{*/}
+            {/*        textAlign: "center",*/}
+            {/*        width: "100%",*/}
+            {/*      }}*/}
+            {/*    >*/}
+            {/*      <Typography variant="subtitle1" sx={{}}>*/}
+            {/*        Analysis Only*/}
+            {/*      </Typography>*/}
+            {/*      <Typography variant="body2" sx={{}}>*/}
+            {/*        BI 분석만 의뢰합니다*/}
+            {/*      </Typography>*/}
+            {/*    </Box>*/}
+            {/*  }*/}
+            {/*/>*/}
             <AntTab
               label={
                 <Box
@@ -194,8 +211,8 @@ const Page = () => {
             />
           </AntTabs>
         </Box>
-        {value === 0 ? <MtpFullService /> : ""}
-        {value === 1 ? <MtpAnalysis /> : ""}
+        {value === 0 ? <MtpNgsService /> : ""}
+        {value === 1 ? <MtpFullService /> : ""}
         {value === 2 ? <MtpSequencing /> : ""}
       </Box>
 
