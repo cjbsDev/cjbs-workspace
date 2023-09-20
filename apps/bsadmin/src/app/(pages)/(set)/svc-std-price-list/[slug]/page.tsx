@@ -8,6 +8,8 @@ import {
   TD,
   Title1,
   Form,
+  ErrorContainer,
+  Fallback,
 } from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import {
@@ -37,6 +39,14 @@ interface ViewProps {
   };
 }
 
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
+
 export default function SvcStdPricePage({ params }: ViewProps) {
   // init
   const { slug } = params;
@@ -54,7 +64,6 @@ export default function SvcStdPricePage({ params }: ViewProps) {
   if (isLoading) {
     return <SkeletonLoading />;
   }
-  console.log("codeData", codeData);
   /*
   {
     "anlsMtMc": "BS_0100008001",
@@ -119,6 +128,17 @@ export default function SvcStdPricePage({ params }: ViewProps) {
           onClick={() => router.push("/svc-std-price-list")}
         />
       </Stack>
+
+      <Box sx={{ mb: 5 }}>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyCommontModifyLog
+            apiName="stndPrice"
+            uKey={slug}
+            logTitle=""
+            type="mngr"
+          />
+        </ErrorContainer>
+      </Box>
     </Container>
   );
 }

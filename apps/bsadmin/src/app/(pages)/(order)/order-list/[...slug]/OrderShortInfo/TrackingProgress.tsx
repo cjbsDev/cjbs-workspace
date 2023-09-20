@@ -26,7 +26,7 @@ const TrackingProgress = (props) => {
                 ? cjbsTheme.palette.success.light
                 : orderStatusVal === "취소"
                 ? cjbsTheme.palette.error.light
-                : cjbsTheme.palette.secondary.light,
+                : cjbsTheme.palette.grey["600"],
             color: "white",
             pl: "12px",
             pr: "12px",

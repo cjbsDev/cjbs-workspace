@@ -31,6 +31,7 @@ const FileTab = () => {
     try {
       const res = await DELETE(`/order/${orderUkey}/file/${orderFileUkey}`);
       if (res.success) {
+        console.log("Delete", res);
         toast("삭제되었습니다.");
         mutate(`/order/${orderUkey}/file/list`);
       }
@@ -51,17 +52,9 @@ const FileTab = () => {
         url: res.data,
         method: "get",
         responseType: "blob",
-        validateStatus: function (status) {
-          // 상태 코드가 500 이상일 경우 거부. 나머지(500보다 작은)는 허용.
-          return (
-            (status >= 200 && status < 300) ||
-            status === 401 ||
-            status === 400 ||
-            status === 500
-          );
-        },
       }).then((response) => {
         FileSaver.saveAs(response.data, fileOriginNm);
+        // console.log(">>>>>>>>>>", response);
       });
     } catch (e) {
       console.log(e.message);
@@ -220,7 +213,7 @@ const FileTab = () => {
         <FileUploadModal
           onClose={handleFileUploadModalClose}
           open={isFileUploadModal}
-          modalWidth={800}
+          modalWidth={1100}
           formId="fileUploadForm"
         />
       )}

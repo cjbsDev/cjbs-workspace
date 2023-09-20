@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next-nprogress-bar";
 import {
+  ContainedButton,
   ErrorContainer,
   Fallback,
   OutlinedButton,
@@ -47,6 +48,12 @@ const LazyFileTab = dynamic(() => import("./(FileTab)/FileTab"), {
   loading: () => <SkeletonLoading />,
 });
 
+// 코멘트탭
+const LazyCommentTab = dynamic(() => import("./(CommentTab)/CommentTab"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
 export default function OrderInfo() {
   const router = useRouter();
   // [오더 정보 변경] 모달
@@ -62,51 +69,55 @@ export default function OrderInfo() {
   };
 
   return (
-    <Container maxWidth={false} sx={{ width: "100%" }}>
-      <Box sx={{ mb: 1 }}>
-        <Grid container gap={1.5} alignItems="center">
-          <Grid item>
-            <Typography variant="h4">오더 정보</Typography>
+    <>
+      <Container maxWidth={false} sx={{ width: "100%" }}>
+        <Box sx={{ mb: 1 }}>
+          <Grid container gap={1.5} alignItems="center">
+            <Grid item>
+              <Typography variant="h4">오더 정보</Typography>
+            </Grid>
+            <Grid item>
+              <ContainedButton
+                size="small"
+                buttonName="오더 정보 변경"
+                onClick={() => setShowOrderInfoModifyModal(true)}
+                endIcon={<MyIcon icon="cheveron-right" size={18} />}
+              />
+            </Grid>
           </Grid>
-          <Grid item>
-            <OutlinedButton
-              size="small"
-              buttonName="오더 정보 변경"
-              color="secondary"
-              sx={{ color: "black" }}
-              onClick={() => setShowOrderInfoModifyModal(true)}
-              endIcon={<MyIcon icon="cheveron-right" size={18} />}
-            />
-          </Grid>
-        </Grid>
-      </Box>
-      <Box sx={{ mb: 5 }}>
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyOrderShortInfo />
-        </ErrorContainer>
-      </Box>
+        </Box>
+        <Box sx={{ mb: 5 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyOrderShortInfo />
+          </ErrorContainer>
+        </Box>
+      </Container>
 
       {/* Tabs */}
-      <TabBox tabValue={tabValue} handleTabChange={handleTabChange} />
-      <CustomTabPanel value={tabValue} index={0}>
-        {/* 오더 */}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyOrderTab />
-        </ErrorContainer>
-      </CustomTabPanel>
-      <CustomTabPanel value={tabValue} index={1}>
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazySampleTab />
-        </ErrorContainer>
-      </CustomTabPanel>
-      <CustomTabPanel value={tabValue} index={2}>
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyFileTab />
-        </ErrorContainer>
-      </CustomTabPanel>
-      <CustomTabPanel value={tabValue} index={3}>
-        Coment
-      </CustomTabPanel>
+      <Container maxWidth={false} sx={{ width: "100%" }}>
+        <TabBox tabValue={tabValue} handleTabChange={handleTabChange} />
+        <CustomTabPanel value={tabValue} index={0}>
+          {/* 오더 */}
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyOrderTab />
+          </ErrorContainer>
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={1}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazySampleTab />
+          </ErrorContainer>
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={2}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyFileTab />
+          </ErrorContainer>
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={3}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyCommentTab />
+          </ErrorContainer>
+        </CustomTabPanel>
+      </Container>
 
       {/* 오더 정보 변경 Modal */}
       {showOrderInfoModifyModal && (
@@ -120,31 +131,33 @@ export default function OrderInfo() {
       )}
 
       {/* 목록, 이전, 다음 버튼 */}
-      <Grid container justifyContent="space-between">
-        <Grid item>
-          <Link href="/order-list">
-            <OutlinedButton size="small" buttonName="목록" />
-          </Link>
+      <Container maxWidth={false} sx={{ width: "100%" }}>
+        <Grid container justifyContent="space-between">
+          <Grid item>
+            <Link href="/order-list">
+              <OutlinedButton size="small" buttonName="목록" />
+            </Link>
+          </Grid>
+          <Grid item>
+            <Stack direction="row" spacing={1}>
+              <OutlinedButton
+                disabled={true}
+                size="small"
+                color="secondary"
+                buttonName="이전"
+                startIcon={<MyIcon icon="cheveron-left" size={20} />}
+              />
+              <OutlinedButton
+                disabled={true}
+                size="small"
+                color="secondary"
+                buttonName="다음"
+                endIcon={<MyIcon icon="cheveron-right" size={20} />}
+              />
+            </Stack>
+          </Grid>
         </Grid>
-        <Grid item>
-          <Stack direction="row" spacing={1}>
-            <OutlinedButton
-              disabled={true}
-              size="small"
-              color="secondary"
-              buttonName="이전"
-              startIcon={<MyIcon icon="cheveron-left" size={20} />}
-            />
-            <OutlinedButton
-              disabled={true}
-              size="small"
-              color="secondary"
-              buttonName="다음"
-              endIcon={<MyIcon icon="cheveron-right" size={20} />}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    </Container>
+      </Container>
+    </>
   );
 }

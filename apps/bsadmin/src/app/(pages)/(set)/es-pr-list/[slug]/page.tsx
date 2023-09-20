@@ -8,8 +8,6 @@ import {
   Title1,
   TH,
   TD,
-  ErrorContainer,
-  Fallback,
   LeaderCip,
   cjbsTheme,
 } from "cjbsDSTM";
