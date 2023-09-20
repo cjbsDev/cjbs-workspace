@@ -4,13 +4,10 @@ import React, { useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
-  DataTableFilter,
   Title1,
   ContainedButton,
   cjbsTheme,
   FileDownloadBtn,
-  OutlinedButton,
-  DataTableFilter2,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
@@ -22,19 +19,13 @@ import { useList } from "../../../hooks/useList";
 import Link from "next/link";
 import { blue, red, grey, green } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import { fetcher } from "api";
-import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useRecoilValue } from "recoil";
-import { filteredUrlAtom } from "../../../recoil/atoms/filteredUrlAtom";
+import { useSearchParams } from "next/navigation";
 import KeywordSearch from "./KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 
 const ListOrder = () => {
-  // const currentUrl = window.document.location.href;
-  // console.log("Current Url", currentUrl);
-  // const getFilteredUrl = useRecoilValue(filteredUrlAtom);
-  // console.log("Get FilteredUrl", getFilteredUrl);
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(20);
   // ListAPI Call
@@ -66,7 +57,6 @@ const ListOrder = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { mutate } = useSWRConfig();
 
   const columns = useMemo(
     () => [
@@ -316,7 +306,6 @@ const ListOrder = () => {
   //     (item.ebcEmail &&
   //       item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
   // );
-
   // console.log("filteredData ==>>", filteredData);
 
   const goDetailPage = (row: any) => {
@@ -325,13 +314,6 @@ const ListOrder = () => {
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
@@ -357,14 +339,6 @@ const ListOrder = () => {
               iconName="xls3"
             />
 
-            {/*<DataTableFilter2 />*/}
-            {/*<DataTableFilter*/}
-            {/*  onFilter={(e: {*/}
-            {/*    target: { value: React.SetStateAction<string> };*/}
-            {/*  }) => setFilterText(e.target.value)}*/}
-            {/*  onClear={handleClear}*/}
-            {/*  filterText={filterText}*/}
-            {/*/>*/}
             <KeywordSearch />
             <ResultInSearch />
           </Stack>
