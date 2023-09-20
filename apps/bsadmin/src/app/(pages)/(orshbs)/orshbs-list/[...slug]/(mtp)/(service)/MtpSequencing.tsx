@@ -11,11 +11,13 @@ import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
-import { fileIdValueAtom } from "../../../../../../recoil/atoms/fileIdValueAtom";
+import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
+import StudySelection from "../../StudySelection";
 
 export default function MtpSequencing() {
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
@@ -28,25 +30,30 @@ export default function MtpSequencing() {
     // return res.data;
     const returnDefaultValues = {
       // custAgnc
-      ebcEmail: res.data.custAgnc.ebcEmail,
-      rhpiNm: res.data.custAgnc.rhpiNm,
-      rhpiId: res.data.custAgnc.rhpiId,
-      rhpiTel: res.data.custAgnc.rhpiTel,
-      instNm: res.data.custAgnc.instNm,
-      agncNm: res.data.custAgnc.agncNm,
-      ordrAplcNm: res.data.custAgnc.ordrAplcNm,
-      ordrAplcEmail: res.data.custAgnc.ordrAplcEmail,
-      ordrAplcTel: res.data.custAgnc.ordrAplcTel,
-      zip: res.data.custAgnc.agncZip,
-      addr: res.data.custAgnc.agncAddr,
-      addrDetail: res.data.custAgnc.agncAddrDetail,
-      mailRcpnList: res.data.custAgnc.mailRcpnList,
-      addEmailList: res.data.custAgnc.addEmailList,
-      memo: res.data.addRqstMemo.memo,
-      sample: res.data.samples,
+      ebcEmail : res.data.custAgnc.ebcEmail,
+      rhpiNm : res.data.custAgnc.rhpiNm,
+      rhpiId : res.data.custAgnc.rhpiId,
+      rhpiTel : res.data.custAgnc.rhpiTel,
+      instNm : res.data.custAgnc.instNm,
+      agncNm : res.data.custAgnc.agncNm,
+      ordrAplcNm : res.data.custAgnc.ordrAplcNm,
+      ordrAplcEmail : res.data.custAgnc.ordrAplcEmail,
+      ordrAplcTel : res.data.custAgnc.ordrAplcTel,
+      mailRcpnList : res.data.custAgnc.mailRcpnList,
+      addEmailList : res.data.custAgnc.addEmailList,
+      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
+      memo : res.data.addRqstMemo.memo,
+      isRdnaIdnt16S : res.data.custAgnc.isRdnaIdnt16S,
+      isRtrnRasn : res.data.custAgnc.isRtrnRasn,
+      prjcUniqueCode : res.data.custAgnc.prjcCode,
+      prjcNm : res.data.custAgnc.prjcNm,
+      prjcDetailCode : res.data.custAgnc.prjcDetailCode,
+      rstFileRcpnEmail : res.data.custAgnc.rstFileRcpnEmail,
+      sample : res.data.samples,
     };
     // setFileId(res.data.commonInput.pltfMc);
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^", fileId);
+    setPrjcCode(res.data.custAgnc.prjcCode);
     return returnDefaultValues;
   };
 
@@ -103,6 +110,38 @@ export default function MtpSequencing() {
   return (
     <Container disableGutters={true} sx={{ pt: 4 }}>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              과제 및 연구 선택&nbsp;
+            </Typography>
+          </Box>
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="body2">
+              * 은 필수항목 입니다
+            </Typography>
+          </Box>
+        </Stack>
+
+        <Box sx={{ p: 2 }}>
+          <StudySelection prjcCode={prjcCode}/>
+        </Box>
+
         <Stack
           direction="row"
           justifyContent="space-between"

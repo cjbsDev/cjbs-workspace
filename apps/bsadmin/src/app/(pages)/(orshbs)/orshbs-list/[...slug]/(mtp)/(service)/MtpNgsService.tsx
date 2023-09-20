@@ -26,7 +26,6 @@ export default function MtpNgsService(){
   const defaultValues = async () => {
     const res = await GET(`/orsh/bs/mtp/ngs/${orshUkey}`);
     console.log("resresre", res.data);
-    setPrjcCode(res.data.custAgnc.prjcCode);
 
     // return res.data;
     const returnDefaultValues = {
@@ -42,7 +41,7 @@ export default function MtpNgsService(){
       ordrAplcTel : res.data.custAgnc.ordrAplcTel,
       mailRcpnList : res.data.custAgnc.mailRcpnList,
       addEmailList : res.data.custAgnc.addEmailList,
-      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
+      selfQcFileNm : res.data.qcFile.selfQcFileNm,
       memo : res.data.addRqstMemo.memo,
       isRdnaIdnt16S : res.data.custAgnc.isRdnaIdnt16S,
       isRtrnRasn : res.data.custAgnc.isRtrnRasn,
@@ -54,6 +53,7 @@ export default function MtpNgsService(){
     };
     // setFileId(res.data.commonInput.pltfMc);
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
+    setPrjcCode(res.data.custAgnc.prjcCode);
     return returnDefaultValues;
   };
 
