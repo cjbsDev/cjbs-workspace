@@ -10,17 +10,19 @@ import {
     Typography,
 } from "@mui/material";
 import {
-    CheckboxGV,
-    Form,
-    InputValidation,
-    PostCodeBtn,
-    TD,
-    TH,
+  CheckboxGV,
+  Form,
+  InputValidation,
+  PostCodeBtn, RadioGV,
+  TD,
+  TH,
 } from "cjbsDSTM";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "../../../../../components/AddressDeleteButton";
+
+
 
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
@@ -31,6 +33,11 @@ const dataMailRcpnListGV = [
     { value: "agncLeaderRcpn", optionName: "연구책임자" },
     { value: "ordrAplcRcpn", optionName: "신청인" },
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
+];
+
+const dataRadioGV = [
+  { value: "Y", optionName: "요청함" },
+  { value: "N", optionName: "요청안함" },
 ];
 
 export default function OrdererInfo() {
@@ -425,10 +432,10 @@ export default function OrdererInfo() {
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row">
                   <InputValidation
-                    inputName="addEmailList"
+                    inputName="rstFileRcpnEmail"
                     placeholder="example@gmail.com, example2@gmail.com"
                     sx={{
-                      width: 550,
+                      width: 306,
                       "& .MuiOutlinedInput-root": {
                         "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                       },
@@ -441,6 +448,43 @@ export default function OrdererInfo() {
                     InputProps={{
                       readOnly: updataYn === 'N' ? false : true
                     }}
+                  />
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="계정 등록"*/}
+                  {/*  // onClick={() => {}}*/}
+                  {/*/>*/}
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="삭제"*/}
+                  {/*  color={"error"}*/}
+                  {/*  // onClick={() => {}}*/}
+                  {/*/>*/}
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <RadioGV
+                    data={dataRadioGV}
+                    inputName="isRdnaIdnt16S"
+                    required={true}
+                    errorMessage="선택 해주세요"
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <RadioGV
+                    data={dataRadioGV}
+                    inputName="isRtrnRasn"
+                    required={true}
+                    errorMessage="선택 해주세요"
                   />
                 </Stack>
               </TD>

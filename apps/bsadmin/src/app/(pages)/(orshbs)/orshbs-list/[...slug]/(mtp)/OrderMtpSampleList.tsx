@@ -29,6 +29,8 @@ import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
 import {useParams} from "next/navigation";
 import NoticeBox from "../../../orsh-order/in/mtp/(service)/(contents)/NoticeBox";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
+import {useRouter} from "next-nprogress-bar";
 
 const LazyPrepSelectbox = dynamic(
   () => import("../../../../../components/CommonSelectbox"),
@@ -40,14 +42,62 @@ const LazyPrepSelectbox = dynamic(
 
 export default function OrderMtpSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
+  const router = useRouter();
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   let serviceType = params.slug[1];
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
       case "fs":
+        return (
+          <TableRow>
+            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
+            <TD sx={{ width: "80%" }}>
+              <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                <Stack direction="row" alignItems="center" spacing={2}>
+                  { updataYn === 'N' ? (
+                    <Box>
+                      <InputValidation
+                        inputName="uploadFile"
+                        required={false}
+                        type="file"
+                        sx={{ width: 306 }}
+                      />
+                      <Typography variant="body2">
+                        * 파일 재업로드 시, 기존 파일은 삭제됩니다.
+                      </Typography>
+                    </Box>
+                  ) : (
+                    ''
+                  )}
+
+                  <InputValidation
+                    inputName="selfQcFileNm"
+                    required={false}
+                    sx={{
+                      width: 300,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000"
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                </Stack>
+              </Stack>
+            </TD>
+          </TableRow>
+        );
+      case "ngs":
         return (
           <TableRow>
             <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
@@ -131,16 +181,6 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={0.5}
-        justifyContent="space-between"
-      >
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Typography variant="subtitle1">샘플 리스트</Typography>
-        </Stack>
-      </Stack>
       <OrderMTPSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
@@ -167,6 +207,25 @@ export default function OrderMtpSampleList(props: any) {
           readOnly: updataYn === 'N' ? false : true
         }}
       />
+
+      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{pt:3}}>
+        <OutlinedButton
+          buttonName="목록"
+          onClick={() => router.push("/orshbs-list")}
+        />
+
+        {updataYn === 'N' ? (
+          <ContainedButton
+            type="submit"
+            buttonName="주문 수정"
+            endIcon={
+              isLoading ? (
+                <LoadingSvg stroke="white" width={20} height={20} />
+              ) : null
+            }
+          />
+        ) : ('')}
+      </Stack>
 
     </>
   );

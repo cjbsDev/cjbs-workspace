@@ -153,7 +153,7 @@ const TableNewRows = (props: any) => {
         )
       }
 
-      {serviceType === 'ao' ?
+      {serviceType === 'ngs' ?
         (
           <TableRow>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -161,10 +161,13 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
+                // inputName={`samples.${index}.sampleNm`}
                 inputName={`sample.[${index}].sampleNm`}
                 required={true}
                 defaultValue={field.sampleNm}
+                //errorMessage="샘플명을 입력해 주세요."
                 pattern={/^[A-Za-z0-9-]*$/}
+                //patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -196,14 +199,21 @@ const TableNewRows = (props: any) => {
                   영문, 숫자, -(하이픈)만 입력 가능합니다.
                 </Typography>
               )}
+
+              <InputValidation
+                sx={{ display: "none" }}
+                inputName={`sample.[${index}].selfQcResultFileId`}
+                required={false}
+              />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
+                // inputName={`samples.${index}.source`}
                 inputName={`sample.[${index}].source`}
                 required={true}
                 errorMessage="샘플출처를 입력해 주세요."
                 sx={{
-                  width: 100,
+                  width: 200,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                   },
@@ -222,6 +232,16 @@ const TableNewRows = (props: any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyPrepSelectbox
+                  url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+                  inputName={`sample.[${index}].sampleCategoryCc`}
+                  disabled={updataYn === 'N' ? false : true}
+                />
+              </ErrorContainer>
+              {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyPrepSelectbox
                   url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
                   inputName={`sample.[${index}].anlsTargetGeneCc`}
                   disabled={updataYn === 'N' ? false : true}
@@ -231,46 +251,7 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                inputName={`sample.[${index}].frwrPrimer`}
-                required={false}
-                sx={{
-                  width: 117,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                  },
-                  ".MuiOutlinedInput-input:read-only": {
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                    textFillColor: "#000000"
-                  },
-                }}
-                InputProps={{
-                  readOnly: updataYn === 'N' ? false : true
-                }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
-                inputName={`sample.[${index}].rvrsPrimer`}
-                required={false}
-                sx={{
-                  width: 117,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                  },
-                  ".MuiOutlinedInput-input:read-only": {
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                    textFillColor: "#000000"
-                  },
-                }}
-                InputProps={{
-                  readOnly: updataYn === 'N' ? false : true
-                }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
+                // inputName={`samples.${index}.memo`}
                 inputName={`sample.[${index}].memo`}
                 required={false}
                 sx={{
@@ -290,7 +271,7 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => remove(index)}>
+              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
                 <MyIcon icon="trash" size={20} />
               </IconButton>
             </TableCell>
