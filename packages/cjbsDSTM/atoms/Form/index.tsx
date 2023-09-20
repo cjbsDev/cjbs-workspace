@@ -22,7 +22,7 @@ export const Form = ({
   id,
 }: FormContainerProps) => {
   const methods = useForm({ defaultValues });
-  const { handleSubmit, register } = methods;
+  const { handleSubmit, register, resetField, reset } = methods;
 
   return (
     <FormProvider {...methods}>

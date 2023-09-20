@@ -3,6 +3,8 @@ import MyIcon from "icon/MyIcon";
 import { OutlinedButton } from "../../atoms/Buttons";
 import { CircularProgress } from "@mui/material";
 import { useFileDownload } from "./useFileDownload";
+import FileSaver from "file-saver";
+import { GET } from "api";
 
 interface FileDownloadBtnProps {
   exportUrl: string;
@@ -12,7 +14,19 @@ interface FileDownloadBtnProps {
 
 export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
   const { exportUrl, keyword, iconName } = props;
-  const { isLoading, fileName, saverFile } = useFileDownload(exportUrl, keyword);
+  const { isLoading, fileName, saverFile } = useFileDownload(
+    exportUrl,
+    keyword
+  );
+
+  const handldFileDown = async () => {
+    // console.log("@@@@@@@@@", exportUrl);
+    // await GET(exportUrl).then((res) => console.log("resdfsdfsdfssdf", res));
+    FileSaver.saveAs(
+      `${process.env.NEXT_PUBLIC_API_URL}${exportUrl}`,
+      "test.xlsx"
+    );
+  };
 
   return (
     <>
@@ -28,7 +42,8 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
             <MyIcon icon={iconName} size={18} />
           )
         }
-        onClick={() => saverFile()}
+        // onClick={() => saverFile()}
+        onClick={handldFileDown}
         disabled={isLoading}
       />
     </>

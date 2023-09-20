@@ -311,6 +311,12 @@ export const cjbsTheme = createTheme({
       },
     },
     MuiChip: {
+      defaultProps: {
+        style: {
+          borderRadius: 12,
+        },
+      },
+
       styleOverrides: {
         root: {},
         sizeSmall: {

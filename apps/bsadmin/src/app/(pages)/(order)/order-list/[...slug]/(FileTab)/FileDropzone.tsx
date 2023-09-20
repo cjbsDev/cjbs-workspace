@@ -144,99 +144,124 @@ const FileDropzone = () => {
                 xs={6}
                 sx={{
                   px: 2,
-                  py: 1,
-                  backgroundColor: cjbsTheme.palette.grey["50"],
+                  // py: 1,
                 }}
               >
-                <Typography variant="subtitle1">Files</Typography>
+                <Typography variant="subtitle1">Upload Files</Typography>
 
-                {acceptedFiles.length === 0 ? (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      height: 201,
-                    }}
-                  >
-                    <Typography variant="body2">No Files.</Typography>
-                  </Box>
-                ) : (
-                  <List
-                    sx={{
-                      overflowY: "auto",
-                      height: 202,
-                    }}
-                  >
-                    {acceptedFiles.map((item) => {
-                      return (
-                        <ListItem
-                          disablePadding
-                          key={item.name}
-                          sx={{
-                            borderBottom: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-                            px: 1.5,
-                          }}
-                        >
-                          <ListItemText
-                            primary={item.path}
-                            primaryTypographyProps={{
-                              sx: {
-                                fontSize: 13,
-                              },
+                <Box
+                  sx={{
+                    px: 2,
+                    py: 1,
+                    backgroundColor: cjbsTheme.palette.grey["50"],
+                  }}
+                >
+                  {acceptedFiles.length === 0 ? (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        height: 177,
+                      }}
+                    >
+                      <Typography variant="body2">No Files.</Typography>
+                    </Box>
+                  ) : (
+                    <List
+                      sx={{
+                        overflowY: "auto",
+                        height: 177,
+                      }}
+                    >
+                      {acceptedFiles.map((item: File) => {
+                        return (
+                          <ListItem
+                            disablePadding
+                            key={item.name}
+                            sx={{
+                              // borderBottom: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                              px: 1.5,
                             }}
-                            secondary={item.size + " bytes"}
-                            secondaryTypographyProps={{
-                              sx: {
-                                fontSize: 12,
-                              },
-                            }}
-                          />
-                        </ListItem>
-                      );
-                    })}
-                  </List>
-                )}
+                          >
+                            <ListItemText
+                              primary={
+                                <Stack
+                                  direction="row"
+                                  justifyContent="space-between"
+                                >
+                                  <Typography variant="body1">
+                                    {item.name}
+                                  </Typography>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      color: cjbsTheme.palette.text.secondary,
+                                    }}
+                                  >
+                                    {formatBytes(item.size)}
+                                    {/*{item.size*/}
+                                    {/*  .toString()*/}
+                                    {/*  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +*/}
+                                    {/*  " bytes"}*/}
+                                  </Typography>
+                                </Stack>
+                              }
+                              primaryTypographyProps={{
+                                sx: {
+                                  fontSize: 13,
+                                },
+                              }}
+                            />
+                          </ListItem>
+                        );
+                      })}
+                    </List>
+                  )}
+                </Box>
+                <Stack
+                  direction="row"
+                  justifyContent="flex-end"
+                  sx={{ mt: 0.5 }}
+                >
+                  <Stack spacing={1} direction="row">
+                    <Stack
+                      direction="row"
+                      divider={<Box sx={{ fontSize: 14 }}>&#47;</Box>}
+                      spacing={0.3}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: cjbsTheme.palette.primary.main,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {formatBytes(state.totalFileSize)}
+                      </Typography>
+                      <Typography variant="body2">500MB</Typography>
+                    </Stack>
+
+                    <Stack
+                      direction="row"
+                      divider={<Box sx={{ fontSize: 14 }}>&#47;</Box>}
+                      spacing={0.3}
+                    >
+                      <Typography
+                        variant="body2"
+                        sx={{
+                          color: cjbsTheme.palette.primary.main,
+                          fontWeight: 600,
+                        }}
+                      >
+                        {state.totalFileLen}개
+                      </Typography>
+                      <Typography variant="body2">30개</Typography>
+                    </Stack>
+                  </Stack>
+                </Stack>
               </Grid>
             </Grid>
-
-            <Stack direction="row" justifyContent="flex-end" sx={{ mt: 0.5 }}>
-              <Stack spacing={1} direction="row">
-                <Stack
-                  direction="row"
-                  divider={<Box sx={{ fontSize: 14 }}>&#47;</Box>}
-                  spacing={0.3}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: cjbsTheme.palette.primary.main,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {formatBytes(state.totalFileSize)}
-                  </Typography>
-                  <Typography variant="body2">500MB</Typography>
-                </Stack>
-
-                <Stack
-                  direction="row"
-                  divider={<Box sx={{ fontSize: 14 }}>&#47;</Box>}
-                  spacing={0.3}
-                >
-                  <Typography
-                    variant="body2"
-                    sx={{
-                      color: cjbsTheme.palette.primary.main,
-                      fontWeight: 600,
-                    }}
-                  >
-                    {state.totalFileLen}개
-                  </Typography>
-                  <Typography variant="body2">30개</Typography>
-                </Stack>
-              </Stack>
-            </Stack>
           </>
         )}
       />

@@ -40,7 +40,7 @@ export const snbMenuListData = [
 
   {
     menuLabel: "주문서",
-    menuIcon: "",
+    menuIcon: "form",
     menuPath: {
       name: "/orshbs",
       nestedPath: [

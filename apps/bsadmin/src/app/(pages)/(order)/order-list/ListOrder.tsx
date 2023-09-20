@@ -9,6 +9,8 @@ import {
   ContainedButton,
   cjbsTheme,
   FileDownloadBtn,
+  OutlinedButton,
+  DataTableFilter2,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
@@ -20,17 +22,51 @@ import { useList } from "../../../hooks/useList";
 import Link from "next/link";
 import { blue, red, grey, green } from "cjbsDSTM/themes/color";
 import ResultInSearch from "./ResultInSearch";
+import useSWR, { useSWRConfig } from "swr";
+import { fetcher } from "api";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { filteredUrlAtom } from "../../../recoil/atoms/filteredUrlAtom";
+import KeywordSearch from "./KeywordSearch";
+import NoDataView from "../../../components/NoDataView";
+
 const ListOrder = () => {
+  // const currentUrl = window.document.location.href;
+  // console.log("Current Url", currentUrl);
+  // const getFilteredUrl = useRecoilValue(filteredUrlAtom);
+  // console.log("Get FilteredUrl", getFilteredUrl);
   const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
+  const [size, setSize] = useState<number>(20);
   // ListAPI Call
-  const { data } = useList("order", page, perPage);
-  console.log("DATA", data);
+  // const { data } = useList("order", page, perPage);
+  const searchParams = useSearchParams();
+
+  const resultObject = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", result);
+
+  const { data } = useSWR(
+    result !== ""
+      ? `/order/list${result}&page=${page}&size=${size}`
+      : `/order/list?page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("ORDER LIST DATA", data);
+  const orderListData = data.orderList;
   const totalElements = data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const { mutate } = useSWRConfig();
 
   const columns = useMemo(
     () => [
@@ -273,13 +309,13 @@ const ListOrder = () => {
     []
   );
 
-  const filteredData = data.orderList.filter(
-    (item) =>
-      (item.custNm &&
-        item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
-      (item.ebcEmail &&
-        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
-  );
+  // const filteredData = data.orderList.filter(
+  //   (item) =>
+  //     (item.custNm &&
+  //       item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
+  //     (item.ebcEmail &&
+  //       item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
+  // );
 
   // console.log("filteredData ==>>", filteredData);
 
@@ -313,39 +349,45 @@ const ListOrder = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
+            {/*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*/}
             <IconDescBar freeDisabled={true} reOrder={true} />
 
-            <FileDownloadBtn exportUrl="/order/list/download" iconName="xls3" />
-
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
+            <FileDownloadBtn
+              exportUrl={`/order/list/download${result}`}
+              iconName="xls3"
             />
+
+            {/*<DataTableFilter2 />*/}
+            {/*<DataTableFilter*/}
+            {/*  onFilter={(e: {*/}
+            {/*    target: { value: React.SetStateAction<string> };*/}
+            {/*  }) => setFilterText(e.target.value)}*/}
+            {/*  onClear={handleClear}*/}
+            {/*  filterText={filterText}*/}
+            {/*/>*/}
+            <KeywordSearch />
             <ResultInSearch />
           </Stack>
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked]);
+  }, [filterText, resetPaginationToggle, checked, totalElements]);
 
   const handlePageChange = (page: number) => {
-    // console.log("Page", page);
+    console.log("Page", page);
     setPage(page);
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
-    // console.log("Row change.....", newPerPage, page);
+    console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
+    setSize(newPerPage);
   };
 
   return (
     <DataTableBase
       title={<Title1 titleName="오더 관리" />}
-      data={filteredData}
+      data={orderListData}
       columns={columns}
       onRowClicked={goDetailPage}
       pointerOnHover
@@ -360,6 +402,7 @@ const ListOrder = () => {
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
+      noDataComponent={<NoDataView />}
     />
   );
 };
