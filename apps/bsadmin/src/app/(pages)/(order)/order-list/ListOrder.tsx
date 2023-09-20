@@ -10,6 +10,7 @@ import {
   cjbsTheme,
   FileDownloadBtn,
   OutlinedButton,
+  DataTableFilter2,
 } from "cjbsDSTM";
 import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
@@ -26,6 +27,7 @@ import { fetcher } from "api";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { filteredUrlAtom } from "../../../recoil/atoms/filteredUrlAtom";
+import KeywordSearch from "./KeywordSearch";
 
 const ListOrder = () => {
   // const currentUrl = window.document.location.href;
@@ -347,18 +349,23 @@ const ListOrder = () => {
             alignItems="center"
           >
             {/*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*/}
-
             <IconDescBar freeDisabled={true} reOrder={true} />
 
-            <FileDownloadBtn exportUrl="/order/list/download" iconName="xls3" />
-
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
+            <FileDownloadBtn
+              exportUrl={`/order/list/download${result}`}
+              iconName="xls3"
             />
+
+            <KeywordSearch />
+
+            {/*<DataTableFilter2 />*/}
+            {/*<DataTableFilter*/}
+            {/*  onFilter={(e: {*/}
+            {/*    target: { value: React.SetStateAction<string> };*/}
+            {/*  }) => setFilterText(e.target.value)}*/}
+            {/*  onClear={handleClear}*/}
+            {/*  filterText={filterText}*/}
+            {/*/>*/}
             <ResultInSearch />
           </Stack>
         </Grid>

@@ -205,8 +205,8 @@ const OrderTab = () => {
                 <TD sx={{ width: "85%" }} colSpan={3}>
                   {mailRcpnListVal.length === 0
                     ? "-"
-                    : mailRcpnListVal.toString()}
-                  {addEmailList !== null && addEmailList}
+                    : mailRcpnListVal.toString()}{" "}
+                  ({addEmailList !== null && addEmailList})
                 </TD>
               </TableRow>
               <TableRow>

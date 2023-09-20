@@ -31,11 +31,11 @@ import {
 import { LoadingButton } from "@mui/lab";
 import useSWR, { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
-import fetcher from "../../../../../func/fetcher";
 import dynamic from "next/dynamic";
 import dayjs from "dayjs";
 import { emailReceiveSettingData } from "../../../../../data/inputDataLists";
 import axios from "axios";
+import { PUT, fetcher } from "api";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -84,13 +84,9 @@ ModalContainerProps) => {
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/order/analysis/${orderUkey}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  const { data } = useSWR(`/order/analysis/${orderUkey}`, fetcher, {
+    suspense: true,
+  });
   const { mutate } = useSWRConfig();
 
   const handleClose = () => {
@@ -98,38 +94,32 @@ ModalContainerProps) => {
     setIsLoading(false);
   };
 
-  console.log("Init Data!!@@@@ ==>> ", data.data.check16sAt);
+  console.log("Init Data!!@@@@ ==>> ", data.check16sAt);
 
   const defaultValues = {
-    check16sAt:
-      data.data.check16sAt === null ? null : new Date(data.data.check16sAt),
-    isFastTrack: data.data.isFastTrack,
-    mailRcpnList: data.data.mailRcpnList,
-    reqReturnCompList: data.data.reqReturnCompList,
-    orderStatusCc: data.data.orderStatusCc,
-    orderTypeCc: data.data.orderTypeCc,
-    addEmailList: data.data.addEmailList,
-    libMngrUkey: data.data.libMngrUkey,
-    qcMngrUkey: data.data.qcMngrUkey,
-    seqMngrUkey: data.data.seqMngrUkey,
-    memo: data.data.memo,
+    check16sAt: data.check16sAt === null ? null : new Date(data.check16sAt),
+    isFastTrack: data.isFastTrack,
+    mailRcpnList: data.mailRcpnList,
+    reqReturnCompList: data.reqReturnCompList,
+    orderStatusCc: data.orderStatusCc,
+    orderTypeCc: data.orderTypeCc,
+    addEmailList: data.addEmailList,
+    libMngrUkey: data.libMngrUkey,
+    qcMngrUkey: data.qcMngrUkey,
+    seqMngrUkey: data.seqMngrUkey,
+    memo: data.memo,
   };
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    // console.log("SUBMIT Data ==>>", data);
-    // console.log("추가(직접입력) 선택", data.mailRcpnList.includes("etcRcpn"));
-    // console.log("추가 이메일 입력 값", data.addEmailList);
 
     if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
       setAddEmailChck(true);
     }
 
-    const newDateValue =
-      data.check16sAt !== null
-        ? dayjs(data.check16sAt).format("YYYY-MM-DD")
-        : null;
-    // console.log("NEW check16At", newDateValue);
+    const newDateValue = data.check16sAt
+      ? dayjs(data.check16sAt).format("YYYY-MM-DD")
+      : null;
 
     const body = {
       check16sAt: newDateValue,
@@ -145,25 +135,69 @@ ModalContainerProps) => {
       memo: data.memo,
     };
 
-    await axios
-      .put(
-        `${process.env.NEXT_PUBLIC_API_URL}/order/analysis/${orderUkey}`,
-        body
-      )
-      .then((res) => {
-        console.log(res.data);
-        mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}`);
-        mutate(`${process.env.NEXT_PUBLIC_API_URL}/order/detail/${orderUkey}`);
-        mutate(
-          `${process.env.NEXT_PUBLIC_API_URL}/order/analysis/${orderUkey}`
-        );
-        res.data.success && handleClose();
-      })
-      .catch((error) => {
-        // console.log("오더 정보 변경Error", error.message);
-        console.log("오더 정보 변경Error", error.response.data.data);
-      });
+    try {
+      const res = await PUT(`/order/analysis/${orderUkey}`, body);
+      console.log("오더 정보 변경 성고 ==>>", res.success);
+
+      if (res.success) {
+        mutate(`/order/${orderUkey}`);
+        mutate(`/order/detail/${orderUkey}`);
+        mutate(`/order/analysis/${orderUkey}`);
+        handleClose();
+      }
+    } catch (error) {
+      console.error(
+        "오더 정보 변경Error",
+        error.response?.data?.data || error.message
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  // const onSubmit = async (data: any) => {
+  //   setIsLoading(true);
+  //   // console.log("SUBMIT Data ==>>", data);
+  //   // console.log("추가(직접입력) 선택", data.mailRcpnList.includes("etcRcpn"));
+  //   // console.log("추가 이메일 입력 값", data.addEmailList);
+  //
+  //   if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
+  //     setAddEmailChck(true);
+  //   }
+  //
+  //   const newDateValue =
+  //     data.check16sAt !== null
+  //       ? dayjs(data.check16sAt).format("YYYY-MM-DD")
+  //       : null;
+  //   // console.log("NEW check16At", newDateValue);
+  //
+  //   const body = {
+  //     check16sAt: newDateValue,
+  //     isFastTrack: data.isFastTrack,
+  //     mailRcpnList: data.mailRcpnList,
+  //     reqReturnCompList: data.reqReturnCompList,
+  //     orderStatusCc: data.orderStatusCc,
+  //     orderTypeCc: data.orderTypeCc,
+  //     addEmailList: data.addEmailList,
+  //     libMngrUkey: data.libMngrUkey,
+  //     qcMngrUkey: data.qcMngrUkey,
+  //     seqMngrUkey: data.seqMngrUkey,
+  //     memo: data.memo,
+  //   };
+  //
+  //   await PUT(`/order/analysis/${orderUkey}`, body)
+  //     .then((res) => {
+  //       console.log("오더 정보 변경 ==>>", res.data);
+  //       mutate(`/order/${orderUkey}`);
+  //       mutate(`/order/detail/${orderUkey}`);
+  //       mutate(`/order/analysis/${orderUkey}`);
+  //       res.data.success && handleClose();
+  //     })
+  //     .catch((error) => {
+  //       // console.log("오더 정보 변경Error", error.message);
+  //       console.log("오더 정보 변경Error", error.response.data.data);
+  //     });
+  // };
 
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
