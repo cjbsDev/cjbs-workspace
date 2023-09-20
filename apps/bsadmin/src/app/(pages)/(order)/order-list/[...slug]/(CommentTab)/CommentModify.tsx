@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Stack } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { Form, InputValidation, OutlinedButton } from "cjbsDSTM";
 import { PUT } from "api";
 import { useParams } from "next/navigation";
@@ -11,6 +12,7 @@ const CommentModify = (props) => {
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   // const defaultValues = {
   //   memo: memo,
@@ -18,6 +20,7 @@ const CommentModify = (props) => {
 
   const onSubmit = (data: any) => {
     console.log("MODIFY DATA", data);
+    setIsLoading(true);
 
     const APIPATH_MODIFY = `/order/${orderUkey}/cmnt/${totalCmntUkey}`;
     const bodyData = {
@@ -29,6 +32,7 @@ const CommentModify = (props) => {
         mutate(`/order/${orderUkey}/cmnt/list`);
         toast("수정 되었습니다.");
         onModifyCancel(index);
+        setIsLoading(false);
       }
     });
   };
@@ -49,7 +53,15 @@ const CommentModify = (props) => {
           sx={{ mb: 1 }}
         />
         <Stack direction="row" justifyContent="flex-end" spacing={1}>
-          <OutlinedButton buttonName="확인" type="submit" size="small" />
+          {/*<OutlinedButton buttonName="확인" type="submit" size="small" />*/}
+          <LoadingButton
+            loading={isLoading}
+            variant="outlined"
+            size="small"
+            type="submit"
+          >
+            확인
+          </LoadingButton>
           <OutlinedButton
             buttonName="취소"
             color="secondary"

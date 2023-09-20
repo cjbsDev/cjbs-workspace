@@ -42,6 +42,7 @@ import {
   reqReturnListData,
 } from "../../../data/inputDataLists";
 import { useState } from "react";
+import MyIcon from "icon/MyIcon";
 
 const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
 
@@ -408,17 +409,12 @@ export default function Page() {
                     inputMode="numeric"
                     InputProps={{
                       startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            variant="body2"
-                            sx={{ color: "green", fontWeight: "600" }}
-                          >
-                            B
-                          </Typography>
+                        <InputAdornment position="start" sx={{ ml: -1 }}>
+                          <MyIcon icon="B" size={20} />
                         </InputAdornment>
                       ),
                       endAdornment: (
-                        <InputAdornment position="end">
+                        <InputAdornment position="end" sx={{ mr: -0.5 }}>
                           <Typography variant="body2" sx={{ color: "black" }}>
                             개
                           </Typography>
@@ -441,17 +437,12 @@ export default function Page() {
                     inputMode="numeric"
                     InputProps={{
                       startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            variant="body2"
-                            sx={{ color: "blue", fontWeight: "600" }}
-                          >
-                            E
-                          </Typography>
+                        <InputAdornment position="start" sx={{ ml: -1 }}>
+                          <MyIcon icon="E" size={20} />
                         </InputAdornment>
                       ),
                       endAdornment: (
-                        <InputAdornment position="end">
+                        <InputAdornment position="end" sx={{ mr: -0.5 }}>
                           <Typography variant="body2" sx={{ color: "black" }}>
                             개
                           </Typography>
@@ -474,17 +465,12 @@ export default function Page() {
                     inputMode="numeric"
                     InputProps={{
                       startAdornment: (
-                        <InputAdornment position="start">
-                          <Typography
-                            variant="body2"
-                            sx={{ color: "red", fontWeight: "600" }}
-                          >
-                            A
-                          </Typography>
+                        <InputAdornment position="start" sx={{ ml: -1 }}>
+                          <MyIcon icon="A" size={20} />
                         </InputAdornment>
                       ),
                       endAdornment: (
-                        <InputAdornment position="end">
+                        <InputAdornment position="end" sx={{ mr: -0.5 }}>
                           <Typography variant="body2" sx={{ color: "black" }}>
                             개
                           </Typography>

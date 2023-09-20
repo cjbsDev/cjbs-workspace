@@ -23,8 +23,8 @@ import {
   TypographyProps,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import "react-datepicker/dist/react-datepicker.css";
-import "./custom-datepicker.css";
+// import "react-datepicker/dist/react-datepicker.css";
+// import "./custom-datepicker.css";
 import { GET, POST } from "api";
 import { useSWRConfig } from "swr";
 // import { router } from "next/client";
@@ -78,20 +78,19 @@ const LazyStatusTypeSelctbox = dynamic(
 const SearchForm = ({ onClose }) => {
   // const [startDate, setStartDate] = useState(new Date());
   // const [endDate, setEndDate] = useState(null);
-  const setFilteredUrl = useSetRecoilState(filteredUrlAtom);
+  // const setFilteredUrl = useSetRecoilState(filteredUrlAtom);
   const router = useRouter();
-  const { mutate } = useSWRConfig();
   const defaultValues = {};
-  let nwData;
+
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
 
     if (data.dateRange !== undefined) {
-      const [startDate, endDate] = data.dateRange.map((dateStr) =>
+      const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
         dayjs(dateStr).format("YYYY-MM-DD")
       );
-      data.startDate = startDate;
-      data.endDate = endDate;
+      data.startDttm = startDttm;
+      data.endDttm = endDttm;
       data.dateRange = undefined;
     }
 
@@ -251,17 +250,6 @@ const SearchForm = ({ onClose }) => {
             </ErrorContainer>
             <DateRangePicker inputName="dateRange" />
           </Stack>
-
-          {/*<Grid container spacing={1}>*/}
-          {/*  <Grid item xs={6}>*/}
-          {/*    <ErrorContainer FallbackComponent={Fallback}>*/}
-          {/*      <LazyDateTypeSelctbox />*/}
-          {/*    </ErrorContainer>*/}
-          {/*  </Grid>*/}
-          {/*  <Grid item xs={6}>*/}
-          {/*    <DateRangePicker inputName="dateRange" />*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
         </Section>
         <Section>
           <SectionLabel variant="subtitle2">오더타입</SectionLabel>

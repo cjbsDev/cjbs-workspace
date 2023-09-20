@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
-import { BatchRouterProvider } from "next-batch-router";
 
 const LazyDataList = dynamic(() => import("./ListOrder"), {
   ssr: false,

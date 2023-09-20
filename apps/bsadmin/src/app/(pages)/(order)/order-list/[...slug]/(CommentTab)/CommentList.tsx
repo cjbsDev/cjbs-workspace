@@ -169,18 +169,6 @@ const CommentList = () => {
                       startIcon={<MyIcon icon="trash" size={20} />}
                       onClick={() => handleCommentDelete(totalCmntUkey, index)}
                     />
-                    {/*<OutlinedButton*/}
-                    {/*  buttonName="수정"*/}
-                    {/*  onClick={() => handleCommentModify(index)}*/}
-                    {/*/>*/}
-                    {/*<LoadingButton*/}
-                    {/*  loading={isLoading[index]}*/}
-                    {/*  variant="outlined"*/}
-                    {/*  size="small"*/}
-                    {/*  onClick={() => handleCommentDelete(totalCmntUkey, index)}*/}
-                    {/*>*/}
-                    {/*  삭제*/}
-                    {/*</LoadingButton>*/}
                   </Stack>
                 </Box>
               </Stack>

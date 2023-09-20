@@ -1,6 +1,7 @@
 "use client";
 import { useRouter } from "next-nprogress-bar";
 import {
+  ContainedButton,
   ErrorContainer,
   Fallback,
   OutlinedButton,
@@ -76,11 +77,9 @@ export default function OrderInfo() {
               <Typography variant="h4">오더 정보</Typography>
             </Grid>
             <Grid item>
-              <OutlinedButton
+              <ContainedButton
                 size="small"
                 buttonName="오더 정보 변경"
-                color="secondary"
-                sx={{ color: "black" }}
                 onClick={() => setShowOrderInfoModifyModal(true)}
                 endIcon={<MyIcon icon="cheveron-right" size={18} />}
               />

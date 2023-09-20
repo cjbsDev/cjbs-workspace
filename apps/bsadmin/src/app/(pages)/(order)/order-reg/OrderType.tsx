@@ -1,18 +1,19 @@
 import React from "react";
-import fetcher from "../../../func/fetcher";
+// import fetcher from "../../../func/fetcher";
+import { fetcher } from "api";
 import useSWR from "swr";
 import { cjbsTheme, RadioGV } from "cjbsDSTM";
 
 const OrderType = () => {
   const { data } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=order&midValue=type`,
+    `/code/list/shortly/value?topValue=order&midValue=type`,
     fetcher,
     {
       suspense: true,
     }
   );
-  console.log("OrderType List", data.data);
-  const orderTypeData = data.data;
+  console.log("OrderType List", data);
+  const orderTypeData = data;
 
   return (
     <RadioGV
