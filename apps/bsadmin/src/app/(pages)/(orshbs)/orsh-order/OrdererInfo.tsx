@@ -313,7 +313,7 @@ export default function OrdererInfo(props:JSON) {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row" spacing={1}>
                   <InputValidation
@@ -336,19 +336,19 @@ export default function OrdererInfo(props:JSON) {
                 </Stack>
               </TD>
             </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-              <TD sx={{ width: "80%" }} colSpan={5}>
-                <Stack direction="row" spacing={1}>
-                  <RadioGV
-                    data={dataRadioGV}
-                    inputName="isRdnaIdnt16S"
-                    required={true}
-                    errorMessage="선택 해주세요"
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
+            {/*  <TD sx={{ width: "80%" }} colSpan={5}>*/}
+            {/*    <Stack direction="row" spacing={1}>*/}
+            {/*      <RadioGV*/}
+            {/*        data={dataRadioGV}*/}
+            {/*        inputName="isRdnaIdnt16S"*/}
+            {/*        required={true}*/}
+            {/*        errorMessage="선택 해주세요"*/}
+            {/*      />*/}
+            {/*    </Stack>*/}
+            {/*  </TD>*/}
+            {/*</TableRow>*/}
             <TableRow>
               <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }} colSpan={5}>

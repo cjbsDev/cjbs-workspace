@@ -39,7 +39,7 @@ export default function MtpFullService() {
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        // isRdnaIdnt16S: data.isRdnaIdnt16S,
         isRtrnRasn : data.isRtrnRasn,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
@@ -71,7 +71,7 @@ export default function MtpFullService() {
       formData.append("file-data", null);
     }
 
-    록
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/fs`;
 
     try {
       const response = await POST_MULTIPART(apiUrl, formData); // API 요청

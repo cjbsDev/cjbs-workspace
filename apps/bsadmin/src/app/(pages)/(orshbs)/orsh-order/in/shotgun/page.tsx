@@ -11,12 +11,11 @@ import {
   styled,
   Button,
 } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyIcon from "icon/MyIcon";
 import { ConfirmModal, cjbsTheme } from "cjbsDSTM";
-import MtpNgsService from "./(service)/MtpNgsService";
-import MtpFullService from "./(service)/MtpFullService";
-import MtpSequencing from "./(service)/MtpSequencing";
+import ShotgunNgsService from "./(service)/ShotgunNgsService";
+import ShotgunFullService from "./(service)/ShotgunFullService";
+import ShotgunSequencing from "./(service)/ShotgunSequencing";
 
 const AntTabs = styled(Tabs)({
   marginTop: "10px",
@@ -109,21 +108,10 @@ const Page = () => {
               alignItems: "center",
             }}
           >
-            <Typography variant="h4">MTP&nbsp;&nbsp;</Typography>
+            <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
             <Typography variant="subtitle2" sx={{ pt: "3px" }}>
-              Microbiome Taxonomic Profiling
+              Shotgun Sequencing
             </Typography>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignContent: "start",
-              alignItems: "center",
-              width: 600,
-              mr: "-30px",
-            }}
-          >
-            {/*<HorizontalLinearStepper />*/}
           </Box>
         </Stack>
 
@@ -190,9 +178,9 @@ const Page = () => {
             />
           </AntTabs>
         </Box>
-        {value === 0 ? <MtpNgsService /> : ""}
-        {value === 1 ? <MtpFullService /> : ""}
-        {value === 2 ? <MtpSequencing /> : ""}
+        {value === 0 ? <ShotgunNgsService /> : ""}
+        {value === 1 ? <ShotgunFullService /> : ""}
+        {value === 2 ? <ShotgunSequencing /> : ""}
       </Box>
 
       <ConfirmModal

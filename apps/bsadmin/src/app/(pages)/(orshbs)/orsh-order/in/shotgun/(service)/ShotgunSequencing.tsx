@@ -18,7 +18,7 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function MtpSequencing() {
+export default function ShotgunSequencing() {
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
   };
@@ -35,12 +35,15 @@ export default function MtpSequencing() {
       addRqstMemo : {
         memo : data.memo,
       },
+      commonInput: {
+        depthCc : data.depthCc === undefined ? null : data.depthCc,
+        pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
+      },
       custAgnc : {
         addEmailList : data.addEmailList,
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        // isRdnaIdnt16S: data.isRdnaIdnt16S,
         isRtrnRasn : data.isRtrnRasn,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
@@ -58,8 +61,7 @@ export default function MtpSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/mtp/so`;
-    // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/so`;
+    const apiUrl = `/orsh/bs/sg/so`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청

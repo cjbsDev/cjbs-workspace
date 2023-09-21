@@ -41,7 +41,7 @@ export default function MtpNgsService() {
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        // isRdnaIdnt16S: data.isRdnaIdnt16S,
         isRtrnRasn : data.isRtrnRasn,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
