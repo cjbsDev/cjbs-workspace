@@ -37,11 +37,11 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function StudySelection(props: any) {
-
+  const prjcCode = props.prjcCode;
   // // [프로젝트 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
   // const [prjcCode, setPrjcCode] = useState<string>('');
-  const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
+  // const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
 
   // [ 프로젝트 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -57,10 +57,10 @@ export default function StudySelection(props: any) {
     setPrjcCode(code);
   };
 
-  useEffect(() => {
-    // console.log("{{{{{{{{{{{{{{", props.prjcCode);
-    setPrjcCode(props.prjcCode)
-  }, [prjcCode])
+  // useEffect(() => {
+  //   // console.log("{{{{{{{{{{{{{{", props.prjcCode);
+  //   setPrjcCode(props.prjcCode)
+  // }, [prjcCode])
 
   return (
     <>

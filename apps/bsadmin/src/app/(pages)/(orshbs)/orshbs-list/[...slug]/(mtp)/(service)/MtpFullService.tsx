@@ -5,7 +5,7 @@ import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
-import { GET, PUT_MULTIPART } from "api";
+import {fetcher, GET, PUT_MULTIPART} from "api";
 import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
@@ -13,49 +13,50 @@ import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
+import useSWR from "swr";
 
 export default function MtpFullService() {
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
-  const defaultValues = async () => {
-    const res = await GET(`/orsh/bs/mtp/fs/${orshUkey}`);
-    console.log("resresre", res.data);
+  const { data} = useSWR(
+    `/orsh/bs/mtp/fs/${orshUkey}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("data : ", data);
 
-    // return res.data;
-    const returnDefaultValues = {
-      // custAgnc
-      ebcEmail : res.data.custAgnc.ebcEmail,
-      rhpiNm : res.data.custAgnc.rhpiNm,
-      rhpiId : res.data.custAgnc.rhpiId,
-      rhpiTel : res.data.custAgnc.rhpiTel,
-      instNm : res.data.custAgnc.instNm,
-      agncNm : res.data.custAgnc.agncNm,
-      ordrAplcNm : res.data.custAgnc.ordrAplcNm,
-      ordrAplcEmail : res.data.custAgnc.ordrAplcEmail,
-      ordrAplcTel : res.data.custAgnc.ordrAplcTel,
-      mailRcpnList : res.data.custAgnc.mailRcpnList,
-      addEmailList : res.data.custAgnc.addEmailList,
-      selfQcFileNm : res.data.qcFile.selfQcFileNm,
-      memo : res.data.addRqstMemo.memo,
-      isRdnaIdnt16S : res.data.custAgnc.isRdnaIdnt16S,
-      isRtrnRasn : res.data.custAgnc.isRtrnRasn,
-      prjcUniqueCode : res.data.custAgnc.prjcCode,
-      prjcNm : res.data.custAgnc.prjcNm,
-      prjcDetailCode : res.data.custAgnc.prjcDetailCode,
-      rstFileRcpnEmail : res.data.custAgnc.rstFileRcpnEmail,
-      sample : res.data.samples,
-    };
-    setFileId(res.data.samples[0].selfQcResultFileId);
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^", fileId);
-    setPrjcCode(res.data.custAgnc.prjcCode);
-    return returnDefaultValues;
+  const defaultValues = {
+    ebcEmail : data.custAgnc.ebcEmail,
+    rhpiNm : data.custAgnc.rhpiNm,
+    rhpiId : data.custAgnc.rhpiId,
+    rhpiTel : data.custAgnc.rhpiTel,
+    instNm : data.custAgnc.instNm,
+    agncNm : data.custAgnc.agncNm,
+    ordrAplcNm : data.custAgnc.ordrAplcNm,
+    ordrAplcEmail : data.custAgnc.ordrAplcEmail,
+    ordrAplcTel : data.custAgnc.ordrAplcTel,
+    mailRcpnList : data.custAgnc.mailRcpnList,
+    addEmailList : data.custAgnc.addEmailList,
+    selfQcFileNm : data.qcFile.selfQcFileNm,
+    memo : data.addRqstMemo.memo,
+    isRdnaIdnt16S : data.custAgnc.isRdnaIdnt16S,
+    isCheck16s : data.custAgnc.isRdnaIdnt16S,
+    isRtrnRasn : data.custAgnc.isRtrnRasn,
+    prjcUniqueCode : data.custAgnc.prjcCode,
+    prjcNm : data.custAgnc.prjcNm,
+    prjcDetailCode : data.custAgnc.prjcDetailCode,
+    rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
+    sample : data.samples,
   };
+  // file id 공유
+  setFileId(data.qcFile.selfQcFileId);
 
   // 수정 호출
   const onSubmit = async (data: any) => {
@@ -69,20 +70,22 @@ export default function MtpFullService() {
         memo: data.memo,
       },
       custAgnc: {
-        addEmailList: data.addEmailList,
-        agncAddr: data.addr,
-        agncAddrDetail: data.addrDetail,
-        agncNm: data.agncNm,
-        agncZip: data.zip,
-        ebcEmail: data.ebcEmail,
-        instNm: data.instNm,
-        mailRcpnList: data.mailRcpnList,
-        ordrAplcEmail: data.ordrAplcEmail,
-        ordrAplcNm: data.ordrAplcNm,
-        ordrAplcTel: data.ordrAplcTel,
-        rhpiId: data.rhpiId,
-        rhpiNm: data.rhpiNm,
-        rhpiTel: data.rhpiTel,
+        addEmailList : data.addEmailList,
+        agncNm : data.agncNm,
+        ebcEmail : data.ebcEmail,
+        instNm : data.instNm,
+        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        isRtrnRasn : data.isRtrnRasn,
+        mailRcpnList : data.mailRcpnList,
+        ordrAplcEmail : data.ordrAplcEmail,
+        ordrAplcNm : data.ordrAplcNm,
+        ordrAplcTel : data.ordrAplcTel,
+        rhpiId : data.rhpiId,
+        rhpiNm : data.rhpiNm,
+        rhpiTel : data.rhpiTel,
+        prjcCode : data.prjcUniqueCode,
+        prjcDetailCode : data.prjcDetailCode,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       samples: data.sample,
     };
@@ -103,14 +106,15 @@ export default function MtpFullService() {
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs/${orshUkey}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/fs/${orshUkey}`;
 
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
-        toast("수정 되었습니다.");
-        router.push("/order-list");
+        toast("수정 되었습니다.")
+        router.push("/orshbs-list");
+
       } else if (response.data.code == "INVALID_ETC_EMAIL") {
         toast(response.data.message);
       } else {
@@ -153,7 +157,7 @@ export default function MtpFullService() {
         </Stack>
 
         <Box sx={{ p: 2 }}>
-          <StudySelection prjcCode={prjcCode}/>
+          <StudySelection prjcCode={data.custAgnc.prjcCode}/>
         </Box>
 
         <Stack

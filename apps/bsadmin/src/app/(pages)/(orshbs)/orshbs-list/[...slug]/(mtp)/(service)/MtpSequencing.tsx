@@ -5,7 +5,7 @@ import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
-import { GET, PUT } from "api";
+import {fetcher, GET, PUT} from "api";
 import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
@@ -13,48 +13,47 @@ import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
+import useSWR from "swr";
 
 export default function MtpSequencing() {
   const router = useRouter();
-  const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
+  // const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
-  const defaultValues = async () => {
-    const res = await GET(`/orsh/bs/mtp/so/${orshUkey}`);
-    console.log("resresre", res.data);
+  const { data} = useSWR(
+    `/orsh/bs/mtp/so/${orshUkey}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("data : ", data);
 
-    // return res.data;
-    const returnDefaultValues = {
-      // custAgnc
-      ebcEmail : res.data.custAgnc.ebcEmail,
-      rhpiNm : res.data.custAgnc.rhpiNm,
-      rhpiId : res.data.custAgnc.rhpiId,
-      rhpiTel : res.data.custAgnc.rhpiTel,
-      instNm : res.data.custAgnc.instNm,
-      agncNm : res.data.custAgnc.agncNm,
-      ordrAplcNm : res.data.custAgnc.ordrAplcNm,
-      ordrAplcEmail : res.data.custAgnc.ordrAplcEmail,
-      ordrAplcTel : res.data.custAgnc.ordrAplcTel,
-      mailRcpnList : res.data.custAgnc.mailRcpnList,
-      addEmailList : res.data.custAgnc.addEmailList,
-      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-      memo : res.data.addRqstMemo.memo,
-      isRdnaIdnt16S : res.data.custAgnc.isRdnaIdnt16S,
-      isRtrnRasn : res.data.custAgnc.isRtrnRasn,
-      prjcUniqueCode : res.data.custAgnc.prjcCode,
-      prjcNm : res.data.custAgnc.prjcNm,
-      prjcDetailCode : res.data.custAgnc.prjcDetailCode,
-      rstFileRcpnEmail : res.data.custAgnc.rstFileRcpnEmail,
-      sample : res.data.samples,
-    };
-    // setFileId(res.data.commonInput.pltfMc);
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^", fileId);
-    setPrjcCode(res.data.custAgnc.prjcCode);
-    return returnDefaultValues;
+  const defaultValues = {
+    ebcEmail : data.custAgnc.ebcEmail,
+    rhpiNm : data.custAgnc.rhpiNm,
+    rhpiId : data.custAgnc.rhpiId,
+    rhpiTel : data.custAgnc.rhpiTel,
+    instNm : data.custAgnc.instNm,
+    agncNm : data.custAgnc.agncNm,
+    ordrAplcNm : data.custAgnc.ordrAplcNm,
+    ordrAplcEmail : data.custAgnc.ordrAplcEmail,
+    ordrAplcTel : data.custAgnc.ordrAplcTel,
+    mailRcpnList : data.custAgnc.mailRcpnList,
+    addEmailList : data.custAgnc.addEmailList,
+    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
+    memo : data.addRqstMemo.memo,
+    isRdnaIdnt16S : data.custAgnc.isRdnaIdnt16S,
+    isCheck16s : data.custAgnc.isRdnaIdnt16S,
+    isRtrnRasn : data.custAgnc.isRtrnRasn,
+    prjcUniqueCode : data.custAgnc.prjcCode,
+    prjcNm : data.custAgnc.prjcNm,
+    prjcDetailCode : data.custAgnc.prjcDetailCode,
+    rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
+    sample : data.samples,
   };
 
   // 수정 호출
@@ -69,34 +68,37 @@ export default function MtpSequencing() {
         memo: data.memo,
       },
       custAgnc: {
-        addEmailList: data.addEmailList,
-        agncAddr: data.addr,
-        agncAddrDetail: data.addrDetail,
-        agncNm: data.agncNm,
-        agncZip: data.zip,
-        ebcEmail: data.ebcEmail,
-        instNm: data.instNm,
-        mailRcpnList: data.mailRcpnList,
-        ordrAplcEmail: data.ordrAplcEmail,
-        ordrAplcNm: data.ordrAplcNm,
-        ordrAplcTel: data.ordrAplcTel,
-        rhpiId: data.rhpiId,
-        rhpiNm: data.rhpiNm,
-        rhpiTel: data.rhpiTel,
+        addEmailList : data.addEmailList,
+        agncNm : data.agncNm,
+        ebcEmail : data.ebcEmail,
+        instNm : data.instNm,
+        isRdnaIdnt16S: data.isRdnaIdnt16S,
+        isRtrnRasn : data.isRtrnRasn,
+        mailRcpnList : data.mailRcpnList,
+        ordrAplcEmail : data.ordrAplcEmail,
+        ordrAplcNm : data.ordrAplcNm,
+        ordrAplcTel : data.ordrAplcTel,
+        rhpiId : data.rhpiId,
+        rhpiNm : data.rhpiNm,
+        rhpiTel : data.rhpiTel,
+        prjcCode : data.prjcUniqueCode,
+        prjcDetailCode : data.prjcDetailCode,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       samples: data.sample,
     };
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/mtp/so/${orshUkey}`;
+    const apiUrl = `/orsh/bs/mtp/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
         toast("수정 되었습니다.");
-        router.push("/order-list");
+        router.push("/orshbs-list");
+
       } else if (response.code == "INVALID_ETC_EMAIL") {
         toast(response.message);
       } else {
@@ -139,7 +141,7 @@ export default function MtpSequencing() {
         </Stack>
 
         <Box sx={{ p: 2 }}>
-          <StudySelection prjcCode={prjcCode}/>
+          <StudySelection prjcCode={data.custAgnc.prjcCode}/>
         </Box>
 
         <Stack

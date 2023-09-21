@@ -23,8 +23,6 @@ import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "../../../../../components/AddressDeleteButton";
 
 
-
-
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
@@ -46,7 +44,6 @@ export default function OrdererInfo() {
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   // const [isLoading, setIsLoading] = useState<boolean>(false);
-
 
   return (
     <>
