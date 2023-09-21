@@ -28,6 +28,7 @@ import NoDataView from "../../../components/NoDataView";
 const ListOrder = () => {
   const [page, setPage] = useState<number>(0);
   const [size, setSize] = useState<number>(20);
+  const [hideDirector, setHideDirector] = useState<boolean>(true);
   // ListAPI Call
   // const { data } = useList("order", page, perPage);
   const searchParams = useSearchParams();
@@ -227,10 +228,12 @@ const ListOrder = () => {
       },
       {
         name: "과제명",
+        omit: hideDirector,
         selector: (row) => row.prjtCodeVal,
       },
       {
         name: "연구명",
+        omit: hideDirector,
         selector: (row) => row.prjtDetailCodeVal,
       },
       {
