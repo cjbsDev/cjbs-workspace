@@ -8,7 +8,10 @@ import {
   TD,
   Title1,
   Form,
+  ErrorContainer,
+  Fallback,
 } from "cjbsDSTM";
+
 import { useRouter } from "next/navigation";
 import {
   Box,
@@ -32,6 +35,14 @@ const LazyCheckboxList = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={82} />,
+  }
+);
+
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
   }
 );
 
@@ -90,7 +101,6 @@ export default function SvcTypePage({ params }: ViewProps) {
   };
 
   const formKey = JSON.stringify(codeData); // 매번 defaultValues 를 변환시켜야 될 필요성이 있어서 함 ( 여러번 동일한 페이지를 올 때 갱신 )
-  console.log("codeData", codeData);
 
   // 'codeData'의 'btmValueList' 배열에서 'isSlct' 속성이 true인 아이템들만 필터링하여
   // 해당 아이템들의 'btmCodeMc' 속성만을 새로운 배열인 'selectedCodeArray'에 매핑합니다.
@@ -143,14 +153,17 @@ export default function SvcTypePage({ params }: ViewProps) {
           <ContainedButton buttonName="저장" type="submit" />
         </Stack>
       </Form>
-      {/* 로그 API 는 아직 개발 되지 않음  
       <Box sx={{ mb: 5 }}>
-        <LogUpdateTitle logTitle="거래처(PI)" />
         <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAgncModifyLog apiName="agnc" uKey={slug} />
+          <LazyCommontModifyLog
+            apiName="SRVC_TYPE"
+            uKey={slug}
+            subUkey="none"
+            logTitle=""
+            type="topMid"
+          />
         </ErrorContainer>
       </Box>
-      */}
     </Container>
   );
 }

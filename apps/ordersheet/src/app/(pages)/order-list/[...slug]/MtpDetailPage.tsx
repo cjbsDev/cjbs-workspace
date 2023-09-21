@@ -4,24 +4,24 @@ import {cjbsTheme, ConfirmModal, ErrorContainer, Fallback, Title1} from "cjbsDST
 import { useRouter } from "next-nprogress-bar";
 import {Box, Container, Stack, styled, Typography} from "@mui/material";
 import * as React from "react";
-import MtpFullService from "./(service)/MtpFullService";
-import MtpAnalysis from "@app/(pages)/order/(mtp)/MtpAnalysis";
-import MtpSequencing from "@app/(pages)/order/(mtp)/MtpSequencing";
+import MtpFullService from "@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpFullService";
+import MtpAnalysis from "@app/(pages)/order/mtp/(service)/MtpAnalysis";
+import MtpSequencing from "@app/(pages)/order/mtp/(service)/MtpSequencing";
 import {useState} from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 
 
-const LazyMtpFullService = dynamic(() => import("./(service)/MtpFullService"), {
+const LazyMtpFullService = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpAnalysis = dynamic(() => import("./(service)/MtpAnalysis"), {
+const LazyMtpAnalysis = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpAnalysis"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpSequencing = dynamic(() => import("./(service)/MtpSequencing"), {
+const LazyMtpSequencing = dynamic(() => import("@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpSequencing"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });

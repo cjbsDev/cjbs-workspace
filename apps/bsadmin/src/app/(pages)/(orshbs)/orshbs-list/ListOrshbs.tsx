@@ -11,18 +11,20 @@ import {
   SelectBox,
   Form,
   OutlinedButton,
+  cjbsTheme,
 } from "cjbsDSTM";
-import { Stack, Grid, Box, Container } from "@mui/material";
+import {Stack, Grid, Box, Container, Divider, Typography} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import { useList } from "../../../hooks/useList";
+import { useFiltersList } from "../../../hooks/useFiltersList";
 import { useForm, FormProvider } from "react-hook-form";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import axios from "axios";
 import { toast } from "react-toastify";
+import ServiceSelectModal from "./ServiceSelectModal";
 
 export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
@@ -30,8 +32,17 @@ export default function ListOrshbs() {
 
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
+  const [filters, setFilters] = useState("");
+
+  const { mutate } = useSWRConfig();
+
+  useEffect(() => {
+    // setParameter(`test=test`);
+    setParameter();
+  }, [])
+
   // ListAPI Call
-  const { data } = useList("orshbs", page, perPage);
+  const { data } = useFiltersList("orshbs/intn", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -39,10 +50,28 @@ export default function ListOrshbs() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
+  const [serviceSelectModalOpen, setServiceSelectModalOpen] = useState<boolean>(false);
+
+  console.log("data >>>>>>> : ", data);
   const totalElements = data.pageInfo.totalElements;
+  console.log("totalElements >>>>>>> : ", totalElements);
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
     setSelectedRowCnt(rows.selectedCount);
+  };
+
+  const setParameter = (addParam: string) => {
+    let defaultParam = `page=${page}&size=${perPage}`;
+    if(addParam === undefined || addParam === null) {
+      defaultParam = `${defaultParam}`;
+    } else {
+      defaultParam = `${defaultParam}&${addParam}`;
+    }
+
+    console.log("%%%%%%%%%%%%",defaultParam);
+
+    setFilters(defaultParam);
+    // mutate(`orshbs/intn/list`);
   };
 
   const defaultValues = {
@@ -68,14 +97,19 @@ export default function ListOrshbs() {
         width: "200px",
       },
       {
-        name: "오더번호",
-        selector: (row: { orderId: string }) => row.orderId,
-        width: "150px",
+        name: "orshUkey",
+        selector: (row: { orshUkey: string }) => row.orshUkey,
+        width: "0px",
       },
+      // {
+      //   name: "오더번호",
+      //   selector: (row: { orderId: string }) => row.orderId,
+      //   width: "150px",
+      // },
       {
         name: "분석 종류",
         selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
-        width: "150px",
+        width: "120px",
       },
       {
         name: "서비스 타입",
@@ -85,10 +119,11 @@ export default function ListOrshbs() {
       {
         name: "샘플수량",
         selector: (row: { sampleCount: string }) => row.sampleCount,
+        width: "100px",
       },
 
       {
-        name: "거래처(PI)",
+        name: "거래처(기관)",
         cell: (row: { agncNm: string; instNm: string }) => (
           <Stack>
             <Stack direction="row" spacing={0.5} alignItems="center">
@@ -99,10 +134,10 @@ export default function ListOrshbs() {
             </Stack>
           </Stack>
         ),
-        width: "200px",
+        width: "250px",
       },
       {
-        name: "연구책임자(ID)",
+        name: "주문자(ID)",
         cell: (row: { rhpiNm: string; rhpiEbcEmail: string }) => (
           <Stack>
             <Stack direction="row" spacing={0.5} alignItems="center">
@@ -113,20 +148,34 @@ export default function ListOrshbs() {
             </Stack>
           </Stack>
         ),
-        width: "200px",
+        width: "250px",
       },
-      {
-        name: "담당자",
-        selector: (row: { bsnsMngrVal: string }) => row.bsnsMngrVal,
-      },
+      // {
+      //   name: "담당자",
+      //   selector: (row: { bsnsMngrVal: string }) => row.bsnsMngrVal,
+      // },
       //"isOrderStatus": "주문상태(Y: 등록, N : 요청)"
       {
         name: "주문상태",
         cell: (row: { isOrderStatus: string }) => {
           return row.isOrderStatus == "N" ? (
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box data-tag="allowRowEvents">요청</Box>
+            <Stack direction="row" spacing={1} alignItems="center">
+              {/*<Box data-tag="allowRowEvents">주문대기</Box>*/}
+              <Typography
+                variant="subtitle2"
+                color={cjbsTheme.palette.info.main}
+              >
+                주문대기
+              </Typography>
+              <Divider orientation="vertical" variant="middle" flexItem />
               <OutlinedButton
+                buttonName="수정"
+                size="small"
+                onClick={() => goLinkOrderPage()}
+              />
+              <Divider orientation="vertical" variant="middle" flexItem />
+
+              <ContainedButton
                 buttonName="+오더등록"
                 size="small"
                 onClick={() => goLinkOrderPage()}
@@ -134,11 +183,12 @@ export default function ListOrshbs() {
             </Stack>
           ) : (
             <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box data-tag="allowRowEvents">등록</Box>
+              {/*<Box data-tag="allowRowEvents">주문완료</Box>*/}
+              <Typography variant="subtitle2">주문완료</Typography>
             </Stack>
           );
         },
-        width: "200px",
+        width: "300px",
       },
 
       {
@@ -151,13 +201,22 @@ export default function ListOrshbs() {
     []
   );
 
-  const goDetailPage = (row: { orshNo: string }) => {
-    const path = row.orshNo;
-    router.push("/orshbs-list/" + path);
+  const goDetailPage = (row: {
+    orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+    anlsTypeAbb: string;
+  }) => {
+    const orshUkey = row.orshUkey;
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push("/orshbs-list/" + orshUkey + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
   };
 
   const goLinkOrderPage = () => {
-    router.push("/order-reg/");
+    alert('준비중 입니다.')
+    //router.push("/order-reg/");
   };
 
   const onSubmit = (data: any) => {
@@ -178,7 +237,6 @@ export default function ListOrshbs() {
           <Stack direction="row" spacing={2}>
             <DataCountResultInfo
               totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
             />
 
             <FormProvider {...methods}>
@@ -189,22 +247,6 @@ export default function ListOrshbs() {
                   autoComplete="off"
                   onSubmit={handleSubmit(onSubmit)}
                 >
-                  {/*
-                  <Stack direction="row" spacing={1}>
-                    {userStatusData.data && (
-                      <SelectBox
-                        inputName="userStatus"
-                        options={userStatusData.data}
-                        defaultMsg="회원 상태 변경"
-                      />
-                    )}
-                    <ContainedButton
-                      buttonName="변경"
-                      size="small"
-                      onClick={setUserStatus}
-                    />
-                  </Stack>
-                  */}
                 </Box>
               </Container>
             </FormProvider>
@@ -218,6 +260,11 @@ export default function ListOrshbs() {
               }) => setFilterText(e.target.value)}
               onClear={handleClear}
               filterText={filterText}
+            />
+            <ContainedButton
+              buttonName="검색"
+              size="small"
+              onClick={() => setParameter(`keyword=${filterText}`)}
             />
           </Stack>
         </Grid>
@@ -240,26 +287,49 @@ export default function ListOrshbs() {
     setToggleClearRows(!toggledClearRows);
   };
 
+  const handleServiceSelectOpen = () => {
+    setServiceSelectModalOpen(true);
+  };
+  const handleServiceSelectModalClose = () => {
+    setServiceSelectModalOpen(false);
+  };
+
   return (
-    <DataTableBase
-      title={<Title1 titleName="고객 주문서 관리" />}
-      data={data.orshList}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-      clearSelectedRows={toggledClearRows}
-      //ref={tableRef}
-    />
+    <>
+      <DataTableBase
+        title={
+          <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
+            <Title1 titleName="내부 주문서 관리" />
+            <ContainedButton
+                buttonName="+주문서 등록"
+                size="small"
+                onClick={() => handleServiceSelectOpen()}
+            />
+          </Stack>
+        }
+        data={data.orshList}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        clearSelectedRows={toggledClearRows}
+        //ref={tableRef}
+      />
+      <ServiceSelectModal
+        open={serviceSelectModalOpen}
+        onClose={handleServiceSelectModalClose}
+        modalWidth={500}
+      />
+    </>
   );
 }

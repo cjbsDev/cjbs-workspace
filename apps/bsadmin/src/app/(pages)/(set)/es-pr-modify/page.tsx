@@ -56,6 +56,14 @@ interface FormData {
   isUse?: string;
 }
 
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
+
 export default function AgncPIModifyPage() {
   const searchParams = useSearchParams();
   const params = searchParams.get("esPrMngUkey");
@@ -186,6 +194,17 @@ export default function AgncPIModifyPage() {
             />
             <ContainedButton buttonName="수정" type="submit" />
           </Stack>
+        </Box>
+
+        <Box sx={{ mb: 5 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyCommontModifyLog
+              apiName="esPrMng"
+              uKey={uKey}
+              logTitle=""
+              type="mngr"
+            />
+          </ErrorContainer>
         </Box>
       </Container>
     </FormProvider>

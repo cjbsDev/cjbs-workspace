@@ -64,6 +64,7 @@ interface StyledTabProps extends TabProps {
 
 const Page = () => {
   const searchParams = useSearchParams();
+  const orderNm = searchParams.get("orderNm");
   const serviceParam = searchParams.get("serviceType");
   console.log(serviceParam)
   const router = useRouter();
@@ -93,18 +94,36 @@ const Page = () => {
           spacing={0}
           sx={{ borderBottom: "1px solid #000" }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              alignContent: "start",
-              alignItems: "center",
-            }}
-          >
-            <Typography variant="h4">MTP&nbsp;</Typography>
-            <Typography variant="subtitle2" sx={{ pt: "3px" }}>
-              Microbiome Taxonomic Profiling
-            </Typography>
-          </Box>
+          {orderNm === 'mtp' ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4">MTP&nbsp;&nbsp;</Typography>
+              <Typography variant="subtitle2" sx={{ pt: "3px" }}>
+                Microbiome Taxonomic Profiling
+              </Typography>
+            </Box>
+          ) : ('')}
+
+          {orderNm === 'shotgun' ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+              <Typography variant="subtitle2" sx={{ pt: "3px" }}>
+                Shotgun Sequencing
+              </Typography>
+            </Box>
+          ) : ('')}
+
           <Box
             sx={{
               display: "flex",

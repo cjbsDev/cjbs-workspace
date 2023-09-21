@@ -29,7 +29,6 @@ import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
@@ -381,9 +380,8 @@ export default function InstModifyPage() {
           </Stack>
 
           <Box sx={{ mb: 5 }}>
-            <LogUpdateTitle logTitle="기관" />
             <ErrorContainer FallbackComponent={Fallback}>
-              <LazyInstModifyLog apiName="inst" uKey={uKey} />
+              <LazyInstModifyLog apiName="inst" uKey={uKey} logTitle="기관" />
             </ErrorContainer>
           </Box>
         </Box>

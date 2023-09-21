@@ -2,36 +2,63 @@
 
 import React from "react";
 import { DataTableBase } from "cjbsDSTM";
-import { Box, Stack } from "@mui/material";
+import { Typography, Box, Stack } from "@mui/material";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../NoDataView";
-import { useLogList } from "./useLogList";
+import { useUnifiedLogList } from "./useUnifiedLogList"; // 새로운 hook을 import
 
 interface LogProps {
   uKey: string;
   apiName: string;
+  logTitle: string;
   ebcShow?: boolean;
+  subUkey?: string;
+  type?: string;
 }
 
-interface LogDataProps {
+interface LogUpdateTitleProps {
+  logTitle: string;
+}
+const LogUpdateTitle = ({ logTitle }: LogUpdateTitleProps) => {
+  return (
+    <>
+      <Typography variant="subtitle1" sx={{ mt: 5 }}>
+        {logTitle} 수정 로그
+      </Typography>
+      <Typography variant="body2" sx={{ mb: 1 }}>
+        {logTitle} 수정 로그는 최근 1년간 데이터만 표시되며, 1년이 지난 로그는
+        자동으로 삭제됩니다.
+      </Typography>
+    </>
+  );
+};
+
+interface LogDisplayComponentProps {
   logData: {
     updateLogList: any;
   };
+  logTitle: string;
 }
 
-const LogTable = (props: LogProps) => {
-  // 비구조화 할당
-  const { uKey, apiName, ebcShow } = props;
-  // console.log("APIName", apiName, "Key", uKey);
-  const { logData }: LogDataProps = useLogList(apiName, uKey);
+interface LogDataComponentProps {
+  type: string;
+  apiName: string;
+  uKey: string;
+  subUkey?: string;
+  logTitle: string;
+}
 
+const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
+  logData,
+  logTitle,
+}) => {
   const modifyLogList = logData.updateLogList;
 
   const columns = [
     {
       name: "변경일",
       selector: (row: { modifiedAt: any }) => row.modifiedAt,
-      width: "20%",
+      width: "15%",
     },
     {
       name: "변경자",
@@ -49,37 +76,68 @@ const LogTable = (props: LogProps) => {
           </Stack>
         </>
       ),
-      minWidth: "150px",
-      width: "20%",
+      width: "15%",
     },
-
     {
       name: "컬럼",
       selector: (row: { targetColVal: any }) => row.targetColVal,
-      width: "20%",
+      width: "10%",
     },
     {
       name: "변경 전",
       selector: (row: { preUpdateValue: any }) => row.preUpdateValue,
-      width: "20%",
+      width: "30%",
     },
     {
       name: "변경 후",
       selector: (row: { postUpdateValue: any }) => row.postUpdateValue,
-      width: "20%",
+      width: "30%",
     },
   ];
 
   return (
-    <DataTableBase
-      data={modifyLogList}
-      columns={columns}
-      selectableRows={false}
-      paginationPerPage={5}
-      paginationRowsPerPageOptions={[5, 10, 20]}
-      customStyles={dataTableCustomStyles2}
-      noDataComponent={<NoDataView />}
-    />
+    <>
+      <LogUpdateTitle logTitle={logTitle} />
+      <DataTableBase
+        data={modifyLogList}
+        columns={columns}
+        selectableRows={false}
+        paginationPerPage={5}
+        paginationRowsPerPageOptions={[5, 10, 20]}
+        customStyles={dataTableCustomStyles2}
+        noDataComponent={<NoDataView />}
+      />
+    </>
+  );
+};
+
+const LogDataComponent: React.FC<LogDataComponentProps> = ({
+  type,
+  apiName,
+  uKey,
+  subUkey,
+  logTitle,
+}) => {
+  const logDataProps = useUnifiedLogList(type, apiName, uKey, subUkey);
+
+  return (
+    <LogDisplayComponent logData={logDataProps.logData} logTitle={logTitle} />
+  );
+};
+
+const LogTable = (props: LogProps) => {
+  const { uKey, apiName, logTitle, ebcShow, type, subUkey } = props;
+
+  return (
+    <>
+      <LogDataComponent
+        type={type}
+        apiName={apiName}
+        uKey={uKey}
+        subUkey={subUkey}
+        logTitle={logTitle}
+      />
+    </>
   );
 };
 

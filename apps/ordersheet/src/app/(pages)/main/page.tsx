@@ -114,8 +114,8 @@ const Page = () => {
                                 </Typography>
                                 <Link
                                     href={{
-                                        pathname: '/order',
-                                        query: { name: 'mtp' },
+                                        pathname: '/order/mtp',
+                                        // query: { name: 'mtp' },
                                     }}
                                 >
                                     <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}}/>
@@ -176,14 +176,14 @@ const Page = () => {
                                 <Typography variant="subtitle2" sx={{mt:1}}>
                                     샷건 메타지놈 분석
                                 </Typography>
-                                {/*<Link*/}
-                                {/*    href={{*/}
-                                {/*        pathname: '/order',*/}
-                                {/*        query: { name: 'mtp-shotgun' },*/}
-                                {/*    }}*/}
-                                {/*>*/}
-                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}} disabled={true}/>
-                                {/*</Link>*/}
+                                <Link
+                                    href={{
+                                        pathname: '/order/shotgun',
+                                        // query: { name: 'mtp-shotgun' },
+                                    }}
+                                >
+                                    <ContainedButton buttonName="주문하기" size="large" fullWidth sx={{mt:3}} />
+                                </Link>
                                 <Link
                                     href="https://www.cjbioscience.com/ngs/service/shotgun"
                                     target="_blank"

@@ -31,7 +31,7 @@ import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
 import {useParams} from "next/navigation";
-import NoticeBox from "@app/(pages)/order/(mtp)/(contents)/NoticeBox";
+import NoticeBox from "@app/(pages)/order/mtp/(service)/(contents)/NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
   () => import("@components/CommonSelectbox"),
@@ -160,9 +160,6 @@ export default function OrderMtpSampleList(props: any) {
         sx={{
           width: '100%',
           mb: 4,
-          "& .MuiOutlinedInput-root": {
-            "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-          },
           ".MuiOutlinedInput-input:read-only": {
             backgroundColor: "white",
             cursor: "pointer",

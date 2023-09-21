@@ -101,6 +101,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
                 color="secondary"
                 buttonName="소속 연구원 관리"
                 size="small"
+                sx={{ color: "black" }}
                 endIcon={<MyIcon icon="cheveron-right" size={20} />}
                 onClick={handleModalOpen}
               />

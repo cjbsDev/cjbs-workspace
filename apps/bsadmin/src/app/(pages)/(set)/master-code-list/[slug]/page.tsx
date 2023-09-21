@@ -1,7 +1,14 @@
 "use client";
 
 import React from "react";
-import { ContainedButton, OutlinedButton, Title1, Form } from "cjbsDSTM";
+import {
+  ContainedButton,
+  OutlinedButton,
+  Title1,
+  Form,
+  ErrorContainer,
+  Fallback,
+} from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import { Box, Container, Stack } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
@@ -21,6 +28,15 @@ const LazyMCDetailList = dynamic(() => import("./MCDetailList"), {
   ssr: false,
   loading: () => <SkeletonLoading height={82} />,
 });
+
+const LazyCommontModifyLog = dynamic(
+  () => import("../../../../components/LogTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={272} />,
+  }
+);
+
 export default function MasterCodePage({ params }: CustViewProps) {
   // init
   const { slug } = params;
@@ -41,6 +57,17 @@ export default function MasterCodePage({ params }: CustViewProps) {
           onClick={() => router.push("/master-code-list")}
         />
       </Stack>
+
+      <Box sx={{ mb: 5 }}>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyCommontModifyLog
+            apiName="masterCode"
+            uKey={slug}
+            logTitle=""
+            type="mngr"
+          />
+        </ErrorContainer>
+      </Box>
     </Container>
   );
 }
