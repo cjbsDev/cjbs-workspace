@@ -40,7 +40,7 @@ export default function StudySelection(props: any) {
   const prjcCode = props.prjcCode;
   // // [프로젝트 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
-  // const [prjcCode, setPrjcCode] = useState<string>('');
+  const [newPrjcCode, setNewPrjcCode] = useState<string>(prjcCode);
   // const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
 
   // [ 프로젝트 검색 ] 모달 오픈
@@ -54,13 +54,13 @@ export default function StudySelection(props: any) {
   };
 
   const setCodeDataChange = (code: string) => {
-    setPrjcCode(code);
+    setNewPrjcCode(code);
   };
 
-  // useEffect(() => {
-  //   // console.log("{{{{{{{{{{{{{{", props.prjcCode);
-  //   setPrjcCode(props.prjcCode)
-  // }, [prjcCode])
+  useEffect(() => {
+    // console.log("{{{{{{{{{{{{{{", props.prjcCode);
+    setNewPrjcCode(prjcCode)
+  }, [prjcCode])
 
   return (
     <>
@@ -104,7 +104,7 @@ export default function StudySelection(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={`/code/orsh/prjtDetail/list?type=${prjcCode}`}
+                      url={`/code/orsh/prjtDetail/list?type=${newPrjcCode}`}
                       inputName={`prjcDetailCode`}
                     />
                   </ErrorContainer>
