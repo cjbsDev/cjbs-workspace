@@ -13,7 +13,6 @@ import {
   Grid,
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import { cjbsTheme, ContainedButton, OutlinedButton } from "cjbsDSTM";
 import LoadingSvg from "@public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
@@ -124,17 +123,6 @@ const Page = () => {
             </Box>
           ) : ('')}
 
-          <Box
-            sx={{
-              display: "flex",
-              alignContent: "start",
-              alignItems: "center",
-              width: 600,
-              mr: "-30px",
-            }}
-          >
-            <HorizontalLinearStepper />
-          </Box>
         </Stack>
 
         <Box sx={{ width: "100%", typography: "body1" }}>
