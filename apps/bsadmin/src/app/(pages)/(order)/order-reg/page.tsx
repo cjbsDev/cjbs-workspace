@@ -501,21 +501,9 @@ export default function Page() {
                 <CheckboxGV
                   data={reqReturnListData}
                   inputName="reqReturnList"
-                  required={true}
-                  errorMessage="반송 요청을 선택해 주새요."
+                  // required={true}
+                  // errorMessage="반송 요청을 선택해 주새요."
                 />
-                {/*<Stack direction="row">*/}
-                {/*  <CheckboxM5*/}
-                {/*    inputName="reqReturnList"*/}
-                {/*    labelText="DNA 반송 요청"*/}
-                {/*    value="dnaReturnReq"*/}
-                {/*  />*/}
-                {/*  <CheckboxM5*/}
-                {/*    inputName="reqReturnList"*/}
-                {/*    labelText="샘플 반송 요청"*/}
-                {/*    value="sampleReturnReq"*/}
-                {/*  />*/}
-                {/*</Stack>*/}
               </TD>
             </TableRow>
           </TableBody>

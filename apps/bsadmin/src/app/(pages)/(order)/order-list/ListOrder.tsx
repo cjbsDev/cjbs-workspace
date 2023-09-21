@@ -128,7 +128,7 @@ const ListOrder = () => {
         selector: (row) => row.typeVal,
       },
       {
-        name: "고객",
+        name: "연구책임자",
         width: "200px",
         // selector: (row) => "외부 (무료)",
         cell: (row) => {
@@ -176,99 +176,33 @@ const ListOrder = () => {
         },
       },
       {
-        name: "거래처",
-        width: "170px",
-        // selector: (row) => "외부 (무료)",
-        cell: (row) => {
-          const { isSpecialMng, instNm, agncNm } = row;
-          return (
-            <Stack data-tag="allowRowEvents">
-              <Box data-tag="allowRowEvents">
-                <Stack direction="row" spacing={"2px"} alignItems="center">
-                  <Typography data-tag="allowRowEvents" variant="body2">
-                    {agncNm}
-                  </Typography>
-                  {isSpecialMng === "Y" && (
-                    <MyIcon
-                      icon="vip-fill"
-                      width={15}
-                      data-tag="allowRowEvents"
-                      color="#FFAB33"
-                    />
-                  )}
-                </Stack>
-              </Box>
-              <Typography data-tag="allowRowEvents" variant="body2">
-                ({instNm})
-              </Typography>
-            </Stack>
-          );
-        },
-      },
-      {
-        name: "거래처",
-        width: "170px",
-        // selector: (row) => "외부 (무료)",
-        cell: (row) => {
-          const { isSpecialMng, instNm, agncNm } = row;
-          return (
-            <Stack data-tag="allowRowEvents">
-              <Box data-tag="allowRowEvents">
-                <Stack direction="row" spacing={"2px"} alignItems="center">
-                  <Typography data-tag="allowRowEvents" variant="body2">
-                    {agncNm}
-                  </Typography>
-                  {isSpecialMng === "Y" && (
-                    <MyIcon
-                      icon="vip-fill"
-                      width={15}
-                      data-tag="allowRowEvents"
-                      color="#FFAB33"
-                    />
-                  )}
-                </Stack>
-              </Box>
-              <Typography data-tag="allowRowEvents" variant="body2">
-                ({instNm})
-              </Typography>
-            </Stack>
-          );
-        },
-      },
-      {
-        name: "거래처",
-        width: "170px",
-        // selector: (row) => "외부 (무료)",
-        cell: (row) => {
-          const { isSpecialMng, instNm, agncNm } = row;
-          return (
-            <Stack data-tag="allowRowEvents">
-              <Box data-tag="allowRowEvents">
-                <Stack direction="row" spacing={"2px"} alignItems="center">
-                  <Typography data-tag="allowRowEvents" variant="body2">
-                    {agncNm}
-                  </Typography>
-                  {isSpecialMng === "Y" && (
-                    <MyIcon
-                      icon="vip-fill"
-                      width={15}
-                      data-tag="allowRowEvents"
-                      color="#FFAB33"
-                    />
-                  )}
-                </Stack>
-              </Box>
-              <Typography data-tag="allowRowEvents" variant="body2">
-                ({instNm})
-              </Typography>
-            </Stack>
-          );
-        },
-      },
-      {
         name: "샘플종류",
         width: "120px",
         selector: (row) => (row.sampleType === null ? "-" : row.sampleType),
+      },
+      {
+        name: "분석종류",
+        selector: (row) => row.anlsTypeVal,
+      },
+      {
+        name: "플랫폼",
+        selector: (row) => row.pltfVal,
+      },
+      {
+        name: "영업담당",
+        selector: (row) => row.bsnsMngrVal,
+      },
+      {
+        name: "실험담당",
+        selector: (row) => row.expMngrVal,
+      },
+      {
+        name: "분석담당",
+        selector: (row) => row.anlsMngrVal,
+      },
+      {
+        name: "연구담당",
+        selector: (row) => row.prjtMngrVal,
       },
       {
         name: "16S 확인",
@@ -288,12 +222,52 @@ const ListOrder = () => {
           row.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: "Rating",
+        name: "RUN",
+        selector: (row) => row.runList,
+      },
+      {
+        name: "과제명",
+        selector: (row) => row.prjtCodeVal,
+      },
+      {
+        name: "연구명",
+        selector: (row) => row.prjtDetailCodeVal,
+      },
+      {
+        name: "분석 내역서",
         selector: (row) => row.rating,
       },
       {
-        name: "Stock",
-        selector: (row) => row.stock,
+        name: "샘플 수",
+        selector: (row) => row.sampleCount,
+      },
+      {
+        name: "오더생성일",
+        selector: (row) => row.createDttm,
+      },
+      {
+        name: "샘플 접수일",
+        selector: (row) => row.rcptDttm,
+      },
+      {
+        name: "PCR/Lib 완료일",
+        selector: (row) => row.libCompDttm,
+      },
+      {
+        name: "Seq완료일",
+        selector: (row) => row.seqCompDttm,
+      },
+      {
+        name: "분석 완료일",
+        selector: (row) => row.biCompDttm,
+      },
+      {
+        name: "완료 통보일",
+        selector: (row) => row.ntfcCompDttm,
+      },
+      {
+        name: "메모",
+        selector: (row) => row.memo,
       },
     ],
     []
