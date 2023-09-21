@@ -10,14 +10,11 @@ import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
-import { useRecoilState } from "recoil";
-import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
 import useSWR from "swr";
 
 export default function MtpSequencing() {
   const router = useRouter();
-  // const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
