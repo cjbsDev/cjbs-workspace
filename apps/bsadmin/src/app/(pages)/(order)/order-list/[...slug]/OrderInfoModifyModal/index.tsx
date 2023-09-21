@@ -94,7 +94,7 @@ ModalContainerProps) => {
     setIsLoading(false);
   };
 
-  console.log("Init Data!!@@@@ ==>> ", data.check16sAt);
+  console.log("Init Data!!@@@@ ==>> ", data);
 
   const defaultValues = {
     check16sAt: data.check16sAt === null ? null : new Date(data.check16sAt),

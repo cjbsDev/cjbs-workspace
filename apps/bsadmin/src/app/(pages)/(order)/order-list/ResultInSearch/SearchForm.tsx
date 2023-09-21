@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import {
   CheckboxSV,
   cjbsTheme,
@@ -10,7 +10,6 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
-  SelectBox,
   DateRangePicker,
 } from "cjbsDSTM";
 import {
@@ -23,15 +22,8 @@ import {
   TypographyProps,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-// import "react-datepicker/dist/react-datepicker.css";
-// import "./custom-datepicker.css";
-import { GET, POST } from "api";
-import { useSWRConfig } from "swr";
-// import { router } from "next/client";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
-import { useSetRecoilState } from "recoil";
-import { filteredUrlAtom } from "../../../../recoil/atoms/filteredUrlAtom";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
@@ -53,32 +45,7 @@ const LazyStatusTypeSelctbox = dynamic(
   }
 );
 
-// const managerData = [
-//   { value: "전체", optionName: "전체" },
-//   { value: "영업", optionName: "영업" },
-//   { value: "실험", optionName: "실험" },
-//   { value: "분석", optionName: "분석" },
-// ];
-//
-// const statusData = [
-//   { value: "미접수", optionName: "미접수" },
-//   { value: "진행 중", optionName: "진행 중" },
-//   { value: "완료", optionName: "완료" },
-//   { value: "취소", optionName: "취소" },
-// ];
-// const dateOption = [
-//   { value: "전체", optionName: "샘플 접수일" },
-//   { value: "전체", optionName: "오더 생성일" },
-//   { value: "전체", optionName: "PCR/Lib 완료일" },
-//   { value: "전체", optionName: "Seq 완료일" },
-//   { value: "전체", optionName: "분석 완료일" },
-//   { value: "전체", optionName: "완료 통보일" },
-// ];
-
 const SearchForm = ({ onClose }) => {
-  // const [startDate, setStartDate] = useState(new Date());
-  // const [endDate, setEndDate] = useState(null);
-  // const setFilteredUrl = useSetRecoilState(filteredUrlAtom);
   const router = useRouter();
   const defaultValues = {};
 
@@ -105,7 +72,7 @@ const SearchForm = ({ onClose }) => {
         )
     );
 
-    // URLSearchParams() 생성자 ==> Convert Object to Query String
+    // URLSearchParams() 생성자(constructor) ==> Convert Object to Query String
     // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
     const result = "?" + new URLSearchParams(filteredObject).toString();
     router.push(`/order-list${result}`);

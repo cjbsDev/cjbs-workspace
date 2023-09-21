@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import {
   Box,
-  Chip,
   Stack,
   Table,
   TableBody,
@@ -11,9 +10,6 @@ import {
   TableRow,
   Typography,
   InputAdornment,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
 } from "@mui/material";
 import {
   CheckboxGV,
@@ -24,7 +20,6 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
-  SkeletonLoading,
   TD,
   TH,
   Title1,
@@ -43,8 +38,9 @@ import {
 } from "../../../data/inputDataLists";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
+import { POST } from "api";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
+const apiUrl = `/order/intn`;
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -58,6 +54,14 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 
 const LazySalesManagerSelctbox = dynamic(
   () => import("../../../components/SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
+const LazyNGSManagerSelctbox = dynamic(
+  () => import("../../../components/NGSAnlManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -115,13 +119,14 @@ export default function Page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const defaultValues = {
-    srvcTypeMc: "BS_0100007004",
+    srvcTypeMc: "BS_0100007003",
     anlsTypeMc: "BS_0100006004",
     pltfMc: "BS_0100008001",
     taxonBCnt: 0,
     taxonECnt: 0,
     taxonACnt: 0,
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
+    orderTypeCc: "BS_0800001",
   };
 
   const onSubmit = async (data: any) => {
@@ -132,7 +137,7 @@ export default function Page() {
       setAddEmailChck(true);
     }
 
-    const typeNumberPrice = Number(data.price.replace(",", ""));
+    // const typeNumberPrice = Number(data.price.replace(",", ""));
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
@@ -151,28 +156,34 @@ export default function Page() {
       ordrAplcNm: data.ordrAplcNm,
       ordrAplcTel: data.ordrAplcTel,
       pltfMc: data.pltfMc,
-      price: typeNumberPrice,
       reqReturnList: data.reqReturnList,
       srvcTypeMc: data.srvcTypeMc,
       taxonACnt: typeNumbertaxonACnt,
       taxonBCnt: typeNumbertaxonBCnt,
       taxonECnt: typeNumbertaxonECnt,
+
+      isFastTrack: data.isFastTrack,
+      libMngrUkey: data.libMngrUkey,
+      qcMngrUkey: data.qcMngrUkey,
+      seqMngrUkey: data.seqMngrUkey,
+      rstFileRcpnEmail: data.rstFileRcpnEmail,
+      // prjtCodeMc: data.prjtCodeMc,
+      // prjtDetailCodeMc: data.prjtDetailCodeMc,
     };
 
     console.log("Body Data ==>>", bodyData);
 
-    await axios
-      .post(apiUrl, bodyData)
-      .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
-          setIsLoading(false);
-          router.push("/order-list");
-        }
-      })
-      .catch((error) => {
-        console.error("POST request failed:", error);
-      });
+    // await POST(apiUrl, bodyData)
+    //   .then((response) => {
+    //     console.log("POST request successful:", response.data);
+    //     if (response.data.success) {
+    //       setIsLoading(false);
+    //       router.push("/order-list");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("POST request failed:", error);
+    //   });
   };
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -186,7 +197,7 @@ export default function Page() {
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName="오더 등록" />
+        <Title1 titleName="오더 등록(내부 실험용)" />
       </Box>
 
       <Typography variant="subtitle1" sx={{}}>
@@ -342,6 +353,22 @@ export default function Page() {
         </Table>
       </TableContainer>
 
+      <Typography variant="subtitle1">과제 및 연구</Typography>
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>과제</TH>
+              <TD></TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>연구</TH>
+              <TD></TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
       <Typography variant="subtitle1">주문 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -368,6 +395,31 @@ export default function Page() {
                 </Stack>
               </TD>
             </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <Stack direction="row" spacing={0.5} alignItems="center">
+                  <InputValidation
+                    placeholder="example@gmail.com"
+                    inputName="rstFileRcpnEmail"
+                    required={true}
+                    errorMessage="이메일을 입력해 주세요."
+                    sx={{ width: 600 }}
+                    InputProps={{
+                      type: "email",
+                    }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TH sx={{ width: "15%" }}>과제</TH>*/}
+            {/*  <TD sx={{ width: "85%" }}></TD>*/}
+            {/*</TableRow>*/}
+            {/*<TableRow>*/}
+            {/*  <TH sx={{ width: "15%" }}>과제 담당자</TH>*/}
+            {/*  <TD sx={{ width: "85%" }}>김과제</TD>*/}
+            {/*</TableRow>*/}
             <TableRow>
               <TH sx={{ width: "15%" }}>서비스 타입</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
@@ -515,50 +567,50 @@ export default function Page() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>16s 확인</TH>
+              <TH sx={{ width: "15%" }}>Fast Track[선택]</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                <SixteenCheck />
-                {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-                {/*  <LazySixteenCheck />*/}
-                {/*</ErrorContainer>*/}
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>오더 금액</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    inputName="price"
-                    required={true}
-                    errorMessage="오더 금액을 입력해 주세요."
-                    // pattern={/\B(?=(\d{3})+(?!\d))/g}
-                    // patternErrMsg="숫자만 입력해 주세요."
-                    sx={{
-                      width: 160,
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                    }}
-                    inputMode="numeric"
-                    InputProps={{
-                      inputComponent: NumericFormatCustom as any,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                </Stack>
+                <CheckboxSV
+                  inputName="isFastTrack"
+                  labelText="Fast Track으로 진행합니다"
+                  value="Y"
+                />
+                {/*<CheckboxGV*/}
+                {/*  data={reqReturnListData}*/}
+                {/*  inputName="reqReturnList"*/}
+                {/*  required={true}*/}
+                {/*  errorMessage="반송 요청을 선택해 주새요."*/}
+                {/*/>*/}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>영업 담당자</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
+              <TD sx={{ width: "85%" }}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazySalesManagerSelctbox />
+                </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>Prep 담당자 [선택]</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
+                </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>Lib 담당자 [선택]</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyNGSManagerSelctbox inputName="libMngrUkey" />
+                </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>Seq 담당자 [선택]</TH>
+              <TD sx={{ width: "85%" }} colSpan={5}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
                 </ErrorContainer>
               </TD>
             </TableRow>
