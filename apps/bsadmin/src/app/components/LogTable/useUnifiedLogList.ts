@@ -1,7 +1,3 @@
-// useUnifiedLogList.ts
-// import { useLogList } from "./useLogList";
-// import { useMngrLogList } from "./mngrLogList";
-// import { useTopMidTypeLogList } from "./topMidTypeLogList";
 import useSWR from "swr";
 import { fetcher } from "api";
 
