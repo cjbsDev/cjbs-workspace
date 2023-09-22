@@ -43,8 +43,9 @@ import {
 } from "../../../data/inputDataLists";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
+import { POST } from "api";
 
-const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/extr`;
+const apiUrl = `/order/extr`;
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -122,6 +123,8 @@ export default function Page() {
     taxonECnt: 0,
     taxonACnt: 0,
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
+    orderTypeCc: "BS_0800001",
+    isCheck16s: "Y",
   };
 
   const onSubmit = async (data: any) => {
@@ -161,11 +164,10 @@ export default function Page() {
 
     console.log("Body Data ==>>", bodyData);
 
-    await axios
-      .post(apiUrl, bodyData)
+    await POST(apiUrl, bodyData)
       .then((response) => {
-        console.log("POST request successful:", response.data);
-        if (response.data.success) {
+        console.log("POST request successful:", response);
+        if (response.success) {
           setIsLoading(false);
           router.push("/order-list");
         }

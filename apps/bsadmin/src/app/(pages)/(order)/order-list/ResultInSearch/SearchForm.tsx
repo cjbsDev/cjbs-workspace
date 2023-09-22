@@ -22,7 +22,8 @@ import {
   TypographyProps,
 } from "@mui/material";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
@@ -47,10 +48,27 @@ const LazyStatusTypeSelctbox = dynamic(
 
 const SearchForm = ({ onClose }) => {
   const router = useRouter();
-  const defaultValues = {};
+  const params = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  console.log("PATHNAME", pathname);
+
+  const resultObject = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>#>>#>>#>>>", resultObject);
+
+  const currentQueryString = "?" + new URLSearchParams(resultObject).toString();
+  console.log("currentQueryString", currentQueryString.split("&", 1));
+  const onlyKeyword = currentQueryString.split("&", 1);
+
+  const defaultValues = resultObject;
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
+    let result;
 
     if (data.dateRange !== undefined) {
       const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
@@ -74,8 +92,15 @@ const SearchForm = ({ onClose }) => {
 
     // URLSearchParams() 생성자(constructor) ==> Convert Object to Query String
     // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
-    const result = "?" + new URLSearchParams(filteredObject).toString();
-    router.push(`/order-list${result}`);
+    if (onlyKeyword !== "?") {
+      result = "&" + new URLSearchParams(filteredObject).toString();
+      router.push(`${pathname}${onlyKeyword}${result}`);
+    } else {
+      result = new URLSearchParams(filteredObject).toString();
+      router.push(`${pathname}${onlyKeyword}${result}`);
+    }
+
+    // router.push(`${pathname}${keywordResult}${result}`);
     onClose();
 
     // if (data.dateRange !== undefined) {
@@ -124,6 +149,12 @@ const SearchForm = ({ onClose }) => {
     // }
     //
     // onClose();
+  };
+
+  const handleKeywordClear = () => {
+    // resetField("Keyword");
+    router.push(`/order-list`);
+    onClose();
   };
 
   return (
@@ -244,7 +275,11 @@ const SearchForm = ({ onClose }) => {
             alignItems="center"
             spacing={1}
           >
-            <OutlinedButton buttonName="초기화" size="small" />
+            <OutlinedButton
+              onClick={handleKeywordClear}
+              buttonName="초기화"
+              size="small"
+            />
             <ContainedButton buttonName="검색" type="submit" size="small" />
           </Stack>
         </Stack>

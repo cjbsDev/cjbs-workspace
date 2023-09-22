@@ -175,7 +175,7 @@ const SvcStdAddModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="sampleSizeStart"
-                        disabled={false}
+                        disabled={selectItem.stndPriceDetailUkey ? true : false}
                         required={true}
                         pattern={/^[0-9]+$/}
                         patternErrMsg="숫자만 입력해주세요."
@@ -186,7 +186,7 @@ const SvcStdAddModifyModal = ({
                       -
                       <InputValidation
                         inputName="sampleSizeEnd"
-                        disabled={false}
+                        disabled={selectItem.stndPriceDetailUkey ? true : false}
                         required={true}
                         pattern={/^[0-9]+$/}
                         patternErrMsg="숫자만 입력해주세요."

@@ -16,7 +16,7 @@ const OrderTypeChck = () => {
 
   console.log("오더타입 리스트", orderTypeValue);
 
-  return <CheckboxGV data={orderTypeValue} inputName="typeCc" />;
+  return <CheckboxGV data={orderTypeValue} inputName="typeCcList" />;
 };
 
 export default OrderTypeChck;
