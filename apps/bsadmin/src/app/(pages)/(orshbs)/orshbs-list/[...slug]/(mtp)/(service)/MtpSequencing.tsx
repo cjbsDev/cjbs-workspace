@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import StudySelection from "../../StudySelection";
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 
 export default function MtpSequencing() {
   const router = useRouter();
@@ -90,6 +90,7 @@ export default function MtpSequencing() {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/mtp/so/${orshUkey}`);
         toast("수정 되었습니다.");
         router.push("/orshbs-list");
 

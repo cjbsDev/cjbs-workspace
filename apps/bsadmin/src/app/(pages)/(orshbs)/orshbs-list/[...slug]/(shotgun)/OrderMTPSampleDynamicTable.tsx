@@ -22,7 +22,7 @@ import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "../../../orsh-order/in/shotgun/(service)/(contents)/ExcelUploadModal";
 import { useParams } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { fileIdValueAtom } from "../../../../../recoil/atoms/fileIdValueAtom";
+import {depthCcValueAtom, fileIdValueAtom} from "../../../../../recoil/atoms/fileIdValueAtom";
 
 export default function OrderMTPSampleDynamicTable(props: any) {
   const serviceType = props.serviceType;
@@ -39,6 +39,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -57,33 +58,37 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     if (serviceType === "fs") {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          source: "",
-          sampleCategoryCc: "",
-          anlsTargetGeneCc: "",
+          depthCc: null,
+          groupNm: "",
           memo: "",
-          selfQcResultFileId: fileId,
+          sampleCategoryCc: "",
+          sampleNm: "",
+          selfQcResultFileId: null,
+          source: "",
         });
       }
     } else if (serviceType === "ngs") {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          source: "",
-          sampleCategoryCc: "",
-          anlsTargetGeneCc: "",
+          depthCc: "",
           memo: "",
-          selfQcResultFileId: fileId,
+          sampleCategoryCc: "",
+          sampleNm: "",
+          selfQcResultFileId: null,
+          source: "",
         });
       }
     } else if (serviceType === "so") {
       for (let i = 0; i < count; i++) {
         append({
+          adapter: "",
+          depthCc: null,
           idx1frwr: "",
           idx1nm: "",
           idx2nm: "",
           idx2rvrs: "",
           memo: "",
+          pltfMc: null,
           sampleNm: "",
         });
       }
@@ -109,8 +114,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
               open={showOrderInfoModifyModal}
               modalWidth={800}
               append={append}
-              // handleAddFields={handleAddFields}
-              // addExcelDataTableRows={addExcelDataTableRows}
+              serviceType={serviceType}
             />
             <InputValidation
               inputName="count"

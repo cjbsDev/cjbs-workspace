@@ -50,6 +50,7 @@ export default function ShotgunSequencing() {
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
     depthCc : data.commonInput.depthCc,
+    pltfMc : data.commonInput.pltfMc,
   };
 
   // 수정 호출
