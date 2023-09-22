@@ -8,25 +8,20 @@ export default function PlatformSelectbox() {
   const { setValue, getValues, watch } = methods;
   const initValue = getValues("anlsTypeMc");
 
-  // console.log("initValue>>>>>>>>", initValue);
+  // const { data } = useSWR(`/code/order/pltf/list?type=${initValue}`, fetcher, {
+  //   suspense: true,
+  // });
+  // /code/mngr/list?enumMngrCode=SRVC_CTGR&topUniqueCode=BS_0100005001&midUniqueCode=${initValue}
 
-  const { data } = useSWR(
-    `/mngr/BS_0100005001/${initValue}?enumMngrCode=SRVC_CTGR`,
-    fetcher,
-    {
-      suspense: true,
-    }
+  const { data, isLoading, error } = useSWR(
+    `/code/order/pltf/list?type=${initValue}`,
+    fetcher
   );
 
-  // const { data, isLoading, error } = useSWR(
-  //   `/code/mngr/list?enumMngrCode=SRVC_CTGR&topUniqueCode=BS_0100005001&midUniqueCode=${initValue}`,
-  //   fetcher
-  // );
-  //
-  // if (error) return <div>분석종류를 선택하세요!</div>;
-  // if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>분석종류를 선택하세요!</div>;
+  if (isLoading) return <div>Loading...</div>;
 
-  console.log("Platform Data ==>>", data.btmValueList);
+  console.log("Platform Data ==>>", data);
 
-  return <SelectBox inputName="platformMc" options={data.btmValueList} />;
+  return <SelectBox inputName="platformMc" options={data} />;
 }
