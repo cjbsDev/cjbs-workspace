@@ -11,7 +11,7 @@ import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import StudySelection from "../../StudySelection";
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 
 export default function ShotgunSequencing() {
   const router = useRouter();
@@ -49,6 +49,7 @@ export default function ShotgunSequencing() {
     prjcDetailCode : data.custAgnc.prjcDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
+    depthCc : data.commonInput.depthCc,
   };
 
   // 수정 호출
@@ -94,6 +95,7 @@ export default function ShotgunSequencing() {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/sg/so/${orshUkey}`);
         toast("수정 되었습니다.");
         router.push("/orshbs-list");
 
