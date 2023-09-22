@@ -1,6 +1,7 @@
 import React from "react";
 import { cjbsTheme, DataTableFilter2, Form } from "cjbsDSTM";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { IconButton, Stack } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import KeywordClearBtn from "./KeywordClearBtn";
