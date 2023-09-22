@@ -34,7 +34,7 @@ const StndPriceSrvcType = () => {
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
-  const srvcTypeList01 = data.data;
+  const srvcTypeList01 = data;
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
   const [selectValue01, setSelectValue01] = useState<string>("");
@@ -56,11 +56,15 @@ const StndPriceSrvcType = () => {
   ) => {
     setSelectLoading02(true);
     setSelectedIndex(index);
+
+    console.log("value", value);
+
     await axios
       .get(
         `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${value}/null`
       )
       .then((res) => {
+        console.log("res", res);
         if (res.data.success) {
           const srvcTypeList02Temp = res.data.data;
           //console.log("SecondSrvcType List DATA ==>>", srvcTypeList02Temp);
