@@ -100,55 +100,7 @@ const SearchForm = ({ onClose }) => {
       router.push(`${pathname}${onlyKeyword}${result}`);
     }
 
-    // router.push(`${pathname}${keywordResult}${result}`);
     onClose();
-
-    // if (data.dateRange !== undefined) {
-    //   const [startDate, endDate] = data.dateRange.map((dateStr) =>
-    //     dayjs(dateStr).format("YYYY-MM-DD")
-    //   );
-    //   const newData = {
-    //     ...data,
-    //     startDate,
-    //     endDate,
-    //     dateRange: undefined, // dateRange 배열은 더 이상 필요하지 않으므로 undefined로 설정
-    //   };
-    //
-    //   console.log("NEW DATA ==>>", newData);
-    //
-    //   const filteredObject = Object.fromEntries(
-    //     Object.entries(newData)
-    //       .filter(
-    //         ([key, value]) =>
-    //           value !== "" && value !== undefined && value !== false
-    //       )
-    //       .map(([key, value]) =>
-    //         key === "typeCc" ? [key, value.join(",")] : [key, value]
-    //       )
-    //   );
-    //
-    //   const result = "?" + new URLSearchParams(filteredObject).toString();
-    //   console.log("RESULT", result);
-    //   router.push(`/order-list${result}`);
-    // } else {
-    //   const filteredObject = Object.fromEntries(
-    //     Object.entries(data)
-    //       .filter(
-    //         ([key, value]) =>
-    //           value !== "" && value !== undefined && value !== false
-    //       )
-    //       .map(([key, value]) =>
-    //         key === "typeCc" ? [key, value.join(",")] : [key, value]
-    //       )
-    //   );
-    //
-    //   console.log("FILTEREDOBJECT", filteredObject);
-    //   const result = "?" + new URLSearchParams(filteredObject).toString();
-    //   console.log("RESULT", result);
-    //   router.push(`/order-list${result}`);
-    // }
-    //
-    // onClose();
   };
 
   const handleKeywordClear = () => {

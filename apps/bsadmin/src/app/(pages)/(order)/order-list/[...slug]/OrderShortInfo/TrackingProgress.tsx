@@ -38,7 +38,7 @@ const TrackingProgress = (props) => {
         </Typography>
         <Box>
           <Stack>
-            {isFastTrack === "N" && (
+            {isFastTrack === "Y" && (
               <Stack direction="row">
                 <MyIcon icon="fast" size={18} />
                 <Typography variant="caption">Fast Track</Typography>

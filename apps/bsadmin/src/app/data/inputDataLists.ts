@@ -8,6 +8,10 @@ export const emailReceiveSettingData = [
   { value: "etcRcpn", optionName: "추가(직접입력)" },
 ];
 
+export const fastTrackData = [
+  { value: "Y", optionName: "Fast Track으로 진행합니다." },
+];
+
 export const yieldData = [
   {
     value: "BS_0100010001",

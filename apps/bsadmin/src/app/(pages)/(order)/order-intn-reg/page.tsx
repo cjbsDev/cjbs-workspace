@@ -10,6 +10,8 @@ import {
   TableRow,
   Typography,
   InputAdornment,
+  styled,
+  BoxProps,
 } from "@mui/material";
 import {
   CheckboxGV,
@@ -39,8 +41,13 @@ import {
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
 import { POST } from "api";
+import Research from "./Research";
 
 const apiUrl = `/order/intn`;
+
+const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
+  ssr: false,
+});
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -82,6 +89,11 @@ const LazyAnalysisTypeSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
+
+const LazyPlatformSelctbox = dynamic(() => import("./PlatformSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
   ssr: false,
@@ -127,6 +139,18 @@ export default function Page() {
     taxonACnt: 0,
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
     orderTypeCc: "BS_0800001",
+    isCheck16s: "Y",
+  };
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
+  // [ 프로젝트 검색 ] 모달 오픈
+  const agncSearchModalOpen = () => {
+    setShowAgncSearchModal(true);
+  };
+
+  // // [ 프로젝트 검색 ] 모달 닫기
+  const agncSearchModalClose = () => {
+    setShowAgncSearchModal(false);
   };
 
   const onSubmit = async (data: any) => {
@@ -167,23 +191,23 @@ export default function Page() {
       qcMngrUkey: data.qcMngrUkey,
       seqMngrUkey: data.seqMngrUkey,
       rstFileRcpnEmail: data.rstFileRcpnEmail,
-      // prjtCodeMc: data.prjtCodeMc,
-      // prjtDetailCodeMc: data.prjtDetailCodeMc,
+      prjtCodeMc: data.prjtCodeMc,
+      prjtDetailCodeMc: data.prjtDetailCodeMc,
     };
 
     console.log("Body Data ==>>", bodyData);
 
-    // await POST(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response.data);
-    //     if (response.data.success) {
-    //       setIsLoading(false);
-    //       router.push("/order-list");
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //   });
+    await POST(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response);
+        if (response.success) {
+          setIsLoading(false);
+          router.push("/order-list");
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+      });
   };
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -220,30 +244,30 @@ export default function Page() {
                     }}
                   />
                   <InputValidation
-                    sx={{ display: "none" }}
+                    // sx={{ display: "none" }}
                     inputName="custUkey"
                     required={true}
-                    // errorMessage="키값 입력하세요."
+                    errorMessage="custUkey 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
                     }}
                   />
                   <InputValidation
-                    sx={{ display: "none" }}
+                    // sx={{ display: "none" }}
                     inputName="agncUkey"
                     required={true}
-                    // errorMessage="키값 입력하세요."
+                    errorMessage="agncUkey 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
                     }}
                   />
                   <InputValidation
-                    sx={{ display: "none" }}
+                    // sx={{ display: "none" }}
                     inputName="telList"
                     required={true}
-                    // errorMessage="전화번호 입력하세요."
+                    errorMessage="telList 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
@@ -359,15 +383,48 @@ export default function Page() {
           <TableBody>
             <TableRow>
               <TH sx={{ width: "15%" }}>과제</TH>
-              <TD></TD>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="prjtCodeMc"
+                    disabled={true}
+                    required={true}
+                    errorMessage="과제를 검색 & 선택해주세요."
+                    placeholder="과제 코드"
+                    sx={{ width: 200 }}
+                  />
+                  <InputValidation
+                    inputName="prjcNm"
+                    disabled={true}
+                    required={true}
+                    errorMessage="과제를 검색 & 선택해주세요."
+                    placeholder="과제를 선택해주세요"
+                    sx={{ width: 600 }}
+                  />
+                  <OutlinedButton
+                    size="small"
+                    buttonName="과제 검색"
+                    onClick={agncSearchModalOpen}
+                  />
+                </Stack>
+              </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>연구</TH>
-              <TD></TD>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <Research />
+              </TD>
             </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
+
+      {/* 프로젝트 검색 모달*/}
+      <LazyProjectSearchModal
+        onClose={agncSearchModalClose}
+        open={showAgncSearchModal}
+        modalWidth={1000}
+      />
 
       <Typography variant="subtitle1">주문 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
@@ -412,14 +469,6 @@ export default function Page() {
                 </Stack>
               </TD>
             </TableRow>
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "15%" }}>과제</TH>*/}
-            {/*  <TD sx={{ width: "85%" }}></TD>*/}
-            {/*</TableRow>*/}
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "15%" }}>과제 담당자</TH>*/}
-            {/*  <TD sx={{ width: "85%" }}>김과제</TD>*/}
-            {/*</TableRow>*/}
             <TableRow>
               <TH sx={{ width: "15%" }}>서비스 타입</TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
@@ -439,7 +488,9 @@ export default function Page() {
             <TableRow>
               <TH sx={{ width: "15%" }}>플랫폼</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                <PlatformSelectbox />
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyPlatformSelctbox />
+                </ErrorContainer>
               </TD>
             </TableRow>
             <TableRow>
@@ -567,19 +618,21 @@ export default function Page() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>Fast Track[선택]</TH>
+              <TH sx={{ width: "15%" }}>16s 확인</TH>
+              <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                <SixteenCheck />
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>
+                Fast Track<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <CheckboxSV
                   inputName="isFastTrack"
                   labelText="Fast Track으로 진행합니다"
                   value="Y"
                 />
-                {/*<CheckboxGV*/}
-                {/*  data={reqReturnListData}*/}
-                {/*  inputName="reqReturnList"*/}
-                {/*  required={true}*/}
-                {/*  errorMessage="반송 요청을 선택해 주새요."*/}
-                {/*/>*/}
               </TD>
             </TableRow>
             <TableRow>
@@ -591,7 +644,9 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>Prep 담당자 [선택]</TH>
+              <TH sx={{ width: "15%" }}>
+                Prep 담당자<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
@@ -599,7 +654,9 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>Lib 담당자 [선택]</TH>
+              <TH sx={{ width: "15%" }}>
+                Lib 담당자<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyNGSManagerSelctbox inputName="libMngrUkey" />
@@ -607,7 +664,9 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>Seq 담당자 [선택]</TH>
+              <TH sx={{ width: "15%" }}>
+                Seq 담당자<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
@@ -615,7 +674,9 @@ export default function Page() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>메모[선택]</TH>
+              <TH sx={{ width: "15%" }}>
+                메모<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                 <InputValidation
                   fullWidth={true}
@@ -659,3 +720,8 @@ export default function Page() {
     </Form>
   );
 }
+const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
+  color: "#666666",
+  display: "inline-block",
+  marginLeft: 5,
+}));

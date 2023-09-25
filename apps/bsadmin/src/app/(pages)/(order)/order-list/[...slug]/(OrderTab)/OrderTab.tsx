@@ -10,7 +10,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ContainedButton, TD, TH } from "cjbsDSTM";
+import { ContainedButton, OutlinedButton, TD, TH } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import useSWR from "swr";
 // import fetcher from "../../../../../func/fetcher";
@@ -107,12 +107,17 @@ const OrderTab = () => {
     orderCreatorNm,
   } = data.mngrInfo;
 
+  // 주문서
+  const { orshUkey } = data;
+
   // 메모
   const { memo } = data;
   return (
     <>
       <Box>
-        <Typography variant="subtitle1">거래처(PI) 및 신청인 정보</Typography>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          거래처(PI) 및 신청인 정보
+        </Typography>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
@@ -179,24 +184,39 @@ const OrderTab = () => {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">주문 정보</Typography>
+        <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
+          <Typography variant="subtitle1">주문 정보</Typography>
+
+          {orshUkey !== null && (
+            <OutlinedButton
+              buttonName="주문서 보기"
+              size="small"
+              color="secondary"
+              sx={{ color: "black" }}
+              endIcon={<MyIcon icon="cheveron-right" size={18} />}
+              onClick={() => console.log("주문서 키 ==>", orshUkey)}
+            />
+          )}
+        </Stack>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
               <TableRow
-                sx={{ display: intnExtrClCc === null ? "none" : "table-row" }}
+                sx={{ display: prjtCodeNm === null ? "none" : "table-row" }}
               >
                 <TH sx={{ width: "15%" }}>과제명</TH>
                 <TD sx={{ width: "85%" }} colSpan={3}>
-                  {}
+                  {prjtCodeNm}
                 </TD>
               </TableRow>
               <TableRow
-                sx={{ display: intnExtrClCc === null ? "none" : "table-row" }}
+                sx={{
+                  display: prjtDetailCodeNm === null ? "none" : "table-row",
+                }}
               >
                 <TH sx={{ width: "15%" }}>연구명</TH>
                 <TD sx={{ width: "85%" }} colSpan={3}>
-                  {}
+                  {prjtDetailCodeNm}
                 </TD>
               </TableRow>
 
@@ -216,7 +236,7 @@ const OrderTab = () => {
                     ? "-"
                     : reqReturnListVal.toString()}
                 </TD>
-                <TH sx={{ width: "15%" }}>반송 여부</TH>
+                <TH sx={{ width: "15%" }}>반송 완료 여부</TH>
                 <TD sx={{ width: "35%" }}>
                   {returnCompListVal.length === 0
                     ? "-"
@@ -245,7 +265,9 @@ const OrderTab = () => {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">담당자 정보</Typography>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          담당자 정보
+        </Typography>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
@@ -283,7 +305,9 @@ const OrderTab = () => {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">메모</Typography>
+        <Typography variant="subtitle1" sx={{ mb: 1 }}>
+          메모
+        </Typography>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
