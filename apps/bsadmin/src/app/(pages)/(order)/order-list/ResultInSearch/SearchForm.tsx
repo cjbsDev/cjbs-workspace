@@ -96,20 +96,6 @@ const SearchForm = ({ onClose }) => {
 
     console.log("DATA>>>>>", data);
 
-    // const filteredObject = Object.fromEntries(
-    //   Object.entries(data)
-    //     .filter(
-    //       ([key, value]) =>
-    //         value !== "" &&
-    //         value !== undefined &&
-    //         value !== false &&
-    //         value !== []
-    //     )
-    //     .map(([key, value]) =>
-    //       key === "typeCcList" ? [key, value.join(",")] : [key, value]
-    //     )
-    // );
-
     const filteredObject = {};
 
     for (const [key, value] of Object.entries(data)) {
@@ -133,7 +119,6 @@ const SearchForm = ({ onClose }) => {
 
     // URLSearchParams() 생성자(constructor) ==> Convert Object to Query String
     // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
-
     if (JSON.stringify(resultObject) === "{}") {
       console.log("키워드 미포함 검색!");
       if (JSON.stringify(filteredObject) === "{}") {
