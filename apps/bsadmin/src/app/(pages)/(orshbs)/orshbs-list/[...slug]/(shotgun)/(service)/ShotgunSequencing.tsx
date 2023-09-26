@@ -21,7 +21,7 @@ export default function ShotgunSequencing() {
   const orshUkey = params.slug[0];
 
   const { data} = useSWR(
-    `/orsh/bs/sg/so/${orshUkey}`,
+    `/orsh/bs/intn/sg/so/${orshUkey}`,
     fetcher,
     {
       suspense: true,
@@ -90,13 +90,13 @@ export default function ShotgunSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/sg/so/${orshUkey}`;
+    const apiUrl = `/orsh/bs/intn/sg/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
-        mutate(`/orsh/bs/sg/so/${orshUkey}`);
+        mutate(`/orsh/bs/intn/sg/so/${orshUkey}`);
         toast("수정 되었습니다.");
         router.push("/orshbs-list");
 

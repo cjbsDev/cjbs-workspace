@@ -23,7 +23,7 @@ export default function ShotgunFullService() {
   const orshUkey = params.slug[0];
 
   const { data} = useSWR(
-    `/orsh/bs/sg/fs/${orshUkey}`,
+    `/orsh/bs/intn/sg/fs/${orshUkey}`,
     fetcher,
     {
       suspense: true,
@@ -104,7 +104,7 @@ export default function ShotgunFullService() {
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/sg/fs/${orshUkey}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/intn/sg/fs/${orshUkey}`;
 
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청

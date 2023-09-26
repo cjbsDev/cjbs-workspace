@@ -42,7 +42,7 @@ export default function ListOrshbs() {
   }, [])
 
   // ListAPI Call
-  const { data } = useFiltersList("orshbs/intn", filters);
+  const { data } = useFiltersList("orsh/bs/intn", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);

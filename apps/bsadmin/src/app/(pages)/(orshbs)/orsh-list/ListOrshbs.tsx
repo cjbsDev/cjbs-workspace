@@ -39,7 +39,7 @@ export default function ListOrshbs() {
   }, [])
 
   // ListAPI Call
-  const { data } = useFiltersList("orshbs/extr/list", filters);
+  const { data } = useFiltersList("orsh/bs/extr/list", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -186,9 +186,17 @@ export default function ListOrshbs() {
     []
   );
 
-  const goDetailPage = (row: { orshNo: string }) => {
-    const path = row.orshNo;
-    router.push("/orshbs-list/" + path);
+  const goDetailPage = (row: {
+    orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+    anlsTypeAbb: string;
+  }) => {
+    const path = row.orshUkey;
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push("/orsh-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
   };
 
   const goLinkOrderPage = () => {

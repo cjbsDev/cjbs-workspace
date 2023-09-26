@@ -24,7 +24,7 @@ export default function MtpFullService() {
   const orshUkey = params.slug[0];
 
   const { data} = useSWR(
-    `/orsh/bs/mtp/fs/${orshUkey}`,
+    `/orsh/bs/intn/mtp/fs/${orshUkey}`,
     fetcher,
     {
       suspense: true,
@@ -103,13 +103,13 @@ export default function MtpFullService() {
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/fs/${orshUkey}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/intn/mtp/fs/${orshUkey}`;
 
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
-        mutate(`/orsh/bs/mtp/fs/${orshUkey}`);
+        mutate(`/orsh/bs/intn/mtp/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 

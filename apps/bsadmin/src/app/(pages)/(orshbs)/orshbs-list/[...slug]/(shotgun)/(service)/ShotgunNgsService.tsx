@@ -24,7 +24,7 @@ export default function ShotgunNgsService(){
   const orshUkey = params.slug[0];
 
   const { data, isValidating} = useSWR(
-    `/orsh/bs/sg/ngs/${orshUkey}`,
+    `/orsh/bs/intn/sg/ngs/${orshUkey}`,
     fetcher,
     {
       suspense: true,
@@ -103,13 +103,13 @@ export default function ShotgunNgsService(){
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/sg/ngs/${orshUkey}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/intn/sg/ngs/${orshUkey}`;
 
     try {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
-        mutate(`/orsh/bs/sg/ngs/${orshUkey}`);
+        mutate(`/orsh/bs/intn/sg/ngs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 
