@@ -51,20 +51,35 @@ const SearchForm = ({ onClose }) => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  let defaultValues;
 
-  console.log("PATHNAME", pathname);
+  // console.log("PATHNAME", pathname);
 
   const resultObject = {};
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
-  console.log(">>#>>#>>#>>>", resultObject);
+  console.log("DEFAULTVALUES", resultObject);
 
-  const currentQueryString = "?" + new URLSearchParams(resultObject).toString();
-  console.log("currentQueryString", currentQueryString.split("&", 1));
-  const onlyKeyword = currentQueryString.split("&", 1);
+  if (resultObject.typeCcList === undefined) {
+    defaultValues = resultObject;
+  } else {
+    const typeCcList = resultObject.typeCcList.split(",");
+    const newResultObject = {
+      ...resultObject,
+      typeCcList: typeCcList,
+    };
 
-  const defaultValues = resultObject;
+    // console.log("NEW DEFAULTVALUES", newResultObject);
+    defaultValues = newResultObject;
+  }
+
+  // console.log(">>#>>#>>#>>>", resultObject.Keyword);
+
+  const currentQueryString = new URLSearchParams(resultObject).toString();
+  console.log("currentQueryString", currentQueryString);
+  const keywordQueryString = currentQueryString.split("&", 1);
+  console.log("OnlyKeyword ==>>", keywordQueryString);
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
@@ -79,25 +94,62 @@ const SearchForm = ({ onClose }) => {
       data.dateRange = undefined;
     }
 
-    const filteredObject = Object.fromEntries(
-      Object.entries(data)
-        .filter(
-          ([key, value]) =>
-            value !== "" && value !== undefined && value !== false
-        )
-        .map(([key, value]) =>
-          key === "typeCc" ? [key, value.join(",")] : [key, value]
-        )
-    );
+    console.log("DATA>>>>>", data);
+
+    // const filteredObject = Object.fromEntries(
+    //   Object.entries(data)
+    //     .filter(
+    //       ([key, value]) =>
+    //         value !== "" &&
+    //         value !== undefined &&
+    //         value !== false &&
+    //         value !== []
+    //     )
+    //     .map(([key, value]) =>
+    //       key === "typeCcList" ? [key, value.join(",")] : [key, value]
+    //     )
+    // );
+
+    const filteredObject = {};
+
+    for (const [key, value] of Object.entries(data)) {
+      if (
+        value !== "" &&
+        value !== undefined &&
+        value !== false &&
+        !(Array.isArray(value) && value.length === 0)
+      ) {
+        if (key === "typeCcList") {
+          filteredObject[key] = value.join(",");
+        } else {
+          filteredObject[key] = value;
+        }
+      }
+    }
+
+    // delete filteredObject.Keyword;
+
+    console.log("filteredObject", filteredObject);
 
     // URLSearchParams() 생성자(constructor) ==> Convert Object to Query String
     // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
-    if (onlyKeyword !== "?") {
-      result = "&" + new URLSearchParams(filteredObject).toString();
-      router.push(`${pathname}${onlyKeyword}${result}`);
+
+    if (JSON.stringify(resultObject) === "{}") {
+      console.log("키워드 미포함 검색!");
+      if (JSON.stringify(filteredObject) === "{}") {
+        return onClose();
+      } else {
+        result = "?" + new URLSearchParams(filteredObject).toString();
+        router.push(`${pathname}${result}`);
+      }
     } else {
+      console.log("키워트 포함 검색!");
       result = new URLSearchParams(filteredObject).toString();
-      router.push(`${pathname}${onlyKeyword}${result}`);
+      console.log("HERE RESULT", result);
+      if (result === "&") {
+        router.push(`${pathname}?${keywordQueryString}`);
+      }
+      router.push(`${pathname}?${result}`);
     }
 
     onClose();
