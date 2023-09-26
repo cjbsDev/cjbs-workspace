@@ -7,19 +7,16 @@ import {
   TH,
   TD,
   Form,
-  InputValidation,
-  CheckboxSV,
   CheckboxGV,
   ErrorContainer,
   Fallback,
   SingleDatePicker,
+  TextareaValidation,
 } from "cjbsDSTM";
 import {
   Box,
   BoxProps,
-  Chip,
   DialogContent,
-  Grid,
   Stack,
   styled,
   Table,
@@ -33,9 +30,12 @@ import useSWR, { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import dayjs from "dayjs";
-import { emailReceiveSettingData } from "../../../../../data/inputDataLists";
-import axios from "axios";
+import {
+  emailReceiveSettingData,
+  fastTrackData,
+} from "../../../../../data/inputDataLists";
 import { PUT, fetcher } from "api";
+import AddEmailListValidation from "./AddEmailListValidation";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -89,16 +89,16 @@ ModalContainerProps) => {
   });
   const { mutate } = useSWRConfig();
 
+  console.log("오더 정보 변경 InitData ==>>", data);
+
   const handleClose = () => {
     onClose();
     setIsLoading(false);
   };
 
-  console.log("Init Data!!@@@@ ==>> ", data);
-
   const defaultValues = {
     check16sAt: data.check16sAt === null ? null : new Date(data.check16sAt),
-    isFastTrack: data.isFastTrack,
+    isFastTrack: data.isFastTrack === "N" ? false : data.isFastTrack,
     mailRcpnList: data.mailRcpnList,
     reqReturnCompList: data.reqReturnCompList,
     orderStatusCc: data.orderStatusCc,
@@ -123,7 +123,7 @@ ModalContainerProps) => {
 
     const body = {
       check16sAt: newDateValue,
-      isFastTrack: data.isFastTrack,
+      isFastTrack: data.isFastTrack !== "Y" ? "N" : "Y",
       mailRcpnList: data.mailRcpnList,
       reqReturnCompList: data.reqReturnCompList,
       orderStatusCc: data.orderStatusCc,
@@ -155,50 +155,6 @@ ModalContainerProps) => {
     }
   };
 
-  // const onSubmit = async (data: any) => {
-  //   setIsLoading(true);
-  //   // console.log("SUBMIT Data ==>>", data);
-  //   // console.log("추가(직접입력) 선택", data.mailRcpnList.includes("etcRcpn"));
-  //   // console.log("추가 이메일 입력 값", data.addEmailList);
-  //
-  //   if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
-  //     setAddEmailChck(true);
-  //   }
-  //
-  //   const newDateValue =
-  //     data.check16sAt !== null
-  //       ? dayjs(data.check16sAt).format("YYYY-MM-DD")
-  //       : null;
-  //   // console.log("NEW check16At", newDateValue);
-  //
-  //   const body = {
-  //     check16sAt: newDateValue,
-  //     isFastTrack: data.isFastTrack,
-  //     mailRcpnList: data.mailRcpnList,
-  //     reqReturnCompList: data.reqReturnCompList,
-  //     orderStatusCc: data.orderStatusCc,
-  //     orderTypeCc: data.orderTypeCc,
-  //     addEmailList: data.addEmailList,
-  //     libMngrUkey: data.libMngrUkey,
-  //     qcMngrUkey: data.qcMngrUkey,
-  //     seqMngrUkey: data.seqMngrUkey,
-  //     memo: data.memo,
-  //   };
-  //
-  //   await PUT(`/order/analysis/${orderUkey}`, body)
-  //     .then((res) => {
-  //       console.log("오더 정보 변경 ==>>", res.data);
-  //       mutate(`/order/${orderUkey}`);
-  //       mutate(`/order/detail/${orderUkey}`);
-  //       mutate(`/order/analysis/${orderUkey}`);
-  //       res.data.success && handleClose();
-  //     })
-  //     .catch((error) => {
-  //       // console.log("오더 정보 변경Error", error.message);
-  //       console.log("오더 정보 변경Error", error.response.data.data);
-  //     });
-  // };
-
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={handleClose}>오더 정보 변경</ModalTitle>
@@ -229,14 +185,8 @@ ModalContainerProps) => {
                         required={true}
                         errorMessage="메일 수신 설정을 선택해 주세요."
                       />
-                      <InputValidation
-                        required={addEmailChck}
-                        errorMessage={
-                          addEmailChck ? "이메일을 입력해 주세요." : null
-                        }
-                        inputName="addEmailList"
-                        placeholder="example@gmail.com, example2@gmail.com"
-                      />
+                      {/* 추가(직접입력) 선택시 validation 하는 컴포넌트 */}
+                      <AddEmailListValidation />
                     </Stack>
                   </TD>
                 </TableRow>
@@ -245,16 +195,12 @@ ModalContainerProps) => {
                     Fast Track<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD>
-                    <CheckboxSV
-                      inputName="isFastTrack"
-                      labelText="Fast Track으로 진행합니다."
-                      value="Y"
-                    />
+                    <CheckboxGV data={fastTrackData} inputName="isFastTrack" />
                   </TD>
                 </TableRow>
                 <TableRow>
                   <TH sx={{ width: "35%" }}>
-                    반송요청<NotRequired>[선택]</NotRequired>
+                    반송 완료 여부<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD>
                     <CheckboxGV
@@ -316,7 +262,7 @@ ModalContainerProps) => {
                     메모<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD>
-                    <InputValidation inputName="memo" multiline rows={4} />
+                    <TextareaValidation />
                   </TD>
                 </TableRow>
               </TableBody>

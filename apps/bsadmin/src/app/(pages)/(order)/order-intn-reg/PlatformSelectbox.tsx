@@ -10,13 +10,21 @@ export default function PlatformSelectbox() {
   const initValue = getValues("anlsTypeMc");
   const analysisValue = watch("anlsTypeMc");
 
+  // const { data, isLoading, error } = useSWR(
+  //   `/code/mngr/list?enumMngrCode=SRVC_CTGR&topUniqueCode=BS_0100005001&midUniqueCode=${initValue}`,
+  //   fetcher
+  // );
+
   const { data, isLoading, error } = useSWR(
-    `/code/mngr/list?enumMngrCode=SRVC_CTGR&topUniqueCode=BS_0100005001&midUniqueCode=${initValue}`,
-    fetcher
+    `/code/order/pltf/list?type=${initValue}`,
+    fetcher,
+    {
+      suspense: true,
+    }
   );
 
-  if (error) return <div>분석종류를 선택하세요!</div>;
-  if (isLoading) return <div>Loading...</div>;
+  // if (error) return <div>분석종류를 선택하세요!</div>;
+  // if (isLoading) return <div>Loading...</div>;
 
   console.log("data ==>>", data);
 
