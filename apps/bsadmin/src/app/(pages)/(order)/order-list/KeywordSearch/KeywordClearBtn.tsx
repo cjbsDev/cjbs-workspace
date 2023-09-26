@@ -7,13 +7,15 @@ import { useFormContext } from "react-hook-form";
 
 const KeywordClearBtn = () => {
   const router = useRouter();
-  const { resetField, watch } = useFormContext();
+  const { resetField, watch, setValue } = useFormContext();
 
   const keywordWatch = watch("Keyword");
   console.log("watch!!!!!", keywordWatch);
 
   const handleKeywordClear = () => {
+    console.log("Clear Click!");
     resetField("Keyword");
+    setValue("Keyword", undefined);
     router.push(`/order-list`);
   };
 

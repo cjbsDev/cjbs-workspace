@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
-// import fetcher from "../../../../../func/fetcher";
 import { cjbsTheme, DataTableBase } from "cjbsDSTM";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
@@ -30,6 +29,11 @@ const LazySampleAddModal = dynamic(
     ssr: false,
   }
 );
+
+const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
+  ssr: false,
+});
+
 const LazyExperimentProgressChangeModal = dynamic(
   () =>
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
@@ -59,6 +63,8 @@ const SampleTab = () => {
   });
   // [샘플 추가] 모달
   const [showSampleAddModal, setShowSampleAddModal] = useState(false);
+  // [분석 내역 보기] 모달
+  const [showAnalDtlModal, setShowAnalDtlModal] = useState(false);
   // [샘플 정보 일괄 변경] 모달
   const [showSampleBatchChangeModal, setShowSampleBatchChangeModal] =
     useState(false);
@@ -451,6 +457,12 @@ const SampleTab = () => {
     const handleSampleAddModalOpen = () => {
       setShowSampleAddModal(true);
     };
+
+    const handleAnalDtlModalOpen = () => {
+      if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
+      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      setIsClear(false);
+    };
     const handleExPrgrsPhsOpen = () => {
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
@@ -468,6 +480,7 @@ const SampleTab = () => {
         exportUrl={`/order/list/download`}
         totalCount={filteredItems.length}
         handleSampleAddModalOpen={handleSampleAddModalOpen}
+        handleAnalDtlModalOpen={handleAnalDtlModalOpen}
         handleSampleBatchModalOpen={handleSampleBatchModalOpen}
         handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
         handleClear={handleClear}
@@ -504,6 +517,10 @@ const SampleTab = () => {
 
   const handleSampleAddModalClose = () => {
     setShowSampleAddModal(false);
+  };
+
+  const handleAnalDtlModalClose = () => {
+    setShowAnalDtlModal(false);
   };
 
   const handleExPrgsChngModalClose = () => {
@@ -554,6 +571,16 @@ const SampleTab = () => {
           onClose={handleSampleAddModalClose}
           open={showSampleAddModal}
           modalWidth={800}
+        />
+      )}
+
+      {/* 분석 내역 보기 모달 */}
+      {showAnalDtlModal && (
+        <LazyAnalDtlModal
+          onClose={handleAnalDtlModalClose}
+          open={showAnalDtlModal}
+          modalWidth={800}
+          sampleUkeyList={sampleUkeyList}
         />
       )}
 
