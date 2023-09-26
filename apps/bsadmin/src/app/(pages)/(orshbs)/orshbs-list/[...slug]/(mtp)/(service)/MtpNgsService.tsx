@@ -13,7 +13,7 @@ import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 
 export default function MtpNgsService(){
   const router = useRouter();
@@ -107,6 +107,7 @@ export default function MtpNgsService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/orsh/bs/mtp/ngs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 

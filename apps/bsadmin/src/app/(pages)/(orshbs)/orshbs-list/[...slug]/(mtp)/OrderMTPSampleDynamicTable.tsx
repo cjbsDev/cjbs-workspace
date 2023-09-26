@@ -51,42 +51,28 @@ export default function OrderMTPSampleDynamicTable(props: any) {
     }
   };
 
-  // setValue('count', 1);
-
   const handleAddFields = (count: any) => {
-    // console.log("Count~!~!", count);
-    // console.log("fileId~!~!", fileId);
-    // for (let i = 0; i < count; i++) {
-    //   append({
-    //     sampleNm: "",
-    //     source: "",
-    //     sampleCategoryCc: "",
-    //     anlsTargetGeneCc: "",
-    //     memo: "",
-    //     selfQcResultFileId: fileId,
-    //   }); // 입력된 수만큼 항목을 추가합니다.
-    // }
 
     if (serviceType === "fs") {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          source: "",
-          sampleCategoryCc: "",
           anlsTargetGeneCc: "",
           memo: "",
-          selfQcResultFileId: fileId,
+          sampleCategoryCc: "",
+          sampleNm: "",
+          selfQcResultFileId: null,
+          source: "",
         });
       }
     } else if (serviceType === "ngs") {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          source: "",
-          sampleCategoryCc: "",
           anlsTargetGeneCc: "",
           memo: "",
-          selfQcResultFileId: fileId,
+          sampleCategoryCc: "",
+          sampleNm: "",
+          selfQcResultFileId: null,
+          source: "",
         });
       }
     } else if (serviceType === "so") {
@@ -122,8 +108,7 @@ export default function OrderMTPSampleDynamicTable(props: any) {
               open={showOrderInfoModifyModal}
               modalWidth={800}
               append={append}
-              // handleAddFields={handleAddFields}
-              // addExcelDataTableRows={addExcelDataTableRows}
+              serviceType={serviceType}
             />
             <InputValidation
               inputName="count"

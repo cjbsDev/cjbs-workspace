@@ -461,19 +461,6 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-              <TD sx={{ width: "80%" }} colSpan={5}>
-                <Stack direction="row" spacing={1}>
-                  <RadioGV
-                    data={dataRadioGV}
-                    inputName="isRdnaIdnt16S"
-                    required={true}
-                    errorMessage="선택 해주세요"
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
               <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row" spacing={1}>

@@ -30,51 +30,9 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
     setIsLoading(false);
   };
 
-  // const handleFileChange = async (event) => {
-  //   const file = event.target.files[0]; // 선택된 파일 객체
-  //   console.log("File Input Data ==>>", file);
-  //
-  //   if (file) {
-  //     const formData = new FormData();
-  //     formData.append("file", file as File);
-  //
-  //     await axios
-  //       .post(
-  //         `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/fs`,
-  //         formData,
-  //         {
-  //           withCredentials: false,
-  //           headers: {
-  //             "Access-Control-Allow-Origin": "*",
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //         if (res.data.success) {
-  //           console.log("RES VALUE ==>>", res.data.data);
-  //           console.log("RES VALUE Length ==>>", res.data.data.length);
-  //
-  //           for (let i = 0; i < res.data.data.length; i++) {
-  //             append({
-  //               sampleNm: res.data.data[i].sampleNm,
-  //               source: res.data.data[i].source,
-  //               sampleCategoryCc: res.data.data[i].sampleCategoryCc,
-  //               anlsTargetGeneCc: res.data.data[i].anlsTargetGeneCc,
-  //               qc: res.data.data[i].qc,
-  //               memo: res.data.data[i].memo,
-  //             });
-  //           }
-  //
-  //           handleClose();
-  //         } else {
-  //           console.log("EERROORRSS!!");
-  //         }
-  //       });
-  //   }
-  // };
-
   const handleFileChange = async (event) => {
     const file = event.target.files[0]; // 선택된 파일 객체
+    let sType = serviceType === 'ngs' ? 'fs' : serviceType;
 
     try {
       if (file) {
@@ -82,7 +40,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         formData.append("file", file);
 
         const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${sType}`,
           formData,
           {
             withCredentials: false,
@@ -99,25 +57,24 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           if(serviceType === 'fs'){
             const appendedData = data.map((item) => ({
-              sampleNm: item.sampleNm,
-              source: item.source,
-              sampleCategoryCc: item.sampleCategoryCc,
               anlsTargetGeneCc: item.anlsTargetGeneCc,
-              qc: item.qc,
               memo: item.memo,
+              sampleCategoryCc: item.sampleCategoryCc,
+              sampleNm: item.sampleNm,
+              selfQcResultFileId: null,
+              source: item.source,
             }));
             appendedData.forEach((item) => {
               append(item);
             });
 
-          } else if(serviceType === 'ao') {
+          } else if(serviceType === 'ngs') {
             const appendedData = data.map((item) => ({
               anlsTargetGeneCc: item.anlsTargetGeneCc,
-              frwrPrimer: item.frwrPrimer,
               memo: item.memo,
-              pltfMc: item.pltfMc,
-              rvrsPrimer: item.rvrsPrimer,
+              sampleCategoryCc: item.sampleCategoryCc,
               sampleNm: item.sampleNm,
+              selfQcResultFileId: null,
               source: item.source,
             }));
             appendedData.forEach((item) => {
@@ -180,9 +137,9 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
             </Link>
           ) : ('')}
 
-          {serviceType === 'ao' ? (
+          {serviceType === 'ngs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Analysis_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton

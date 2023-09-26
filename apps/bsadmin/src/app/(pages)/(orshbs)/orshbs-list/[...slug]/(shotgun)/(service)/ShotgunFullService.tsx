@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 
 export default function ShotgunFullService() {
   const router = useRouter();
@@ -51,6 +51,7 @@ export default function ShotgunFullService() {
     prjcDetailCode : data.custAgnc.prjcDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
+    depthCc : data.commonInput.depthCc,
   };
   // file id 공유
   setFileId(data.qcFile.selfQcFileId);
@@ -109,6 +110,7 @@ export default function ShotgunFullService() {
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/orsh/bs/sg/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 
