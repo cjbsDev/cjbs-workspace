@@ -6,6 +6,7 @@ import {
   GET_API,
   POST_API,
   POST_BOLB_API,
+  GET_BOLB_API,
   PUT_API,
   REQUEST_API,
   POST_MULTIPART_API,
@@ -16,6 +17,15 @@ import axios from "axios";
 
 export const FETCHER_GET: GET_API = async (url, option, headers) => {
   return await request(url, "GET", null, option, headers);
+};
+
+export const FETCHER_GET_BLOB: GET_BOLB_API = async (
+  url,
+  body,
+  option,
+  headers
+) => {
+  return await requestBLOB(url, "GET", body, option, headers);
 };
 
 export const FETCHER_POST_BLOB: POST_BOLB_API = async (
@@ -44,6 +54,15 @@ export const GET: GET_API = async (url, option, headers) => {
     `${process.env.NEXT_PUBLIC_API_URL}${url}`,
     "GET",
     null,
+    option,
+    headers
+  );
+};
+
+export const GET_BLOB: GET_BOLB_API = async (url, option, headers) => {
+  return await requestBLOB(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "GET",
     option,
     headers
   );
@@ -89,7 +108,12 @@ export const PUT: PUT_API = async (url, body, option, headers) => {
   );
 };
 
-export const PUT_MULTIPART: PUT_MULTIPART_API = async (url, body, option, headers) => {
+export const PUT_MULTIPART: PUT_MULTIPART_API = async (
+  url,
+  body,
+  option,
+  headers
+) => {
   return await request_multipart(url, "PUT", body, option, headers);
 };
 
@@ -171,7 +195,6 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
 
   return new Promise(async function (resolve, reject) {
     try {
-
       const response = await axios({
         url: url,
         method,
@@ -190,7 +213,6 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
         },
       });
       return resolve(response);
-
 
       // const response = await fetch(url, {
       //   method,
@@ -236,7 +258,6 @@ const request_multipart: REQUEST_API = async (url, method, body, option) => {
       //   toast("A network problem has occurred.(A102-2)");
       //   console.log(`API call failed with status code ${response.status}`);
       // }
-
     } catch (error) {
       toast("A network problem has occurred.(A101)");
       console.log("error >", error);

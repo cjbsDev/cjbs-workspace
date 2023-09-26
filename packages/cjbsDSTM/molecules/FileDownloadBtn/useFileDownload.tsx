@@ -1,19 +1,19 @@
 import axios from "axios";
 import FileSaver from "file-saver";
 import { useEffect, useState } from "react";
-import { GET_FILE, POST_BLOB } from "api";
+import { GET_FILE, POST_BLOB, GET_BLOB } from "api";
 import { toast } from "react-toastify";
 
-export const useFileDownload = (exportUrl: string, keyword:string) => {
+export const useFileDownload = (exportUrl: string, keyword: string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
   const saverFile = async () => {
     const bodyData = {
-      keyword: keyword
-    }
+      keyword: keyword,
+    };
     try {
       setIsLoading(true);
-      const response = await POST_BLOB(exportUrl, bodyData);
+      const response = await GET_BLOB(exportUrl, bodyData);
 
       if (response.status === 200) {
         const disposition = response.headers["content-disposition"];

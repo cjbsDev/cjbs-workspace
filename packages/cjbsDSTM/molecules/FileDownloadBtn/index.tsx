@@ -19,14 +19,12 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
     keyword
   );
 
-  const handldFileDown = async () => {
-    // console.log("@@@@@@@@@", exportUrl);
-    // await GET(exportUrl).then((res) => console.log("resdfsdfsdfssdf", res));
-    FileSaver.saveAs(
-      `${process.env.NEXT_PUBLIC_API_URL}${exportUrl}`,
-      "test.xlsx"
-    );
-  };
+  // const handldFileDown = async () => {
+  //   FileSaver.saveAs(
+  //     `${process.env.NEXT_PUBLIC_API_URL}${exportUrl}`,
+  //     "test.xlsx"
+  //   );
+  // };
 
   return (
     <>
@@ -42,8 +40,8 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
             <MyIcon icon={iconName} size={18} />
           )
         }
-        // onClick={() => saverFile()}
-        onClick={handldFileDown}
+        onClick={() => saverFile()}
+        // onClick={handldFileDown}
         disabled={isLoading}
       />
     </>
