@@ -55,10 +55,10 @@ export interface POST_API {
 
 export interface POST_MULTIPART_API {
   (
-      url: string,
-      body?: object,
-      option?: any,
-      headers?: any
+    url: string,
+    body?: object,
+    option?: any,
+    headers?: any
   ): Promise<ApiResponse>;
 }
 
@@ -81,6 +81,10 @@ export interface PUT_MULTIPART_API {
 }
 
 export interface POST_BOLB_API {
+  (url: string, body?: object, option?: any, headers?: any): Promise<any>;
+}
+
+export interface GET_BOLB_API {
   (url: string, body?: object, option?: any, headers?: any): Promise<any>;
 }
 

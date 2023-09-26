@@ -177,6 +177,11 @@ const ListOrder = () => {
         },
       },
       {
+        name: "주문서",
+        width: "120px",
+        selector: (row) => (row.orshId === null ? "-" : row.orshId),
+      },
+      {
         name: "샘플종류",
         width: "120px",
         selector: (row) => (row.sampleType === null ? "-" : row.sampleType),

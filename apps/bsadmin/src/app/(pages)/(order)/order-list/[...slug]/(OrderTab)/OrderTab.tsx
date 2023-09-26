@@ -13,10 +13,10 @@ import {
 import { ContainedButton, OutlinedButton, TD, TH } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import useSWR from "swr";
-// import fetcher from "../../../../../func/fetcher";
 import { fetcher } from "api";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
+import { useRouter } from "next-nprogress-bar";
 
 const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
   ssr: false,
@@ -26,13 +26,15 @@ const LazyRearchInfoModal = dynamic(() => import("./RearchInfoModal"), {
 });
 
 const OrderTab = () => {
+  const router = useRouter();
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(`/order/detail/${orderUkey}`, fetcher, {
     suspense: true,
   });
 
-  console.log("주문 정보", data.orderInfo);
+  console.log("주문 정보", data);
+  // console.log("주문 정보", data.orderInfo);
 
   // [거래처(PI)] 모달
   const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
@@ -108,7 +110,8 @@ const OrderTab = () => {
   } = data.mngrInfo;
 
   // 주문서
-  const { orshUkey } = data;
+  const { orshUkey, orshTypeCc, orshPath, isOrshCnct } = data;
+  console.log("주문서 보기", orshUkey);
 
   // 메모
   const { memo } = data;
@@ -194,7 +197,7 @@ const OrderTab = () => {
               color="secondary"
               sx={{ color: "black" }}
               endIcon={<MyIcon icon="cheveron-right" size={18} />}
-              onClick={() => console.log("주문서 키 ==>", orshUkey)}
+              onClick={() => router.push(orshPath)}
             />
           )}
         </Stack>

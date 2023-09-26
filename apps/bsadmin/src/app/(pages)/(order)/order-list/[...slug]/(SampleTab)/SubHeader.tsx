@@ -14,6 +14,7 @@ interface SubHeaderProps {
   exportUrl?: string;
   // sampleUkeyList: string[];
   handleSampleAddModalOpen?: () => void;
+  handleAnalDtlModalOpen?: () => void;
   handleSampleBatchModalOpen?: () => void;
   handleExPrgrsPhsOpen?: () => void;
   handleClear?: () => void;
@@ -26,6 +27,7 @@ const SubHeader = (props: SubHeaderProps) => {
     totalCount,
     exportUrl,
     handleSampleAddModalOpen,
+    handleAnalDtlModalOpen,
     handleSampleBatchModalOpen,
     handleExPrgrsPhsOpen,
     handleClear,
@@ -45,7 +47,7 @@ const SubHeader = (props: SubHeaderProps) => {
           <ContainedButton
             buttonName="분석 내역 보기"
             size="small"
-            disabled={true}
+            onClick={handleAnalDtlModalOpen}
           />
           <OutlinedButton
             buttonName="샘플 정보 일괄 변경"
