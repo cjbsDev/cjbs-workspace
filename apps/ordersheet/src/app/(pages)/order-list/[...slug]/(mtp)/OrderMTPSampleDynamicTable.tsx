@@ -176,9 +176,10 @@ export default function OrderMTPSampleDynamicTable(props:any) {
 
   return (
     <>
-      <Stack direction="row">
+      <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Typography variant="subtitle1">샘플 리스트</Typography>
         { updataYn === 'N' ? (
-          <>
+          <Stack direction="row" alignItems="center" spacing={2}>
             <UnStyledButton
               sx={{}}
               buttonName="엑셀 등록"
@@ -201,11 +202,10 @@ export default function OrderMTPSampleDynamicTable(props:any) {
               color={"secondary"}
               onClick={() => handleAddFields(getValues("count"))}
             />
-          </>
+          </Stack>
         ) : (
           ''
         )}
-
       </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>

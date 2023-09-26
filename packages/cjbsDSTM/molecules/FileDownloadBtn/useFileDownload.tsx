@@ -7,12 +7,14 @@ import { toast } from "react-toastify";
 export const useFileDownload = (exportUrl: string, keyword:string) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
+
   const saverFile = async () => {
     const bodyData = {
       keyword: keyword
     }
     try {
       setIsLoading(true);
+
       const response = await POST_BLOB(exportUrl, bodyData);
 
       if (response.status === 200) {

@@ -114,30 +114,33 @@ const OrderMTPSampleDynamicTable = (props: any) => {
 
   return (
     <>
-      <Stack direction="row">
-        <UnStyledButton
-          sx={{}}
-          buttonName="엑셀 등록"
-          startIcon={<MyIcon icon="xls3" size={18} />}
-          size="small"
-          onClick={() => setShowOrderInfoModifyModal(true)}
-        />
-        <ExcelUploadModal
-          onClose={orderInfoModifyModalClose}
-          open={showOrderInfoModifyModal}
-          modalWidth={800}
-          append={append}
-          serviceType={serviceType}
-          // handleAddFields={handleAddFields}
-          // addExcelDataTableRows={addExcelDataTableRows}
-        />
-        <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
-        <ContainedButton
-          buttonName="행 추가"
-          size="small"
-          color={"secondary"}
-          onClick={() => handleAddFields(getValues("count"))}
-        />
+      <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Typography variant="subtitle1">샘플 리스트</Typography>
+        <Stack direction="row" alignItems="center" spacing={2}>
+          <UnStyledButton
+            sx={{}}
+            buttonName="엑셀 등록"
+            startIcon={<MyIcon icon="xls3" size={18} />}
+            size="small"
+            onClick={() => setShowOrderInfoModifyModal(true)}
+          />
+          <ExcelUploadModal
+            onClose={orderInfoModifyModalClose}
+            open={showOrderInfoModifyModal}
+            modalWidth={800}
+            append={append}
+            serviceType={serviceType}
+            // handleAddFields={handleAddFields}
+            // addExcelDataTableRows={addExcelDataTableRows}
+          />
+          <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
+          <ContainedButton
+            buttonName="행 추가"
+            size="small"
+            color={"secondary"}
+            onClick={() => handleAddFields(getValues("count"))}
+          />
+        </Stack>
       </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>

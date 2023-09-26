@@ -134,16 +134,6 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={0.5}
-        justifyContent="space-between"
-      >
-        <Stack direction="row" alignItems="center" spacing={2}>
-          <Typography variant="subtitle1">샘플 리스트</Typography>
-        </Stack>
-      </Stack>
       <OrderMTPSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
