@@ -7,7 +7,10 @@ import { useFormContext } from "react-hook-form";
 
 const KeywordClearBtn = () => {
   const router = useRouter();
-  const { resetField } = useFormContext();
+  const { resetField, watch } = useFormContext();
+
+  const keywordWatch = watch("Keyword");
+  console.log("watch!!!!!", keywordWatch);
 
   const handleKeywordClear = () => {
     resetField("Keyword");
@@ -18,11 +21,11 @@ const KeywordClearBtn = () => {
     <IconButton
       onClick={handleKeywordClear}
       sx={{
-        border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-        width: 34,
+        display:
+          keywordWatch === "" || keywordWatch === undefined ? "none" : "",
       }}
     >
-      <MyIcon icon="arrow-counterclockwise" size={20} color="black" />
+      <MyIcon icon="x-circle" size={18} color="black" />
     </IconButton>
   );
 };
