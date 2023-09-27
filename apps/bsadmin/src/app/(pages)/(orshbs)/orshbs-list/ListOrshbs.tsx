@@ -148,7 +148,7 @@ export default function ListOrshbs() {
             </Stack>
           </Stack>
         ),
-        width: "250px",
+        minWidth: "250px",
       },
       // {
       //   name: "담당자",
@@ -188,7 +188,7 @@ export default function ListOrshbs() {
             </Stack>
           );
         },
-        width: "300px",
+        width: "260px",
       },
 
       {

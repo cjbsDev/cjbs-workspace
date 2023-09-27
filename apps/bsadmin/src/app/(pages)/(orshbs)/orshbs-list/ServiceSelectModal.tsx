@@ -36,16 +36,17 @@ const ServiceSelectModal = (props) => {
           >
             <OutlinedButton buttonName="Shotgun" size="large" fullWidth />
           </Link>
+          <Link
+            href={{
+              pathname: '/orsh-order/in/wg',
+            }}
+            style={{width:'100%'}}
+          >
+            <OutlinedButton buttonName="WG" size="large" fullWidth/>
+          </Link>
           {/*<Link*/}
           {/*  href={{*/}
-          {/*    pathname: '/order/mtp',*/}
-          {/*  }}*/}
-          {/*>*/}
-            <OutlinedButton buttonName="WG" size="large" fullWidth disabled={true}/>
-          {/*</Link>*/}
-          {/*<Link*/}
-          {/*  href={{*/}
-          {/*    pathname: '/order/mtp',*/}
+          {/*    pathname: '/orsh-order/in/rs',*/}
           {/*  }}*/}
           {/*>*/}
             <OutlinedButton buttonName="RS" size="large" fullWidth disabled={true}/>

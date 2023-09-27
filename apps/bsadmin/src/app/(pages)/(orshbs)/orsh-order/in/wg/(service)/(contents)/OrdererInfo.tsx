@@ -28,7 +28,7 @@ const dataRadioGV = [
   { value: "N", optionName: "요청안함" },
 ];
 
-const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
+const LazyQuickCopy = dynamic(() => import("../../../../QuickCopy"), {
     ssr: false,
 });
 
@@ -46,39 +46,8 @@ export default function OrdererInfo(props:JSON) {
   );
   const custData = custTemp.data;
 
-  // const onSubmit = async (data: any) => {
-  //   console.log("**************************************");
-  //   // setIsLoading(true);
-  //   console.log("Submit Data ==>>", data);
-  //   const inputCustData = {
-  //     addEmailList: data.addEmailList,
-  //     agncAddr: data.addr,
-  //     agncAddrDetail: data.addrDetail,
-  //     agncNm: data.agncNm,
-  //     agncZip: data.zip,
-  //     ebcEmail: data.ebcEmail,
-  //     instNm: data.instNm,
-  //     mailRcpnList: data.mailRcpnList,
-  //     ordrAplcEmail: data.ordrAplcEmail,
-  //     ordrAplcNm: data.ordrAplcNm,
-  //     ordrAplcTel: data.ordrAplcTel,
-  //     rhpiId: data.rhpiId,
-  //     rhpiNm: data.rhpiNm,
-  //     rhpiTel: data.rhpiTel,
-  //   };
-  //   const termData = {
-  //     isAgree: 'Y',
-  //     termId: data.termId
-  //   }
-  //   const returnData = {
-  //     custAgnc: inputCustData,
-  //     term: termData
-  //   };
-  //   props.addBodyData(returnData);
-  // };
 
   return (
-    // <Form onSubmit={onSubmit} defaultValues={defaultValues}>
     <>
       <Typography variant="subtitle1">
         주문자 정보
@@ -280,33 +249,22 @@ export default function OrdererInfo(props:JSON) {
                     placeholder="example@cj.net"
                     sx={{ width: 306 }}
                   />
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="계정 등록"*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="삭제"*/}
-                  {/*  color={"error"}*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
-            {/*  <TD sx={{ width: "80%" }} colSpan={5}>*/}
-            {/*    <Stack direction="row" spacing={1}>*/}
-            {/*      <RadioGV*/}
-            {/*        data={dataRadioGV}*/}
-            {/*        inputName="isRdnaIdnt16S"*/}
-            {/*        required={true}*/}
-            {/*        errorMessage="선택 해주세요"*/}
-            {/*      />*/}
-            {/*    </Stack>*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
+            <TableRow>
+              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <RadioGV
+                    data={dataRadioGV}
+                    inputName="isRdnaIdnt16S"
+                    required={true}
+                    errorMessage="선택 해주세요"
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
             <TableRow>
               <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
@@ -320,30 +278,10 @@ export default function OrdererInfo(props:JSON) {
                 </Stack>
               </TD>
             </TableRow>
-              {/*<TableRow>*/}
-              {/*    <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>*/}
-              {/*    <TD sx={{ width: "80%" }} colSpan={5}>*/}
-              {/*        <ErrorContainer FallbackComponent={Fallback}>*/}
-              {/*            <LazySalesManagerSelctbox />*/}
-              {/*        </ErrorContainer>*/}
-              {/*    </TD>*/}
-              {/*</TableRow>*/}
           </TableBody>
         </Table>
       </TableContainer>
 
-      {/*<Stack direction="row" spacing={0.5} justifyContent="center">*/}
-      {/*  <ContainedButton*/}
-      {/*    type="submit"*/}
-      {/*    buttonName="다음"*/}
-      {/*    endIcon={*/}
-      {/*        isLoading ? (*/}
-      {/*            <LoadingSvg stroke="white" width={20} height={20} />*/}
-      {/*        ) : null*/}
-      {/*    }*/}
-      {/*  />*/}
-      {/*</Stack>*/}
     </>
-    // </Form>
   );
 }
