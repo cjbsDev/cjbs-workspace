@@ -116,7 +116,7 @@ export default function MtpSequencing(){
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/extn/mtp/so/${orshUkey}`;
+    const apiUrl = `/orsh/bs/extn/mtp/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청

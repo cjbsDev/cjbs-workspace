@@ -292,7 +292,7 @@ export default function Page(props: any) {
         <Stack direction="row" spacing={0.5} justifyContent="center" sx={{pt:3}}>
             <OutlinedButton
                 buttonName="목록"
-                onClick={() => router.push("/order-list")}
+                onClick={() => router.push("/orsh-list")}
             />
 
           {updataYn === 'N' ? (
