@@ -521,6 +521,8 @@ const SampleTab = () => {
 
   const handleAnalDtlModalClose = () => {
     setShowAnalDtlModal(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
   };
 
   const handleExPrgsChngModalClose = () => {
@@ -579,7 +581,7 @@ const SampleTab = () => {
         <LazyAnalDtlModal
           onClose={handleAnalDtlModalClose}
           open={showAnalDtlModal}
-          modalWidth={800}
+          modalWidth={1100}
           sampleUkeyList={sampleUkeyList}
         />
       )}
