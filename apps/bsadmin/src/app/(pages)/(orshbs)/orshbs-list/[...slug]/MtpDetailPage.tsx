@@ -21,7 +21,7 @@ const LazyMtpSequencing = dynamic(() => import("./(mtp)/(service)/MtpSequencing"
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function OrshbsDetailPage() {
+export default function MtpDetailPage() {
 
   const params = useParams();
   console.log("params", params.slug[1]);

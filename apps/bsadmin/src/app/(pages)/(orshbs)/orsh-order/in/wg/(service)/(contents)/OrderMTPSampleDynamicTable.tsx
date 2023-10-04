@@ -26,26 +26,6 @@ import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "./ExcelUploadModal";
 
-// function getUserAccount() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`
-//   );
-// }
-//
-// function getUserPermissions() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=genome`
-//   );
-// }
-//
-// let acct: any;
-// let perm: any;
-// Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
-//   .then(function (results) {
-//     // 응답 결과를 results 배열로 받아서
-//     acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
-//     perm = results[1].data.data;
-//   });
 
 const OrderMTPSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
@@ -74,21 +54,24 @@ const OrderMTPSampleDynamicTable = (props: any) => {
     if(serviceType === 'fs') {
       for (let i = 0; i < count; i++) {
         append({
-          groupNm: "",
-          sampleNm: "",
-          source: "",
-          sampleCategoryCc: "",
+          isRdnaIdnt16S: "",
+          locusTagPrefix: "",
           memo: "",
+          sampleCategoryCc: "",
+          sampleNm: "",
+          taxonomy: "",
         });
       }
 
     } else if (serviceType === 'ngs') {
       for (let i = 0; i < count; i++) {
         append({
+          isRdnaIdnt16S: "",
+          locusTagPrefix: "",
           memo: "",
           sampleCategoryCc: "",
           sampleNm: "",
-          source: "",
+          taxonomy: "",
         });
       }
 

@@ -9,20 +9,20 @@ import { cjbsTheme, ErrorContainer, Fallback } from "cjbsDSTM";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 
-const LazyShotgunFullService = dynamic(() => import("./(shotgun)/(service)/ShotgunFullService"), {
+const LazyWgFullService = dynamic(() => import("./(wg)/(service)/WgFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyShotgunNgsService = dynamic(() => import("./(shotgun)/(service)/ShotgunNgsService"), {
+const LazyWgNgsService = dynamic(() => import("./(wg)/(service)/WgNgsService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyShotgunSequencing = dynamic(() => import("./(shotgun)/(service)/ShotgunSequencing"), {
+const LazyWgSequencing = dynamic(() => import("./(wg)/(service)/WgSequencing"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function ShotgunDetailPage() {
+export default function WgDetailPage() {
   const router = useRouter();
 
   const params = useParams();
@@ -62,9 +62,9 @@ export default function ShotgunDetailPage() {
             alignContent: 'start',
             alignItems: 'center',
           }}>
-            <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+            <Typography variant="h4">WG&nbsp;&nbsp;</Typography>
             <Typography variant="subtitle2" sx={{ pt: "3px" }}>
-              Shotgun Sequencing
+              Whole Genome Sequencing
             </Typography>
           </Box>
           <Box sx={{
@@ -92,13 +92,13 @@ export default function ShotgunDetailPage() {
 
         <ErrorContainer FallbackComponent={Fallback}>
           {serviceType === 'fs' ? (
-            <LazyShotgunFullService />
+            <LazyWgFullService />
           ) : ('')}
           {serviceType === 'ngs' ? (
-            <LazyShotgunNgsService />
+            <LazyWgNgsService />
           ) : ('')}
           {serviceType === 'so' ? (
-            <LazyShotgunSequencing />
+            <LazyWgSequencing />
           ) : ('')}
         </ErrorContainer>
 

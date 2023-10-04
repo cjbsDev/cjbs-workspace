@@ -4,10 +4,14 @@ import {
   Box,
   Stack,
   Table,
+  TableHead,
   TableBody,
   TableContainer,
   TableRow,
+  TableCell,
   Typography,
+  TextField,
+  Button,
 } from "@mui/material";
 import {
   ContainedButton,
@@ -21,13 +25,15 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import { cjbsTheme } from "cjbsDSTM";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
-import NoticeBox from "./NoticeBox";
-import OrderSelectbox from "@components/OrderSelectbox";
+import {useParams} from "next/navigation";
+import NoticeBox from "../../../orsh-order/in/mtp/(service)/(contents)/NoticeBox";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
+import {useRouter} from "next-nprogress-bar";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../../../../../../components/OrderSelectbox"),
+  () => import("../../../../../components/CommonSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -36,16 +42,20 @@ const LazyPrepSelectbox = dynamic(
 
 export default function OrderMtpSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
-  const serviceType = props.serviceType;
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const params = useParams();
+  // console.log("params", params.slug[2]);
+  const updataYn = params.slug[2];
+  let serviceType = params.slug[1];
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
-      case "ngs":
+      case "fs":
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -59,11 +69,11 @@ export default function OrderMtpSampleList(props: any) {
             </TableRow>
           </>
         );
-      case "fs":
+      case "ngs":
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -81,7 +91,7 @@ export default function OrderMtpSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보</TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -94,6 +104,7 @@ export default function OrderMtpSampleList(props: any) {
               </TD>
             </TableRow>
           </>
+
         );
     }
   };
@@ -117,7 +128,7 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderMTPSampleDynamicTable serviceType={serviceType} />
+      <OrderMTPSampleDynamicTable serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -126,23 +137,43 @@ export default function OrderMtpSampleList(props: any) {
       <InputValidation
         inputName="memo"
         required={false}
+        // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        sx={{ width: "100%", mb: 4 }}
         placeholder={"추가 요청 사항을 입력해주세요."}
+        sx={{
+          width: '100%',
+          mb: 4,
+          ".MuiOutlinedInput-input:read-only": {
+            backgroundColor: "white",
+            cursor: "pointer",
+            textFillColor: "#000000"
+          },
+        }}
+        InputProps={{
+          readOnly: updataYn === 'N' ? false : true
+        }}
       />
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
-        <ContainedButton
-          type="submit"
-          buttonName="등록"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{pt:3}}>
+        <OutlinedButton
+          buttonName="목록"
+          onClick={() => router.push("/orshbs-list")}
         />
+
+        {updataYn === 'N' ? (
+          <ContainedButton
+            type="submit"
+            buttonName="주문 수정"
+            endIcon={
+              isLoading ? (
+                <LoadingSvg stroke="white" width={20} height={20} />
+              ) : null
+            }
+          />
+        ) : ('')}
       </Stack>
+
     </>
   );
 }

@@ -13,14 +13,15 @@ import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
 import StudySelection from "../../../StudySelection";
 
-const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
+const LazyOrdererInfo = dynamic(() => import("./(contents)/OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
 
 export default function WgSequencing() {
   const defaultValues = {
-    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
+    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    isRtrnRasn : 'N',
   };
   const router = useRouter();
 
@@ -36,7 +37,6 @@ export default function WgSequencing() {
         memo : data.memo,
       },
       commonInput: {
-        depthCc : data.depthCc === undefined ? null : data.depthCc,
         pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
       },
       custAgnc : {
@@ -61,7 +61,7 @@ export default function WgSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/sg/so`;
+    const apiUrl = `/orsh/bs/intn/wg/so`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -145,7 +145,7 @@ export default function WgSequencing() {
 
         <Box sx={{ p: 2 }}>
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrdererInfo />
+            <LazyOrdererInfo serviceType={"so"} />
           </ErrorContainer>
         </Box>
 

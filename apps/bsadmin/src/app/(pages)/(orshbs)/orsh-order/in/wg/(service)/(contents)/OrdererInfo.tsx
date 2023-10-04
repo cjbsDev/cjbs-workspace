@@ -38,14 +38,14 @@ const dataMailRcpnListGV = [
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
-export default function OrdererInfo(props:JSON) {
+export default function OrdererInfo(props: any) {
+  const serviceType = props.serviceType;
   const { data: custTemp } = useSWR(
     `/cust/info`,
     fetcherOrsh,
     { suspense: true }
   );
   const custData = custTemp.data;
-
 
   return (
     <>
@@ -248,19 +248,6 @@ export default function OrdererInfo(props:JSON) {
                     // placeholder="여러개 입력시','로 구분하세요."
                     placeholder="example@cj.net"
                     sx={{ width: 306 }}
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>16S 확인 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-              <TD sx={{ width: "80%" }} colSpan={5}>
-                <Stack direction="row" spacing={1}>
-                  <RadioGV
-                    data={dataRadioGV}
-                    inputName="isRdnaIdnt16S"
-                    required={true}
-                    errorMessage="선택 해주세요"
                   />
                 </Stack>
               </TD>

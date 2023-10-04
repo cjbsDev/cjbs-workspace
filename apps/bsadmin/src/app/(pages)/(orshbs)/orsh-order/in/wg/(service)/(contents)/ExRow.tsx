@@ -26,17 +26,28 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                CJ01
+                Bacillus subtilis CJ1
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                (Strain 미입력 시, 샘플명 대체)
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                토양
+                CJ1
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                (미입력 시, 샘플명 대체)
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
                 gDNA
+              </Typography>
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                YES
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
@@ -65,12 +76,28 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                토양
+                Bacillus subtilis CJ1
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                (Strain 미입력 시, 샘플명 대체)
+              </Typography>
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                CJ1
+              </Typography>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                (미입력 시, 샘플명 대체)
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
                 gDNA
+              </Typography>
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <Typography variant="body2" sx={{ color: "#666" }}>
+                YES
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>

@@ -2,6 +2,7 @@
 
 import MtpDetailPage from "./MtpDetailPage";
 import ShotgunDetailPage from "./ShotgunDetailPage";
+import WgDetailPage from "./WgDetailPage";
 import {useParams} from "next/navigation";
 
 const Page = () => {
@@ -17,6 +18,9 @@ const Page = () => {
       ) : ('')}
       {anlsType === 'sg' ? (
         <ShotgunDetailPage/>
+      ) : ('')}
+      {anlsType === 'wg' ? (
+        <WgDetailPage/>
       ) : ('')}
     </>
   );

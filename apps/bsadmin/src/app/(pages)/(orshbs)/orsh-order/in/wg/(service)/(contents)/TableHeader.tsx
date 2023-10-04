@@ -32,15 +32,15 @@ const TableHeader = (props:any) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">그룹명 </Typography>
+                  <Typography variant="subtitle2">Taxonomy(Genus+ Specise+Strain) </Typography>{" "}
+                  <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                    *
+                  </Box>
                 </Stack>
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">샘플출처 </Typography>{" "}
-                  <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
-                    *
-                  </Box>
+                  <Typography variant="subtitle2">Locus tag prefix </Typography>
                 </Stack>
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
@@ -49,6 +49,11 @@ const TableHeader = (props:any) => {
                   <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
                     *
                   </Box>
+                </Stack>
+              </TableCell>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="subtitle2">165 rRNA Identification </Typography>
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -79,10 +84,15 @@ const TableHeader = (props:any) => {
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">샘플출처 </Typography>{" "}
+                  <Typography variant="subtitle2">Taxonomy(Genus+ Specise+Strain) </Typography>{" "}
                   <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
                     *
                   </Box>
+                </Stack>
+              </TableCell>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="subtitle2">Locus tag prefix </Typography>
                 </Stack>
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
@@ -91,6 +101,11 @@ const TableHeader = (props:any) => {
                   <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
                     *
                   </Box>
+                </Stack>
+              </TableCell>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="subtitle2">165 rRNA Identification </Typography>
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
