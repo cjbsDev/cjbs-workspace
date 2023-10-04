@@ -34,16 +34,17 @@ const ListOrder = () => {
   const searchParams = useSearchParams();
 
   const resultObject = {};
+
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
   console.log(">>>>>>>>>", resultObject);
 
   const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", result);
+  console.log("RESULT@#@#@#", JSON.stringify(result));
 
   const { data } = useSWR(
-    result !== ""
+    JSON.stringify(resultObject) !== "{}"
       ? `/order/list${result}&page=${page}&size=${size}`
       : `/order/list?page=${page}&size=${size}`,
     fetcher,
