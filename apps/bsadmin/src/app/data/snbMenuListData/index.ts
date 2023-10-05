@@ -77,32 +77,23 @@ export const snbMenuListData = [
       ],
     },
   },
-
-  // {
-  //   menuLabel: '실험',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '실험 일정',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: '오더 현황 관리',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: 'All Runs',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: 'All 샘플s',
-  //         menuPath: ''
-  //       }
-  //     ]
-  //   }
-  // },
+  {
+    menuLabel: "실험",
+    menuIcon: "experiment",
+    menuPath: {
+      name: "/exp",
+      nestedPath: [
+        {
+          menuLabel: "RUN 리스",
+          menuPath: "/exp-run-list",
+        },
+        {
+          menuLabel: "샘플 리스트",
+          menuPath: "/exp-sample-list",
+        },
+      ],
+    },
+  },
   // {
   //   menuLabel: '장부',
   //   menuIcon: '',
