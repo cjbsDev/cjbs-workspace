@@ -9,7 +9,15 @@ import {
   cjbsTheme,
   FileDownloadBtn,
 } from "cjbsDSTM";
-import { Box, Stack, Grid, Typography, Chip } from "@mui/material";
+import {
+  Box,
+  Stack,
+  Grid,
+  Typography,
+  Chip,
+  Tooltip,
+  IconButton,
+} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
@@ -18,15 +26,17 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { useList } from "../../../hooks/useList";
 import Link from "next/link";
 import { blue, red, grey, green } from "cjbsDSTM/themes/color";
-import ResultInSearch from "./ResultInSearch";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useSearchParams } from "next/navigation";
-import KeywordSearch from "./KeywordSearch";
+
+import ResultInSearch from "./ResultInSearch";
+// import KeywordSearch from "./KeywordSearch";
+import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 
 const ListOrder = () => {
-  const [page, setPage] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   // ListAPI Call
@@ -34,16 +44,17 @@ const ListOrder = () => {
   const searchParams = useSearchParams();
 
   const resultObject = {};
+
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
   console.log(">>>>>>>>>", resultObject);
 
   const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", result);
+  console.log("RESULT@#@#@#", JSON.stringify(result));
 
   const { data } = useSWR(
-    result !== ""
+    JSON.stringify(resultObject) !== "{}"
       ? `/order/list${result}&page=${page}&size=${size}`
       : `/order/list?page=${page}&size=${size}`,
     fetcher,
@@ -275,7 +286,20 @@ const ListOrder = () => {
       },
       {
         name: "메모",
-        selector: (row) => row.memo,
+        cell: (row: { memo: string }) => {
+          const { memo } = row;
+          return (
+            memo !== null &&
+            memo !== "" && (
+              <Tooltip title={memo} arrow>
+                <IconButton size="small">
+                  <MyIcon icon="memo" size={24} />
+                </IconButton>
+              </Tooltip>
+            )
+          );
+        },
+        width: "80px",
       },
     ],
     []

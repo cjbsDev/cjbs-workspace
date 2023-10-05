@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { fetcher } from "api";
 
-export default function HostCompSelectbox() {
+export default function HostCompSelectbox(props) {
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=Sequenced By`,
     fetcher,
@@ -15,6 +15,11 @@ export default function HostCompSelectbox() {
   console.log(data);
 
   return (
-    <SelectBox inputName="prgrAgncNmCc" options={data} sx={{ width: "100%" }} />
+    <SelectBox
+      {...props}
+      inputName="prgrAgncNmCc"
+      options={data}
+      sx={{ width: "100%" }}
+    />
   );
 }

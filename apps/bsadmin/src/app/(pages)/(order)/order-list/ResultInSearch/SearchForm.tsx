@@ -11,6 +11,7 @@ import {
   InputValidation,
   OutlinedButton,
   DateRangePicker,
+  SingleDatePicker,
 } from "cjbsDSTM";
 import {
   Box,
@@ -59,7 +60,6 @@ const SearchForm = ({ onClose }) => {
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
-  console.log("DEFAULTVALUES", resultObject);
 
   if (resultObject.typeCcList === undefined) {
     defaultValues = resultObject;
@@ -74,7 +74,16 @@ const SearchForm = ({ onClose }) => {
     defaultValues = newResultObject;
   }
 
-  // console.log(">>#>>#>>#>>>", resultObject.Keyword);
+  if (resultObject.dateTypeCc !== undefined) {
+    // 변환할 날짜 문자열 가져오기
+    const { startDttm, endDttm } = resultObject;
+
+    // 날짜 문자열을 Date 객체로 변환
+    resultObject.startDttm = new Date(startDttm);
+    resultObject.endDttm = new Date(endDttm);
+  }
+
+  console.log("DEFAULTVALUES", resultObject);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   console.log("currentQueryString", currentQueryString);
@@ -84,17 +93,44 @@ const SearchForm = ({ onClose }) => {
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
     let result;
+    //
+    // if (data.dateRange !== undefined) {
+    //   const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
+    //     dayjs(dateStr).format("YYYY-MM-DD")
+    //   );
+    //   data.startDttm = startDttm;
+    //   data.endDttm = endDttm;
+    //   data.dateRange = undefined;
+    // }
+    //
+    // console.log("DATA>>>>>", data);
 
-    if (data.dateRange !== undefined) {
-      const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
-        dayjs(dateStr).format("YYYY-MM-DD")
-      );
-      data.startDttm = startDttm;
-      data.endDttm = endDttm;
-      data.dateRange = undefined;
+    // 날짜
+    if (
+      data.dateTypeCc === "" &&
+      data.startDttm !== null &&
+      data.endDttm !== null
+    ) {
+      console.log("날짜 타입을 선택해 주세요");
+      return;
+    } else if (
+      data.dateTypeCc !== "" &&
+      data.startDttm === null &&
+      data.endDttm === null
+    ) {
+      console.log("날짜 선택해 주세요");
+      return;
+    } else {
+      // console.log("날짜 타입을 선택해 주세요");
+      // return;
+
+      // 변환할 날짜 문자열 가져오기
+      const { startDttm, endDttm } = data;
+
+      // 날짜 문자열을 Date 객체로 변환
+      data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
+      data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
     }
-
-    console.log("DATA>>>>>", data);
 
     const filteredObject = {};
 
@@ -228,16 +264,19 @@ const SearchForm = ({ onClose }) => {
             </Grid>
           </Grid>
         </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">날짜</SectionLabel>
+        {/*<Section>*/}
+        {/*  <SectionLabel variant="subtitle2">날짜</SectionLabel>*/}
 
-          <Stack direction="row" spacing={1}>
-            <ErrorContainer FallbackComponent={Fallback}>
-              <LazyDateTypeSelctbox />
-            </ErrorContainer>
-            <DateRangePicker inputName="dateRange" />
-          </Stack>
-        </Section>
+        {/*  <Stack direction="row" spacing={1}>*/}
+        {/*    <ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*      <LazyDateTypeSelctbox />*/}
+        {/*    </ErrorContainer>*/}
+        {/*    /!*<DateRangePicker inputName="dateRange" />*!/*/}
+
+        {/*    <SingleDatePicker inputName="startDttm" />*/}
+        {/*    <SingleDatePicker inputName="endDttm" />*/}
+        {/*  </Stack>*/}
+        {/*</Section>*/}
         <Section>
           <SectionLabel variant="subtitle2">오더타입</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>

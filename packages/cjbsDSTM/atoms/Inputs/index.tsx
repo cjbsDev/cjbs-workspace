@@ -4,6 +4,7 @@ import { Stack, TextField, TextFieldProps, Typography } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 import { useFormContext, ValidationRule } from "react-hook-form";
+import debounce from "lodash.debounce";
 
 type InputValidationProps = TextFieldProps & {
   required?: boolean;
@@ -43,6 +44,11 @@ export const InputValidation = ({
             ...props.sx,
           }}
           {...methods.register(inputName, {
+            // onChange: (e) => console.log(e.target.value),
+            // onChange: (e) =>
+            //   debounce(() => {
+            //     console.log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", e.target.value);
+            //   }),
             maxLength: maxLength && {
               value: maxLength ?? 0,
               message: maxLength + "글자 이내로 입력 바랍니다.",

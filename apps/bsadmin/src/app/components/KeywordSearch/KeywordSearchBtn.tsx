@@ -8,7 +8,6 @@ const KeywordSearchBtn = () => {
   const { watch } = useFormContext();
 
   const keywordWatch = watch("Keyword");
-  console.log("watch!!!!!", keywordWatch);
 
   return (
     <IconButton
