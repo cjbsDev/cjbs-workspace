@@ -3,18 +3,24 @@ import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { fetcher } from "api";
 
-export default function DateTypeSelectbox() {
+// RUN Type
+export default function RunTypeSelectbox(props) {
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=order&midValue=date`,
+    `/code/list/shortly/value?topValue=Run Service Type`,
     fetcher,
     {
       suspense: true,
     }
   );
 
-  console.log("날짜 ....", data);
+  // console.log(data);
 
   return (
-    <SelectBox inputName="dateTypeCc" options={data} sx={{ width: "100%" }} />
+    <SelectBox
+      {...props}
+      inputName="runType"
+      options={data}
+      sx={{ width: "100%" }}
+    />
   );
 }

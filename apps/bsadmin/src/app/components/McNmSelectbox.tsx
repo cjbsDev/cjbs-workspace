@@ -2,8 +2,10 @@ import { ContainedButton, SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { fetcher } from "api";
+import React from "react";
 
-export default function HostCompSelectbox() {
+// 장비
+export default function McNmSelectbox(props) {
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=Experiment Machine`,
     fetcher,
@@ -12,7 +14,14 @@ export default function HostCompSelectbox() {
     }
   );
 
-  console.log(data);
+  // console.log(data);
 
-  return <SelectBox inputName="mcNmCc" options={data} sx={{ width: "100%" }} />;
+  return (
+    <SelectBox
+      {...props}
+      inputName="mcNmCc"
+      options={data}
+      sx={{ width: "100%" }}
+    />
+  );
 }
