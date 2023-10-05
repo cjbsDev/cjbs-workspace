@@ -41,7 +41,6 @@ export default function WgSequencing() {
     ordrAplcTel : data.custAgnc.ordrAplcTel,
     mailRcpnList : data.custAgnc.mailRcpnList,
     addEmailList : data.custAgnc.addEmailList,
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
     memo : data.addRqstMemo.memo,
     isRtrnRasn : data.custAgnc.isRtrnRasn,
     prjcUniqueCode : data.custAgnc.prjcCode,
@@ -49,7 +48,7 @@ export default function WgSequencing() {
     prjcDetailCode : data.custAgnc.prjcDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
-    // pltfMc : data.commonInput.pltfMc,
+    pltfMc : data.commonInput.pltfMc,
   };
 
   // 수정 호출
@@ -57,14 +56,11 @@ export default function WgSequencing() {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
 
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-
     const bodyData = {
       addRqstMemo: {
         memo: data.memo,
       },
       commonInput: {
-        depthCc : data.depthCc === undefined ? null : data.depthCc,
         pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
       },
       custAgnc: {
@@ -89,13 +85,13 @@ export default function WgSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/sg/so/${orshUkey}`;
+    const apiUrl = `/orsh/bs/intn/wg/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
-        mutate(`/orsh/bs/intn/sg/so/${orshUkey}`);
+        mutate(`/orsh/bs/intn/wg/so/${orshUkey}`);
         toast("수정 되었습니다.");
         router.push("/orshbs-list");
 

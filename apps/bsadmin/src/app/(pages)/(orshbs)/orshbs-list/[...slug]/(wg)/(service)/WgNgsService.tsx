@@ -5,7 +5,7 @@ import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
-import {fetcher, GET, POST_MULTIPART, PUT, PUT_MULTIPART} from "api";
+import {fetcher, GET, POST_MULTIPART, PUT} from "api";
 import {useRouter} from "next-nprogress-bar";
 import {useParams} from "next/navigation";
 import { Form } from "cjbsDSTM";
@@ -51,7 +51,7 @@ export default function WgNgsService(){
     prjcDetailCode : data.custAgnc.prjcDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
-    // pltfMc : data.commonInput.pltfMc,
+    pltfMc : data.commonInput.pltfMc,
   };
 
   // 수정 호출
@@ -63,7 +63,7 @@ export default function WgNgsService(){
       addRqstMemo : {
         memo : data.memo,
       },
-      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
+      commonInput: {pltfMc : data.pltfMc === undefined ? null : data.pltfMc},
       custAgnc : {
         addEmailList : data.addEmailList,
         agncNm : data.agncNm,
@@ -86,32 +86,18 @@ export default function WgNgsService(){
 
     console.log("call body data", bodyData);
 
-    const formData = new FormData();
-    formData.append(
-      "user-data",
-      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
-    );
-
-    if(data.uploadFile.length !== 0){
-      // file 데이터가 있을경우
-      // formData.append("file-data", uploadFile?.files?.item(0) as File);
-      formData.append("file-data", data.uploadFile[0]);
-    } else {
-      formData.append("file-data", null);
-    }
-
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/intn/wg/ngs/${orshUkey}`;
+    const apiUrl = `/orsh/bs/intn/wg/ngs/${orshUkey}`;
 
     try {
-      const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
+      const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
-      if (response.data.success) {
+      if (response.success) {
         mutate(`/orsh/bs/intn/wg/ngs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 
-      } else if (response.data.code == "INVALID_ETC_EMAIL") {
-        toast(response.data.message);
+      } else if (response.code == "INVALID_ETC_EMAIL") {
+        toast(response.message);
 
       } else {
         toast("문제가 발생했습니다. 01");

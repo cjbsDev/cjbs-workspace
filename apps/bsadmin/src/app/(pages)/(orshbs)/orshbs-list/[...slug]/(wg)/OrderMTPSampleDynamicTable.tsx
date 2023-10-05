@@ -139,7 +139,6 @@ export default function OrderMTPSampleDynamicTable(props: any) {
           <TableBody>
             <ExRow serviceType={serviceType} />
             {fields.map((field, index) => {
-              // console.log("FFFFFFFF", field, index)
               return (
                 <TableNewRows
                   key={field.id}

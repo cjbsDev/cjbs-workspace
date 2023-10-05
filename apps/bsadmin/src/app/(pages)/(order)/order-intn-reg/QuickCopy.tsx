@@ -31,7 +31,7 @@ export default function QuickCopy() {
 
   return (
     <>
-      <OutlinedButton
+      일<OutlinedButton
         buttonName="연구책임자 정보와 동일"
         size="small"
         onClick={quickCopyValueClearErr}

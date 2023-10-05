@@ -124,7 +124,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           </Typography>
           {serviceType === 'fs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/RS_Full_service_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/WG_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -139,7 +139,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'ngs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/RS_NGS_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/WG_NGS_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -154,7 +154,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'so' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/RS_Sequencing_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/internal/WG_Sequencing_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton

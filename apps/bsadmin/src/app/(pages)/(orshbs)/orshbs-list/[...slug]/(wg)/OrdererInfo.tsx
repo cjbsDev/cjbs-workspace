@@ -192,7 +192,7 @@ export default function OrdererInfo() {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         <Typography variant="subtitle1">신청인 정보</Typography>
         { updataYn === 'N' ? (
           <LazyQuickCopy />
@@ -200,7 +200,7 @@ export default function OrdererInfo() {
           ''
         )}
       </Stack>
-      <TableContainer sx={{ mb: 5 }}>
+      <TableContainer sx={{ mb: 5, mt: 1 }}>
         <Table>
           <TableBody>
             <TableRow>
