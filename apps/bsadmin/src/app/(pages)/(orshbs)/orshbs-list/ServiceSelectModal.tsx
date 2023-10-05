@@ -13,7 +13,7 @@ import {
 import Link from "next/link";
 
 
-const ServiceSelectModal = (props) => {
+const ServiceSelectModal = (props: any) => {
   const { open, onClose, modalWidth } = props;
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
@@ -44,13 +44,14 @@ const ServiceSelectModal = (props) => {
           >
             <OutlinedButton buttonName="WG" size="large" fullWidth/>
           </Link>
-          {/*<Link*/}
-          {/*  href={{*/}
-          {/*    pathname: '/orsh-order/in/rs',*/}
-          {/*  }}*/}
-          {/*>*/}
-            <OutlinedButton buttonName="RS" size="large" fullWidth disabled={true}/>
-          {/*</Link>*/}
+          <Link
+            href={{
+              pathname: '/orsh-order/in/rs',
+            }}
+            style={{width:'100%'}}
+          >
+            <OutlinedButton buttonName="RS" size="large" fullWidth/>
+          </Link>
         </Stack>
       </DialogContent>
       {/*<ModalAction>*/}
