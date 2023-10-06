@@ -105,7 +105,7 @@ ModalContainerProps) => {
     orderTypeCc: data.orderTypeCc,
     addEmailList: data.addEmailList,
     libMngrUkey: data.libMngrUkey,
-    qcMngrUkey: data.qcMngrUkey,
+    qcMngrUkey: data.prepMngrUkey,
     seqMngrUkey: data.seqMngrUkey,
     memo: data.memo,
   };
