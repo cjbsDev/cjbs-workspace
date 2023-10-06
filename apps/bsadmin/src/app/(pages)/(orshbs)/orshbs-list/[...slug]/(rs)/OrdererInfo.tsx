@@ -338,7 +338,7 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경 </TH>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row">
                   <InputValidation

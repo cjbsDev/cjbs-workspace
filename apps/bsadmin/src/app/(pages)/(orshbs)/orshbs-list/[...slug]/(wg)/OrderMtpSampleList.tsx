@@ -60,7 +60,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_fs"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -78,7 +78,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_fs"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -96,7 +96,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_so"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>

@@ -20,7 +20,8 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
 
 export default function MtpSequencing() {
   const defaultValues = {
-    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
+    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    isRtrnRasn : 'N',
   };
   const router = useRouter();
 
@@ -58,7 +59,7 @@ export default function MtpSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/mtp/so`;
+    const apiUrl = `/orsh/bs/intn/mtp/so`;
     // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/so`;
 
     try {

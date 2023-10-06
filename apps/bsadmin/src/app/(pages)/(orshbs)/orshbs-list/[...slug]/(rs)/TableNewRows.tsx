@@ -25,20 +25,16 @@ const TableNewRows = (props: any) => {
     <>
       {serviceType === 'fs' ?
         (
-
           <TableRow>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2">{index + 1}</Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.sampleNm`}
                 inputName={`sample.[${index}].sampleNm`}
                 required={true}
                 defaultValue={field.sampleNm}
-                //errorMessage="샘플명을 입력해 주세요."
                 pattern={/^[A-Za-z0-9-]*$/}
-                //patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -70,14 +66,11 @@ const TableNewRows = (props: any) => {
                   영문, 숫자, -(하이픈)만 입력 가능합니다.
                 </Typography>
               )}
-
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].source`}
+                inputName={`sample.[${index}].refTxmy`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -93,17 +86,28 @@ const TableNewRows = (props: any) => {
                   readOnly: updataYn === 'N' ? false : true
                 }}
               />
-              {errors.sample?.[index]?.source && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
+              {errors.sample?.[index]?.refTxmy && <Typography variant="body2" color={cjbsTheme.palette.error.main}>Reference Taxonomy을 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=category"}
-                  inputName={`sample.[${index}].sampleCategoryCc`}
-                  disabled={updataYn === 'N' ? false : true}
-                />
-              </ErrorContainer>
-              {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+              <InputValidation
+                inputName={`sample.[${index}].asmbAcsnNo`}
+                required={true}
+                sx={{
+                  width: 200,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                  },
+                  ".MuiOutlinedInput-input:read-only": {
+                    backgroundColor: "white",
+                    cursor: "pointer",
+                    textFillColor: "#000000"
+                  },
+                }}
+                InputProps={{
+                  readOnly: updataYn === 'N' ? false : true
+                }}
+              />
+              {errors.sample?.[index]?.asmbAcsnNo && <Typography variant="body2" color={cjbsTheme.palette.error.main}>Assembly accession No를 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
@@ -132,7 +136,6 @@ const TableNewRows = (props: any) => {
               </IconButton>
             </TableCell>
           </TableRow>
-
         ) : (
         ''
         )
@@ -146,13 +149,10 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.sampleNm`}
                 inputName={`sample.[${index}].sampleNm`}
                 required={true}
                 defaultValue={field.sampleNm}
-                //errorMessage="샘플명을 입력해 주세요."
                 pattern={/^[A-Za-z0-9-]*$/}
-                //patternErrMsg="영문, 숫자, -(하이픈)만 입력 가능합니다."
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -187,10 +187,8 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].source`}
+                inputName={`sample.[${index}].refTxmy`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -206,17 +204,28 @@ const TableNewRows = (props: any) => {
                   readOnly: updataYn === 'N' ? false : true
                 }}
               />
-              {errors.sample?.[index]?.source && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
+              {errors.sample?.[index]?.refTxmy && <Typography variant="body2" color={cjbsTheme.palette.error.main}>Reference Taxonomy을 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=category"}
-                  inputName={`sample.[${index}].sampleCategoryCc`}
-                  disabled={updataYn === 'N' ? false : true}
-                />
-              </ErrorContainer>
-              {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+              <InputValidation
+                inputName={`sample.[${index}].asmbAcsnNo`}
+                required={true}
+                sx={{
+                  width: 200,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                  },
+                  ".MuiOutlinedInput-input:read-only": {
+                    backgroundColor: "white",
+                    cursor: "pointer",
+                    textFillColor: "#000000"
+                  },
+                }}
+                InputProps={{
+                  readOnly: updataYn === 'N' ? false : true
+                }}
+              />
+              {errors.sample?.[index]?.asmbAcsnNo && <Typography variant="body2" color={cjbsTheme.palette.error.main}>Assembly accession No를 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
@@ -384,26 +393,6 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                inputName={`sample.[${index}].adapter`}
-                required={false}
-                sx={{
-                  width: 117,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                  },
-                  ".MuiOutlinedInput-input:read-only": {
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                    textFillColor: "#000000"
-                  },
-                }}
-                InputProps={{
-                  readOnly: updataYn === 'N' ? false : true
-                }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
                 inputName={`sample.[${index}].memo`}
                 required={false}
                 sx={{
@@ -432,7 +421,6 @@ const TableNewRows = (props: any) => {
           ''
         )
       }
-
 
     </>
   );

@@ -38,7 +38,7 @@ const dataMailRcpnListGV = [
     { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
-export default function OrdererInfo(props:JSON) {
+export default function OrdererInfo() {
   const { data: custTemp } = useSWR(
     `/cust/info`,
     fetcherOrsh,
@@ -179,12 +179,12 @@ export default function OrdererInfo(props:JSON) {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         <Typography variant="subtitle1">신청인 정보</Typography>
         <LazyQuickCopy />
       </Stack>
 
-      <TableContainer sx={{ mb: 5 }}>
+      <TableContainer sx={{ mb: 5, mt:1 }}>
         <Table>
           <TableBody>
             <TableRow>

@@ -26,11 +26,6 @@ const ExRow = ( props:any ) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <Typography variant="body2" sx={{ color: "#666" }}>
-                CJ01
-              </Typography>
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <Typography variant="body2" sx={{ color: "#666" }}>
                 토양
               </Typography>
             </TableCell>

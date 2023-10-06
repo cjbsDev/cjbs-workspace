@@ -46,7 +46,8 @@ export default function OrderMtpSampleList(props: any) {
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
-  let serviceType = params.slug[1];
+  const serviceType = params.slug[1];
+  const service = params.slug[3];
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   const CommonServiceSelect = () => {
@@ -68,49 +69,6 @@ export default function OrderMtpSampleList(props: any) {
                 </Stack>
               </TD>
             </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-              <TD sx={{ width: "80%" }}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    { updataYn === 'N' ? (
-                      <Box>
-                        <InputValidation
-                          inputName="uploadFile"
-                          required={false}
-                          type="file"
-                          sx={{ width: 306 }}
-                        />
-                        <Typography variant="body2">
-                          * 파일 재업로드 시, 기존 파일은 삭제됩니다.
-                        </Typography>
-                      </Box>
-                    ) : (
-                      ''
-                    )}
-
-                    <InputValidation
-                      inputName="selfQcFileNm"
-                      required={false}
-                      sx={{
-                        width: 300,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
-                        },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
-                        },
-                      }}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                    />
-                  </Stack>
-                </Stack>
-              </TD>
-            </TableRow>
           </>
         );
       case "ngs":
@@ -127,49 +85,6 @@ export default function OrderMtpSampleList(props: any) {
                       required={true}
                     />
                   </ErrorContainer>
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-              <TD sx={{ width: "80%" }}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    { updataYn === 'N' ? (
-                      <Box>
-                        <InputValidation
-                          inputName="uploadFile"
-                          required={false}
-                          type="file"
-                          sx={{ width: 306 }}
-                        />
-                        <Typography variant="body2">
-                          * 파일 재업로드 시, 기존 파일은 삭제됩니다.
-                        </Typography>
-                      </Box>
-                    ) : (
-                      ''
-                    )}
-
-                    <InputValidation
-                      inputName="selfQcFileNm"
-                      required={false}
-                      sx={{
-                        width: 300,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
-                        },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
-                        },
-                      }}
-                      InputProps={{
-                        readOnly: true
-                      }}
-                    />
-                  </Stack>
                 </Stack>
               </TD>
             </TableRow>
@@ -198,7 +113,8 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      // url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={`/code/orsh/pltf/list?type=${service}_${serviceType}`}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -206,7 +122,6 @@ export default function OrderMtpSampleList(props: any) {
               </TD>
             </TableRow>
           </>
-
         );
     }
   };
@@ -216,11 +131,7 @@ export default function OrderMtpSampleList(props: any) {
       <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        {serviceType !== "so" ? (
-          <Typography variant="subtitle1">공통 항목 선택</Typography>
-        ) : (
-          ""
-        )}
+        <Typography variant="subtitle1">공통 항목 선택</Typography>
       </Stack>
       <TableContainer sx={{ mb: 5 }}>
         <Table>

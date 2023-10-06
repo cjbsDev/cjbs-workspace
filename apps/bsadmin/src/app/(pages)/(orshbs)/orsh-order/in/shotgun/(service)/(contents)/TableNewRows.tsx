@@ -54,14 +54,6 @@ const TableNewRows = (props:any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.memo`}
-                inputName={`sample.[${index}].groupNm`}
-                required={false}
-                sx={{ width: 117 }}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
                 // inputName={`samples.${index}.source`}
                 inputName={`sample.[${index}].source`}
                 required={true}

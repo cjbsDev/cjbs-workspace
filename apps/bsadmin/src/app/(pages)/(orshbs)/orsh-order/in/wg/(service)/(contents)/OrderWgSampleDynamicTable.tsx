@@ -27,7 +27,7 @@ import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "./ExcelUploadModal";
 
 
-const OrderMTPSampleDynamicTable = (props: any) => {
+const OrderWgSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
 
@@ -143,4 +143,4 @@ const OrderMTPSampleDynamicTable = (props: any) => {
   );
 };
 
-export default OrderMTPSampleDynamicTable;
+export default OrderWgSampleDynamicTable;

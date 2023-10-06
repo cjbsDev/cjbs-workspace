@@ -22,7 +22,7 @@ import {
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
-import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
+import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
 
@@ -34,7 +34,7 @@ const LazyPrepSelectbox = dynamic(
   }
 );
 
-export default function OrderMtpSampleList(props: any) {
+export default function OrderShotgunSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -57,21 +57,6 @@ export default function OrderMtpSampleList(props: any) {
                 </Stack>
               </TD>
             </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-              <TD sx={{ width: "80%" }}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    <InputValidation
-                      inputName="uploadFile"
-                      required={false}
-                      type="file"
-                      sx={{ width: 306 }}
-                    />
-                  </Stack>
-                </Stack>
-              </TD>
-            </TableRow>
           </>
         );
       case "fs":
@@ -87,21 +72,6 @@ export default function OrderMtpSampleList(props: any) {
                       inputName={"depthCc"}
                     />
                   </ErrorContainer>
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-              <TD sx={{ width: "80%" }}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <Stack direction="row" alignItems="center" spacing={2}>
-                    <InputValidation
-                      inputName="uploadFile"
-                      required={false}
-                      type="file"
-                      sx={{ width: 306 }}
-                    />
-                  </Stack>
                 </Stack>
               </TD>
             </TableRow>
@@ -129,7 +99,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=sg_so"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -146,11 +116,7 @@ export default function OrderMtpSampleList(props: any) {
       <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        {serviceType !== "so" ? (
-          <Typography variant="subtitle1">공통 항목 선택</Typography>
-        ) : (
-          ""
-        )}
+        <Typography variant="subtitle1">공통 항목 선택</Typography>
       </Stack>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -160,7 +126,7 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderMTPSampleDynamicTable serviceType={serviceType} />
+      <OrderShotgunSampleDynamicTable serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -177,21 +143,6 @@ export default function OrderMtpSampleList(props: any) {
       />
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
-        {/*<OutlinedButton*/}
-        {/*  buttonName="이전"*/}
-        {/*  onClick={() => props.moveBackFocus()}*/}
-        {/*/>*/}
-
-        {/*<ContainedButton*/}
-        {/*  type="submit"*/}
-        {/*  buttonName="다음"*/}
-        {/*  endIcon={*/}
-        {/*    isLoading ? (*/}
-        {/*      <LoadingSvg stroke="white" width={20} height={20} />*/}
-        {/*    ) : null*/}
-        {/*  }*/}
-        {/*/>*/}
-
         <ContainedButton
           type="submit"
           buttonName="등록"

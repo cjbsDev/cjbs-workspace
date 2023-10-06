@@ -41,7 +41,6 @@ export default function ShotgunSequencing() {
     ordrAplcTel : data.custAgnc.ordrAplcTel,
     mailRcpnList : data.custAgnc.mailRcpnList,
     addEmailList : data.custAgnc.addEmailList,
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
     memo : data.addRqstMemo.memo,
     isRtrnRasn : data.custAgnc.isRtrnRasn,
     prjcUniqueCode : data.custAgnc.prjcCode,
@@ -57,8 +56,6 @@ export default function ShotgunSequencing() {
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo: {

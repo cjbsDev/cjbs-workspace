@@ -41,42 +41,6 @@ export default function OrderMtpSampleList(props: any) {
 
   const CommonServiceSelect = () => {
     switch (serviceType) {
-      case "ngs":
-        return (
-          <TableRow>
-            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-            <TD sx={{ width: "80%" }}>
-              <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <InputValidation
-                    inputName="uploadFile"
-                    required={false}
-                    type="file"
-                    sx={{ width: 306 }}
-                  />
-                </Stack>
-              </Stack>
-            </TD>
-          </TableRow>
-        );
-      case "fs":
-        return (
-          <TableRow>
-            <TH sx={{ width: "20%" }}>자체 QC 결과 파일 (선택)</TH>
-            <TD sx={{ width: "80%" }}>
-              <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                <Stack direction="row" alignItems="center" spacing={2}>
-                  <InputValidation
-                    inputName="uploadFile"
-                    required={false}
-                    type="file"
-                    sx={{ width: 306 }}
-                  />
-                </Stack>
-              </Stack>
-            </TD>
-          </TableRow>
-        );
       case "ao":
         return (
           <TableRow>
@@ -100,20 +64,20 @@ export default function OrderMtpSampleList(props: any) {
     <>
       <NoticeBox serviceType={serviceType}/>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
-        {serviceType !== "so" ? (
-          <Typography variant="subtitle1">공통 항목 선택</Typography>
-        ) : (
-          ""
-        )}
-      </Stack>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <CommonServiceSelect />
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/*<Stack direction="row" alignItems="center" spacing={0.5}>*/}
+      {/*  {serviceType === "ao" ? (*/}
+      {/*    <Typography variant="subtitle1">공통 항목 선택</Typography>*/}
+      {/*  ) : (*/}
+      {/*    ""*/}
+      {/*  )}*/}
+      {/*</Stack>*/}
+      {/*<TableContainer sx={{ mb: 5 }}>*/}
+      {/*  <Table>*/}
+      {/*    <TableBody>*/}
+      {/*      <CommonServiceSelect />*/}
+      {/*    </TableBody>*/}
+      {/*  </Table>*/}
+      {/*</TableContainer>*/}
 
       <OrderMTPSampleDynamicTable serviceType={serviceType} />
 

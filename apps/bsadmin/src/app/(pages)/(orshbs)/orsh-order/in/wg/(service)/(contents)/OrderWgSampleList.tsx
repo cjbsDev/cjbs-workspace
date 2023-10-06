@@ -22,7 +22,7 @@ import {
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
 import LoadingSvg from "public/svg/loading_wh.svg";
-import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
+import OrderWgSampleDynamicTable from "./OrderWgSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
 
@@ -34,7 +34,7 @@ const LazyPrepSelectbox = dynamic(
   }
 );
 
-export default function OrderMtpSampleList(props: any) {
+export default function OrderWgSampleList(props: any) {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -50,7 +50,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_fs"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -68,7 +68,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_fs"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -86,7 +86,7 @@ export default function OrderMtpSampleList(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={"/code/orsh/pltf/list?type=mtpAO"}
+                      url={"/code/orsh/pltf/list?type=wg_so"}
                       inputName={"pltfMc"}
                     />
                   </ErrorContainer>
@@ -117,7 +117,7 @@ export default function OrderMtpSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderMTPSampleDynamicTable serviceType={serviceType} />
+      <OrderWgSampleDynamicTable serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>

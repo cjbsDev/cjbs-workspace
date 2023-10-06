@@ -47,7 +47,7 @@ import ExcelUploadModal from "./ExcelUploadModal";
 //     perm = results[1].data.data;
 //   });
 
-const OrderMTPSampleDynamicTable = (props: any) => {
+const OrderShotgunSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
 
@@ -160,4 +160,4 @@ const OrderMTPSampleDynamicTable = (props: any) => {
   );
 };
 
-export default OrderMTPSampleDynamicTable;
+export default OrderShotgunSampleDynamicTable;

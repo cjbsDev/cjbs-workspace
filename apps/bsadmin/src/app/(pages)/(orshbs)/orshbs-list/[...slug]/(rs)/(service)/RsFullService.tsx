@@ -1,27 +1,29 @@
 "use client";
-import React, {useState, useEffect} from 'react';
-import {Box, Container, Stack, Typography, styled} from "@mui/material";
-import MyIcon from "icon/MyIcon";
+import React, { useState, useEffect } from "react";
+import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
-import {fetcher, GET, POST_MULTIPART, PUT, PUT_MULTIPART} from "api";
-import {useRouter} from "next-nprogress-bar";
-import {useParams} from "next/navigation";
+import OrderRsSampleList from "../OrderRsSampleList";
+import {fetcher, GET, PUT} from "api";
+import { useRouter } from "next-nprogress-bar";
+import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
-import useSWR, {mutate} from "swr";
+import useSWR, { mutate } from "swr";
 
-export default function ShotgunNgsService(){
+export default function RsFullService() {
   const router = useRouter();
+  const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
 
   const params = useParams();
-  console.log("params", params.slug[1]);
+  // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
-  const { data, isValidating} = useSWR(
-    `/orsh/bs/intn/sg/ngs/${orshUkey}`,
+  const { data} = useSWR(
+    `/orsh/bs/intn/rs/fs/${orshUkey}`,
     fetcher,
     {
       suspense: true,
@@ -48,7 +50,6 @@ export default function ShotgunNgsService(){
     prjcDetailCode : data.custAgnc.prjcDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
-    depthCc : data.commonInput.depthCc,
   };
 
   // 수정 호출
@@ -57,11 +58,10 @@ export default function ShotgunNgsService(){
     console.log("Submit Data ==>>", data);
 
     const bodyData = {
-      addRqstMemo : {
-        memo : data.memo,
+      addRqstMemo: {
+        memo: data.memo,
       },
-      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
-      custAgnc : {
+      custAgnc: {
         addEmailList : data.addEmailList,
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
@@ -78,24 +78,23 @@ export default function ShotgunNgsService(){
         prjcDetailCode : data.prjcDetailCode,
         rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
-      samples : data.sample,
+      samples: data.sample,
     };
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/sg/ngs/${orshUkey}`;
+    const apiUrl = `/orsh/bs/intn/rs/fs/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
-        mutate(`/orsh/bs/intn/sg/ngs/${orshUkey}`);
+        mutate(`/orsh/bs/intn/rs/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orshbs-list");
 
       } else if (response.code == "INVALID_ETC_EMAIL") {
         toast(response.message);
-
       } else {
         toast("문제가 발생했습니다. 01");
       }
@@ -105,10 +104,8 @@ export default function ShotgunNgsService(){
   };
 
   return (
-
-    <Container disableGutters={true} sx={{pt:4}}>
-
-      <Form onSubmit={onSubmit} defaultValues={defaultValues} >
+    <Container disableGutters={true} sx={{ pt: 4 }}>
+      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
 
         <Stack
           direction="row"
@@ -146,25 +143,25 @@ export default function ShotgunNgsService(){
           justifyContent="space-between"
           alignItems="center"
           spacing={0}
-          sx={{borderBottom: '1px solid #000', pb: 1}}
+          sx={{ borderBottom: "1px solid #000", pb: 1 }}
         >
-          <Box sx={{
-            display: 'flex',
-            alignContent: 'start',
-            alignItems: 'center',
-          }}>
-            <Typography variant="h5">
-                주문자 및 거래처 정보&nbsp;
-            </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "start",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">주문자 및 거래처 정보&nbsp;</Typography>
           </Box>
-          <Box sx={{
-            display: 'flex',
-            alignContent: 'start',
-            alignItems: 'center',
-          }}>
-            <Typography variant="body2">
-              * 은 필수항목 입니다
-            </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "start",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body2">* 은 필수항목 입니다</Typography>
           </Box>
         </Stack>
 
@@ -177,33 +174,32 @@ export default function ShotgunNgsService(){
           justifyContent="space-between"
           alignItems="center"
           spacing={0}
-          sx={{borderBottom: '1px solid #000', pb: 1}}
+          sx={{ borderBottom: "1px solid #000", pb: 1 }}
         >
-          <Box sx={{
-            display: 'flex',
-            alignContent: 'start',
-            alignItems: 'center',
-          }}>
-            <Typography variant="h5">
-              주문서 작성&nbsp;
-            </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "start",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="h5">주문서 작성&nbsp;</Typography>
           </Box>
-          <Box sx={{
-            display: 'flex',
-            alignContent: 'start',
-            alignItems: 'center',
-          }}>
-            <Typography variant="body2">
-              * 은 필수항목 입니다
-            </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "start",
+              alignItems: "center",
+            }}
+          >
+            <Typography variant="body2">* 은 필수항목 입니다</Typography>
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ao"}/>
+          <OrderRsSampleList serviceType={"fs"} />
         </Box>
 
       </Form>
-
     </Container>
   );
-};
+}
