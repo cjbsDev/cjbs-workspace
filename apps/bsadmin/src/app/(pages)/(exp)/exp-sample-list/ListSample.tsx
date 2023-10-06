@@ -1,124 +1,133 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import { fetcher } from "api";
-import { cjbsTheme, DataTableBase } from "cjbsDSTM";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+"use client";
+
+import React, { useMemo } from "react";
+import {
+  DataCountResultInfo,
+  DataTableBase,
+  Title1,
+  ContainedButton,
+  cjbsTheme,
+  FileDownloadBtn,
+} from "cjbsDSTM";
 import {
   Box,
-  Chip,
   Stack,
-  styled,
+  Grid,
   Typography,
+  Chip,
+  Tooltip,
+  IconButton,
+  styled,
   TypographyProps,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
-import dynamic from "next/dynamic";
-import { toast } from "react-toastify";
-import SubHeader from "./SubHeader";
+import { useState } from "react";
+import MyIcon from "icon/MyIcon";
+import IconDescBar from "../../../components/IconDescBar";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { useList } from "../../../hooks/useList";
+import Link from "next/link";
+import { blue, red, grey, green } from "cjbsDSTM/themes/color";
+import useSWR from "swr";
+import { fetcher } from "api";
+import { usePathname, useSearchParams } from "next/navigation";
+import KeywordSearch from "../../../components/KeywordSearch";
+import NoDataView from "../../../components/NoDataView";
 
-const LazySampleInfoModal = dynamic(
-  () => import("./(SampleInfoModal)/SampleInfoModal"),
-  {
-    ssr: false,
-  }
-);
-const LazySampleAddModal = dynamic(
-  () => import("./(SampleAddModal)/SampleAddModal"),
-  {
-    ssr: false,
-  }
-);
+const ListSample = () => {
+  const [showRunAddModal, setShowRunAddModal] = useState(false);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(20);
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
-  ssr: false,
-});
+  const resultObject = {};
 
-const LazyExperimentProgressChangeModal = dynamic(
-  () =>
-    import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
-  {
-    ssr: false,
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
   }
-);
-const LazySampleBatchChangeModal = dynamic(
-  () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
-  {
-    ssr: false,
-  }
-);
+  console.log(">>>>>>>>>", resultObject);
 
-const SampleTab = () => {
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) === "{}"
+      ? `/sample/list?page=${page}&size=${size}`
+      : `/sample/list${result}&page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("SAMPLE LIST DATA", data);
+  const runListData = data.sampleList;
+  const totalElements = data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
-  const [isClear, setIsClear] = useState<boolean>(false);
-  const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
-  const [sampleIdList, setSampleIdList] = useState<number[]>([]);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  // [샘플 정보] 모달
-  const [showSampleInfoModal, setShowSampleInfoModal] = useState({
-    isShow: false,
-    sampleUkey: "",
-  });
-  // [샘플 추가] 모달
-  const [showSampleAddModal, setShowSampleAddModal] = useState(false);
-  // [분석 내역 보기] 모달
-  const [showAnalDtlModal, setShowAnalDtlModal] = useState(false);
-  // [샘플 정보 일괄 변경] 모달
-  const [showSampleBatchChangeModal, setShowSampleBatchChangeModal] =
-    useState(false);
-  // [실험 진행 단계 변경] 모달
-  const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
-
-  const params = useParams();
-  // console.log("SAMPLE TAB PARAMS", params);
-  const orderUkey = params.slug;
-  const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
-    suspense: true,
-  });
-  const sampleList = Array.from(data);
-
-  console.log(sampleList);
-
-  useEffect(() => {
-    // isClear 상태 변경 이슈
-    setIsClear(false);
-  }, [isClear]);
 
   const columns = useMemo(
     () => [
       {
         name: "샘플번호",
-        sortable: false,
-        center: true,
+        width: "120px",
+        sortable: true,
         selector: (row) => row.sampleId,
       },
       {
+        name: "Order번호",
+        width: "120px",
+        sortable: true,
+        selector: (row) => row.orderId,
+      },
+      {
+        name: "거래처(기관)",
+        width: "170px",
+        // selector: (row) => "외부 (무료)",
+        cell: (row) => {
+          const { instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
+      },
+      {
         name: "샘플명",
-        sortable: false,
-        center: true,
+        sortable: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
       },
       {
-        name: "샘플종류",
-        sortable: false,
-        center: true,
-        selector: (row) =>
-          row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
+        name: "대체명",
+        sortable: true,
+        selector: (row) => (row.altrNm === null ? "-" : row.altrNm),
       },
       {
-        name: "Source",
-        sortable: false,
-        center: true,
-        selector: (row) => (row.source === null ? "-" : row.source),
+        name: "샘플상태",
+        selector: (row) => row.sampleTypeVal,
+      },
+      {
+        name: "샘플출처",
+        selector: (row) => row.source,
       },
       {
         name: "Depth",
         width: "100px",
         sortable: false,
         center: true,
-        selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
+        selector: (row) => (row.depthVal === null ? "-" : row.depthVal),
       },
       {
         name: "Taxon",
@@ -126,27 +135,6 @@ const SampleTab = () => {
         sortable: false,
         center: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),
-      },
-      {
-        name: "RUN",
-        // width: "120px",
-        sortable: false,
-        center: true,
-        wrap: true,
-        selector: (row) =>
-          row.runList.length === 0 ? "-" : row.runList.join(", "),
-        cell: (row) => {
-          return (
-            // <Tooltip
-            //   title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            //   followCursor
-            // >
-            <Typography variant="body2">
-              {row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            </Typography>
-            // </Tooltip>
-          );
-        },
       },
       {
         name: "접수",
@@ -401,216 +389,125 @@ const SampleTab = () => {
         },
       },
       {
-        name: "분석내역서",
-        width: "100px",
+        name: "RUN",
+        // width: "120px",
         sortable: false,
         center: true,
-        selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),
+        wrap: true,
+        selector: (row) =>
+          row.runList === null ? "-" : row.runList.join(", "),
+      },
+      {
+        name: "Project uid",
+        selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
+        cell: (row) => {
+          const { projectUid, projectUidLink } = row;
+          return projectUidLink !== null ? (
+            <Link
+              href={projectUidLink}
+              target="_blank"
+              style={{
+                textDecoration: "underline",
+                color: cjbsTheme.palette.primary.main,
+              }}
+            >
+              {projectUid}
+            </Link>
+          ) : (
+            "-"
+          );
+        },
+      },
+      {
+        name: "메모",
+        cell: (row: { memo: string }) => {
+          const { memo } = row;
+          return (
+            memo !== null &&
+            memo !== "" && (
+              <Tooltip title={memo} arrow>
+                <IconButton size="small">
+                  <MyIcon icon="memo" size={24} />
+                </IconButton>
+              </Tooltip>
+            )
+          );
+        },
+        width: "80px",
       },
     ],
     []
   );
 
-  const filteredItems = sampleList.filter((item) => {
-    const filterPattern = new RegExp(
-      filterText.toLowerCase().normalize("NFC"),
-      "i"
-    );
-
-    return (
-      (item.sampleId && filterPattern.test(item.sampleId)) ||
-      (item.sampleNm &&
-        filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
-      (item.sampleTypeVal &&
-        filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.source &&
-        filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
-      (item.depthVal &&
-        filterPattern.test(item.depthVal.toLowerCase().normalize("NFC"))) ||
-      (item.taxonVal &&
-        filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
-      (item.runList.join() &&
-        filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
-        )) ||
-      (item.sampleStatusRes.rcptStatusVal &&
-        filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.isAnlsItst &&
-        filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
-    );
-  });
+  const goDetailPage = (row: any) => {
+    const path = row.orderUkey;
+    router.push("/order-list/" + path + `?prevPageUrl=${pathname}`);
+  };
 
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
-    const onFilter = (e: { target: { value: React.SetStateAction<string> } }) =>
-      setFilterText(e.target.value);
-    const handleSampleAddModalOpen = () => {
-      setShowSampleAddModal(true);
-    };
-
-    const handleAnalDtlModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-    const handleExPrgrsPhsOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-
-    const handleSampleBatchModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-
     return (
-      <SubHeader
-        exportUrl={`/order/list/download`}
-        totalCount={filteredItems.length}
-        handleSampleAddModalOpen={handleSampleAddModalOpen}
-        handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-        handleSampleBatchModalOpen={handleSampleBatchModalOpen}
-        handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-        handleClear={handleClear}
-        filterText={filterText}
-        onFilter={onFilter}
-      />
+      <Grid container>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
+          </Stack>
+        </Grid>
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/sample/list/download${result}`}
+              iconName="xls3"
+            />
+
+            <KeywordSearch />
+          </Stack>
+        </Grid>
+      </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, sampleUkeyList]);
+  }, [filterText, resetPaginationToggle, checked, totalElements]);
 
-  const goDetailModal = useCallback((row: any) => {
-    const sampleUkey = row.sampleUkey;
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      sampleUkey: sampleUkey,
-      isShow: true,
-    });
-  }, []);
-
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    const getSampleIDList = selectedRows.map((row) => row.sampleId);
-    // console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-    // console.log("selectedSampleIdList ==>>", getSampleIDList);
-    setSampleUkeyList(getSampleUkeyList);
-    setSampleIdList(getSampleIDList);
-  }, []);
-
-  const handleSampleInfoModalClose = () => {
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      isShow: false,
-    });
+  const handlePageChange = (page: number) => {
+    console.log("Page", page);
+    setPage(page);
   };
 
-  const handleSampleAddModalClose = () => {
-    setShowSampleAddModal(false);
-  };
-
-  const handleAnalDtlModalClose = () => {
-    setShowAnalDtlModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
-  const handleExPrgsChngModalClose = () => {
-    setShowExPrgsChngModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
-  const handleSampleBatchChangeModalClose = () => {
-    setShowSampleBatchChangeModal(false);
-    setSampleUkeyList([]);
-    setSampleIdList([]);
-    setIsClear(true);
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setSize(newPerPage);
   };
 
   return (
     <>
       <DataTableBase
-        data={filteredItems}
+        title={<Title1 titleName="All Samples" />}
+        data={runListData}
         columns={columns}
-        onRowClicked={goDetailModal}
+        onRowClicked={goDetailPage}
         pointerOnHover
         highlightOnHover
-        customStyles={dataTableCustomStyles3}
+        customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
-        selectableRows
-        onSelectedRowsChange={handleSelectedRowChange}
-        clearSelectedRows={isClear}
-        selectableRowsVisibleOnly={true}
-        pagination={false}
+        selectableRows={false}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
       />
-
-      {/* 샘플Info 모달 */}
-      {showSampleInfoModal.isShow && (
-        <LazySampleInfoModal
-          onClose={handleSampleInfoModalClose}
-          open={showSampleInfoModal.isShow}
-          sampleUkey={showSampleInfoModal.sampleUkey}
-          modalWidth={800}
-        />
-      )}
-
-      {/* 샘플Add 모달 */}
-      {showSampleAddModal && (
-        <LazySampleAddModal
-          onClose={handleSampleAddModalClose}
-          open={showSampleAddModal}
-          modalWidth={800}
-        />
-      )}
-
-      {/* 분석 내역 보기 모달 */}
-      {showAnalDtlModal && (
-        <LazyAnalDtlModal
-          onClose={handleAnalDtlModalClose}
-          open={showAnalDtlModal}
-          modalWidth={1100}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 샘플 정보 일괄 변경 */}
-      {showSampleBatchChangeModal && (
-        <LazySampleBatchChangeModal
-          onClose={handleSampleBatchChangeModalClose}
-          open={showSampleBatchChangeModal}
-          modalWidth={800}
-          sampleIdList={sampleIdList}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 실험 진행 단계 변경 */}
-      {showExPrgsChngModal && (
-        <LazyExperimentProgressChangeModal
-          onClose={handleExPrgsChngModalClose}
-          open={showExPrgsChngModal}
-          modalWidth={600}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
     </>
   );
 };
 
-export default SampleTab;
+export default ListSample;
 
 const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
   lineHeight: 1,

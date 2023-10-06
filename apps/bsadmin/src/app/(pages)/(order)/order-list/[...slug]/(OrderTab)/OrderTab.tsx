@@ -93,8 +93,8 @@ const OrderTab = () => {
 
   // 담당자 정보
   const {
-    qcMngrId,
-    qcMngrNm,
+    prepMngrId,
+    prepMngrNm,
     libMngrId,
     libMngrNm,
     seqMngrId,
@@ -278,7 +278,7 @@ const OrderTab = () => {
                 <TH sx={{ width: "15%" }}>실험 담당자</TH>
                 <TD sx={{ width: "85%" }} colSpan={3}>
                   <Stack direction="row" spacing={0.5}>
-                    <Box>{qcMngrNm === null ? "-" : qcMngrNm}(Prep),</Box>
+                    <Box>{prepMngrNm === null ? "-" : prepMngrNm}(Prep),</Box>
                     <Box>{libMngrNm === null ? "-" : libMngrNm}(Lip),</Box>
                     <Box>{seqMngrNm === null ? "-" : seqMngrNm}(Seq)</Box>
                   </Stack>
