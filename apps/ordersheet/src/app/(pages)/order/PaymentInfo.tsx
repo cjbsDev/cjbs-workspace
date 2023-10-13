@@ -224,8 +224,9 @@ export default function Page(props: JSON) {
           <ToggleButton value="BS_1300001" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
+              spacing={2}
               sx={{ width: "100%" }}
             >
               <Typography variant="body2">계좌이체</Typography>
@@ -235,8 +236,9 @@ export default function Page(props: JSON) {
           <ToggleButton value="BS_1300002" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
+              spacing={2}
               sx={{ width: "100%" }}
             >
               <Typography variant="body2">카드결제</Typography>

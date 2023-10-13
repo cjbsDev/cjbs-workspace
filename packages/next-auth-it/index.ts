@@ -33,11 +33,14 @@ export const refreshAccessToken = mem(
             emSW: refreshToken,
             'Accept-Language': 'ko',
           },
-        }).then((res) => res.json());
-        console.log('response>> ', response);
+        }).then((res) => {
+          console.log('res>> ', res);
+          res.json()
+        });
 
+        console.log('response>> ', response);
         if (!response.success) {
-          console.log('실퐤!!!!!!!!!!!');
+          console.log('실패!!!!!!!!!!!');
 
           return resolve({
             refreshToken,
@@ -115,18 +118,25 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
               email,
               password,
             }),
-          }).then((res) => res.json());
+          })
+          .then(res=>{
+            // console.log(res)
+            return res.json();
+          })
+          .then(res=> {
+            console.log(res)
+            return res;
+          });
 
-          // console.log('%%%%%', response)
-
+          // console.log('&&&&&&&&&&&&&', response)
           if (response.success) {
             return {...response.data, serviceType};
           } else {
             throw new Error(response.message);
           }
+
         } catch (e: any) {
           console.log('e > ', e);
-
           throw new Error(e);
         }
       },

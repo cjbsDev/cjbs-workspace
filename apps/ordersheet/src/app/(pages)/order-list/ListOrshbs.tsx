@@ -36,6 +36,7 @@ export default function ListOrshbs() {
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList(page, perPage);
+  console.log(data)
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -101,7 +102,7 @@ export default function ListOrshbs() {
       },
       {
         name: "샘플수량",
-        selector: (row: { sampleCount: string }) => row.sampleCount,
+        selector: (row: { samplesCnt: string }) => row.samplesCnt,
         width: "150px",
       },
       {

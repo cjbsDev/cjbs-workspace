@@ -11,11 +11,15 @@ import {
   styled,
   Button,
 } from "@mui/material";
+import { TabContext, TabList, TabPanel } from "@mui/lab";
 import MyIcon from "icon/MyIcon";
+import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import { ConfirmModal, cjbsTheme } from "cjbsDSTM";
-import WgNgsService from "./(service)/WgNgsService";
 import WgFullService from "./(service)/WgFullService";
+import WgAnalysis from "./(service)/WgAnalysis";
 import WgSequencing from "./(service)/WgSequencing";
+import { useRecoilState } from "recoil";
+import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
 
 const AntTabs = styled(Tabs)({
   marginTop: "10px",
@@ -63,6 +67,7 @@ interface StyledTabProps extends TabProps {
 const Page = () => {
   const [value, setValue] = useState(0);
   const [tempValue, setTempValue] = useState(0);
+  const [stepperNo, setStepperNo] = useRecoilState(stepperStatusAtom);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     handleAlertOpen();
@@ -78,7 +83,7 @@ const Page = () => {
 
   const handleServiceTypeChange = () => {
     setValue(tempValue);
-    // setStepperNo(1);
+    setStepperNo(1);
     handleAlertClose();
   };
 
@@ -89,7 +94,7 @@ const Page = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "space-between",
-          padding: "20px 0 50px 0",
+          padding: "50px 0 50px 0",
           flexDirection: "column",
           height: "100%",
         }}
@@ -113,6 +118,17 @@ const Page = () => {
               Whole Genome Sequencing
             </Typography>
           </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignContent: "start",
+              alignItems: "center",
+              width: 600,
+              mr: "-30px",
+            }}
+          >
+            <HorizontalLinearStepper />
+          </Box>
         </Stack>
 
         <Typography variant="subtitle1" sx={{ mt: 4 }}>
@@ -125,23 +141,6 @@ const Page = () => {
             onChange={handleChange}
             aria-label="ant example"
           >
-            <AntTab
-              label={
-                <Box
-                  sx={{
-                    textAlign: "center",
-                    width: "100%",
-                  }}
-                >
-                  <Typography variant="subtitle1" sx={{}}>
-                    NGS 실험
-                  </Typography>
-                  <Typography variant="body2" sx={{}}>
-                    NGS 실험을 의뢰합니다.
-                  </Typography>
-                </Box>
-              }
-            />
             <AntTab
               label={
                 <Box
@@ -168,6 +167,23 @@ const Page = () => {
                   }}
                 >
                   <Typography variant="subtitle1" sx={{}}>
+                    Analysis Only
+                  </Typography>
+                  <Typography variant="body2" sx={{}}>
+                    BI 분석만 의뢰합니다
+                  </Typography>
+                </Box>
+              }
+            />
+            <AntTab
+              label={
+                <Box
+                  sx={{
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  <Typography variant="subtitle1" sx={{}}>
                     Sequencing Only
                   </Typography>
                   <Typography variant="body2" sx={{}}>
@@ -178,8 +194,8 @@ const Page = () => {
             />
           </AntTabs>
         </Box>
-        {value === 0 ? <WgNgsService /> : ""}
-        {value === 1 ? <WgFullService /> : ""}
+        {value === 0 ? <WgFullService /> : ""}
+        {value === 1 ? <WgAnalysis /> : ""}
         {value === 2 ? <WgSequencing /> : ""}
       </Box>
 

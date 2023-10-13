@@ -171,7 +171,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           <ToggleButton value="Y" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
               sx={{ width: "100%" }}
             >
@@ -181,7 +181,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           <ToggleButton value="N" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
               sx={{ width: "100%" }}
             >

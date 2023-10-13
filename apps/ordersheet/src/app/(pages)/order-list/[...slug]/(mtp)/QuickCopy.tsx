@@ -3,7 +3,7 @@ import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import {
   Checkbox,
-  LinkButton,
+  LinkButton, OutlinedButton,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 
@@ -14,9 +14,9 @@ export default function QuickCopy() {
   const values = getValues(["rhpiNm", "ebcEmail", "rhpiTel"]);
 
   const quickCopyValue = () => {
-    setValue("ordrAplcNm", values[0]);
-    setValue("ordrAplcEmail", values[1]);
-    setValue("ordrAplcTel", values[2]);
+    setValue("ordrAplcNm", getValues('rhpiNm'));
+    setValue("ordrAplcEmail", getValues('ebcEmail'));
+    setValue("ordrAplcTel", getValues('rhpiTel'));
   };
 
   const quickCopyValueClearErr = () => {
@@ -29,14 +29,12 @@ export default function QuickCopy() {
 
   return (
     <>
-      <LinkButton
+      <OutlinedButton
         buttonName="연구책임자 정보와 동일"
         size="small"
         onClick={quickCopyValueClearErr}
-        startIcon={<MyIcon icon={"files"} size={20} />}
-        sx={{
-          color: "black",
-        }}
+        color="primary"
+        endIcon={<MyIcon icon={"cheveron-right"} size={20} />}
       />
     </>
   );

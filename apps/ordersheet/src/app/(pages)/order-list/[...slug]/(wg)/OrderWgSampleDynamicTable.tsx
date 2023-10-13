@@ -21,19 +21,19 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import ExRow from "@app/(pages)/order/shotgun/(service)/(contents)/ExRow";
-import TableHeader from "@app/(pages)/order/shotgun/(service)/(contents)/TableHeader";
+import ExRow from "@app/(pages)/order/wg/(service)/(contents)/ExRow";
+import TableHeader from "@app/(pages)/order/wg/(service)/(contents)/TableHeader";
 import TableNewRows from "./TableNewRows";
-import ExcelUploadModal from "@app/(pages)/order/shotgun/(service)/(contents)/ExcelUploadModal";
+import ExcelUploadModal from "@app/(pages)/order/wg/(service)/(contents)/ExcelUploadModal";
 import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
-import OrderShotgunGroupDynamicTable from "./OrderShotgunGroupDynamicTable";
+import OrderWgComparativeDynamicTable from "./OrderWgComparativeDynamicTable";
 
 
-export default function OrderShotgunSampleDynamicTable(props:any) {
+export default function OrderWgSampleDynamicTable(props:any) {
   const serviceType = props.serviceType;
   const params = useParams();
   // console.log("params", params.slug[2]);
@@ -47,7 +47,6 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -69,23 +68,24 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
     if(serviceType === 'fs') {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          groupNm: "",
-          source: "",
-          sampleCategoryCc: "",
+          isRdnaIdnt16S: "N",
+          locusTagPrfx: "",
           memo: "",
-          depthCc: depthCc,
-          selfQcResultFileId: fileId,
+          sampleCategoryCc: "",
+          sampleNm: "",
+          selfQcResultFileId: 0,
+          txmy: ""
         });
       }
 
     } else if (serviceType === 'ao') {
       for (let i = 0; i < count; i++) {
         append({
-          sampleNm: "",
-          groupNm: "",
-          source: "",
+          dataStatusCc: "",
+          locusTagPrfx: "",
           memo: "",
+          sampleNm: "",
+          txmy: "",
         });
       }
 
@@ -93,9 +93,8 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
       for (let i = 0; i < count; i++) {
         append({
           adapter: "",
-          depthCc: depthCc,
-          idx1nm: "",
           idx1frwr: "",
+          idx1nm: "",
           idx2nm: "",
           idx2rvrs: "",
           memo: "",
@@ -128,8 +127,6 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
               modalWidth={800}
               append={append}
               serviceType={serviceType}
-              // handleAddFields={handleAddFields}
-              // addExcelDataTableRows={addExcelDataTableRows}
             />
             <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
             <ContainedButton
@@ -150,7 +147,6 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
           <TableBody>
             <ExRow serviceType={serviceType}/>
             {fields.map((field, index) => {
-              // console.log("FFFFFFFF", field, index)
               return (
                 <TableNewRows
                   key={field.id}
@@ -167,8 +163,8 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
         </Table>
       </TableContainer>
 
-      {serviceType !== "so" ? (
-        <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      {serviceType === "fs" ? (
+        <OrderWgComparativeDynamicTable sampleFields={fields}/>
       ) : ("")}
 
     </>

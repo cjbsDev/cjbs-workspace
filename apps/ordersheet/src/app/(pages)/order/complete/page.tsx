@@ -124,6 +124,36 @@ const Page = () => {
             </Box>
           ) : ('')}
 
+          {orderNm === 'wg' ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4">WG&nbsp;&nbsp;</Typography>
+              <Typography variant="subtitle2" sx={{ pt: "3px" }}>
+                Whole Genome Sequencing
+              </Typography>
+            </Box>
+          ) : ('')}
+
+          {orderNm === 'rs' ? (
+            <Box
+              sx={{
+                display: "flex",
+                alignContent: "start",
+                alignItems: "center",
+              }}
+            >
+              <Typography variant="h4">RS&nbsp;&nbsp;</Typography>
+              <Typography variant="subtitle2" sx={{ pt: "3px" }}>
+                RNA Sequencing
+              </Typography>
+            </Box>
+          ) : ('')}
+
           <Box
             sx={{
               display: "flex",

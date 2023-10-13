@@ -405,7 +405,6 @@ export default function OrdererInfo() {
                   />
                   <InputValidation
                     inputName="addEmailList"
-                    // placeholder="여러개 입력시','로 구분하세요."
                     placeholder="example@gmail.com, example2@gmail.com"
                     pattern={/^[\w\.-]+@[\w\.-]+\.\w+(,\s*[\w\.-]+@[\w\.-]+\.\w+)*$/}
                     patternErrMsg="이메일 형식이 아닙니다."
