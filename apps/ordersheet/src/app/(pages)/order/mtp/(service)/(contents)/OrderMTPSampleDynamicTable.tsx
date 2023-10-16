@@ -115,8 +115,8 @@ const OrderMTPSampleDynamicTable = (props: any) => {
   return (
     <>
       <Stack direction="row" spacing={1} justifyContent="space-between">
-        <Typography variant="subtitle1">샘플 리스트</Typography>
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="subtitle1">샘플 리스트</Typography>
           <UnStyledButton
             sx={{}}
             buttonName="엑셀 등록"
@@ -124,14 +124,14 @@ const OrderMTPSampleDynamicTable = (props: any) => {
             size="small"
             onClick={() => setShowOrderInfoModifyModal(true)}
           />
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={2}>
           <ExcelUploadModal
             onClose={orderInfoModifyModalClose}
             open={showOrderInfoModifyModal}
             modalWidth={800}
             append={append}
             serviceType={serviceType}
-            // handleAddFields={handleAddFields}
-            // addExcelDataTableRows={addExcelDataTableRows}
           />
           <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
           <ContainedButton

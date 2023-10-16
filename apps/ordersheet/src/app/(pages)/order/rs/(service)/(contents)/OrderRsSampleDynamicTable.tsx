@@ -26,10 +26,10 @@ import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "./ExcelUploadModal";
-import OrderShotgunGroupDynamicTable from "./OrderShotgunGroupDynamicTable";
+import OrderShotgunGroupDynamicTable from "./OrderRsGroupDynamicTable";
 
 
-const OrderShotgunSampleDynamicTable = (props: any) => {
+const OrderRsSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
 
@@ -166,4 +166,4 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
   );
 };
 
-export default OrderShotgunSampleDynamicTable;
+export default OrderRsSampleDynamicTable;
