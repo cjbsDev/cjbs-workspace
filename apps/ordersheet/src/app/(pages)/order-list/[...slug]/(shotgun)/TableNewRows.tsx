@@ -131,7 +131,8 @@ const TableNewRows = (props: any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+                  // url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+                  url={"/code/orsh/sampleCtgr/list?type=sg_fs"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
                   disabled={updataYn === 'N' ? false : true}
                 />

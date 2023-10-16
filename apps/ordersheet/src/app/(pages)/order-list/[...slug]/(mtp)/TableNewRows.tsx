@@ -103,7 +103,8 @@ const TableNewRows = (props: any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+                  // url={"/code/list/shortly/value?topValue=sample&midValue=category"}
+                  url={"/code/orsh/sampleCtgr/list?type=mtp_fs"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
                   disabled={updataYn === 'N' ? false : true}
                 />
@@ -113,7 +114,8 @@ const TableNewRows = (props: any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+                  // url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+                  url={"/code/orsh/sampleGenome/list?type=mtp_fs"}
                   inputName={`sample.[${index}].anlsTargetGeneCc`}
                   disabled={updataYn === 'N' ? false : true}
                 />
@@ -222,7 +224,8 @@ const TableNewRows = (props: any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyPrepSelectbox
-                  url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+                  // url={"/code/list/shortly/value?topValue=sample&midValue=genome"}
+                  url={"/code/orsh/sampleGenome/list?type=mtp_ao"}
                   inputName={`sample.[${index}].anlsTargetGeneCc`}
                   disabled={updataYn === 'N' ? false : true}
                 />
