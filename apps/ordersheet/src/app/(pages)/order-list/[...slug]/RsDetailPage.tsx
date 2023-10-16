@@ -9,15 +9,15 @@ import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 
 
-const LazyShotgunFullService = dynamic(() => import("./(shotgun)/(service)/ShotgunFullService"), {
+const LazyRsFullService = dynamic(() => import("./(rs)/(service)/RsFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyShotgunAnalysis = dynamic(() => import("./(shotgun)/(service)/ShotgunAnalysis"), {
+const LazyRsAnalysis = dynamic(() => import("./(rs)/(service)/RsAnalysis"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyShotgunSequencing = dynamic(() => import("./(shotgun)/(service)/ShotgunSequencing"), {
+const LazyRsSequencing = dynamic(() => import("./(rs)/(service)/RsSequencing"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
@@ -34,8 +34,6 @@ export default function OrshMtpDetailPage() {
     <Container disableGutters={true}>
       <Box
         sx={{
-          // mb: 20,
-          // mt: 11,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'space-between',
@@ -50,7 +48,6 @@ export default function OrshMtpDetailPage() {
           alignItems="center"
           spacing={0}
           sx={{
-            // borderBottom: '1px solid #000',
             p: '12px 20px',
             borderRadius: '4px',
             backgroundColor: cjbsTheme.palette.grey['700'],
@@ -62,9 +59,9 @@ export default function OrshMtpDetailPage() {
             alignContent: 'start',
             alignItems: 'center',
           }}>
-            <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+            <Typography variant="h4">RS&nbsp;&nbsp;</Typography>
             <Typography variant="subtitle2" sx={{ pt: "3px" }}>
-              Shotgun Sequencing
+              RNA Sequencing
             </Typography>
           </Box>
           <Box sx={{
@@ -92,13 +89,13 @@ export default function OrshMtpDetailPage() {
 
         <ErrorContainer FallbackComponent={Fallback}>
           {serviceType === 'fs' ? (
-            <LazyShotgunFullService />
+            <LazyRsFullService />
           ) : ('')}
           {serviceType === 'ao' ? (
-            <LazyShotgunAnalysis />
+            <LazyRsAnalysis />
           ) : ('')}
           {serviceType === 'so' ? (
-            <LazyShotgunSequencing />
+            <LazyRsSequencing />
           ) : ('')}
         </ErrorContainer>
 
