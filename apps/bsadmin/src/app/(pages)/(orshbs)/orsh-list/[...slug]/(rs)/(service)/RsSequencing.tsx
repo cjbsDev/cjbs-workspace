@@ -4,61 +4,38 @@ import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderRsSampleList";
+import OrderRsSampleList from "../OrderRsSampleList";
 import PaymentInfo from "../PaymentInfo";
 
 import dynamic from "next/dynamic";
 import axios from "axios";
-import {GET, PUT} from "api";
+import { GET, PUT } from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
+// import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
 import useSWR from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
-import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
-import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
-import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
-import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
+import {fileIdValueAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
+import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
+import {depthCcValueAtom} from "../../../../../../recoil/atoms/depthCcValueAtom";
 
 
-export default function RsFullService(){
+export default function RsSequencing(){
+
   const router = useRouter();
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
-  const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
-  const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
   const orshUkey = params.slug[0];
 
   const defaultValues = async () => {
-    const res = await GET(`/orsh/rs/fs/${orshUkey}`);
+    const res = await GET(`/orsh/bs/extn/rs/so/${orshUkey}`);
     console.log("resresre", res.data);
 
-    let setGroupList:any = [];
-    let groupDataList:any = [];
-    let groupData = {};
-
-    res.data.samples.map((sample, index) => {
-      console.log(index)
-      const getData = res.data.samples[index].groupNm;
-      console.log(getData);
-      if( getData !== '') setGroupList.push(getData);
-    });
-    let uniqueGroupList = [...new Set(setGroupList)];
-    console.log(uniqueGroupList);
-    uniqueGroupList.forEach((item) => {
-      groupData = { value: item, optionName: item };
-      groupDataList.push(groupData);
-    });
-    console.log(groupDataList);
-    setgroupList(groupDataList);
-
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,
@@ -82,11 +59,10 @@ export default function RsFullService(){
       rcpnEmail : res.data.payment.rcpnEmail,
       memo : res.data.addRqstMemo.memo,
       sample : res.data.samples,
-      groupCmprAnls: res.data.groupCmprAnls.groupCmprAnlsList,
-      isGroupCmprAnls: res.data.groupCmprAnls.isGroupCmprAnls,
+      pltfMc : res.data.commonInput.pltfMc,
+      libKit : res.data.commonInput.libKit,
     };
     setPymtWayCc(res.data.payment.pymtWayCc);
-    setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
     return returnDefaultValues;
   };
 
@@ -101,9 +77,15 @@ export default function RsFullService(){
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
 
+    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
+
     const bodyData = {
       addRqstMemo : {
         memo : data.memo,
+      },
+      commonInput: {
+        libKit : data.libKit,
+        pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
       },
       custAgnc : {
         addEmailList : data.addEmailList,
@@ -121,10 +103,6 @@ export default function RsFullService(){
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
       },
-      groupCmprAnls: {
-        groupCmprAnlsList : data.groupCmprAnls,
-        isGroupCmprAnls : data.isGroupCmprAnls,
-      },
       payment : {
         brno : data.brno,
         conm : data.conm,
@@ -138,28 +116,14 @@ export default function RsFullService(){
 
     console.log("call body data", bodyData);
 
-    // const formData = new FormData();
-    // formData.append(
-    //   "user-data",
-    //   new Blob([JSON.stringify(bodyData)], { type: "application/json" })
-    // );
-    //
-    // if(data.uploadFile.length !== 0){
-    //   // file 데이터가 있을경우
-    //   // formData.append("file-data", uploadFile?.files?.item(0) as File);
-    //   formData.append("file-data", data.uploadFile[0]);
-    // } else {
-    //   formData.append("file-data", null);
-    // }
-
-    const apiUrl = `/orsh/rs/fs/${orshUkey}`;
+    const apiUrl = `/orsh/bs/extn/rs/so/${orshUkey}`;
 
     try {
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
         toast("수정 되었습니다.")
-        router.push("/order-list");
+        router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
         toast(response.message);
 
@@ -189,7 +153,7 @@ export default function RsFullService(){
             alignItems: 'center',
           }}>
             <Typography variant="h5">
-                주문자 및 거래처 정보&nbsp;
+              주문자 및 거래처 정보&nbsp;
             </Typography>
           </Box>
           <Box sx={{
@@ -234,7 +198,7 @@ export default function RsFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"fs"}/>
+          <OrderRsSampleList serviceType={"so"}/>
         </Box>
 
         <Stack

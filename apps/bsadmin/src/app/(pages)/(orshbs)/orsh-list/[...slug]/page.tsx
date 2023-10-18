@@ -3,6 +3,8 @@
 import * as React from "react";
 import MtpDetailPage from "./MtpDetailPage";
 import ShotgunDetailPage from "./ShotgunDetailPage";
+import WgDetailPage from "./WgDetailPage";
+import RsDetailPage from "./RsDetailPage";
 import {useParams} from "next/navigation";
 
 const OrshMtpDetailPage = () => {
@@ -18,6 +20,12 @@ const OrshMtpDetailPage = () => {
       ) : ('')}
       {anlsType === 'sg' ? (
         <ShotgunDetailPage/>
+      ) : ('')}
+      {anlsType === 'wg' ? (
+        <WgDetailPage/>
+      ) : ('')}
+      {anlsType === 'rs' ? (
+        <RsDetailPage/>
       ) : ('')}
     </>
   );

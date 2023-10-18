@@ -20,7 +20,6 @@ export default function WgSequencing(){
 
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
   const params = useParams();
@@ -63,18 +62,16 @@ export default function WgSequencing(){
     return returnDefaultValues;
   };
 
-  const setPymtWayCcValue = (value:string) => {
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-    console.log(value);
-    setPymtWayCc(value);
-  }
+  // const setPymtWayCcValue = (value:string) => {
+  //   console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
+  //   console.log(value);
+  //   setPymtWayCc(value);
+  // }
 
   // 수정 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {

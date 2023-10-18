@@ -29,8 +29,11 @@ import {useParams} from "next/navigation";
 import dynamic from "next/dynamic";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "../../../../../recoil/atoms/fileIdValueAtom";
+import {depthCcValueAtom} from "../../../../../recoil/atoms/depthCcValueAtom";
+import OrderShotgunGroupDynamicTable from "./OrderRsGroupDynamicTable";
 
-export default function OrderMTPSampleDynamicTable(props:any) {
+
+export default function OrderRsSampleDynamicTable(props:any) {
   const serviceType = props.serviceType;
   const params = useParams();
   // console.log("params", params.slug[2]);
@@ -44,6 +47,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
   const { errors } = formState;
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
+  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
   };
@@ -60,26 +64,17 @@ export default function OrderMTPSampleDynamicTable(props:any) {
 
   const handleAddFields = (count:any) => {
     // console.log("Count~!~!", count);
-    // console.log("fileId~!~!", fileId);
-    // for (let i = 0; i < count; i++) {
-    //   append({
-    //     sampleNm: "",
-    //     source: "",
-    //     sampleCategoryCc: "",
-    //     anlsTargetGeneCc: "",
-    //     memo: "",
-    //     selfQcResultFileId: fileId,
-    //   }); // 입력된 수만큼 항목을 추가합니다.
-    // }
+    console.log("fileId~!~!", fileId);
 
     if(serviceType === 'fs') {
       for (let i = 0; i < count; i++) {
         append({
           sampleNm: "",
+          groupNm: "",
           source: "",
           sampleCategoryCc: "",
-          anlsTargetGeneCc: "",
           memo: "",
+          depthCc: depthCc,
           selfQcResultFileId: fileId,
         });
       }
@@ -87,21 +82,20 @@ export default function OrderMTPSampleDynamicTable(props:any) {
     } else if (serviceType === 'ao') {
       for (let i = 0; i < count; i++) {
         append({
-          anlsTargetGeneCc: "",
-          frwrPrimer: "",
-          memo: "",
-          pltfMc: fileId,
-          rvrsPrimer: "",
           sampleNm: "",
+          groupNm: "",
           source: "",
+          memo: "",
         });
       }
 
     } else if (serviceType === 'so') {
       for (let i = 0; i < count; i++) {
         append({
-          idx1frwr: "",
+          adapter: "",
+          depthCc: depthCc,
           idx1nm: "",
+          idx1frwr: "",
           idx2nm: "",
           idx2rvrs: "",
           memo: "",
@@ -110,47 +104,6 @@ export default function OrderMTPSampleDynamicTable(props:any) {
       }
     }
   };
-
-  // const testFunction = () => {
-  //   // console.log("Count~!~!", count);
-  //   const appendedData = props.detailData.map((item) => ({
-  //     sampleNm: item.sampleNm,
-  //     source: item.source,
-  //     sampleCategoryCc: item.sampleCategoryCc,
-  //     anlsTargetGeneCc: item.anlsTargetGeneCc,
-  //     selfQcResultFileId: item.selfQcResultFileId,
-  //     memo: item.memo,
-  //   }));
-  //   appendedData.forEach((item) => {
-  //     append(item, { focusIndex: 1 });
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   console.log("$$$$$$$$$$$$$$$", props.detailData);
-  //   // testFunction();
-  //   if(props.detailData.length > 0) {
-  //     for (let i = 0; i < props.detailData.length; i++) {
-  //       console.log("for~!~!", i);
-  //       const resultData = props.detailData[i];
-  //       console.log("11111111111111", resultData);
-  //       // 이후
-  //       if(i === 0 ){
-  //         setFileId(resultData.selfQcResultFileId);
-  //       }
-  //       append({
-  //         sampleNm: resultData.sampleNm,
-  //         source: resultData.source,
-  //         sampleCategoryCc: resultData.sampleCategoryCc,
-  //         anlsTargetGeneCc: resultData.anlsTargetGeneCc,
-  //         memo: resultData.memo,
-  //         selfQcResultFileId: resultData.selfQcResultFileId,
-  //       }); // 입력된 수만큼 항목을 추가합니다.
-  //       console.log("222222222222222", resultData);
-  //     }
-  //   }
-  //   // remove(props.detailData.length + 1);
-  // }, [remove])
 
   return (
     <>
@@ -175,6 +128,8 @@ export default function OrderMTPSampleDynamicTable(props:any) {
               modalWidth={800}
               append={append}
               serviceType={serviceType}
+              // handleAddFields={handleAddFields}
+              // addExcelDataTableRows={addExcelDataTableRows}
             />
             <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
             <ContainedButton
@@ -187,8 +142,8 @@ export default function OrderMTPSampleDynamicTable(props:any) {
         ) : (
           ''
         )}
-      </Stack>
 
+      </Stack>
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
           <TableHeader serviceType={serviceType}/>
@@ -211,6 +166,11 @@ export default function OrderMTPSampleDynamicTable(props:any) {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {serviceType !== "so" ? (
+        <OrderShotgunGroupDynamicTable sampleFields={fields}/>
+      ) : ("")}
+
     </>
   );
 };

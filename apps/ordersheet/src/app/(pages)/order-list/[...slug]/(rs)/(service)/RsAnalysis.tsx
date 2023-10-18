@@ -39,14 +39,14 @@ export default function RsAnalysis(){
     const res = await GET(`/orsh/rs/ao/${orshUkey}`);
     console.log("resresre", res.data);
 
-    let setGroupList = [];
-    let groupDataList = [];
+    let setGroupList:any = [];
+    let groupDataList:any = [];
     let groupData = {};
 
     res.data.samples.map((sample, index) => {
-      console.log(index)
+      // console.log(index)
       const getData = res.data.samples[index].groupNm;
-      console.log(getData);
+      // console.log(getData);
       if( getData !== '') setGroupList.push(getData);
     });
     let uniqueGroupList = [...new Set(setGroupList)];

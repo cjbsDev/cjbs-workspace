@@ -40,7 +40,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         formData.append("file", file);
 
         // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
+        //   `${process.env.NEXT_PUBLIC_API_URL_ORSH}/wg/${serviceType}/sample/excel`,
         //   formData,
         //   {
         //     withCredentials: false,
@@ -50,7 +50,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         //   }
         // );
         const response = await POST_MULTIPART(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/extn/mtp/${serviceType}/sample`,
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/extn/wg/${serviceType}/sample`,
           formData
         );
 
@@ -61,12 +61,13 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           if(serviceType === 'fs'){
             const appendedData = data.map((item) => ({
-              sampleNm: item.sampleNm,
-              source: item.source,
-              sampleCategoryCc: item.sampleCategoryCc,
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              qc: item.qc,
+              isRdnaIdnt16S: item.isRdnaIdnt16S,
+              locusTagPrfx: item.locusTagPrfx,
               memo: item.memo,
+              sampleCategoryCc: item.sampleCategoryCc,
+              sampleNm: item.sampleNm,
+              selfQcResultFileId: 0,
+              txmy: item.txmy,
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -74,13 +75,11 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'ao') {
             const appendedData = data.map((item) => ({
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              frwrPrimer: item.frwrPrimer,
+              dataStatusCc: item.dataStatusCc,
+              locusTagPrfx: item.locusTagPrfx,
               memo: item.memo,
-              pltfMc: item.pltfMc,
-              rvrsPrimer: item.rvrsPrimer,
               sampleNm: item.sampleNm,
-              source: item.source,
+              txmy: item.txmy,
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -88,6 +87,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'so') {
             const appendedData = data.map((item) => ({
+              adapter: item.adapter,
               idx1frwr: item.idx1frwr,
               idx1nm: item.idx1nm,
               idx2nm: item.idx2nm,
@@ -129,7 +129,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           </Typography>
           {serviceType === 'fs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Full_service_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/WG_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -144,7 +144,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'ao' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Analysis_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/WG_Analysis_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -159,7 +159,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'so' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Sequencing_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/WG_Sequencing_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton

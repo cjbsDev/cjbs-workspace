@@ -36,7 +36,6 @@ export default function RsSequencing(){
     const res = await GET(`/orsh/rs/so/${orshUkey}`);
     console.log("resresre", res.data);
 
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,

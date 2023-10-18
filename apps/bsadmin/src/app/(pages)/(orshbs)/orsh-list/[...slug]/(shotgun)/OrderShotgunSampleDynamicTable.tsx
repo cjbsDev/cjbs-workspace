@@ -118,9 +118,9 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
   return (
     <>
       <Stack direction="row" spacing={1} justifyContent="space-between">
-        <Typography variant="subtitle1">샘플 리스트</Typography>
-        { updataYn === 'N' ? (
-          <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="subtitle1">샘플 리스트</Typography>
+          { updataYn === 'N' ? (
             <UnStyledButton
               sx={{}}
               buttonName="엑셀 등록"
@@ -128,14 +128,16 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
               size="small"
               onClick={() => setShowOrderInfoModifyModal(true)}
             />
+          ) : ('')}
+        </Stack>
+        { updataYn === 'N' ? (
+          <Stack direction="row" alignItems="center" spacing={2}>
             <ExcelUploadModal
               onClose={orderInfoModifyModalClose}
               open={showOrderInfoModifyModal}
               modalWidth={800}
               append={append}
               serviceType={serviceType}
-              // handleAddFields={handleAddFields}
-              // addExcelDataTableRows={addExcelDataTableRows}
             />
             <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
             <ContainedButton
@@ -148,8 +150,8 @@ export default function OrderShotgunSampleDynamicTable(props:any) {
         ) : (
           ''
         )}
-
       </Stack>
+
       <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
           <TableHeader serviceType={serviceType}/>

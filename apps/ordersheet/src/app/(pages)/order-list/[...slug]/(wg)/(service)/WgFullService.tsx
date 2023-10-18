@@ -82,7 +82,7 @@ export default function WgFullService(){
     };
     setFileId(res.data.samples[0].selfQcResultFileId);
     setPymtWayCc(res.data.payment.pymtWayCc);
-    setIsGroupUse(res.data.cmprGenomeAnls.isCmprGenomeAnls)
+    setIsGroupUse(res.data.cmprGenomeAnls.isCmprGenomeAnls);
 
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;

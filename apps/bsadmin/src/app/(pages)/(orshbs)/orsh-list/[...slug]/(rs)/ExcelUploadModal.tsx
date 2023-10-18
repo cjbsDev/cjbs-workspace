@@ -39,18 +39,8 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         const formData = new FormData();
         formData.append("file", file);
 
-        // const response = await axios.post(
-        //   `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
-        //   formData,
-        //   {
-        //     withCredentials: false,
-        //     headers: {
-        //       "Access-Control-Allow-Origin": "*",
-        //     },
-        //   }
-        // );
         const response = await POST_MULTIPART(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/extn/mtp/${serviceType}/sample`,
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/extn/rs/${serviceType}/sample`,
           formData
         );
 
@@ -61,12 +51,11 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           if(serviceType === 'fs'){
             const appendedData = data.map((item) => ({
-              sampleNm: item.sampleNm,
-              source: item.source,
-              sampleCategoryCc: item.sampleCategoryCc,
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              qc: item.qc,
+              asmbAcsnNo: item.asmbAcsnNo,
+              groupNm: item.groupNm,
               memo: item.memo,
+              refTxmy: item.refTxmy,
+              sampleNm: item.sampleNm
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -74,13 +63,11 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'ao') {
             const appendedData = data.map((item) => ({
-              anlsTargetGeneCc: item.anlsTargetGeneCc,
-              frwrPrimer: item.frwrPrimer,
+              asmbAcsnNo: item.asmbAcsnNo,
+              groupNm: item.groupNm,
               memo: item.memo,
-              pltfMc: item.pltfMc,
-              rvrsPrimer: item.rvrsPrimer,
-              sampleNm: item.sampleNm,
-              source: item.source,
+              refTxmy: item.refTxmy,
+              sampleNm: item.sampleNm
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -88,12 +75,13 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'so') {
             const appendedData = data.map((item) => ({
-              idx1frwr: item.idx1frwr,
+              sampleNm: item.sampleNm,
               idx1nm: item.idx1nm,
+              idx1frwr: item.idx1frwr,
               idx2nm: item.idx2nm,
               idx2rvrs: item.idx2rvrs,
+              adapter: item.adapter,
               memo: item.memo,
-              sampleNm: item.sampleNm,
             }));
             appendedData.forEach((item) => {
               append(item);
@@ -129,7 +117,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           </Typography>
           {serviceType === 'fs' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Full_service_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Full_service_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -144,7 +132,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'ao' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Analysis_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Analysis_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton
@@ -159,7 +147,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           {serviceType === 'so' ? (
             <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/MTP_Sequencing_only_template.xlsx"
+              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Sequencing_only_template.xlsx"
               target="_blank"
             >
               <ContainedButton
