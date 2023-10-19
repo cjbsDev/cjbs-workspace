@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -28,7 +28,6 @@ export default function ShotgunSequencing(){
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
   const params = useParams();
@@ -58,7 +57,6 @@ export default function ShotgunSequencing(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
@@ -66,7 +64,6 @@ export default function ShotgunSequencing(){
       sample : res.data.samples,
       depthCc : res.data.commonInput.depthCc,
     };
-    // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
     setDepthCc(res.data.commonInput.depthCc)
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
@@ -83,8 +80,6 @@ export default function ShotgunSequencing(){
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -128,6 +123,7 @@ export default function ShotgunSequencing(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/sg/so/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

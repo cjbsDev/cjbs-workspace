@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -47,9 +47,9 @@ export default function RsFullService(){
     let groupData = {};
 
     res.data.samples.map((sample, index) => {
-      console.log(index)
+      // console.log(index)
       const getData = res.data.samples[index].groupNm;
-      console.log(getData);
+      // console.log(getData);
       if( getData !== '') setGroupList.push(getData);
     });
     let uniqueGroupList = [...new Set(setGroupList)];
@@ -149,6 +149,7 @@ export default function RsFullService(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/rs/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

@@ -16,6 +16,7 @@ import {useRecoilState} from "recoil";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
+import {mutate} from "swr";
 
 
 export default function RsAnalysis(){
@@ -140,6 +141,7 @@ export default function RsAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/rs/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

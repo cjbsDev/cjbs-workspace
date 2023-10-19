@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -37,7 +37,6 @@ export default function WgSequencing(){
     const res = await GET(`/orsh/bs/extn/wg/so/${orshUkey}`);
     console.log("resresre", res.data);
 
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,
@@ -69,18 +68,10 @@ export default function WgSequencing(){
     return returnDefaultValues;
   };
 
-  // const setPymtWayCcValue = (value:string) => {
-  //   console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%");
-  //   console.log(value);
-  //   setPymtWayCc(value);
-  // }
-
   // 수정 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -125,6 +116,7 @@ export default function WgSequencing(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/wg/so/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

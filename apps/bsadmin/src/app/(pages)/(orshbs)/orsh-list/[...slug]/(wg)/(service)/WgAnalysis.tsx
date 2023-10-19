@@ -14,6 +14,7 @@ import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
+import {mutate} from "swr";
 
 
 export default function WgAnalysis(){
@@ -101,6 +102,7 @@ export default function WgAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/wg/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

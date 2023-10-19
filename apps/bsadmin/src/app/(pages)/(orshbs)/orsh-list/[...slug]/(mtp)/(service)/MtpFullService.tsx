@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -137,6 +137,7 @@ export default function MtpFullService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/orsh/bs/extn/mtp/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.data.code == "INVALID_ETC_EMAIL") {

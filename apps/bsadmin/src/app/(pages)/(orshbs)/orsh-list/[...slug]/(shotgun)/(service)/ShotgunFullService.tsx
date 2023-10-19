@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -30,7 +30,6 @@ export default function ShotgunFullService(){
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
   const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
@@ -62,7 +61,6 @@ export default function ShotgunFullService(){
     console.log(groupDataList);
     setgroupList(groupDataList);
 
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,
@@ -81,7 +79,6 @@ export default function ShotgunFullService(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
@@ -96,7 +93,6 @@ export default function ShotgunFullService(){
     setDepthCc(res.data.commonInput.depthCc)
     setPymtWayCc(res.data.payment.pymtWayCc);
     setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
-
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;
   };
@@ -174,6 +170,7 @@ export default function ShotgunFullService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/bs/extn/sg/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.data.code == "INVALID_ETC_EMAIL") {

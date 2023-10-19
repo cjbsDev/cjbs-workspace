@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -29,10 +29,8 @@ import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAto
 export default function WgFullService(){
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
-  const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
 
   const params = useParams();
   // console.log("params", params.slug[1]);
@@ -42,26 +40,6 @@ export default function WgFullService(){
     const res = await GET(`/orsh/bs/extn/wg/fs/${orshUkey}`);
     console.log("resresre", res.data);
 
-    // let setGroupList = [];
-    // let groupDataList = [];
-    // let groupData = {};
-    //
-    // res.data.samples.map((sample, index) => {
-    //   console.log(index)
-    //   const getData = res.data.samples[index].groupNm;
-    //   console.log(getData);
-    //   if( getData !== '') setGroupList.push(getData);
-    // });
-    // let uniqueGroupList = [...new Set(setGroupList)];
-    // console.log(uniqueGroupList);
-    // uniqueGroupList.forEach((item) => {
-    //   groupData = { value: item, optionName: item };
-    //   groupDataList.push(groupData);
-    // });
-    // console.log(groupDataList);
-    // setgroupList(groupDataList);
-
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,
@@ -88,7 +66,6 @@ export default function WgFullService(){
       sample : res.data.samples,
       pltfMc : res.data.commonInput.pltfMc,
       cmprGenomeAnlsDetailList : res.data.cmprGenomeAnls.cmprGenomeAnlsDetailList,
-      // isCmprGenomeAnls: res.data.cmprGenomeAnls.isCmprGenomeAnls,
     };
     setFileId(res.data.samples[0].selfQcResultFileId);
     setPymtWayCc(res.data.payment.pymtWayCc);
@@ -107,8 +84,6 @@ export default function WgFullService(){
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -171,6 +146,7 @@ export default function WgFullService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/bs/extn/wg/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.data.code == "INVALID_ETC_EMAIL") {

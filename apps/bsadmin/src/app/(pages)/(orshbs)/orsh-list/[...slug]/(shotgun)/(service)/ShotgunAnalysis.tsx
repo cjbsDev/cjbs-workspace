@@ -16,12 +16,11 @@ import {useRecoilState} from "recoil";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
+import {mutate} from "swr";
 
 
 export default function ShotgunAnalysis(){
   const router = useRouter();
-  // const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
   const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
@@ -72,18 +71,14 @@ export default function ShotgunAnalysis(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
-      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-      // pltfMc : res.data.commonInput.pltfMc,
       memo : res.data.addRqstMemo.memo,
       sample : res.data.samples,
       groupCmprAnls: res.data.groupCmprAnls.groupCmprAnlsList,
       isGroupCmprAnls: res.data.groupCmprAnls.isGroupCmprAnls,
     };
-    // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
     setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
@@ -147,6 +142,7 @@ export default function ShotgunAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/sg/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
