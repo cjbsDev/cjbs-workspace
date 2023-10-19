@@ -1,6 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import {
-  Box,
+  Box, Popover,
   Stack,
   TableCell,
   TableHead,
@@ -8,13 +8,13 @@ import {
   Typography,
 } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
+import {QuestionTooltip} from "@components/QuestionTooltip";
 
 const TableHeader = (props:any) => {
   const serviceType = props.serviceType;
 
   return (
     <>
-
       {serviceType === 'fs' ?
         (
           <TableHead>
@@ -37,6 +37,7 @@ const TableHeader = (props:any) => {
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography variant="subtitle2">Locus tag prefix</Typography>{" "}
+                  <QuestionTooltip sampleCloumn="locus" />
                 </Stack>
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
@@ -85,6 +86,7 @@ const TableHeader = (props:any) => {
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography variant="subtitle2">Locus tag prefix</Typography>
+                  <QuestionTooltip sampleCloumn="locus" />
                 </Stack>
               </TableCell>
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
@@ -199,7 +201,6 @@ const TableHeader = (props:any) => {
           ''
         )
       }
-
     </>
   );
 };
