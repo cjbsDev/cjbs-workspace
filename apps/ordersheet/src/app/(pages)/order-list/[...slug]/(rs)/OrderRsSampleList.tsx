@@ -102,7 +102,7 @@ export default function OrderRsSampleList(props: any) {
       <NoticeBox serviceType={serviceType}/>
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        {serviceType !== "ao" ? (
+        {serviceType === "so" ? (
           <Typography variant="subtitle1">공통 항목 선택</Typography>
         ) : (
           ""

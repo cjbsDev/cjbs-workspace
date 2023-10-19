@@ -8,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
+import {QuestionTooltip} from "@components/QuestionTooltip";
 
 const TableHeader = (props:any) => {
   const serviceType = props.serviceType;
@@ -43,6 +44,7 @@ const TableHeader = (props:any) => {
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography variant="subtitle2">Reference genome assembly accession No.</Typography>{" "}
                   <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">*</Box>
+                  <QuestionTooltip sampleCloumn="accession" />
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -85,9 +87,8 @@ const TableHeader = (props:any) => {
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
                 <Stack direction="row" alignItems="center" spacing={1}>
                   <Typography variant="subtitle2">Reference genome assembly accession No. </Typography>{" "}
-                  <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
-                    *
-                  </Box>
+                  <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">*</Box>
+                  <QuestionTooltip sampleCloumn="accession" />
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>

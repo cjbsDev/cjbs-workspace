@@ -118,7 +118,7 @@ const TableNewRows = (props: any) => {
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
                 sx={{
-                  width: 180,
+                  width: 300,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                   },
@@ -259,7 +259,7 @@ const TableNewRows = (props: any) => {
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
                 sx={{
-                  width: 200,
+                  width: 300,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                   },

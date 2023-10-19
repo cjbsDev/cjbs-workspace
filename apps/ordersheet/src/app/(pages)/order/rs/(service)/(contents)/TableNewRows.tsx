@@ -70,7 +70,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 300 }}
               />
               {errors.sample?.[index]?.asmbAcsnNo && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 입력해 주세요.</Typography>}
             </TableCell>
@@ -145,7 +145,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 300 }}
               />
               {errors.sample?.[index]?.asmbAcsnNo && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 입력해 주세요.</Typography>}
             </TableCell>
