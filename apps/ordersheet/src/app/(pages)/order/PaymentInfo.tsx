@@ -25,6 +25,7 @@ import {
   TD,
   TH,
   Title1,
+  cjbsTheme,
 } from "cjbsDSTM";
 import * as React from "react";
 import { useRouter } from "next-nprogress-bar";
@@ -248,17 +249,21 @@ export default function Page(props: JSON) {
         </StyledToggleButtonGroup>
       </Stack>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={0}>
         <CheckboxSV
           inputName="isAgree"
-          labelText="개인정보 수집 및 활용에 동의합니다 (필수)"
+          labelText=""
           value="Y"
           required={true}
           errorMessage="개인정보 수집 및 활용에 동의해 주세요."
         />
+        <Typography variant="body2" sx={{ml:-2}}>
+          <Box sx={{color: cjbsTheme.palette.primary.main}} component="span">개인정보 수집 및 활용</Box>
+          에 동의합니다 (필수)
+        </Typography>
       </Stack>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
+      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mt: 4}}>
         <OutlinedButton
           buttonName="이전"
           onClick={() => props.moveBackFocus()}
@@ -275,6 +280,12 @@ export default function Page(props: JSON) {
           }
         />
       </Stack>
+      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mt: 2}}>
+        <Typography variant="body2" color={cjbsTheme.palette.primary.main}>
+          * 담당자 승인 전까지 [내 주문내역] 에서 주문서를 수정할 수 있습니다.
+        </Typography>
+      </Stack>
+
     </Form>
   );
 }

@@ -53,7 +53,6 @@ const NoticeBox = ( props:any ) => {
                   RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동 폐기됩니다.
                 </Typography>
               </li>
-
               <li>
                 <Typography variant="body2">
                   Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서
@@ -84,11 +83,6 @@ const NoticeBox = ( props:any ) => {
             }}
           >
             <ul>
-              {/*<li style={{ color: "#EF151E" }}>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
               <li style={{ color: "#EF151E" }}>
                 <Typography variant="body2">
                   분석 결과는 EzBioCloud로 업로드됩니다.
@@ -112,7 +106,6 @@ const NoticeBox = ( props:any ) => {
                   RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동 폐기됩니다.
                 </Typography>
               </li>
-
               <li>
                 <Typography variant="body2">
                   Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서

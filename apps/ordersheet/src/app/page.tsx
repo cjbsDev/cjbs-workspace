@@ -112,7 +112,7 @@ export default function Page() {
             <InputValidation
               inputName="password"
               // label="비밀번호"
-              placeholder="label"
+              placeholder="비밀번호"
               required={true}
               errorMessage="비밀번호를 입력해 주세요."
               type={showPassword ? "text" : "password"}

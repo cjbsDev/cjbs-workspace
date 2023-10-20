@@ -21,7 +21,7 @@ const NoticeBox = ( props:any ) => {
             <ul>
               <li style={{ color: "#EF151E" }}>
                 <Typography variant="body2">
-                  주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다,
+                  주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다.
                 </Typography>
               </li>
               <li style={{ color: "#EF151E" }}>
@@ -36,7 +36,7 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li>
                 <Typography variant="body2">
-                  Sequencing raw data 보관기간은1년이오니,만료 전에 데이터센터에서 다운로드 바랍니다.
+                  Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
                 </Typography>
               </li>
               <li>

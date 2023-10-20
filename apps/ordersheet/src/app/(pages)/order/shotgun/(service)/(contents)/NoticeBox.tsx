@@ -71,26 +71,6 @@ const NoticeBox = ( props:any ) => {
             }}
           >
             <ul>
-              {/*<li style={{ color: "#EF151E" }}>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
-              {/*<li style={{ color: "#EF151E" }}>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    분석 결과는 EzBioCloud로 업로드됩니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
-              {/*<li>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    샘플명은 영문, 숫자, -(hyphen)만 입력이 가능합니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
-              {/*<li style={{ color: "#EF151E" }}>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    원활한 분석 진행을 위하여 실험에 사용한 primer정보 기재를 권장합니다.*/}
-              {/*  </Typography>*/}
-              {/*</li>*/}
               <li>
                 <Typography variant="body2">
                   그룹비교분석을 위해 샘플리스트의

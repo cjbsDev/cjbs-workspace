@@ -121,7 +121,7 @@ const OrderWgSampleDynamicTable = (props: any) => {
             onClick={() => setShowOrderInfoModifyModal(true)}
           />
         </Stack>
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={0.5}>
           <ExcelUploadModal
             onClose={orderInfoModifyModalClose}
             open={showOrderInfoModifyModal}
@@ -129,7 +129,7 @@ const OrderWgSampleDynamicTable = (props: any) => {
             append={append}
             serviceType={serviceType}
           />
-          <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
+          <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
           <ContainedButton
             buttonName="행 추가"
             size="small"
