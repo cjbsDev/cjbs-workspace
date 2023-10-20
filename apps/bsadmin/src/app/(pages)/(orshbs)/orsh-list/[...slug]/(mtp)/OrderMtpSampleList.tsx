@@ -105,6 +105,7 @@ export default function OrderMtpSampleList(props: any) {
                     // url={"/code/orsh/pltf/list?type=mtpAO"}
                     url={`/code/orsh/pltf/list?type=mtp_${serviceType}`}
                     inputName={"pltfMc"}
+                    disabled={updataYn === 'N' ? false : true}
                   />
                 </ErrorContainer>
               </Stack>
@@ -142,10 +143,9 @@ export default function OrderMtpSampleList(props: any) {
       <InputValidation
         inputName="memo"
         required={false}
-        // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        placeholder={"추가 요청 사항을 입력해주세요."}
+        placeholder={updataYn === 'N' ? "추가 요청 사항을 입력해주세요." : ""}
         sx={{
           width: '100%',
           mb: 4,

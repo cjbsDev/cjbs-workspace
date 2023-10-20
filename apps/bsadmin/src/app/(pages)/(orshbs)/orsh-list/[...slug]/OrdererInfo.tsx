@@ -21,9 +21,13 @@ import {
     Title1,
 } from "cjbsDSTM";
 import React, { useState } from "react";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
+import LoadingSvg from "@public/svg/loading_wh.svg";
+import useSWR from "swr";
+import {fetcherOrsh} from "api";
 import {useParams} from "next/navigation";
-import {AddressDeleteButton} from "../../../../../components/AddressDeleteButton";
+import {AddressDeleteButton} from "../../../../components/AddressDeleteButton";
 
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
@@ -191,7 +195,7 @@ export default function OrdererInfo() {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         <Typography variant="subtitle1">신청인 정보</Typography>
         { updataYn === 'N' ? (
           <LazyQuickCopy />
@@ -199,7 +203,7 @@ export default function OrdererInfo() {
           ''
         )}
       </Stack>
-      <TableContainer sx={{ mb: 5 }}>
+      <TableContainer sx={{ mb: 5, mt:1 }}>
         <Table>
           <TableBody>
             <TableRow>
@@ -401,10 +405,7 @@ export default function OrdererInfo() {
                   />
                   <InputValidation
                     inputName="addEmailList"
-                    // placeholder="여러개 입력시','로 구분하세요."
-                    placeholder="example@gmail.com, example2@gmail.com"
-                    // pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
-                    // patternErrMsg="이메일 형식이 아닙니다."
+                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
                     sx={{
                       width: 550,
                       "& .MuiOutlinedInput-root": {

@@ -111,8 +111,8 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
   return (
     <>
       <Stack direction="row" spacing={1} justifyContent="space-between">
-        <Typography variant="subtitle1">샘플 리스트</Typography>
         <Stack direction="row" alignItems="center" spacing={2}>
+          <Typography variant="subtitle1">샘플 리스트</Typography>
           <UnStyledButton
             sx={{}}
             buttonName="엑셀 등록"
@@ -120,6 +120,8 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
             size="small"
             onClick={() => setShowOrderInfoModifyModal(true)}
           />
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={0.5}>
           <ExcelUploadModal
             onClose={orderInfoModifyModalClose}
             open={showOrderInfoModifyModal}
@@ -127,7 +129,7 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
             append={append}
             serviceType={serviceType}
           />
-          <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
+          <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
           <ContainedButton
             buttonName="행 추가"
             size="small"

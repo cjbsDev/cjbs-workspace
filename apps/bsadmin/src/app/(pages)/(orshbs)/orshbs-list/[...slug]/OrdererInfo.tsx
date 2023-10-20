@@ -192,7 +192,7 @@ export default function OrdererInfo() {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={2}>
         <Typography variant="subtitle1">신청인 정보</Typography>
         { updataYn === 'N' ? (
           <LazyQuickCopy />
@@ -200,7 +200,7 @@ export default function OrdererInfo() {
           ''
         )}
       </Stack>
-      <TableContainer sx={{ mb: 5 }}>
+      <TableContainer sx={{ mb: 5, mt: 1 }}>
         <Table>
           <TableBody>
             <TableRow>
@@ -296,93 +296,6 @@ export default function OrdererInfo() {
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "20%" }}>주소  <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
-            {/*  <TD sx={{ width: "80%" }} colSpan={5}>*/}
-            {/*    <Stack spacing={1}>*/}
-            {/*      <Stack direction="row" spacing={0.5}>*/}
-            {/*        <InputValidation*/}
-            {/*          // inputName="agncZip"*/}
-            {/*          inputName="zip"*/}
-            {/*          placeholder="우편번호"*/}
-            {/*          required={true}*/}
-            {/*          errorMessage="우편번호를 입력해 주세요"*/}
-            {/*          InputProps={{*/}
-            {/*              readOnly: true,*/}
-            {/*          }}*/}
-            {/*          sx={{*/}
-            {/*            "& .MuiOutlinedInput-root": {*/}
-            {/*              "& fieldset": { border: updataYn === 'N' ? '' : 'none' },*/}
-            {/*            },*/}
-            {/*            ".MuiOutlinedInput-input:read-only": {*/}
-            {/*              backgroundColor: updataYn === 'N' ? '' : "white",*/}
-            {/*              cursor: updataYn === 'N' ? '' : "pointer",*/}
-            {/*              textFillColor: "#000000"*/}
-            {/*            },*/}
-            {/*          }}*/}
-            {/*        />*/}
-            {/*        { updataYn === 'N' ? (*/}
-            {/*          <>*/}
-            {/*            <PostCodeBtn />*/}
-            {/*            <AddressDeleteButton />*/}
-            {/*          </>*/}
-            {/*        ) : (*/}
-            {/*          ''*/}
-            {/*        )}*/}
-
-            {/*      </Stack>*/}
-            {/*      <Stack direction="row" spacing={0.5}>*/}
-            {/*        <InputValidation*/}
-            {/*          // inputName="agncAddr"*/}
-            {/*          inputName="addr"*/}
-            {/*          placeholder="도로명 또는 지번"*/}
-            {/*          required={true}*/}
-            {/*          errorMessage="주소를 입력해 주세요"*/}
-            {/*          sx={{*/}
-            {/*            width: 600,*/}
-            {/*            "& .MuiOutlinedInput-root": {*/}
-            {/*              "& fieldset": { border: updataYn === 'N' ? '' : 'none' },*/}
-            {/*            },*/}
-            {/*            ".MuiOutlinedInput-input:read-only": {*/}
-            {/*              backgroundColor: updataYn === 'N' ? '' : "white",*/}
-            {/*              cursor: updataYn === 'N' ? '' : "pointer",*/}
-            {/*              textFillColor: "#000000"*/}
-            {/*            },*/}
-            {/*          }}*/}
-            {/*          InputProps={{*/}
-            {/*              readOnly: true,*/}
-            {/*          }}*/}
-            {/*        />*/}
-            {/*      </Stack>*/}
-            {/*      <Stack direction="row" spacing={0.5}>*/}
-            {/*        <InputValidation*/}
-            {/*           // inputName="agncAddrDetail"*/}
-            {/*          inputName="addrDetail"*/}
-            {/*          maxLength={50}*/}
-            {/*          maxLengthErrMsg="50자 이내로 입력해 주세요."*/}
-            {/*          placeholder="상세주소"*/}
-            {/*          required={true}*/}
-            {/*          errorMessage="상세주소를 입력해주세요"*/}
-            {/*          sx={{*/}
-            {/*            width: 600,*/}
-            {/*            "& .MuiOutlinedInput-root": {*/}
-            {/*              "& fieldset": { border: updataYn === 'N' ? '' : 'none' },*/}
-            {/*            },*/}
-            {/*            ".MuiOutlinedInput-input:read-only": {*/}
-            {/*              backgroundColor: "white",*/}
-            {/*              cursor: "pointer",*/}
-            {/*              textFillColor: "#000000"*/}
-            {/*            },*/}
-            {/*          }}*/}
-            {/*          InputProps={{*/}
-            {/*              readOnly: updataYn === 'N' ? false : true*/}
-            {/*          }}*/}
-            {/*        />*/}
-            {/*      </Stack>*/}
-            {/*    </Stack>*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
-
             <TableRow>
               <TH sx={{ width: "20%" }}>진행사항 메일 수신 설정 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
@@ -403,7 +316,8 @@ export default function OrdererInfo() {
                   <InputValidation
                     inputName="addEmailList"
                     // placeholder="여러개 입력시','로 구분하세요."
-                    placeholder="example@gmail.com, example2@gmail.com"
+                    // placeholder="example@gmail.com, example2@gmail.com"
+                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
                     // pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
                     // patternErrMsg="이메일 형식이 아닙니다."
                     sx={{
@@ -425,12 +339,15 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row">
                   <InputValidation
                     inputName="rstFileRcpnEmail"
-                    placeholder="example@gmail.com, example2@gmail.com"
+                    // placeholder="example@gmail.com, example2@gmail.com"
+                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
+                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                    patternErrMsg="이메일 형식이 아닙니다."
                     sx={{
                       width: 306,
                       "& .MuiOutlinedInput-root": {
@@ -446,17 +363,6 @@ export default function OrdererInfo() {
                       readOnly: updataYn === 'N' ? false : true
                     }}
                   />
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="계정 등록"*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="삭제"*/}
-                  {/*  color={"error"}*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>

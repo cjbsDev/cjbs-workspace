@@ -2,8 +2,7 @@
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
 import {
-  Checkbox,
-  LinkButton, OutlinedButton,
+  OutlinedButton,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 
@@ -14,9 +13,9 @@ export default function QuickCopy() {
   const values = getValues(["rhpiNm", "ebcEmail", "rhpiTel"]);
 
   const quickCopyValue = () => {
-    setValue("ordrAplcNm", values[0]);
-    setValue("ordrAplcEmail", values[1]);
-    setValue("ordrAplcTel", values[2]);
+    setValue("ordrAplcNm", getValues("rhpiNm"));
+    setValue("ordrAplcEmail", getValues("ebcEmail"));
+    setValue("ordrAplcTel", getValues("rhpiTel"));
   };
 
   const quickCopyValueClearErr = () => {

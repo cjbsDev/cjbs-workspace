@@ -168,7 +168,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
           ) : ('')}
         </Stack>
         { updataYn === 'N' ? (
-          <Stack direction="row" alignItems="center" spacing={2}>
+          <Stack direction="row" alignItems="center" spacing={0.5}>
             <ExcelUploadModal
               onClose={orderInfoModifyModalClose}
               open={showOrderInfoModifyModal}
@@ -176,7 +176,7 @@ export default function OrderMTPSampleDynamicTable(props:any) {
               append={append}
               serviceType={serviceType}
             />
-            <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
+            <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
             <ContainedButton
               buttonName="행 추가"
               size="small"

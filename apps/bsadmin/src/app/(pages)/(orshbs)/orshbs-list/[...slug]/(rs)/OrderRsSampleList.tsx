@@ -33,7 +33,7 @@ import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import {useRouter} from "next-nprogress-bar";
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../../../../components/CommonSelectbox"),
+  () => import("../../../../../components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -63,6 +63,7 @@ export default function OrderRsSampleList(props: any) {
                     <LazyPrepSelectbox
                       url={`/code/orsh/pltf/list?type=${service}_${serviceType}`}
                       inputName={"pltfMc"}
+                      disabled={updataYn === 'N' ? false : true}
                     />
                   </ErrorContainer>
                 </Stack>
@@ -102,10 +103,9 @@ export default function OrderRsSampleList(props: any) {
       <InputValidation
         inputName="memo"
         required={false}
-        // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        placeholder={"추가 요청 사항을 입력해주세요."}
+        placeholder={updataYn === 'N' ? "추가 요청 사항을 입력해주세요." : ""}
         sx={{
           width: '100%',
           mb: 4,

@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderRsSampleList from "../OrderRsSampleList";
 import {fetcher, GET, PUT} from "api";
 import { useRouter } from "next-nprogress-bar";

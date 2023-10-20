@@ -158,10 +158,9 @@ export default function OrderShotgunSampleList(props: any) {
       <InputValidation
         inputName="memo"
         required={false}
-        // errorMessage="추가 요청 사항을 입력해주세요."
         multiline
         maxRows={4}
-        placeholder={"추가 요청 사항을 입력해주세요."}
+        placeholder={updataYn === 'N' ? "추가 요청 사항을 입력해주세요." : ""}
         sx={{
           width: '100%',
           mb: 4,

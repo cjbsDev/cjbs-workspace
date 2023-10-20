@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
+import OrdererInfo from "../../OrdererInfo";
+import OrderShotgunSampleList from "../OrderShotgunSampleList";
 import {fetcher, PUT} from "api";
 import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
@@ -195,7 +195,7 @@ export default function ShotgunFullService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"fs"} />
+          <OrderShotgunSampleList serviceType={"fs"} />
         </Box>
 
       </Form>

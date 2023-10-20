@@ -22,6 +22,7 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 import {useRecoilState} from "recoil";
 import {prjcCodeAtom} from "../../../../recoil/atoms/fileIdValueAtom";
+import {useParams} from "next/navigation";
 
 
 const LazyProjectSearchModal = dynamic(() => import("../../orsh-order/ProjectSearchModal"), {
@@ -37,6 +38,8 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function StudySelection(props: any) {
+  const params = useParams();
+  const updataYn = params.slug[2];
   const prjcCode = props.prjcCode;
   // // [프로젝트 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
@@ -90,11 +93,14 @@ export default function StudySelection(props: any) {
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="과제 검색"
-                    onClick={agncSearchModalOpen}
-                  />
+                  {updataYn === 'N' ? (
+                    <OutlinedButton
+                      size="small"
+                      buttonName="과제 검색"
+                      onClick={agncSearchModalOpen}
+                    />
+                  ) : ('')}
+
                 </Stack>
               </TD>
             </TableRow>
@@ -106,6 +112,7 @@ export default function StudySelection(props: any) {
                     <LazyPrepSelectbox
                       url={`/code/orsh/prjtDetail/list?type=${newPrjcCode}`}
                       inputName={`prjcDetailCode`}
+                      disabled={updataYn === 'N' ? false : true}
                     />
                   </ErrorContainer>
                 </Stack>

@@ -3,8 +3,8 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
+import OrdererInfo from "../../OrdererInfo";
+import OrderShotgunSampleList from "../OrderShotgunSampleList";
 import {fetcher, GET, POST_MULTIPART, PUT, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
 import {useParams} from "next/navigation";
@@ -199,7 +199,7 @@ export default function ShotgunNgsService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ao"}/>
+          <OrderShotgunSampleList serviceType={"ao"}/>
         </Box>
 
       </Form>
