@@ -60,7 +60,7 @@ export const QuestionTooltip = (props:any) => {
               spacing={1}
               sx={{paddingRight:4}}
             >
-              <Typography variant="subtitle2">"Locus tag prefix" 란</Typography>{" "}
+              <Typography variant="subtitle2">&quot;Locus tag prefix&quot; 란</Typography>{" "}
               <Typography variant="body2">Genome의 모든 유전자에 체계적으로 적용되는 식별자로 genome project 등록 시 필요합니다. 해당 정보는 gene name, contig name 등에 할당됩니다.</Typography>{" "}
             </Stack>
           </Stack>
