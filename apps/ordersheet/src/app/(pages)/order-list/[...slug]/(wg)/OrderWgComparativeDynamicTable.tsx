@@ -11,20 +11,12 @@ import {
   TableRow, ToggleButton, ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import {
-  cjbsTheme, ConfirmModal,
-  ContainedButton,
-  InputValidation, OutlinedButton,
-  SelectBox,
-  UnStyledButton,
-} from "cjbsDSTM";
+import { cjbsTheme, ConfirmModal, ContainedButton, InputValidation } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import ExRow from "../../../order/wg/(service)/(contents)/ExRow";
 import TableHeader from "../../../order/wg/(service)/(contents)/TableHeader";
 import TableNewRows from "./TableNewRows";
 import {useRecoilState} from "recoil";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
-import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 import {useParams} from "next/navigation";
 import Link from "next/link";
@@ -82,27 +74,6 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   };
 
   const handleServiceTypeChange = () => {
-    // resetGroupTable();
-    // let setGroupList = [];
-    // let groupDataList = [];
-    // let groupData = {};
-    //
-    // sampleFields.map((field, index) => {
-    //   const getData = getValues(`sample.[${index}].groupNm`);
-    //   console.log(getData);
-    //   if( getData !== '') setGroupList.push(getData);
-    // });
-    // let uniqueGroupList = [...new Set(setGroupList)];
-    // console.log(uniqueGroupList);
-    // uniqueGroupList.forEach((item) => {
-    //   groupData = { value: item, optionName: item };
-    //   groupDataList.push(groupData);
-    // });
-    // console.log(groupDataList);
-    //
-    // setGroupOptionData(groupDataList);
-    // handleAlertClose();
-
     resetGroupTable();
     sampleFields.map((field, index) => {
       const getData = getValues(`sample.[${index}].sampleNm`);
@@ -130,6 +101,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     }
     setValue("isCmprGenomeAnls", newAlignment);
     setIsCmprGenomeAnls(newAlignment);
+    handleServiceTypeChange();
   };
 
   // group table delete
@@ -170,14 +142,6 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
         <Typography variant="subtitle1">비교 유전체 분석 Comparative Genome analysis (무료)</Typography>
-        {updataYn === 'N' ? (
-          <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
-            <ContainedButton
-              buttonName="샘플명 적용"
-              onClick={() => handleAlertOpen()}
-            />
-          </Stack>
-        ) : ('')}
       </Stack>
 
       <Stack
@@ -347,19 +311,15 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
 
         </Stack>
 
-        {/*<Stack direction="row" spacing={1} justifyContent="end">*/}
-        {/*  <InputValidation*/}
-        {/*    inputName="countGroup"*/}
-        {/*    type="number"*/}
-        {/*    sx={{width: "80px"}}*/}
-        {/*  />*/}
-        {/*  <ContainedButton*/}
-        {/*    buttonName="행 추가"*/}
-        {/*    size="small"*/}
-        {/*    color={"secondary"}*/}
-        {/*    onClick={() => handleAddFields(getValues("countGroup"))}*/}
-        {/*  />*/}
-        {/*</Stack>*/}
+        {updataYn === 'N' ? (
+          <Stack direction="row" spacing={0.5} justifyContent="space-between">
+            <ContainedButton
+              buttonName="샘플명 적용"
+              onClick={() => handleAlertOpen()}
+            />
+          </Stack>
+        ) : ('')}
+
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
             <TableHeader serviceType={'comparative'} />

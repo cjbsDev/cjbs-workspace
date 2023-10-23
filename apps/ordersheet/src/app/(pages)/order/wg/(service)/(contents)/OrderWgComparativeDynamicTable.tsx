@@ -89,6 +89,7 @@ const OrderWgComparativeDynamicTable = (props) => {
     }
     setValue("isCmprGenomeAnls", newAlignment);
     setIsCmprGenomeAnls(newAlignment);
+    handleServiceTypeChange();
   };
 
   // group table delete
@@ -98,21 +99,6 @@ const OrderWgComparativeDynamicTable = (props) => {
       remove(item);
     });
   };
-
-  // const handleAddFields = (count:any) => {
-  //   console.log("Count~!~!", count);
-  //   // 입력된 수만큼 항목을 추가합니다.
-  //   for (let i = 0; i < count; i++) {
-  //     append({
-  //       // sampleNm: "",
-  //       // groupNm: "",
-  //       // source: "",
-  //       // sampleCategoryCc: "",
-  //       // memo: "",
-  //       // selfQcResultFileId: 0
-  //     });
-  //   }
-  // };
 
   return (
     <>
@@ -130,12 +116,6 @@ const OrderWgComparativeDynamicTable = (props) => {
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
         <Typography variant="subtitle1">비교 유전체 분석 Comparative Genome analysis (무료)</Typography>
-        <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
-          <ContainedButton
-            buttonName="샘플명 적용"
-            onClick={() => handleAlertOpen()}
-          />
-        </Stack>
       </Stack>
 
       <Stack
@@ -297,19 +277,12 @@ const OrderWgComparativeDynamicTable = (props) => {
 
         </Stack>
 
-        {/*<Stack direction="row" spacing={1} justifyContent="end">*/}
-        {/*  <InputValidation*/}
-        {/*    inputName="countGroup"*/}
-        {/*    type="number"*/}
-        {/*    sx={{width: "80px"}}*/}
-        {/*  />*/}
-        {/*  <ContainedButton*/}
-        {/*    buttonName="행 추가"*/}
-        {/*    size="small"*/}
-        {/*    color={"secondary"}*/}
-        {/*    onClick={() => handleAddFields(getValues("countGroup"))}*/}
-        {/*  />*/}
-        {/*</Stack>*/}
+        <Stack direction="row" spacing={0.5} justifyContent="space-between">
+          <ContainedButton
+            buttonName="샘플명 불러오기"
+            onClick={() => handleAlertOpen()}
+          />
+        </Stack>
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
             <TableHeader serviceType={'comparative'} />
