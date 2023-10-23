@@ -14,6 +14,7 @@ import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
+import {mutate} from "swr";
 
 
 export default function WgSequencing(){
@@ -116,6 +117,7 @@ export default function WgSequencing(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/wg/so/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/order-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

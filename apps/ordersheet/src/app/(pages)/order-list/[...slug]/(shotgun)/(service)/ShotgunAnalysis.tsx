@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -154,6 +154,7 @@ export default function ShotgunAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/sg/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/order-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {

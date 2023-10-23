@@ -252,15 +252,16 @@ export default function Page(props: JSON) {
       <Stack direction="row" alignItems="center" spacing={0}>
         <CheckboxSV
           inputName="isAgree"
-          labelText=""
+          labelText={
+            <Typography variant="body2">
+              <Box sx={{color: cjbsTheme.palette.primary.main}} component="span">개인정보 수집 및 활용</Box>
+              에 동의합니다 (필수)
+            </Typography>
+          }
           value="Y"
           required={true}
           errorMessage="개인정보 수집 및 활용에 동의해 주세요."
         />
-        <Typography variant="body2" sx={{ml:-2}}>
-          <Box sx={{color: cjbsTheme.palette.primary.main}} component="span">개인정보 수집 및 활용</Box>
-          에 동의합니다 (필수)
-        </Typography>
       </Stack>
 
       <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mt: 4}}>

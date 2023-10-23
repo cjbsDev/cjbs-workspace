@@ -217,7 +217,7 @@ const Page = () => {
                 alignItems: "center",
                 mt: "26px",
                 p: "40px 30px",
-                width: 772,
+                width: 840,
                 backgroundColor: cjbsTheme.palette.grey[50],
                 borderRadius: "4px",
                 border: "1px solid",
@@ -225,31 +225,66 @@ const Page = () => {
               }}
             >
               <Grid container spacing={2}>
-                <Grid item xs={2}>
-                  <Typography variant="subtitle2">샘플 접수</Typography>
-                </Grid>
-                <Grid item xs={10}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <Typography variant="subtitle2">NGS 실험실</Typography>
-                    <Typography variant="body2">
-                      (16495) 경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크
-                      블루동 12층
-                    </Typography>
-                  </Stack>
-                </Grid>
-                <Grid item xs={2}>
-                  <Typography variant="subtitle2">연락처</Typography>
-                </Grid>
-                <Grid item xs={10}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <MyIcon icon="telephone" size={20} />
-                    <Typography variant="body2">Tel 02-6078-3456</Typography>
-                    <MyIcon icon="mail-fill" size={20} />
-                    <Typography variant="subtitle2">
-                      E-mail bs.ngs@cj.net
-                    </Typography>
-                  </Stack>
-                </Grid>
+
+                {serviceParam === 'ao' ? (
+                  <>
+                    <Grid item xs={2}>
+                      <Typography variant="subtitle2">분석데이터 전달</Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Stack spacing={0.5} alignItems="flex-start">
+                        <Typography variant="body2">
+                          분석에 사용되는 <Box component="span" sx={{fontWeight:700}}>Sequencing raw data</Box>는 신청인 정보와 함께 CJ바이오사이언스 NGS 대표 메일로 전달 부탁드립니다.
+                        </Typography>
+                        <Typography variant="body2">
+                          메일로 전달이 불가능할 경우, 대표 전화 또는 메일로 연락해주세요.
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="subtitle2">연락처</Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <MyIcon icon="telephone" size={20} />
+                        <Typography variant="body2">Tel 02-6078-3456</Typography>
+                        <MyIcon icon="mail-fill" size={20} />
+                        <Typography variant="body2">
+                          E-mail bs.ngs@cj.net
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  </>
+                ) : (
+                  <>
+                    <Grid item xs={2}>
+                      <Typography variant="subtitle2">샘플 접수</Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <Typography variant="subtitle2">NGS 실험실</Typography>
+                        <Typography variant="body2">
+                          (16495) 경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크
+                          블루동 12층
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                    <Grid item xs={2}>
+                      <Typography variant="subtitle2">연락처</Typography>
+                    </Grid>
+                    <Grid item xs={10}>
+                      <Stack direction="row" spacing={2} alignItems="center">
+                        <MyIcon icon="telephone" size={20} />
+                        <Typography variant="body2">Tel 02-6078-3456</Typography>
+                        <MyIcon icon="mail-fill" size={20} />
+                        <Typography variant="subtitle2">
+                          E-mail bs.ngs@cj.net
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  </>
+                )}
+
                 <Grid item xs={2}>
                   <Typography variant="subtitle2">유의사항</Typography>
                 </Grid>
