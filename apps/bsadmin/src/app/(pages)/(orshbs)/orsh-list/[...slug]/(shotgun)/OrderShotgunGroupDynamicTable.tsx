@@ -102,7 +102,9 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     console.log(groupDataList);
 
     setGroupOptionData(groupDataList);
+    handleAddFields(1)
     handleAlertClose();
+
   };
 
   const handleChange = (
@@ -115,6 +117,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     }
     setValue("isGroupCmprAnls", newAlignment);
     setIsGroupCmprAnls(newAlignment);
+    handleServiceTypeChange();
   };
 
   // group table delete
@@ -146,15 +149,6 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
 
   return (
     <>
-
-      {updataYn === 'N' ? (
-        <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
-          <ContainedButton
-            buttonName="저장"
-            onClick={() => handleAlertOpen()}
-          />
-        </Stack>
-      ) : ('')}
 
       <ConfirmModal
         alertBtnName="확인"
@@ -253,18 +247,24 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           </ul>
         </Box>
 
-        <Stack direction="row" spacing={1} justifyContent="end">
-          <InputValidation
-            inputName="countGroup"
-            type="number"
-            sx={{width: "80px"}}
-          />
-          <ContainedButton
-            buttonName="행 추가"
-            size="small"
-            color={"secondary"}
-            onClick={() => handleAddFields(getValues("countGroup"))}
-          />
+        <Stack direction="row" spacing={1} justifyContent="space-between">
+          {updataYn === 'N' ? (
+            <Stack direction="row" spacing={0.5} justifyContent="center">
+              <ContainedButton
+                buttonName="그룹명 불러오기"
+                onClick={() => handleAlertOpen()}
+              />
+            </Stack>
+          ) : ('')}
+          <Stack direction="row" spacing={0.5} justifyContent="center">
+            <InputValidation inputName="countGroup" type="number" sx={{width: "72px"}} placeholder="0" />
+            <ContainedButton
+              buttonName="행 추가"
+              size="small"
+              color={"secondary"}
+              onClick={() => handleAddFields(getValues("countGroup"))}
+            />
+          </Stack>
         </Stack>
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
@@ -288,7 +288,6 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           </Table>
         </TableContainer>
       </Stack>
-
 
     </>
   );
