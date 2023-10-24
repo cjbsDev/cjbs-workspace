@@ -54,7 +54,7 @@ export default function Page() {
   return (
     <Box
       sx={{
-        backgroundImage: `url('./img/background/backgroundBlue.png'), url('./img/background/backgroundRed.png'), url('./img/background/backgroundYellow.png')`,
+        backgroundImage: `url('/img/background/backgroundBlue.png'), url('/img/background/backgroundRed.png'), url('/img/background/backgroundYellow.png')`,
         backgroundPosition: "top left, top right, bottom left 160px",
         backgroundSize: "160px, 820px, 620px",
         backgroundRepeat: "no-repeat",

@@ -202,12 +202,21 @@ const Page = () => {
                 mt: "20px",
               }}
             >
-              <Typography variant="body2" sx={{ pt: "3px" }}>
-                아래 내용 참고하여 NGS 데이터를 전달 부탁드립니다.
-                <br />
-                보내주신 데이터와 주문 내용이 최종 확인되면, 접수완료 메일이
-                발송됩니다.
-              </Typography>
+              {serviceParam === 'ao' ? (
+                <Typography variant="body2" sx={{ pt: "3px" }}>
+                  아래 내용 참고하여 NGS 데이터를 전달 부탁드립니다.
+                  <br />
+                  보내주신 데이터와 주문 내용이 최종 확인되면, 접수완료 메일이
+                  발송됩니다.
+                </Typography>
+              ) : (
+                <Typography variant="body2" sx={{ pt: "3px" }}>
+                  아래 접수처 주소로 샘플 발송 부탁드립니다.
+                  <br />
+                  보내주신 샘플과 주문 내용이 최종 확인되면, 접수완료 메일이
+                  발송됩니다.
+                </Typography>
+              )}
             </Box>
 
             <Box
