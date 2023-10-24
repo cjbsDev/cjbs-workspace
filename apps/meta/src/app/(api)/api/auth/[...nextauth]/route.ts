@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { authOptions } from 'next-auth-it';
 import NextAuth from 'next-auth';
 import { NextApiRequest, NextApiResponse } from 'next';
