@@ -6,6 +6,7 @@ import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
 import PaymentInfo from "../PaymentInfo";
+import UpdateLogList from "../../UpdateLogList"
 
 import dynamic from "next/dynamic";
 import axios from "axios";
@@ -233,6 +234,27 @@ export default function MtpAnalysis(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <UpdateLogList />
         </Box>
 
       </Form>

@@ -36,7 +36,7 @@ export default function ListOrshbs() {
   useEffect(() => {
     // setParameter(`test=test`);
     setParameter('');
-  }, [])
+  }, [page, perPage])
 
   // ListAPI Call
   const { data } = useFiltersList("orsh/bs/extr/list", filters);

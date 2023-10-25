@@ -13,6 +13,7 @@ import { useRecoilState } from "recoil";
 import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
 import useSWR, { mutate } from "swr";
+import UpdateLogList from "../../UpdateLogList";
 
 export default function RsFullService() {
   const router = useRouter();
@@ -197,6 +198,27 @@ export default function RsFullService() {
         </Stack>
         <Box sx={{ p: 2 }}>
           <OrderRsSampleList serviceType={"fs"} />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <UpdateLogList />
         </Box>
 
       </Form>
