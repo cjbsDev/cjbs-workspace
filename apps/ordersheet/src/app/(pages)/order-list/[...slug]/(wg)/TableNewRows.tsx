@@ -606,8 +606,6 @@ const TableNewRows = (props: any) => {
           ''
         )
       }
-
-
     </>
   );
 };

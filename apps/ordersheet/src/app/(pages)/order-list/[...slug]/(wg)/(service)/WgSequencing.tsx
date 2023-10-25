@@ -15,6 +15,7 @@ import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import {mutate} from "swr";
+import UpdateLogList from "../../UpdateLogList";
 
 
 export default function WgSequencing(){
@@ -225,6 +226,27 @@ export default function WgSequencing(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <UpdateLogList />
         </Box>
 
       </Form>

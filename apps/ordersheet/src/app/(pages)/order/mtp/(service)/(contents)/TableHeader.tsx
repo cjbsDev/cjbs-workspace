@@ -54,9 +54,6 @@ const TableHeader = (props:any) => {
                   </Box>
                 </Stack>
               </TableCell>
-              {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
-              {/*  <Typography variant="subtitle2">자체 DNA QC</Typography>*/}
-              {/*</TableCell>*/}
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
                 <Typography variant="subtitle2">비고</Typography>
               </TableCell>

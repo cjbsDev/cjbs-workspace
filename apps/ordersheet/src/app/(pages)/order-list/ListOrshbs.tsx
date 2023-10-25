@@ -38,9 +38,8 @@ export default function ListOrshbs() {
   const [filters, setFilters] = useState("");
 
   useEffect(() => {
-    console.log("123123123123123123123123")
     setParameter('');
-  }, [])
+  }, [page, perPage])
 
   // ListAPI Call
   // const { data } = useList(page, perPage);

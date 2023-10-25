@@ -61,7 +61,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
 
   useEffect(() => {
     // setGroupOptionData(groupList);
-    console.log('UUUUUUUUUUUUUUU', isGroupUse)
+    // console.log('UUUUUUUUUUUUUUU', isGroupUse)
     setIsCmprGenomeAnls(isGroupUse);
     setValue("isCmprGenomeAnls", isGroupUse);
   }, [isGroupUse])

@@ -4,6 +4,7 @@ import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import OrdererInfo from "../OrdererInfo";
 import OrderMtpSampleList from "../OrderWgSampleList";
 import PaymentInfo from "../PaymentInfo";
+import UpdateLogList from "../../UpdateLogList";
 
 import {GET, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
@@ -271,6 +272,27 @@ export default function WgFullService(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <UpdateLogList />
         </Box>
 
       </Form>
