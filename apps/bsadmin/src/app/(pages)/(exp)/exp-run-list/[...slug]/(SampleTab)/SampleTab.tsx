@@ -28,12 +28,9 @@ import {
 import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
-import SubHeader from "./SubHeader";
 import KeywordSearch from "../../../../../components/KeywordSearch";
 import MyIcon from "icon/MyIcon";
 import SampleAddSection from "./SampleAddSection";
-import { useRecoilValue } from "recoil";
-import { sampleUkeyAtom } from "../../../../../recoil/atoms/sampleUkeyAtom";
 
 const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ssr: false,
@@ -47,23 +44,6 @@ const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ),
 });
 
-// const LazySampleInfoModal = dynamic(
-//   () => import("./(SampleInfoModal)/SampleInfoModal"),
-//   {
-//     ssr: false,
-//   }
-// );
-// const LazySampleAddModal = dynamic(
-//   () => import("./(SampleAddModal)/SampleAddModal"),
-//   {
-//     ssr: false,
-//   }
-// );
-//
-// const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
-//   ssr: false,
-// });
-//
 const LazyExperimentProgressChangeModal = dynamic(
   () =>
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
@@ -71,12 +51,6 @@ const LazyExperimentProgressChangeModal = dynamic(
     ssr: false,
   }
 );
-// const LazySampleBatchChangeModal = dynamic(
-//   () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
-//   {
-//     ssr: false,
-//   }
-// );
 
 const SampleTab = () => {
   const [page, setPage] = useState<number>(1);
@@ -111,17 +85,10 @@ const SampleTab = () => {
 
   const runSampleListData = data.runSamplesList;
   const totalElements = data.pageInfo.totalElements;
-  const [filterText, setFilterText] = useState("");
-  // const [checked, setChecked] = useState(false);
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  const [isDltLoading, setIsDltLoading] = useState<boolean>(false);
-
-  // const [filterText, setFilterText] = useState("");
-  // const [checked, setChecked] = useState(false);
+  // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
-  const [sampleIdList, setSampleIdList] = useState<number[]>([]);
+
   // [샘플 정보] 모달
   const [showSampleInfoModal, setShowSampleInfoModal] = useState({
     isShow: false,
@@ -129,14 +96,14 @@ const SampleTab = () => {
   });
   // [샘플 추가] 모달
   const [showSampleAddModal, setShowSampleAddModal] = useState(false);
-  // [분석 내역 보기] 모달
-  const [showAnalDtlModal, setShowAnalDtlModal] = useState(false);
-  // [샘플 정보 일괄 변경] 모달
-  const [showSampleBatchChangeModal, setShowSampleBatchChangeModal] =
-    useState(false);
   // [실험 진행 단계 변경] 모달
   const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    // isClear 상태 변경 이슈
+    setIsClear(false);
+  }, [isClear]);
 
   const handleAlertOpen = () => {
     setIsClear(false);
@@ -147,14 +114,6 @@ const SampleTab = () => {
     setSampleUkeyList([]);
     setIsClear(true);
   };
-
-  useEffect(() => {
-    // isClear 상태 변경 이슈
-    setIsClear(false);
-    // if (sampleUkeyList.length === 0) {
-    //   console.log("00000000");
-    // }
-  }, [isClear]);
 
   const columns = useMemo(
     () => [
@@ -499,7 +458,7 @@ const SampleTab = () => {
       } else {
         toast(res.message);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error(
         "샘플 삭제 오류>>>>",
         error.response?.data?.data || error.message
@@ -550,8 +509,9 @@ const SampleTab = () => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
+            {/* /run/list/download${result} */}
             <FileDownloadBtn
-              exportUrl={`/run/list/download${result}`}
+              exportUrl={`/run/${ukey}/list/download`}
               iconName="xls3"
             />
 
@@ -560,7 +520,7 @@ const SampleTab = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, totalElements, sampleUkeyList]);
+  }, [totalElements, sampleUkeyList]);
 
   const goDetailModal = useCallback((row: any) => {
     const sampleUkey = row.sampleUkey;
@@ -577,7 +537,7 @@ const SampleTab = () => {
     console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
     // console.log("selectedSampleIdList ==>>", getSampleIDList);
     setSampleUkeyList(getSampleUkeyList);
-    setSampleIdList(getSampleIDList);
+    // setSampleIdList(getSampleIDList);
   }, []);
 
   const sampleAllListModalClose = () => {
@@ -595,22 +555,9 @@ const SampleTab = () => {
     setShowSampleAddModal(false);
   };
 
-  const handleAnalDtlModalClose = () => {
-    setShowAnalDtlModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
   const handleExPrgsChngModalClose = () => {
     setShowExPrgsChngModal(false);
     setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
-  const handleSampleBatchChangeModalClose = () => {
-    setShowSampleBatchChangeModal(false);
-    setSampleUkeyList([]);
-    setSampleIdList([]);
     setIsClear(true);
   };
 
@@ -651,7 +598,7 @@ const SampleTab = () => {
         pagination
         paginationServer
         paginationTotalRows={totalElements}
-        paginationResetDefaultPage={resetPaginationToggle}
+        // paginationResetDefaultPage={resetPaginationToggle}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
       />

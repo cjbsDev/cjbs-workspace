@@ -26,6 +26,11 @@ const LazyRearchInfoModal = dynamic(() => import("./RearchInfoModal"), {
 });
 
 const OrderTab = () => {
+  // [거래처(PI)] 모달
+  const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
+  // [연구책임자] 모달
+  const [showRearchInfoModal, setShowRearchInfoModal] =
+    useState<boolean>(false);
   const router = useRouter();
   const params = useParams();
   const orderUkey = params.slug;
@@ -35,12 +40,6 @@ const OrderTab = () => {
 
   console.log("주문 정보", data);
   // console.log("주문 정보", data.orderInfo);
-
-  // [거래처(PI)] 모달
-  const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
-  // [연구책임자] 모달
-  const [showRearchInfoModal, setShowRearchInfoModal] =
-    useState<boolean>(false);
 
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
