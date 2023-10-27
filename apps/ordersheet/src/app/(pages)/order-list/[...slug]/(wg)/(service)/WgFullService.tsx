@@ -9,7 +9,7 @@ import UpdateLogList from "../../UpdateLogList";
 import {GET, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
 import {useParams} from "next/navigation";
-import { Form } from "cjbsDSTM";
+import {ErrorContainer, Fallback, Form} from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
@@ -18,6 +18,13 @@ import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 import {mutate} from "swr";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "@components/SkeletonLoading";
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgFullService(){
   const router = useRouter();
@@ -292,7 +299,9 @@ export default function WgFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

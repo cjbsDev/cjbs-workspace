@@ -11,14 +11,13 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import {GET, POST, POST_BLOB, POST_MULTIPART, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
 import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import {depthCcValueAtom} from "../../../../../../recoil/atoms/depthCcValueAtom";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
@@ -26,6 +25,10 @@ import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusA
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
 import UpdateLogList from "../../UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgFullService(){
   const router = useRouter();
@@ -275,7 +278,9 @@ export default function WgFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

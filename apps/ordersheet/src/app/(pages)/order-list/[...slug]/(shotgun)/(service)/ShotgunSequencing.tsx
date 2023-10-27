@@ -24,6 +24,10 @@ import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import UpdateLogList from "@app/(pages)/order-list/[...slug]/UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunSequencing(){
 
@@ -258,7 +262,9 @@ export default function ShotgunSequencing(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

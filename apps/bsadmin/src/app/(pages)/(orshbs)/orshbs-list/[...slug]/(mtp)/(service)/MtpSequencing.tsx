@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import { cjbsTheme } from "cjbsDSTM";
+import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
 import {fetcher, GET, PUT} from "api";
@@ -13,6 +13,13 @@ import { toast } from "react-toastify";
 import StudySelection from "../../StudySelection";
 import useSWR, {mutate} from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function MtpSequencing() {
   const router = useRouter();
@@ -219,7 +226,9 @@ export default function MtpSequencing() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

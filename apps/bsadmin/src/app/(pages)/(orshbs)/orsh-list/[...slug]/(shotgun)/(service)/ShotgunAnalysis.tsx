@@ -18,7 +18,13 @@ import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusA
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
 import {mutate} from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunAnalysis(){
   const router = useRouter();
@@ -34,11 +40,11 @@ export default function ShotgunAnalysis(){
     const res = await GET(`/orsh/bs/extn/sg/ao/${orshUkey}`);
     console.log("resresre", res.data);
 
-    let setGroupList = [];
-    let groupDataList = [];
+    let setGroupList:any = [];
+    let groupDataList:any = [];
     let groupData = {};
 
-    res.data.samples.map((sample, index) => {
+    res.data.samples.map((sample:any, index:any) => {
       console.log(index)
       const getData = res.data.samples[index].groupNm;
       console.log(getData);
@@ -271,7 +277,9 @@ export default function ShotgunAnalysis(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>
