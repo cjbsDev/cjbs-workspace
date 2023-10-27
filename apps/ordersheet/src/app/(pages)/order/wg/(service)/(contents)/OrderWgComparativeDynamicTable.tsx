@@ -204,7 +204,7 @@ const OrderWgComparativeDynamicTable = (props) => {
             borderTop: '1px solid',
             borderBottom: '1px solid',
             borderColor: cjbsTheme.palette.grey["400"],
-            paddingX: 5,
+            paddingX: 4,
             paddingY: 3,
             mb: 2,
           }}
@@ -220,7 +220,7 @@ const OrderWgComparativeDynamicTable = (props) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Link
                 href="https://www.ezbiocloud.net/genome/list?tn=Root"
@@ -246,7 +246,7 @@ const OrderWgComparativeDynamicTable = (props) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Typography variant="body2">당사 서비스로 분석된 genome 주문서의</Typography>
               <Typography variant="body2">Taxonomy 란에 샘플명을 비고 란에</Typography>
@@ -267,7 +267,7 @@ const OrderWgComparativeDynamicTable = (props) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Typography variant="body2">그 외의 경우</Typography>
               <Typography variant="body2">EzBioCloud 파이프라인 분석을 진행 후</Typography>

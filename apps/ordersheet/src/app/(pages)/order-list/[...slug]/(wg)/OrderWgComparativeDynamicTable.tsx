@@ -254,7 +254,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Link
                 href="https://www.ezbiocloud.net/genome/list?tn=Root"
@@ -280,7 +280,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Typography variant="body2">당사 서비스로 분석된 genome 주문서의</Typography>
               <Typography variant="body2">Taxonomy 란에 샘플명을 비고 란에</Typography>
@@ -301,7 +301,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
-              sx={{ width: 300 }}
+              sx={{ width: 310 }}
             >
               <Typography variant="body2">그 외의 경우</Typography>
               <Typography variant="body2">EzBioCloud 파이프라인 분석을 진행 후</Typography>
