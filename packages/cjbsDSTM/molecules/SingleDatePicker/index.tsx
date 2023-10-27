@@ -21,7 +21,12 @@ interface SingleDatePickerProps {
 }
 
 export const SingleDatePicker = (props: SingleDatePickerProps) => {
-  const { inputName, required = false, errorMessage, ...other } = props;
+  const {
+    inputName,
+    required = false,
+    errorMessage = "날짜를 선택해 주세요.",
+    ...other
+  } = props;
   const { control, formState, register } = useFormContext();
   const [dateRange, setDateRange] = useState(null);
 
@@ -106,7 +111,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
       {formState.errors[inputName]?.type === "required" && (
         <Typography
           variant="body2"
-          sx={{ color: cjbsTheme.palette.warning.main }}
+          sx={{ color: cjbsTheme.palette.warning.main, mt: 0.5, ml: 1 }}
         >
           {errorMessage}
         </Typography>

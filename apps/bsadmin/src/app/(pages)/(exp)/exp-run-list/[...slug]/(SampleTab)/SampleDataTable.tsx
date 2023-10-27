@@ -1,152 +1,140 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import { fetcher } from "api";
-import { cjbsTheme, DataTableBase } from "cjbsDSTM";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import {
+  cjbsTheme,
+  DataCountResultInfo,
+  DataTableBase,
+  Title1,
+} from "cjbsDSTM";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataView from "../../../../../components/NoDataView";
 import {
   Box,
   Chip,
+  Grid,
   Stack,
   styled,
   Typography,
   TypographyProps,
 } from "@mui/material";
+import KeywordSearch from "../../../../../components/KeywordSearch";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import dynamic from "next/dynamic";
-import { toast } from "react-toastify";
-import SubHeader from "./SubHeader";
+import useSWR from "swr";
+import { fetcher } from "api";
+import { useSetRecoilState } from "recoil";
+import { sampleUkeyAtom } from "../../../../../recoil/atoms/sampleUkeyAtom";
 
-const LazySampleInfoModal = dynamic(
-  () => import("./(SampleInfoModal)/SampleInfoModal"),
-  {
-    ssr: false,
-  }
-);
-const LazySampleAddModal = dynamic(
-  () => import("./(SampleAddModal)/SampleAddModal"),
-  {
-    ssr: false,
-  }
-);
-
-const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
-  ssr: false,
-});
-
-const LazyExperimentProgressChangeModal = dynamic(
-  () =>
-    import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
-  {
-    ssr: false,
-  }
-);
-const LazySampleBatchChangeModal = dynamic(
-  () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
-  {
-    ssr: false,
-  }
-);
-
-const SampleTab = () => {
+const SampleDataTable = () => {
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
-  const [isClear, setIsClear] = useState<boolean>(false);
-  const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
-  const [sampleIdList, setSampleIdList] = useState<number[]>([]);
-  const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  // [샘플 정보] 모달
-  const [showSampleInfoModal, setShowSampleInfoModal] = useState({
-    isShow: false,
-    sampleUkey: "",
-  });
-  // [샘플 추가] 모달
-  const [showSampleAddModal, setShowSampleAddModal] = useState(false);
-  // [분석 내역 보기] 모달
-  const [showAnalDtlModal, setShowAnalDtlModal] = useState(false);
-  // [샘플 정보 일괄 변경] 모달
-  const [showSampleBatchChangeModal, setShowSampleBatchChangeModal] =
-    useState(false);
-  // [실험 진행 단계 변경] 모달
-  const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
-
+  const [isClear, setIsClear] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const router = useRouter();
   const params = useParams();
-  // console.log("SAMPLE TAB PARAMS", params);
-  const orderUkey = params.slug;
-  const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
-    suspense: true,
-  });
-  const sampleList = Array.from(data);
+  const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
 
-  console.log(sampleList);
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const ukey = params.slug;
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) === "{}"
+      ? `/sample/list?page=${page}&size=${size}`
+      : `/sample/list${result}&page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+      keepPreviousData: true,
+    }
+  );
 
   useEffect(() => {
     // isClear 상태 변경 이슈
     setIsClear(false);
   }, [isClear]);
 
+  const sampleListData = data.sampleList;
+  const totalElements = data.pageInfo.totalElements;
+
+  const subHeaderComponentMemo = React.useMemo(() => {
+    return (
+      <Grid container>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
+          </Stack>
+        </Grid>
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <KeywordSearch />
+          </Stack>
+        </Grid>
+      </Grid>
+    );
+  }, [filterText, resetPaginationToggle, checked, totalElements]);
+
+  const handleSampleBatchChangeModalClose = () => {
+    setIsClear(true);
+  };
+
+  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
+    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+    // const getSampleIDList = selectedRows.map((row) => row.sampleId);
+    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+    setSampleUkeyList(getSampleUkeyList);
+    // console.log("selectedSampleIdList ==>>", getSampleIDList);
+  }, []);
+
   const columns = useMemo(
     () => [
       {
         name: "샘플번호",
-        sortable: false,
-        center: true,
-        selector: (row) => row.sampleId,
+        // width: "80px",
+        sortable: true,
+        selector: (row, index) => row.sampleId,
       },
       {
         name: "샘플명",
-        sortable: false,
-        center: true,
+        sortable: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
       },
       {
         name: "샘플종류",
-        sortable: false,
-        center: true,
-        selector: (row) =>
-          row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
+        sortable: true,
+        selector: (row) => row.seqAgncVal,
       },
       {
         name: "Source",
-        sortable: false,
-        center: true,
-        selector: (row) => (row.source === null ? "-" : row.source),
+        selector: (row) => row.source,
       },
       {
         name: "Depth",
-        width: "100px",
-        sortable: false,
-        center: true,
-        selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
+        selector: (row) => row.depthVal,
       },
       {
         name: "Taxon",
-        width: "80px",
-        sortable: false,
-        center: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),
       },
       {
         name: "RUN",
-        // width: "120px",
-        sortable: false,
-        center: true,
-        wrap: true,
-        selector: (row) =>
-          row.runList.length === 0 ? "-" : row.runList.join(", "),
-        cell: (row) => {
-          return (
-            // <Tooltip
-            //   title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            //   followCursor
-            // >
-            <Typography variant="body2">
-              {row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            </Typography>
-            // </Tooltip>
-          );
-        },
+        width: "120px",
+        selector: (row) => row.runList,
       },
       {
         name: "접수",
@@ -411,206 +399,45 @@ const SampleTab = () => {
     []
   );
 
-  const filteredItems = sampleList.filter((item) => {
-    const filterPattern = new RegExp(
-      filterText.toLowerCase().normalize("NFC"),
-      "i"
-    );
-
-    return (
-      (item.sampleId && filterPattern.test(item.sampleId)) ||
-      (item.sampleNm &&
-        filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
-      (item.sampleTypeVal &&
-        filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.source &&
-        filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
-      (item.depthVal &&
-        filterPattern.test(item.depthVal.toLowerCase().normalize("NFC"))) ||
-      (item.taxonVal &&
-        filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
-      (item.runList.join() &&
-        filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
-        )) ||
-      (item.sampleStatusRes.rcptStatusVal &&
-        filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.isAnlsItst &&
-        filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
-    );
-  });
-
-  const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
-    const onFilter = (e: { target: { value: React.SetStateAction<string> } }) =>
-      setFilterText(e.target.value);
-    const handleSampleAddModalOpen = () => {
-      setShowSampleAddModal(true);
-    };
-
-    const handleAnalDtlModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-    const handleExPrgrsPhsOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-
-    const handleSampleBatchModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-
-    return (
-      <SubHeader
-        exportUrl={`/order/list/download`}
-        totalCount={filteredItems.length}
-        handleSampleAddModalOpen={handleSampleAddModalOpen}
-        handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-        handleSampleBatchModalOpen={handleSampleBatchModalOpen}
-        handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-        handleClear={handleClear}
-        filterText={filterText}
-        onFilter={onFilter}
-      />
-    );
-  }, [filterText, resetPaginationToggle, sampleUkeyList]);
-
-  const goDetailModal = useCallback((row: any) => {
-    const sampleUkey = row.sampleUkey;
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      sampleUkey: sampleUkey,
-      isShow: true,
-    });
-  }, []);
-
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    const getSampleIDList = selectedRows.map((row) => row.sampleId);
-    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-    // console.log("selectedSampleIdList ==>>", getSampleIDList);
-    setSampleUkeyList(getSampleUkeyList);
-    setSampleIdList(getSampleIDList);
-  }, []);
-
-  const handleSampleInfoModalClose = () => {
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      isShow: false,
-    });
+  const handlePageChange = (page: number) => {
+    console.log("Page", page);
+    setPage(page);
   };
 
-  const handleSampleAddModalClose = () => {
-    setShowSampleAddModal(false);
-  };
-
-  const handleAnalDtlModalClose = () => {
-    setShowAnalDtlModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
-  const handleExPrgsChngModalClose = () => {
-    setShowExPrgsChngModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
-
-  const handleSampleBatchChangeModalClose = () => {
-    setShowSampleBatchChangeModal(false);
-    setSampleUkeyList([]);
-    setSampleIdList([]);
-    setIsClear(true);
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setSize(newPerPage);
   };
 
   return (
-    <>
-      <DataTableBase
-        data={filteredItems}
-        columns={columns}
-        onRowClicked={goDetailModal}
-        pointerOnHover
-        highlightOnHover
-        customStyles={dataTableCustomStyles3}
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
-        selectableRows
-        onSelectedRowsChange={handleSelectedRowChange}
-        clearSelectedRows={isClear}
-        selectableRowsVisibleOnly={true}
-        pagination={false}
-      />
-
-      {/* 샘플Info 모달 */}
-      {showSampleInfoModal.isShow && (
-        <LazySampleInfoModal
-          onClose={handleSampleInfoModalClose}
-          open={showSampleInfoModal.isShow}
-          sampleUkey={showSampleInfoModal.sampleUkey}
-          modalWidth={800}
-        />
-      )}
-
-      {/* 샘플Add 모달 */}
-      {showSampleAddModal && (
-        <LazySampleAddModal
-          onClose={handleSampleAddModalClose}
-          open={showSampleAddModal}
-          modalWidth={800}
-        />
-      )}
-
-      {/* 분석 내역 보기 모달 */}
-      {showAnalDtlModal && (
-        <LazyAnalDtlModal
-          onClose={handleAnalDtlModalClose}
-          open={showAnalDtlModal}
-          modalWidth={1100}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 샘플 정보 일괄 변경 */}
-      {showSampleBatchChangeModal && (
-        <LazySampleBatchChangeModal
-          onClose={handleSampleBatchChangeModalClose}
-          open={showSampleBatchChangeModal}
-          modalWidth={800}
-          sampleIdList={sampleIdList}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 실험 진행 단계 변경 */}
-      {showExPrgsChngModal && (
-        <LazyExperimentProgressChangeModal
-          onClose={handleExPrgsChngModalClose}
-          open={showExPrgsChngModal}
-          modalWidth={600}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-    </>
+    <DataTableBase
+      title={<Title1 titleName="All RUN" />}
+      data={sampleListData}
+      columns={columns}
+      // onRowClicked={goDetailPage}
+      pointerOnHover
+      highlightOnHover
+      customStyles={dataTableCustomStyles}
+      subHeader
+      subHeaderComponent={subHeaderComponentMemo}
+      paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows
+      onSelectedRowsChange={handleSelectedRowChange}
+      clearSelectedRows={isClear}
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
+      noDataComponent={<NoDataView />}
+      paginationPerPage={5}
+      paginationRowsPerPageOptions={[5, 10, 15]}
+    />
   );
 };
 
-export default SampleTab;
+export default SampleDataTable;
 
 const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
   lineHeight: 1,

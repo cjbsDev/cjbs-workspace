@@ -1,12 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams } from "next/navigation";
-import useSWR from "swr";
-import { fetcher } from "api";
-import { cjbsTheme, DataTableBase } from "cjbsDSTM";
+import { useParams, useSearchParams } from "next/navigation";
+import useSWR, { useSWRConfig } from "swr";
+import { DELETE, fetcher } from "api";
+import {
+  cjbsTheme,
+  ContainedButton,
+  DataCountResultInfo,
+  DataTableBase,
+  ErrorContainer,
+  Fallback,
+  FileDownloadBtn,
+  OutlinedButton,
+  AlertModal,
+} from "cjbsDSTM";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
+  Backdrop,
   Box,
   Chip,
+  CircularProgress,
+  Grid,
   Stack,
   styled,
   Typography,
@@ -16,24 +29,41 @@ import { useRouter } from "next-nprogress-bar";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import SubHeader from "./SubHeader";
+import KeywordSearch from "../../../../../components/KeywordSearch";
+import MyIcon from "icon/MyIcon";
+import SampleAddSection from "./SampleAddSection";
+import { useRecoilValue } from "recoil";
+import { sampleUkeyAtom } from "../../../../../recoil/atoms/sampleUkeyAtom";
 
-const LazySampleInfoModal = dynamic(
-  () => import("./(SampleInfoModal)/SampleInfoModal"),
-  {
-    ssr: false,
-  }
-);
-const LazySampleAddModal = dynamic(
-  () => import("./(SampleAddModal)/SampleAddModal"),
-  {
-    ssr: false,
-  }
-);
-
-const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
+const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ssr: false,
+  loading: () => (
+    <Backdrop
+      open={true}
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  ),
 });
 
+// const LazySampleInfoModal = dynamic(
+//   () => import("./(SampleInfoModal)/SampleInfoModal"),
+//   {
+//     ssr: false,
+//   }
+// );
+// const LazySampleAddModal = dynamic(
+//   () => import("./(SampleAddModal)/SampleAddModal"),
+//   {
+//     ssr: false,
+//   }
+// );
+//
+// const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
+//   ssr: false,
+// });
+//
 const LazyExperimentProgressChangeModal = dynamic(
   () =>
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
@@ -41,21 +71,57 @@ const LazyExperimentProgressChangeModal = dynamic(
     ssr: false,
   }
 );
-const LazySampleBatchChangeModal = dynamic(
-  () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
-  {
-    ssr: false,
-  }
-);
+// const LazySampleBatchChangeModal = dynamic(
+//   () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
+//   {
+//     ssr: false,
+//   }
+// );
 
 const SampleTab = () => {
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(20);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const ukey = params.slug;
+  // const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
+  const { mutate } = useSWRConfig();
+
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) === "{}"
+      ? `/run/sample/${ukey}?page=${page}&size=${size}`
+      : `/run/sample/${ukey}${result}&page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("RUN LIST DATA", data);
+
+  const runSampleListData = data.runSamplesList;
+  const totalElements = data.pageInfo.totalElements;
   const [filterText, setFilterText] = useState("");
-  const [checked, setChecked] = useState(false);
+  // const [checked, setChecked] = useState(false);
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+
+  const [isDltLoading, setIsDltLoading] = useState<boolean>(false);
+
+  // const [filterText, setFilterText] = useState("");
+  // const [checked, setChecked] = useState(false);
   const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
   const [sampleIdList, setSampleIdList] = useState<number[]>([]);
-  const router = useRouter();
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // [샘플 정보] 모달
   const [showSampleInfoModal, setShowSampleInfoModal] = useState({
     isShow: false,
@@ -70,20 +136,24 @@ const SampleTab = () => {
     useState(false);
   // [실험 진행 단계 변경] 모달
   const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
+  const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
 
-  const params = useParams();
-  // console.log("SAMPLE TAB PARAMS", params);
-  const orderUkey = params.slug;
-  const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
-    suspense: true,
-  });
-  const sampleList = Array.from(data);
-
-  console.log(sampleList);
+  const handleAlertOpen = () => {
+    setIsClear(false);
+    setAlertModalOpen(true);
+  };
+  const handleAlertClose = () => {
+    setAlertModalOpen(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
+  };
 
   useEffect(() => {
     // isClear 상태 변경 이슈
     setIsClear(false);
+    // if (sampleUkeyList.length === 0) {
+    //   console.log("00000000");
+    // }
   }, [isClear]);
 
   const columns = useMemo(
@@ -411,84 +481,86 @@ const SampleTab = () => {
     []
   );
 
-  const filteredItems = sampleList.filter((item) => {
-    const filterPattern = new RegExp(
-      filterText.toLowerCase().normalize("NFC"),
-      "i"
-    );
+  const handleDelete = async () => {
+    console.log("RRRRRRRRRRR", sampleUkeyList);
+    if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
 
-    return (
-      (item.sampleId && filterPattern.test(item.sampleId)) ||
-      (item.sampleNm &&
-        filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
-      (item.sampleTypeVal &&
-        filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.source &&
-        filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
-      (item.depthVal &&
-        filterPattern.test(item.depthVal.toLowerCase().normalize("NFC"))) ||
-      (item.taxonVal &&
-        filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
-      (item.runList.join() &&
-        filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
-        )) ||
-      (item.sampleStatusRes.rcptStatusVal &&
-        filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
-        )) ||
-      (item.isAnlsItst &&
-        filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
-    );
-  });
+    const body = {
+      sampleUkeyList: sampleUkeyList,
+    };
+    try {
+      const res = await DELETE(`/run/delete/${ukey}`, body);
+      console.log("Delete 성공 여부", res.success);
+
+      if (res.success) {
+        mutate(`/run/sample/${ukey}?page=1&size=20`);
+        handleAlertClose();
+        toast("삭제 되었습니다.");
+      } else {
+        toast(res.message);
+      }
+    } catch (error) {
+      console.error(
+        "샘플 삭제 오류>>>>",
+        error.response?.data?.data || error.message
+      );
+    } finally {
+    }
+  };
 
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
-    const onFilter = (e: { target: { value: React.SetStateAction<string> } }) =>
-      setFilterText(e.target.value);
-    const handleSampleAddModalOpen = () => {
-      setShowSampleAddModal(true);
-    };
-
-    const handleAnalDtlModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
     const handleExPrgrsPhsOpen = () => {
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
       setIsClear(false);
     };
 
-    const handleSampleBatchModalOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
-    };
-
     return (
-      <SubHeader
-        exportUrl={`/order/list/download`}
-        totalCount={filteredItems.length}
-        handleSampleAddModalOpen={handleSampleAddModalOpen}
-        handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-        handleSampleBatchModalOpen={handleSampleBatchModalOpen}
-        handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-        handleClear={handleClear}
-        filterText={filterText}
-        onFilter={onFilter}
-      />
+      <Grid container>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
+            <ContainedButton
+              buttonName="샘플 추가"
+              size="small"
+              onClick={() => setShowSampleAddModal(true)}
+            />
+            <OutlinedButton
+              buttonName="삭제"
+              size="small"
+              color="error"
+              startIcon={<MyIcon icon="trash" size={18} />}
+              onClick={handleAlertOpen}
+              disabled={sampleUkeyList.length === 0 ? true : false}
+            />
+            <OutlinedButton
+              buttonName="실험 진행 단계 변경"
+              size="small"
+              color="secondary"
+              sx={{ color: "black" }}
+              onClick={handleExPrgrsPhsOpen}
+              disabled={sampleUkeyList.length === 0 ? true : false}
+            />
+          </Stack>
+        </Grid>
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/run/list/download${result}`}
+              iconName="xls3"
+            />
+
+            <KeywordSearch />
+          </Stack>
+        </Grid>
+      </Grid>
     );
-  }, [filterText, resetPaginationToggle, sampleUkeyList]);
+  }, [filterText, resetPaginationToggle, totalElements, sampleUkeyList]);
 
   const goDetailModal = useCallback((row: any) => {
     const sampleUkey = row.sampleUkey;
@@ -507,6 +579,10 @@ const SampleTab = () => {
     setSampleUkeyList(getSampleUkeyList);
     setSampleIdList(getSampleIDList);
   }, []);
+
+  const sampleAllListModalClose = () => {
+    setShowSampleAddModal(false);
+  };
 
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
@@ -538,10 +614,29 @@ const SampleTab = () => {
     setIsClear(true);
   };
 
+  const handlePageChange = (page: number) => {
+    console.log("Page", page);
+    setPage(page);
+  };
+
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setSize(newPerPage);
+  };
+
+  if (runSampleListData.length === 0) {
+    return (
+      <>
+        <SampleAddSection />
+      </>
+    );
+  }
+
   return (
     <>
       <DataTableBase
-        data={filteredItems}
+        data={runSampleListData}
         columns={columns}
         onRowClicked={goDetailModal}
         pointerOnHover
@@ -549,55 +644,30 @@ const SampleTab = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
         selectableRows
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
         selectableRowsVisibleOnly={true}
-        pagination={false}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        paginationResetDefaultPage={resetPaginationToggle}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
       />
 
-      {/* 샘플Info 모달 */}
-      {showSampleInfoModal.isShow && (
-        <LazySampleInfoModal
-          onClose={handleSampleInfoModalClose}
-          open={showSampleInfoModal.isShow}
-          sampleUkey={showSampleInfoModal.sampleUkey}
-          modalWidth={800}
-        />
-      )}
-
-      {/* 샘플Add 모달 */}
+      {/* 샘플 추가 */}
       {showSampleAddModal && (
-        <LazySampleAddModal
-          onClose={handleSampleAddModalClose}
-          open={showSampleAddModal}
-          modalWidth={800}
-        />
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazySampleAllListModal
+            onClose={sampleAllListModalClose}
+            open={showSampleAddModal}
+            modalWidth={1200}
+          />
+        </ErrorContainer>
       )}
 
-      {/* 분석 내역 보기 모달 */}
-      {showAnalDtlModal && (
-        <LazyAnalDtlModal
-          onClose={handleAnalDtlModalClose}
-          open={showAnalDtlModal}
-          modalWidth={1100}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 샘플 정보 일괄 변경 */}
-      {showSampleBatchChangeModal && (
-        <LazySampleBatchChangeModal
-          onClose={handleSampleBatchChangeModalClose}
-          open={showSampleBatchChangeModal}
-          modalWidth={800}
-          sampleIdList={sampleIdList}
-          sampleUkeyList={sampleUkeyList}
-        />
-      )}
-
-      {/* 실험 진행 단계 변경 */}
+      {/*/!* 실험 진행 단계 변경 *!/*/}
       {showExPrgsChngModal && (
         <LazyExperimentProgressChangeModal
           onClose={handleExPrgsChngModalClose}
@@ -606,6 +676,14 @@ const SampleTab = () => {
           sampleUkeyList={sampleUkeyList}
         />
       )}
+
+      <AlertModal
+        onClose={handleAlertClose}
+        alertMainFunc={handleDelete}
+        open={alertModalOpen}
+        mainMessage="삭제를 진행하시겠습니까?"
+        alertBtnName="삭제"
+      />
     </>
   );
 };

@@ -40,6 +40,7 @@ const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
 
 const ListRun = () => {
   const [showRunAddModal, setShowRunAddModal] = useState(false);
+  const [showBIReqModal, setShowBIReqModal] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
