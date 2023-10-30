@@ -31,6 +31,12 @@ const SampleDataTable = () => {
   const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [isClear, setIsClear] = useState<boolean>(false);
+
+  useEffect(() => {
+    // isClear 상태 변경 이슈
+    setIsClear(false);
+  }, [isClear]);
+
   const searchParams = useSearchParams();
   const router = useRouter();
   const params = useParams();
@@ -55,14 +61,9 @@ const SampleDataTable = () => {
     fetcher,
     {
       suspense: true,
-      keepPreviousData: true,
+      // keepPreviousData: true,
     }
   );
-
-  useEffect(() => {
-    // isClear 상태 변경 이슈
-    setIsClear(false);
-  }, [isClear]);
 
   const sampleListData = data.sampleList;
   const totalElements = data.pageInfo.totalElements;

@@ -37,6 +37,11 @@ const LazySampleTab = dynamic(() => import("./(SampleTab)/SampleTab"), {
   loading: () => <SkeletonLoading />,
 });
 
+const LazyRogTab = dynamic(() => import("./(RogTab)/RogTab"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
 const RunInfo = () => {
   // [RUN 정보 변경 모달]
   const [showRunInfoModifyModal, setShowRunInfoModifyModal] =
@@ -99,6 +104,12 @@ const RunInfo = () => {
           {/* 샘플 */}
           <ErrorContainer FallbackComponent={Fallback}>
             <LazySampleTab />
+          </ErrorContainer>
+        </CustomTabPanel>
+        <CustomTabPanel value={tabValue} index={1}>
+          {/* 로그 */}
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyRogTab />
           </ErrorContainer>
         </CustomTabPanel>
       </Container>

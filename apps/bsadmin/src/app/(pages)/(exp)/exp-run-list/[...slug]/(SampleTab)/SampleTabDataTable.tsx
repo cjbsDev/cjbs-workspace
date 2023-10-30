@@ -1,8 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
-import useSWR, { useSWRConfig } from "swr";
-import { DELETE, fetcher } from "api";
+import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
+  AlertModal,
   cjbsTheme,
   ContainedButton,
   DataCountResultInfo,
@@ -11,9 +10,11 @@ import {
   Fallback,
   FileDownloadBtn,
   OutlinedButton,
-  AlertModal,
 } from "cjbsDSTM";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { useRouter } from "next-nprogress-bar";
+import { useParams, useSearchParams } from "next/navigation";
+import useSWR, { useSWRConfig } from "swr";
+import { DELETE, fetcher } from "api";
 import {
   Backdrop,
   Box,
@@ -25,38 +26,40 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { useRouter } from "next-nprogress-bar";
-import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
-import KeywordSearch from "../../../../../components/KeywordSearch";
 import MyIcon from "icon/MyIcon";
-import SampleAddSection from "./SampleAddSection";
+import KeywordSearch from "../../../../../components/KeywordSearch";
+import dynamic from "next/dynamic";
 
-// const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
-//   ssr: false,
-//   loading: () => (
-//     <Backdrop
-//       open={true}
-//       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-//     >
-//       <CircularProgress color="inherit" />
-//     </Backdrop>
-//   ),
-// });
-//
-// const LazyExperimentProgressChangeModal = dynamic(
-//   () =>
-//     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
-//   {
-//     ssr: false,
-//   }
-// );
-
-const LazySampleTabDataTable = dynamic(() => import("./SampleTabDataTable"), {
+const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ssr: false,
+  loading: () => (
+    <Backdrop
+      open={true}
+      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+    >
+      <CircularProgress color="inherit" />
+    </Backdrop>
+  ),
 });
 
-const SampleTab = () => {
+const LazyExperimentProgressChangeModal = dynamic(
+  () =>
+    import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
+  {
+    ssr: false,
+  }
+);
+
+const SampleTabDataTable = (props) => {
+  const {
+    // isClear,
+    // handleAlertOpen,
+    // handleAlertClose,
+    // handleExPrgsChngModalOpen,
+    // handleSampleAddModalOpen,
+  } = props;
+  const [isClear, setIsClear] = useState<boolean>(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const router = useRouter();
@@ -90,34 +93,15 @@ const SampleTab = () => {
   const runSampleListData = data.runSamplesList;
   const totalElements = data.pageInfo.totalElements;
   // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [isClear, setIsClear] = useState<boolean>(false);
+  // const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
-
-  // [샘플 정보] 모달
-  const [showSampleInfoModal, setShowSampleInfoModal] = useState({
-    isShow: false,
-    sampleUkey: "",
-  });
-  // [샘플 추가] 모달
-  const [showSampleAddModal, setShowSampleAddModal] = useState(false);
-  // [실험 진행 단계 변경] 모달
-  const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    // isClear 상태 변경 이슈
-    setIsClear(false);
-  }, [isClear]);
-
-  const handleAlertOpen = () => {
-    setIsClear(false);
-    setAlertModalOpen(true);
-  };
-  const handleAlertClose = () => {
-    setAlertModalOpen(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
+  const [showExPrgsChngModal, setShowExPrgsChngModal] = useState(false);
+  const [showSampleAddModal, setShowSampleAddModal] = useState(false);
+  // useEffect(() => {
+  //   // isClear 상태 변경 이슈
+  //   setIsClear(false);
+  // }, [isClear]);
 
   const columns = useMemo(
     () => [
@@ -471,9 +455,19 @@ const SampleTab = () => {
     }
   };
 
+  const handleSampleAddModalOpen = () => {
+    setShowSampleAddModal(true);
+  };
+
+  const handleAlertOpen = () => {
+    setIsClear(false);
+    setAlertModalOpen(true);
+  };
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleExPrgrsPhsOpen = () => {
-      if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
+      // if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
+      if (sampleUkeyList.length !== 0) handleExPrgsChngModalOpen();
       if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
       setIsClear(false);
     };
@@ -486,7 +480,8 @@ const SampleTab = () => {
             <ContainedButton
               buttonName="샘플 추가"
               size="small"
-              onClick={() => setShowSampleAddModal(true)}
+              // onClick={() => setShowSampleAddModal(true)}
+              onClick={handleSampleAddModalOpen}
             />
             <OutlinedButton
               buttonName="삭제"
@@ -526,14 +521,14 @@ const SampleTab = () => {
     );
   }, [totalElements, sampleUkeyList]);
 
-  const goDetailModal = useCallback((row: any) => {
-    const sampleUkey = row.sampleUkey;
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      sampleUkey: sampleUkey,
-      isShow: true,
-    });
-  }, []);
+  // const goDetailModal = useCallback((row: any) => {
+  //   const sampleUkey = row.sampleUkey;
+  //   setShowSampleInfoModal({
+  //     ...showSampleInfoModal,
+  //     sampleUkey: sampleUkey,
+  //     isShow: true,
+  //   });
+  // }, []);
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
@@ -543,35 +538,6 @@ const SampleTab = () => {
     setSampleUkeyList(getSampleUkeyList);
     // setSampleIdList(getSampleIDList);
   }, []);
-
-  const sampleAllListModalClose = () => {
-    setShowSampleAddModal(false);
-  };
-
-  const handleSampleInfoModalClose = () => {
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      isShow: false,
-    });
-  };
-
-  const handleSampleAddModalOpen = () => {
-    setShowSampleAddModal(true);
-  };
-
-  const handleSampleAddModalClose = () => {
-    setShowSampleAddModal(false);
-  };
-
-  const handleExPrgsChngModalOpen = () => {
-    setShowExPrgsChngModal(true);
-  };
-
-  const handleExPrgsChngModalClose = () => {
-    setShowExPrgsChngModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
-  };
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
@@ -584,78 +550,82 @@ const SampleTab = () => {
     setSize(newPerPage);
   };
 
-  if (runSampleListData.length === 0) {
-    return (
-      <>
-        <SampleAddSection />
-      </>
-    );
-  }
+  const handleAlertClose = () => {
+    setAlertModalOpen(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
+  };
+
+  const handleExPrgsChngModalOpen = () => {
+    setShowExPrgsChngModal(true);
+  };
+
+  const handleExPrgsChngModalClose = () => {
+    setShowExPrgsChngModal(false);
+    setSampleUkeyList([]);
+    setIsClear(true);
+  };
+
+  const sampleAllListModalClose = () => {
+    setShowSampleAddModal(false);
+  };
 
   return (
     <>
-      {/*<DataTableBase*/}
-      {/*  data={runSampleListData}*/}
-      {/*  columns={columns}*/}
-      {/*  onRowClicked={goDetailModal}*/}
-      {/*  pointerOnHover*/}
-      {/*  highlightOnHover*/}
-      {/*  customStyles={dataTableCustomStyles3}*/}
-      {/*  subHeader*/}
-      {/*  subHeaderComponent={subHeaderComponentMemo}*/}
-      {/*  selectableRows*/}
-      {/*  onSelectedRowsChange={handleSelectedRowChange}*/}
-      {/*  clearSelectedRows={isClear}*/}
-      {/*  selectableRowsVisibleOnly={true}*/}
-      {/*  pagination*/}
-      {/*  paginationServer*/}
-      {/*  paginationTotalRows={totalElements}*/}
-      {/*  // paginationResetDefaultPage={resetPaginationToggle}*/}
-      {/*  onChangeRowsPerPage={handlePerRowsChange}*/}
-      {/*  onChangePage={handlePageChange}*/}
-      {/*/>*/}
-
-      <LazySampleTabDataTable
-      // isClear={isClear}
-      // handleAlertOpen={handleAlertOpen}
-      // handleAlertClose={handleAlertClose}
-      // handleExPrgsChngModalOpen={handleExPrgsChngModalOpen}
-      // handleSampleAddModalOpen={handleSampleAddModalOpen}
+      <DataTableBase
+        data={runSampleListData}
+        columns={columns}
+        // onRowClicked={goDetailModal}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles3}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        selectableRows
+        onSelectedRowsChange={handleSelectedRowChange}
+        clearSelectedRows={isClear}
+        selectableRowsVisibleOnly={true}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        // paginationResetDefaultPage={resetPaginationToggle}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
       />
 
-      {/*/!* 샘플 추가 *!/*/}
-      {/*{showSampleAddModal && (*/}
-      {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
-      {/*    <LazySampleAllListModal*/}
-      {/*      onClose={sampleAllListModalClose}*/}
-      {/*      open={showSampleAddModal}*/}
-      {/*      modalWidth={1200}*/}
-      {/*    />*/}
-      {/*  </ErrorContainer>*/}
-      {/*)}*/}
+      {/* 샘플 추가 */}
+      {showSampleAddModal && (
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazySampleAllListModal
+            onClose={sampleAllListModalClose}
+            open={showSampleAddModal}
+            modalWidth={1200}
+          />
+        </ErrorContainer>
+      )}
 
       {/*/!* 실험 진행 단계 변경 *!/*/}
-      {/*{showExPrgsChngModal && (*/}
-      {/*  <LazyExperimentProgressChangeModal*/}
-      {/*    onClose={handleExPrgsChngModalClose}*/}
-      {/*    open={showExPrgsChngModal}*/}
-      {/*    modalWidth={600}*/}
-      {/*    sampleUkeyList={sampleUkeyList}*/}
-      {/*  />*/}
-      {/*)}*/}
+      {showExPrgsChngModal && (
+        <LazyExperimentProgressChangeModal
+          onClose={handleExPrgsChngModalClose}
+          open={showExPrgsChngModal}
+          modalWidth={600}
+          sampleUkeyList={sampleUkeyList}
+        />
+      )}
 
-      {/*<AlertModal*/}
-      {/*  onClose={handleAlertClose}*/}
-      {/*  alertMainFunc={handleDelete}*/}
-      {/*  open={alertModalOpen}*/}
-      {/*  mainMessage="삭제를 진행하시겠습니까?"*/}
-      {/*  alertBtnName="삭제"*/}
-      {/*/>*/}
+      <AlertModal
+        onClose={handleAlertClose}
+        alertMainFunc={handleDelete}
+        open={alertModalOpen}
+        mainMessage="삭제를 진행하시겠습니까?"
+        alertBtnName="삭제"
+      />
     </>
   );
 };
 
-export default SampleTab;
+export default SampleTabDataTable;
 
 const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
   lineHeight: 1,
