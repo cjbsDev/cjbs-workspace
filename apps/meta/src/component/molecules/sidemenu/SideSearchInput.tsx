@@ -10,7 +10,7 @@ import Skeleton from '@mui/material/Skeleton';
 import { toast } from 'react-toastify';
 import { styled } from '@mui/material/styles';
 import { useRecoilState } from 'recoil';
-import { fetcher } from 'api';
+import { metaFetcher } from 'api';
 import { ageState, searchInputState } from 'src/recoil/SearchState';
 import { LightTooltip } from 'cjbsDSTM/atoms/Tooltip';
 import MyIcon from 'icon/MyIcon';
@@ -25,7 +25,7 @@ const SideSearchInput = () => {
   const [searchInput, setSearchInput] =
     useRecoilState<string>(searchInputState);
   const [inputValue, setInputValue] = useState<string>('');
-  const { data, isLoading } = useSWR('/filter/autocomplete', fetcher);
+  const { data, isLoading } = useSWR('/filter/autocomplete', metaFetcher);
 
   const onSearchKeyUp = useCallback(
     async (e: React.KeyboardEvent<HTMLInputElement>) => {

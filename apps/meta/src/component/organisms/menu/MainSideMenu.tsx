@@ -36,7 +36,7 @@ import {
 } from 'src/app/clinical/types';
 import { useRouter, usePathname } from 'next/navigation';
 import { FlexBox } from 'cjbsDSTM/atoms/box/FlexBox';
-import { fetcher } from 'api';
+import { fetcher, metaFetcher } from 'api';
 import MyIcon from 'icon/MyIcon';
 import { DASHBOARD_URL, SEARCH_URL } from 'src/const/common';
 
@@ -99,7 +99,7 @@ const FilterInitBox = styled(Box)`
   flex-grow: 0;
   display: flex;
   justify-content: flex-end;
-  align-items: center1;
+  align-items: center;
   cursor: pointer;
 `;
 
@@ -125,7 +125,7 @@ const MainSideMenu = () => {
   });
   const [tempChecked, setTempChecked] = useState<CheckType[]>([]);
   const [accordion, setAccordion] = useState<boolean>(false);
-  const { data, isLoading } = useSWR('/filter', fetcher);
+  const { data, isLoading } = useSWR('/filter', metaFetcher);
   const pathname = usePathname();
   useEffect(() => {
     if (isLoading) return;
@@ -144,7 +144,6 @@ const MainSideMenu = () => {
 
   const initSelectedFilter = useCallback(async (data: any) => {
     const apiData: FilterList[] = data.data;
-
     const checkList: CheckType[] = [];
 
     const localStorageData = await localStorage.getItem(

@@ -19,6 +19,7 @@ import SelectedFilterChip from 'src/component/molecules/chip/SelectedFilterChip'
 import { useDebounce } from 'src/util/event';
 import { PAGE_SIZE, TABLE_HEIGHT } from 'src/const/common';
 import ExcelDownloadButton from 'cjbsDSTM/molecules/ExcelDownloadButton';
+import {dataTableEzcxCustomStyles} from "@components/organisms/DataTable/style/dataTableEzcxCustomStyle";
 interface SubjectTableType {
   postData: Search;
   data: SampleData[];
@@ -146,6 +147,7 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         // onRowClicked={goDetailPage}
         paginationTotalRows={totalElements ? totalElements : 0}
         paginationPerPage={PAGE_SIZE}
+        customStyles={dataTableEzcxCustomStyles}
         onChangeRowsPerPage={onChangePageSize}
         selectableRows={false}
         sortServer
@@ -226,6 +228,7 @@ const HeaderComponent = ({
           <ExcelDownloadButton
             data={search}
             downloadUrl="/sample/list/download"
+            size="small"
           />
           <DataTableMetaFilter
             onFilter={onChangeFilterText}

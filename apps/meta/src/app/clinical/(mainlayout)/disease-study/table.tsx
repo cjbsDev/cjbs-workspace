@@ -20,6 +20,8 @@ import {
   studySearchInputState,
   studyTotalElementsState,
 } from 'src/recoil/StudyState';
+// import {dataTableCustomStyles} from "@components/organisms/DataTable/style/dataTableCustomStyle";
+import {dataTableEzcxCustomStyles} from "@components/organisms/DataTable/style/dataTableEzcxCustomStyle";
 interface StudyTableType {
   postData: Search;
   data: StudyData[];
@@ -145,6 +147,7 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
         columns={studyColoumns}
         // onRowClicked={goDetailPage}
         conditionalRowStyles={conditionalRowStyles}
+        customStyles={dataTableEzcxCustomStyles}
         paginationTotalRows={totalElements ? totalElements : 0}
         paginationPerPage={PAGE_SIZE}
         onChangeRowsPerPage={onChangePageSize}
@@ -213,6 +216,7 @@ const HeaderComponent = ({}: {}) => {
           <ExcelDownloadButton
             data={search}
             downloadUrl="/disease/study/list/download"
+            size="small"
           />
           <DataTableMetaFilter
             onFilter={onChangeFilterText}

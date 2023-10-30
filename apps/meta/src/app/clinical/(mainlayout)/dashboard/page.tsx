@@ -6,7 +6,7 @@ import { Box, Grid, Typography } from '@mui/material';
 import DashboardPartsBox from '../../../../component/molecules/dashboard/dashboardPartsBox';
 import { toast } from 'react-toastify';
 import ClinicalDashboard from '../../../../component/organisms/clinical/dashboard/ClinicalDashboard';
-import { fetcher } from 'api';
+import {fetcher, metaFetcher} from 'api';
 import Title from 'src/component/atoms/Title';
 import { TABLE_SKELETON_HEIGHT } from 'src/const/common';
 
@@ -43,7 +43,7 @@ export interface DashboardValues {
 const Dashboard = () => {
   //const { data: session, status } = useSession();
 
-  const { data, isLoading } = useSWR('/disease/dashboard', fetcher);
+  const { data, isLoading } = useSWR('/disease/dashboard', metaFetcher);
 
   if (isLoading) {
     return (
@@ -83,7 +83,7 @@ const Dashboard = () => {
           {diseasePartVoList.map((disease, index) => (
             <Grid key={index} item xs={4}>
               <DashboardPartsBox
-                type={disease.name}
+                type={disease.title}
                 code={disease.code}
                 typeCount={disease.totalSubject}
                 data={disease.diseaseVoList}

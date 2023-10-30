@@ -8,7 +8,7 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material';
-import { POST, fetcher, fetcherPost } from 'api';
+import { POST, fetcher, metaFetcher } from 'api';
 import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
 import MyIcon from 'icon/MyIcon';
@@ -26,7 +26,7 @@ const SearchScreen = () => {
   const [text, setText] = useState('');
   const setSearchKeyword = useSetRecoilState<string>(searchInputState);
 
-  const { data, isLoading } = useSWR('/filter/autocomplete', fetcher);
+  const { data, isLoading } = useSWR('/filter/autocomplete', metaFetcher);
 
   const onKeydownSearchText = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {

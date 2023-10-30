@@ -1,7 +1,7 @@
 import { FlexBox } from 'cjbsDSTM/atoms/box/FlexBox';
 import { FlexGrid } from 'cjbsDSTM/atoms/grid/FlexGrid';
 import MyIcon from 'icon/MyIcon';
-import { Box, Divider, Grid, Typography, styled } from '@mui/material';
+import { Box, Divider, Grid, Typography, styled, Stack } from '@mui/material';
 import React from 'react';
 
 const InfoGrid = styled(Grid)`
@@ -26,25 +26,32 @@ export interface DashboardItem {
 export default function ClinicalSearchDashboard({ data }: Props) {
   return (
     <InfoGrid container>
-      {data.map((item, index) => (
-        <FlexGrid key={index} item xs={3} width={'100%'}>
-          <MyIcon icon={item.icon} size={35} color="black" />
-          <Typography ml={'12px'} variant="subtitle1">
-            {item.name}
-          </Typography>
-          <Typography ml={'120px'} variant="title2">
-            {item.count}
-          </Typography>
-          {data.length !== index + 1 && (
-            <Divider
-              sx={{ ml: '15%' }}
-              orientation="vertical"
-              variant={'middle'}
-              flexItem
-            />
-          )}
-        </FlexGrid>
-      ))}
+      <Stack
+        direction="row"
+        spacing={2}
+        justifyContent="space-between"
+        sx={{ width: '100%' }}
+      >
+        {data.map((item, index) => (
+          <FlexGrid key={index} item xs={3}>
+            <MyIcon icon={item.icon} size={35} color="black" />
+            <Typography ml={'12px'} variant="subtitle1">
+              {item.name}
+            </Typography>
+            <Typography ml={'120px'} variant="title2">
+              {item.count}
+            </Typography>
+            {data.length !== index + 1 && (
+              <Divider
+                sx={{ ml: '15%' }}
+                orientation="vertical"
+                variant={'middle'}
+                flexItem
+              />
+            )}
+          </FlexGrid>
+        ))}
+      </Stack>
     </InfoGrid>
   );
 }

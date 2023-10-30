@@ -3,7 +3,7 @@ import { StudyData } from './types';
 
 export const studyColoumns = [
   {
-    width: '40%',
+    width: '44%',
     name: '질환군 / 질환명 / 연구명',
     cell: (row: StudyData) => {
       console.log('row > ', row);
