@@ -12,6 +12,7 @@ import {
   ModalTitle,
   OutlinedButton,
   RadioGV,
+  SkeletonLoading,
 } from "cjbsDSTM";
 import {
   Box,
@@ -26,16 +27,30 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { LoadingButton } from "@mui/lab";
+import { useParams } from "next/navigation";
+import AnalDtlColumns from "./AnalDtlColumns";
+import dynamic from "next/dynamic";
 
 interface AnalDtlModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
 }
 
+const LazyAnalDtlDataTable = dynamic(() => import("./AnalDtlColumns"), {
+  ssr: false,
+  loading: () => <SkeletonLoading />,
+});
+
 const AnalDtlModal = (props: AnalDtlModalProps) => {
   const { onClose, open, modalWidth, sampleUkeyList } = props;
+
+  console.log("SampleUkeyList ==>>>", sampleUkeyList);
+
+  const params = useParams();
+  const uKey = params.slug;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [checked, setChecked] = useState(false);
-  const apiUrl = `/anls/inst/sample/list?sampleUkeyList=${sampleUkeyList}`;
+  const apiUrl = `/anls/itst/${uKey}/sample/list?sampleUkeyList=${sampleUkeyList}`;
   const { data } = useSWR(() => apiUrl, fetcher, {
     suspense: true,
   });
@@ -144,6 +159,14 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
         분석 내역
       </ModalTitle>
       <DialogContent>
+        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*  <LazyAnalDtlDataTable*/}
+        {/*    sampleUkeyList={sampleUkeyList}*/}
+        {/*    checked={checked}*/}
+        {/*    setChecked={setChecked}*/}
+        {/*  />*/}
+        {/*</ErrorContainer>*/}
+
         <DataTableBase
           data={data}
           columns={columns}

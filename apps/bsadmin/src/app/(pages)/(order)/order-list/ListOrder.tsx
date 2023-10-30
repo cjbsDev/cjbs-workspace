@@ -254,7 +254,7 @@ const ListOrder = () => {
       },
       {
         name: "분석 내역서",
-        selector: (row) => row.rating,
+        selector: (row) => row.anlsItstCount,
       },
       {
         name: "샘플 수",
