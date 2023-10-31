@@ -44,7 +44,6 @@ const ClinicalDashboard = ({ pieData, values }: Props) => {
       }
     });
   }
-  1;
 
   return (
     <GridContainer container>
@@ -68,7 +67,7 @@ const ClinicalDashboard = ({ pieData, values }: Props) => {
             <DashboardItem imgPath={Person} name={'총 대상자 수'} text={values.totalSubject.toLocaleString()} />
           </RightBorderBox>
           <RightBorderBox sx={{ borderRight: 'none' }}>
-            <DashboardItem imgPath={Check} name={'총 업데이트 일자'} text={values.lastUpdatedDate} />
+            <DashboardItem imgPath={Check} name={'마지막 업데이트 일자'} text={values.lastUpdatedDate} />
           </RightBorderBox>
         </ItemsBox>
       </FlexCenterGrid>
