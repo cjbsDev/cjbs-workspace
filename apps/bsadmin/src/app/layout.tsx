@@ -33,6 +33,7 @@ export default function RootLayout({
     <html lang="en" className={inter.className}>
       <title>BS-Admin</title>
       <link rel="icon" href="/favicon.ico" />
+      <link rel="preload" href="/api/data" as="fetch" crossOrigin="anonymous" />
       <head />
       <body>
         <JeJuProvider>

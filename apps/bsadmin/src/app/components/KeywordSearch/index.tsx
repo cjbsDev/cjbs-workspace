@@ -5,11 +5,15 @@ import { Stack } from "@mui/material";
 import KeywordSearchBtn from "./KeywordSearchBtn";
 import SearchInput from "./SearchInput";
 import { usePathname, useSearchParams } from "next/navigation";
+import { useRecoilState } from "recoil";
+import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
 
 const KeywordSearch = () => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [toggledClearRows, setToggleClearRows] =
+    useRecoilState(toggledClearRowsAtom);
   const resultObject = {};
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
@@ -23,7 +27,7 @@ const KeywordSearch = () => {
 
     const result = "?" + new URLSearchParams(data).toString();
     // console.log("RESULT", result);
-
+    setToggleClearRows(!toggledClearRows);
     router.push(`${pathname}${result}`);
   };
 

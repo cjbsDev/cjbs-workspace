@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   cjbsTheme,
   ContainedButton,
@@ -14,8 +14,10 @@ import {
   Backdrop,
   CircularProgress,
 } from "@mui/material";
-// import SampleAllList from "./SampleAllList";
 import dynamic from "next/dynamic";
+import { useParams } from "next/navigation";
+import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
+
 const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ssr: false,
   loading: () => (
@@ -30,9 +32,19 @@ const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
 
 const SampleAddSection = () => {
   const [state, setState] = useState<boolean>(false);
+  const params = useParams();
+  const ukey = params.slug;
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/sampleListPopup?uKey=${ukey}`,
+    "샘플 검색",
+    1602,
+    557
+  );
+
   const sampleAllListModalClose = () => {
     setState(false);
   };
+
   return (
     <>
       <Stack
@@ -47,10 +59,15 @@ const SampleAddSection = () => {
         <Typography variant="body2">
           해당 영역을 클릭하면 샘플을 추가 할 수 있습니다.
         </Typography>
+        {/*<ContainedButton*/}
+        {/*  buttonName="샘플 추가"*/}
+        {/*  startIcon={<MyIcon icon="plus" size={18} />}*/}
+        {/*  onClick={() => setState(true)}*/}
+        {/*/>*/}
         <ContainedButton
           buttonName="샘플 추가"
           startIcon={<MyIcon icon="plus" size={18} />}
-          onClick={() => setState(true)}
+          onClick={openPopup}
         />
       </Stack>
 

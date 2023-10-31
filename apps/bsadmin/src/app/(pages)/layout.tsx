@@ -86,6 +86,8 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const currentPathname = usePathname();
 
+  console.log("!@#$$%^&*", currentPathname);
+
   // React.useEffect(() => {
   //   setSelectedIndex()
   // }, [])
@@ -131,7 +133,14 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
         handleDrawerClose={handleDrawerClose}
       />
 
-      <Drawer variant="permanent" open={open} sx={{ zIndex: 1000 }}>
+      <Drawer
+        variant="permanent"
+        open={open}
+        sx={{
+          display: currentPathname === "/sampleListPopup" ? "none" : "block",
+          zIndex: 1000,
+        }}
+      >
         <DrawerHeader>
           <Link
             href="/dashboard"
@@ -256,7 +265,11 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
       </Drawer>
 
       <Box component="main" sx={{ display: "grid", flexGrow: 1, px: 2, py: 3 }}>
-        <DrawerHeader />
+        <DrawerHeader
+          sx={{
+            display: currentPathname === "/sampleListPopup" ? "none" : "block",
+          }}
+        />
         {children}
       </Box>
     </Box>

@@ -33,11 +33,14 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { useSession } from "next-auth/react";
 import { cjbsTheme, LinkButton } from "cjbsDSTM";
 import Skeleton from "@mui/material/Skeleton";
+import { usePathname } from "next/navigation";
 
 const drawerWidth = 228;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
+  handleDrawerOpen: () => void;
+  handleDrawerClose: () => void;
 }
 
 const AppBar = styled(MuiAppBar, {
@@ -61,15 +64,27 @@ const AppBar = styled(MuiAppBar, {
   padding: 0,
   margin: 0,
 }));
-const Header = ({ open, handleDrawerOpen, handleDrawerClose }) => {
+const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
+  const currentPathname = usePathname();
   const { data: session, status } = useSession();
   const popupState = usePopupState({
     variant: "popover",
     popupId: "useInfoMenu",
   });
   return (
-    <AppBar position="fixed" open={open} color="inherit" sx={{ zIndex: 1000 }}>
-      <Toolbar>
+    <AppBar
+      position="fixed"
+      open={open}
+      color="inherit"
+      sx={{
+        zIndex: 1000,
+      }}
+    >
+      <Toolbar
+        sx={{
+          display: currentPathname === "/sampleListPopup" && "none",
+        }}
+      >
         <Box sx={{}}>
           <IconButton
             color="inherit"
