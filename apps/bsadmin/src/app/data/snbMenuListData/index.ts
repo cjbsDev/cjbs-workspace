@@ -84,7 +84,7 @@ export const snbMenuListData = [
       name: "/exp",
       nestedPath: [
         {
-          menuLabel: "RUN 리스",
+          menuLabel: "RUN 리스트",
           menuPath: "/exp-run-list",
         },
         {
