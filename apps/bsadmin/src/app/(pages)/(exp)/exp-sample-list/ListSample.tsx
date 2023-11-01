@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -439,10 +439,13 @@ const ListSample = () => {
     []
   );
 
-  const goDetailPage = (row: any) => {
-    const path = row.orderUkey;
-    router.push("/order-list/" + path + `?prevPageUrl=${pathname}`);
-  };
+  const goDetailPage = useCallback(
+    (row: any) => {
+      const path = row.orderUkey;
+      router.push("/order-list/" + path + `?prevPageUrl=${pathname}`);
+    },
+    [pathname, router]
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     return (
@@ -469,7 +472,7 @@ const ListSample = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [result, totalElements]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);

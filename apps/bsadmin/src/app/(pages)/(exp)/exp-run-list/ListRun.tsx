@@ -178,7 +178,7 @@ const ListRun = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);

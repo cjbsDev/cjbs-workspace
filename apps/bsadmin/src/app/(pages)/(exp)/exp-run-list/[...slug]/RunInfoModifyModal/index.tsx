@@ -153,6 +153,7 @@ ModalContainerProps) => {
 
       if (res.success) {
         mutate(`/run/${ukey}`);
+        mutate(`/run/log/${ukey}`);
         // mutate(`/order/detail/${orderUkey}`);
         // mutate(`/order/analysis/${orderUkey}`);
         handleClose();

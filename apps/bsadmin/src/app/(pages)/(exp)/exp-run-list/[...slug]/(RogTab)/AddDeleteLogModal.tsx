@@ -118,7 +118,7 @@ const AddDeleteLogModal = (props: ModalContainerProps) => {
         </Grid>
       </Grid>
     );
-  }, [getUpdateSampleLogList]);
+  }, [totalElements.totalElements]);
 
   return (
     <>

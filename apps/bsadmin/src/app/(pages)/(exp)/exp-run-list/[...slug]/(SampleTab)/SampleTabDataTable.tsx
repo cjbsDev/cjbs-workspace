@@ -469,11 +469,11 @@ const SampleTabDataTable = (props) => {
     setShowSampleAddModal(true);
   };
 
-  const handleAlertOpen = () => {
+  const handleAlertOpen = useCallback(() => {
     // setIsClear(false);
     setAlertModalOpen(true);
     setToggleClearRows(!toggledClearRows);
-  };
+  }, [setToggleClearRows, toggledClearRows]);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleExPrgrsPhsOpen = () => {
@@ -531,7 +531,15 @@ const SampleTabDataTable = (props) => {
         </Grid>
       </Grid>
     );
-  }, [totalElements, sampleUkeyList]);
+  }, [
+    handleAlertOpen,
+    openPopup,
+    setToggleClearRows,
+    toggledClearRows,
+    ukey,
+    totalElements,
+    sampleUkeyList,
+  ]);
 
   // const goDetailModal = useCallback((row: any) => {
   //   const sampleUkey = row.sampleUkey;

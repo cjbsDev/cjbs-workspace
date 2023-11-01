@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher, GET, PUT } from "api";
@@ -79,27 +79,52 @@ const RogTab = () => {
     setShowModal(false);
   };
 
-  const goDetailModal = async (row) => {
-    console.log("runUpdateHstrUkey ==>>>", row.runUpdateHstrUkey);
-    const runUpdateHstrUkey = row.runUpdateHstrUkey;
-    try {
-      const response = await GET(`/run/sample/log/${runUpdateHstrUkey}`);
-      if (response.success) {
-        console.log("************", response.data);
-        setUpdateSampleLogList(response.data);
-        handleOpen();
-        // onClose();
-        // renderList();
-      } else if (response.code == "INVALID_AUTHORITY") {
-        toast("권한이 없습니다.");
-      } else {
-        toast("문제가 발생했습니다. 01");
+  const goDetailModal = useCallback(
+    () => async (row) => {
+      console.log("runUpdateHstrUkey ==>>>", row.runUpdateHstrUkey);
+      const runUpdateHstrUkey = row.runUpdateHstrUkey;
+      try {
+        const response = await GET(`/run/sample/log/${runUpdateHstrUkey}`);
+        if (response.success) {
+          console.log("************", response.data);
+          setUpdateSampleLogList(response.data);
+          handleOpen();
+          // onClose();
+          // renderList();
+        } else if (response.code == "INVALID_AUTHORITY") {
+          toast("권한이 없습니다.");
+        } else {
+          toast("문제가 발생했습니다. 01");
+        }
+      } catch (error) {
+        console.error("request failed:", error);
+        toast("문제가 발생했습니다. 02");
       }
-    } catch (error) {
-      console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
-    }
-  };
+    },
+    [setUpdateSampleLogList]
+  );
+
+  // const goDetailModal = async (row) => {
+  //   console.log("runUpdateHstrUkey ==>>>", row.runUpdateHstrUkey);
+  //   const runUpdateHstrUkey = row.runUpdateHstrUkey;
+  //   try {
+  //     const response = await GET(`/run/sample/log/${runUpdateHstrUkey}`);
+  //     if (response.success) {
+  //       console.log("************", response.data);
+  //       setUpdateSampleLogList(response.data);
+  //       handleOpen();
+  //       // onClose();
+  //       // renderList();
+  //     } else if (response.code == "INVALID_AUTHORITY") {
+  //       toast("권한이 없습니다.");
+  //     } else {
+  //       toast("문제가 발생했습니다. 01");
+  //     }
+  //   } catch (error) {
+  //     console.error("request failed:", error);
+  //     toast("문제가 발생했습니다. 02");
+  //   }
+  // };
 
   const columns = useMemo(
     () => [
@@ -148,7 +173,7 @@ const RogTab = () => {
         selector: (row) => row.postUpdateValue,
       },
     ],
-    []
+    [goDetailModal]
   );
 
   return (
