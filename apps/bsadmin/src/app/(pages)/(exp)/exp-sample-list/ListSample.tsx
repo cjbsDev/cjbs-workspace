@@ -401,11 +401,22 @@ const ListSample = () => {
         name: "Project uid",
         selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
         cell: (row) => {
-          const { projectUid, projectUidLink } = row;
+          const { projectUid, projectUidLink, orderUkey } = row;
           return projectUidLink !== null ? (
+            // /order-list/yiIVCM
+            // <Link
+            //   href={projectUidLink}
+            //   target="_blank"
+            //   style={{
+            //     textDecoration: "underline",
+            //     color: cjbsTheme.palette.primary.main,
+            //   }}
+            // >
+            //   {projectUid}
+            // </Link>
+
             <Link
-              href={projectUidLink}
-              target="_blank"
+              href={`/order-list/${orderUkey}?from=sampleListPage&tabIndex=3`}
               style={{
                 textDecoration: "underline",
                 color: cjbsTheme.palette.primary.main,

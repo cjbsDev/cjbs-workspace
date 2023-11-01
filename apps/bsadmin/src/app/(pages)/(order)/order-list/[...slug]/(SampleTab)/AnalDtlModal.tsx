@@ -28,7 +28,6 @@ import { fetcher } from "api";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { LoadingButton } from "@mui/lab";
 import { useParams } from "next/navigation";
-import AnalDtlColumns from "./AnalDtlColumns";
 import dynamic from "next/dynamic";
 
 interface AnalDtlModalProps extends ModalContainerProps {
