@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
@@ -11,24 +11,28 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { GET, PUT } from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
 import {depthCcValueAtom} from "../../../../../../recoil/atoms/depthCcValueAtom";
+import UpdateLogList from "../../UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunSequencing(){
 
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
 
   const params = useParams();
@@ -58,7 +62,6 @@ export default function ShotgunSequencing(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
@@ -66,7 +69,6 @@ export default function ShotgunSequencing(){
       sample : res.data.samples,
       depthCc : res.data.commonInput.depthCc,
     };
-    // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
     setDepthCc(res.data.commonInput.depthCc)
     console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
@@ -83,8 +85,6 @@ export default function ShotgunSequencing(){
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -128,6 +128,7 @@ export default function ShotgunSequencing(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/sg/so/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
@@ -235,6 +236,29 @@ export default function ShotgunSequencing(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

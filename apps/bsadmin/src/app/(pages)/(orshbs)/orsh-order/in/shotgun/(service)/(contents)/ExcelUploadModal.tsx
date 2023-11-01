@@ -14,6 +14,7 @@ import axios from "axios";
 import MyIcon from "icon/MyIcon";
 import Link from "next/link";
 import {useParams} from "next/navigation";
+import {POST_MULTIPART} from "api";
 
 interface ModalContainerProps {
   onClose: () => void;
@@ -39,17 +40,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post(
-          // `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/mtp/${serviceType}`,
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/sg/${sType}`,
-          formData,
-          {
-            withCredentials: false,
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        );
+        const response = await POST_MULTIPART(
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/intn/sg/${serviceType}/sample`,
+          formData
+        ); // API 요청
 
         if (response.data.success) {
           const data = response.data.data;
@@ -58,12 +52,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           if(serviceType === 'fs'){
             const appendedData = data.map((item) => ({
-              depthCc: null,
               groupNm: item.groupNm,
               memo: item.memo,
               sampleCategoryCc: item.sampleCategoryCc,
               sampleNm: item.sampleNm,
-              selfQcResultFileId: null,
               source: item.source,
             }));
             appendedData.forEach((item) => {
@@ -72,11 +64,9 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
 
           } else if(serviceType === 'ngs') {
             const appendedData = data.map((item) => ({
-              depthCc: null,
               memo: item.memo,
               sampleCategoryCc: item.sampleCategoryCc,
               sampleNm: item.sampleNm,
-              selfQcResultFileId: null,
               source: item.source,
             }));
             appendedData.forEach((item) => {
@@ -86,13 +76,11 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
           } else if(serviceType === 'so') {
             const appendedData = data.map((item) => ({
               adapter: item.adapter,
-              depthCc: null,
               idx1frwr: item.idx1frwr,
               idx1nm: item.idx1nm,
               idx2nm: item.idx2nm,
               idx2rvrs: item.idx2rvrs,
               memo: item.memo,
-              pltfMc: null,
               sampleNm: item.sampleNm,
             }));
             appendedData.forEach((item) => {

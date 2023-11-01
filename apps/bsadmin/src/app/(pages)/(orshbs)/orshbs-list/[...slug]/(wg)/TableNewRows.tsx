@@ -119,6 +119,7 @@ const TableNewRows = (props: any) => {
                 <LazyPrepSelectbox
                   url={"/code/list/shortly/value?topValue=sample&midValue=category"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
+                  sx={{width: 100}}
                   disabled={updataYn === 'N' ? false : true}
                 />
               </ErrorContainer>
@@ -133,6 +134,8 @@ const TableNewRows = (props: any) => {
                   { value: "N", optionName: "NO" },
                   { value: "Y", optionName: "YES" },
                 ]}
+                disabled={updataYn === 'N' ? false : true}
+                sx={{width: 90}}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -157,12 +160,13 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
-
         ) : (
         ''
         )
@@ -236,7 +240,7 @@ const TableNewRows = (props: any) => {
                   readOnly: updataYn === 'N' ? false : true
                 }}
               />
-              {errors.sample?.[index]?.taxonomy && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
+              {errors.sample?.[index]?.taxonomy && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
@@ -264,6 +268,7 @@ const TableNewRows = (props: any) => {
                   url={"/code/list/shortly/value?topValue=sample&midValue=category"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
                   disabled={updataYn === 'N' ? false : true}
+                  sx={{width: 100}}
                 />
               </ErrorContainer>
               {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
@@ -277,6 +282,8 @@ const TableNewRows = (props: any) => {
                   { value: "N", optionName: "NO" },
                   { value: "Y", optionName: "YES" },
                 ]}
+                disabled={updataYn === 'N' ? false : true}
+                sx={{width: 90}}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -301,9 +308,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (
@@ -484,17 +493,17 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => remove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (
           ''
         )
       }
-
-
     </>
   );
 };

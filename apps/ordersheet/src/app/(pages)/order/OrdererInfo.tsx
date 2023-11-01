@@ -200,12 +200,12 @@ export default function OrdererInfo(props:JSON) {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" alignItems="center" spacing={0.5}>
+      <Stack direction="row" alignItems="center" spacing={1}>
         <Typography variant="subtitle1">신청인 정보</Typography>
         <LazyQuickCopy />
       </Stack>
 
-      <TableContainer sx={{ mb: 5 }}>
+      <TableContainer sx={{ mb: 5, mt:1 }}>
         <Table>
           <TableBody>
             <TableRow>
@@ -326,8 +326,9 @@ export default function OrdererInfo(props:JSON) {
                   />
                   <InputValidation
                     inputName="addEmailList"
-                    // placeholder="여러개 입력시','로 구분하세요."
                     placeholder="example@gmail.com, example2@gmail.com"
+                    pattern={/^[\w\.-]+@[\w\.-]+\.\w+(,\s*[\w\.-]+@[\w\.-]+\.\w+)*$/}
+                    patternErrMsg="이메일 형식이 아닙니다."
                     sx={{ width: 550 }}
                   />
                 </Stack>

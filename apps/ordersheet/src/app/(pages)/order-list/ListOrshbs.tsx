@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, {useMemo} from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -23,19 +23,28 @@ import {
   Divider,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../hooks/useList";
+import { useFiltersList } from "../../hooks/useFiltersList";
 import { useForm, FormProvider } from "react-hook-form";
 import { toast } from "react-toastify";
 
 export default function ListOrshbs() {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
+  const [filters, setFilters] = useState("");
+
+  useEffect(() => {
+    setParameter('');
+  }, [page, perPage])
+
   // ListAPI Call
-  const { data } = useList(page, perPage);
+  // const { data } = useList(page, perPage);
+  const { data } = useFiltersList("orsh", filters);
+  console.log(data)
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -43,7 +52,18 @@ export default function ListOrshbs() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  const totalElements = data.data.pageInfo.totalElements;
+  const totalElements = data.pageInfo.totalElements;
+
+  const setParameter = (addParam: string) => {
+    let defaultParam = `page=${page}&size=${perPage}`;
+    if(addParam === undefined || addParam === null) {
+      defaultParam = `${defaultParam}`;
+    } else {
+      defaultParam = `${defaultParam}&${addParam}`;
+    }
+    console.log(defaultParam)
+    setFilters(defaultParam);
+  };
 
   const handleRowSelected = (rows: any) => {
     setSelectedOption(rows.selectedRows);
@@ -101,7 +121,7 @@ export default function ListOrshbs() {
       },
       {
         name: "샘플수량",
-        selector: (row: { sampleCount: string }) => row.sampleCount,
+        selector: (row: { samplesCnt: string }) => row.samplesCnt,
         width: "150px",
       },
       {
@@ -223,6 +243,11 @@ export default function ListOrshbs() {
               onClear={handleClear}
               filterText={filterText}
             />
+            <ContainedButton
+              buttonName="검색"
+              size="small"
+              onClick={() => setParameter(`keyword=${filterText}`)}
+            />
           </Stack>
         </Grid>
       </Grid>
@@ -232,6 +257,7 @@ export default function ListOrshbs() {
   const handlePageChange = (page: number) => {
     // console.log("Page", page);
     setPage(page);
+    setParameter('');
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
@@ -248,7 +274,7 @@ export default function ListOrshbs() {
     <Container disableGutters={true} maxWidth="xl" sx={{ pt: 4 }}>
       <DataTableBase
         title={<Title1 titleName="내 주문내역" />}
-        data={data.data.orshList}
+        data={data.orshList}
         columns={columns}
         onRowClicked={goDetailPage}
         onSelectedRowsChange={handleRowSelected}

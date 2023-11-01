@@ -54,7 +54,7 @@ export default function Page() {
   return (
     <Box
       sx={{
-        backgroundImage: `url('./img/background/backgroundBlue.png'), url('./img/background/backgroundRed.png'), url('./img/background/backgroundYellow.png')`,
+        backgroundImage: `url('/img/background/backgroundBlue.png'), url('/img/background/backgroundRed.png'), url('/img/background/backgroundYellow.png')`,
         backgroundPosition: "top left, top right, bottom left 160px",
         backgroundSize: "160px, 820px, 620px",
         backgroundRepeat: "no-repeat",
@@ -112,7 +112,7 @@ export default function Page() {
             <InputValidation
               inputName="password"
               // label="비밀번호"
-              placeholder="label"
+              placeholder="비밀번호"
               required={true}
               errorMessage="비밀번호를 입력해 주세요."
               type={showPassword ? "text" : "password"}

@@ -19,6 +19,7 @@ import {
 import { DataTableBase, DataTableMetaFilter } from 'cjbsDSTM';
 import { PAGE_SIZE, TABLE_HEIGHT } from 'src/const/common';
 import ExcelDownloadButton from 'cjbsDSTM/molecules/ExcelDownloadButton';
+import {dataTableEzcxCustomStyles} from "@components/organisms/DataTable/style/dataTableEzcxCustomStyle";
 interface SubjectTableType {
   postData: Search;
   data: SubjectData[];
@@ -143,6 +144,7 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         // onRowClicked={goDetailPage}
         paginationTotalRows={totalElements ? totalElements : 0}
         paginationPerPage={PAGE_SIZE}
+        customStyles={dataTableEzcxCustomStyles}
         sortServer
         onChangeRowsPerPage={onChangePageSize}
         paginationServer
@@ -218,6 +220,7 @@ const HeaderComponent = ({
           <ExcelDownloadButton
             data={search}
             downloadUrl="/subject/list/download"
+            size="small"
           />
           <DataTableMetaFilter
             onFilter={onChangeFilterText}

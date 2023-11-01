@@ -3,11 +3,11 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
+import OrderShotgunSampleList from "./(contents)/OrderShotgunSampleList";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import {POST, POST_MULTIPART, PUT} from "api";
+import { POST } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
@@ -20,7 +20,8 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
 
 export default function ShotgunSequencing() {
   const defaultValues = {
-    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"]
+    mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    isRtrnRasn : 'N',
   };
   const router = useRouter();
 
@@ -28,8 +29,6 @@ export default function ShotgunSequencing() {
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
-
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -61,7 +60,7 @@ export default function ShotgunSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/sg/so`;
+    const apiUrl = `/orsh/bs/intn/sg/so`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -176,7 +175,7 @@ export default function ShotgunSequencing() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"so"}/>
+          <OrderShotgunSampleList serviceType={"so"}/>
         </Box>
 
       </Form>

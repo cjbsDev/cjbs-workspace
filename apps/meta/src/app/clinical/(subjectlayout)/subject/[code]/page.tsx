@@ -77,6 +77,8 @@ const SubjectDetail = ({ params }: { params: { code: string } }) => {
     list: [],
   };
 
+  console.log("subjectDetail: ", subjectDetail)
+
   const categories = subjectDetail.categories;
   const timePoints = subjectDetail.timePoints;
   const type = subjectDetail.type;

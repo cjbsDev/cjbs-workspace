@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderMtpSampleList";
 import PaymentInfo from "../PaymentInfo";
 
@@ -11,17 +11,21 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { GET, PUT } from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
+import UpdateLogList from "../../UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function MtpSequencing(){
 
@@ -122,6 +126,7 @@ export default function MtpSequencing(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/mtp/so/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
@@ -229,6 +234,29 @@ export default function MtpSequencing(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

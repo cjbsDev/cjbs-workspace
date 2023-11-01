@@ -5,8 +5,8 @@
   "license": "CJ",
   "scripts": {
     "a": "turbo run dev",
-    "dev": "next dev --port 3000",
-    "build": "next build",
+    "dev": "dotenv -e ../../.env next dev",
+    "build": "dotenv -e ../../.env next build",
     "start": "next start",
     "lint": "next lint"
   },

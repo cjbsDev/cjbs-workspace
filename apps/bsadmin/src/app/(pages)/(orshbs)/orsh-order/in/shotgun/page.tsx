@@ -189,7 +189,7 @@ const Page = () => {
         onClose={handleAlertClose}
         open={alertModalOpen}
         mainMessage={
-          "서비스 타입를 변경하면 작성 중인 내용이 저장되지 않습니다.\n"
+          "서비스 타입을 변경하면 작성 중인 내용이 저장되지 않습니다.\n"
         }
         subMessage={"그래도 이동하시겠습니까?"}
       />

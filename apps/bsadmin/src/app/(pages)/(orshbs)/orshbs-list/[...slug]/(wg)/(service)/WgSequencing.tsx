@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import { cjbsTheme } from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
-import OrderMtpSampleList from "../OrderMtpSampleList";
+import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
+import OrdererInfo from "../../OrdererInfo";
+import OrderWgSampleList from "../OrderWgSampleList";
 import {fetcher, GET, PUT} from "api";
 import { useRouter } from "next-nprogress-bar";
 import { useParams } from "next/navigation";
@@ -12,6 +12,14 @@ import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import StudySelection from "../../StudySelection";
 import useSWR, {mutate} from "swr";
+import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgSequencing() {
   const router = useRouter();
@@ -198,7 +206,30 @@ export default function WgSequencing() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"so"} />
+          <OrderWgSampleList serviceType={"so"} />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

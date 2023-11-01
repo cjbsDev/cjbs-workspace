@@ -142,9 +142,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
 
@@ -271,9 +273,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (
@@ -434,17 +438,17 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => remove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (
           ''
         )
       }
-
-
     </>
   );
 };

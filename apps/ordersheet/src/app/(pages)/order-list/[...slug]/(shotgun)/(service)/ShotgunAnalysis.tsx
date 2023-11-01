@@ -14,7 +14,7 @@ import {useRouter} from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
@@ -23,7 +23,12 @@ import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
+import UpdateLogList from "@app/(pages)/order-list/[...slug]/UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunAnalysis(){
   const router = useRouter();
@@ -154,6 +159,7 @@ export default function ShotgunAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/sg/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/order-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
@@ -261,6 +267,29 @@ export default function ShotgunAnalysis(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

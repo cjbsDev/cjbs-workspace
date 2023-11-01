@@ -171,7 +171,7 @@ export default function ListOrshbs() {
               <OutlinedButton
                 buttonName="수정"
                 size="small"
-                onClick={() => goLinkOrderPage()}
+                onClick={() => goDetailPage(row)}
               />
               <Divider orientation="vertical" variant="middle" flexItem />
 

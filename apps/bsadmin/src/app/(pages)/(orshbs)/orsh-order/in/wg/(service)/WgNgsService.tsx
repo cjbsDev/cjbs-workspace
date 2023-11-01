@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
+import OrderWgSampleList from "./(contents)/OrderWgSampleList";
 import StudySelection from "../../../StudySelection";
 import dynamic from "next/dynamic";
 import { POST } from "api";
@@ -176,7 +176,7 @@ export default function WgNgsService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ngs"}/>
+          <OrderWgSampleList serviceType={"ngs"}/>
         </Box>
 
       </Form>

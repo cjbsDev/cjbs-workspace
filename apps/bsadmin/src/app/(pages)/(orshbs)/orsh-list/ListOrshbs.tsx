@@ -35,8 +35,8 @@ export default function ListOrshbs() {
 
   useEffect(() => {
     // setParameter(`test=test`);
-    setParameter();
-  }, [])
+    setParameter('');
+  }, [page, perPage])
 
   // ListAPI Call
   const { data } = useFiltersList("orsh/bs/extr/list", filters);
@@ -156,7 +156,7 @@ export default function ListOrshbs() {
               <OutlinedButton
                 buttonName="수정"
                 size="small"
-                onClick={() => goLinkOrderPage()}
+                onClick={() => goDetailPage(row)}
               />
               <Divider orientation="vertical" variant="middle" flexItem />
 
@@ -275,12 +275,13 @@ export default function ListOrshbs() {
   }, [filterText, resetPaginationToggle, selectedRowCnt]);
 
   const handlePageChange = (page: number) => {
-    // console.log("Page", page);
+    console.log("Page", page);
     setPage(page);
+    setParameter('');
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
-    // console.log("Row change.....", newPerPage, page);
+    console.log("Row change.....", newPerPage, page);
     setPage(page);
     setPerPage(newPerPage);
   };
@@ -308,6 +309,7 @@ export default function ListOrshbs() {
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
       clearSelectedRows={toggledClearRows}
+      // selectableRows={false}
       //ref={tableRef}
     />
   );

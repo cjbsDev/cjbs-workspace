@@ -32,6 +32,7 @@ import { sampleColoumns, sampleColoumnsNoSort } from '../sample/columns';
 import { SubjectData } from '../subject/types';
 import { subjectColoumns, subjectColoumnsNoSort } from '../subject/columns';
 import { useRouter } from 'next/navigation';
+import { dataTableEzcxCustomStyles } from '@components/organisms/DataTable/style/dataTableEzcxCustomStyle';
 interface SubjectTableType {
   data: any;
 }
@@ -160,8 +161,8 @@ const SearchTable = ({ data }: SubjectTableType) => {
   ];
 
   return (
-    <Box>
-      <Box>
+    <Box sx={{ paddingBottom: 6 }}>
+      <Box sx={{ marginBottom: 5 }}>
         <HeaderComponent data={dashboardData} />
         <Typography mb={'11px'} variant="subtitle1">
           Disease / Study{' '}
@@ -174,6 +175,7 @@ const SearchTable = ({ data }: SubjectTableType) => {
           columns={studyColoumnsNoSort}
           // onRowClicked={goDetailPage}
           pagination={false}
+          customStyles={dataTableEzcxCustomStyles}
           pointerOnHover
           highlightOnHover
           selectableRows={false}
@@ -189,12 +191,12 @@ const SearchTable = ({ data }: SubjectTableType) => {
               color="secondary"
               endIcon={<MyIcon icon="arrow-right" size={18} color={'black'} />}
             >
-              <Typography variant="button"> 결과 더보기</Typography>
+              <Typography variant="body2"> 결과 더보기</Typography>
             </Button>
           </FlexBox>
         )}
       </Box>
-      <Box mt={'25px'}>
+      <Box sx={{ marginBottom: 5 }}>
         <Typography mb={'11px'} variant="subtitle1">
           Subject {`(${subjectCount.toLocaleString()})`}
         </Typography>
@@ -203,6 +205,7 @@ const SearchTable = ({ data }: SubjectTableType) => {
           columns={subjectColoumnsNoSort}
           // onRowClicked={goDetailPage}
           pagination={false}
+          customStyles={dataTableEzcxCustomStyles}
           pointerOnHover
           selectableRows={false}
           highlightOnHover
@@ -217,12 +220,12 @@ const SearchTable = ({ data }: SubjectTableType) => {
               color="secondary"
               endIcon={<MyIcon icon="arrow-right" size={18} color={'black'} />}
             >
-              <Typography variant="button"> 결과 더보기</Typography>
+              <Typography variant="body2"> 결과 더보기</Typography>
             </Button>
           </FlexBox>
         )}
       </Box>
-      <Box mt={'25px'}>
+      <Box sx={{ marginBottom: 5 }}>
         <Typography mb={'11px'} variant="subtitle1">
           Sample {`(${sampleCount.toLocaleString()})`}
         </Typography>
@@ -231,6 +234,7 @@ const SearchTable = ({ data }: SubjectTableType) => {
           columns={sampleColoumnsNoSort}
           // onRowClicked={goDetailPage}
           pagination={false}
+          customStyles={dataTableEzcxCustomStyles}
           pointerOnHover
           selectableRows={false}
           highlightOnHover
@@ -245,7 +249,7 @@ const SearchTable = ({ data }: SubjectTableType) => {
               color="secondary"
               endIcon={<MyIcon icon="arrow-right" size={18} color={'black'} />}
             >
-              <Typography variant="button"> 결과 더보기</Typography>
+              <Typography variant="body2"> 결과 더보기</Typography>
             </Button>
           </FlexBox>
         )}

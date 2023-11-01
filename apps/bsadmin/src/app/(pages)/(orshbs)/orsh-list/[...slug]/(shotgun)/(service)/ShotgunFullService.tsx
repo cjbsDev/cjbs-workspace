@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
@@ -11,26 +11,29 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import {GET, POST, POST_BLOB, POST_MULTIPART, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
 import {depthCcValueAtom} from "../../../../../../recoil/atoms/depthCcValueAtom";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
+import UpdateLogList from "../../UpdateLogList";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunFullService(){
   const router = useRouter();
   const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
   const [depthCc, setDepthCc] = useRecoilState(depthCcValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
   const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
@@ -43,11 +46,11 @@ export default function ShotgunFullService(){
     const res = await GET(`/orsh/bs/extn/sg/fs/${orshUkey}`);
     console.log("resresre", res.data);
 
-    let setGroupList = [];
-    let groupDataList = [];
+    let setGroupList:any = [];
+    let groupDataList:any = [];
     let groupData = {};
 
-    res.data.samples.map((sample, index) => {
+    res.data.samples.map((sample:any, index:any) => {
       console.log(index)
       const getData = res.data.samples[index].groupNm;
       console.log(getData);
@@ -62,7 +65,6 @@ export default function ShotgunFullService(){
     console.log(groupDataList);
     setgroupList(groupDataList);
 
-    // return res.data;
     const returnDefaultValues = {
       // custAgnc
       ebcEmail : res.data.custAgnc.ebcEmail,
@@ -81,7 +83,6 @@ export default function ShotgunFullService(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
@@ -96,7 +97,6 @@ export default function ShotgunFullService(){
     setDepthCc(res.data.commonInput.depthCc)
     setPymtWayCc(res.data.payment.pymtWayCc);
     setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
-
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
     return returnDefaultValues;
   };
@@ -174,6 +174,7 @@ export default function ShotgunFullService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`/bs/extn/sg/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.data.code == "INVALID_ETC_EMAIL") {
@@ -281,6 +282,29 @@ export default function ShotgunFullService(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

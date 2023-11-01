@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderShotgunSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
@@ -16,12 +16,18 @@ import {useRecoilState} from "recoil";
 import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
+import {mutate} from "swr";
+import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunAnalysis(){
   const router = useRouter();
-  // const [fileId, setFileId] = useRecoilState(fileIdValueAtom);
-  // const [pymtWayCc, setPymtWayCc] = useState<string>('BS_1300001');
   const [pymtWayCc, setPymtWayCc] = useRecoilState(pymtWayCcStatusAtom);
   const [isGroupUse, setIsGroupUse] = useRecoilState(groupUseStatusAtom);
   const [groupList, setgroupList] = useRecoilState(groupListDataAtom);
@@ -34,11 +40,11 @@ export default function ShotgunAnalysis(){
     const res = await GET(`/orsh/bs/extn/sg/ao/${orshUkey}`);
     console.log("resresre", res.data);
 
-    let setGroupList = [];
-    let groupDataList = [];
+    let setGroupList:any = [];
+    let groupDataList:any = [];
     let groupData = {};
 
-    res.data.samples.map((sample, index) => {
+    res.data.samples.map((sample:any, index:any) => {
       console.log(index)
       const getData = res.data.samples[index].groupNm;
       console.log(getData);
@@ -72,18 +78,14 @@ export default function ShotgunAnalysis(){
       addEmailList : res.data.custAgnc.addEmailList,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
-      // pymtWayCc : res.data.payment.pymtWayCc,
       rprsNm : res.data.payment.rprsNm,
       rcpnNm : res.data.payment.rcpnNm,
       rcpnEmail : res.data.payment.rcpnEmail,
-      // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-      // pltfMc : res.data.commonInput.pltfMc,
       memo : res.data.addRqstMemo.memo,
       sample : res.data.samples,
       groupCmprAnls: res.data.groupCmprAnls.groupCmprAnlsList,
       isGroupCmprAnls: res.data.groupCmprAnls.isGroupCmprAnls,
     };
-    // setFileId(res.data.commonInput.pltfMc);
     setPymtWayCc(res.data.payment.pymtWayCc);
     setIsGroupUse(res.data.groupCmprAnls.isGroupCmprAnls)
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^",fileId);
@@ -147,6 +149,7 @@ export default function ShotgunAnalysis(){
       const response = await PUT(apiUrl, bodyData); // API 요청
       console.log("response", response);
       if (response.success) {
+        mutate(`/orsh/bs/extn/sg/ao/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/orsh-list");
       } else if (response.code == "INVALID_ETC_EMAIL") {
@@ -254,6 +257,29 @@ export default function ShotgunAnalysis(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

@@ -71,32 +71,6 @@ const TableNewRows = (props: any) => {
                 </Typography>
               )}
 
-              <InputValidation
-                sx={{ display: "none" }}
-                inputName={`sample.[${index}].selfQcResultFileId`}
-                required={false}
-              />
-            </TableCell>
-            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <InputValidation
-                inputName={`sample.[${index}].groupNm`}
-                required={false}
-                sx={{
-                  width: 200,
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                  },
-                  ".MuiOutlinedInput-input:read-only": {
-                    backgroundColor: "white",
-                    cursor: "pointer",
-                    textFillColor: "#000000"
-                  },
-                }}
-                InputProps={{
-                  readOnly: updataYn === 'N' ? false : true
-                }}
-              />
-              {errors.sample?.[index]?.groupNm && <Typography variant="body2" color={cjbsTheme.palette.error.main}>샘플출처를 입력해 주세요.</Typography>}
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
@@ -153,9 +127,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
 
@@ -210,12 +186,6 @@ const TableNewRows = (props: any) => {
                   영문, 숫자, -(하이픈)만 입력 가능합니다.
                 </Typography>
               )}
-
-              <InputValidation
-                sx={{ display: "none" }}
-                inputName={`sample.[${index}].selfQcResultFileId`}
-                required={false}
-              />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
@@ -272,9 +242,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (
@@ -455,9 +427,11 @@ const TableNewRows = (props: any) => {
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              <IconButton aria-label="delete" onClick={() => remove(index)}>
-                <MyIcon icon="trash" size={20} />
-              </IconButton>
+              {updataYn === "N" ? (
+                <IconButton aria-label="delete" onClick={() => callbackRemove(index)}>
+                  <MyIcon icon="trash" size={20} />
+                </IconButton>
+              ) : ('')}
             </TableCell>
           </TableRow>
         ) : (

@@ -4,24 +4,20 @@ import {cjbsTheme, ConfirmModal, ErrorContainer, Fallback, Title1} from "cjbsDST
 import { useRouter } from "next-nprogress-bar";
 import {Box, Container, Stack, styled, Typography} from "@mui/material";
 import * as React from "react";
-import MtpFullService from "@app/(pages)/order-list/[...slug]/(mtp)/(service)/MtpFullService";
-import MtpAnalysis from "@app/(pages)/order/mtp/(service)/MtpAnalysis";
-import MtpSequencing from "@app/(pages)/order/mtp/(service)/MtpSequencing";
-import {useState} from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
 
 
-const LazyMtpFullService = dynamic(() => import("./(shotgun)/(service)/ShotgunFullService"), {
+const LazyShotgunFullService = dynamic(() => import("./(shotgun)/(service)/ShotgunFullService"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpAnalysis = dynamic(() => import("./(shotgun)/(service)/ShotgunAnalysis"), {
+const LazyShotgunAnalysis = dynamic(() => import("./(shotgun)/(service)/ShotgunAnalysis"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
-const LazyMtpSequencing = dynamic(() => import("./(shotgun)/(service)/ShotgunSequencing"), {
+const LazyShotgunSequencing = dynamic(() => import("./(shotgun)/(service)/ShotgunSequencing"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
@@ -96,13 +92,13 @@ export default function OrshMtpDetailPage() {
 
         <ErrorContainer FallbackComponent={Fallback}>
           {serviceType === 'fs' ? (
-            <LazyMtpFullService />
+            <LazyShotgunFullService />
           ) : ('')}
           {serviceType === 'ao' ? (
-            <LazyMtpAnalysis />
+            <LazyShotgunAnalysis />
           ) : ('')}
           {serviceType === 'so' ? (
-            <LazyMtpSequencing />
+            <LazyShotgunSequencing />
           ) : ('')}
         </ErrorContainer>
 

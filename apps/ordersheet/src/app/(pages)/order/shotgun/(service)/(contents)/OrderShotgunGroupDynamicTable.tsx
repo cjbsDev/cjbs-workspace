@@ -11,21 +11,11 @@ import {
   TableRow, ToggleButton, ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import {
-  cjbsTheme, ConfirmModal,
-  ContainedButton,
-  InputValidation, OutlinedButton,
-  SelectBox,
-  UnStyledButton,
-} from "cjbsDSTM";
+import { cjbsTheme, ConfirmModal,  ContainedButton, InputValidation } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
-import MyIcon from "icon/MyIcon";
-import axios from "axios";
 import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
-import ExcelUploadModal from "./ExcelUploadModal";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -86,6 +76,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
     console.log(groupDataList);
 
     setGroupOptionData(groupDataList);
+    handleAddFields(1)
     handleAlertClose();
   };
 
@@ -99,6 +90,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
     }
     setValue("isGroupCmprAnls", newAlignment);
     setIsGroupCmprAnls(newAlignment);
+    handleServiceTypeChange();
   };
 
   // group table delete
@@ -130,14 +122,6 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
 
   return (
     <>
-
-      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{ mb: 3 }}>
-        <ContainedButton
-          buttonName="저장"
-          onClick={() => handleAlertOpen()}
-        />
-      </Stack>
-
       <ConfirmModal
         alertBtnName="확인"
         alertMainFunc={handleServiceTypeChange}
@@ -171,7 +155,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           <ToggleButton value="Y" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
               sx={{ width: "100%" }}
             >
@@ -181,7 +165,7 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           <ToggleButton value="N" sx={{ width: "49%" }}>
             <Stack
               direction="row"
-              justifyContent="space-between"
+              justifyContent="center"
               alignItems="center"
               sx={{ width: "100%" }}
             >
@@ -227,18 +211,20 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           </ul>
         </Box>
 
-        <Stack direction="row" spacing={1} justifyContent="end">
-          <InputValidation
-            inputName="countGroup"
-            type="number"
-            sx={{width: "80px"}}
-          />
+        <Stack direction="row" spacing={0.5} justifyContent="space-between">
           <ContainedButton
-            buttonName="행 추가"
-            size="small"
-            color={"secondary"}
-            onClick={() => handleAddFields(getValues("countGroup"))}
+            buttonName="그룹명 불러오기"
+            onClick={() => handleAlertOpen()}
           />
+          <Stack direction="row" spacing={0.5} justifyContent="center">
+            <InputValidation inputName="countGroup" type="number" sx={{width: "72px"}} placeholder="0" />
+            <ContainedButton
+              buttonName="행 추가"
+              size="small"
+              color={"secondary"}
+              onClick={() => handleAddFields(getValues("countGroup"))}
+            />
+          </Stack>
         </Stack>
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
@@ -262,8 +248,6 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           </Table>
         </TableContainer>
       </Stack>
-
-
     </>
   );
 };

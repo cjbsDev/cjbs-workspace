@@ -8,23 +8,25 @@ import OrderMtpSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
 import dynamic from "next/dynamic";
-import axios from "axios";
-import {GET, POST, POST_BLOB, POST_MULTIPART, PUT_MULTIPART} from "api";
+import {GET, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
-import { fetcherOrsh } from 'api';
-import useSWR from "swr";
+import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
+import SkeletonLoading from "@components/SkeletonLoading";
 
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunFullService(){
   const router = useRouter();
@@ -174,6 +176,7 @@ export default function ShotgunFullService(){
       const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
       console.log("response", response);
       if (response.data.success) {
+        mutate(`${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/fs/${orshUkey}`);
         toast("수정 되었습니다.")
         router.push("/order-list");
       } else if (response.data.code == "INVALID_ETC_EMAIL") {
@@ -281,6 +284,29 @@ export default function ShotgunFullService(){
         </Stack>
         <Box sx={{ p: 2 }}>
           <PaymentInfo />
+        </Box>
+
+        <Stack
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center"
+          spacing={0}
+          sx={{borderBottom: '1px solid #000', pb: 1, pt:3}}
+        >
+          <Box sx={{
+            display: 'flex',
+            alignContent: 'start',
+            alignItems: 'center',
+          }}>
+            <Typography variant="h5">
+              수정이력&nbsp;
+            </Typography>
+          </Box>
+        </Stack>
+        <Box sx={{ p: 2 }}>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

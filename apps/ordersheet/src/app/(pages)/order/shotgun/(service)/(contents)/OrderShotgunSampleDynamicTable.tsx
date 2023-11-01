@@ -11,17 +11,9 @@ import {
   TableRow, ToggleButton, ToggleButtonGroup,
   Typography,
 } from "@mui/material";
-import {
-  cjbsTheme,
-  ConfirmModal,
-  ContainedButton,
-  InputValidation,
-  SelectBox,
-  UnStyledButton,
-} from "cjbsDSTM";
+import { ContainedButton, InputValidation, UnStyledButton } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
-import axios from "axios";
 import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
@@ -108,8 +100,8 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
   return (
     <>
       <Stack direction="row" spacing={1} justifyContent="space-between">
-        <Typography variant="subtitle1">샘플 리스트</Typography>
-        <Stack direction="row" alignItems="center" spacing={2}>
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <Typography variant="subtitle1">샘플 리스트</Typography>
           <UnStyledButton
             sx={{}}
             buttonName="엑셀 등록"
@@ -117,16 +109,16 @@ const OrderShotgunSampleDynamicTable = (props: any) => {
             size="small"
             onClick={() => setShowOrderInfoModifyModal(true)}
           />
+        </Stack>
+        <Stack direction="row" alignItems="center" spacing={0.5}>
           <ExcelUploadModal
             onClose={orderInfoModifyModalClose}
             open={showOrderInfoModifyModal}
             modalWidth={800}
             append={append}
             serviceType={serviceType}
-            // handleAddFields={handleAddFields}
-            // addExcelDataTableRows={addExcelDataTableRows}
           />
-          <InputValidation inputName="count" type="number" sx={{width: "80px"}} />
+          <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
           <ContainedButton
             buttonName="행 추가"
             size="small"
