@@ -14,6 +14,7 @@ import axios from "axios";
 import MyIcon from "icon/MyIcon";
 import Link from "next/link";
 import {useParams} from "next/navigation";
+import {POST_MULTIPART} from "api";
 
 interface ModalContainerProps {
   onClose: () => void;
@@ -38,15 +39,19 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         const formData = new FormData();
         formData.append("file", file);
 
-        const response = await axios.post(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sample/excel/sg/${serviceType}`,
-          formData,
-          {
-            withCredentials: false,
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
+        // const response = await axios.post(
+        //   `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/${serviceType}/sample/excel`,
+        //   formData,
+        //   {
+        //     withCredentials: false,
+        //     headers: {
+        //       "Access-Control-Allow-Origin": "*",
+        //     },
+        //   }
+        // );
+        const response = await POST_MULTIPART(
+          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/${serviceType}/sample/excel`,
+          formData
         );
 
         if (response.data.success) {

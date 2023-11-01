@@ -8,7 +8,7 @@ import {
   SkeletonLoading,
 } from "cjbsDSTM";
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { fetcher } from "api";
 import Link from "next/link";
 import MyIcon from "icon/MyIcon";
@@ -56,14 +56,25 @@ const LazyCommentTab = dynamic(() => import("./(CommentTab)/CommentTab"), {
 });
 
 export default function OrderInfo() {
+  console.log("#########################WOW");
+
   const router = useRouter();
   // [샘플 리스트에서 넘오 왔는지 체크 하기 위해서 'prevPageUrl' 확인함 ]
   const searchParams = useSearchParams();
   const prevPageUrl = searchParams.get("prevPageUrl");
+  const from = searchParams.get("trom");
+  console.log("From ==>>", from);
   // [오더 정보 변경] 모달
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
-  const [tabValue, setTabValue] = React.useState(0);
+  const [tabValue, setTabValue] = useState(0);
+
+  useEffect(() => {
+    if (searchParams.get("tabIndex") !== undefined) {
+      const tabIndex = searchParams.get("tabIndex");
+      setTabValue(Number(tabIndex));
+    }
+  }, []);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
