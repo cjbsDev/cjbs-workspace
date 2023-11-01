@@ -60,10 +60,11 @@ export default function OrderInfo() {
 
   const router = useRouter();
   // [샘플 리스트에서 넘오 왔는지 체크 하기 위해서 'prevPageUrl' 확인함 ]
-  const searchParams = useSearchParams();
+  const searchParams = useSearchParams();˚
   const prevPageUrl = searchParams.get("prevPageUrl");
-  const from = searchParams.get("trom");
+  const from = searchParams.get("from");
   console.log("From ==>>", from);
+  console.log("PrevPageUrl ==>>", prevPageUrl);
   // [오더 정보 변경] 모달
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
@@ -150,7 +151,7 @@ export default function OrderInfo() {
         <Grid container justifyContent="space-between">
           <Grid item>
             <Link
-              href={prevPageUrl === null ? "/order-list" : "/exp-sample-list"}
+              href={prevPageUrl !== null ? "/exp-sample-list" : "/order-list"}
             >
               <OutlinedButton size="small" buttonName="목록" />
             </Link>
