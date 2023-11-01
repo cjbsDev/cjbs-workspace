@@ -28,17 +28,17 @@ import { fetcher } from "api";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { LoadingButton } from "@mui/lab";
 import { useParams } from "next/navigation";
-import AnalDtlColumns from "./AnalDtlColumns";
+// import AnalDtlColumns from "./AnalDtlColumns";
 import dynamic from "next/dynamic";
 
 interface AnalDtlModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
 }
 
-const LazyAnalDtlDataTable = dynamic(() => import("./AnalDtlColumns"), {
-  ssr: false,
-  loading: () => <SkeletonLoading />,
-});
+// const LazyAnalDtlDataTable = dynamic(() => import("./AnalDtlColumns"), {
+//   ssr: false,
+//   loading: () => <SkeletonLoading />,
+// });
 
 const AnalDtlModal = (props: AnalDtlModalProps) => {
   const { onClose, open, modalWidth, sampleUkeyList } = props;
