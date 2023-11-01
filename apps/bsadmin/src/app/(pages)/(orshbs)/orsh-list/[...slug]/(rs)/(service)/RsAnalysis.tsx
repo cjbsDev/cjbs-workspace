@@ -18,7 +18,13 @@ import {groupUseStatusAtom} from "../../../../../../recoil/atoms/groupUseStatusA
 import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
 import {mutate} from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function RsAnalysis(){
   const router = useRouter();
@@ -38,7 +44,7 @@ export default function RsAnalysis(){
     let groupDataList:any = [];
     let groupData = {};
 
-    res.data.samples.map((sample, index) => {
+    res.data.samples.map((sample:any, index:any) => {
       // console.log(index)
       const getData = res.data.samples[index].groupNm;
       // console.log(getData);
@@ -270,7 +276,9 @@ export default function RsAnalysis(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

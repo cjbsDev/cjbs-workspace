@@ -23,6 +23,10 @@ import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import UpdateLogList from "@app/(pages)/order-list/[...slug]/UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function MtpSequencing(){
 
@@ -251,7 +255,9 @@ export default function MtpSequencing(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

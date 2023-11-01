@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
-import { cjbsTheme } from "cjbsDSTM";
+import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
 import OrdererInfo from "../../OrdererInfo";
 import OrderWgSampleList from "../OrderWgSampleList";
 import {fetcher, GET, PUT} from "api";
@@ -10,10 +10,17 @@ import { useParams } from "next/navigation";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
-import {fileIdValueAtom, prjcCodeAtom} from "../../../../../../recoil/atoms/fileIdValueAtom";
+import {fileIdValueAtom } from "../../../../../../recoil/atoms/fileIdValueAtom";
 import StudySelection from "../../StudySelection";
 import useSWR, { mutate } from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgFullService() {
   const router = useRouter();
@@ -220,7 +227,9 @@ export default function WgFullService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

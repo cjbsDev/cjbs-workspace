@@ -25,6 +25,10 @@ import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
 import UpdateLogList from "@app/(pages)/order-list/[...slug]/UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunAnalysis(){
   const router = useRouter();
@@ -283,7 +287,9 @@ export default function ShotgunAnalysis(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

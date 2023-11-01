@@ -10,11 +10,13 @@ const ExcelDownloadButton = ({
   data,
   buttonName = 'Excel',
   sx,
+  size,
 }: {
   downloadUrl: string;
   data?: any;
   buttonName?: string;
   sx?: SxProps;
+  size:string;
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -49,6 +51,7 @@ const ExcelDownloadButton = ({
       sx={sx}
       buttonName={buttonName}
       startIcon={<MyIcon icon='xls3' size={18} />}
+      size={size === undefined ? '' : size}
     />
   );
 };

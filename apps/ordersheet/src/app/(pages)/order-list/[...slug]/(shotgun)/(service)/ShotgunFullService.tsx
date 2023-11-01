@@ -8,24 +8,25 @@ import OrderMtpSampleList from "../OrderShotgunSampleList";
 import PaymentInfo from "../PaymentInfo";
 
 import dynamic from "next/dynamic";
-import axios from "axios";
-import {GET, POST, POST_BLOB, POST_MULTIPART, PUT_MULTIPART} from "api";
+import {GET, PUT_MULTIPART} from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
 import {useParams} from "next/navigation";
-import { fetcherOrsh } from 'api';
 import useSWR, {mutate} from "swr";
 import { Form } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {groupUseStatusAtom} from "@app/recoil/atoms/groupUseStatusAtom";
 import {groupListDataAtom} from "@app/recoil/atoms/groupListDataAtom";
-import UpdateLogList from "@app/(pages)/order-list/[...slug]/UpdateLogList";
+import SkeletonLoading from "@components/SkeletonLoading";
 
+
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunFullService(){
   const router = useRouter();
@@ -303,7 +304,9 @@ export default function ShotgunFullService(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

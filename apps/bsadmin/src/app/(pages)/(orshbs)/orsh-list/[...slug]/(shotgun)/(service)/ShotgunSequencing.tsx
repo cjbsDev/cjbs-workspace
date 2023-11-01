@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import axios from "axios";
 import { GET, PUT } from "api";
 import {useRouter} from "next-nprogress-bar";
-import SkeletonLoading from "@components/SkeletonLoading";
+import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import {useParams} from "next/navigation";
 import { fetcherOrsh } from 'api';
 import useSWR, {mutate} from "swr";
@@ -23,6 +23,10 @@ import {pymtWayCcStatusAtom} from "../../../../../../recoil/atoms/pymtWayCcStatu
 import {depthCcValueAtom} from "../../../../../../recoil/atoms/depthCcValueAtom";
 import UpdateLogList from "../../UpdateLogList";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function ShotgunSequencing(){
 
@@ -252,7 +256,9 @@ export default function ShotgunSequencing(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

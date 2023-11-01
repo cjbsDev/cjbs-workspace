@@ -25,7 +25,7 @@ import MuiAccordionSummary, {
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import { useRouter, usePathname, useParams } from 'next/navigation';
-import { fetcher } from 'api';
+import { metaFetcher } from 'api';
 import MyIcon from 'icon/MyIcon';
 import { SubjectDetailResponse } from 'src/app/clinical/(subjectlayout)/subject/[code]/types';
 import {
@@ -95,7 +95,7 @@ const SubjectSideMenu = () => {
       setCurrentView(`${panel}_All`);
     };
 
-  const { data, isLoading } = useSWR(`/subject/${params.code}`, fetcher);
+  const { data, isLoading } = useSWR(`/subject/${params.code}`, metaFetcher);
 
   useEffect(() => {
     initLoad();

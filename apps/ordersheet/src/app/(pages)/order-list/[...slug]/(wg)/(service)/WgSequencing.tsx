@@ -8,7 +8,7 @@ import PaymentInfo from "../PaymentInfo";
 import { GET, PUT } from "api";
 import {useRouter} from "next-nprogress-bar";
 import {useParams} from "next/navigation";
-import { Form } from "cjbsDSTM";
+import {ErrorContainer, Fallback, Form} from "cjbsDSTM";
 import { toast } from "react-toastify";
 import {useRecoilState} from "recoil";
 import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
@@ -16,7 +16,13 @@ import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {depthCcValueAtom} from "@app/recoil/atoms/depthCcValueAtom";
 import {mutate} from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "@components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgSequencing(){
 
@@ -246,7 +252,9 @@ export default function WgSequencing(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>

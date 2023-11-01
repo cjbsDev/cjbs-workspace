@@ -15,7 +15,13 @@ import {useRecoilState} from "recoil";
 import {pymtWayCcStatusAtom} from "@app/recoil/atoms/pymtWayCcStatusAtom";
 import {mutate} from "swr";
 import UpdateLogList from "../../UpdateLogList";
+import dynamic from "next/dynamic";
+import SkeletonLoading from "@components/SkeletonLoading";
 
+const LazyUpdateLogList = dynamic(() => import("../../UpdateLogList"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={800} />,
+});
 
 export default function WgAnalysis(){
   const router = useRouter();
@@ -237,7 +243,9 @@ export default function WgAnalysis(){
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <UpdateLogList />
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyUpdateLogList />
+          </ErrorContainer>
         </Box>
 
       </Form>
