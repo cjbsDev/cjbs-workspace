@@ -135,7 +135,8 @@ export default function WgFullService(){
       },
       cmprGenomeAnls: {
         cmprGenomeAnlsDetailList: data.cmprGenomeAnlsDetailList,
-        isCmprGenomeAnls: data.isCmprGenomeAnls,
+        // isCmprGenomeAnls: data.isCmprGenomeAnls,
+        isCmprGenomeAnls: 'Y',
         cmprGenomeAnlsTypeCc : data.isCmprGenomeAnls === "N" ? 'BS_1609002' : 'BS_1609001'
       },
       payment : {
