@@ -144,33 +144,33 @@ const CommentList = () => {
                       작성일 {createdDttm}
                     </Typography>
 
-                    {modifiedDttm !== null && (
-                      <Typography variant="body2">
-                        최종 수정일 {modifiedDttm}
-                      </Typography>
-                    )}
+                    {/*{modifiedDttm !== null && (*/}
+                    {/*  <Typography variant="body2">*/}
+                    {/*    최종 수정일 {modifiedDttm}*/}
+                    {/*  </Typography>*/}
+                    {/*)}*/}
                   </Stack>
                 </Stack>
 
-                <Box>
-                  <Stack direction="row">
-                    <LinkButton
-                      size="small"
-                      buttonName="수정"
-                      sx={{ color: "black" }}
-                      startIcon={<MyIcon icon="pen-fill" size={20} />}
-                      onClick={() => handleCommentModify(index)}
-                    />
+                {/*<Box>*/}
+                {/*  <Stack direction="row">*/}
+                {/*    <LinkButton*/}
+                {/*      size="small"*/}
+                {/*      buttonName="수정"*/}
+                {/*      sx={{ color: "black" }}*/}
+                {/*      startIcon={<MyIcon icon="pen-fill" size={20} />}*/}
+                {/*      onClick={() => handleCommentModify(index)}*/}
+                {/*    />*/}
 
-                    <LinkButton
-                      size="small"
-                      buttonName="삭제"
-                      sx={{ color: "black" }}
-                      startIcon={<MyIcon icon="trash" size={20} />}
-                      onClick={() => handleCommentDelete(totalCmntUkey, index)}
-                    />
-                  </Stack>
-                </Box>
+                {/*    <LinkButton*/}
+                {/*      size="small"*/}
+                {/*      buttonName="삭제"*/}
+                {/*      sx={{ color: "black" }}*/}
+                {/*      startIcon={<MyIcon icon="trash" size={20} />}*/}
+                {/*      onClick={() => handleCommentDelete(totalCmntUkey, index)}*/}
+                {/*    />*/}
+                {/*  </Stack>*/}
+                {/*</Box>*/}
               </Stack>
 
               <Box

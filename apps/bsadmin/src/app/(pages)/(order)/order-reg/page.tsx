@@ -115,6 +115,8 @@ export default function Page() {
     React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
+
+  // defaultValues
   const defaultValues = {
     srvcTypeMc: "BS_0100007004",
     anlsTypeMc: "BS_0100006004",

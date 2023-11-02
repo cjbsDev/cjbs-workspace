@@ -1,10 +1,10 @@
 import axios from "axios";
 import FileSaver from "file-saver";
 import { useEffect, useState } from "react";
-import { GET_FILE, POST_BLOB, GET_BLOB } from "api";
+import { GET_BLOB } from "api";
 import { toast } from "react-toastify";
 
-export const useFileDownload = (exportUrl: string, keyword: string) => {
+export const useFileDownload = (exportUrl: string, keyword: string | undefined) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
   const saverFile = async () => {
@@ -29,7 +29,7 @@ export const useFileDownload = (exportUrl: string, keyword: string) => {
         throw new Error("File download failed");
         // toast();
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error", error.message);
       // 오류 메시지를 여기에서 처리하거나 반환
       toast(error.message);

@@ -11,8 +11,8 @@ interface AlertModalProps {
   onClose: () => void;
   alertMainFunc: () => void;
   open: boolean;
-  mainMessage: string;
-  subMessage: string;
+  mainMessage?: string;
+  subMessage?: string;
   alertBtnName: string;
 }
 

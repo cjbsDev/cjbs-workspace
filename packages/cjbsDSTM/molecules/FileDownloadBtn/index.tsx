@@ -8,7 +8,7 @@ import { GET } from "api";
 
 interface FileDownloadBtnProps {
   exportUrl: string;
-  keyword: string;
+  keyword?: string | undefined;
   iconName?: string;
 }
 

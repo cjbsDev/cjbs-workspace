@@ -23,7 +23,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../types/ModalContainerProps";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, POST } from "api";
 import { useParams } from "next/navigation";

@@ -27,7 +27,6 @@ import TableNewRows from "./TableNewRows";
 import LoadingSvg from "@public/svg/loading_wh.svg";
 import {useRecoilState} from "recoil";
 import {groupUseStatusAtom} from "../../../../../recoil/atoms/groupUseStatusAtom";
-import {fileIdValueAtom} from "@app/recoil/atoms/fileIdValueAtom";
 import {groupListDataAtom} from "../../../../../recoil/atoms/groupListDataAtom";
 import {useParams} from "next/navigation";
 
@@ -112,12 +111,13 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     newAlignment: string
   ) => {
     if (newAlignment === null) return;
-    if (newAlignment === 'N') {
-      resetGroupTable()
-    }
     setValue("isGroupCmprAnls", newAlignment);
     setIsGroupCmprAnls(newAlignment);
-    handleServiceTypeChange();
+    if (newAlignment === 'N') {
+      resetGroupTable();
+    } else {
+      handleServiceTypeChange();
+    }
   };
 
   // group table delete

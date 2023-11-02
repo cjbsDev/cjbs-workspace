@@ -101,12 +101,13 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     newAlignment: string
   ) => {
     if (newAlignment === null) return;
-    if (newAlignment === 'N') {
-      resetGroupTable()
-    }
     setValue("isGroupCmprAnls", newAlignment);
     setIsGroupCmprAnls(newAlignment);
-    handleServiceTypeChange();
+    if (newAlignment === 'N') {
+      resetGroupTable();
+    } else {
+      handleServiceTypeChange();
+    }
   };
 
   // group table delete

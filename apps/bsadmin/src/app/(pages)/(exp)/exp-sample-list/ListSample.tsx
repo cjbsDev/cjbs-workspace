@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -401,7 +401,7 @@ const ListSample = () => {
         name: "Project uid",
         selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
         cell: (row) => {
-          const { projectUid, projectUidLink } = row;
+          const { projectUid, projectUidLink, orderUkey } = row;
           return projectUidLink !== null ? (
             <Link
               href={projectUidLink}
@@ -414,6 +414,15 @@ const ListSample = () => {
               {projectUid}
             </Link>
           ) : (
+            // <Link
+            //   href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
+            //   style={{
+            //     textDecoration: "underline",
+            //     color: cjbsTheme.palette.primary.main,
+            //   }}
+            // >
+            //   {projectUid}
+            // </Link>
             "-"
           );
         },
@@ -439,10 +448,15 @@ const ListSample = () => {
     []
   );
 
-  const goDetailPage = (row: any) => {
-    const path = row.orderUkey;
-    router.push("/order-list/" + path + `?prevPageUrl=${pathname}`);
-  };
+  const goDetailPage = useCallback(
+    (row: any) => {
+      const path = row.orderUkey;
+      router.push("/order-list/" + path + `?from=${pathname}&tabIndex=3`);
+
+      // href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
+    },
+    [pathname, router]
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     return (
@@ -469,7 +483,7 @@ const ListSample = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [result, totalElements]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);

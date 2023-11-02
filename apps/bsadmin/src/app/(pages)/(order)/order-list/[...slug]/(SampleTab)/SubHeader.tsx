@@ -43,6 +43,7 @@ const SubHeader = (props: SubHeaderProps) => {
             buttonName="샘플 추가"
             size="small"
             onClick={handleSampleAddModalOpen}
+            disabled={totalCount === 0}
           />
           <ContainedButton
             buttonName="분석 내역 보기"

@@ -42,7 +42,7 @@ export default function Providers({ children }: ContextProps) {
       <SessionProvider>
         <SWRConfig
           value={{
-            revalidateOnFocus: false,
+            revalidateOnFocus: true,
             revalidateOnReconnect: false,
             shouldRetryOnError: false,
             onErrorRetry: (error, key, config, revalidate, { retryCount }) => {

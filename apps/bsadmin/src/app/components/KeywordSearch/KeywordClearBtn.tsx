@@ -1,21 +1,42 @@
 import React from "react";
 import MyIcon from "icon/MyIcon";
 import { IconButton } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFormContext } from "react-hook-form";
+import { useRecoilState } from "recoil";
+import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
 
 const KeywordClearBtn = () => {
   const pathname = usePathname();
   const router = useRouter();
   const { resetField, watch, setValue } = useFormContext();
+  const [toggledClearRows, setToggleClearRows] =
+    useRecoilState(toggledClearRowsAtom);
 
   const keywordWatch = watch("Keyword");
-  // console.log("watch!!!!!", keywordWatch);
+  console.log("Keyword Watch!!!!!", keywordWatch);
+
+  const searchParams = useSearchParams();
+
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject.uKey);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("WWWWWRESULT@#@#@#", JSON.stringify(result));
 
   const handleKeywordClear = () => {
     resetField("Keyword");
     setValue("Keyword", undefined);
-    router.push(pathname);
+    setToggleClearRows(!toggledClearRows);
+    router.push(
+      resultObject.uKey !== undefined
+        ? `${pathname}?uKey=${resultObject.uKey}`
+        : pathname
+    );
   };
 
   return (

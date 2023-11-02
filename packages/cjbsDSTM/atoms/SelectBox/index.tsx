@@ -21,7 +21,7 @@ export function SelectBox({
   inputName,
   resetFiledName,
   required = false,
-  errorMessage,
+  errorMessage = "필수 값입니다.",
   defaultOption = true,
   defaultMsg = "선택",
   ...props
@@ -60,7 +60,7 @@ export function SelectBox({
       {methods.formState.errors[inputName]?.type === "required" && (
         <Typography
           variant="body2"
-          sx={{ color: cjbsTheme.palette.warning.main }}
+          sx={{ color: cjbsTheme.palette.warning.main, mt: 0.5, ml: 1 }}
         >
           {errorMessage}
         </Typography>
