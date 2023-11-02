@@ -63,7 +63,7 @@ const LazyDepthSelctbox = dynamic(
   }
 );
 
-const SampleInfoModal = (props: ModalContainerProps) => {
+const SampleAddModal = (props: ModalContainerProps) => {
   const { onClose, open, modalWidth } = props;
   const router = useRouter();
   const params = useParams();
@@ -265,7 +265,7 @@ const SampleInfoModal = (props: ModalContainerProps) => {
   );
 };
 
-export default SampleInfoModal;
+export default SampleAddModal;
 const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
   color: "#666666",
   display: "inline-block",

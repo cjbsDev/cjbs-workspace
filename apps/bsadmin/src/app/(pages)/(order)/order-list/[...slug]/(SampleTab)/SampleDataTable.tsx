@@ -497,22 +497,25 @@ const SampleDataTable = (props) => {
   // }, [filterText, resetPaginationToggle, sampleUkeyList]);
 
   return (
-    <DataTableBase
-      data={filteredItems}
-      columns={columns}
-      onRowClicked={goDetailModal}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles3}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      // paginationResetDefaultPage={resetPaginationToggle}
-      selectableRows
-      onSelectedRowsChange={handleSelectedRowChange}
-      clearSelectedRows={isClear}
-      selectableRowsVisibleOnly={true}
-      pagination={false}
-    />
+    <Box sx={{ mt: -5 }}>
+      <DataTableBase
+        title={<Typography variant="subtitle1">목록</Typography>}
+        data={filteredItems}
+        columns={columns}
+        onRowClicked={goDetailModal}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles3}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        // paginationResetDefaultPage={resetPaginationToggle}
+        selectableRows
+        onSelectedRowsChange={handleSelectedRowChange}
+        clearSelectedRows={isClear}
+        selectableRowsVisibleOnly={true}
+        pagination={false}
+      />
+    </Box>
   );
 };
 

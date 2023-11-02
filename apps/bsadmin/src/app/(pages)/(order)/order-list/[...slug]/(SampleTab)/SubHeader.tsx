@@ -10,7 +10,7 @@ import {
 
 interface SubHeaderProps {
   filterText: string;
-  // totalCount: number;
+  totalCount: number;
   exportUrl?: string;
   // sampleUkeyList: string[];
   handleSampleAddModalOpen?: () => void;
@@ -24,7 +24,7 @@ interface SubHeaderProps {
 const SubHeader = (props: SubHeaderProps) => {
   const {
     filterText,
-    // totalCount,
+    totalCount,
     exportUrl,
     handleSampleAddModalOpen,
     handleAnalDtlModalOpen,
@@ -38,11 +38,12 @@ const SubHeader = (props: SubHeaderProps) => {
     <Grid container>
       <Grid item xs={5} sx={{ pt: 0 }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          {/*<DataCountResultInfo totalCount={totalCount} />*/}
+          <DataCountResultInfo totalCount={totalCount} />
           <ContainedButton
             buttonName="샘플 추가"
             size="small"
             onClick={handleSampleAddModalOpen}
+            disabled={totalCount === 0}
           />
           <ContainedButton
             buttonName="분석 내역 보기"
