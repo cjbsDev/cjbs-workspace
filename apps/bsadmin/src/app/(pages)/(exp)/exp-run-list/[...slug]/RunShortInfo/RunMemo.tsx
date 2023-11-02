@@ -15,6 +15,7 @@ const RunMemo = (props) => {
           minHeight: 92.5,
           overflowY: "auto",
           minWidth: 300,
+          whiteSpace: "pre-wrap",
         }}
       >
         {memo}

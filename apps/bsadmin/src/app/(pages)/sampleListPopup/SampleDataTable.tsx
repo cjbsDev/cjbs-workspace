@@ -29,7 +29,7 @@ import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(5);
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
