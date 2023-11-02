@@ -9,6 +9,7 @@ const NoDataView = () => {
         width: "100%",
         pt: 7.5,
         pb: 7.5,
+        mb: 5,
         border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       }}
     >

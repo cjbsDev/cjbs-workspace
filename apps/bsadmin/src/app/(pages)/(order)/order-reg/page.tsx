@@ -43,7 +43,9 @@ import {
 } from "../../../data/inputDataLists";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
-import { POST } from "api";
+import { fetcher, POST } from "api";
+import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 const apiUrl = `/order/extr`;
 
@@ -110,6 +112,14 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
 
 export default function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // 주문서에서 오더 등록 할때
+  // const orshUkey = searchParams.get("orshUkey");
+  // const { data } = useSWR(`/orsh/bs/extr/${orshUkey}`, fetcher, {
+  //   suspense: true,
+  // });
+
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] =
     React.useState<boolean>(false);

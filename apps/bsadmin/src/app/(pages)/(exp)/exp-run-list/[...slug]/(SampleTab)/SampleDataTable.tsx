@@ -21,8 +21,9 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../../../../recoil/atoms/sampleUkeyAtom";
+import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggledClearRowsAtom";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
@@ -31,11 +32,13 @@ const SampleDataTable = () => {
   const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [isClear, setIsClear] = useState<boolean>(false);
+  const [toggledClearRows, setToggleClearRows] =
+    useRecoilState(toggledClearRowsAtom);
 
-  useEffect(() => {
-    // isClear 상태 변경 이슈
-    setIsClear(false);
-  }, [isClear]);
+  // useEffect(() => {
+  //   // isClear 상태 변경 이슈
+  //   setIsClear(false);
+  // }, [isClear]);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -91,7 +94,8 @@ const SampleDataTable = () => {
   }, [totalElements]);
 
   const handleSampleBatchChangeModalClose = () => {
-    setIsClear(true);
+    // setIsClear(true);
+    setToggleClearRows(!toggledClearRows);
   };
 
   const handleSelectedRowChange = useCallback(
@@ -428,7 +432,7 @@ const SampleDataTable = () => {
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows
       onSelectedRowsChange={handleSelectedRowChange}
-      clearSelectedRows={isClear}
+      clearSelectedRows={toggledClearRows}
       pagination
       paginationServer
       paginationTotalRows={totalElements}
