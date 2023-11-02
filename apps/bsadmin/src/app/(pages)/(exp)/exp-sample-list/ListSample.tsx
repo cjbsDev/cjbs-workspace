@@ -403,20 +403,9 @@ const ListSample = () => {
         cell: (row) => {
           const { projectUid, projectUidLink, orderUkey } = row;
           return projectUidLink !== null ? (
-            // /order-list/yiIVCM
-            // <Link
-            //   href={projectUidLink}
-            //   target="_blank"
-            //   style={{
-            //     textDecoration: "underline",
-            //     color: cjbsTheme.palette.primary.main,
-            //   }}
-            // >
-            //   {projectUid}
-            // </Link>
-
             <Link
-              href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
+              href={projectUidLink}
+              target="_blank"
               style={{
                 textDecoration: "underline",
                 color: cjbsTheme.palette.primary.main,
@@ -425,6 +414,15 @@ const ListSample = () => {
               {projectUid}
             </Link>
           ) : (
+            // <Link
+            //   href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
+            //   style={{
+            //     textDecoration: "underline",
+            //     color: cjbsTheme.palette.primary.main,
+            //   }}
+            // >
+            //   {projectUid}
+            // </Link>
             "-"
           );
         },
@@ -453,7 +451,9 @@ const ListSample = () => {
   const goDetailPage = useCallback(
     (row: any) => {
       const path = row.orderUkey;
-      router.push("/order-list/" + path + `?from=${pathname}`);
+      router.push("/order-list/" + path + `?from=${pathname}&tabIndex=3`);
+
+      // href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
     },
     [pathname, router]
   );
