@@ -11,7 +11,7 @@ import {
 import React from "react";
 const LazySampleDataTable = dynamic(() => import("./SampleDataTable"), {
   ssr: false,
-  loading: () => <SkeletonLoading height={510} />,
+  loading: () => <SkeletonTableModalLoading />,
 });
 
 export default function Page() {

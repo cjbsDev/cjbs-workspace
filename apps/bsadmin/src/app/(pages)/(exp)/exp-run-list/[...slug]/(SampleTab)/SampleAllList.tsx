@@ -11,7 +11,7 @@ import {
 import { DialogContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
-import SampleModalAction from "./SampleModalAction";
+import SampleActionBtns from "./SampleActionBtns";
 interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
@@ -42,7 +42,7 @@ const SampleAllList = (props: ModalContainerProps) => {
         </ErrorContainer>
       </DialogContent>
 
-      <SampleModalAction handleClose={handleClose} isLoading={isLoading} />
+      <SampleActionBtns handleClose={handleClose} isLoading={isLoading} />
 
       {/*<ModalAction>*/}
       {/*  <OutlinedButton*/}

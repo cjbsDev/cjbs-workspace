@@ -74,12 +74,11 @@ const SampleTabDataTable = (props) => {
   const searchParams = useSearchParams();
   const params = useParams();
   const ukey = params.slug;
-  // const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
   const { mutate } = useSWRConfig();
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
-    1602,
+    1642,
     557
   );
 
@@ -592,38 +591,40 @@ const SampleTabDataTable = (props) => {
     setShowSampleAddModal(false);
   };
 
-  if (runSampleListData.length === 0) {
-    return (
-      <>
-        <SampleAddSection />
-      </>
-    );
-  }
+  // if (runSampleListData.length === 0) {
+  //   return (
+  //     <>
+  //       <SampleAddSection />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
-      <DataTableBase
-        title={"목록"}
-        data={runSampleListData}
-        columns={columns}
-        // onRowClicked={goDetailModal}
-        pointerOnHover
-        highlightOnHover
-        customStyles={dataTableCustomStyles3}
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        selectableRows
-        onSelectedRowsChange={handleSelectedRowChange}
-        clearSelectedRows={toggledClearRows}
-        selectableRowsVisibleOnly={true}
-        pagination
-        paginationServer
-        paginationTotalRows={totalElements}
-        noDataComponent={<NoDataView />}
-        // paginationResetDefaultPage={resetPaginationToggle}
-        onChangeRowsPerPage={handlePerRowsChange}
-        onChangePage={handlePageChange}
-      />
+      <Box sx={{ mt: -5 }}>
+        <DataTableBase
+          title={<Typography variant="subtitle1">목록</Typography>}
+          data={runSampleListData}
+          columns={columns}
+          // onRowClicked={goDetailModal}
+          pointerOnHover
+          highlightOnHover
+          customStyles={dataTableCustomStyles3}
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          selectableRows
+          onSelectedRowsChange={handleSelectedRowChange}
+          clearSelectedRows={toggledClearRows}
+          selectableRowsVisibleOnly={true}
+          pagination
+          paginationServer
+          paginationTotalRows={totalElements}
+          noDataComponent={<NoDataView />}
+          // paginationResetDefaultPage={resetPaginationToggle}
+          onChangeRowsPerPage={handlePerRowsChange}
+          onChangePage={handlePageChange}
+        />
+      </Box>
       {/*{runSampleListData.length === 0 ? (*/}
       {/*  <SampleAddSection />*/}
       {/*) : (*/}

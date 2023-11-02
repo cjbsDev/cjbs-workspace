@@ -37,7 +37,7 @@ const SampleAddSection = () => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
-    1602,
+    1642,
     557
   );
 

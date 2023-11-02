@@ -13,7 +13,7 @@ interface SampleModalActionProps {
   isLoading: boolean;
 }
 
-const SampleModalAction = (props: SampleModalActionProps) => {
+const SampleActionBtns = (props: SampleModalActionProps) => {
   const { handleClose, isLoading } = props;
   const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
   const params = useParams();
@@ -79,4 +79,4 @@ const SampleModalAction = (props: SampleModalActionProps) => {
   );
 };
 
-export default SampleModalAction;
+export default SampleActionBtns;
