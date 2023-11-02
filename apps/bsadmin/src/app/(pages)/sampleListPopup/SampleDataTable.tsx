@@ -419,7 +419,7 @@ const SampleDataTable = () => {
   return (
     <>
       <DataTableBase
-        title={<Title1 titleName="All RUN" />}
+        title={<Title1 titleName="샘플 검색" />}
         data={sampleListData}
         columns={columns}
         // onRowClicked={goDetailPage}
