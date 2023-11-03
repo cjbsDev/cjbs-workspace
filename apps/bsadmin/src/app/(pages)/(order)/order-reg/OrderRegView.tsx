@@ -127,6 +127,7 @@ const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
 const OrderRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
   // [고객 검색] 모달
@@ -138,10 +139,9 @@ const OrderRegView = () => {
   // 주문서에서 오더 등록 할때
   // const from = searchParams.get("from");
   const orshUkey = searchParams.get("orshUkey");
-  console.log("searchParams", orshUkey);
-  const orshType = searchParams.get("order");
-  console.log("orshType", orshType);
-
+  console.log("orshUkey", orshUkey);
+  const orshType = searchParams.get("orshType");
+  console.log("orshType", typeof orshType);
   const { data: orshExtrData } = useSWR(
     () => (orshUkey !== null ? `/orsh/bs/${orshType}/${orshUkey}` : null),
     fetcher,
@@ -241,9 +241,7 @@ const OrderRegView = () => {
           />
         </Box>
 
-        <Typography variant="subtitle1" sx={{}}>
-          연구책임자 정보
-        </Typography>
+        <Typography variant="subtitle1">연구책임자 정보</Typography>
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
@@ -395,62 +393,54 @@ const OrderRegView = () => {
         </TableContainer>
 
         {/* intn */}
-        {orshType === "intn" && (
-          <>
-            <Typography variant="subtitle1">과제 및 연구</Typography>
-            <TableContainer sx={{ mb: 5 }}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>과제</TH>
-                    <TD sx={{ width: "85%" }} colSpan={3}>
-                      <Stack
-                        direction="row"
-                        spacing={0.5}
-                        alignItems="flex-start"
-                      >
-                        <InputValidation
-                          inputName="prjtCodeMc"
-                          disabled={true}
-                          required={true}
-                          errorMessage="과제를 검색 & 선택해주세요."
-                          placeholder="과제 코드"
-                          sx={{ width: 200 }}
-                        />
-                        <InputValidation
-                          inputName="prjcNm"
-                          disabled={true}
-                          required={true}
-                          errorMessage="과제를 검색 & 선택해주세요."
-                          placeholder="과제를 선택해주세요"
-                          sx={{ width: 600 }}
-                        />
-                        <OutlinedButton
-                          size="small"
-                          buttonName="과제 검색"
-                          onClick={agncSearchModalOpen}
-                        />
-                      </Stack>
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>연구</TH>
-                    <TD sx={{ width: "85%" }} colSpan={3}>
-                      <Research />
-                    </TD>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            {/* 프로젝트 검색 모달*/}
-            <LazyProjectSearchModal
-              onClose={agncSearchModalClose}
-              open={showAgncSearchModal}
-              modalWidth={1000}
-            />
-          </>
-        )}
+        <Typography
+          variant="subtitle1"
+          sx={{ display: orshType === "intn" ? "block" : "none" }}
+        >
+          과제 및 연구
+        </Typography>
+        <TableContainer
+          sx={{ mb: 5, display: orshType === "intn" ? "block" : "none" }}
+        >
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>과제</TH>
+                <TD sx={{ width: "85%" }} colSpan={3}>
+                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                    <InputValidation
+                      inputName="prjtCodeMc"
+                      disabled={true}
+                      required={true}
+                      errorMessage="과제를 검색 & 선택해주세요."
+                      placeholder="과제 코드"
+                      sx={{ width: 200 }}
+                    />
+                    <InputValidation
+                      inputName="prjcNm"
+                      disabled={true}
+                      required={true}
+                      errorMessage="과제를 검색 & 선택해주세요."
+                      placeholder="과제를 선택해주세요"
+                      sx={{ width: 600 }}
+                    />
+                    <OutlinedButton
+                      size="small"
+                      buttonName="과제 검색"
+                      onClick={agncSearchModalOpen}
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>연구</TH>
+                <TD sx={{ width: "85%" }} colSpan={3}>
+                  <Research />
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         <Typography variant="subtitle1">주문 정보</Typography>
         <TableContainer sx={{ mb: 5 }}>
@@ -478,7 +468,6 @@ const OrderRegView = () => {
                   </Stack>
                 </TD>
               </TableRow>
-
               {/* intn */}
               <TableRow>
                 <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
@@ -497,6 +486,23 @@ const OrderRegView = () => {
                   </Stack>
                 </TD>
               </TableRow>
+              {/*<TableRow>*/}
+              {/*  <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>*/}
+              {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
+              {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
+              {/*      <InputValidation*/}
+              {/*        placeholder="example@gmail.com"*/}
+              {/*        inputName="rstFileRcpnEmail"*/}
+              {/*        required={true}*/}
+              {/*        errorMessage="이메일을 입력해 주세요."*/}
+              {/*        sx={{ width: 600 }}*/}
+              {/*        InputProps={{*/}
+              {/*          type: "email",*/}
+              {/*        }}*/}
+              {/*      />*/}
+              {/*    </Stack>*/}
+              {/*  </TD>*/}
+              {/*</TableRow>*/}
 
               <TableRow>
                 <TH sx={{ width: "15%" }}>서비스 타입</TH>
@@ -787,6 +793,13 @@ const OrderRegView = () => {
             type="order"
           />
         </ErrorContainer>
+
+        {/* 프로젝트 검색 모달*/}
+        <LazyProjectSearchModal
+          onClose={agncSearchModalClose}
+          open={showAgncSearchModal}
+          modalWidth={1000}
+        />
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
