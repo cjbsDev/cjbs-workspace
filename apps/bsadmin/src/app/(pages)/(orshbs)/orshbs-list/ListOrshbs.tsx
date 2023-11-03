@@ -196,7 +196,7 @@ export default function ListOrshbs() {
     orshUkey: string;
   }) => {
     const orshUkey = row.orshUkey;
-    router.push(`/order-reg?orshUkey=${orshUkey}&order=intn`);
+    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=intn`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

@@ -188,7 +188,7 @@ export default function ListOrshbs() {
     orshUkey: string;
   }) => {
     const orshUkey = row.orshUkey;
-    router.push(`/order-reg?orshUkey=${orshUkey}&order=extr`);
+    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=extr`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

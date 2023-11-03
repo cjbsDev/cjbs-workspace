@@ -164,7 +164,7 @@ const ListRun = () => {
     // router.push("/exp-run-list/" + path);
   };
 
-  const subHeaderComponentMemo = React.useMemo(() => {
+  const subHeaderComponentMemo = useMemo(() => {
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
@@ -193,7 +193,7 @@ const ListRun = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
