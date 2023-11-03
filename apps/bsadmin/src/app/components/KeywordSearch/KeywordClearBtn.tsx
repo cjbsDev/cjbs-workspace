@@ -14,7 +14,7 @@ const KeywordClearBtn = () => {
     useRecoilState(toggledClearRowsAtom);
 
   const keywordWatch = watch("keyword");
-  console.log("Keyword Watch!!!!!", keywordWatch);
+  console.log("keyword Watch!!!!!", keywordWatch);
 
   const searchParams = useSearchParams();
 

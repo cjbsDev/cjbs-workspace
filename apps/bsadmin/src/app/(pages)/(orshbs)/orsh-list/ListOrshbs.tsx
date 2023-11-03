@@ -11,7 +11,7 @@ import {
   SelectBox,
   Form,
   OutlinedButton,
-  cjbsTheme,
+  cjbsTheme, FileDownloadBtn,
 } from "cjbsDSTM";
 import {Stack, Grid, Box, Container, Divider, Typography} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
@@ -24,60 +24,56 @@ import { useForm, FormProvider } from "react-hook-form";
 import useSWR from "swr";
 import axios from "axios";
 import { toast } from "react-toastify";
+import IconDescBar from "../../../components/IconDescBar";
+import KeywordSearch from "../../../components/KeywordSearch";
+import ResultInSearch from "../../(order)/order-list/ResultInSearch";
+import {useSearchParams} from "next/navigation";
+import {fetcher} from "api";
+import Link from "next/link";
 
 export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
   const table = useRef(null);
 
   const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
-  const [filters, setFilters] = useState("");
-
-  useEffect(() => {
-    // setParameter(`test=test`);
-    setParameter('');
-  }, [page, perPage])
+  const [size, setSize] = useState<number>(20);
+  // const [filters, setFilters] = useState("");
 
   // ListAPI Call
-  const { data } = useFiltersList("orsh/bs/extr/list", filters);
+  // const { data } = useFiltersList("orsh/bs/extr/list", filters);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [toggledClearRows, setToggleClearRows] = React.useState(false);
+  // const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
-  console.log("data >>>>>>> : ", data);
-  const totalElements = data.pageInfo.totalElements;
-  const handleRowSelected = (rows: any) => {
-    setSelectedOption(rows.selectedRows);
-    setSelectedRowCnt(rows.selectedCount);
-  };
+  const searchParams = useSearchParams();
+  const resultObject = {};
 
-  const setParameter = (addParam: string) => {
-    let defaultParam = `page=${page}&size=${perPage}`;
-    if(addParam === undefined || addParam === null) {
-      defaultParam = `${defaultParam}`;
-    } else {
-      defaultParam = `${defaultParam}&${addParam}`;
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) !== "{}"
+      ? `/orsh/bs/extr/list${result}&page=${page}&size=${size}`
+      : `/orsh/bs/extr/list?page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
     }
-    setFilters(defaultParam);
-  };
-
-  const defaultValues = {
-    userStatus: "",
-    userAuth: "",
-  };
-
-  const methods = useForm({
-    defaultValues, // Pass the default values when calling useForm
-  });
-
-  const {
-    getValues,
-    formState: { errors, isDirty },
-    handleSubmit,
-  } = methods;
+  );
+  console.log("고객주문서 LIST DATA", data);
+  const totalElements = data.pageInfo.totalElements;
+  // const handleRowSelected = (rows: any) => {
+  //   setSelectedOption(rows.selectedRows);
+  //   setSelectedRowCnt(rows.selectedCount);
+  // };
 
   const columns = useMemo(
     () => [
@@ -86,11 +82,6 @@ export default function ListOrshbs() {
         selector: (row: { orshNo: string }) => row.orshNo,
         width: "200px",
       },
-      // {
-      //   name: "오더번호",
-      //   selector: (row: { orderId: string }) => row.orderId,
-      //   width: "150px",
-      // },
       {
         name: "분석 종류",
         selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
@@ -135,11 +126,6 @@ export default function ListOrshbs() {
         ),
         minWidth: "250px",
       },
-      // {
-      //   name: "담당자",
-      //   selector: (row: { bsnsMngrVal: string }) => row.bsnsMngrVal,
-      // },
-      //"isOrderStatus": "주문상태(Y: 등록, N : 요청)"
       {
         name: "주문상태",
         cell: (row: { isOrderStatus: string }) => {
@@ -163,7 +149,7 @@ export default function ListOrshbs() {
               <ContainedButton
                 buttonName="+오더등록"
                 size="small"
-                onClick={() => goLinkOrderPage()}
+                onClick={() => goLinkOrderPage(row)}
               />
             </Stack>
           ) : (
@@ -175,7 +161,6 @@ export default function ListOrshbs() {
         },
         width: "260px",
       },
-
       {
         name: "주문일시",
         selector: (row: { orshDttm: any }) =>
@@ -199,75 +184,40 @@ export default function ListOrshbs() {
     router.push("/orsh-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
   };
 
-  const goLinkOrderPage = () => {
-    alert('준비중 입니다.')
-    //router.push("/order-reg/");
-  };
-
-  const onSubmit = (data: any) => {
-    console.log("onSubmit", data);
+  const goLinkOrderPage = (row: {
+    orshUkey: string;
+  }) => {
+    const orshUkey = row.orshUkey;
+    router.push(`/order-reg?orshUkey=${orshUkey}&order=extr`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
+    // const handleClear = () => {
+    //   if (filterText) {
+    //     setResetPaginationToggle(!resetPaginationToggle);
+    //     setFilterText("");
+    //   }
+    // };
 
     return (
       <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
-            <DataCountResultInfo
-              totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
-            />
-
-            <FormProvider {...methods}>
-              <Container maxWidth={false} sx={{ width: "100%" }}>
-                <Box
-                  component="form"
-                  noValidate
-                  autoComplete="off"
-                  onSubmit={handleSubmit(onSubmit)}
-                >
-                  {/* 
-                  <Stack direction="row" spacing={1}>
-                    {userStatusData.data && (
-                      <SelectBox
-                        inputName="userStatus"
-                        options={userStatusData.data}
-                        defaultMsg="회원 상태 변경"
-                      />
-                    )}
-                    <ContainedButton
-                      buttonName="변경"
-                      size="small"
-                      onClick={setUserStatus}
-                    />
-                  </Stack>
-                  */}
-                </Box>
-              </Container>
-            </FormProvider>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
           </Stack>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/orsh/bs/extr/list/download${result}`}
+              iconName="xls3"
             />
-            <ContainedButton
-              buttonName="검색"
-              size="small"
-              onClick={() => setParameter(`keyword=${filterText}`)}
-            />
+            <KeywordSearch />
           </Stack>
         </Grid>
       </Grid>
@@ -277,17 +227,12 @@ export default function ListOrshbs() {
   const handlePageChange = (page: number) => {
     console.log("Page", page);
     setPage(page);
-    setParameter('');
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
     console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
-  };
-
-  const handleClearRows = () => {
-    setToggleClearRows(!toggledClearRows);
+    setSize(newPerPage);
   };
 
   return (
@@ -296,21 +241,19 @@ export default function ListOrshbs() {
       data={data.orshList}
       columns={columns}
       onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
+      // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows={false}
       pagination
       paginationServer
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
-      clearSelectedRows={toggledClearRows}
-      // selectableRows={false}
-      //ref={tableRef}
     />
   );
 }
