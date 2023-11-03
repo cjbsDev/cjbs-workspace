@@ -75,7 +75,7 @@ export default function OrderInfo() {
       const tabIndex = searchParams.get("tabIndex");
       setTabValue(Number(tabIndex));
     }
-  }, []);
+  }, [searchParams]);
 
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);

@@ -142,7 +142,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
         </Grid>
       </Grid>
     );
-  }, [checked]);
+  }, [checked, data.length]);
 
   const handleClose = () => {
     onClose();

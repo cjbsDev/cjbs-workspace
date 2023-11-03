@@ -32,47 +32,47 @@ const CommentList = () => {
     new Array(comntTotal).fill(false)
   );
 
-  const handleCommentDelete = useCallback((totalCmntUkey, index) => {
-    const APIPATH_DELETE = `/order/${orderUkey}/cmnt/${totalCmntUkey}`;
-    setIsLoading((prev) => [
-      ...prev.slice(0, index),
-      true,
-      ...prev.slice(index + 1),
-    ]);
-    DELETE(APIPATH_DELETE)
-      .then((res) => {
-        if (res.success) {
-          mutate(APIPATH);
-          toast("삭제 되었습니다.");
-        }
-      })
-      .catch((error) => console.log(error.message))
-      .finally(() => {
-        setIsLoading((prev) => [
-          ...prev.slice(0, index),
-          false,
-          ...prev.slice(index + 1),
-        ]);
-      });
-  }, []);
-
-  const handleCommentModify = useCallback((index) => {
-    console.log("Modify Index", index);
-    setIsModifyShow((prev) => [
-      ...prev.slice(0, index),
-      true,
-      ...prev.slice(index + 1),
-    ]);
-  }, []);
-
-  const handleCommentModifyCancel = useCallback((index) => {
-    console.log("Modify Index", index);
-    setIsModifyShow((prev) => [
-      ...prev.slice(0, index),
-      false,
-      ...prev.slice(index + 1),
-    ]);
-  }, []);
+  // const handleCommentDelete = useCallback((totalCmntUkey, index) => {
+  //   const APIPATH_DELETE = `/order/${orderUkey}/cmnt/${totalCmntUkey}`;
+  //   setIsLoading((prev) => [
+  //     ...prev.slice(0, index),
+  //     true,
+  //     ...prev.slice(index + 1),
+  //   ]);
+  //   DELETE(APIPATH_DELETE)
+  //     .then((res) => {
+  //       if (res.success) {
+  //         mutate(APIPATH);
+  //         toast("삭제 되었습니다.");
+  //       }
+  //     })
+  //     .catch((error) => console.log(error.message))
+  //     .finally(() => {
+  //       setIsLoading((prev) => [
+  //         ...prev.slice(0, index),
+  //         false,
+  //         ...prev.slice(index + 1),
+  //       ]);
+  //     });
+  // }, []);
+  //
+  // const handleCommentModify = useCallback((index) => {
+  //   console.log("Modify Index", index);
+  //   setIsModifyShow((prev) => [
+  //     ...prev.slice(0, index),
+  //     true,
+  //     ...prev.slice(index + 1),
+  //   ]);
+  // }, []);
+  //
+  // const handleCommentModifyCancel = useCallback((index) => {
+  //   console.log("Modify Index", index);
+  //   setIsModifyShow((prev) => [
+  //     ...prev.slice(0, index),
+  //     false,
+  //     ...prev.slice(index + 1),
+  //   ]);
+  // }, []);
 
   // const onSubmit = (data: any) => {
   //   console.log("MODIFY DATA", data);

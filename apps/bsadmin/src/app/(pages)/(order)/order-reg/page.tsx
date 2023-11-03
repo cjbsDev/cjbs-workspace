@@ -41,7 +41,7 @@ import {
   emailReceiveSettingData,
   reqReturnListData,
 } from "../../../data/inputDataLists";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -115,10 +115,14 @@ export default function Page() {
   const searchParams = useSearchParams();
 
   // 주문서에서 오더 등록 할때
-  // const orshUkey = searchParams.get("orshUkey");
-  // const { data } = useSWR(`/orsh/bs/extr/${orshUkey}`, fetcher, {
-  //   suspense: true,
-  // });
+  const orshUkey = searchParams.get("orshUkey");
+  const { data } = useSWR(
+    () => (orshUkey ? `/orsh/bs/extr/${orshUkey}` : null),
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
 
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] =
@@ -193,9 +197,9 @@ export default function Page() {
     setCustSearchModalOpen(true);
   };
   // [ 고객 검색 ] 모달 닫기
-  const handleCustSearchModalClose = () => {
+  const handleCustSearchModalClose = useCallback(() => {
     setCustSearchModalOpen(false);
-  };
+  }, []);
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>

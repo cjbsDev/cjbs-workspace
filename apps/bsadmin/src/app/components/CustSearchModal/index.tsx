@@ -124,7 +124,7 @@ const CustSearchModal = ({
         },
       },
     ],
-    []
+    [clearErrors, onClose, resetField, setValue, type]
   );
 
   //console.log("data.custList", data.custList);
@@ -163,7 +163,7 @@ const CustSearchModal = ({
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>

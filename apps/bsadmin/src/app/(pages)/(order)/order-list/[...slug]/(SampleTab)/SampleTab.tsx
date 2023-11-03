@@ -174,16 +174,19 @@ const SampleTab = () => {
         onFilter={onFilter}
       />
     );
-  }, [filterText, resetPaginationToggle, sampleUkeyList]);
+  }, [filterText, resetPaginationToggle, sampleUkeyList, filteredItems.length]);
 
-  const goDetailModal = useCallback((row: any) => {
-    const sampleUkey = row.sampleUkey;
-    setShowSampleInfoModal({
-      ...showSampleInfoModal,
-      sampleUkey: sampleUkey,
-      isShow: true,
-    });
-  }, []);
+  const goDetailModal = useCallback(
+    (row: any) => {
+      const sampleUkey = row.sampleUkey;
+      setShowSampleInfoModal({
+        ...showSampleInfoModal,
+        sampleUkey: sampleUkey,
+        isShow: true,
+      });
+    },
+    [showSampleInfoModal]
+  );
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);

@@ -93,19 +93,22 @@ const SampleDataTable = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [totalElements]);
 
   // const handleSampleBatchChangeModalClose = () => {
   //   setIsClear(true);
   // };
 
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    // const getSampleIDList = selectedRows.map((row) => row.sampleId);
-    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-    setSampleUkeyList(getSampleUkeyList);
-    // console.log("selectedSampleIdList ==>>", getSampleIDList);
-  }, []);
+  const handleSelectedRowChange = useCallback(
+    ({ selectedRows }: any) => {
+      const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+      // const getSampleIDList = selectedRows.map((row) => row.sampleId);
+      console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+      setSampleUkeyList(getSampleUkeyList);
+      // console.log("selectedSampleIdList ==>>", getSampleIDList);
+    },
+    [setSampleUkeyList]
+  );
 
   const columns = useMemo(
     () => [

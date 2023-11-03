@@ -10,7 +10,7 @@ const AddEmailListValidation = () => {
     if (isAddEmailList === false) {
       clearErrors("addEmailList");
     }
-  }, [isAddEmailList]);
+  }, [isAddEmailList, clearErrors]);
 
   // console.log("WATCH!!@..@", isAddEmailList);
 

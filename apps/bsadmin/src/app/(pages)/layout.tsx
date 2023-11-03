@@ -86,12 +86,6 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const currentPathname = usePathname();
 
-  console.log("!@#$$%^&*", currentPathname);
-
-  // React.useEffect(() => {
-  //   setSelectedIndex()
-  // }, [])
-
   const handleDrawerOpen = () => {
     setOpen(true);
     console.log("selectedIndex", selectedIndex);
@@ -123,7 +117,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
 
   const handleMenuOpenClick = React.useCallback(() => {
     setOpen(true);
-  }, [open]);
+  }, []);
 
   return (
     <Box sx={{ display: "flex" }}>
