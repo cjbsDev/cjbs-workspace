@@ -500,7 +500,7 @@ const SampleTabDataTable = (props) => {
               color="error"
               startIcon={<MyIcon icon="trash" size={18} />}
               onClick={handleAlertOpen}
-              disabled={sampleUkeyList.length === 0 ? true : false}
+              disabled={sampleUkeyList.length === 0}
             />
             <OutlinedButton
               buttonName="실험 진행 단계 변경"
@@ -508,7 +508,7 @@ const SampleTabDataTable = (props) => {
               color="secondary"
               sx={{ color: "black" }}
               onClick={handleExPrgrsPhsOpen}
-              disabled={sampleUkeyList.length === 0 ? true : false}
+              disabled={sampleUkeyList.length === 0}
             />
           </Stack>
         </Grid>
@@ -521,7 +521,7 @@ const SampleTabDataTable = (props) => {
           >
             {/* /run/list/download${result} */}
             <FileDownloadBtn
-              exportUrl={`/run/${ukey}/list/download`}
+              exportUrl={`/run/${ukey}/list/download${result}`}
               iconName="xls3"
             />
 

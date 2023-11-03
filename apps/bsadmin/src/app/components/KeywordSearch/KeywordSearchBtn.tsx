@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 const KeywordSearchBtn = () => {
   const { watch } = useFormContext();
 
-  const keywordWatch = watch("Keyword");
+  const keywordWatch = watch("keyword");
 
   return (
     <IconButton

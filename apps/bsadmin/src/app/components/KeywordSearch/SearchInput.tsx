@@ -10,7 +10,7 @@ const SearchInput = () => {
   return (
     <InputValidation
       placeholder="검색"
-      inputName="Keyword"
+      inputName="keyword"
       // onChange={() => console.log("%%%%%%%%%", trigger("Keyword"))}
       // onChange={debounce(async () => {
       //   console.log("sdfsdfsdf");
