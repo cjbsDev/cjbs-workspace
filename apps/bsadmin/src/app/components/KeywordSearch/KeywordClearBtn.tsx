@@ -13,8 +13,8 @@ const KeywordClearBtn = () => {
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
 
-  const keywordWatch = watch("Keyword");
-  console.log("Keyword Watch!!!!!", keywordWatch);
+  const keywordWatch = watch("keyword");
+  console.log("keyword Watch!!!!!", keywordWatch);
 
   const searchParams = useSearchParams();
 
@@ -29,8 +29,8 @@ const KeywordClearBtn = () => {
   console.log("WWWWWRESULT@#@#@#", JSON.stringify(result));
 
   const handleKeywordClear = () => {
-    resetField("Keyword");
-    setValue("Keyword", undefined);
+    resetField("keyword");
+    setValue("keyword", undefined);
     setToggleClearRows(!toggledClearRows);
     router.push(
       resultObject.uKey !== undefined
