@@ -3,16 +3,15 @@
 import dynamic from "next/dynamic";
 import {
   Box,
-  Chip,
+  BoxProps,
+  InputAdornment,
   Stack,
+  styled,
   Table,
   TableBody,
   TableContainer,
   TableRow,
   Typography,
-  InputAdornment,
-  styled,
-  BoxProps,
 } from "@mui/material";
 import {
   CheckboxGV,
@@ -28,6 +27,7 @@ import {
   Title1,
 } from "cjbsDSTM";
 import * as React from "react";
+import { useCallback, useState } from "react";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
@@ -38,15 +38,18 @@ import {
   emailReceiveSettingData,
   reqReturnListData,
 } from "../../../data/inputDataLists";
-import { useCallback, useState } from "react";
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import Research from "../order-intn-reg/Research";
-import Link from "next/link";
 
-const apiUrl = `/order/extr`;
+const apiUrl: string = `/order/extr`;
+
+interface CustomProps {
+  onChange: (event: { target: { name: string; value: string } }) => void;
+  name: string;
+}
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -101,29 +104,6 @@ const LazyNGSManagerSelctbox = dynamic(
   }
 );
 
-const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-  function NumericFormatCustom(props, ref) {
-    const { onChange, ...other } = props;
-
-    return (
-      <NumericFormat
-        {...other}
-        getInputRef={ref}
-        onValueChange={(values) => {
-          onChange({
-            target: {
-              name: props.name,
-              value: values.value,
-            },
-          });
-        }}
-        thousandSeparator
-        valueIsNumericString
-      />
-    );
-  }
-);
-
 const OrderRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -138,12 +118,15 @@ const OrderRegView = () => {
 
   // 주문서에서 오더 등록 할때
   // const from = searchParams.get("from");
-  const orshUkey = searchParams.get("orshUkey");
-  console.log("orshUkey", orshUkey);
+  const orshUK = searchParams.get("orshUkey");
+  console.log("orshUkey", orshUK);
   const orshType = searchParams.get("orshType");
-  console.log("orshType", typeof orshType);
+  console.log("orshType", orshType);
+
+  const orshAPIPath: string = `/orsh/bs/${orshType}/${orshUK}`;
+
   const { data: orshExtrData } = useSWR(
-    () => (orshUkey !== null ? `/orsh/bs/${orshType}/${orshUkey}` : null),
+    () => (orshUK !== null ? orshAPIPath : apiUrl),
     fetcher,
     {
       suspense: true,
@@ -151,19 +134,126 @@ const OrderRegView = () => {
   );
 
   console.log("orshExtrData", orshExtrData);
+  // console.log("Price", orshExtrData.addInfo.price !== null ? 0 : "rrrrr");
 
-  // defaultValues
-  const defaultValues = {
-    srvcTypeMc: "BS_0100007004",
-    anlsTypeMc: "BS_0100006004",
-    pltfMc: "BS_0100008001",
-    taxonBCnt: 0,
-    taxonECnt: 0,
-    taxonACnt: 0,
-    mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
-    orderTypeCc: "BS_0800001",
-    isCheck16s: "Y",
-  };
+  const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+    function NumericFormatCustom(props, ref) {
+      const { onChange, ...other } = props;
+
+      return (
+        <NumericFormat
+          {...other}
+          getInputRef={ref}
+          onValueChange={(values) => {
+            onChange({
+              target: {
+                name: props.name,
+                value: values.value,
+              },
+            });
+          }}
+          defaultValue={
+            orshExtrData === "NO_DATA" ? 0 : orshExtrData.addInfo.price
+          }
+          thousandSeparator
+          valueIsNumericString
+        />
+      );
+    }
+  );
+
+  let defaultValues: object = {};
+
+  if (orshType === "extr") {
+    console.log("EXTR Here~!!!!!");
+    defaultValues = {
+      //연구책임자 정보
+      ebcEmail: orshExtrData.custInfo.rhpiEbcEmail,
+      custNm: orshExtrData.custInfo.rhpiNm,
+      custUkey: orshExtrData.custInfo.custUkey,
+      agncUkey: orshExtrData.custInfo.agncUkey,
+      telList: orshExtrData.aplcInfo.aplcTel,
+      rhpiNm: orshExtrData.custInfo.rhpiNm,
+      agncNm: orshExtrData.custInfo.agncNm,
+      // 주문 정보
+      mailRcpnList: orshExtrData.orderInfo.mailRcpnList,
+      srvcTypeMc: orshExtrData.orderInfo.srvcTypeMc,
+      anlsTypeMc: orshExtrData.orderInfo.anlsTypeMc,
+      platformMc: orshExtrData.orderInfo.pltfMc,
+      taxonBCnt: orshExtrData.orderInfo.taxonBCnt,
+      taxonECnt: orshExtrData.orderInfo.taxonECnt,
+      taxonACnt: orshExtrData.orderInfo.taxonACnt,
+      orderTypeCc: "BS_0800001",
+      reqReturnList: orshExtrData.orderInfo.reqReturnList,
+      //   신청인 정보
+      ordrAplcNm: orshExtrData.aplcInfo.aplcNm,
+      ordrAplcEmail: orshExtrData.aplcInfo.aplcEmail,
+      ordrAplcTel: orshExtrData.aplcInfo.aplcTel,
+      //   추가 정보
+      isCheck16s: orshExtrData.addInfo.is16S,
+      price: orshExtrData.addInfo.price,
+      bsnsMngrUkey: orshExtrData.addInfo.bsnsMngrUkey,
+      memo: orshExtrData.addInfo.memo,
+    };
+  } else if (orshType === "intn") {
+    defaultValues = {};
+  } else {
+    defaultValues = {
+      srvcTypeMc: "BS_0100007003",
+      anlsTypeMc: "BS_0100006004",
+      pltfMc: "BS_0100008001",
+      taxonBCnt: 0,
+      taxonECnt: 0,
+      taxonACnt: 0,
+      mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
+      orderTypeCc: "BS_0800001",
+      isCheck16s: "Y",
+    };
+  }
+
+  console.log("%%%%%%%%%%%%%%%%%", defaultValues);
+
+  // const defaultValues = {
+  //   srvcTypeMc: "BS_0100007003",
+  //   anlsTypeMc: "BS_0100006004",
+  //   pltfMc: "BS_0100008001",
+  //   taxonBCnt: 0,
+  //   taxonECnt: 0,
+  //   taxonACnt: 0,
+  //   mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
+  //   orderTypeCc: "BS_0800001",
+  //   isCheck16s: "Y",
+  // };
+
+  // const defaultValuesExtr = {
+  //   //연구책임자 정보
+  //   ebcEmail: orshExtrData.custInfo.rhpiEbcEmail,
+  //   custNm: orshExtrData.custInfo.rhpiNm,
+  //   custUkey: orshExtrData.custInfo.custUkey,
+  //   agncUkey: orshExtrData.custInfo.agncUkey,
+  //   telList: orshExtrData.aplcInfo.aplcTel,
+  //   rhpiNm: orshExtrData.custInfo.rhpiNm,
+  //   agncNm: orshExtrData.custInfo.agncNm,
+  //   // 주문 정보
+  //   mailRcpnList: orshExtrData.orderInfo.mailRcpnList,
+  //   srvcTypeMc: orshExtrData.orderInfo.srvcTypeMc,
+  //   anlsTypeMc: orshExtrData.orderInfo.anlsTypeMc,
+  //   platformMc: orshExtrData.orderInfo.pltfMc,
+  //   taxonBCnt: orshExtrData.orderInfo.taxonBCnt,
+  //   taxonECnt: orshExtrData.orderInfo.taxonECnt,
+  //   taxonACnt: orshExtrData.orderInfo.taxonACnt,
+  //   orderTypeCc: "BS_0800001",
+  //   reqReturnList: orshExtrData.orderInfo.reqReturnList,
+  //   //   신청인 정보
+  //   ordrAplcNm: orshExtrData.aplcInfo.aplcNm,
+  //   ordrAplcEmail: orshExtrData.aplcInfo.aplcEmail,
+  //   ordrAplcTel: orshExtrData.aplcInfo.aplcTel,
+  //   //   추가 정보
+  //   isCheck16s: orshExtrData.addInfo.is16S,
+  //   price: orshExtrData.addInfo.price,
+  //   bsnsMngrUkey: orshExtrData.addInfo.bsnsMngrUkey,
+  //   memo: orshExtrData.addInfo.memo,
+  // };
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -173,12 +263,43 @@ const OrderRegView = () => {
       setAddEmailChck(true);
     }
 
-    const typeNumberPrice = Number(data.price.replace(",", ""));
+    // console.log("MMMMMMMMMMMM", JSON.stringify(data.price).includes(","));
+
+    let typeNumberPrice;
+    if (JSON.stringify(data.price).includes(",")) {
+      typeNumberPrice = Number(data.price.replace(",", ""));
+    } else {
+      typeNumberPrice = Number(data.price);
+    }
+
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
 
+    // const bodyData = {
+    //   addEmailList: data.addEmailList,
+    //   agncUkey: data.agncUkey,
+    //   anlsTypeMc: data.anlsTypeMc,
+    //   bsnsMngrUkey: data.bsnsMngrUkey,
+    //   custUkey: data.custUkey,
+    //   isCheck16s: data.isCheck16s,
+    //   mailRcpnList: data.mailRcpnList,
+    //   memo: data.memo,
+    //   orderTypeCc: data.orderTypeCc,
+    //   ordrAplcEmail: data.ordrAplcEmail,
+    //   ordrAplcNm: data.ordrAplcNm,
+    //   ordrAplcTel: data.ordrAplcTel,
+    //   pltfMc: data.pltfMc,
+    //   // price: typeNumberPrice,
+    //   reqReturnList: data.reqReturnList,
+    //   srvcTypeMc: data.srvcTypeMc,
+    //   taxonACnt: typeNumbertaxonACnt,
+    //   taxonBCnt: typeNumbertaxonBCnt,
+    //   taxonECnt: typeNumbertaxonECnt,
+    // };
+
     const bodyData = {
+      // orshUkey: orshUK,
       addEmailList: data.addEmailList,
       agncUkey: data.agncUkey,
       anlsTypeMc: data.anlsTypeMc,
@@ -191,7 +312,7 @@ const OrderRegView = () => {
       ordrAplcEmail: data.ordrAplcEmail,
       ordrAplcNm: data.ordrAplcNm,
       ordrAplcTel: data.ordrAplcTel,
-      pltfMc: data.pltfMc,
+      pltfMc: data.platformMc,
       price: typeNumberPrice,
       reqReturnList: data.reqReturnList,
       srvcTypeMc: data.srvcTypeMc,
@@ -202,7 +323,48 @@ const OrderRegView = () => {
 
     console.log("Body Data ==>>", bodyData);
 
-    await POST(apiUrl, bodyData)
+    // if (orshUK === "extr") {
+    //   const extrKeyValues = {
+    //     orshUkey: orshUK,
+    //   };
+    //
+    //   const extrBodyData = {
+    //     ...bodyData,
+    //     ...extrKeyValues,
+    //   };
+    //
+    //   console.log("EXTR Body Data", extrBodyData);
+    //
+    //   return extrBodyData;
+    // }
+
+    const extrKeyValues = {
+      orshUkey: orshUK,
+    };
+
+    const extrBodyData = {
+      ...bodyData,
+      ...extrKeyValues,
+    };
+
+    const intnKeyValues = {};
+
+    const intnBodyData = {
+      ...bodyData,
+      ...intnKeyValues,
+    };
+
+    // const { orshUkey, ...rest } = bodyData;
+    // const bodyDataWithoutOrshUkey = { ...rest };
+
+    await POST(
+      orshUK !== null ? orshAPIPath : apiUrl,
+      orshType === "extr"
+        ? extrBodyData
+        : orshType === "intn"
+        ? intnBodyData
+        : bodyData
+    )
       .then((response) => {
         console.log("POST request successful:", response);
         if (response.success) {
@@ -237,7 +399,9 @@ const OrderRegView = () => {
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
           <Title1
-            titleName={"오더 등록" + `${orshType === "intn" ? " (내부)" : ""}`}
+            titleName={
+              "오더 등록" + `${orshType === "intn" ? " (내부)" : " (고객)"}`
+            }
           />
         </Box>
 
@@ -289,6 +453,7 @@ const OrderRegView = () => {
                       }}
                     />
                     <OutlinedButton
+                      sx={{ display: orshType === "extr" ? "none" : "block" }}
                       size="small"
                       buttonName="아이디 검색"
                       onClick={handleCustSearchModalOpen}
@@ -395,13 +560,11 @@ const OrderRegView = () => {
         {/* intn */}
         <Typography
           variant="subtitle1"
-          sx={{ display: orshType === "intn" ? "block" : "none" }}
+          sx={{ display: orshType === "intn" ? "" : "" }}
         >
           과제 및 연구
         </Typography>
-        <TableContainer
-          sx={{ mb: 5, display: orshType === "intn" ? "block" : "none" }}
-        >
+        <TableContainer sx={{ mb: 5, display: orshType === "intn" ? "" : "" }}>
           <Table>
             <TableBody>
               <TableRow>
@@ -411,7 +574,7 @@ const OrderRegView = () => {
                     <InputValidation
                       inputName="prjtCodeMc"
                       disabled={true}
-                      required={true}
+                      required={orshType === "intn"}
                       errorMessage="과제를 검색 & 선택해주세요."
                       placeholder="과제 코드"
                       sx={{ width: 200 }}
@@ -419,7 +582,7 @@ const OrderRegView = () => {
                     <InputValidation
                       inputName="prjcNm"
                       disabled={true}
-                      required={true}
+                      required={orshType === "intn"}
                       errorMessage="과제를 검색 & 선택해주세요."
                       placeholder="과제를 선택해주세요"
                       sx={{ width: 600 }}
@@ -435,12 +598,13 @@ const OrderRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>연구</TH>
                 <TD sx={{ width: "85%" }} colSpan={3}>
-                  <Research />
+                  <Research required={orshType === "intn"} />
                 </TD>
               </TableRow>
             </TableBody>
           </Table>
         </TableContainer>
+        {/* // intn */}
 
         <Typography variant="subtitle1">주문 정보</Typography>
         <TableContainer sx={{ mb: 5 }}>
@@ -468,15 +632,16 @@ const OrderRegView = () => {
                   </Stack>
                 </TD>
               </TableRow>
+
               {/* intn */}
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
                 <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
                       placeholder="example@gmail.com"
                       inputName="rstFileRcpnEmail"
-                      required={true}
+                      required={orshType === "intn"}
                       errorMessage="이메일을 입력해 주세요."
                       sx={{ width: 600 }}
                       InputProps={{
@@ -486,23 +651,7 @@ const OrderRegView = () => {
                   </Stack>
                 </TD>
               </TableRow>
-              {/*<TableRow>*/}
-              {/*  <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>*/}
-              {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
-              {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
-              {/*      <InputValidation*/}
-              {/*        placeholder="example@gmail.com"*/}
-              {/*        inputName="rstFileRcpnEmail"*/}
-              {/*        required={true}*/}
-              {/*        errorMessage="이메일을 입력해 주세요."*/}
-              {/*        sx={{ width: 600 }}*/}
-              {/*        InputProps={{*/}
-              {/*          type: "email",*/}
-              {/*        }}*/}
-              {/*      />*/}
-              {/*    </Stack>*/}
-              {/*  </TD>*/}
-              {/*</TableRow>*/}
+              {/* // intn */}
 
               <TableRow>
                 <TH sx={{ width: "15%" }}>서비스 타입</TH>
@@ -654,9 +803,6 @@ const OrderRegView = () => {
                 <TH sx={{ width: "15%" }}>16s 확인</TH>
                 <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                   <SixteenCheck />
-                  {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-                  {/*  <LazySixteenCheck />*/}
-                  {/*</ErrorContainer>*/}
                 </TD>
               </TableRow>
               <TableRow>
@@ -667,6 +813,7 @@ const OrderRegView = () => {
                       inputName="price"
                       required={true}
                       errorMessage="오더 금액을 입력해 주세요."
+                      // pattern={/^[0-9]+$/}
                       // pattern={/\B(?=(\d{3})+(?!\d))/g}
                       // patternErrMsg="숫자만 입력해 주세요."
                       sx={{
@@ -698,23 +845,9 @@ const OrderRegView = () => {
                   </ErrorContainer>
                 </TD>
               </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>메모[선택]</TH>
-                <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <InputValidation
-                    fullWidth={true}
-                    multiline
-                    rows={4}
-                    inputName="memo"
-                    placeholder="메모"
-                    maxLength={500}
-                    maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-                  />
-                </TD>
-              </TableRow>
 
               {/* intn */}
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
                 <TH sx={{ width: "15%" }}>
                   Fast Track<NotRequired>[선택]</NotRequired>
                 </TH>
@@ -726,15 +859,7 @@ const OrderRegView = () => {
                   />
                 </TD>
               </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                <TD sx={{ width: "85%" }}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazySalesManagerSelctbox />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
                 <TH sx={{ width: "15%" }}>
                   Prep 담당자<NotRequired>[선택]</NotRequired>
                 </TH>
@@ -744,7 +869,7 @@ const OrderRegView = () => {
                   </ErrorContainer>
                 </TD>
               </TableRow>
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
                 <TH sx={{ width: "15%" }}>
                   Lib 담당자<NotRequired>[선택]</NotRequired>
                 </TH>
@@ -754,7 +879,7 @@ const OrderRegView = () => {
                   </ErrorContainer>
                 </TD>
               </TableRow>
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
                 <TH sx={{ width: "15%" }}>
                   Seq 담당자<NotRequired>[선택]</NotRequired>
                 </TH>
@@ -764,6 +889,8 @@ const OrderRegView = () => {
                   </ErrorContainer>
                 </TD>
               </TableRow>
+              {/* // intn */}
+
               <TableRow>
                 <TH sx={{ width: "15%" }}>
                   메모<NotRequired>[선택]</NotRequired>

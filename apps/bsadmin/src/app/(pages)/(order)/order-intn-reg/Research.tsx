@@ -11,7 +11,8 @@ const LazyPrepSelectbox = dynamic(
   }
 );
 
-const Research = () => {
+const Research = (props: { required: boolean }) => {
+  const { required } = props;
   const { getValues } = useFormContext();
   const prjcCode = getValues("prjtCodeMc");
   return (
@@ -20,6 +21,7 @@ const Research = () => {
         <LazyPrepSelectbox
           url={`/code/orsh/prjtDetail/list?type=${prjcCode}`}
           inputName={`prjtDetailCodeMc`}
+          required={required}
         />
       </ErrorContainer>
     </Stack>
