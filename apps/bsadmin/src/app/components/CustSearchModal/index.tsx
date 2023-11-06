@@ -40,6 +40,7 @@ const CustSearchModal = ({
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
+  console.log("&&&&&&&&&&&&&&&&",data);
   const { setValue, clearErrors, resetField } = useFormContext();
 
   // [고객] 컬럼세팅
@@ -88,11 +89,15 @@ const CustSearchModal = ({
           agncUkey: string;
           agncNm: string;
           instNm: string;
+          isAgncIncl: string;
         }) => {
-          const { agncUkey, custUkey, custNm, ebcEmail, telList } = row;
+          const { agncUkey, custUkey, custNm, ebcEmail, telList, instNm, agncNm, isAgncIncl } = row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
 
           if (agncUkey && type === "agnc") {
+            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
+          }
+          if (isAgncIncl === "N" && type === "agnc-order") {
             return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
           }
           return (
@@ -108,6 +113,14 @@ const CustSearchModal = ({
                 if (type === "order") {
                   setValue("agncNm", agncInstNm);
                   setValue("agncUkey", agncUkey);
+                }
+
+                if (type === "agnc-order") {
+                  setValue("ebcEmail", ebcEmail);
+                  setValue("rhpiNm", custNm);
+                  setValue("rhpiTel", telList);
+                  setValue("instNm", instNm);
+                  setValue("agncNm", agncNm);
                 }
 
                 onClose();
