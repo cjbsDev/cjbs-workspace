@@ -22,6 +22,11 @@ import dynamic from "next/dynamic";
 import useSWR from "swr";
 import {fetcherOrsh} from "api";
 import {AddressDeleteButton} from "../../../components/AddressDeleteButton";
+import {useFormContext} from "react-hook-form";
+
+const LazyProjectSearchModal = dynamic(() => import("./CustSearchModal"), {
+  ssr: false,
+});
 
 const dataRadioGV = [
   { value: "Y", optionName: "요청함" },
@@ -39,12 +44,37 @@ const dataMailRcpnListGV = [
 ];
 
 export default function OrdererInfo() {
+  const methods = useFormContext();
+  const {setValue, getValues} = methods;
+  // const values = getValues(["rhpiNm", "ebcEmail", "rhpiTel"]);
+
+  const [showCustSearchModal, setShowCustSearchModal] = useState<boolean>(false);
+  const [prjcCode, setPrjcCode] = useState<string>('');
+
+  // [ 프로젝트 검색 ] 모달 오픈
+  const custSearchModalOpen = () => {
+    setShowCustSearchModal(true);
+  };
+
+  // // [ 프로젝트 검색 ] 모달 닫기
+  const custSearchModalClose = () => {
+    setShowCustSearchModal(false);
+  };
+
+  const setCodeDataChange = (code: string) => {
+    setPrjcCode(code);
+  };
+
   const { data: custTemp } = useSWR(
     `/cust/info`,
     fetcherOrsh,
     { suspense: true }
   );
   const custData = custTemp.data;
+
+  const clearFormValue = () => {
+    setValue("rstFileRcpnEmail", "");
+  };
 
   // const onSubmit = async (data: any) => {
   //   console.log("**************************************");
@@ -276,21 +306,20 @@ export default function OrdererInfo() {
                 <Stack direction="row" spacing={1}>
                   <InputValidation
                     inputName="rstFileRcpnEmail"
-                    // placeholder="여러개 입력시','로 구분하세요."
                     placeholder="example@cj.net"
                     sx={{ width: 306 }}
                   />
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="계정 등록"*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
-                  {/*<OutlinedButton*/}
-                  {/*  size="small"*/}
-                  {/*  buttonName="삭제"*/}
-                  {/*  color={"error"}*/}
-                  {/*  // onClick={() => {}}*/}
-                  {/*/>*/}
+                  <OutlinedButton
+                    size="small"
+                    buttonName="계정 등록"
+                    onClick={() => {custSearchModalOpen()}}
+                  />
+                  <OutlinedButton
+                    size="small"
+                    buttonName="삭제"
+                    color={"error"}
+                    onClick={() => {clearFormValue()}}
+                  />
                 </Stack>
               </TD>
             </TableRow>
@@ -332,17 +361,14 @@ export default function OrdererInfo() {
         </Table>
       </TableContainer>
 
-      {/*<Stack direction="row" spacing={0.5} justifyContent="center">*/}
-      {/*  <ContainedButton*/}
-      {/*    type="submit"*/}
-      {/*    buttonName="다음"*/}
-      {/*    endIcon={*/}
-      {/*        isLoading ? (*/}
-      {/*            <LoadingSvg stroke="white" width={20} height={20} />*/}
-      {/*        ) : null*/}
-      {/*    }*/}
-      {/*  />*/}
-      {/*</Stack>*/}
+
+      <LazyProjectSearchModal
+        onClose={custSearchModalClose}
+        open={showCustSearchModal}
+        modalWidth={600}
+        setCodeDataChange={setCodeDataChange}
+      />
+
     </>
     // </Form>
   );

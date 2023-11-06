@@ -34,6 +34,14 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
 
+// 고객 검색
+const LazyCustSearchModal = dynamic(
+  () => import("../../../../components/CustSearchModal"),
+  {
+    ssr: false,
+  }
+);
+
 const dataMailRcpnListGV = [
     { value: "agncLeaderRcpn", optionName: "연구책임자" },
     { value: "ordrAplcRcpn", optionName: "신청인" },
@@ -47,6 +55,16 @@ export default function OrdererInfo() {
   const updataYn = params.slug[2];
   // const [isLoading, setIsLoading] = useState<boolean>(false);
 
+  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(false);
+  // [ 고객 검색 ] 모달 오픈
+  const handleCustSearchModalOpen = () => {
+    setCustSearchModalOpen(true);
+  };
+  // [ 고객 검색 ] 모달 닫기
+  const handleCustSearchModalClose = () => {
+    setCustSearchModalOpen(false);
+  };
+
 
   return (
     <>
@@ -59,25 +77,33 @@ export default function OrdererInfo() {
             <TableRow>
               <TH sx={{ width: "15%" }}>Ezbiocloud 계정</TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    inputName="ebcEmail"
-                    required={true}
-                    sx={{
-                      "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                      },
-                      ".MuiOutlinedInput-input:read-only": {
-                        backgroundColor: "white",
-                        cursor: "pointer",
-                        textFillColor: "#000000"
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: updataYn === 'N' ? false : true
-                    }}
+                <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="space-between">
+                  <Box>
+                    <InputValidation
+                      inputName="ebcEmail"
+                      required={true}
+                      sx={{
+                        width: 306,
+                        "& .MuiOutlinedInput-root": {
+                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        },
+                        ".MuiOutlinedInput-input:read-only": {
+                          backgroundColor: "white",
+                          cursor: "pointer",
+                          textFillColor: "#000000"
+                        },
+                      }}
+                      InputProps={{
+                        readOnly: updataYn === 'N' ? false : true
+                      }}
+                    />
+                    &nbsp;
+                    <Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>
+                  </Box>
+                  <ContainedButton
+                    buttonName="계정 변경"
+                    onClick={handleCustSearchModalOpen}
                   />
-                  &nbsp;<Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>
                 </Stack>
               </TD>
             </TableRow>
@@ -427,6 +453,13 @@ export default function OrdererInfo() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <LazyCustSearchModal
+        onClose={handleCustSearchModalClose}
+        open={custSearchModalOpen}
+        modalWidth={800}
+        type="agnc-order"
+      />
     </>
   );
 }

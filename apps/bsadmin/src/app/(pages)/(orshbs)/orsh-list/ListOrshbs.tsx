@@ -13,7 +13,19 @@ import {
   OutlinedButton,
   cjbsTheme, FileDownloadBtn,
 } from "cjbsDSTM";
-import {Stack, Grid, Box, Container, Divider, Typography} from "@mui/material";
+import {
+  Stack,
+  Grid,
+  Box,
+  Container,
+  Divider,
+  Typography,
+  Button,
+  Tooltip,
+  IconButton,
+  tooltipClasses, TooltipProps
+} from "@mui/material";
+import { styled } from "@mui/material/styles";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef, useEffect } from "react";
 import MyIcon from "icon/MyIcon";
@@ -30,6 +42,21 @@ import ResultInSearch from "../../(order)/order-list/ResultInSearch";
 import {useSearchParams} from "next/navigation";
 import {fetcher} from "api";
 import Link from "next/link";
+
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 1)',
+    boxShadow: theme.shadows[10],
+    fontSize: 11,
+    border: '1px solid #000000',
+    padding: '10px'
+  },
+}));
+
 
 export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
@@ -114,24 +141,42 @@ export default function ListOrshbs() {
       },
       {
         name: "주문자(ID)",
-        cell: (row: { rhpiNm: string; rhpiEbcEmail: string }) => (
-          <Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box>{row.rhpiNm}</Box>
+        cell: (row: { rhpiNm: string; rhpiEbcEmail: string; isMastered:string }) => (
+          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} width={'100%'}>
+            <Stack>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <Box>{row.rhpiNm}</Box>
+              </Stack>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <Box>({row.rhpiEbcEmail})</Box>
+              </Stack>
             </Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box>({row.rhpiEbcEmail})</Box>
-            </Stack>
+            {row.isMastered == "N" ? (
+              <>
+                <LightTooltip placement="top"
+                  title={
+                    <React.Fragment>
+                      <Typography variant="body2">미등록 거래처(기관) 사용자입니다.</Typography>
+                      <Typography variant="body2">거래처 및 연구원 등록 후 오더를 등록해주세요.</Typography>
+                    </React.Fragment>
+                  }
+                >
+                  <IconButton>
+                    <MyIcon icon="exclamation-circle-fill" size={26} color={cjbsTheme.palette.warning.main}/>
+                  </IconButton>
+                </LightTooltip>
+              </>
+            ):('')}
+
           </Stack>
         ),
         minWidth: "250px",
       },
       {
         name: "주문상태",
-        cell: (row: { isOrderStatus: string }) => {
+        cell: (row: { isOrderStatus: string; isMastered:string }) => {
           return row.isOrderStatus == "N" ? (
             <Stack direction="row" spacing={1} alignItems="center">
-              {/*<Box data-tag="allowRowEvents">주문대기</Box>*/}
               <Typography
                 variant="subtitle2"
                 color={cjbsTheme.palette.info.main}
@@ -144,13 +189,18 @@ export default function ListOrshbs() {
                 size="small"
                 onClick={() => goDetailPage(row)}
               />
-              <Divider orientation="vertical" variant="middle" flexItem />
 
-              <ContainedButton
-                buttonName="+오더등록"
-                size="small"
-                onClick={() => goLinkOrderPage(row)}
-              />
+              {row.isMastered == "Y" ? (
+                <>
+                  <Divider orientation="vertical" variant="middle" flexItem />
+                  <ContainedButton
+                    buttonName="+오더등록"
+                    size="small"
+                    onClick={() => goLinkOrderPage(row)}
+                  />
+                </>
+              ):('')}
+
             </Stack>
           ) : (
             <Stack direction="row" spacing={0.5} alignItems="center">
@@ -188,7 +238,7 @@ export default function ListOrshbs() {
     orshUkey: string;
   }) => {
     const orshUkey = row.orshUkey;
-    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=extr`);
+    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=extr&from=/orsh-list`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -222,7 +272,7 @@ export default function ListOrshbs() {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRowCnt]);
+  }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
