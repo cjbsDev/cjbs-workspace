@@ -23,5 +23,12 @@ export default function PlatformSelectbox() {
 
   console.log("Platform Data ==>>", data);
 
-  return <SelectBox inputName="platformMc" options={data} />;
+  return (
+    <SelectBox
+      inputName="platformMc"
+      options={data}
+      required={true}
+      errorMessage="플랫폼을 선택해 주세요."
+    />
+  );
 }

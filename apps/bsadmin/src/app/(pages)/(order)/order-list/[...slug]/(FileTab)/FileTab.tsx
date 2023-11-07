@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { cjbsTheme, DataTableBase, OutlinedButton } from "cjbsDSTM";
 import { useParams } from "next/navigation";
@@ -26,41 +26,44 @@ const FileTab = () => {
   const fileList = Array.from(data);
 
   console.log("FILELIST", fileList);
-  const rowDelete = async (orderFileUkey: string) => {
-    console.log("orderFileUkey ==>>", orderFileUkey);
-    try {
-      const res = await DELETE(`/order/${orderUkey}/file/${orderFileUkey}`);
-      if (res.success) {
-        console.log("Delete", res);
-        toast("삭제되었습니다.");
-        mutate(`/order/${orderUkey}/file/list`);
+  const rowDelete = useCallback(
+    async (orderFileUkey: string) => {
+      console.log("orderFileUkey ==>>", orderFileUkey);
+      try {
+        const res = await DELETE(`/order/${orderUkey}/file/${orderFileUkey}`);
+        if (res.success) {
+          console.log("Delete", res);
+          toast("삭제되었습니다.");
+          mutate(`/order/${orderUkey}/file/list`);
+        }
+      } catch (e: any) {
+        console.log(e.message);
+      } finally {
       }
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-    }
-  };
+    },
+    [mutate, orderUkey]
+  );
 
-  const handleDownload = async (
-    orderFileUkey: string,
-    fileOriginNm: string
-  ) => {
-    try {
-      const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
+  const handleDownload = useCallback(
+    async (orderFileUkey: string, fileOriginNm: string) => {
+      try {
+        const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
 
-      await axios({
-        url: res.data,
-        method: "get",
-        responseType: "blob",
-      }).then((response) => {
-        FileSaver.saveAs(response.data, fileOriginNm);
-        // console.log(">>>>>>>>>>", response);
-      });
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-    }
-  };
+        await axios({
+          url: res.data,
+          method: "get",
+          responseType: "blob",
+        }).then((response) => {
+          FileSaver.saveAs(response.data, fileOriginNm);
+          // console.log(">>>>>>>>>>", response);
+        });
+      } catch (e: any) {
+        console.log(e.message);
+      } finally {
+      }
+    },
+    [orderUkey]
+  );
 
   const filteredItems = fileList.filter((item) => {
     const filterPattern = new RegExp(
@@ -155,7 +158,7 @@ const FileTab = () => {
         },
       },
     ],
-    []
+    [handleDownload, rowDelete]
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -187,7 +190,7 @@ const FileTab = () => {
         />
       </>
     );
-  }, [fileList, filterText]);
+  }, [filterText, filteredItems.length, resetPaginationToggle]);
 
   const handleFileUploadModalClose = () => {
     setIsFileUploadModal(false);
