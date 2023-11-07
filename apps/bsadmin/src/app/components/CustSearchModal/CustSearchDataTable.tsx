@@ -67,13 +67,28 @@ const CustSearchDataTable = (props: { type: any; onClose: any }) => {
           agncUkey: string;
           agncNm: string;
           instNm: string;
+          isAgncIncl: string;
         }) => {
-          const { agncUkey, custUkey, custNm, ebcEmail, telList } = row;
+          const {
+            agncUkey,
+            custUkey,
+            custNm,
+            ebcEmail,
+            telList,
+            instNm,
+            agncNm,
+            isAgncIncl,
+          } = row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
 
           if (agncUkey && type === "agnc") {
             return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
           }
+
+          if (isAgncIncl === "N" && type === "agnc-order") {
+            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
+          }
+
           return (
             <OutlinedButton
               size="small"
@@ -87,6 +102,14 @@ const CustSearchDataTable = (props: { type: any; onClose: any }) => {
                 if (type === "order") {
                   setValue("agncNm", agncInstNm);
                   setValue("agncUkey", agncUkey);
+                }
+
+                if (type === "agnc-order") {
+                  setValue("ebcEmail", ebcEmail);
+                  setValue("rhpiNm", custNm);
+                  setValue("rhpiTel", telList);
+                  setValue("instNm", instNm);
+                  setValue("agncNm", agncNm);
                 }
 
                 onClose();

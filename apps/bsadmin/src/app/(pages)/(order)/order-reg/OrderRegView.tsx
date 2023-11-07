@@ -41,8 +41,12 @@ import {
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Research from "../order-intn-reg/Research";
+import Link from "next/link";
+import { toast } from "react-toastify";
+import { getDefaultValues } from "./getDefaultValues";
+const { mutate } = useSWRConfig();
 
 const apiUrl: string = `/order/extr`;
 
@@ -117,7 +121,8 @@ const OrderRegView = () => {
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
 
   // 주문서에서 오더 등록 할때
-  // const from = searchParams.get("from");
+  const from: string | null = searchParams.get("from");
+  console.log("from", typeof from);
   const orshUK = searchParams.get("orshUkey");
   console.log("orshUkey", orshUK);
   const orshType = searchParams.get("orshType");
@@ -132,9 +137,7 @@ const OrderRegView = () => {
       suspense: true,
     }
   );
-
   console.log("orshExtrData", orshExtrData);
-  // console.log("Price", orshExtrData.addInfo.price !== null ? 0 : "rrrrr");
 
   const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
     function NumericFormatCustom(props, ref) {
@@ -162,98 +165,9 @@ const OrderRegView = () => {
     }
   );
 
-  let defaultValues: object = {};
-
-  if (orshType === "extr") {
-    console.log("EXTR Here~!!!!!");
-    defaultValues = {
-      //연구책임자 정보
-      ebcEmail: orshExtrData.custInfo.rhpiEbcEmail,
-      custNm: orshExtrData.custInfo.rhpiNm,
-      custUkey: orshExtrData.custInfo.custUkey,
-      agncUkey: orshExtrData.custInfo.agncUkey,
-      telList: orshExtrData.aplcInfo.aplcTel,
-      rhpiNm: orshExtrData.custInfo.rhpiNm,
-      agncNm: orshExtrData.custInfo.agncNm,
-      // 주문 정보
-      mailRcpnList: orshExtrData.orderInfo.mailRcpnList,
-      srvcTypeMc: orshExtrData.orderInfo.srvcTypeMc,
-      anlsTypeMc: orshExtrData.orderInfo.anlsTypeMc,
-      platformMc: orshExtrData.orderInfo.pltfMc,
-      taxonBCnt: orshExtrData.orderInfo.taxonBCnt,
-      taxonECnt: orshExtrData.orderInfo.taxonECnt,
-      taxonACnt: orshExtrData.orderInfo.taxonACnt,
-      orderTypeCc: "BS_0800001",
-      reqReturnList: orshExtrData.orderInfo.reqReturnList,
-      //   신청인 정보
-      ordrAplcNm: orshExtrData.aplcInfo.aplcNm,
-      ordrAplcEmail: orshExtrData.aplcInfo.aplcEmail,
-      ordrAplcTel: orshExtrData.aplcInfo.aplcTel,
-      //   추가 정보
-      isCheck16s: orshExtrData.addInfo.is16S,
-      price: orshExtrData.addInfo.price,
-      bsnsMngrUkey: orshExtrData.addInfo.bsnsMngrUkey,
-      memo: orshExtrData.addInfo.memo,
-    };
-  } else if (orshType === "intn") {
-    defaultValues = {};
-  } else {
-    defaultValues = {
-      srvcTypeMc: "BS_0100007003",
-      anlsTypeMc: "BS_0100006004",
-      pltfMc: "BS_0100008001",
-      taxonBCnt: 0,
-      taxonECnt: 0,
-      taxonACnt: 0,
-      mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
-      orderTypeCc: "BS_0800001",
-      isCheck16s: "Y",
-    };
-  }
-
-  console.log("%%%%%%%%%%%%%%%%%", defaultValues);
-
-  // const defaultValues = {
-  //   srvcTypeMc: "BS_0100007003",
-  //   anlsTypeMc: "BS_0100006004",
-  //   pltfMc: "BS_0100008001",
-  //   taxonBCnt: 0,
-  //   taxonECnt: 0,
-  //   taxonACnt: 0,
-  //   mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
-  //   orderTypeCc: "BS_0800001",
-  //   isCheck16s: "Y",
-  // };
-
-  // const defaultValuesExtr = {
-  //   //연구책임자 정보
-  //   ebcEmail: orshExtrData.custInfo.rhpiEbcEmail,
-  //   custNm: orshExtrData.custInfo.rhpiNm,
-  //   custUkey: orshExtrData.custInfo.custUkey,
-  //   agncUkey: orshExtrData.custInfo.agncUkey,
-  //   telList: orshExtrData.aplcInfo.aplcTel,
-  //   rhpiNm: orshExtrData.custInfo.rhpiNm,
-  //   agncNm: orshExtrData.custInfo.agncNm,
-  //   // 주문 정보
-  //   mailRcpnList: orshExtrData.orderInfo.mailRcpnList,
-  //   srvcTypeMc: orshExtrData.orderInfo.srvcTypeMc,
-  //   anlsTypeMc: orshExtrData.orderInfo.anlsTypeMc,
-  //   platformMc: orshExtrData.orderInfo.pltfMc,
-  //   taxonBCnt: orshExtrData.orderInfo.taxonBCnt,
-  //   taxonECnt: orshExtrData.orderInfo.taxonECnt,
-  //   taxonACnt: orshExtrData.orderInfo.taxonACnt,
-  //   orderTypeCc: "BS_0800001",
-  //   reqReturnList: orshExtrData.orderInfo.reqReturnList,
-  //   //   신청인 정보
-  //   ordrAplcNm: orshExtrData.aplcInfo.aplcNm,
-  //   ordrAplcEmail: orshExtrData.aplcInfo.aplcEmail,
-  //   ordrAplcTel: orshExtrData.aplcInfo.aplcTel,
-  //   //   추가 정보
-  //   isCheck16s: orshExtrData.addInfo.is16S,
-  //   price: orshExtrData.addInfo.price,
-  //   bsnsMngrUkey: orshExtrData.addInfo.bsnsMngrUkey,
-  //   memo: orshExtrData.addInfo.memo,
-  // };
+  // defaultValues 세팅
+  const defaultValues = getDefaultValues(orshType, orshExtrData);
+  console.log("DefaultValues ==>>", defaultValues);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -261,9 +175,9 @@ const OrderRegView = () => {
 
     if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
       setAddEmailChck(true);
+    } else {
+      setAddEmailChck(false);
     }
-
-    // console.log("MMMMMMMMMMMM", JSON.stringify(data.price).includes(","));
 
     let typeNumberPrice;
     if (JSON.stringify(data.price).includes(",")) {
@@ -276,30 +190,7 @@ const OrderRegView = () => {
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
 
-    // const bodyData = {
-    //   addEmailList: data.addEmailList,
-    //   agncUkey: data.agncUkey,
-    //   anlsTypeMc: data.anlsTypeMc,
-    //   bsnsMngrUkey: data.bsnsMngrUkey,
-    //   custUkey: data.custUkey,
-    //   isCheck16s: data.isCheck16s,
-    //   mailRcpnList: data.mailRcpnList,
-    //   memo: data.memo,
-    //   orderTypeCc: data.orderTypeCc,
-    //   ordrAplcEmail: data.ordrAplcEmail,
-    //   ordrAplcNm: data.ordrAplcNm,
-    //   ordrAplcTel: data.ordrAplcTel,
-    //   pltfMc: data.pltfMc,
-    //   // price: typeNumberPrice,
-    //   reqReturnList: data.reqReturnList,
-    //   srvcTypeMc: data.srvcTypeMc,
-    //   taxonACnt: typeNumbertaxonACnt,
-    //   taxonBCnt: typeNumbertaxonBCnt,
-    //   taxonECnt: typeNumbertaxonECnt,
-    // };
-
     const bodyData = {
-      // orshUkey: orshUK,
       addEmailList: data.addEmailList,
       agncUkey: data.agncUkey,
       anlsTypeMc: data.anlsTypeMc,
@@ -321,23 +212,7 @@ const OrderRegView = () => {
       taxonECnt: typeNumbertaxonECnt,
     };
 
-    console.log("Body Data ==>>", bodyData);
-
-    // if (orshUK === "extr") {
-    //   const extrKeyValues = {
-    //     orshUkey: orshUK,
-    //   };
-    //
-    //   const extrBodyData = {
-    //     ...bodyData,
-    //     ...extrKeyValues,
-    //   };
-    //
-    //   console.log("EXTR Body Data", extrBodyData);
-    //
-    //   return extrBodyData;
-    // }
-
+    // 외부 오더 등록 BODY DATA
     const extrKeyValues = {
       orshUkey: orshUK,
     };
@@ -347,35 +222,58 @@ const OrderRegView = () => {
       ...extrKeyValues,
     };
 
-    const intnKeyValues = {};
-
+    // 내부 오더 등록 BODY DATA
+    // !내부 오더 등록에는 price키 가 필요 없음.
+    const intnKeyValues = {
+      orshUkey: orshUK,
+      prjtCodeMc: data.prjtCodeMc,
+      prjtDetailCodeMc: data.prjtDetailCodeMc,
+      rstFileRcpnEmail: data.rstFileRcpnEmail,
+      isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
+      prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
+      libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
+      seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
+    };
     const intnBodyData = {
       ...bodyData,
       ...intnKeyValues,
     };
+    const { price, ...rest } = intnBodyData;
+    const withOutPriceIntnBodyData = { ...rest };
 
-    // const { orshUkey, ...rest } = bodyData;
-    // const bodyDataWithoutOrshUkey = { ...rest };
+    console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
 
     await POST(
       orshUK !== null ? orshAPIPath : apiUrl,
       orshType === "extr"
         ? extrBodyData
         : orshType === "intn"
-        ? intnBodyData
+        ? withOutPriceIntnBodyData
         : bodyData
     )
       .then((response) => {
         console.log("POST request successful:", response);
         if (response.success) {
-          setIsLoading(false);
-          router.push("/order-list");
+          // setIsLoading(false);
+          if (orshUK !== null) {
+            router.push(`${from}`);
+            mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
+          } else {
+            router.push("/order-list");
+          }
+        } else {
+          toast(response.message);
         }
       })
       .catch((error) => {
         console.error("POST request failed:", error);
+        // toast(error.)
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
+
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
     setCustSearchModalOpen(true);
@@ -400,7 +298,14 @@ const OrderRegView = () => {
         <Box sx={{ mb: 4 }}>
           <Title1
             titleName={
-              "오더 등록" + `${orshType === "intn" ? " (내부)" : " (고객)"}`
+              "오더 등록" +
+              `${
+                orshType === "intn"
+                  ? " (내부)"
+                  : orshType === "extr"
+                  ? " (고객)"
+                  : ""
+              }`
             }
           />
         </Box>
@@ -560,11 +465,13 @@ const OrderRegView = () => {
         {/* intn */}
         <Typography
           variant="subtitle1"
-          sx={{ display: orshType === "intn" ? "" : "" }}
+          sx={{ display: orshType === "intn" ? "" : "none" }}
         >
           과제 및 연구
         </Typography>
-        <TableContainer sx={{ mb: 5, display: orshType === "intn" ? "" : "" }}>
+        <TableContainer
+          sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
+        >
           <Table>
             <TableBody>
               <TableRow>
@@ -781,7 +688,9 @@ const OrderRegView = () => {
                 </TD>
               </TableRow>
               <TableRow>
-                <TH sx={{ width: "15%" }}>반송 요청</TH>
+                <TH sx={{ width: "15%" }}>
+                  반송 요청<NotRequired>[선택]</NotRequired>
+                </TH>
                 <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
                   <CheckboxGV
                     data={reqReturnListData}
@@ -805,13 +714,13 @@ const OrderRegView = () => {
                   <SixteenCheck />
                 </TD>
               </TableRow>
-              <TableRow>
+              <TableRow sx={{ display: orshType === "intn" ? "none" : "" }}>
                 <TH sx={{ width: "15%" }}>오더 금액</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
                       inputName="price"
-                      required={true}
+                      required={orshType !== "intn"}
                       errorMessage="오더 금액을 입력해 주세요."
                       // pattern={/^[0-9]+$/}
                       // pattern={/\B(?=(\d{3})+(?!\d))/g}
@@ -929,15 +838,16 @@ const OrderRegView = () => {
         />
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
-          <OutlinedButton
-            buttonName="목록"
-            onClick={() => router.push("/order-list")}
-          />
-          {/*<Link href={from !== null ? from : "/order-list"}>*/}
-          {/*  <OutlinedButton size="small" buttonName="목록" />*/}
-          {/*</Link>*/}
+          {/*<OutlinedButton*/}
+          {/*  buttonName="목록"*/}
+          {/*  onClick={() => router.push("/order-list")}*/}
+          {/*/>*/}
+          <Link href={from !== null ? from : "/order-list"}>
+            <OutlinedButton size="small" buttonName="목록" />
+          </Link>
 
           <ContainedButton
+            size="small"
             type="submit"
             buttonName="저장"
             endIcon={
