@@ -138,6 +138,7 @@ const OrderRegView = () => {
     }
   );
   console.log("orshExtrData", orshExtrData);
+  console.log("vercel-test");
 
   const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
     function NumericFormatCustom(props, ref) {
