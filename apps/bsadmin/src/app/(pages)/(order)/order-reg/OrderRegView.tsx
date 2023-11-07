@@ -46,7 +46,6 @@ import Research from "../order-intn-reg/Research";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
-const { mutate } = useSWRConfig();
 
 const apiUrl: string = `/order/extr`;
 
@@ -111,6 +110,7 @@ const LazyNGSManagerSelctbox = dynamic(
 const OrderRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { mutate } = useSWRConfig();
 
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
