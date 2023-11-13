@@ -29,6 +29,8 @@ const formatBytes = (bytes, decimals = 2) => {
 };
 // const gigabyte: number = 1073741824;
 const megabyte: number = 1048576;
+const maxFileMB: number = 9;
+const maxFileAdd: number = 30;
 const FileDropzone = () => {
   const setIsDis = useSetRecoilState(isDisabledAtom);
   const [state, setState] = useState({
@@ -52,9 +54,9 @@ const FileDropzone = () => {
         return sum;
       });
 
-    if (totalFileSize > megabyte * 500) {
+    if (totalFileSize > megabyte * maxFileMB) {
       console.log("FAIL1", totalFileSize);
-      toast("업로드한 파일은 최대500MB를 넘을수 없습니다.");
+      toast(`업로드한 파일은 최대${maxFileMB}MB를 넘을 수 없습니다.`);
       resetField("uploadFile");
       setState({
         totalFileSize: 0,
@@ -62,9 +64,9 @@ const FileDropzone = () => {
       });
     }
 
-    if (acceptedFilesLen > 30) {
+    if (acceptedFilesLen > maxFileAdd) {
       console.log("FAIL2", acceptedFilesLen);
-      toast("30개를 넘을수 없습니다.");
+      toast(`${maxFileAdd}개를 넘을 수 없습니다.`);
       resetField("uploadFile");
       setState({
         totalFileSize: 0,
@@ -72,7 +74,10 @@ const FileDropzone = () => {
       });
     }
 
-    if (totalFileSize <= megabyte * 500 && acceptedFilesLen <= 30) {
+    if (
+      totalFileSize <= megabyte * maxFileMB &&
+      acceptedFilesLen <= maxFileAdd
+    ) {
       setValue("uploadFile", acceptedFiles);
       setIsDis(false);
       setState({
@@ -126,7 +131,7 @@ const FileDropzone = () => {
                       여기에 파일을 끌어다 놓습니다.
                     </Typography>
                     <Typography variant="body2">
-                      컴퓨터에서 파일을 업로드 할 수 도 있습니다.
+                      컴퓨터에서 파일을 업로드할 수도 있습니다.
                     </Typography>
                   </Stack>
                   <OutlinedButton
@@ -239,7 +244,7 @@ const FileDropzone = () => {
                       >
                         {formatBytes(state.totalFileSize)}
                       </Typography>
-                      <Typography variant="body2">500MB</Typography>
+                      <Typography variant="body2">{maxFileMB}MB</Typography>
                     </Stack>
 
                     <Stack
@@ -256,7 +261,7 @@ const FileDropzone = () => {
                       >
                         {state.totalFileLen}개
                       </Typography>
-                      <Typography variant="body2">30개</Typography>
+                      <Typography variant="body2">{maxFileAdd}개</Typography>
                     </Stack>
                   </Stack>
                 </Stack>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -149,7 +149,15 @@ export default function ListContact() {
     router.push("/contact-list/" + path);
   };
 
-  const setUserStatus = async () => {
+  const handleClearRows = useCallback(() => {
+    setToggleClearRows(!toggledClearRows);
+  }, [toggledClearRows]);
+
+  const renderList = useCallback(() => {
+    mutate(`/user/list?page=${page}&size=${perPage}`);
+  }, [page, perPage]);
+
+  const setUserStatus = useCallback(async () => {
     console.log("상태 일괄 변경");
 
     let selectedUserStatus = getValues("userStatus");
@@ -191,9 +199,9 @@ export default function ListContact() {
       console.error("request failed:", error);
       toast("문제가 발생했습니다. 02");
     }
-  };
+  }, [getValues, handleClearRows, renderList, selectedOption, selectedRowCnt]);
 
-  const setUserAuth = async () => {
+  const setUserAuth = useCallback(async () => {
     console.log("권한 일괄 변경");
     const selectedUserAuth = getValues("userAuth");
 
@@ -231,7 +239,7 @@ export default function ListContact() {
       console.error("request failed:", error);
       toast("문제가 발생했습니다. 02");
     }
-  };
+  }, [getValues, handleClearRows, renderList, selectedOption, selectedRowCnt]);
 
   const onSubmit = (data: any) => {
     console.log("onSubmit", data);
@@ -306,7 +314,17 @@ export default function ListContact() {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRowCnt]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    totalElements,
+    handleSubmit,
+    methods,
+    setUserAuth,
+    setUserStatus,
+    userAuthorityData,
+    userStatusData,
+  ]);
 
   const handlePageChange = (page: number) => {
     // console.log("Page", page);
@@ -319,13 +337,13 @@ export default function ListContact() {
     setPerPage(newPerPage);
   };
 
-  const handleClearRows = () => {
-    setToggleClearRows(!toggledClearRows);
-  };
+  // const handleClearRows = () => {
+  //   setToggleClearRows(!toggledClearRows);
+  // };
 
-  const renderList = () => {
-    mutate(`/user/list?page=${page}&size=${perPage}`);
-  };
+  // const renderList = () => {
+  //   mutate(`/user/list?page=${page}&size=${perPage}`);
+  // };
 
   return (
     <DataTableBase

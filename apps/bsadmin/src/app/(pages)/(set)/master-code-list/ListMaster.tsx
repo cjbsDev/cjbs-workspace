@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -19,9 +19,12 @@ import { fetcher } from "api";
 const ListMaster = () => {
   const router = useRouter();
 
-  const goDetailPage = (row: { uniqueCode: string }) => {
-    router.push("/master-code-list/" + row.uniqueCode);
-  };
+  const goDetailPage = useCallback(
+    (row: { uniqueCode: string }) => {
+      router.push("/master-code-list/" + row.uniqueCode);
+    },
+    [router]
+  );
 
   const columns = useMemo(
     () => [
@@ -53,7 +56,7 @@ const ListMaster = () => {
         },
       },
     ],
-    []
+    [goDetailPage]
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -96,7 +99,7 @@ const ListMaster = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.length]);
 
   return (
     <DataTableBase

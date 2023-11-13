@@ -302,7 +302,7 @@ const ListOrder = () => {
         width: "80px",
       },
     ],
-    []
+    [hideDirector]
   );
 
   // const filteredData = data.orderList.filter(
@@ -351,7 +351,7 @@ const ListOrder = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, checked, totalElements]);
+  }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);

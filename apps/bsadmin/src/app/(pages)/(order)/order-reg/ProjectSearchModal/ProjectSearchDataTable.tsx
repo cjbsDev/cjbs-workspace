@@ -1,31 +1,18 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useCallback, useMemo, useState } from "react";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
-  ModalContainer,
-  ModalTitle,
   OutlinedButton,
 } from "cjbsDSTM";
-import { Chip, DialogContent, Grid, Stack, Typography } from "@mui/material";
-import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { Grid, Stack } from "@mui/material";
 import useSWR from "swr";
-import axios from "axios";
-import { useFormContext } from "react-hook-form";
 import { fetcher } from "api";
+import { useFormContext } from "react-hook-form";
 
-interface ModalContainerProps {
-  // children?: React.ReactNode;
-  onClose: () => void;
-  open: boolean;
-  modalWidth: number;
-}
-
-const ProjectSearchModal = ({
-  onClose,
-  open,
-  modalWidth,
-}: ModalContainerProps) => {
+const ProjectSearchDataTable = (props: { onClose: () => void }) => {
+  const { onClose } = props;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
@@ -39,7 +26,7 @@ const ProjectSearchModal = ({
     }
   );
   const { setValue, clearErrors } = useFormContext();
-  // useMemo will only be created once
+  const filteredData = data.codeList;
 
   const handleClose = useCallback(() => {
     onClose();
@@ -92,8 +79,6 @@ const ProjectSearchModal = ({
     [setValue, clearErrors, handleClose]
   );
 
-  const filteredData = data.codeList;
-
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -130,31 +115,26 @@ const ProjectSearchModal = ({
   }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
 
   return (
-    <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>기관 검색</ModalTitle>
-      <DialogContent>
-        <DataTableBase
-          data={filteredData}
-          columns={columns}
-          pointerOnHover
-          highlightOnHover
-          customStyles={dataTableCustomStyles}
-          subHeader
-          subHeaderComponent={subHeaderComponentMemo}
-          paginationResetDefaultPage={resetPaginationToggle}
-          selectableRows={false}
-          paginationServer
-          paginationTotalRows={5}
-          onChangePage={(page, totalRows) => console.log(page, totalRows)}
-          onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-            console.log(currentRowsPerPage, currentPage)
-          }
-          paginationPerPage={10}
-          paginationRowsPerPageOptions={[5, 10, 15]}
-        />
-      </DialogContent>
-    </ModalContainer>
+    <DataTableBase
+      data={filteredData}
+      columns={columns}
+      pointerOnHover
+      highlightOnHover
+      customStyles={dataTableCustomStyles}
+      subHeader
+      subHeaderComponent={subHeaderComponentMemo}
+      paginationResetDefaultPage={resetPaginationToggle}
+      selectableRows={false}
+      paginationServer
+      paginationTotalRows={5}
+      onChangePage={(page, totalRows) => console.log(page, totalRows)}
+      onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
+        console.log(currentRowsPerPage, currentPage)
+      }
+      paginationPerPage={10}
+      paginationRowsPerPageOptions={[5, 10, 15]}
+    />
   );
 };
 
-export default ProjectSearchModal;
+export default ProjectSearchDataTable;

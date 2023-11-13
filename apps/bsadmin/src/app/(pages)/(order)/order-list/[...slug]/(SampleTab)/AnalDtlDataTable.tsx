@@ -113,7 +113,7 @@ const AnalDtlDataTable = (props: {
         </Grid>
       </Grid>
     );
-  }, [checked]);
+  }, [checked, data.length, setChecked]);
 
   const rowDisabled = (row) => row.isAnlsInst === "N";
 

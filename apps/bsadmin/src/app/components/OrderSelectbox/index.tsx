@@ -1,25 +1,23 @@
 import { SelectBox } from "cjbsDSTM";
-import {fetcher} from 'api';
+import { fetcher } from "api";
 import useSWR from "swr";
 
 interface CommonSelectboxProps {
   url: string;
   inputName: string;
+  required?: boolean;
 }
 export default function OrderSelectbox({
   url,
   inputName,
+  required = true,
   ...props
 }: CommonSelectboxProps) {
   // console.log("&&&&&&&&&&&&&&&&&&&&")
   // console.log(url+" : "+inputName);
-  const { data } = useSWR(
-      url,
-      fetcher,
-      {
-        suspense: true,
-      }
-  );
+  const { data } = useSWR(url, fetcher, {
+    suspense: true,
+  });
 
   // console.log(data.data);
 
@@ -28,8 +26,8 @@ export default function OrderSelectbox({
       {...props}
       inputName={inputName}
       options={data}
-      required={true}
+      required={required}
       errorMessage="값을 선택해 주세요."
     />
-)}
-
+  );
+}

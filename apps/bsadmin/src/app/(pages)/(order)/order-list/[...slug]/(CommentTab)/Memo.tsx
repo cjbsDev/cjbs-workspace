@@ -10,7 +10,7 @@ const Memo = () => {
 
   useEffect(() => {
     if (resEamilList.length === 0) resetField("memo");
-  }, [resEamilList]);
+  }, [resEamilList, resetField]);
 
   return (
     <InputValidation
