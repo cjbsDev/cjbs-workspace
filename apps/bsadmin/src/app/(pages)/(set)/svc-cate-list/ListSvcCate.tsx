@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -20,9 +20,12 @@ import { fetcher } from "api";
 
 const ListSvcCate = () => {
   const router = useRouter();
-  const goDetailPage = (topCodeMc: string, midCodeMc: string) => {
-    router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
-  };
+  const goDetailPage = useCallback(
+    (topCodeMc: string, midCodeMc: string) => {
+      router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
+    },
+    [router]
+  );
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -95,7 +98,7 @@ const ListSvcCate = () => {
         width: "10%",
       },
     ],
-    []
+    [goDetailPage]
   );
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -135,7 +138,7 @@ const ListSvcCate = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.length]);
 
   return (
     <DataTableBase

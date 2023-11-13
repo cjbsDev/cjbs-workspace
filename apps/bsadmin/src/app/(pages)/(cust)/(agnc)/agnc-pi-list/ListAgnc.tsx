@@ -180,7 +180,7 @@ const ListAgnc = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRowCnt]);
+  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements, router]);
 
   return (
     <DataTableBase

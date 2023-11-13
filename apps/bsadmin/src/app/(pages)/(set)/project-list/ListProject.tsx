@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -21,9 +21,12 @@ import { fetcher } from "api";
 const ListProject = () => {
   const router = useRouter();
 
-  const goDetailPage = (prjcUkey: string) => {
-    router.push("/project-list/" + prjcUkey);
-  };
+  const goDetailPage = useCallback(
+    (prjcUkey: string) => {
+      router.push("/project-list/" + prjcUkey);
+    },
+    [router]
+  );
 
   /*
   {
@@ -74,7 +77,7 @@ const ListProject = () => {
         },
       },
     ],
-    []
+    [goDetailPage]
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -122,7 +125,7 @@ const ListProject = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.prjcListResDetailList.length]);
 
   return (
     <DataTableBase
