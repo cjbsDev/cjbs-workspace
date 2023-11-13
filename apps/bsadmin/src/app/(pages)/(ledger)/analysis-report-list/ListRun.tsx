@@ -16,7 +16,7 @@ import {
   Typography,
   Chip,
   Tooltip,
-  IconButton,
+  IconButton, Collapse,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -76,24 +76,57 @@ const ListRun = () => {
     () => [
       {
         name: "No",
-        width: "80px",
+        width: "70px",
         sortable: true,
         selector: (row, index) => row.anlsItstId,
       },
       {
         name: "거래처(PI)",
+        width: "170px",
         sortable: true,
-        selector: (row : {agncNm: string}) => row.agncNm,
+        // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
+        cell: (row) => {
+          const { instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
       },
       {
         name: "연구책임자",
+        width: "170px",
         sortable: true,
-        selector: (row) => row.custNm,
+        // selector: (row) => row.custNm,
+        cell: (row) => {
+          const { custNm, custEmail } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Typography variant="body2" data-tag="allowRowEvents">
+                {custNm}
+              </Typography>
+              <Typography variant="body2" data-tag="allowRowEvents">
+                {custEmail}
+              </Typography>
+            </Stack>
+          );
+        },
       },
       {
         name: "영업 담당자",
+        width: "160px",
         sortable: true,
-        selector: (row) => row.custNm,
+        selector: (row) => row.bsnsMngrNm,
       },
       {
         name: "분류",
@@ -105,10 +138,12 @@ const ListRun = () => {
       },
       {
         name: "플랫폼",
+        width: "300px",
         selector: (row) => row.pltfVal,
       },
       {
         name: "분석일",
+        width: "120px",
         selector: (row) => row.anlsDttm,
       },
       // {
@@ -118,20 +153,23 @@ const ListRun = () => {
       // },
       {
         name: "수량",
-        width: "120px",
+        width: "80px",
         selector: (row) => row.totalCnt,
       },
       {
         name: "총 공급가액",
-        selector: (row) => row.totalSupplyPrice,
+        width: "140px",
+        selector: (row) => row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "부가세",
-        selector: (row) => row.vat,
+        width: "120px",
+        selector: (row) => row.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "합계금액",
-        selector: (row) => row.totalPrice,
+        width: "150px",
+        selector: (row) => row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "정산",
@@ -206,6 +244,8 @@ const ListRun = () => {
     setSize(newPerPage);
   };
 
+  const ExpandedComponent = () => <pre>{JSON.stringify(anlsItstList, null, 2)}</pre>;
+
   return (
     <>
       <DataTableBase
@@ -226,6 +266,10 @@ const ListRun = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
+        expandableRows
+        expandableRowsComponent={ExpandedComponent}
+        expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
+        // expandOnRowDoubleClicked={true}
       />
 
       {showRunAddModal && (

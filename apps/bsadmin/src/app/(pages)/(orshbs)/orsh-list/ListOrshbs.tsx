@@ -124,7 +124,6 @@ export default function ListOrshbs() {
         selector: (row: { sampleCount: string }) => row.sampleCount,
         width: "100px",
       },
-
       {
         name: "거래처(기관)",
         cell: (row: { agncNm: string; instNm: string }) => (
