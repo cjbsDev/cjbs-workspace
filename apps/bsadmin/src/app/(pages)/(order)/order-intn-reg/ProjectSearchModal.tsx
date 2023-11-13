@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -41,6 +41,10 @@ const ProjectSearchModal = ({
   const { setValue, clearErrors } = useFormContext();
   // useMemo will only be created once
 
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   const columns = useMemo(
     () => [
       {
@@ -73,7 +77,8 @@ const ProjectSearchModal = ({
               onClick={() => {
                 setValue("prjtCodeMc", row.value);
                 setValue("prjcNm", row.optionName);
-                onClose();
+                // onClose();
+                handleClose();
                 clearErrors("prjcNm");
                 clearErrors("prjtCodeMc");
               }}
@@ -84,7 +89,7 @@ const ProjectSearchModal = ({
         width: "100px",
       },
     ],
-    []
+    [setValue, clearErrors, handleClose]
   );
 
   const filteredData = data.codeList;
@@ -122,7 +127,7 @@ const ProjectSearchModal = ({
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>

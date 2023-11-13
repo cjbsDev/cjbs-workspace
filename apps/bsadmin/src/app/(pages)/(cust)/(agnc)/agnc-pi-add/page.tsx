@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -42,7 +42,7 @@ const LazyMemberTable = dynamic(
   }
 );
 
-const LazyAgncSearchModal = dynamic(() => import("./InstSearchModal"), {
+const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
   ssr: false,
 });
 

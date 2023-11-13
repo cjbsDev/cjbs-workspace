@@ -175,7 +175,7 @@ const ListCust = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRowCnt]);
+  }, [filterText, resetPaginationToggle, totalElements]);
 
   const handlePageChange = (page: number) => {
     // console.log("Page", page);

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -42,6 +42,10 @@ const AgncSearchModal = ({
 
   //console.log("Modal data", data.data);
 
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
+
   // useMemo will only be created once
   const columns = useMemo(
     () => [
@@ -63,14 +67,15 @@ const AgncSearchModal = ({
               onClick={() => {
                 setValue("instUniqueCodeMc", row.instUniqueCodeMc);
                 setValue("instNm", row.instNm);
-                onClose();
+                // onClose();
+                handleClose();
               }}
             />
           );
         },
       },
     ],
-    []
+    [setValue, handleClose]
   );
 
   const filteredData = data.instList;
@@ -108,7 +113,7 @@ const AgncSearchModal = ({
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>

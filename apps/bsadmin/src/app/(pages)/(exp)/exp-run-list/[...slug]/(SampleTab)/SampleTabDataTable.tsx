@@ -538,6 +538,7 @@ const SampleTabDataTable = (props) => {
     ukey,
     totalElements,
     sampleUkeyList,
+    result,
   ]);
 
   // const goDetailModal = useCallback((row: any) => {
