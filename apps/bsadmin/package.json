@@ -38,7 +38,7 @@
     "react-error-boundary": "^4.0.10",
     "react-select": "^5.7.3",
     "recoil": "^0.7.7",
-    "styled-components": "^5.3.10",
+    "styled-components": "^5.3.11",
     "swr": "^2.1.5"
   },
   "devDependencies": {
