@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -19,9 +19,12 @@ import { fetcher } from "api";
 
 const ListEstProduct = () => {
   const router = useRouter();
-  const goModifyPage = (esPrMngUkey: string) => {
-    router.push("/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
-  };
+  const goModifyPage = useCallback(
+    (esPrMngUkey: string) => {
+      router.push("/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
+    },
+    [router]
+  );
 
   const goDetailPage = (row: { esPrMngUkey: string }) => {
     router.push("/es-pr-list/" + row.esPrMngUkey);
@@ -89,7 +92,7 @@ const ListEstProduct = () => {
         width: "10%",
       },
     ],
-    []
+    [goModifyPage]
   );
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -125,7 +128,7 @@ const ListEstProduct = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.length]);
 
   return (
     <DataTableBase

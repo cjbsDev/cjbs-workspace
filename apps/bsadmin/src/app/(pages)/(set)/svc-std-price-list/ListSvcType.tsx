@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import {
   DataCountResultInfo,
@@ -24,9 +24,12 @@ import { fetcher } from "api";
 const LazySvcStdPrice = () => {
   const router = useRouter();
 
-  const goDetailPage = (stndPriceMpngUkey: string) => {
-    router.push("/svc-std-price-list/" + stndPriceMpngUkey);
-  };
+  const goDetailPage = useCallback(
+    (stndPriceMpngUkey: string) => {
+      router.push("/svc-std-price-list/" + stndPriceMpngUkey);
+    },
+    [router]
+  );
 
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -99,7 +102,7 @@ const LazySvcStdPrice = () => {
         width: "10%",
       },
     ],
-    []
+    [goDetailPage]
   );
 
   const defaultValues = {};
@@ -154,7 +157,7 @@ const LazySvcStdPrice = () => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.length]);
 
   return (
     <DataTableBase

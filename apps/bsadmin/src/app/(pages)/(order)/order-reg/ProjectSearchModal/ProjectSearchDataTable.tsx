@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import {
   DataCountResultInfo,
@@ -27,6 +27,10 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
   );
   const { setValue, clearErrors } = useFormContext();
   const filteredData = data.codeList;
+
+  const handleClose = useCallback(() => {
+    onClose();
+  }, [onClose]);
 
   const columns = useMemo(
     () => [
@@ -60,7 +64,8 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
               onClick={() => {
                 setValue("prjtCodeMc", row.value);
                 setValue("prjcNm", row.optionName);
-                onClose();
+                // onClose();
+                handleClose();
                 clearErrors("prjcNm");
                 clearErrors("prjtCodeMc");
               }}
@@ -71,7 +76,7 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
         width: "100px",
       },
     ],
-    []
+    [setValue, clearErrors, handleClose]
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -107,7 +112,7 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
 
   return (
     <DataTableBase
