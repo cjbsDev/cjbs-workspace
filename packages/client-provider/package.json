@@ -14,7 +14,8 @@
     "@mui/styled-engine-sc": "^5.12.0",
     "@mui/styles": "^5.13.2",
     "@mui/system": "^5.13.2",
-    "styled-components": "^6.1.1"
+    "styled-components": "^6.1.1",
+    "react": "17.0.2"
   },
   "devDependencies": {
     "@types/styled-components": "^5.1.28",
