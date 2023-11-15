@@ -40,3 +40,11 @@ export const vrfcData = [
   { value: "N", optionName: "N" },
   { value: "NA", optionName: "N/A" },
 ];
+
+export const dateTypeCcData = [
+  { value: "BS_0811001", optionName: "오더 생성일" },
+  { value: "BS_0811002", optionName: "샘플 접수일" },
+  { value: "BS_0811003", optionName: "Lib 완료일" },
+  { value: "BS_0811004", optionName: "분석 완료일" },
+  { value: "BS_0811005", optionName: "완료 통보일" },
+];
