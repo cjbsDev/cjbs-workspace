@@ -6,15 +6,5 @@
     "**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "compilerOptions": {
-//    "paths": {
-//      "@atoms/*": ["/atoms/*"],
-//      "@molecules/*": ["../molecules/*"],
-//      "@organisms/*": ["organisms/*"],
-//      "@layouts/*": ["layouts/*"],
-//      "@themes/*": ["./packages/themes/*"],
-//      "@commonFunc/*": ["commonFunc/*"]
-//    }
-  },
   "exclude": ["dist", "build", "node_modules"]
 }

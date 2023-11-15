@@ -1,6 +1,5 @@
 export interface ModalContainerProps {
-  // children?: React.ReactNode;
   onClose: () => void;
-  open: any;
+  open: boolean;
   modalWidth: number;
 }

@@ -3,26 +3,15 @@ import * as React from "react";
 import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import { cjbsTheme } from "cjbsDSTM";
-// Color
-import {
-  blue,
-  yellow,
-  red,
-  orange,
-  cyan,
-  grey,
-  green,
-} from "cjbsDSTM/themes/color";
+import { yellow } from "cjbsDSTM/themes/color";
 import "./globals.css";
-import { Inter } from "next/font/google";
-import CssBaseline from "@mui/material/CssBaseline";
-const inter = Inter({
-  weight: ["400", "600", "700"],
-
-  subsets: ["latin"],
-  display: "swap",
-});
+// import { Inter } from "next/font/google";
+// const inter = Inter({
+//   weight: ["400", "600", "700"],
+//
+//   subsets: ["latin"],
+//   display: "swap",
+// });
 
 export default function RootLayout({
   children,
@@ -30,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en">
       <title>BS-Admin</title>
       <link rel="icon" href="/favicon.ico" />
       <link rel="preload" href="/api/data" as="fetch" crossOrigin="anonymous" />

@@ -6,7 +6,7 @@ import KeywordSearchBtn from "./KeywordSearchBtn";
 import SearchInput from "./SearchInput";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRecoilState } from "recoil";
-import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
+import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
 
 const KeywordSearch = () => {
   const pathname = usePathname();

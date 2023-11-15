@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import {
   ErrorContainer,
@@ -88,7 +88,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
       } else {
         if (arraySampleList.length !== sampleUkeyList.length) {
           toast(
-            `선택한 항목에 값이 입력되지 않았습니다.\n모든 항목에 변경할 값을 입력해주세요.`
+            `선택한 항목에 값이 입력되지 않았습니다.\n모든 항목에 변경할 값을 입력해주세요.`,
           );
           setIsLoading(false); // 로딩 상태 해제
           return; // 함수 종료
@@ -111,7 +111,7 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
       const response = await PUT(
         selectedCtNm === "etc" ? apiUrl2 : apiUrl,
-        bodyData
+        bodyData,
       );
 
       console.log("PUT request successful:", response.success);

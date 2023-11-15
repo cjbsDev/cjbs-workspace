@@ -11,7 +11,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../types/modal-container-props";
 import MyIcon from "icon/MyIcon";
 
 const StatementCheckModal = (props: ModalContainerProps) => {

@@ -23,7 +23,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, POST } from "api";
 // import fetcher from "../../../../../../func/fetcher";
@@ -39,28 +39,28 @@ const LazySampleCategorySelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyTaxonTypeSelctbox = dynamic(
   () => import("../../../../../../components/TaxonTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyHostCompSelctbox = dynamic(
   () => import("../../../../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyDepthSelctbox = dynamic(
   () => import("../../../../../../components/DepthSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const SampleAddModal = (props: ModalContainerProps) => {

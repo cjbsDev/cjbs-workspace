@@ -26,7 +26,7 @@ import {
   Typography,
   TableFooter,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, POST } from "api";
 import { useParams } from "next/navigation";

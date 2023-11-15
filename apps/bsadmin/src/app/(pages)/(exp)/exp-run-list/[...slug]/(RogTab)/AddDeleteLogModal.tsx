@@ -31,7 +31,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { ModalContainerProps } from "../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../types/modal-container-props";
 import { toast } from "react-toastify";
 import MyIcon from "icon/MyIcon";
 import KeywordSearch from "../../../../../components/KeywordSearch";

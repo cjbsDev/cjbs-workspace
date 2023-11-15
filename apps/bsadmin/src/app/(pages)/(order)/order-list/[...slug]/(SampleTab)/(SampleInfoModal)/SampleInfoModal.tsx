@@ -9,7 +9,7 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import { DialogContent } from "@mui/material";
-import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, GET, PUT } from "api";
 // import fetcher from "../../../../../../func/fetcher";
@@ -29,7 +29,7 @@ const LazyAgncModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={142} />,
-  }
+  },
 );
 
 const SampleInfoModal = (props: SampleInfoModalProps) => {

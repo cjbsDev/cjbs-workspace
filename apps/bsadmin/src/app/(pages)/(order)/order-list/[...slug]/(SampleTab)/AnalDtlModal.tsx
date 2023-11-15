@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { ModalContainerProps } from "../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../types/modal-container-props";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -106,7 +106,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
         selector: (row) => (row.isAnlsInst === "Y" ? "생성" : "-"),
       },
     ],
-    []
+    [],
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {

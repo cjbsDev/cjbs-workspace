@@ -4,7 +4,7 @@ import { IconButton } from "@mui/material";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useFormContext } from "react-hook-form";
 import { useRecoilState } from "recoil";
-import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
+import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
 
 const KeywordClearBtn = () => {
   const pathname = usePathname();
@@ -35,7 +35,7 @@ const KeywordClearBtn = () => {
     router.push(
       resultObject.uKey !== undefined
         ? `${pathname}?uKey=${resultObject.uKey}`
-        : pathname
+        : pathname,
     );
   };
 

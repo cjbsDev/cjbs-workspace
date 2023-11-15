@@ -25,7 +25,7 @@ import { fetcher } from "api";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
 import SampleActionBtns from "./SampleActionBtns";
-import { toggledClearRowsAtom } from "../../recoil/atoms/toggledClearRowsAtom";
+import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
@@ -67,7 +67,7 @@ const SampleDataTable = () => {
     {
       suspense: true,
       // keepPreviousData: true,
-    }
+    },
   );
 
   const sampleListData = data.sampleList;
@@ -107,7 +107,7 @@ const SampleDataTable = () => {
       setSampleUkeyList(getSampleUkeyList);
       // console.log("selectedSampleIdList ==>>", getSampleIDList);
     },
-    [setSampleUkeyList]
+    [setSampleUkeyList],
   );
 
   const columns = useMemo(
@@ -167,15 +167,15 @@ const SampleDataTable = () => {
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -209,15 +209,15 @@ const SampleDataTable = () => {
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -251,15 +251,15 @@ const SampleDataTable = () => {
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -293,15 +293,15 @@ const SampleDataTable = () => {
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -335,15 +335,15 @@ const SampleDataTable = () => {
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -377,15 +377,15 @@ const SampleDataTable = () => {
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -405,7 +405,7 @@ const SampleDataTable = () => {
         selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),
       },
     ],
-    []
+    [],
   );
 
   const handlePageChange = (page: number) => {

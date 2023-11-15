@@ -25,8 +25,6 @@
     "client-provider": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "icon": "workspace:*",
-    "jotai": "^2.4.2",
-    "jotai-location": "^0.5.1",
     "lodash.debounce": "^4.0.8",
     "material-ui-popup-state": "^5.0.8",
     "next": "14.0.1",
@@ -46,7 +44,6 @@
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
     "dotenv-cli": "latest",
-    "tsconfig": "workspace:*",
-    "typescript": "^4.5.3"
+    "tsconfig": "workspace:*"
   }
 }

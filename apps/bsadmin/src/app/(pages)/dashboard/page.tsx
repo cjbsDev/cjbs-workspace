@@ -4,7 +4,7 @@ import * as React from "react";
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 
-const LazyListDashboard = dynamic(() => import("./ListDashboard"), {
+const LazyListDashboard = dynamic(() => import("./list-dashboard"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });

@@ -16,7 +16,7 @@ import {
   TableContainer,
   TableRow,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../types/modal-container-props";
 
 const AgncInfoModal = (props: ModalContainerProps) => {
   const { open, onClose, modalWidth } = props;

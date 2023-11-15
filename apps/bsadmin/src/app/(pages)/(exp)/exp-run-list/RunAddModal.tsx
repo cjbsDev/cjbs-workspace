@@ -23,7 +23,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, POST } from "api";
 import { useParams } from "next/navigation";
@@ -37,35 +37,35 @@ const LazyMcNameSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyRUNTypeSelctbox = dynamic(
   () => import("../../../components/RunTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyKitSelctbox = dynamic(
   () => import("../../../components/KitSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">장비를 선택하세요.</Typography>,
-  }
+  },
 );
 const LazyHostCompSelctbox = dynamic(
   () => import("../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyExpMngSelctbox = dynamic(
   () => import("../../../components/ExpMngSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const RunAddModal = (props: ModalContainerProps) => {

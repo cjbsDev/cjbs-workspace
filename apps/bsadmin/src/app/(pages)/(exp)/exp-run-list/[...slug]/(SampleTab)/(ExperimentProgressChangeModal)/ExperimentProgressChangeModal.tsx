@@ -24,7 +24,7 @@ import {
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { ModalContainerProps } from "../../../../../../types/ModalContainerProps";
+import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import dynamic from "next/dynamic";
 import dayjs from "dayjs";
 import { useSWRConfig } from "swr";
@@ -48,7 +48,7 @@ interface ExperimentProgressChangeModalProps extends ModalContainerProps {
 const apiUrl = `/sample/status`;
 
 const ExperimentProgressChangeModal = (
-  props: ExperimentProgressChangeModalProps
+  props: ExperimentProgressChangeModalProps,
 ) => {
   const { onClose, open, modalWidth, sampleUkeyList } = props;
   const params = useParams();
@@ -65,7 +65,7 @@ const ExperimentProgressChangeModal = (
 
   const handleAlertClose = (
     event?: React.SyntheticEvent | Event,
-    reason?: string
+    reason?: string,
   ) => {
     if (reason === "clickaway") {
       return;

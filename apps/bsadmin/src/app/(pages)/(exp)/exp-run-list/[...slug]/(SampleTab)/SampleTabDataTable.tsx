@@ -34,7 +34,7 @@ import dynamic from "next/dynamic";
 import SampleAddSection from "./SampleAddSection";
 import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
 import { useRecoilState } from "recoil";
-import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggledClearRowsAtom";
+import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import NoDataView from "../../../../../components/NoDataView";
 
 const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
@@ -54,7 +54,7 @@ const LazyExperimentProgressChangeModal = dynamic(
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 const SampleTabDataTable = (props) => {
@@ -79,7 +79,7 @@ const SampleTabDataTable = (props) => {
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
     1642,
-    557
+    557,
   );
 
   const resultObject = {};
@@ -99,7 +99,7 @@ const SampleTabDataTable = (props) => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
 
@@ -195,15 +195,15 @@ const SampleTabDataTable = (props) => {
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -237,15 +237,15 @@ const SampleTabDataTable = (props) => {
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -279,15 +279,15 @@ const SampleTabDataTable = (props) => {
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -321,15 +321,15 @@ const SampleTabDataTable = (props) => {
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -363,15 +363,15 @@ const SampleTabDataTable = (props) => {
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -405,15 +405,15 @@ const SampleTabDataTable = (props) => {
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -433,7 +433,7 @@ const SampleTabDataTable = (props) => {
         selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),
       },
     ],
-    []
+    [],
   );
 
   const handleDelete = async () => {
@@ -457,7 +457,7 @@ const SampleTabDataTable = (props) => {
     } catch (error: any) {
       console.error(
         "샘플 삭제 오류>>>>",
-        error.response?.data?.data || error.message
+        error.response?.data?.data || error.message,
       );
     } finally {
       setToggleClearRows(!toggledClearRows);
