@@ -359,7 +359,14 @@ const OrderRegView = () => {
                       }}
                     />
                     <OutlinedButton
-                      sx={{ display: orshType === "extr" ? "none" : "block" }}
+                      sx={{
+                        display:
+                          orshType === "extr"
+                            ? "none"
+                            : orshType === "intn"
+                            ? "none"
+                            : "block",
+                      }}
                       size="small"
                       buttonName="아이디 검색"
                       onClick={handleCustSearchModalOpen}

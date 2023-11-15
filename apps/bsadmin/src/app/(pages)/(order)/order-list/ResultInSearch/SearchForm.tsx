@@ -12,6 +12,7 @@ import {
   OutlinedButton,
   DateRangePicker,
   SingleDatePicker,
+  SelectBox,
 } from "cjbsDSTM";
 import {
   Box,
@@ -26,6 +27,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
+import { dateTypeCcData } from "../../../../data/inputDataLists";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
@@ -83,7 +85,7 @@ const SearchForm = ({ onClose }) => {
     resultObject.endDttm = new Date(endDttm);
   }
 
-  console.log("DEFAULTVALUES", resultObject);
+  console.log("SEARCH FORM DEFAULTVALUES", resultObject);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   console.log("currentQueryString", currentQueryString);
@@ -153,8 +155,6 @@ const SearchForm = ({ onClose }) => {
 
     console.log("filteredObject", filteredObject);
 
-    // URLSearchParams() 생성자(constructor) ==> Convert Object to Query String
-    // URLSearchParams(filteredObject).toString() ==> 물음표없이 쿼리 스트링 반환
     if (JSON.stringify(resultObject) === "{}") {
       console.log("키워드 미포함 검색!");
       if (JSON.stringify(filteredObject) === "{}") {
@@ -264,19 +264,24 @@ const SearchForm = ({ onClose }) => {
             </Grid>
           </Grid>
         </Section>
-        {/*<Section>*/}
-        {/*  <SectionLabel variant="subtitle2">날짜</SectionLabel>*/}
+        <Section>
+          <SectionLabel variant="subtitle2">날짜</SectionLabel>
 
-        {/*  <Stack direction="row" spacing={1}>*/}
-        {/*    <ErrorContainer FallbackComponent={Fallback}>*/}
-        {/*      <LazyDateTypeSelctbox />*/}
-        {/*    </ErrorContainer>*/}
-        {/*    /!*<DateRangePicker inputName="dateRange" />*!/*/}
+          <Stack direction="row" spacing={1}>
+            {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*  <LazyDateTypeSelctbox />*/}
+            {/*</ErrorContainer>*/}
+            {/*<DateRangePicker inputName="dateRange" />*/}
+            <SelectBox
+              inputName="dateTypeCc"
+              options={dateTypeCcData}
+              sx={{ width: 250 }}
+            />
 
-        {/*    <SingleDatePicker inputName="startDttm" />*/}
-        {/*    <SingleDatePicker inputName="endDttm" />*/}
-        {/*  </Stack>*/}
-        {/*</Section>*/}
+            <SingleDatePicker inputName="startDttm" />
+            <SingleDatePicker inputName="endDttm" />
+          </Stack>
+        </Section>
         <Section>
           <SectionLabel variant="subtitle2">오더타입</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>

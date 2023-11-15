@@ -15,10 +15,11 @@ import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import TabBox from "./TabBox";
 import CustomTabPanel from "./CustomTabPanel";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 // 오더 요약 정보 영역
-const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo/index"), {
+const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={176} />,
 });
@@ -61,6 +62,9 @@ export default function OrderInfo() {
   const router = useRouter();
   // [샘플 리스트에서 넘오 왔는지 체크 하기 위해서 'prevPageUrl' 확인함 ]
   const searchParams = useSearchParams();
+  const params = useParams();
+  const orderUkey = params.slug;
+  console.log("ORDERUKEY", orderUkey);
   // const prevPageUrl = searchParams.get("prevPageUrl");
   // console.log("PrevPageUrl ==>>", prevPageUrl);
   const from = searchParams.get("from");
@@ -69,6 +73,33 @@ export default function OrderInfo() {
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
     useState<boolean>(false);
   const [tabValue, setTabValue] = useState(0);
+
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+  //
+  // const { data } = useSWR(
+  //   JSON.stringify(resultObject) !== "{}"
+  //     ? `/order/${orderUkey}${result}`
+  //     : `/order/${orderUkey}`,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   }
+  // );
+  // console.log("ORDER Detail DATA", data);
+
+  // const { data } = useSWR(`/order/${orderUkey}`, fetcher, {
+  //   suspense: true,
+  // });
+  //
+  // console.log(">>>>>>>>>", data);
 
   useEffect(() => {
     if (searchParams.get("tabIndex") !== undefined) {
@@ -102,7 +133,7 @@ export default function OrderInfo() {
             </Grid>
           </Grid>
         </Box>
-        <Box sx={{ mb: 5 }}>
+        <Box sx={{ mb: 5, position: "relative" }}>
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyOrderShortInfo />
           </ErrorContainer>
@@ -150,28 +181,28 @@ export default function OrderInfo() {
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Grid container justifyContent="space-between">
           <Grid item>
-            <Link href={from !== null ? from : "/order-list"}>
+            <Link href={from !== null ? from : `/order-list${result}`}>
               <OutlinedButton size="small" buttonName="목록" />
             </Link>
           </Grid>
-          <Grid item>
-            <Stack direction="row" spacing={1}>
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="이전"
-                startIcon={<MyIcon icon="cheveron-left" size={20} />}
-              />
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="다음"
-                endIcon={<MyIcon icon="cheveron-right" size={20} />}
-              />
-            </Stack>
-          </Grid>
+          {/*<Grid item>*/}
+          {/*  <Stack direction="row" spacing={1}>*/}
+          {/*    <OutlinedButton*/}
+          {/*      // disabled={true}*/}
+          {/*      size="small"*/}
+          {/*      color="secondary"*/}
+          {/*      buttonName="이전"*/}
+          {/*      startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
+          {/*    />*/}
+          {/*    <OutlinedButton*/}
+          {/*      // disabled={true}*/}
+          {/*      size="small"*/}
+          {/*      color="secondary"*/}
+          {/*      buttonName="다음"*/}
+          {/*      endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+          {/*    />*/}
+          {/*  </Stack>*/}
+          {/*</Grid>*/}
         </Grid>
       </Container>
     </>

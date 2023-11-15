@@ -190,12 +190,13 @@ const ListOrder = () => {
       {
         name: "주문서",
         width: "120px",
-        selector: (row) => (row.orshId === null ? "-" : row.orshId),
+        selector: (row) => (row.orshNo === null ? "-" : row.orshNo),
       },
       {
         name: "샘플종류",
         width: "120px",
-        selector: (row) => (row.sampleType === null ? "-" : row.sampleType),
+        selector: (row) =>
+          row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
       },
       {
         name: "분석종류",
@@ -302,21 +303,12 @@ const ListOrder = () => {
         width: "80px",
       },
     ],
-    [hideDirector]
+    [hideDirector, totalElements]
   );
-
-  // const filteredData = data.orderList.filter(
-  //   (item) =>
-  //     (item.custNm &&
-  //       item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
-  //     (item.ebcEmail &&
-  //       item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
-  // );
-  // console.log("filteredData ==>>", filteredData);
 
   const goDetailPage = (row: any) => {
     const path = row.orderUkey;
-    router.push("/order-list/" + path);
+    router.push("/order-list/" + path + result);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -351,7 +343,7 @@ const ListOrder = () => {
         </Grid>
       </Grid>
     );
-  }, [totalElements, result]);
+  }, [result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
@@ -382,7 +374,7 @@ const ListOrder = () => {
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
-      noDataComponent={<NoDataView />}
+      noDataComponent={<NoDataView resetPath={"/order-list"} />}
     />
   );
 };
