@@ -108,7 +108,7 @@ export default function ListOrshbs() {
       {
         name: "주문번호",
         selector: (row: { orshNo: string }) => row.orshNo,
-        width: "200px",
+        width: "180px",
       },
       {
         name: "orshUkey",
@@ -118,7 +118,7 @@ export default function ListOrshbs() {
       {
         name: "분석 종류",
         selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
-        width: "120px",
+        width: "100px",
       },
       {
         name: "서비스 타입",
@@ -128,7 +128,7 @@ export default function ListOrshbs() {
       {
         name: "샘플수량",
         selector: (row: { sampleCount: string }) => row.sampleCount,
-        width: "100px",
+        width: "90px",
       },
 
       {
@@ -143,7 +143,7 @@ export default function ListOrshbs() {
             </Stack>
           </Stack>
         ),
-        width: "250px",
+        width: "340px",
       },
       {
         name: "주문자(ID)",
@@ -175,7 +175,7 @@ export default function ListOrshbs() {
           ):('')}
           </Stack>
         ),
-        minWidth: "250px",
+        minWidth: "340px",
       },
       {
         name: "주문상태",
@@ -214,14 +214,14 @@ export default function ListOrshbs() {
             </Stack>
           );
         },
-        width: "260px",
+        width: "240px",
       },
 
       {
         name: "주문일시",
         selector: (row: { orshDttm: any }) =>
           row.orshDttm && Dayjs(row.orshDttm).format("YYYY-MM-DD"),
-        width: "150px",
+        // width: "150px",
       },
     ],
     []

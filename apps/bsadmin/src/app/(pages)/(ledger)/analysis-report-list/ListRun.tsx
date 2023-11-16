@@ -16,7 +16,7 @@ import {
   Typography,
   Chip,
   Tooltip,
-  IconButton,
+  IconButton, Collapse, TableContainer, Table, TableBody, TableCell, TableRow,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -29,6 +29,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 import dynamic from "next/dynamic";
+import { ExpanderComponentProps } from "react-data-table-component";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -40,7 +41,7 @@ const ListRun = () => {
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
 
-  const resultObject = {};
+  const resultObject: any = {};
 
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
@@ -76,24 +77,57 @@ const ListRun = () => {
     () => [
       {
         name: "No",
-        width: "80px",
+        width: "70px",
         sortable: true,
         selector: (row, index) => row.anlsItstId,
       },
       {
         name: "거래처(PI)",
+        width: "170px",
         sortable: true,
-        selector: (row : {agncNm: string}) => row.agncNm,
+        // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
+        cell: (row) => {
+          const { instNm, agncNm } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Box data-tag="allowRowEvents">
+                <Stack direction="row" spacing={"2px"} alignItems="center">
+                  <Typography data-tag="allowRowEvents" variant="body2">
+                    {agncNm}
+                  </Typography>
+                </Stack>
+              </Box>
+              <Typography data-tag="allowRowEvents" variant="body2">
+                ({instNm})
+              </Typography>
+            </Stack>
+          );
+        },
       },
       {
         name: "연구책임자",
+        width: "170px",
         sortable: true,
-        selector: (row) => row.custNm,
+        // selector: (row) => row.custNm,
+        cell: (row) => {
+          const { custNm, custEmail } = row;
+          return (
+            <Stack data-tag="allowRowEvents">
+              <Typography variant="body2" data-tag="allowRowEvents">
+                {custNm}
+              </Typography>
+              <Typography variant="body2" data-tag="allowRowEvents">
+                {custEmail}
+              </Typography>
+            </Stack>
+          );
+        },
       },
       {
         name: "영업 담당자",
+        width: "160px",
         sortable: true,
-        selector: (row) => row.custNm,
+        selector: (row) => row.bsnsMngrNm,
       },
       {
         name: "분류",
@@ -105,10 +139,12 @@ const ListRun = () => {
       },
       {
         name: "플랫폼",
+        width: "300px",
         selector: (row) => row.pltfVal,
       },
       {
         name: "분석일",
+        width: "120px",
         selector: (row) => row.anlsDttm,
       },
       // {
@@ -118,42 +154,40 @@ const ListRun = () => {
       // },
       {
         name: "수량",
-        width: "120px",
+        width: "80px",
         selector: (row) => row.totalCnt,
       },
       {
         name: "총 공급가액",
-        selector: (row) => row.totalSupplyPrice,
+        width: "140px",
+        selector: (row) => row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "부가세",
-        selector: (row) => row.vat,
+        width: "120px",
+        selector: (row) => row.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "합계금액",
-        selector: (row) => row.totalPrice,
+        width: "150px",
+        selector: (row) => row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "정산",
-        selector: (row) => row.isSettled,
+        cell: (row: { isSettled: string }) => {
+          const { isSettled } = row;
+          return (
+            isSettled === "N" ? (
+              <ContainedButton
+                buttonName="발행 요청"
+                size="small"
+                onClick={() => goDetailPage(row)}
+              />
+            ) : ('완료')
+          );
+        },
+        width: "140px",
       },
-      // {
-      //   name: "메모",
-      //   cell: (row: { memo: string }) => {
-      //     const { memo } = row;
-      //     return (
-      //       memo !== null &&
-      //       memo !== "" && (
-      //         <Tooltip title={memo} arrow>
-      //           <IconButton size="small">
-      //             <MyIcon icon="memo" size={24} />
-      //           </IconButton>
-      //         </Tooltip>
-      //       )
-      //     );
-      //   },
-      //   width: "80px",
-      // },
     ],
     []
   );
@@ -206,6 +240,70 @@ const ListRun = () => {
     setSize(newPerPage);
   };
 
+  interface Row {
+    anlsItstCostList;
+    // supplyPrice: number;
+    // totalPrice: number;
+    // vat: number;
+    // srvcTypeVal: string;
+  }
+  interface Props extends ExpanderComponentProps<Row> {
+    // currently, props that extend ExpanderComponentProps must be set to optional.
+    // someTitleProp?: string;
+  }
+  const ExpandableRowComponent: React.FC<Props> = ({data}) => {
+    console.log(">>>>>>>>>>>", data);
+    return (
+      <>
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableBody>
+              {data.anlsItstCostList.map((item, index) => (
+                index === 0 ? (
+                  <TableRow
+                    sx={{
+                      // '&:last-child td, &:last-child th': { border: 0 },
+                      // '&:nth-of-type(even)': { backgroundColor: cjbsTheme.palette.action.hover, },
+                      backgroundColor: cjbsTheme.palette.action.hover,
+                    }}
+                  >
+                    <TableCell width={'1140px'} align="center" rowSpan={10}>분석비용</TableCell>
+                    <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
+                    <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell align="left" rowSpan={10}>
+                      <Stack spacing={"2px"} justifyContent="center" alignItems="flex-start">
+                        <Typography variant="body2">
+                          남은금액
+                        </Typography>
+                        <Typography variant="body2">
+                          {data.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ):(
+                    <TableRow
+                      sx={{
+                        // '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: cjbsTheme.palette.action.hover,
+                      }}
+                    >
+                      <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
+                      <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                      <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                      <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    </TableRow>
+                )
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
+    );
+  };
+
   return (
     <>
       <DataTableBase
@@ -226,6 +324,10 @@ const ListRun = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
+        expandableRows
+        expandableRowsComponent={ExpandableRowComponent}
+        expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
+        // expandOnRowDoubleClicked={true}
       />
 
       {showRunAddModal && (
