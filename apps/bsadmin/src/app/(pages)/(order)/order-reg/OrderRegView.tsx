@@ -45,6 +45,7 @@ import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
+import Research from "./Research";
 
 const apiUrl: string = `/order/extr`;
 

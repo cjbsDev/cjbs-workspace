@@ -9,10 +9,12 @@ const LazyListDashboard = dynamic(() => import("./list-dashboard"), {
   loading: () => <SkeletonLoading />,
 });
 
-export default function DashboardPage() {
+export default function Page() {
   return (
-    <ErrorContainer FallbackComponent={Fallback}>
-      <LazyListDashboard />
-    </ErrorContainer>
+    <>
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyListDashboard />
+      </ErrorContainer>
+    </>
   );
 }
