@@ -16,7 +16,7 @@ import {
   Typography,
   Chip,
   Tooltip,
-  IconButton, Collapse,
+  IconButton, Collapse, TableContainer, Table, TableBody, TableCell, TableRow,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -29,6 +29,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 import dynamic from "next/dynamic";
+import { ExpanderComponentProps } from "react-data-table-component";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -40,7 +41,7 @@ const ListRun = () => {
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
 
-  const resultObject = {};
+  const resultObject: any = {};
 
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
@@ -173,25 +174,20 @@ const ListRun = () => {
       },
       {
         name: "정산",
-        selector: (row) => row.isSettled,
+        cell: (row: { isSettled: string }) => {
+          const { isSettled } = row;
+          return (
+            isSettled === "N" ? (
+              <ContainedButton
+                buttonName="발행 요청"
+                size="small"
+                onClick={() => goDetailPage(row)}
+              />
+            ) : ('완료')
+          );
+        },
+        width: "140px",
       },
-      // {
-      //   name: "메모",
-      //   cell: (row: { memo: string }) => {
-      //     const { memo } = row;
-      //     return (
-      //       memo !== null &&
-      //       memo !== "" && (
-      //         <Tooltip title={memo} arrow>
-      //           <IconButton size="small">
-      //             <MyIcon icon="memo" size={24} />
-      //           </IconButton>
-      //         </Tooltip>
-      //       )
-      //     );
-      //   },
-      //   width: "80px",
-      // },
     ],
     []
   );
@@ -244,7 +240,69 @@ const ListRun = () => {
     setSize(newPerPage);
   };
 
-  const ExpandedComponent = () => <pre>{JSON.stringify(anlsItstList, null, 2)}</pre>;
+  interface Row {
+    anlsItstCostList;
+    // supplyPrice: number;
+    // totalPrice: number;
+    // vat: number;
+    // srvcTypeVal: string;
+  }
+  interface Props extends ExpanderComponentProps<Row> {
+    // currently, props that extend ExpanderComponentProps must be set to optional.
+    // someTitleProp?: string;
+  }
+  const ExpandableRowComponent: React.FC<Props> = ({data}) => {
+    console.log(">>>>>>>>>>>", data);
+    return (
+      <>
+        <TableContainer>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableBody>
+              {data.anlsItstCostList.map((item, index) => (
+                index === 0 ? (
+                  <TableRow
+                    sx={{
+                      // '&:last-child td, &:last-child th': { border: 0 },
+                      // '&:nth-of-type(even)': { backgroundColor: cjbsTheme.palette.action.hover, },
+                      backgroundColor: cjbsTheme.palette.action.hover,
+                    }}
+                  >
+                    <TableCell width={'1140px'} align="center" rowSpan={10}>분석비용</TableCell>
+                    <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
+                    <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    <TableCell align="left" rowSpan={10}>
+                      <Stack spacing={"2px"} justifyContent="center" alignItems="flex-start">
+                        <Typography variant="body2">
+                          남은금액
+                        </Typography>
+                        <Typography variant="body2">
+                          {data.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                        </Typography>
+                      </Stack>
+                    </TableCell>
+                  </TableRow>
+                ):(
+                    <TableRow
+                      sx={{
+                        // '&:last-child td, &:last-child th': { border: 0 },
+                        backgroundColor: cjbsTheme.palette.action.hover,
+                      }}
+                    >
+                      <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
+                      <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                      <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                      <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
+                    </TableRow>
+                )
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </>
+    );
+  };
 
   return (
     <>
@@ -267,7 +325,7 @@ const ListRun = () => {
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
         expandableRows
-        expandableRowsComponent={ExpandedComponent}
+        expandableRowsComponent={ExpandableRowComponent}
         expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
         // expandOnRowDoubleClicked={true}
       />
