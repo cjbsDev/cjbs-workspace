@@ -42,7 +42,6 @@ import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
-import Research from "../order-intn-reg/Research";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
@@ -59,7 +58,7 @@ const LazyCustSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
@@ -71,7 +70,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazyServiceTypeSelctbox = dynamic(
@@ -79,14 +78,14 @@ const LazyServiceTypeSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyAnalysisTypeSelctbox = dynamic(
   () => import("./AnalysisTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
@@ -104,7 +103,7 @@ const LazyNGSManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const OrderRegView = () => {
@@ -135,7 +134,7 @@ const OrderRegView = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("orshExtrData", orshExtrData);
   console.log("vercel-test");
@@ -163,7 +162,7 @@ const OrderRegView = () => {
           valueIsNumericString
         />
       );
-    }
+    },
   );
 
   // defaultValues 세팅
@@ -249,8 +248,8 @@ const OrderRegView = () => {
       orshType === "extr"
         ? extrBodyData
         : orshType === "intn"
-        ? withOutPriceIntnBodyData
-        : bodyData
+          ? withOutPriceIntnBodyData
+          : bodyData,
     )
       .then((response) => {
         console.log("POST request successful:", response);
@@ -304,8 +303,8 @@ const OrderRegView = () => {
                 orshType === "intn"
                   ? " (내부)"
                   : orshType === "extr"
-                  ? " (고객)"
-                  : ""
+                    ? " (고객)"
+                    : ""
               }`
             }
           />
@@ -364,8 +363,8 @@ const OrderRegView = () => {
                           orshType === "extr"
                             ? "none"
                             : orshType === "intn"
-                            ? "none"
-                            : "block",
+                              ? "none"
+                              : "block",
                       }}
                       size="small"
                       buttonName="아이디 검색"
