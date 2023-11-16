@@ -22,6 +22,7 @@ import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
+import { toast } from "react-toastify";
 
 const ListCust = () => {
   const [page, setPage] = useState<number>(0);
@@ -139,9 +140,15 @@ const ListCust = () => {
     []
   );
 
-  const goDetailPage = (row: { custUkey: string }) => {
+  const goDetailPage = (row: { custUkey: string, ebcUid:string }) => {
     const path = row.custUkey;
-    router.push("/cust-list/" + path);
+    const ebcUid = row.ebcUid;
+    if (!ebcUid) {
+      toast("EzBioCloud 가입 정보가 없는 고객입니다.");
+    }
+    else {
+      router.push("/cust-list/" + path);
+    }
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
