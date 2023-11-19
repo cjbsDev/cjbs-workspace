@@ -93,13 +93,13 @@ export default function StudySelection(props: any) {
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
-                  {updataYn === 'N' ? (
+                  {updataYn === 'N' && (
                     <OutlinedButton
                       size="small"
                       buttonName="과제 검색"
                       onClick={agncSearchModalOpen}
                     />
-                  ) : ('')}
+                  )}
 
                 </Stack>
               </TD>

@@ -12,7 +12,7 @@ import {
 import {
   CheckboxGV,
   Form,
-  InputValidation,
+  InputValidation, OutlinedButton,
   PostCodeBtn, RadioGV,
   TD,
   TH,
@@ -25,6 +25,10 @@ import {AddressDeleteButton} from "../../../../../components/AddressDeleteButton
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
+});
+
+const LazyProjectSearchModal = dynamic(() => import("./CustSearchModal"), {
+  ssr: false,
 });
 
 const dataMailRcpnListGV = [
@@ -44,6 +48,18 @@ export default function OrdererInfo() {
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [showCustSearchModal, setShowCustSearchModal] = useState<boolean>(false);
+  const custSearchModalOpen = () => {
+    setShowCustSearchModal(true);
+  };
+  // 모달 닫기
+  const custSearchModalClose = () => {
+    setShowCustSearchModal(false);
+  };
+  const setCodeDataChange = (code: string) => {
+    setPrjcCode(code);
+  };
+
 
   return (
     <>
@@ -341,7 +357,7 @@ export default function OrdererInfo() {
             <TableRow>
               <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
-                <Stack direction="row">
+                <Stack direction="row" spacing={1}>
                   <InputValidation
                     inputName="rstFileRcpnEmail"
                     // placeholder="example@gmail.com, example2@gmail.com"
@@ -360,9 +376,24 @@ export default function OrdererInfo() {
                       },
                     }}
                     InputProps={{
-                      readOnly: updataYn === 'N' ? false : true
+                      readOnly: true
                     }}
                   />
+                  {updataYn === 'N' && (
+                    <>
+                      <OutlinedButton
+                        size="small"
+                        buttonName="계정 등록"
+                        onClick={() => {custSearchModalOpen()}}
+                      />
+                      <OutlinedButton
+                        size="small"
+                        buttonName="삭제"
+                        color={"error"}
+                        onClick={() => {clearFormValue()}}
+                      />
+                    </>
+                  )}
                 </Stack>
               </TD>
             </TableRow>
@@ -382,6 +413,14 @@ export default function OrdererInfo() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <LazyProjectSearchModal
+        onClose={custSearchModalClose}
+        open={showCustSearchModal}
+        modalWidth={600}
+        setCodeDataChange={setCodeDataChange}
+      />
+
     </>
   );
 }

@@ -11,7 +11,7 @@ import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
 
-const LazyOrdererInfo = dynamic(() => import("./(contents)/OrdererInfo"), {
+const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });

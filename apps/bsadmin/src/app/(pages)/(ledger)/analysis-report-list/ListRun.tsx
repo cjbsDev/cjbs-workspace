@@ -30,6 +30,7 @@ import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
+import ResultInSearch from "./ResultInSearch";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -52,8 +53,10 @@ const ListRun = () => {
   console.log("RESULT@#@#@#", JSON.stringify(result));
 
   const { data } = useSWR(
-      `/anls/itst/list?page=${page}&size=${size}`,
-      fetcher,
+    JSON.stringify(resultObject) !== "{}"
+      ? `/anls/itst/list${result}&page=${page}&size=${size}`
+      : `/anls/itst/list?page=${page}&size=${size}`,
+    fetcher,
     {
       suspense: true,
     }
@@ -223,6 +226,7 @@ const ListRun = () => {
               iconName="xls3"
             />
             <KeywordSearch />
+            <ResultInSearch/>
           </Stack>
         </Grid>
       </Grid>

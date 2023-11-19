@@ -56,7 +56,7 @@ export default function OrdererInfo() {
     setShowCustSearchModal(true);
   };
 
-  // // [ 프로젝트 검색 ] 모달 닫기
+  // 모달 닫기
   const custSearchModalClose = () => {
     setShowCustSearchModal(false);
   };
@@ -308,6 +308,9 @@ export default function OrdererInfo() {
                     inputName="rstFileRcpnEmail"
                     placeholder="example@cj.net"
                     sx={{ width: 306 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
                   />
                   <OutlinedButton
                     size="small"

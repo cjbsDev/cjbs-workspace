@@ -13,7 +13,7 @@ import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
 import StudySelection from "../../../StudySelection";
 
-const LazyOrdererInfo = dynamic(() => import("./(contents)/OrdererInfo"), {
+const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
