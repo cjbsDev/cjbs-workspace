@@ -111,7 +111,7 @@ const CustSearchModal = ({
             buttonName="검색"
             // type="submit"
             onClick={() => {onSubmit()}}
-            disabled={emailValidBoolean === true ? '' : 'none'}
+            disabled={emailValidBoolean ? false : true}
           />
         </Stack>
 

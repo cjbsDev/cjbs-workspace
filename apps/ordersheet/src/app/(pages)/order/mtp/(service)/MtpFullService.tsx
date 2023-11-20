@@ -1,24 +1,22 @@
 "use client";
 import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
-import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, {
     AccordionSummaryProps,
 } from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';
 import MyIcon from "icon/MyIcon";
-import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
+import { cjbsTheme, ErrorContainer, Fallback } from "cjbsDSTM";
 import PaymentInfo from "../../PaymentInfo";
 import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
 import dynamic from "next/dynamic";
-import {useRecoilState} from "recoil";
-import {stepperStatusAtom} from "@app/recoil/atoms/stepperStatusAtom";
-import axios from "axios";
-import {POST, POST_MULTIPART} from "api";
-import {useRouter} from "next-nprogress-bar";
+import { useRecoilState } from "recoil";
+import { stepperStatusAtom } from "@app/recoil/atoms/stepperStatusAtom";
+import { POST_MULTIPART } from "api";
+import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "@components/SkeletonLoading";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const LazyOrdererInfo = dynamic(() => import("../../OrdererInfo"), {

@@ -3,7 +3,7 @@ import React, {useState, useEffect} from 'react';
 import {Box, Container, Stack, Typography, styled} from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback} from "cjbsDSTM";
-import OrdererInfo from "../OrdererInfo";
+import OrdererInfo from "../../OrdererInfo";
 import OrderMtpSampleList from "../OrderRsSampleList";
 import PaymentInfo from "../PaymentInfo";
 
@@ -57,6 +57,7 @@ export default function RsSequencing(){
       addrDetail : res.data.custAgnc.agncAddrDetail,
       mailRcpnList : res.data.custAgnc.mailRcpnList,
       addEmailList : res.data.custAgnc.addEmailList,
+      rstFileRcpnEmail: res.data.custAgnc.rstFileRcpnEmail,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
       rprsNm : res.data.payment.rprsNm,
@@ -105,6 +106,7 @@ export default function RsSequencing(){
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       payment : {
         brno : data.brno,

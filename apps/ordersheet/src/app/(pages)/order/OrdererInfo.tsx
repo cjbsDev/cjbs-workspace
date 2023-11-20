@@ -89,6 +89,7 @@ export default function OrdererInfo(props:JSON) {
       rhpiId: data.rhpiId,
       rhpiNm: data.rhpiNm,
       rhpiTel: data.rhpiTel,
+      rstFileRcpnEmail: data.rstFileRcpnEmail,
     };
     const termData = {
       isAgree: 'Y',
