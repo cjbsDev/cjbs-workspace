@@ -59,6 +59,7 @@ export default function MtpSequencing(){
       addrDetail : res.data.custAgnc.agncAddrDetail,
       mailRcpnList : res.data.custAgnc.mailRcpnList,
       addEmailList : res.data.custAgnc.addEmailList,
+      rstFileRcpnEmail : res.data.custAgnc.rstFileRcpnEmail,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
       // pymtWayCc : res.data.payment.pymtWayCc,
@@ -106,6 +107,7 @@ export default function MtpSequencing(){
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       payment : {
         brno : data.brno,

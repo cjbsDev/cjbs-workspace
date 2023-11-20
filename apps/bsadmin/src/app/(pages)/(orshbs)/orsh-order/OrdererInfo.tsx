@@ -24,7 +24,7 @@ import {fetcherOrsh} from "api";
 import {AddressDeleteButton} from "../../../components/AddressDeleteButton";
 import {useFormContext} from "react-hook-form";
 
-const LazyProjectSearchModal = dynamic(() => import("./CustSearchModal"), {
+const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
   ssr: false,
 });
 
@@ -61,9 +61,9 @@ export default function OrdererInfo() {
     setShowCustSearchModal(false);
   };
 
-  const setCodeDataChange = (code: string) => {
-    setPrjcCode(code);
-  };
+  // const setCodeDataChange = (code: string) => {
+  //   setPrjcCode(code);
+  // };
 
   const { data: custTemp } = useSWR(
     `/cust/info`,
@@ -364,12 +364,11 @@ export default function OrdererInfo() {
         </Table>
       </TableContainer>
 
-
-      <LazyProjectSearchModal
+      <LazyEzbcIdSearchModal
         onClose={custSearchModalClose}
         open={showCustSearchModal}
         modalWidth={600}
-        setCodeDataChange={setCodeDataChange}
+        // setCodeDataChange={setCodeDataChange}
       />
 
     </>

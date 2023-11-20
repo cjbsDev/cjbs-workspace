@@ -1,9 +1,7 @@
-import React, {useState, useMemo, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {
   cjbsTheme,
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter, Form, InputValidation,
+  InputValidation,
   ModalContainer,
   ModalTitle,
   OutlinedButton, SelectBox,
@@ -20,15 +18,9 @@ import {
   TableCell,
   TableContainer,
 } from "@mui/material";
-import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import useSWR from "swr";
-import axios from "axios";
 import { useFormContext } from "react-hook-form";
-import {fetcher, GET} from "api";
-import MyIcon from "icon/MyIcon";
-import SearchInput from "../../../components/KeywordSearch/SearchInput";
-import KeywordSearchBtn from "../../../components/KeywordSearch/KeywordSearchBtn";
-import {toast} from "react-toastify";
+import { GET } from "api";
+import { toast } from "react-toastify";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -45,6 +37,7 @@ const CustSearchModal = ({
   setCodeDataChange,
 }: ModalContainerProps) => {
   const [showHideBoolean, setShowHideBoolean] = useState(false);
+  const [showHideResultEmpty, setShowHideResultEmpty] = useState(false);
   const { setValue, getValues, clearErrors } = useFormContext();
   // useMemo will only be created once
 
@@ -54,6 +47,8 @@ const CustSearchModal = ({
       setValue("domain", 'cj.net');
       setValue("ezbcEmail", '');
       setValue("ezbcFullName", '');
+      setShowHideBoolean(true);
+      setShowHideResultEmpty(true);
     }
   }, [open])
 
@@ -66,14 +61,16 @@ const CustSearchModal = ({
     try {
       const response = await GET(`/cust/ebc/user/info?email=${ezbcId}@${domain}`);
       //console.log("************", response.data);
-      setShowHideBoolean(false);
       if (response.success) {
-        setShowHideBoolean(true);
+        setShowHideBoolean(false);
+        setShowHideResultEmpty(true);
         setValue("ezbcEmail", response.data.email);
         setValue("ezbcFullName", response.data.fullName);
 
       } else if (response.code == "EBC_USER_NOT_EXIST") {
-        toast(response.message);
+        setShowHideResultEmpty(false);
+        setShowHideBoolean(true);
+        // toast(response.message);
       } else if (response.code == "URL_CONN_RES_ERROR") {
         toast(response.message);
       } else {
@@ -88,7 +85,7 @@ const CustSearchModal = ({
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>계정 검색</ModalTitle>
-      <DialogContent sx={{minHeight: 200}}>
+      <DialogContent sx={{minHeight: 244}}>
         <Typography variant="subtitle1">
           EzBioCloud 계정 검색
         </Typography>
@@ -135,7 +132,7 @@ const CustSearchModal = ({
             height:100,
             backgroundColor: cjbsTheme.palette.grey["200"],
             mb:2,
-            display: showHideBoolean === false ? '' : 'none'
+            display: showHideResultEmpty === false ? '' : 'none'
           }}
         >
           <Typography variant="body2">
@@ -148,7 +145,7 @@ const CustSearchModal = ({
             sx={{
               minWidth: 500,
               border:"1px solid #000000",
-              display: showHideBoolean === false ? 'none' : ''
+              display: showHideBoolean === false ? '' : 'none'
             }}
             aria-label="simple table"
           >

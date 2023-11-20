@@ -29,6 +29,9 @@ import {fetcherOrsh} from "api";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "../../../../components/AddressDeleteButton";
 
+const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
+  ssr: false,
+});
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
@@ -56,6 +59,7 @@ export default function OrdererInfo() {
   // const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(false);
+
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
     setCustSearchModalOpen(true);
@@ -63,6 +67,20 @@ export default function OrdererInfo() {
   // [ 고객 검색 ] 모달 닫기
   const handleCustSearchModalClose = () => {
     setCustSearchModalOpen(false);
+  };
+
+  const [showEzbcIdSearchModal, setShowEzbcIdSearchModal] = useState<boolean>(false);
+  const ezbcIdSearchModalOpen = () => {
+    setShowEzbcIdSearchModal(true);
+  };
+
+  // 모달 닫기
+  const ezbcIdSearchModalClose = () => {
+    setShowEzbcIdSearchModal(false);
+  };
+
+  const setCodeDataChange = (code: string) => {
+    setPrjcCode(code);
   };
 
 
@@ -450,6 +468,50 @@ export default function OrdererInfo() {
                 </Stack>
               </TD>
             </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <InputValidation
+                    inputName="rstFileRcpnEmail"
+                    // placeholder="example@gmail.com, example2@gmail.com"
+                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
+                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                    patternErrMsg="이메일 형식이 아닙니다."
+                    sx={{
+                      width: 306,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000"
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                  {updataYn === 'N' && (
+                    <>
+                      <OutlinedButton
+                        size="small"
+                        buttonName="계정 등록"
+                        onClick={() => {ezbcIdSearchModalOpen()}}
+                      />
+                      <OutlinedButton
+                        size="small"
+                        buttonName="삭제"
+                        color={"error"}
+                        onClick={() => {clearFormValue()}}
+                      />
+                    </>
+                  )}
+                </Stack>
+              </TD>
+            </TableRow>
+
           </TableBody>
         </Table>
       </TableContainer>
@@ -459,6 +521,13 @@ export default function OrdererInfo() {
         open={custSearchModalOpen}
         modalWidth={800}
         type="agnc-order"
+      />
+
+      <LazyEzbcIdSearchModal
+        onClose={ezbcIdSearchModalClose}
+        open={showEzbcIdSearchModal}
+        modalWidth={600}
+        // setCodeDataChange={setCodeDataChange}
       />
     </>
   );

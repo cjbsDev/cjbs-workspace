@@ -38,13 +38,13 @@ const CustSearchModal = ({
 }: ModalContainerProps) => {
   const [showHideBoolean, setShowHideBoolean] = useState(false);
   const [showHideResultEmpty, setShowHideResultEmpty] = useState(false);
+  const [emailValidBoolean, setEmailValidBoolean] = useState(false);
   const { setValue, getValues, clearErrors } = useFormContext();
   // useMemo will only be created once
 
   useEffect(() => {
     if(open) {
       setValue("ezbcId", '');
-      setValue("domain", 'cj.net');
       setValue("ezbcEmail", '');
       setValue("ezbcFullName", '');
       setShowHideBoolean(true);
@@ -52,14 +52,17 @@ const CustSearchModal = ({
     }
   }, [open])
 
-  const onSubmit = async () => {
-    // data: { ezbcId: string; domain: string;
-    // const {ezbcId, domain} = data;
+  const emailValidCheck = () => {
+    const regex = /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
     const ezbcId = getValues("ezbcId")
-    const domain = getValues("domain")
+    setEmailValidBoolean(regex.test(ezbcId));
+  }
+
+  const onSubmit = async () => {
+    const ezbcId = getValues("ezbcId")
 
     try {
-      const response = await GET(`/cust/ebc/user/info?email=${ezbcId}@${domain}`);
+      const response = await GET(`/cust/ebc/user/info?email=${ezbcId}`);
       //console.log("************", response.data);
       if (response.success) {
         setShowHideBoolean(false);
@@ -68,8 +71,8 @@ const CustSearchModal = ({
         setValue("ezbcFullName", response.data.fullName);
 
       } else if (response.code == "EBC_USER_NOT_EXIST") {
-        setShowHideBoolean(true);
         setShowHideResultEmpty(false);
+        setShowHideBoolean(true);
         // toast(response.message);
       } else if (response.code == "URL_CONN_RES_ERROR") {
         toast(response.message);
@@ -92,36 +95,46 @@ const CustSearchModal = ({
         <Stack direction="row" spacing={0.5} alignItems="flex-start">
           <InputValidation
             inputName="ezbcId"
-            required={true}
-            errorMessage="EzBioCloud 계정을 입력해주세요."
-            placeholder="example"
-            sx={{ width: 350 }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">@</InputAdornment>
-              ),
-            }}
-          />
-          <SelectBox
-            required={false}
-            inputName="domain"
-            defaultOption={false}
-            options={[
-              { value: "cj.net", optionName: "cj.net" },
-              { value: "chunlab.com", optionName: "chunlab.com" },
-            ]}
-            sx={{ width: 150 }}
+            // required={true}
+            // errorMessage="EzBioCloud 계정을 입력해주세요."
+            placeholder="example@cj.net"
+            sx={{ width: 500 }}
+            onKeyUp={emailValidCheck}
+            // InputProps={{
+            //   endAdornment: (
+            //     <InputAdornment position="end">@</InputAdornment>
+            //   ),
+            // }}
           />
           <OutlinedButton
             size="small"
             buttonName="검색"
             // type="submit"
             onClick={() => {onSubmit()}}
+            disabled={emailValidBoolean === true ? '' : 'none'}
           />
         </Stack>
-        <Typography variant="body2" color={cjbsTheme.palette.primary.main} mb={2}>
-          * 계정 전체를 입력해주세요.
-        </Typography>
+
+        <Stack
+          direction="row"
+          spacing={0}
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{
+            mt:1,
+          }}
+        >
+          <Typography variant="body2" color={cjbsTheme.palette.primary.main} mb={2}>
+            * 계정 전체를 입력해주세요.
+          </Typography>
+          <Typography variant="body2" color={cjbsTheme.palette.error.main} mb={2}
+            sx={{
+              display: emailValidBoolean === false ? '' : 'none'
+            }}
+          >
+            * 이메일 형식이 아닙니다.
+          </Typography>
+        </Stack>
 
         <Stack
           direction="row"
@@ -146,6 +159,7 @@ const CustSearchModal = ({
               minWidth: 500,
               border:"1px solid #000000",
               display: showHideBoolean === false ? '' : 'none'
+              // display: 'none'
             }}
             aria-label="simple table"
           >

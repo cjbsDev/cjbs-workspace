@@ -53,6 +53,7 @@ export default function WgAnalysis(){
       addrDetail : res.data.custAgnc.agncAddrDetail,
       mailRcpnList : res.data.custAgnc.mailRcpnList,
       addEmailList : res.data.custAgnc.addEmailList,
+      rstFileRcpnEmail : res.data.custAgnc.rstFileRcpnEmail,
       conm : res.data.payment.conm,
       brno : res.data.payment.brno,
       rprsNm : res.data.payment.rprsNm,
@@ -89,6 +90,7 @@ export default function WgAnalysis(){
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
+        rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       payment : {
         brno : data.brno,
