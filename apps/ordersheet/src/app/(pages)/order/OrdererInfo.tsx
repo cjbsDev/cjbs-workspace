@@ -30,6 +30,10 @@ import {fetcherOrsh} from "api";
 import {AddressDeleteButton} from "@components/AddressDeleteButton";
 
 
+const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
+  ssr: false,
+});
+
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
 });
@@ -42,6 +46,16 @@ const dataMailRcpnListGV = [
 
 export default function OrdererInfo(props:JSON) {
   const router = useRouter();
+
+  const [showCustSearchModal, setShowCustSearchModal] = useState<boolean>(false);
+  const custSearchModalOpen = () => {
+    setShowCustSearchModal(true);
+  };
+
+  // 모달 닫기
+  const custSearchModalClose = () => {
+    setShowCustSearchModal(false);
+  };
 
   const { data: custTemp } = useSWR(
     `/cust/info`,
@@ -334,6 +348,32 @@ export default function OrdererInfo(props:JSON) {
                 </Stack>
               </TD>
             </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
+              <TD sx={{ width: "80%" }} colSpan={5}>
+                <Stack direction="row" spacing={1}>
+                  <InputValidation
+                    inputName="rstFileRcpnEmail"
+                    placeholder="example@cj.net"
+                    sx={{ width: 306 }}
+                    InputProps={{
+                      readOnly: true
+                    }}
+                  />
+                  <OutlinedButton
+                    size="small"
+                    buttonName="계정 등록"
+                    onClick={() => {custSearchModalOpen()}}
+                  />
+                  <OutlinedButton
+                    size="small"
+                    buttonName="삭제"
+                    color={"error"}
+                    onClick={() => {clearFormValue()}}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
               {/*<TableRow>*/}
               {/*    <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>*/}
               {/*    <TD sx={{ width: "80%" }} colSpan={5}>*/}
@@ -358,6 +398,14 @@ export default function OrdererInfo(props:JSON) {
         />
       </Stack>
 
+      <LazyEzbcIdSearchModal
+        onClose={custSearchModalClose}
+        open={showCustSearchModal}
+        modalWidth={600}
+        // setCodeDataChange={setCodeDataChange}
+      />
+
     </Form>
+
   );
 }

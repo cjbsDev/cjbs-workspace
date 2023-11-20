@@ -8,12 +8,26 @@
       }
     ],
     "paths": {
-      "@app/*": ["./src/app/*"],
-      "@public/*": ["./public/*"],
-      "@components/*": ["./src/app/components/*"],
-    }
+      "@app/*": [
+        "./src/app/*"
+      ],
+      "@public/*": [
+        "./public/*"
+      ],
+      "@components/*": [
+        "./src/app/components/*"
+      ]
+    },
+    "moduleResolution": "node"
   },
   "extends": "tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
