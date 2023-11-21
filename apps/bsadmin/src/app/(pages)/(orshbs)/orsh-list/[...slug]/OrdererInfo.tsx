@@ -28,6 +28,7 @@ import useSWR from "swr";
 import {fetcherOrsh} from "api";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "../../../../components/AddressDeleteButton";
+import {useFormContext} from "react-hook-form";
 
 const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
   ssr: false,
@@ -53,6 +54,8 @@ const dataMailRcpnListGV = [
 
 export default function OrdererInfo() {
 
+  const methods = useFormContext();
+  const {setValue, getValues} = methods;
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -79,8 +82,8 @@ export default function OrdererInfo() {
     setShowEzbcIdSearchModal(false);
   };
 
-  const setCodeDataChange = (code: string) => {
-    setPrjcCode(code);
+  const clearFormValue = () => {
+    setValue("rstFileRcpnEmail", "");
   };
 
 
@@ -474,8 +477,7 @@ export default function OrdererInfo() {
                 <Stack direction="row" spacing={1}>
                   <InputValidation
                     inputName="rstFileRcpnEmail"
-                    // placeholder="example@gmail.com, example2@gmail.com"
-                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
+                    placeholder="example@gmail.com"
                     pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
                     patternErrMsg="이메일 형식이 아닙니다."
                     sx={{

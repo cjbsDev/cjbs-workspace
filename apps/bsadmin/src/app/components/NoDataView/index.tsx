@@ -7,11 +7,12 @@ import React from "react";
 
 interface NoDataViewProps {
   resetPath?: string;
+  dataType? : string;
 }
 
 const NoDataView = (props: NoDataViewProps) => {
   const router = useRouter();
-  const { resetPath = "" } = props;
+  const { resetPath = "", dataType = "" } = props;
 
   return (
     <Box
@@ -26,7 +27,12 @@ const NoDataView = (props: NoDataViewProps) => {
       <Stack spacing={0.8} justifyContent="center">
         <Stack direction="row" justifyContent="center">
           <MyIcon icon="nodata" size={20} />
-          <Typography variant="body2">데이터가 존재하지 않습니다.</Typography>
+          {dataType !== "" ? (
+            <Typography variant="body2">수정이력이 없습니다.</Typography>
+          ) : (
+            <Typography variant="body2">데이터가 존재하지 않습니다.</Typography>
+          )}
+
         </Stack>
         <Stack direction="row" justifyContent="center">
           {resetPath !== "" && (

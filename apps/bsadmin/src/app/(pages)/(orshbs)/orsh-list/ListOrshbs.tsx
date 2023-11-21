@@ -208,7 +208,7 @@ export default function ListOrshbs() {
             </Stack>
           );
         },
-        width: "240px",
+        width: "260px",
       },
       {
         name: "주문일시",

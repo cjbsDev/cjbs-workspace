@@ -21,6 +21,7 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "../../../../../components/AddressDeleteButton";
+import {useFormContext} from "react-hook-form";
 
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
@@ -44,6 +45,8 @@ const dataRadioGV = [
 
 export default function OrdererInfo() {
 
+  const methods = useFormContext();
+  const {setValue, getValues} = methods;
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -58,6 +61,10 @@ export default function OrdererInfo() {
   };
   const setCodeDataChange = (code: string) => {
     setPrjcCode(code);
+  };
+
+  const clearFormValue = () => {
+    setValue("rstFileRcpnEmail", "");
   };
 
 

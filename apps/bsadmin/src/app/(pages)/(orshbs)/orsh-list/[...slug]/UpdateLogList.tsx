@@ -5,6 +5,7 @@ import { DataCountResultInfo, DataTableBase } from "cjbsDSTM";
 import {useParams} from "next/navigation";
 import {useLogList} from "../../../../hooks/useLogList";
 import {dataTableCustomStyles} from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataView from "../../../../components/NoDataView";
 
 export default function UpdateLogList() {
   const params = useParams();
@@ -125,6 +126,7 @@ export default function UpdateLogList() {
           selectableRows={false}
           paginationPerPage={10}
           paginationRowsPerPageOptions={[10, 50, 100]}
+          noDataComponent={<NoDataView dataType={'Y'}/>}
         />
       </Container>
     </>

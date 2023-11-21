@@ -1,6 +1,6 @@
 import React, {useState, useMemo, useEffect} from "react";
 import {
-  cjbsTheme,
+  cjbsTheme, ContainedButton,
   InputValidation,
   ModalContainer,
   ModalTitle,
@@ -87,7 +87,7 @@ const CustSearchModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>계정 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>결과 파일 수신 계정 변경</ModalTitle>
       <DialogContent sx={{minHeight: 244}}>
         <Typography variant="subtitle1">
           EzBioCloud 계정 검색
@@ -100,11 +100,11 @@ const CustSearchModal = ({
             placeholder="example@cj.net"
             sx={{ width: 500 }}
             onKeyUp={emailValidCheck}
-            // InputProps={{
-            //   endAdornment: (
-            //     <InputAdornment position="end">@</InputAdornment>
-            //   ),
-            // }}
+            onKeyPress={(ev) => {
+              if (ev.key === 'Enter') {
+                onSubmit();
+              }
+            }}
           />
           <OutlinedButton
             size="small"
@@ -195,8 +195,8 @@ const CustSearchModal = ({
                     }}
                   />
                 </TableCell>
-                <TableCell>
-                  <OutlinedButton
+                <TableCell sx={{padding:1}}>
+                  <ContainedButton
                     size="small"
                     buttonName="등록"
                     onClick={() => {

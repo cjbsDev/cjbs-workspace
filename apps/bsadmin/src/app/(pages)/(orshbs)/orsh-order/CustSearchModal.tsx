@@ -21,6 +21,7 @@ import {
 import { useFormContext } from "react-hook-form";
 import { GET } from "api";
 import { toast } from "react-toastify";
+import {ContainedButton} from "cjbsDSTM/atoms/Buttons";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -84,7 +85,7 @@ const CustSearchModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>계정 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>결과 파일 수신 계정 변경</ModalTitle>
       <DialogContent sx={{minHeight: 244}}>
         <Typography variant="subtitle1">
           EzBioCloud 계정 검색
@@ -92,14 +93,19 @@ const CustSearchModal = ({
         <Stack direction="row" spacing={0.5} alignItems="flex-start">
           <InputValidation
             inputName="ezbcId"
-            required={true}
-            errorMessage="EzBioCloud 계정을 입력해주세요."
+            // required={true}
+            // errorMessage="EzBioCloud 계정을 입력해주세요."
             placeholder="example"
             sx={{ width: 350 }}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">@</InputAdornment>
               ),
+            }}
+            onKeyPress={(ev) => {
+              if (ev.key === 'Enter') {
+                onSubmit();
+              }
             }}
           />
           <SelectBox
@@ -181,8 +187,8 @@ const CustSearchModal = ({
                     }}
                   />
                 </TableCell>
-                <TableCell>
-                  <OutlinedButton
+                <TableCell sx={{padding:1}}>
+                  <ContainedButton
                     size="small"
                     buttonName="등록"
                     onClick={() => {

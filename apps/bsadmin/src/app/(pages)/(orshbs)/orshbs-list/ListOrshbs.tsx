@@ -214,7 +214,7 @@ export default function ListOrshbs() {
             </Stack>
           );
         },
-        width: "240px",
+        width: "260px",
       },
 
       {
