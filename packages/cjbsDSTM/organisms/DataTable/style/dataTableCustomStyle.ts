@@ -69,6 +69,7 @@ export const dataTableCustomStyles = {
     style: {
       backgroundColor: cjbsTheme.palette.common.white,
       color: cjbsTheme.palette.common.black,
+      justifyContent: "flex-start",
     },
   },
 };

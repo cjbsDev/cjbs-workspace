@@ -36,3 +36,17 @@ export const SkeletonTableModalLoading = () => {
     </Stack>
   );
 };
+
+export const SkeletonPieChart = () => {
+  return (
+    <Stack spacing={2} direction="row">
+      <Skeleton variant="text" width={100} />
+
+      <Box>
+        <Skeleton variant="rounded" height={14} />
+        <Skeleton variant="rounded" height={14} />
+        <Skeleton variant="rounded" height={14} />
+      </Box>
+    </Stack>
+  );
+};

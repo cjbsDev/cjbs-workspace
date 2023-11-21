@@ -111,6 +111,7 @@ export const OutlinedButton = ({ buttonName, ...props }: CustomButtonProps) => {
         variant="outlined"
         sx={{
           ...props.sx,
+          backgroundColor: "white",
           "&.MuiButton-outlinedSecondary": {
             color: cjbsTheme.palette.common.black,
           },

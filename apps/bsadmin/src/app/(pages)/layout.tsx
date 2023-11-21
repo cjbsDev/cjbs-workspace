@@ -24,6 +24,7 @@ import { useRouter } from "next-nprogress-bar";
 import { yellow } from "cjbsDSTM/themes/color";
 import Link from "next/link";
 import MyIcon from "icon/MyIcon";
+import { cjbsTheme } from "cjbsDSTM";
 
 const drawerWidth = 228;
 
@@ -225,7 +226,7 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
                   >
                     {item.menuPath.nestedPath.map((item) => {
                       const isActive = currentPathname.startsWith(
-                        item.menuPath
+                        item.menuPath,
                       );
                       return (
                         <Link
@@ -258,7 +259,22 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ display: "grid", flexGrow: 1, px: 2, py: 3 }}>
+      <Box
+        component="main"
+        sx={{
+          backgroundColor:
+            currentPathname === "/dashboard"
+              ? cjbsTheme.palette.grey["100"]
+              : "white",
+          // display: "grid",
+          flexGrow: 1,
+          px: 2.5,
+          py: 2.5,
+          height: "100vh",
+          minHeight: "100%",
+          position: "relative",
+        }}
+      >
         <DrawerHeader
           sx={{
             display: currentPathname === "/sampleListPopup" ? "none" : "block",
