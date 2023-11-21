@@ -39,14 +39,29 @@ export const SkeletonTableModalLoading = () => {
 
 export const SkeletonPieChart = () => {
   return (
-    <Stack spacing={2} direction="row">
-      <Skeleton variant="text" width={100} />
+    <Stack
+      spacing={2}
+      direction="row"
+      justifyContent="space-between"
+      sx={{ backgroundColor: "gold" }}
+    >
+      <Box>
+        <Skeleton width={209} />
+      </Box>
 
       <Box>
-        <Skeleton variant="rounded" height={14} />
+        <Skeleton variant="rounded" width={100} height={14} />
         <Skeleton variant="rounded" height={14} />
         <Skeleton variant="rounded" height={14} />
       </Box>
+
+      {/*<Box>*/}
+      {/*  <Stack direction="row">*/}
+      {/*    <Skeleton variant="rounded" width={100} height={14} />*/}
+      {/*    <Skeleton variant="rounded" height={14} />*/}
+      {/*    <Skeleton variant="rounded" height={14} />*/}
+      {/*  </Stack>*/}
+      {/*</Box>*/}
     </Stack>
   );
 };

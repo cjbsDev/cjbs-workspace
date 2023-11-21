@@ -15,10 +15,10 @@ import KeywordSearch from "../../components/KeywordSearch";
 import SectionHeader from "./components/SectionHeader";
 import PieChart from "./components/PieChart";
 
-const LazyListDashboard = dynamic(() => import("./list-dashboard"), {
-  ssr: false,
-  loading: () => <SkeletonLoading />,
-});
+// const LazyListDashboard = dynamic(() => import("./list-dashboard"), {
+//   ssr: false,
+//   loading: () => <SkeletonLoading />,
+// });
 
 const LazyPieChart = dynamic(() => import("./components/PieChart"), {
   ssr: false,
@@ -57,7 +57,9 @@ export default function Page() {
                 <SectionHeader.Title>서비스 별 매출</SectionHeader.Title>
               </SectionHeader>
 
-              <LazyPieChart />
+              <Box sx={{ height: 209 }}>
+                <LazyPieChart />
+              </Box>
               {/*<PieChart />*/}
             </SectionBox>
           </Grid>
