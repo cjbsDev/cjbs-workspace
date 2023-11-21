@@ -10,6 +10,9 @@ import {
   FileDownloadBtn,
 } from "cjbsDSTM";
 import {
+  blue,
+} from "cjbsDSTM/themes/color";
+import {
   Box,
   Stack,
   Grid,
@@ -21,7 +24,7 @@ import {
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
-import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -81,13 +84,14 @@ const ListRun = () => {
       {
         name: "No",
         width: "70px",
-        sortable: true,
+        center: true,
+        // sortable: true,
         selector: (row, index) => row.anlsItstId,
       },
       {
-        name: "거래처(PI)",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
         width: "170px",
-        sortable: true,
+        // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
         cell: (row) => {
           const { instNm, agncNm } = row;
@@ -108,9 +112,9 @@ const ListRun = () => {
         },
       },
       {
-        name: "연구책임자",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
         width: "170px",
-        sortable: true,
+        // sortable: true,
         // selector: (row) => row.custNm,
         cell: (row) => {
           const { custNm, custEmail } = row;
@@ -127,27 +131,30 @@ const ListRun = () => {
         },
       },
       {
-        name: "영업 담당자",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">영업 담당자</Typography></Stack>,
         width: "160px",
-        sortable: true,
+        // sortable: true,
         selector: (row) => row.bsnsMngrNm,
       },
       {
         name: "분류",
+        center: true,
         selector: (row) => row.srvcCtgrVal,
       },
       {
         name: "분석종류",
+        center: true,
         selector: (row) => row.anlsTypeVal,
       },
       {
-        name: "플랫폼",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">플랫폼</Typography></Stack>,
         width: "300px",
         selector: (row) => row.pltfVal,
       },
       {
         name: "분석일",
         width: "120px",
+        center: true,
         selector: (row) => row.anlsDttm,
       },
       // {
@@ -158,25 +165,30 @@ const ListRun = () => {
       {
         name: "수량",
         width: "80px",
+        center: true,
         selector: (row) => row.totalCnt,
       },
       {
-        name: "총 공급가액",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">총 공급가액</Typography></Stack>,
         width: "140px",
+        right: true,
         selector: (row) => row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: "부가세",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">부가세</Typography></Stack>,
         width: "120px",
+        right: true,
         selector: (row) => row.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: "합계금액",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">합계금액</Typography></Stack>,
         width: "150px",
+        right: true,
         selector: (row) => row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "정산",
+        center: true,
         cell: (row: { isSettled: string }) => {
           const { isSettled } = row;
           return (
@@ -256,28 +268,43 @@ const ListRun = () => {
     // someTitleProp?: string;
   }
   const ExpandableRowComponent: React.FC<Props> = ({data}) => {
-    console.log(">>>>>>>>>>>", data);
+    // console.log(">>>>>>>>>>>", data);
     return (
       <>
         <TableContainer>
-          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <Table aria-label="simple table" size="small">
             <TableBody>
               {data.anlsItstCostList.map((item, index) => (
                 index === 0 ? (
                   <TableRow
+                    key={index}
                     sx={{
                       // '&:last-child td, &:last-child th': { border: 0 },
                       // '&:nth-of-type(even)': { backgroundColor: cjbsTheme.palette.action.hover, },
-                      backgroundColor: cjbsTheme.palette.action.hover,
+                      border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1140px'} align="center" rowSpan={10}>분석비용</TableCell>
-                    <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
-                    <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                    <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                    <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                    <TableCell align="left" rowSpan={10}>
-                      <Stack spacing={"2px"} justifyContent="center" alignItems="flex-start">
+                    <TableCell width={'818px'} align="center" rowSpan={10}>
+                      <Typography variant="body2">분석비용</Typography>
+                    </TableCell>
+                    <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.srvcTypeVal}</Typography>
+                    </TableCell>
+                    <TableCell width={'80px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.sampleSize}</Typography>
+                    </TableCell>
+                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                    <TableCell width={'120px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                    <TableCell width={'150px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}} rowSpan={10}>
+                      <Stack spacing={1} justifyContent="center" alignItems="flex-start">
                         <Typography variant="body2">
                           남은금액
                         </Typography>
@@ -288,17 +315,29 @@ const ListRun = () => {
                     </TableCell>
                   </TableRow>
                 ):(
-                    <TableRow
-                      sx={{
-                        // '&:last-child td, &:last-child th': { border: 0 },
-                        backgroundColor: cjbsTheme.palette.action.hover,
-                      }}
-                    >
-                      <TableCell width={'204px'} align="left">{item.srvcTypeVal}</TableCell>
-                      <TableCell width={'140px'} align="left">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                      <TableCell width={'120px'} align="left">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                      <TableCell width={'150px'} align="left">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TableCell>
-                    </TableRow>
+                  <TableRow
+                    key={index}
+                    sx={{
+                      backgroundColor: blue["50"],
+                      border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                    }}
+                  >
+                    <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.srvcTypeVal}</Typography>
+                    </TableCell>
+                    <TableCell width={'80px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.sampleSize}</Typography>
+                    </TableCell>
+                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                    <TableCell width={'120px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                    <TableCell width={'150px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                      <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    </TableCell>
+                  </TableRow>
                 )
               ))}
             </TableBody>
@@ -317,7 +356,7 @@ const ListRun = () => {
         onRowClicked={goDetailPage}
         pointerOnHover
         highlightOnHover
-        customStyles={dataTableCustomStyles}
+        customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
