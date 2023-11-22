@@ -35,13 +35,17 @@ export default function RootLayout({
       const windowOSElements = document.querySelectorAll('.windowOS *');
       windowOSElements.forEach(element => {
         const fontWeight = window.getComputedStyle(element).getPropertyValue('font-weight');
-        if (fontWeight === '700') {
+        if (fontWeight === '400') {
           element.style.fontWeight = '500';
-          element.style.transform = 'rotate(0.03deg)';
+          // element.style.transform = 'rotate(0.03deg)';
         }
-        if (fontWeight === '500') {
-          element.style.fontWeight = '400';
-          element.style.transform = 'rotate(0.03deg)';
+        if (fontWeight === '600') {
+          element.style.fontWeight = '700';
+          // element.style.transform = 'rotate(0.03deg)';
+        }
+        if (fontWeight === '700') {
+          element.style.fontWeight = '800';
+          // element.style.transform = 'rotate(0.03deg)';
         }
       });
     }
