@@ -16,8 +16,13 @@
       }
     ],
     "paths": {
-      "@components/*": ["../../packages/cjbsDSTM/*"]
-    }
+      "@components/*": [
+        "../../packages/cjbsDSTM/*"
+      ]
+    },
+    "moduleResolution": "node"
   },
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

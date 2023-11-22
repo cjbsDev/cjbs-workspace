@@ -377,22 +377,40 @@ export const themeJeju = createTheme({
     },
     MuiCssBaseline: {
       styleOverrides: `
-        @font-face{
-          font-family:'Inter';
-          src: url(/fonts/Inter-Bold.ttf);
-          font-weight: 700;
+        // @font-face{
+        //   font-family:'Inter';
+        //   src: url(/fonts/Inter-Bold.ttf);
+        //   font-weight: 700;
+        //   font-style: normal;
+        // }
+        // @font-face{
+        //   font-family:'Inter';
+        //   src: url(/fonts/Inter-Bold.ttf);
+        //   font-weight: 600;
+        //   font-style: normal;
+        // }
+        // @font-face{
+        //   font-family:'Inter';
+        //   src: url(/fonts/Inter-Bold.ttf);
+        //   font-weight: 400;
+        //   font-style: normal;
+        // }
+        @font-face {
+          font-family: 'NotoSansKR';
+          src: url('/fonts/NotoSansKR-Regular.ttf');
+          font-weight: 400;
           font-style: normal;
         }
-        @font-face{
-          font-family:'Inter';
-          src: url(/fonts/Inter-Bold.ttf);
+        @font-face {
+          font-family: 'NotoSansKR';
+          src: url('/fonts/NotoSansKR-SemiBold.ttf');
           font-weight: 600;
           font-style: normal;
         }
-        @font-face{
-          font-family:'Inter';
-          src: url(/fonts/Inter-Bold.ttf);
-          font-weight: 400;
+        @font-face {
+          font-family: 'NotoSansKR';
+          src: url('/fonts/NotoSansKR-Bold.ttf');
+          font-weight: 700;
           font-style: normal;
         }
       `,

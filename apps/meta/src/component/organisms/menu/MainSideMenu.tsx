@@ -88,7 +88,7 @@ const SearchedBox = styled(Box)`
 const FilterInitBox = styled(Box)`
   width: 100%;
   height: 18px;
-  font-family: 'Inter';
+  font-family: 'NotoSansKR';
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
