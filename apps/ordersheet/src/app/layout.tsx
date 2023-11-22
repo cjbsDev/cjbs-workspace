@@ -27,6 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
 
+  /*
   useEffect(() => {
     console.log(navigator)
     const isWindows = navigator.userAgentData.platform.indexOf('Win') > -1;
@@ -50,7 +51,7 @@ export default function RootLayout({
       });
     }
   }, []);
-
+  */
 
   return (
     <html lang="en">
