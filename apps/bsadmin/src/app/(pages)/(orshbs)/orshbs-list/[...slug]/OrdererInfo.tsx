@@ -62,7 +62,6 @@ export default function OrdererInfo() {
   const setCodeDataChange = (code: string) => {
     setPrjcCode(code);
   };
-
   const clearFormValue = () => {
     setValue("rstFileRcpnEmail", "");
   };

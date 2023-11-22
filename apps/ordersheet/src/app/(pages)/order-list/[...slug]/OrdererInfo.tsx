@@ -23,6 +23,7 @@ import dynamic from "next/dynamic";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "@components/AddressDeleteButton";
 import MyIcon from "icon/MyIcon";
+import {useFormContext} from "react-hook-form";
 
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -54,7 +55,7 @@ const dataMailRcpnListGV = [
 ];
 
 export default function OrdererInfo() {
-
+  const {setValue, getValues} = useFormContext();
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -69,9 +70,11 @@ export default function OrdererInfo() {
   const ezbcIdSearchModalClose = () => {
     setShowEzbcIdSearchModal(false);
   };
-
   const setCodeDataChange = (code: string) => {
     setPrjcCode(code);
+  };
+  const clearFormValue = () => {
+    setValue("rstFileRcpnEmail", "");
   };
 
 
