@@ -21,6 +21,7 @@ import {
 import { useFormContext } from "react-hook-form";
 import { GET } from "api";
 import { toast } from "react-toastify";
+import {ContainedButton} from "cjbsDSTM/atoms/Buttons";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -87,7 +88,7 @@ const CustSearchModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>계정 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>결과 파일 수신 계정 변경</ModalTitle>
       <DialogContent sx={{minHeight: 244}}>
         <Typography variant="subtitle1">
           EzBioCloud 계정 검색
@@ -100,6 +101,11 @@ const CustSearchModal = ({
             placeholder="example@cj.net"
             sx={{ width: 500 }}
             onKeyUp={emailValidCheck}
+            onKeyPress={(ev) => {
+              if (ev.key === 'Enter') {
+                onSubmit();
+              }
+            }}
             // InputProps={{
             //   endAdornment: (
             //     <InputAdornment position="end">@</InputAdornment>
@@ -195,8 +201,8 @@ const CustSearchModal = ({
                     }}
                   />
                 </TableCell>
-                <TableCell>
-                  <OutlinedButton
+                <TableCell sx={{padding:1}}>
+                  <ContainedButton
                     size="small"
                     buttonName="등록"
                     onClick={() => {

@@ -117,21 +117,21 @@ a {
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/ordersheet/public/fonts/Inter-Regular.ttf');
+  src: url('/fonts/Inter-Regular.ttf');
   font-weight: 400;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/ordersheet/public/fonts/Inter-SemiBold.ttf');
+  src: url('/fonts/Inter-SemiBold.ttf');
   font-weight: 600;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Inter';
-  src: url('/apps/ordersheet/public/fonts/Inter-Bold.ttf');
+  src: url('/fonts/Inter-Bold.ttf');
   font-weight: 700;
   font-style: normal;
 }

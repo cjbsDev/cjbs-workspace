@@ -1,14 +1,15 @@
 "use client";
 
 import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableContainer,
-    TableRow,
-    Typography,
+  Box, IconButton,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography, styled,
 } from "@mui/material";
+import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 import {
     CheckboxGV,
     InputValidation,
@@ -21,7 +22,22 @@ import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "@components/AddressDeleteButton";
+import MyIcon from "icon/MyIcon";
 
+
+const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: 'rgba(0, 0, 0, 0.87)',
+    boxShadow: theme.shadows[1],
+    fontSize: 11,
+  },
+  [`& .${tooltipClasses.arrow}`]: {
+    color: theme.palette.common.white,
+  },
+}));
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
     ssr: false,
@@ -439,7 +455,22 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>결과파일 수신 계정 변경</TH>
+              <TH sx={{ width: "20%" }}>
+                결과파일 수신 계정 변경
+                <LightTooltip
+                  // title={"결과파일 수신 할 계정을 변경합니다. 변경 시 대표 계정이 아닌 등록한 계정에 업로드 됩니다."}
+                  title={
+                    <Typography variant="body2" sx={{}}>
+                      결과파일 수신 할 계정을 변경합니다. 변경 시 대표 계정이 아닌 등록한 계정에 업로드 됩니다.
+                    </Typography>
+                  }
+                  arrow
+                >
+                  <IconButton size="small">
+                    <MyIcon icon="question-circle" size={20} />
+                  </IconButton>
+                </LightTooltip>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row" spacing={1}>
                   <InputValidation

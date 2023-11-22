@@ -45,7 +45,7 @@ const Accordion = styled((props: AccordionProps) => (
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
     <MuiAccordionSummary
         // expandIcon={<ArrowForwardIosSharpIcon sx={{ fontSize: '0.9rem' }} />}
-        expandIcon={<MyIcon icon="cheveron-down" size={24} />}
+        // expandIcon={<MyIcon icon="cheveron-down" size={24} />}
         {...props}
     />
 ))(({ theme }) => ({
