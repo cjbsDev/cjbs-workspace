@@ -43,25 +43,17 @@ export const SkeletonPieChart = () => {
       spacing={2}
       direction="row"
       justifyContent="space-between"
-      sx={{ backgroundColor: "gold" }}
+      alignItems="center"
     >
-      <Box>
-        <Skeleton width={209} />
-      </Box>
+      <Skeleton variant="circular" width={209} height={209} />
 
-      <Box>
-        <Skeleton variant="rounded" width={100} height={14} />
-        <Skeleton variant="rounded" height={14} />
-        <Skeleton variant="rounded" height={14} />
-      </Box>
-
-      {/*<Box>*/}
-      {/*  <Stack direction="row">*/}
-      {/*    <Skeleton variant="rounded" width={100} height={14} />*/}
-      {/*    <Skeleton variant="rounded" height={14} />*/}
-      {/*    <Skeleton variant="rounded" height={14} />*/}
-      {/*  </Stack>*/}
-      {/*</Box>*/}
+      <Stack spacing={2}>
+        <Skeleton variant="rounded" width={200} height={16} />
+        <Skeleton variant="rounded" height={16} />
+        <Skeleton variant="rounded" height={16} />
+        <Skeleton variant="rounded" height={16} />
+        <Skeleton variant="rounded" height={16} />
+      </Stack>
     </Stack>
   );
 };
