@@ -7,12 +7,14 @@ import './globals.css'
 import {cjbsTheme} from "cjbsDSTM";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import * as React from "react";
+import {useEffect} from "react";
+import {Logger} from "sass";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  weight: ["400", "600", "700"],
-});
+// const inter = Inter({
+//   subsets: ["latin"],
+//   display: "swap",
+//   weight: ["400", "600", "700"],
+// });
 
 // export const metadata: Metadata = {
 //   title: "...",
@@ -24,8 +26,30 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
+  useEffect(() => {
+    console.log(navigator)
+    const isWindows = navigator.userAgentData.platform.indexOf('Win') > -1;
+    if (isWindows) {
+      document.body.classList.add('windowOS');
+      const windowOSElements = document.querySelectorAll('.windowOS *');
+      windowOSElements.forEach(element => {
+        const fontWeight = window.getComputedStyle(element).getPropertyValue('font-weight');
+        if (fontWeight === '700') {
+          element.style.fontWeight = '500';
+          element.style.transform = 'rotate(0.03deg)';
+        }
+        if (fontWeight === '500') {
+          element.style.fontWeight = '400';
+          element.style.transform = 'rotate(0.03deg)';
+        }
+      });
+    }
+  }, []);
+
+
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en">
       <title>주문서</title>
       <link rel="icon" href="/favicon.ico" />
       <body>
