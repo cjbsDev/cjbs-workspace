@@ -49,7 +49,7 @@ const options = {
   },
 };
 
-const PieChart = () => {
+const SrvcSalesChart = () => {
   const customLegend = (
     <Box component="ul" sx={{ listStyle: "none" }}>
       {data.labels.map((label, index) => (
@@ -89,20 +89,22 @@ const PieChart = () => {
   );
 
   return (
-    <Box sx={{ height: 209, px: 1.25, position: "relative" }}>
-      <Pie data={data} options={options} />
-      <Box
-        sx={{
-          position: "absolute",
-          right: 10,
-          top: "50%",
-          transform: "translateY(-50%)",
-        }}
-      >
-        {customLegend}
+    <Box sx={{ my: 5.7 }}>
+      <Box sx={{ height: 150, mt: 3.75, px: 1.25, position: "relative" }}>
+        <Pie data={data} options={options} />
+        <Box
+          sx={{
+            position: "absolute",
+            right: 10,
+            top: "54%",
+            transform: "translateY(-50%)",
+          }}
+        >
+          {customLegend}
+        </Box>
       </Box>
     </Box>
   );
 };
 
-export default PieChart;
+export default SrvcSalesChart;

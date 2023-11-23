@@ -7,7 +7,8 @@ import React, {
   Dispatch,
 } from "react";
 import { Box, Divider, Stack, Typography } from "@mui/material";
-import { OutlinedButton } from "cjbsDSTM";
+import { cjbsTheme, OutlinedButton, XsmallButton } from "cjbsDSTM";
+import MyIcon from "icon/MyIcon";
 
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: ReactNode;
@@ -15,6 +16,9 @@ interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
 
 interface ToggleBtnProps extends ComponentProps {
   buttonName: string;
+  disabled?: boolean;
+  onClick?: (() => void | undefined) | undefined;
+  sx?: object;
 }
 
 const SectionHeaderContext = createContext<{
@@ -29,7 +33,12 @@ const SectionHeader = ({ children, ...restProps }: ComponentProps) => {
   const [toggleShow, setToggleShow] = useState<boolean>(false);
   return (
     <SectionHeaderContext.Provider value={{ toggleShow, setToggleShow }}>
-      <Stack direction="row" spacing={1} justifyContent="space-between">
+      <Stack
+        direction="row"
+        spacing={1}
+        justifyContent="space-between"
+        alignItems="center"
+      >
         {children}
       </Stack>
       <Divider sx={{ mb: 1.85, mt: 1.85 }} />
@@ -84,6 +93,24 @@ const ToggleBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   );
 };
 
+const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
+  const { toggleShow, setToggleShow } = useContext(SectionHeaderContext);
+  const { sx, buttonName, onClick, disabled = false } = restProps;
+
+  return (
+    <OutlinedButton
+      sx={{ ...restProps.sx, mb: `-12px !important`, mt: `-12px !important` }}
+      buttonName={buttonName}
+      onClick={onClick}
+      color="secondary"
+      size="small"
+      endIcon={<MyIcon icon="cheveron-right" size={20} />}
+      disabled={disabled}
+    />
+  );
+};
+
 SectionHeader.Title = Title;
 SectionHeader.Action = Action;
 SectionHeader.ToggleBtn = ToggleBtn;
+SectionHeader.MoreBtn = MoreBtn;
