@@ -58,7 +58,7 @@ export default function Page() {
 
   useEffect(() => {
     // console.log("PARAMS", params);
-    setAlignment(Number(params));
+    setAlignment(params === null ? 1 : Number(params));
   }, []);
 
   const handleAlignment = (
@@ -182,26 +182,6 @@ export default function Page() {
                     <ToggleButton value={3}>3Y+</ToggleButton>
                   </StyledToggleButtonGroup>
                 </SectionHeader.Action>
-                {/*<SectionHeader.Action>*/}
-                {/*  <SectionHeader.DurationBtn*/}
-                {/*    buttonName="1Y+"*/}
-                {/*    onClick={() =>*/}
-                {/*      router.push(pathname + "?idleduration=1year")*/}
-                {/*    }*/}
-                {/*  />*/}
-                {/*  <SectionHeader.DurationBtn*/}
-                {/*    buttonName="2Y+"*/}
-                {/*    onClick={() =>*/}
-                {/*      router.push(pathname + "?idleduration=2year")*/}
-                {/*    }*/}
-                {/*  />*/}
-                {/*  <SectionHeader.DurationBtn*/}
-                {/*    buttonName="3Y+"*/}
-                {/*    onClick={() =>*/}
-                {/*      router.push(pathname + "?idleduration=3year")*/}
-                {/*    }*/}
-                {/*  />*/}
-                {/*</SectionHeader.Action>*/}
               </SectionHeader>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyIdleTop />
@@ -231,7 +211,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     "&.Mui-disabled": {
       border: 0,
     },
-    "&.Mui-selected": {
+    "&.Mui-selected, &.Mui-selected:hover": {
       backgroundColor: "#6366F1",
       color: "white",
     },
