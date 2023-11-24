@@ -270,8 +270,8 @@ export default function SubLayout({ children }: { children: React.ReactNode }) {
           flexGrow: 1,
           px: 2.5,
           py: 2.5,
-          height: "100vh",
-          minHeight: "100%",
+          // height: "100vh",
+          minHeight: "100vh",
           position: "relative",
         }}
       >

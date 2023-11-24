@@ -10,10 +10,20 @@ import {
   SkeletonPieChart,
   SkeletonTableModalLoading,
 } from "cjbsDSTM";
-import { Box, Grid, Stack } from "@mui/material";
+import {
+  Box,
+  Grid,
+  Stack,
+  Typography,
+  ToggleButtonGroup,
+  ToggleButton,
+} from "@mui/material";
 import { styled } from "@mui/material/styles";
 import KeywordSearch from "../../components/KeywordSearch";
 import SectionHeader from "./components/SectionHeader";
+import { useRouter } from "next-nprogress-bar";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
 
 const LazySrvcSalesChart = dynamic(
   () => import("./components/SrvcSalesChart"),
@@ -33,7 +43,33 @@ const LazyAgncTop = dynamic(() => import("./components/AgncTop"), {
   loading: () => <SkeletonTableModalLoading />,
 });
 
+const LazyIdleTop = dynamic(() => import("./components/IdleTop"), {
+  ssr: false,
+  loading: () => <SkeletonTableModalLoading />,
+});
+
 export default function Page() {
+  const router = useRouter();
+  // const params = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const params = searchParams.get("idleduration");
+  const [alignment, setAlignment] = useState<number>(1);
+
+  useEffect(() => {
+    // console.log("PARAMS", params);
+    setAlignment(Number(params));
+  }, []);
+
+  const handleAlignment = (
+    event: React.MouseEvent<HTMLElement>,
+    newAlignment: string | null,
+  ) => {
+    console.log("newAlignment", newAlignment);
+    setAlignment(newAlignment);
+    router.push(pathname + `?idleduration=${newAlignment}`);
+  };
+
   return (
     <>
       <Box>
@@ -59,7 +95,9 @@ export default function Page() {
                 <SectionHeader.Title>총 매출</SectionHeader.Title>
               </SectionHeader>
 
-              <Box sx={{ height: 100, backgroundColor: "red" }} />
+              <Box>
+                <Typography variant="subtitle1">준비중 입니다.</Typography>
+              </Box>
             </SectionBox>
           </Grid>
           <Grid item xs={4}>
@@ -115,6 +153,62 @@ export default function Page() {
             </SectionBox>
           </Grid>
         </Grid>
+
+        <Grid container spacing={2.5} sx={{}}>
+          <Grid item xs={12}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>
+                  유휴 거래처 (장기 미거래)
+                </SectionHeader.Title>
+                <SectionHeader.Action>
+                  {/*<SectionHeader.Duration*/}
+                  {/*  value={alignment}*/}
+                  {/*  onChange={handleAlignment}*/}
+                  {/*/>*/}
+                  <StyledToggleButtonGroup
+                    value={alignment}
+                    exclusive={true}
+                    onChange={handleAlignment}
+                    size="small"
+                    sx={{
+                      mb: `-12px !important`,
+                      mt: `-12px !important`,
+                      py: `0 !important`,
+                    }}
+                  >
+                    <ToggleButton value={1}>1Y+</ToggleButton>
+                    <ToggleButton value={2}>2Y+</ToggleButton>
+                    <ToggleButton value={3}>3Y+</ToggleButton>
+                  </StyledToggleButtonGroup>
+                </SectionHeader.Action>
+                {/*<SectionHeader.Action>*/}
+                {/*  <SectionHeader.DurationBtn*/}
+                {/*    buttonName="1Y+"*/}
+                {/*    onClick={() =>*/}
+                {/*      router.push(pathname + "?idleduration=1year")*/}
+                {/*    }*/}
+                {/*  />*/}
+                {/*  <SectionHeader.DurationBtn*/}
+                {/*    buttonName="2Y+"*/}
+                {/*    onClick={() =>*/}
+                {/*      router.push(pathname + "?idleduration=2year")*/}
+                {/*    }*/}
+                {/*  />*/}
+                {/*  <SectionHeader.DurationBtn*/}
+                {/*    buttonName="3Y+"*/}
+                {/*    onClick={() =>*/}
+                {/*      router.push(pathname + "?idleduration=3year")*/}
+                {/*    }*/}
+                {/*  />*/}
+                {/*</SectionHeader.Action>*/}
+              </SectionHeader>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyIdleTop />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+        </Grid>
       </Box>
     </>
   );
@@ -128,4 +222,24 @@ const SectionBox = styled(Box)`
   height: 100%;
 `;
 
-const GridWrapper = styled(Grid)``;
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  "& .MuiToggleButtonGroup-grouped": {
+    margin: theme.spacing(0.5),
+    border: 0,
+    padding: "0 12px",
+    backgroundColor: theme.palette.grey["100"],
+    "&.Mui-disabled": {
+      border: 0,
+    },
+    "&.Mui-selected": {
+      backgroundColor: "#6366F1",
+      color: "white",
+    },
+    "&:not(:first-of-type)": {
+      borderRadius: theme.shape.borderRadius,
+    },
+    "&:first-of-type": {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));

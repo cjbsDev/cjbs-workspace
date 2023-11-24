@@ -56,19 +56,6 @@ const SalesTop = () => {
               );
             },
           )}
-
-          <TableRow>
-            <TableCell height={56}>1</TableCell>
-            <TableCell>ddfsdf</TableCell>
-            <TableCell align="right">7867786897</TableCell>
-            <TableCell align="right">45766876</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell height={56}>1</TableCell>
-            <TableCell>ddfsdf</TableCell>
-            <TableCell align="right">7867786897</TableCell>
-            <TableCell align="right">45766876</TableCell>
-          </TableRow>
         </TableBody>
       </Table>
     </TableContainer>

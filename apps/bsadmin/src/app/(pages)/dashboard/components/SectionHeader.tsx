@@ -6,8 +6,20 @@ import React, {
   SetStateAction,
   Dispatch,
 } from "react";
-import { Box, Divider, Stack, Typography } from "@mui/material";
-import { cjbsTheme, OutlinedButton, XsmallButton } from "cjbsDSTM";
+import {
+  Box,
+  Divider,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Typography,
+} from "@mui/material";
+import {
+  cjbsTheme,
+  ContainedButton,
+  OutlinedButton,
+  XsmallButton,
+} from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
@@ -73,7 +85,9 @@ const Action = ({ children, ...restProps }: ComponentProps) => {
   // const [toggleShow, setToggleShow] = useState<boolean>(false);
   return (
     // <SectionHeaderContext.Provider value={{}}>
-    <Box>{children}</Box>
+    <Stack direction="row" spacing={0.5}>
+      {children}
+    </Stack>
     // </SectionHeaderContext.Provider>
   );
 };
@@ -99,7 +113,11 @@ const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
 
   return (
     <OutlinedButton
-      sx={{ ...restProps.sx, mb: `-12px !important`, mt: `-12px !important` }}
+      sx={{
+        ...restProps.sx,
+        mb: `-12px !important`,
+        mt: `-12px !important`,
+      }}
       buttonName={buttonName}
       onClick={onClick}
       color="secondary"
@@ -110,7 +128,33 @@ const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   );
 };
 
+const DurationBtn = ({ children, ...restProps }) => {
+  const { sx, value, onChange } = restProps;
+
+  return (
+    <ToggleButtonGroup value={value} exclusive onChange={onChange} size="small">
+      <ToggleButton value={1}>1Y+</ToggleButton>
+      <ToggleButton value={2}>2Y+</ToggleButton>
+      <ToggleButton value={3}>3Y+</ToggleButton>
+    </ToggleButtonGroup>
+    // <ContainedButton
+    //   sx={{
+    //     ...restProps.sx,
+    //     mb: `-12px !important`,
+    //     mt: `-12px !important`,
+    //     py: `0 !important`,
+    //   }}
+    //   buttonName={buttonName}
+    //   onClick={onClick}
+    //   // color="secondary"
+    //   size="small"
+    //   disabled={disabled}
+    // />
+  );
+};
+
 SectionHeader.Title = Title;
 SectionHeader.Action = Action;
 SectionHeader.ToggleBtn = ToggleBtn;
 SectionHeader.MoreBtn = MoreBtn;
+SectionHeader.DurationBtn = DurationBtn;
