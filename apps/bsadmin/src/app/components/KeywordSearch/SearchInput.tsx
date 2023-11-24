@@ -16,7 +16,7 @@ const SearchInput = () => {
       //   console.log("sdfsdfsdf");
       //   await trigger("Keyword");
       // }, 500)}
-      sx={{ width: 208, mr: -1.5 }}
+      sx={{ width: 208, mr: -1.5, backgroundColor: "white" }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

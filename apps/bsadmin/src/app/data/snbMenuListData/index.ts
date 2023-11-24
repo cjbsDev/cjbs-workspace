@@ -70,10 +70,10 @@ export const snbMenuListData = [
           menuLabel: "오더 등록",
           menuPath: "/order-reg",
         },
-        {
-          menuLabel: "오더 등록(내부)",
-          menuPath: "/order-intn-reg",
-        },
+        // {
+        //   menuLabel: "오더 등록(내부)",
+        //   menuPath: "/order-intn-reg",
+        // },
       ],
     },
   },
@@ -95,18 +95,18 @@ export const snbMenuListData = [
     },
   },
   {
-    menuLabel: '장부',
-    menuIcon: 'read',
+    menuLabel: "장부",
+    menuIcon: "read",
     menuPath: {
-      name: '/ledger',
+      name: "/ledger",
       nestedPath: [
         // {
         //   menuLabel: '고객별 결제 현황',
         //   menuPath: '/cust-pay-list'
         // },
         {
-          menuLabel: '분석 내역서 관리',
-          menuPath: '/analysis-report-list'
+          menuLabel: "분석 내역서 관리",
+          menuPath: "/analysis-report-list",
         },
         // {
         //   menuLabel: '세금 계산서 관리',
@@ -120,8 +120,8 @@ export const snbMenuListData = [
         //   menuLabel: '매출 관리',
         //   menuPath: '/sales-cust-list'
         // }
-      ]
-    }
+      ],
+    },
   },
   // {
   //   menuLabel: '영업활동',

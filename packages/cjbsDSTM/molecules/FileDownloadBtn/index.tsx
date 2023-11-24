@@ -5,6 +5,7 @@ import { CircularProgress } from "@mui/material";
 import { useFileDownload } from "./useFileDownload";
 import FileSaver from "file-saver";
 import { GET } from "api";
+import { toast } from "react-toastify";
 
 interface FileDownloadBtnProps {
   exportUrl: string;
@@ -16,7 +17,7 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
   const { exportUrl, keyword, iconName } = props;
   const { isLoading, fileName, saverFile } = useFileDownload(
     exportUrl,
-    keyword
+    keyword,
   );
 
   // const handldFileDown = async () => {
@@ -25,6 +26,14 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
   //     "test.xlsx"
   //   );
   // };
+
+  const handleSaveFile = () => {
+    if (exportUrl !== "") {
+      saverFile();
+    } else {
+      toast("준비 중입니다.");
+    }
+  };
 
   return (
     <>
@@ -40,8 +49,7 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
             <MyIcon icon={iconName} size={18} />
           )
         }
-        onClick={() => saverFile()}
-        // onClick={handldFileDown}
+        onClick={handleSaveFile}
         disabled={isLoading}
       />
     </>
