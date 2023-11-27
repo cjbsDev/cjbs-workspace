@@ -6,6 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { useRecoilState } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
+import { totalYearAtom } from "../Total/totalAtom";
 
 const IdleHeader = () => {
   const searchParams = useSearchParams();
@@ -13,6 +14,10 @@ const IdleHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
+
+  const [year, setYear] = useRecoilState(totalYearAtom);
+
+  console.log("YEAR@@@@@@@@@@@@@@@", year);
 
   useEffect(() => {
     if (params === null) {

@@ -7,6 +7,7 @@ import {
   Typography,
   Box,
   CircularProgress,
+  Grid,
 } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 
@@ -19,7 +20,7 @@ export const SkeletonLoading = ({ height = 600 }: SkeletonLoadingProps) => {
     <Stack spacing={1}>
       <Skeleton
         variant="rounded"
-        sx={{ backgroundColor: "#F4F5F7" }}
+        // sx={{ backgroundColor: "#F4F5F7" }}
         height={height}
       />
     </Stack>
@@ -56,6 +57,26 @@ export const SkeletonPieChart = () => {
           <Skeleton variant="rounded" height={16} />
         </Stack>
       </Stack>
+    </Box>
+  );
+};
+
+export const SkeletonLineChart = () => {
+  return (
+    <Box sx={{}}>
+      <Grid container>
+        <Grid item xs={3.5}>
+          <Stack spacing={1.5}>
+            <Skeleton variant="text" width={200} height={42} />
+            <Skeleton variant="text" width={150} height={25} />
+          </Stack>
+        </Grid>
+        <Grid item xs={8.5}>
+          <Stack spacing={2}>
+            <Skeleton variant="rounded" height={200} />
+          </Stack>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

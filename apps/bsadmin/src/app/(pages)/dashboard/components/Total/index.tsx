@@ -1,23 +1,27 @@
-import React from "react";
-import { RecoilRoot } from "recoil";
-import IdleHeader from "./IdleHeader";
+import React, { useState } from "react";
 import {
   ErrorContainer,
   Fallback,
+  SelectBox2,
+  SkeletonLineChart,
   SkeletonLoading,
   SkeletonTableModalLoading,
 } from "cjbsDSTM";
+import { RecoilRoot } from "recoil";
+import TotalHeader from "./TotalHeader";
 import dynamic from "next/dynamic";
-const LazyIdleTop = dynamic(() => import("./IdleTop"), {
+
+const LazyTotalChart = dynamic(() => import("./TotalLineChart"), {
   ssr: false,
-  loading: () => <SkeletonLoading height={373} />,
+  loading: () => <SkeletonLineChart />,
 });
+
 const Index = () => {
   return (
     <RecoilRoot>
-      <IdleHeader />
+      <TotalHeader />
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyIdleTop />
+        <LazyTotalChart />
       </ErrorContainer>
     </RecoilRoot>
   );

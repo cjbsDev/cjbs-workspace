@@ -77,7 +77,7 @@ const IdleTop = () => {
               } = item;
               return (
                 <TableRow key={ukey}>
-                  <TableCell>{lastSalesDate}</TableCell>
+                  <TableCell height={56}>{lastSalesDate}</TableCell>
                   <TableCell>{instNm}</TableCell>
                   <TableCell>{agncNm}</TableCell>
                   <TableCell align="right">

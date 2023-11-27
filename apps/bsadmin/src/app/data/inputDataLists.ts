@@ -48,3 +48,24 @@ export const dateTypeCcData = [
   { value: "BS_0811004", optionName: "분석 완료일" },
   { value: "BS_0811005", optionName: "완료 통보일" },
 ];
+
+export const dashboardYearData = [
+  { value: 2021, optionName: "2021" },
+  { value: 2022, optionName: "2022" },
+  { value: 2023, optionName: "2023" },
+];
+
+export const dashboardMonthData = [
+  { value: 1, optionName: "1월" },
+  { value: 2, optionName: "2월" },
+  { value: 3, optionName: "3월" },
+  { value: 4, optionName: "4월" },
+  { value: 5, optionName: "5월" },
+  { value: 6, optionName: "6월" },
+  { value: 7, optionName: "7월" },
+  { value: 8, optionName: "8월" },
+  { value: 9, optionName: "9월" },
+  { value: 10, optionName: "10월" },
+  { value: 11, optionName: "11월" },
+  { value: 12, optionName: "12월" },
+];

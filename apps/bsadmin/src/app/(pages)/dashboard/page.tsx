@@ -6,6 +6,8 @@ import {
   ErrorContainer,
   Fallback,
   FileDownloadBtn,
+  SelectBox2,
+  SkeletonLoading,
   SkeletonPieChart,
   SkeletonTableModalLoading,
 } from "cjbsDSTM";
@@ -16,6 +18,7 @@ import SectionHeader from "./components/SectionHeader";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import Idle from "./components/Idle";
+import Total from "./components/Total";
 
 const LazySrvcSalesChart = dynamic(
   () => import("./components/SrvcSalesChart"),
@@ -27,12 +30,12 @@ const LazySrvcSalesChart = dynamic(
 
 const LazyInstTop = dynamic(() => import("./components/InstTop"), {
   ssr: false,
-  loading: () => <SkeletonTableModalLoading />,
+  loading: () => <SkeletonLoading height={373} />,
 });
 
 const LazyAgncTop = dynamic(() => import("./components/AgncTop"), {
   ssr: false,
-  loading: () => <SkeletonTableModalLoading />,
+  loading: () => <SkeletonLoading height={373} />,
 });
 
 export default function Page() {
@@ -63,13 +66,7 @@ export default function Page() {
         >
           <Grid item xs={8}>
             <SectionBox>
-              <SectionHeader>
-                <SectionHeader.Title>총 매출</SectionHeader.Title>
-              </SectionHeader>
-
-              <Box>
-                <Typography variant="subtitle1">준비중 입니다.</Typography>
-              </Box>
+              <Total />
             </SectionBox>
           </Grid>
           <Grid item xs={4}>
