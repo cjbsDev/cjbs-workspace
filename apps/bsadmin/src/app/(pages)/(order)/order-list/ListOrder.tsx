@@ -34,10 +34,11 @@ import ResultInSearch from "./ResultInSearch";
 // import KeywordSearch from "./KeywordSearch";
 import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
+import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 
 const ListOrder = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(15);
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   // ListAPI Call
   // const { data } = useList("order", page, perPage);
@@ -60,7 +61,7 @@ const ListOrder = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("ORDER LIST DATA", data);
   const orderListData = data.orderList;
@@ -74,7 +75,7 @@ const ListOrder = () => {
     () => [
       {
         name: "No",
-        width: "120px",
+        width: "80px",
         sortable: true,
         // selector: (row) => row.orderId,
         cell: (row) => {
@@ -116,18 +117,18 @@ const ListOrder = () => {
                   orderStatusVal === "진행중"
                     ? blue["50"]
                     : orderStatusVal === "완료"
-                    ? green["50"]
-                    : orderStatusVal === "취소"
-                    ? red["50"]
-                    : grey["100"],
+                      ? green["50"]
+                      : orderStatusVal === "취소"
+                        ? red["50"]
+                        : grey["100"],
                 color:
                   orderStatusVal === "진행중"
                     ? cjbsTheme.palette.primary.main
                     : orderStatusVal === "완료"
-                    ? cjbsTheme.palette.success.main
-                    : orderStatusVal === "취소"
-                    ? cjbsTheme.palette.error.main
-                    : cjbsTheme.palette.common.black,
+                      ? cjbsTheme.palette.success.main
+                      : orderStatusVal === "취소"
+                        ? cjbsTheme.palette.error.main
+                        : cjbsTheme.palette.common.black,
               }}
             />
           );
@@ -159,7 +160,7 @@ const ListOrder = () => {
       },
       {
         name: "거래처",
-        width: "170px",
+        width: "270px",
         // selector: (row) => "외부 (무료)",
         cell: (row) => {
           const { isSpecialMng, instNm, agncNm } = row;
@@ -189,7 +190,7 @@ const ListOrder = () => {
       },
       {
         name: "주문서",
-        width: "120px",
+        width: "200px",
         selector: (row) => (row.orshNo === null ? "-" : row.orshNo),
       },
       {
@@ -200,90 +201,100 @@ const ListOrder = () => {
       },
       {
         name: "분석종류",
-        selector: (row) => row.anlsTypeVal,
+        selector: (row) => (row.anlsTypeVal === null ? "-" : row.anlsTypeVal),
       },
       {
         name: "플랫폼",
-        selector: (row) => row.pltfVal,
+        width: "200px",
+        selector: (row) => (row.pltfVal === null ? "-" : row.pltfVal),
       },
       {
         name: "영업담당",
-        selector: (row) => row.bsnsMngrVal,
+        selector: (row) => (row.bsnsMngrVal === null ? "-" : row.bsnsMngrVal),
       },
       {
         name: "실험담당",
-        selector: (row) => row.expMngrVal,
+        selector: (row) => (row.expMngrVal === null ? "-" : row.expMngrVal),
       },
       {
         name: "분석담당",
-        selector: (row) => row.anlsMngrVal,
+        selector: (row) => (row.anlsMngrVal === null ? "-" : row.anlsMngrVal),
       },
       {
         name: "연구담당",
-        selector: (row) => row.prjtMngrVal,
+        selector: (row) => (row.prjtMngrVal === null ? "-" : row.prjtMngrVal),
       },
       {
         name: "16S 확인",
-        selector: (row) => row.is16S,
+        selector: (row) => (row.is16S === null ? "-" : row.is16S),
       },
       {
         name: "DNA반송",
-        selector: (row) => row.isDnaReturn,
+        selector: (row) => (row.isDnaReturn === null ? "-" : row.isDnaReturn),
       },
       {
         name: "샘플반송",
-        selector: (row) => row.isSampleReturn,
+        selector: (row) =>
+          row.isSampleReturn === null ? "-" : row.isSampleReturn,
       },
       {
         name: "오더금액",
         selector: (row) =>
-          row.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          row.price === null ? "-" : formatNumberWithCommas(row.price),
       },
       {
         name: "RUN",
-        selector: (row) => row.runList,
+        selector: (row) => (row.runList === null ? "-" : row.runList),
       },
       {
         name: "과제명",
         omit: hideDirector,
-        selector: (row) => row.prjtCodeVal,
+        selector: (row) => (row.prjtCodeVal === null ? "-" : row.prjtCodeVal),
       },
       {
         name: "연구명",
         omit: hideDirector,
-        selector: (row) => row.prjtDetailCodeVal,
+        selector: (row) =>
+          row.prjtDetailCodeVal === null ? "-" : row.prjtDetailCodeVal,
       },
       {
         name: "분석 내역서",
-        selector: (row) => row.anlsItstCount,
+        selector: (row) =>
+          row.anlsItstCount === null ? "-" : row.anlsItstCount,
       },
       {
         name: "샘플 수",
-        selector: (row) => row.sampleCount,
+        selector: (row) => (row.sampleCount === null ? "-" : row.sampleCount),
       },
       {
         name: "오더생성일",
-        selector: (row) => row.createDttm,
+        width: "120px",
+        selector: (row) => (row.createDttm === null ? "-" : row.createDttm),
       },
       {
         name: "샘플 접수일",
-        selector: (row) => row.rcptDttm,
+        width: "120px",
+        selector: (row) => (row.rcptDttm === null ? "-" : row.rcptDttm),
       },
       {
         name: "PCR/Lib 완료일",
-        selector: (row) => row.libCompDttm,
+        width: "120px",
+        selector: (row) => (row.libCompDttm === null ? "-" : row.libCompDttm),
       },
       {
         name: "Seq완료일",
-        selector: (row) => row.seqCompDttm,
+        width: "120px",
+        selector: (row) => (row.seqCompDttm === null ? "-" : row.seqCompDttm),
       },
       {
         name: "분석 완료일",
-        selector: (row) => row.biCompDttm,
+        width: "120px",
+        selector: (row) => (row.biCompDttm === null ? "-" : row.biCompDttm),
       },
       {
         name: "완료 통보일",
-        selector: (row) => row.ntfcCompDttm,
+        width: "120px",
+        selector: (row) => (row.ntfcCompDttm === null ? "-" : row.ntfcCompDttm),
       },
       {
         name: "메모",
@@ -303,7 +314,7 @@ const ListOrder = () => {
         width: "80px",
       },
     ],
-    [hideDirector, totalElements]
+    [hideDirector, totalElements],
   );
 
   const goDetailPage = (row: any) => {
