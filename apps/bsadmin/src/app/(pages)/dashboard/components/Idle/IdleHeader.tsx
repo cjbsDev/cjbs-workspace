@@ -26,7 +26,7 @@ const IdleHeader = () => {
   ) => {
     if (newDuration !== duration) {
       setDuration(newDuration);
-      router.replace(pathname + `?idleduration=${newDuration}`);
+      // router.replace(pathname + `?idleduration=${newDuration}`);
     }
   };
 
