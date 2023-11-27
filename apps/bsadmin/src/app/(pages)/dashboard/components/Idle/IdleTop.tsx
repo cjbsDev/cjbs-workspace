@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -12,16 +12,26 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { useSearchParams } from "next/navigation";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { idleDurationValueAtom } from "./idleAtom";
 
 const IdleTop = () => {
   const searchParams = useSearchParams();
   const params = searchParams.get("idleduration");
   console.log("IdleDuration", params);
-  const [duration, setDuration] = useState<number>(1);
+
+  // const getDuration = useRecoilValue(idleDurationValueAtom);
+  const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
+
+  useEffect(() => {
+    const idleduration = parseInt(params, 10);
+    if (!isNaN(idleduration) && idleduration !== duration) {
+      setDuration(idleduration);
+    }
+  }, []);
+
   const { data } = useSWR(
-    params === null
-      ? `/dashboard/idle/agnc?duration=1`
-      : `/dashboard/idle/agnc?duration=${params}`,
+    `/dashboard/idle/agnc?duration=${duration}`,
     fetcher,
     {
       suspense: true,
