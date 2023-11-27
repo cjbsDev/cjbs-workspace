@@ -58,8 +58,13 @@ export default function Page() {
 
   useEffect(() => {
     // console.log("PARAMS", params);
-    setAlignment(params === null ? 1 : Number(params));
-  }, []);
+    if (params === null) {
+      setAlignment(1);
+    } else {
+      setAlignment(Number(params));
+    }
+    // setAlignment(params === null ? 1 : Number(params));
+  }, [params]);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
@@ -67,7 +72,7 @@ export default function Page() {
   ) => {
     console.log("newAlignment", newAlignment);
     setAlignment(newAlignment);
-    router.push(pathname + `?idleduration=${newAlignment}`);
+    router.replace(pathname + `?idleduration=${newAlignment}`);
   };
 
   return (
@@ -162,13 +167,9 @@ export default function Page() {
                   유휴 거래처 (장기 미거래)
                 </SectionHeader.Title>
                 <SectionHeader.Action>
-                  {/*<SectionHeader.Duration*/}
-                  {/*  value={alignment}*/}
-                  {/*  onChange={handleAlignment}*/}
-                  {/*/>*/}
                   <StyledToggleButtonGroup
                     value={alignment}
-                    exclusive={true}
+                    exclusive
                     onChange={handleAlignment}
                     size="small"
                     sx={{
