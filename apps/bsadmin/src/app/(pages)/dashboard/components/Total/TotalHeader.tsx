@@ -27,7 +27,7 @@ const TotalHeader = () => {
       <Stack
         direction="row"
         spacing={1}
-        sx={{ position: "absolute", top: -80, left: -28 }}
+        sx={{ position: "absolute", top: -77, left: -28 }}
       >
         <SelectBox2
           options={dashboardYearData}
