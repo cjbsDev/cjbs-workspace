@@ -21,6 +21,7 @@ import {
   XsmallButton,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
+import { styled } from "@mui/material/styles";
 
 interface ComponentProps extends React.HTMLAttributes<HTMLElement> {
   children?: ReactNode;
@@ -96,7 +97,8 @@ const ToggleBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   const { toggleShow, setToggleShow } = useContext(SectionHeaderContext);
   const handleClick = () => {
     console.log("Click@#@#@#");
-    setToggleShow(!toggleShow);
+    // setToggleShow(!toggleShow);
+    restProps.onClick();
   };
   return (
     <OutlinedButton
@@ -132,24 +134,23 @@ const DurationBtn = ({ children, ...restProps }) => {
   const { sx, value, onChange } = restProps;
 
   return (
-    <ToggleButtonGroup value={value} exclusive onChange={onChange} size="small">
-      <ToggleButton value={1}>1Y+</ToggleButton>
-      <ToggleButton value={2}>2Y+</ToggleButton>
-      <ToggleButton value={3}>3Y+</ToggleButton>
-    </ToggleButtonGroup>
-    // <ContainedButton
-    //   sx={{
-    //     ...restProps.sx,
-    //     mb: `-12px !important`,
-    //     mt: `-12px !important`,
-    //     py: `0 !important`,
-    //   }}
-    //   buttonName={buttonName}
-    //   onClick={onClick}
-    //   // color="secondary"
-    //   size="small"
-    //   disabled={disabled}
-    // />
+    <StyledToggleButtonGroup
+      value={value}
+      exclusive
+      onChange={onChange}
+      size="small"
+      sx={{
+        mb: `-12px !important`,
+        mt: `-12px !important`,
+        py: `0 !important`,
+      }}
+    >
+      {[1, 2, 3].map((item) => (
+        <ToggleButton key={item} value={item} disabled={item === value}>
+          {item}Y+
+        </ToggleButton>
+      ))}
+    </StyledToggleButtonGroup>
   );
 };
 
@@ -158,3 +159,25 @@ SectionHeader.Action = Action;
 SectionHeader.ToggleBtn = ToggleBtn;
 SectionHeader.MoreBtn = MoreBtn;
 SectionHeader.DurationBtn = DurationBtn;
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  "& .MuiToggleButtonGroup-grouped": {
+    margin: theme.spacing(0.5),
+    border: 0,
+    padding: "0 12px",
+    backgroundColor: theme.palette.grey["100"],
+    "&.Mui-disabled": {
+      border: 0,
+    },
+    "&.Mui-selected, &.Mui-selected:hover": {
+      backgroundColor: "#6366F1",
+      color: "white",
+    },
+    "&:not(:first-of-type)": {
+      borderRadius: theme.shape.borderRadius,
+    },
+    "&:first-of-type": {
+      borderRadius: theme.shape.borderRadius,
+    },
+  },
+}));

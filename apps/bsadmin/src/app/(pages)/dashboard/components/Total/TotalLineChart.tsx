@@ -5,12 +5,13 @@ import {
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Filler,
   Legend,
 } from "chart.js";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -18,13 +19,15 @@ import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import MyIcon from "icon/MyIcon";
 import { blue, red } from "cjbsDSTM/themes/color";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { totalMonthAtom, totalYearAtom } from "./totalAtom";
+import { chartTypeAtom, totalMonthAtom, totalYearAtom } from "./totalAtom";
+import { ContainedButton } from "cjbsDSTM";
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
   PointElement,
   LineElement,
+  BarElement,
   Title,
   Tooltip,
   Filler,
@@ -70,6 +73,8 @@ const options = {
 const TotalLineChart = () => {
   // const [year, setYear] = useState(2023);
   // const [month, setMonth] = useState(11);
+  // const [chartType, setChartType] = useState("line");
+  const [chartType, setChartType] = useRecoilState(chartTypeAtom);
   const year = useRecoilValue(totalYearAtom);
   const month = useRecoilValue(totalMonthAtom);
 
@@ -101,16 +106,22 @@ const TotalLineChart = () => {
         data: slsForLastYear,
         borderColor: "rgba(99, 102, 241, 1)",
         backgroundColor: "rgba(99, 102, 241, 0.5)",
+        type: chartType === "line" ? "line" : "bar",
       },
       {
         // fill: true,
         label: "작년",
         data: slsForPreLastYear,
         borderColor: "#DEE2E6",
+        type: "line",
         // backgroundColor: "rgba(53, 162, 235, 0.5)",
       },
     ],
   };
+
+  // const handleChartTypeChange = (type) => {
+  //   setChartType(type);
+  // };
 
   return (
     <Box sx={{ height: 200, mt: 3, mb: 3 }}>
@@ -155,7 +166,11 @@ const TotalLineChart = () => {
           sx={{ position: "relative", justifyContent: "flex-end" }}
         >
           <Stack direction="row" justifyContent="flex-end">
-            <Line options={options} data={data} height={220} />
+            {chartType === "line" ? (
+              <Line options={options} data={data} height={218} />
+            ) : (
+              <Bar options={options} data={data} height={218} />
+            )}
           </Stack>
         </Grid>
       </Grid>

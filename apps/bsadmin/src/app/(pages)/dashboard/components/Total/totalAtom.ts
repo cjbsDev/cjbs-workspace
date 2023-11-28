@@ -9,3 +9,8 @@ export const totalMonthAtom = atom({
   key: "totalMonthAtom",
   default: 11,
 });
+
+export const chartTypeAtom = atom({
+  key: "chartTypeAtom",
+  default: "line",
+});
