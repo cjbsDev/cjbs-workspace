@@ -15,23 +15,19 @@ const TotalHeader = () => {
   const [year, setYear] = useRecoilState(totalYearAtom);
   const [month, setMonth] = useRecoilState(totalMonthAtom);
   const [chartType, setChartType] = useRecoilState(chartTypeAtom);
-  const handleYear = (event) => {
+  const handleYear = (event: { target: { value: any } }) => {
     const getYear = event.target.value;
     setYear(getYear);
   };
 
-  const handleMonth = (event) => {
+  const handleMonth = (event: { target: { value: any } }) => {
     const getMonth = event.target.value;
     setMonth(getMonth);
   };
 
-  // const handleChartTypeChange = (type) => {
-  //   setChartType(type);
-  // };
-
   const handleChartTypeChange = (
     event: React.MouseEvent<HTMLElement>,
-    newChartType: number,
+    newChartType: string,
   ) => {
     if (newChartType !== chartType) {
       setChartType(newChartType);
@@ -77,7 +73,7 @@ const TotalHeader = () => {
                 value={item}
                 disabled={item === chartType}
               >
-                <MyIcon icon={`${item}_chart`} size={18} />
+                <MyIcon icon={`${item}_chart`} size={24} />
                 {item}
               </ToggleButton>
             ))}
