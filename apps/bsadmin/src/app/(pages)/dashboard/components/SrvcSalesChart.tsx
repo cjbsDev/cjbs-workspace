@@ -124,7 +124,10 @@ const SrvcSalesChart = () => {
             </Stack>
 
             <Stack direction="row" spacing={1} alignItems="center">
-              <Typography variant="body2" sx={{ color: "black" }}>
+              <Typography
+                variant="body2"
+                sx={{ color: "black", fontWeight: 600 }}
+              >
                 {formatNumberWithCommas(chartData.datasets[0].data[index])}
               </Typography>
               <Chip
@@ -136,7 +139,7 @@ const SrvcSalesChart = () => {
                   fontWeight: 600,
                   lineHeight: 1,
                   borderRadius: 0.5,
-                  color: salesColors[index],
+                  color: "black",
                   backgroundColor: salesPerColors[index],
                 }}
               />

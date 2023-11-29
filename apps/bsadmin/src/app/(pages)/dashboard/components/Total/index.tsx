@@ -1,17 +1,10 @@
 import React, { useState } from "react";
-import {
-  ErrorContainer,
-  Fallback,
-  SelectBox2,
-  SkeletonLineChart,
-  SkeletonLoading,
-  SkeletonTableModalLoading,
-} from "cjbsDSTM";
+import { ErrorContainer, Fallback, SkeletonLineChart } from "cjbsDSTM";
 import { RecoilRoot } from "recoil";
 import TotalHeader from "./TotalHeader";
 import dynamic from "next/dynamic";
 
-const LazyTotalChart = dynamic(() => import("./TotalLineChart"), {
+const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
   ssr: false,
   loading: () => <SkeletonLineChart />,
 });
@@ -21,7 +14,7 @@ const Index = () => {
     <RecoilRoot>
       <TotalHeader />
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyTotalChart />
+        <LazyTotalContents />
       </ErrorContainer>
     </RecoilRoot>
   );
