@@ -23,15 +23,6 @@ const SampleDataTable = (props) => {
     isClear,
     filterText,
   } = props;
-  // const [filterText, setFilterText] = useState<string>("");
-  // const [isClear, setIsClear] = useState<boolean>(false);
-  // const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
-  // const [sampleIdList, setSampleIdList] = useState<number[]>([]);
-  // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  // useEffect(() => {
-  //   // isClear 상태 변경 이슈
-  //   setIsClear(false);
-  // }, [isClear]);
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
@@ -44,7 +35,7 @@ const SampleDataTable = (props) => {
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(
       filterText.toLowerCase().normalize("NFC"),
-      "i"
+      "i",
     );
 
     return (
@@ -53,7 +44,7 @@ const SampleDataTable = (props) => {
         filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
       (item.sampleTypeVal &&
         filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
+          item.sampleTypeVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.source &&
         filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
@@ -63,11 +54,11 @@ const SampleDataTable = (props) => {
         filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
       (item.runList.join() &&
         filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
+          item.runList.join().toLowerCase().normalize("NFC"),
         )) ||
       (item.sampleStatusRes.rcptStatusVal &&
         filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
+          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.isAnlsItst &&
         filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
@@ -158,15 +149,15 @@ const SampleDataTable = (props) => {
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -200,15 +191,15 @@ const SampleDataTable = (props) => {
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -242,15 +233,15 @@ const SampleDataTable = (props) => {
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -284,15 +275,15 @@ const SampleDataTable = (props) => {
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -326,15 +317,15 @@ const SampleDataTable = (props) => {
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -368,15 +359,15 @@ const SampleDataTable = (props) => {
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -396,105 +387,8 @@ const SampleDataTable = (props) => {
         selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),
       },
     ],
-    []
+    [],
   );
-
-  // const filteredItems = sampleList.filter((item) => {
-  //   const filterPattern = new RegExp(
-  //     filterText.toLowerCase().normalize("NFC"),
-  //     "i"
-  //   );
-  //
-  //   return (
-  //     (item.sampleId && filterPattern.test(item.sampleId)) ||
-  //     (item.sampleNm &&
-  //       filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
-  //     (item.sampleTypeVal &&
-  //       filterPattern.test(
-  //         item.sampleTypeVal.toLowerCase().normalize("NFC")
-  //       )) ||
-  //     (item.source &&
-  //       filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
-  //     (item.depthVal &&
-  //       filterPattern.test(item.depthVal.toLowerCase().normalize("NFC"))) ||
-  //     (item.taxonVal &&
-  //       filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
-  //     (item.runList.join() &&
-  //       filterPattern.test(
-  //         item.runList.join().toLowerCase().normalize("NFC")
-  //       )) ||
-  //     (item.sampleStatusRes.rcptStatusVal &&
-  //       filterPattern.test(
-  //         item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
-  //       )) ||
-  //     (item.isAnlsItst &&
-  //       filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
-  //   );
-  // });
-
-  // const goDetailModal = useCallback((row: any) => {
-  //   const sampleUkey = row.sampleUkey;
-  //   setShowSampleInfoModal({
-  //     ...showSampleInfoModal,
-  //     sampleUkey: sampleUkey,
-  //     isShow: true,
-  //   });
-  // }, []);
-
-  // const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-  //   const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-  //   const getSampleIDList = selectedRows.map((row) => row.sampleId);
-  //   console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-  //   // console.log("selectedSampleIdList ==>>", getSampleIDList);
-  //   setSampleUkeyList(getSampleUkeyList);
-  //   setSampleIdList(getSampleIDList);
-  // }, []);
-
-  // const subHeaderComponentMemo = React.useMemo(() => {
-  //   const handleClear = () => {
-  //     if (filterText) {
-  //       setResetPaginationToggle(!resetPaginationToggle);
-  //       setFilterText("");
-  //     }
-  //   };
-  //
-  //   const onFilter = (e: { target: { value: React.SetStateAction<string> } }) =>
-  //     setFilterText(e.target.value);
-  //
-  //   // const handleSampleAddModalOpen = () => {
-  //   //   setShowSampleAddModal(true);
-  //   // };
-  //   // const handleAnalDtlModalOpen = () => {
-  //   //   if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-  //   //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-  //   //   setIsClear(false);
-  //   // };
-  //   // const handleExPrgrsPhsOpen = () => {
-  //   //   if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
-  //   //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-  //   //   setIsClear(false);
-  //   // };
-  //   //
-  //   // const handleSampleBatchModalOpen = () => {
-  //   //   if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-  //   //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-  //   //   setIsClear(false);
-  //   // };
-  //
-  //   return (
-  //     <SubHeader
-  //       exportUrl={`/order/list/download`}
-  //       totalCount={filteredItems.length}
-  //       handleSampleAddModalOpen={handleSampleAddModalOpen}
-  //       handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-  //       handleSampleBatchModalOpen={handleSampleBatchModalOpen}
-  //       handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-  //       handleClear={handleClear}
-  //       filterText={filterText}
-  //       onFilter={onFilter}
-  //     />
-  //   );
-  // }, [filterText, resetPaginationToggle, sampleUkeyList]);
 
   return (
     <Box sx={{ mt: -5 }}>

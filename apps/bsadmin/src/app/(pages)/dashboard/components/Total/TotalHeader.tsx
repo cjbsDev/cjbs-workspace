@@ -78,7 +78,6 @@ const TotalHeader = () => {
                 disabled={item === chartType}
               >
                 <MyIcon icon={`${item}_chart`} size={18} />
-                {item}
               </ToggleButton>
             ))}
           </StyledToggleButtonGroup>
@@ -94,7 +93,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
     margin: theme.spacing(0.5),
     border: 0,
-    padding: "0 12px",
+    padding: "0 2px",
     backgroundColor: theme.palette.grey["100"],
     "&.Mui-disabled": {
       border: 0,

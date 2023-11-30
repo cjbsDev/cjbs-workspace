@@ -15,10 +15,6 @@ const IdleHeader = () => {
   const pathname = usePathname();
   const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
 
-  const [year, setYear] = useRecoilState(totalYearAtom);
-
-  console.log("YEAR@@@@@@@@@@@@@@@", year);
-
   useEffect(() => {
     if (params === null) {
       setDuration(1);

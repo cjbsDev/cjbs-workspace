@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import {
+  Box,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useSWR from "swr";
@@ -53,6 +55,16 @@ const IdleTop = () => {
           </TableRow>
         </TableHead>
         <TableBody>
+          {data.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={5} sx={{ border: "none" }}>
+                <Box sx={{ py: 5, textAlign: "center" }}>
+                  <Typography variant="body2">No Data.</Typography>
+                </Box>
+              </TableCell>
+            </TableRow>
+          )}
+
           {data.map(
             (
               item: {

@@ -32,7 +32,7 @@ export async function middleware(request: NextRequest) {
     rtToken !== undefined &&
     token?.error !== "RefreshAccessTokenError"
   ) {
-    return NextResponse.rewrite(new URL("/code-box", request.url));
+    return NextResponse.rewrite(new URL("/dashboard", request.url));
   } else if (
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === "RefreshAccessTokenError")
