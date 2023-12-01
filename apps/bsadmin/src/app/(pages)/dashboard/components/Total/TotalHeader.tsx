@@ -15,19 +15,23 @@ const TotalHeader = () => {
   const [year, setYear] = useRecoilState(totalYearAtom);
   const [month, setMonth] = useRecoilState(totalMonthAtom);
   const [chartType, setChartType] = useRecoilState(chartTypeAtom);
-  const handleYear = (event: { target: { value: any } }) => {
+  const handleYear = (event) => {
     const getYear = event.target.value;
     setYear(getYear);
   };
 
-  const handleMonth = (event: { target: { value: any } }) => {
+  const handleMonth = (event) => {
     const getMonth = event.target.value;
     setMonth(getMonth);
   };
 
+  // const handleChartTypeChange = (type) => {
+  //   setChartType(type);
+  // };
+
   const handleChartTypeChange = (
     event: React.MouseEvent<HTMLElement>,
-    newChartType: string,
+    newChartType: number,
   ) => {
     if (newChartType !== chartType) {
       setChartType(newChartType);
@@ -73,8 +77,7 @@ const TotalHeader = () => {
                 value={item}
                 disabled={item === chartType}
               >
-                <MyIcon icon={`${item}_chart`} size={24} />
-                {item}
+                <MyIcon icon={`${item}_chart`} size={18} />
               </ToggleButton>
             ))}
           </StyledToggleButtonGroup>
@@ -90,7 +93,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
     margin: theme.spacing(0.5),
     border: 0,
-    padding: "0 12px",
+    padding: "0 2px",
     backgroundColor: theme.palette.grey["100"],
     "&.Mui-disabled": {
       border: 0,
