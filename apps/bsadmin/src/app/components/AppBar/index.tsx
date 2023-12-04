@@ -78,13 +78,14 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
       color="inherit"
       sx={{
         zIndex: 1000,
+        display:
+          currentPathname === "/sampleListPopup" ||
+          currentPathname === "/sign-in"
+            ? "none"
+            : "block",
       }}
     >
-      <Toolbar
-        sx={{
-          display: currentPathname === "/sampleListPopup" && "none",
-        }}
-      >
+      <Toolbar sx={{}}>
         <Box sx={{}}>
           <IconButton
             color="inherit"

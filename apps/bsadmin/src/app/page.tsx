@@ -1,172 +1,149 @@
 "use client";
 
 import * as React from "react";
-import { useRouter } from "next-nprogress-bar";
-import MyIcon from "icon/MyIcon";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import dynamic from "next/dynamic";
 import {
-  Box,
-  InputAdornment,
-  Typography,
-  Container,
-  Link,
-  Grid,
-  IconButton,
-} from "@mui/material";
-import { Form, InputValidation, XlargeButton } from "cjbsDSTM";
-import { toast } from "react-toastify";
-import { signIn } from "next-auth/react";
+  ErrorContainer,
+  Fallback,
+  // FileDownloadBtn,
+  SkeletonLoading,
+  SkeletonPieChart,
+} from "cjbsDSTM";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+// import KeywordSearch from "../../components/KeywordSearch";
+// import SectionHeader from "../../../components/SectionHeader";
+import SectionHeader from "./components/Dashboard/components/SectionHeader";
+import { useRouter } from "next-nprogress-bar";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import Idle from "./components/Dashboard/components/Idle";
+import Total from "./components/Dashboard/components/Total";
 
-const theme = createTheme();
+const LazySrvcSalesChart = dynamic(
+  () => import("./components/Dashboard/components/SrvcSalesChart"),
+  {
+    ssr: false,
+    loading: () => <SkeletonPieChart />,
+  },
+);
+
+const LazyInstTop = dynamic(
+  () => import("./components/Dashboard/components/InstTop"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={373} />,
+  },
+);
+
+const LazyAgncTop = dynamic(
+  () => import("./components/Dashboard/components/AgncTop"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={373} />,
+  },
+);
+
 export default function Page() {
   const router = useRouter();
-
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleMouseDownPassword = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.preventDefault();
-  };
-
-  const onSubmit = (data: any) => {
-    // console.log(data);
-    let email = data.email;
-    let password = data.password;
-    signIn("credentials", { email, password, redirect: false }).then((res) => {
-      //const isError = res && res.error ? res.error : null
-      console.log("!!!!res=", res);
-      if (res?.error) {
-        const errorMessage = res.error.split("Error:")[1];
-        toast(errorMessage, { type: "info" });
-      } else {
-        //로그인성공
-        router.push("/dashboard");
-      }
-    });
-  };
+  // const params = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const params = searchParams.get("idleduration");
 
   return (
-    <Box
-      sx={{
-        backgroundImage: `url('./img/background/backgroundBlue.png'), url('./img/background/backgroundRed.png'), url('./img/background/backgroundYellow.png')`,
-        backgroundPosition: "top left, top right, bottom left 160px",
-        backgroundSize: "160px, 820px, 620px",
-        backgroundRepeat: "no-repeat",
-        height: "100vh",
-      }}
-    >
-      <Container component="main" maxWidth="xs">
-        <Box
-          sx={{
-            // marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ marginTop: 25, marginBottom: 5, width: 210 }}>
-            <MyIcon icon="cj_bk" />
-          </Box>
-          <Typography variant="h4" sx={{ marginBottom: 2 }}>
-            BS Admin
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ marginBottom: 2, textAlign: "center" }}
-          >
-            BS Admin 시스템은 CJ Bioscience
-            <br />
-            임직원만 이용할 수 있습니다.
-          </Typography>
-          <Form onSubmit={onSubmit} defaultValues={undefined}>
-            <InputValidation
-              margin="normal"
-              inputName="email"
-              // label="이메일"
-              placeholder="이메일"
-              required={true}
-              errorMessage="이메일 형식의 아이디를 입력해 주세요."
-              pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
-              patternErrMsg="이메일 형식이 아닙니다."
-              sx={{ width: 380 }}
-              inputProps={{
-                style: {
-                  height: 39.6,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MyIcon icon="profile" size={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
+    <>
+      <Box sx={{ pt: 3.5 }}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            {/*<Stack spacing={1} direction="row" justifyContent="flex-end">*/}
+            {/*  <FileDownloadBtn exportUrl={``} iconName="xls3" />*/}
+            {/*  <KeywordSearch />*/}
+            {/*</Stack>*/}
+          </Grid>
+        </Grid>
 
-            <InputValidation
-              inputName="password"
-              // label="비밀번호"
-              placeholder="label"
-              required={true}
-              errorMessage="비밀번호를 입력해 주세요."
-              type={showPassword ? "text" : "password"}
-              sx={{ width: 380 }}
-              inputProps={{
-                style: {
-                  height: 39.6,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MyIcon icon="lock" size={20} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? (
-                        <MyIcon icon="eye-slash-fill" size={24} />
-                      ) : (
-                        <MyIcon icon="eye-fill" size={24} />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <XlargeButton
-              buttonName="로그인"
-              type="submit"
-              variant="contained"
-              fullWidth
-              style={{ marginTop: 10, marginBottom: 10 }}
-            />
-            <Grid container>
-              <Grid item xs>
-                <Link
-                  href="https://www.ezbiocloud.net/signup?from=mydata"
-                  variant="body2"
-                  underline="none"
-                  target="_blank"
-                >
-                  회원가입
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2" underline="none">
-                  비밀번호 찾기
-                </Link>
-              </Grid>
-            </Grid>
-          </Form>
-        </Box>
-      </Container>
-    </Box>
+        <Grid
+          container
+          spacing={2.5}
+          sx={{ mb: 2.5 }}
+          justifyContent="flex-start"
+          alignItems="stretch"
+        >
+          <Grid item xs={8}>
+            <SectionBox>
+              <Total />
+            </SectionBox>
+          </Grid>
+          <Grid item xs={4}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>분석 종류별 매출</SectionHeader.Title>
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySrvcSalesChart />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={2.5}
+          sx={{ mb: 2.5 }}
+          justifyContent="flex-start"
+          alignItems="stretch"
+        >
+          <Grid item xs={6}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>매출 TOP 기관</SectionHeader.Title>
+                <SectionHeader.MoreBtn
+                  buttonName="more"
+                  onClick={() => console.log("기관 더보기")}
+                  disabled={true}
+                />
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyInstTop />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+          <Grid item xs={6}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>매출 TOP 거래처</SectionHeader.Title>
+                <SectionHeader.MoreBtn
+                  buttonName="more"
+                  onClick={() => console.log("거래처 더보기")}
+                  disabled={true}
+                />
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyAgncTop />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2.5}>
+          <Grid item xs={12}>
+            <SectionBox>
+              <Idle />
+            </SectionBox>
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   );
 }
+
+const SectionBox = styled(Box)`
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  min-height: fit-content;
+  height: 100%;
+`;
