@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
@@ -122,6 +123,12 @@ const MainSideMenu = () => {
   const [tempAge, setTempAge] = useState<AgeType>({
     subjectMaxAge: 0,
     subjectMinAge: 0,
+  });
+
+  const [ageBMI, setAgeBMI] = useRecoilState(bmiState);
+  const [tempBMIAge, setTempBMIAge] = useState({
+    bmiMaxAge: 0,
+    bmiMinAge: 0,
   });
   const [tempChecked, setTempChecked] = useState<CheckType[]>([]);
   const [accordion, setAccordion] = useState<boolean>(false);
@@ -362,7 +369,7 @@ const MainSideMenu = () => {
         }
       }
     },
-    [checked, searchInput, age, pathname],
+    [checked, searchInput, age, ageBMI, pathname],
   );
 
   const onChangeMinAge = useCallback(
@@ -394,6 +401,36 @@ const MainSideMenu = () => {
     }
   }, [checked, searchInput, tempAge, pathname]);
 
+  // BMI
+  const onChangeBmiMinAge = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTempBMIAge({
+        ...tempBMIAge,
+        bmiMinAge: Number(e.target.value),
+      });
+    },
+    [tempBMIAge],
+  );
+
+  const onChangeBmiMaxAge = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setTempBMIAge({
+        ...tempBMIAge,
+        bmiMaxAge: Number(e.target.value),
+      });
+    },
+    [tempBMIAge],
+  );
+
+  const applyBMI = useCallback(() => {
+    console.log('tempBMIAge > ', tempBMIAge);
+
+    setAgeBMI(tempBMIAge);
+    if (pathname === DASHBOARD_URL) {
+      router.push(SEARCH_URL);
+    }
+  }, [checked, searchInput, tempBMIAge, pathname]);
+
   const allClearSelectedFilter = async () => {
     await localStorage.removeItem(LOCAL_STORAGE_FILTER_KEY);
 
@@ -403,6 +440,10 @@ const MainSideMenu = () => {
     setAge({
       subjectMaxAge: 0,
       subjectMinAge: 0,
+    });
+    setAgeBMI({
+      bmiMinAge: 0,
+      bmiMaxAge: 0,
     });
     setSearchInput('');
     setChecked(clearChecked);
@@ -491,6 +532,52 @@ const MainSideMenu = () => {
                   </Button>
                 </Box>
               )}
+
+              {p_items.name === 'bmi' && (
+                <Box>
+                  <FlexBox>
+                    <OutlinedInput
+                      inputProps={{
+                        maxLength: 3,
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*',
+                      }}
+                      placeholder="0"
+                      onChange={onChangeBmiMinAge}
+                      endAdornment={
+                        <InputAdornment position="end">세</InputAdornment>
+                      }
+                      size={'small'}
+                    />
+                    <Box ml={'5px'} mr={'5px'} color={'#CED4DA'}>
+                      -
+                    </Box>
+                    <OutlinedInput
+                      inputProps={{
+                        maxLength: 3,
+                        inputMode: 'numeric',
+                        pattern: '[0-9]*',
+                      }}
+                      placeholder="100"
+                      onChange={onChangeBmiMaxAge}
+                      endAdornment={
+                        <InputAdornment position="end">세</InputAdornment>
+                      }
+                      size={'small'}
+                    />
+                  </FlexBox>
+                  <Button
+                    sx={{ mt: '8px', height: '33px' }}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    onClick={applyBMI}
+                  >
+                    적용
+                  </Button>
+                </Box>
+              )}
+
               {p_items.values.map((items, index) => {
                 checkListIndex = checkListIndex + 1;
                 const isChecked = checked[checkListIndex]

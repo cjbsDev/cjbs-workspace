@@ -7,6 +7,7 @@ import SearchImage from 'public/img/search/search.png';
 import NoResultImage from 'public/img/search/no-result.png';
 import {
   ageState,
+  bmiState,
   searchInputState,
   searchNoResultState,
   searchRenderTextState,
@@ -31,6 +32,7 @@ const SearchPage = () => {
   const [checked, setChecked] =
     useRecoilState<CheckType[]>(selectedFilterState);
   const [age, setAge] = useRecoilState<AgeType>(ageState);
+  const [ageBMI, setAgeBMI] = useRecoilState(bmiState);
   const [isInit, setIsInit] = useState<boolean>(false);
 
   let tempSearchInput = '';
@@ -52,19 +54,29 @@ const SearchPage = () => {
 
     console.log('asdasdadasds', age);
 
+    console.log('BMI#$%#$%#$%#$%', ageBMI);
+
     if (
       filterData.length > 0 ||
       searchKeyword.length > 2 ||
       age.subjectMaxAge !== 0 ||
-      age.subjectMinAge !== 0
+      age.subjectMinAge !== 0 ||
+      ageBMI.bmiMaxAge !== 0 ||
+      ageBMI.bmiMinAge !== 0
     ) {
       console.log('#!@#!@#!@');
 
       const subjectMinAge = age.subjectMinAge;
       const subjectMaxAge = age.subjectMaxAge;
+
+      const bmiMinAge = ageBMI.bmiMinAge;
+      const bmiMaxAge = ageBMI.bmiMaxAge;
+
       const postData: Search = {
         subjectMinAge: subjectMinAge,
         subjectMaxAge: subjectMaxAge,
+        bmiMaxValue: bmiMaxAge,
+        bmiMinValue: bmiMinAge,
         resultKeyword: '',
         keyword: searchKeyword,
         filter: filterData,
@@ -79,7 +91,7 @@ const SearchPage = () => {
     }
 
     tempSearchInput = searchKeyword;
-  }, [checked, age, searchKeyword]);
+  }, [checked, age, ageBMI, searchKeyword]);
 
   const allClearFilter = () => {
     const clearChecked = checked.map((item) => {
@@ -88,6 +100,10 @@ const SearchPage = () => {
     setAge({
       subjectMaxAge: 0,
       subjectMinAge: 0,
+    });
+    setAgeBMI({
+      bmiMinAge: 0,
+      bmiMaxAge: 0,
     });
     setSearchKeyword('');
     setChecked(clearChecked);
@@ -129,7 +145,9 @@ const SearchPage = () => {
       (searchKeyword.length === 0 &&
         filterData.length === 0 &&
         age.subjectMaxAge === 0 &&
-        age.subjectMinAge === 0) ? (
+        age.subjectMinAge === 0 &&
+        ageBMI.bmiMaxAge === 0 &&
+        ageBMI.bmiMinAge === 0) ? (
         <Box width={'100%'} mt={'24px'}>
           <SearchScreen />
           <Box
