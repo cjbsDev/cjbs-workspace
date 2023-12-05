@@ -538,14 +538,15 @@ const MainSideMenu = () => {
                   <FlexBox>
                     <OutlinedInput
                       inputProps={{
-                        maxLength: 3,
+                        maxLength: 5,
                         inputMode: 'numeric',
                         pattern: '[0-9]*',
+                        step: '0.01',
                       }}
                       placeholder="0"
                       onChange={onChangeBmiMinAge}
                       endAdornment={
-                        <InputAdornment position="end">세</InputAdornment>
+                        <InputAdornment position="end">지수</InputAdornment>
                       }
                       size={'small'}
                     />
@@ -554,14 +555,15 @@ const MainSideMenu = () => {
                     </Box>
                     <OutlinedInput
                       inputProps={{
-                        maxLength: 3,
+                        maxLength: 5,
                         inputMode: 'numeric',
                         pattern: '[0-9]*',
+                        step: '0.01',
                       }}
                       placeholder="100"
                       onChange={onChangeBmiMaxAge}
                       endAdornment={
-                        <InputAdornment position="end">세</InputAdornment>
+                        <InputAdornment position="end">지수</InputAdornment>
                       }
                       size={'small'}
                     />
