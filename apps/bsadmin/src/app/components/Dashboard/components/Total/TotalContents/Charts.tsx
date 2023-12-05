@@ -84,6 +84,12 @@ const Charts = (props: ChartProps) => {
           borderDash: [5, 5], // y축 그리드 선 스타일
           drawBorder: false, // y축 외곽 선 그리지 않음
         },
+        // min: 0, // 원하는 최소값으로 설정
+        // max: Math.max(...slsForLastYear, ...slsForPreLastYear) * 1.2,
+        ticks: {
+          // forces step size to be 50 units
+          // stepSize: 50,
+        },
       },
     },
   };
