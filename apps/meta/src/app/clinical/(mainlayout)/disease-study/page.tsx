@@ -9,6 +9,7 @@ import { useRecoilValue } from 'recoil';
 
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
@@ -33,6 +34,7 @@ const Study = () => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const ageBMI = useRecoilValue(bmiState);
   const studyCountValue = useRecoilValue<StudyCount | null>(studyCountState);
 
   const findData = checked.filter((item) => item.valid === true);
@@ -44,6 +46,8 @@ const Study = () => {
   const postData: Search = {
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
+    bmiMaxValue: ageBMI.bmiMaxAge,
+    bmiMinValue: ageBMI.bmiMinAge,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,

@@ -14,6 +14,7 @@ import { subjectTotalElements } from 'src/recoil/SubjectState';
 import { isNull } from 'src/util/validation';
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
@@ -34,6 +35,7 @@ const Subject = () => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const ageBMI = useRecoilValue(bmiState);
   const totalElements = useRecoilValue<number | null>(subjectTotalElements);
 
   const findData = checked.filter((item) => item.valid === true);
@@ -45,6 +47,8 @@ const Subject = () => {
   const postData: Search = {
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
+    bmiMaxValue: ageBMI.bmiMaxAge,
+    bmiMinValue: ageBMI.bmiMinAge,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,
