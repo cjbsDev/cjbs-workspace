@@ -1,50 +1,56 @@
-import mem from 'mem';
-import { RetrunRefreshAccessToken } from './type/next-auth';
-import type { NextAuthOptions } from 'next-auth';
-import { NextApiRequest } from 'next';
-import CredentialsProvider from 'next-auth/providers/credentials';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-import utc from 'dayjs/plugin/utc';
+import mem from "mem";
+import { RetrunRefreshAccessToken } from "./type/next-auth";
+import type { NextAuthOptions } from "next-auth";
+import { NextApiRequest } from "next";
+import CredentialsProvider from "next-auth/providers/credentials";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.tz.setDefault('Asia/Seoul');
+dayjs.tz.setDefault("Asia/Seoul");
 
 export const TOKEN_EALRY_EXPIRE_MINUTE = 10;
 
 export const refreshAccessToken = mem(
-  (refreshToken: string, email: string, uid: number, authorities: string, serviceType: string): Promise<RetrunRefreshAccessToken> => {
-    console.log('refreshAccessToken > ', refreshToken);
-    console.log('serviceType > ', serviceType);
+  (
+    refreshToken: string,
+    email: string,
+    uid: number,
+    authorities: string,
+    serviceType: string,
+  ): Promise<RetrunRefreshAccessToken> => {
+    console.log("refreshAccessToken > ", refreshToken);
+    console.log("serviceType > ", serviceType);
 
     let defaultUrl = "";
-    if(serviceType && serviceType === "orsh") {
-      defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/token/accessToken`
+    if (serviceType && serviceType === "orsh") {
+      defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/token/accessToken`;
     } else {
-      defaultUrl =`${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`
+      defaultUrl = `${process.env.NEXT_PUBLIC_API_URL}/token/accessToken`;
     }
 
     return new Promise(async function (resolve, reject) {
       try {
         const response = await fetch(defaultUrl, {
-          method: 'GET',
+          method: "GET",
           headers: {
             emSW: refreshToken,
-            'Accept-Language': 'ko',
+            "Accept-Language": "ko",
           },
         }).then((res) => {
-          console.log('res>> ', res);
-          res.json()
+          console.log("res>> ", res);
+          res.json();
         });
 
-        console.log('response>> ', response);
+        console.log("response>> ", response);
         if (!response.success) {
-          console.log('실패!!!!!!!!!!!');
+          console.log("실패!!!!!!!!!!!");
 
           return resolve({
             refreshToken,
-            error: 'RefreshAccessTokenError',
+            error: "RefreshAccessTokenError",
           });
         }
 
@@ -56,14 +62,13 @@ export const refreshAccessToken = mem(
           authorities,
           ...data,
         };
-        console.log('토큰 갱신됌! ^^');
+        console.log("토큰 갱신됌! ^^");
         return resolve(newToken);
-
       } catch (error) {
-        console.log('ERROR => ', error);
+        console.log("ERROR => ", error);
         return resolve({
           refreshToken,
-          error: 'RefreshAccessTokenError',
+          error: "RefreshAccessTokenError",
         });
       }
     });
@@ -86,14 +91,14 @@ const updateToken = (token: any, setObject: any) => {
 export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
-        email: { label: 'Email', type: 'text' },
-        password: { label: 'Password', type: 'password' },
-        serviceType: {label: '', type:'text'}
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+        serviceType: { label: "", type: "text" },
       },
       async authorize(credentials, req) {
-        console.log(credentials)
+        console.log(credentials);
         try {
           const email = credentials?.email;
           const password = credentials?.password;
@@ -102,41 +107,40 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             return null;
           }
           let defaultUrl = "";
-          if(serviceType && serviceType === "orsh") {
-            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/user/authenticate`
+          if (serviceType && serviceType === "orsh") {
+            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/user/authenticate`;
           } else {
-            defaultUrl =`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`
+            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`;
           }
 
           const response = await fetch(defaultUrl, {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
-              'Accept-Language': 'ko',
+              "Content-Type": "application/json",
+              "Accept-Language": "ko",
             },
             body: JSON.stringify({
               email,
               password,
             }),
           })
-          .then(res=>{
-            // console.log(res)
-            return res.json();
-          })
-          .then(res=> {
-            console.log(res)
-            return res;
-          });
+            .then((res) => {
+              // console.log(res)
+              return res.json();
+            })
+            .then((res) => {
+              console.log(res);
+              return res;
+            });
 
           // console.log('&&&&&&&&&&&&&', response)
           if (response.success) {
-            return {...response.data, serviceType};
+            return { ...response.data, serviceType };
           } else {
             throw new Error(response.message);
           }
-
         } catch (e: any) {
-          console.log('e > ', e);
+          console.log("e > ", e);
           throw new Error(e);
         }
       },
@@ -158,27 +162,46 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
       }
 
       let isAutoRefresh = false;
-      const url = req.url ? req.url : '';
+      const url = req.url ? req.url : "";
 
-      if (url.indexOf('/api/auth/session?update') > -1) {
+      if (url.indexOf("/api/auth/session?update") > -1) {
         //업데이트로 실행되면 토큰부터 바로 갱신한다.
-        console.log('강제 실행');
+        console.log("강제 실행");
 
         isAutoRefresh = true;
       }
-      const atExpires = user && user.tokenDto.atExpires ? user.tokenDto.atExpires : token.atExpires;
-      var expiredDate = dayjs.unix(atExpires! * 0.001).tz('Asia/Seoul');
+      const atExpires =
+        user && user.tokenDto.atExpires
+          ? user.tokenDto.atExpires
+          : token.atExpires;
+      var expiredDate = dayjs.unix(atExpires! * 0.001).tz("Asia/Seoul");
       var nowDate = dayjs();
 
-      const diffMinute = expiredDate.diff(nowDate, 's');
+      const diffMinute = expiredDate.diff(nowDate, "s");
 
-      if ((diffMinute && diffMinute <= TOKEN_EALRY_EXPIRE_MINUTE) || isAutoRefresh) {
-        const email: string = user && user.email ? user.email : token.email ? token.email : '';
+      if (
+        (diffMinute && diffMinute <= TOKEN_EALRY_EXPIRE_MINUTE) ||
+        isAutoRefresh
+      ) {
+        const email: string =
+          user && user.email ? user.email : token.email ? token.email : "";
         const uid: number = user && user.userId ? user.userId : token.uid;
-        const authorities: string = user && user.authorities ? user.authorities : token.authorities;
-        const serviceType: string = user && user.serviceType ? user.serviceType : token.serviceType ? token.serviceType : '';
+        const authorities: string =
+          user && user.authorities ? user.authorities : token.authorities;
+        const serviceType: string =
+          user && user.serviceType
+            ? user.serviceType
+            : token.serviceType
+              ? token.serviceType
+              : "";
 
-        const newToken = await refreshAccessToken(token.refreshToken!, email, uid, authorities, serviceType);
+        const newToken = await refreshAccessToken(
+          token.refreshToken!,
+          email,
+          uid,
+          authorities,
+          serviceType,
+        );
 
         if (newToken.error) {
           return newToken;
@@ -201,11 +224,11 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
     },
   },
   pages: {
-    signIn: '/',
-    signOut: '/signout',
+    signIn: "/sign-in",
+    signOut: "/signout",
   },
   secret: process.env.NEXT_PUBLIC_NEXTAUTH_SECRET,
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
 });

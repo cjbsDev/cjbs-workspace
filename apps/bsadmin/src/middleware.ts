@@ -2,7 +2,7 @@ import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
 // This function can be marked `async` if using `await` inside
-const LOGIN_PAGE = "/";
+const LOGIN_PAGE = "/sign-in";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const { matcher } = config;
@@ -32,12 +32,12 @@ export async function middleware(request: NextRequest) {
     rtToken !== undefined &&
     token?.error !== "RefreshAccessTokenError"
   ) {
-    return NextResponse.rewrite(new URL("/code-box", request.url));
+    return NextResponse.rewrite(new URL("/", request.url));
   } else if (
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === "RefreshAccessTokenError")
   ) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   } else {
     return NextResponse.next();
   }
@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/",
-    "/dashboard",
+    // "/dashboard",
     "/order-list/:path*",
     "/order-reg/:path*",
     "/agnc-pi-list/:path*",

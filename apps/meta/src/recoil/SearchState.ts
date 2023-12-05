@@ -25,6 +25,14 @@ export const ageState = atom<AgeType>({
   },
 });
 
+export const bmiState = atom({
+  key: 'bmiState', // unique ID (with respect to other atoms/selectors)
+  default: {
+    bmiMinAge: 0,
+    bmiMaxAge: 0,
+  },
+});
+
 export const pageSizeState = atom<number>({
   key: 'pageSize', // unique ID (with respect to other atoms/selectors)
   default: 0,

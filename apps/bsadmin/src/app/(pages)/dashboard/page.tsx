@@ -6,10 +6,8 @@ import {
   ErrorContainer,
   Fallback,
   FileDownloadBtn,
-  SelectBox2,
   SkeletonLoading,
   SkeletonPieChart,
-  SkeletonTableModalLoading,
 } from "cjbsDSTM";
 import { Box, Grid, Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
@@ -47,13 +45,13 @@ export default function Page() {
 
   return (
     <>
-      <Box>
+      <Box sx={{ pt: 3.5 }}>
         <Grid container sx={{ mb: 2 }}>
           <Grid item xs={12}>
-            <Stack spacing={1} direction="row" justifyContent="flex-end">
-              <FileDownloadBtn exportUrl={``} iconName="xls3" />
-              <KeywordSearch />
-            </Stack>
+            {/*<Stack spacing={1} direction="row" justifyContent="flex-end">*/}
+            {/*  <FileDownloadBtn exportUrl={``} iconName="xls3" />*/}
+            {/*  <KeywordSearch />*/}
+            {/*</Stack>*/}
           </Grid>
         </Grid>
 
