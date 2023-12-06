@@ -1,6 +1,6 @@
 "use client";
-
-import React, { useMemo } from "react";
+import * as React from "react";
+import { useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -34,13 +34,13 @@ import NoDataView from "../../../components/NoDataView";
 import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
+import CategorySelectModal from "./CategorySelectModal";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
 });
 
 const ListRun = () => {
-  const [showRunAddModal, setShowRunAddModal] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
@@ -71,12 +71,13 @@ const ListRun = () => {
   const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [serviceSelectModalOpen, setServiceSelectModalOpen] = useState<boolean>(false);
 
-  const handleRunAddModalOpen = () => {
-    setShowRunAddModal(true);
+  const handleServiceSelectOpen = () => {
+    setServiceSelectModalOpen(true);
   };
-  const handleRunAddModalClose = () => {
-    setShowRunAddModal(false);
+  const handleServiceSelectModalClose = () => {
+    setServiceSelectModalOpen(false);
   };
 
   const columns = useMemo(
@@ -90,7 +91,7 @@ const ListRun = () => {
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
-        width: "170px",
+        width: "300px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
         cell: (row) => {
@@ -113,7 +114,7 @@ const ListRun = () => {
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
-        width: "170px",
+        width: "250px",
         // sortable: true,
         // selector: (row) => row.custNm,
         cell: (row) => {
@@ -219,11 +220,11 @@ const ListRun = () => {
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
-            <ContainedButton
-              buttonName="분석 내역서 등록"
-              size="small"
-              onClick={handleRunAddModalOpen}
-            />
+            {/*<ContainedButton*/}
+            {/*  buttonName="분석 내역서 등록"*/}
+            {/*  size="small"*/}
+            {/*  onClick={() => router.push("/analysis-report-reg")}*/}
+            {/*/>*/}
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -285,7 +286,7 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'818px'} align="center" rowSpan={10}>
+                    <TableCell width={'1028px'} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
@@ -304,7 +305,7 @@ const ListRun = () => {
                       <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
                     <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}} rowSpan={10}>
-                      <Stack spacing={1} justifyContent="center" alignItems="flex-start">
+                      <Stack spacing={1} justifyContent="center" alignItems="center">
                         <Typography variant="body2">
                           남은금액
                         </Typography>
@@ -350,7 +351,16 @@ const ListRun = () => {
   return (
     <>
       <DataTableBase
-        title={<Title1 titleName="분석내역서" />}
+        title={
+          <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
+            <Title1 titleName="분석내역서" />
+            <ContainedButton
+              buttonName="분석 내역서 등록"
+              size="small"
+              onClick={() => handleServiceSelectOpen()}
+            />
+          </Stack>
+        }
         data={anlsItstList}
         columns={columns}
         onRowClicked={goDetailPage}
@@ -373,13 +383,11 @@ const ListRun = () => {
         // expandOnRowDoubleClicked={true}
       />
 
-      {showRunAddModal && (
-        <LazyRunAddModal
-          onClose={handleRunAddModalClose}
-          open={showRunAddModal}
-          modalWidth={800}
-        />
-      )}
+      <CategorySelectModal
+        open={serviceSelectModalOpen}
+        onClose={handleServiceSelectModalClose}
+        modalWidth={500}
+      />
     </>
   );
 };

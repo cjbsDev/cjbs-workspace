@@ -17,6 +17,7 @@ type InputValidationProps = TextFieldProps & {
   patternErrMsg?: string;
   maxLengthErrMsg?: string;
   minLengthErrMsg?: string;
+  onBlur?: any;
 };
 export const InputValidation = ({
   required = false,
@@ -28,6 +29,7 @@ export const InputValidation = ({
   patternErrMsg,
   maxLengthErrMsg,
   minLengthErrMsg,
+  onBlur,
   ...props
 }: InputValidationProps) => {
   const methods = useFormContext();
@@ -49,6 +51,7 @@ export const InputValidation = ({
             //   debounce(() => {
             //     console.log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", e.target.value);
             //   }),
+            onBlur: onBlur,
             maxLength: maxLength && {
               value: maxLength ?? 0,
               message: maxLength + "글자 이내로 입력 바랍니다.",

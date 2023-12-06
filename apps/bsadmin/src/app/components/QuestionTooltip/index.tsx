@@ -1,5 +1,7 @@
 "use client";
-import React, {useState} from "react";
+import * as React from "react";
+
+import { useState } from "react";
 import {Popover, Stack, Typography} from "@mui/material";
 import Image from "next/image";
 import locusTagPrefix_img from "../../../../public/img/sampleHeader/locusTagPrefix_img.png";
@@ -22,7 +24,7 @@ export const QuestionTooltip = (props:any) => {
   return (
     <>
       <MyIcon icon="question-circle" size={20} onMouseEnter={handlePopoverOpen} />
-      { sampleCloumn === "locus" ? (
+      { sampleCloumn === "locus" && (
         <Popover
           id="mouse-over-popover"
           open={open}
@@ -65,9 +67,9 @@ export const QuestionTooltip = (props:any) => {
             </Stack>
           </Stack>
         </Popover>
-      ) : ('')}
+      )}
 
-      { sampleCloumn === "accession" ? (
+      { sampleCloumn === "accession" && (
         <Popover
           id="mouse-over-popover"
           open={open}
@@ -148,7 +150,53 @@ export const QuestionTooltip = (props:any) => {
             </Stack>
           </Stack>
         </Popover>
-      ) : ('')}
+      )}
+
+      { sampleCloumn === "supplyPrice" && (
+        <Popover
+          id="mouse-over-popover"
+          open={open}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          onClose={handlePopoverClose}
+          disableRestoreFocus
+        >
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            sx={{width: 480, height: 150, border: '2px solid #006ECD', borderRadius: 1}}
+          >
+            <MyIcon
+              icon="exclamation-circle"
+              size={100}
+              style={{
+                marginLeft: 25,
+                color: "#b7b7b7"
+              }}
+            />
+            <Stack
+              direction="column"
+              justifyContent="center"
+              alignItems="flex-start"
+              spacing={1}
+              sx={{ paddingRight:4, width: 320 }}
+            >
+              <Typography variant="subtitle2">안내</Typography>{" "}
+              <Typography variant="body2">공급가액은 원래 공급가액에서</Typography>{" "}
+              <Typography variant="body2">+- 1,000원 범위 내에서만 수정 가능합니다.</Typography>{" "}
+            </Stack>
+          </Stack>
+        </Popover>
+      )}
 
     </>
 
