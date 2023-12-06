@@ -9,6 +9,7 @@ import {
   FormControlLabel,
   Checkbox,
   OutlinedInput,
+  TextField,
 } from '@mui/material';
 import useSWR from 'swr';
 import Skeleton from '@mui/material/Skeleton';
@@ -16,6 +17,7 @@ import { toast } from 'react-toastify';
 import { useRecoilState } from 'recoil';
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
@@ -28,6 +30,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
 import {
   AgeType,
+  BMIType,
   CheckType,
   FilterList,
   Page,
@@ -39,6 +42,8 @@ import { FlexBox } from 'cjbsDSTM/atoms/box/FlexBox';
 import { fetcher, metaFetcher } from 'api';
 import MyIcon from 'icon/MyIcon';
 import { DASHBOARD_URL, SEARCH_URL } from 'src/const/common';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
+import { cjbsTheme } from '@components/themes';
 
 const Accordion = styled((props: AccordionProps) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -111,6 +116,11 @@ const FilterTitleBox = styled(FlexBox)`
   justify-content: flex-start;
 `;
 
+// interface CustomProps {
+//   onChange: (event: { target: { name: string; value: string } }) => void;
+//   name: string;
+// }
+
 export const LOCAL_STORAGE_FILTER_KEY = 'meta-cx-filters';
 const MainSideMenu = () => {
   const router = useRouter();
@@ -122,6 +132,12 @@ const MainSideMenu = () => {
   const [tempAge, setTempAge] = useState<AgeType>({
     subjectMaxAge: 0,
     subjectMinAge: 0,
+  });
+
+  const [bmi, setBMI] = useRecoilState<BMIType>(bmiState);
+  const [tempBMI, setTempBMI] = useState<BMIType>({
+    bmiMaxValue: 0,
+    bmiMinValue: 0,
   });
   const [tempChecked, setTempChecked] = useState<CheckType[]>([]);
   const [accordion, setAccordion] = useState<boolean>(false);
@@ -362,7 +378,7 @@ const MainSideMenu = () => {
         }
       }
     },
-    [checked, searchInput, age, pathname],
+    [checked, searchInput, age, bmi, pathname],
   );
 
   const onChangeMinAge = useCallback(
@@ -385,6 +401,31 @@ const MainSideMenu = () => {
     [tempAge],
   );
 
+  // BMI
+  const onChangeBmiMin = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      setTempBMI({
+        ...tempBMI,
+        bmiMinValue: Number(value),
+      });
+    },
+    [tempBMI],
+  );
+
+  const onChangeBmiMax = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      setTempBMI({
+        ...tempBMI,
+        bmiMaxValue: Number(value),
+      });
+    },
+    [tempBMI],
+  );
+
   const applyAge = useCallback(() => {
     console.log('tempAge > ', tempAge);
 
@@ -392,7 +433,16 @@ const MainSideMenu = () => {
     if (pathname === DASHBOARD_URL) {
       router.push(SEARCH_URL);
     }
-  }, [checked, searchInput, tempAge, pathname]);
+  }, [checked, searchInput, tempAge, tempBMI, pathname]);
+
+  const applyBMI = useCallback(() => {
+    console.log('tempBMI > ', tempBMI);
+
+    setBMI(tempBMI);
+    if (pathname === DASHBOARD_URL) {
+      router.push(SEARCH_URL);
+    }
+  }, [checked, searchInput, tempBMI, pathname]);
 
   const allClearSelectedFilter = async () => {
     await localStorage.removeItem(LOCAL_STORAGE_FILTER_KEY);
@@ -404,9 +454,36 @@ const MainSideMenu = () => {
       subjectMaxAge: 0,
       subjectMinAge: 0,
     });
+    setBMI({
+      bmiMinValue: 0,
+      bmiMaxValue: 0,
+    });
     setSearchInput('');
     setChecked(clearChecked);
   };
+
+  // const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  //   function NumericFormatCustom(props, ref) {
+  //     const { onChange, ...other } = props;
+  //
+  //     return (
+  //       <NumericFormat
+  //         {...other}
+  //         getInputRef={ref}
+  //         onValueChange={(values) => {
+  //           onChange({
+  //             target: {
+  //               name: props.name,
+  //               value: values.value,
+  //             },
+  //           });
+  //         }}
+  //         decimalScale={2}
+  //         // valueIsNumericString
+  //       />
+  //     );
+  //   },
+  // );
 
   if (isLoading) {
     return (
@@ -491,6 +568,123 @@ const MainSideMenu = () => {
                   </Button>
                 </Box>
               )}
+
+              {p_items.name === 'bmi' && (
+                <Box>
+                  <FlexBox>
+                    <NumericFormat
+                      onChange={onChangeBmiMin}
+                      decimalScale={2}
+                      style={{
+                        fontSize: 16,
+                        width: '100%',
+                        padding: 6,
+                        textAlign: 'end',
+                        border: `1px solid ${cjbsTheme.palette.grey['400']}`,
+                      }}
+                      placeholder="00.00"
+                    />
+
+                    {/*<TextField*/}
+                    {/*  sx={{*/}
+                    {/*    '.MuiOutlinedInput-input': {*/}
+                    {/*      textAlign: 'end',*/}
+                    {/*    },*/}
+                    {/*  }}*/}
+                    {/*  // InputProps={{*/}
+                    {/*  //   inputComponent: NumericFormatCustom as any,*/}
+                    {/*  // }}*/}
+                    {/*  inputProps={{*/}
+                    {/*    // maxLength: 5,*/}
+                    {/*    inputMode: 'numeric',*/}
+                    {/*    pattern: '[0-9]*',*/}
+                    {/*    step: '0.01',*/}
+                    {/*  }}*/}
+                    {/*  placeholder="0.00"*/}
+                    {/*  // value={tempBMIAge.bmiMinAge}*/}
+                    {/*  onChange={onChangeBmiMinAge}*/}
+                    {/*  name="bmiMinAge"*/}
+                    {/*  // endAdornment={*/}
+                    {/*  //   <InputAdornment position="end">지수</InputAdornment>*/}
+                    {/*  // }*/}
+                    {/*  size={'small'}*/}
+                    {/*/>*/}
+                    <Box ml={'5px'} mr={'5px'} color={'#CED4DA'}>
+                      -
+                    </Box>
+                    <NumericFormat
+                      onChange={onChangeBmiMax}
+                      decimalScale={2}
+                      style={{
+                        fontSize: 16,
+                        width: '100%',
+                        padding: 6,
+                        textAlign: 'end',
+                        border: `1px solid ${cjbsTheme.palette.grey['400']}`,
+                      }}
+                      placeholder="00.00"
+                    />
+                    {/*<TextField*/}
+                    {/*  sx={{*/}
+                    {/*    '.MuiOutlinedInput-input': {*/}
+                    {/*      textAlign: 'end',*/}
+                    {/*    },*/}
+                    {/*  }}*/}
+                    {/*  // InputProps={{*/}
+                    {/*  //   inputComponent: NumericFormatCustom as any,*/}
+                    {/*  // }}*/}
+                    {/*  inputProps={{*/}
+                    {/*    maxLength: 5,*/}
+                    {/*    inputMode: 'numeric',*/}
+                    {/*    pattern: '[0-9]*',*/}
+                    {/*    step: '0.01',*/}
+                    {/*  }}*/}
+                    {/*  placeholder="0.00"*/}
+                    {/*  onChange={onChangeBmiMaxAge}*/}
+                    {/*  // endAdornment={*/}
+                    {/*  //   <InputAdornment position="end">지수</InputAdornment>*/}
+                    {/*  // }*/}
+                    {/*  size={'small'}*/}
+                    {/*/>*/}
+                  </FlexBox>
+
+                  <Box
+                    sx={{
+                      backgroundColor: cjbsTheme.palette.grey['100'],
+                      px: 1,
+                      py: 0.5,
+                      borderRadius: 4,
+                      mt: 1,
+                    }}
+                  >
+                    <Typography
+                      variant="body2"
+                      sx={{ fontSize: 12 }}
+                      color="secondary"
+                    >
+                      - 저체중 18.5미만/ 정상 18.5 이상 25미만
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      sx={{ fontSize: 12 }}
+                      color="secondary"
+                    >
+                      - 과체중 25이상 30미만 / 비만 30이상
+                    </Typography>
+                  </Box>
+
+                  <Button
+                    sx={{ mt: '8px', height: '33px' }}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                    onClick={applyBMI}
+                  >
+                    적용
+                  </Button>
+                </Box>
+              )}
+
               {p_items.values.map((items, index) => {
                 checkListIndex = checkListIndex + 1;
                 const isChecked = checked[checkListIndex]

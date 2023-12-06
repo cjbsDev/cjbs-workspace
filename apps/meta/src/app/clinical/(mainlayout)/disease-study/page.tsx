@@ -9,13 +9,20 @@ import { useRecoilValue } from 'recoil';
 
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
 
 import StudyTable from './table';
 import { StudyCount, StudyData } from './types';
-import { Search, CheckType, AgeType, SelectedFilterValues } from '../../types';
+import {
+  Search,
+  CheckType,
+  AgeType,
+  SelectedFilterValues,
+  BMIType,
+} from '../../types';
 import { PAGE_SIZE, TABLE_SKELETON_HEIGHT } from 'src/const/common';
 import Title from 'src/component/atoms/Title';
 import {
@@ -33,6 +40,7 @@ const Study = () => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const bmi = useRecoilValue<BMIType>(bmiState);
   const studyCountValue = useRecoilValue<StudyCount | null>(studyCountState);
 
   const findData = checked.filter((item) => item.valid === true);
@@ -44,6 +52,8 @@ const Study = () => {
   const postData: Search = {
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
+    bmiMaxValue: bmi.bmiMaxValue,
+    bmiMinValue: bmi.bmiMinValue,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,
@@ -62,7 +72,7 @@ const Study = () => {
 
   useEffect(() => {
     trigger(postData);
-  }, []);
+  }, [checked, age, bmi]);
 
   useEffect(() => {
     !isMutating && setPageLoading(false);

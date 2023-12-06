@@ -7,6 +7,7 @@ import SearchImage from 'public/img/search/search.png';
 import NoResultImage from 'public/img/search/no-result.png';
 import {
   ageState,
+  bmiState,
   searchInputState,
   searchNoResultState,
   searchRenderTextState,
@@ -14,7 +15,13 @@ import {
 } from 'src/recoil/SearchState';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import useSWRMutation from 'swr/mutation';
-import { AgeType, CheckType, Search, SelectedFilterValues } from './types';
+import {
+  AgeType,
+  BMIType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from './types';
 import SearchScreen from './search';
 import SearchTable from './table';
 import MyIcon from 'icon/MyIcon';
@@ -31,6 +38,7 @@ const SearchPage = () => {
   const [checked, setChecked] =
     useRecoilState<CheckType[]>(selectedFilterState);
   const [age, setAge] = useRecoilState<AgeType>(ageState);
+  const [bmi, setBMI] = useRecoilState<BMIType>(bmiState);
   const [isInit, setIsInit] = useState<boolean>(false);
 
   let tempSearchInput = '';
@@ -50,21 +58,36 @@ const SearchPage = () => {
       return { field: item.root, code: item.code };
     });
 
-    console.log('asdasdadasds', age);
+    console.log('SEARCH AGE', age);
+
+    console.log('SEARCH BMI', bmi);
 
     if (
       filterData.length > 0 ||
       searchKeyword.length > 2 ||
       age.subjectMaxAge !== 0 ||
-      age.subjectMinAge !== 0
+      age.subjectMinAge !== 0 ||
+      bmi.bmiMaxValue !== 0 ||
+      bmi.bmiMinValue !== 0
     ) {
       console.log('#!@#!@#!@');
 
+      console.log('SEARCH BMI??????', bmi);
+
       const subjectMinAge = age.subjectMinAge;
       const subjectMaxAge = age.subjectMaxAge;
+
+      const bmiMinValue = bmi.bmiMinValue;
+      const bmiMaxValue = bmi.bmiMaxValue;
+
+      console.log('>>>>>AGE>>>>>>>', subjectMinAge, subjectMaxAge);
+      console.log('>>>>>BMI>>>>>>>', bmiMinValue, bmiMaxValue);
+
       const postData: Search = {
         subjectMinAge: subjectMinAge,
         subjectMaxAge: subjectMaxAge,
+        bmiMaxValue: bmiMaxValue,
+        bmiMinValue: bmiMinValue,
         resultKeyword: '',
         keyword: searchKeyword,
         filter: filterData,
@@ -79,7 +102,7 @@ const SearchPage = () => {
     }
 
     tempSearchInput = searchKeyword;
-  }, [checked, age, searchKeyword]);
+  }, [checked, age, bmi, searchKeyword]);
 
   const allClearFilter = () => {
     const clearChecked = checked.map((item) => {
@@ -88,6 +111,10 @@ const SearchPage = () => {
     setAge({
       subjectMaxAge: 0,
       subjectMinAge: 0,
+    });
+    setBMI({
+      bmiMinValue: 0,
+      bmiMaxValue: 0,
     });
     setSearchKeyword('');
     setChecked(clearChecked);
@@ -129,7 +156,9 @@ const SearchPage = () => {
       (searchKeyword.length === 0 &&
         filterData.length === 0 &&
         age.subjectMaxAge === 0 &&
-        age.subjectMinAge === 0) ? (
+        age.subjectMinAge === 0 &&
+        bmi.bmiMaxValue === 0 &&
+        bmi.bmiMinValue === 0) ? (
         <Box width={'100%'} mt={'24px'}>
           <SearchScreen />
           <Box

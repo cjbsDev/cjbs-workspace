@@ -1,5 +1,6 @@
 export interface SubjectData {
   age: number;
+  bmi: number;
   disease: string;
   diseasePart: string;
   id: number;
