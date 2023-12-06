@@ -1,14 +1,21 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { StudyCount, StudyData } from './types';
 import { conditionalRowStyles, studyColoumns } from './columns';
-import { AgeType, CheckType, Search, SelectedFilterValues } from '../../types';
-import { Box, Grid, Stack } from '@mui/material';
+import {
+  AgeType,
+  BMIType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from '../../types';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import SelectedFilterChip from 'src/component/molecules/chip/SelectedFilterChip';
 import { POST } from 'api';
 import { useDebounce } from 'src/util/event';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
@@ -21,7 +28,8 @@ import {
   studyTotalElementsState,
 } from 'src/recoil/StudyState';
 // import {dataTableCustomStyles} from "@components/organisms/DataTable/style/dataTableCustomStyle";
-import {dataTableEzcxCustomStyles} from "@components/organisms/DataTable/style/dataTableEzcxCustomStyle";
+import { dataTableEzcxCustomStyles } from '@components/organisms/DataTable/style/dataTableEzcxCustomStyle';
+import NoDataView from '../../../../component/molecules/NoDataView';
 interface StudyTableType {
   postData: Search;
   data: StudyData[];
@@ -35,6 +43,7 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const bmi = useRecoilValue(bmiState);
   const [studyCount, setStudyCount] = useRecoilState<StudyCount | null>(
     studyCountState,
   );
@@ -44,18 +53,18 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE);
 
   useEffect(() => {
-    getData(checked, keyword, resultKeyword, age, 1, pageSize, []);
+    getData(checked, keyword, resultKeyword, age, bmi, 1, pageSize, []);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     setPageNum(1);
-  }, [resultKeyword, keyword, age, pageSize, checked]);
+  }, [resultKeyword, keyword, age, bmi, pageSize, checked]);
 
   const onChangePageNum = useCallback(
     (page: number) => {
       setPageNum(page);
-      getData(checked, keyword, resultKeyword, age, page, pageSize, sort);
+      getData(checked, keyword, resultKeyword, age, bmi, page, pageSize, sort);
       // eslint-disable-next-line react-hooks/exhaustive-deps
     },
-    [checked, keyword, age, sort, pageSize, resultKeyword],
+    [checked, keyword, age, bmi, sort, pageSize, resultKeyword],
   );
 
   const getData = useCallback(
@@ -64,6 +73,7 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
       keyword: string,
       resultKeyword: string,
       age: AgeType,
+      bmi: BMIType,
       pageNum: number,
       pageSize: number,
       sort: string[],
@@ -81,6 +91,8 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
         resultKeyword: resultKeyword,
         subjectMinAge: age.subjectMinAge,
         subjectMaxAge: age.subjectMaxAge,
+        bmiMaxValue: bmi.bmiMaxValue,
+        bmiMinValue: bmi.bmiMinValue,
         page: {
           page: pageNum,
           size: 1000,
@@ -122,21 +134,22 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
         keyword,
         resultKeyword,
         age,
+        bmi,
         pageNum,
         pageSize,
         newArray,
       );
     },
-    [checked, sort, keyword, age, pageNum, pageSize, resultKeyword],
+    [checked, sort, keyword, age, bmi, pageNum, pageSize, resultKeyword],
   );
 
   const onChangePageSize = useCallback(
     (size: number) => {
       console.log('PaginationChangePage2> ', size);
       setPageSize(size);
-      getData(checked, keyword, resultKeyword, age, pageNum, size, sort);
+      getData(checked, keyword, resultKeyword, age, bmi, pageNum, size, sort);
     },
-    [checked, keyword, age, sort, resultKeyword, pageNum],
+    [checked, keyword, age, bmi, sort, resultKeyword, pageNum],
   );
 
   return (
@@ -160,6 +173,7 @@ const StudyTable = ({ postData, data }: StudyTableType) => {
         onSort={onChangeSort}
         paginationDefaultPage={pageNum}
         onChangePage={onChangePageNum}
+        noDataComponent={<NoDataView />}
       />
     </Box>
   );
@@ -172,6 +186,7 @@ const HeaderComponent = ({}: {}) => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const bmi = useRecoilValue(bmiState);
 
   const clearFilterText = () => {
     setFilterText('');
@@ -199,6 +214,8 @@ const HeaderComponent = ({}: {}) => {
     resultKeyword: resultKeyword,
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
+    bmiMaxValue: bmi.bmiMaxValue,
+    bmiMinValue: bmi.bmiMinValue,
     page: {
       page: 1,
       size: PAGE_SIZE,

@@ -3,6 +3,8 @@ export interface Search {
   resultKeyword: string | null;
   subjectMaxAge: number;
   subjectMinAge: number;
+  bmiMaxValue: number;
+  bmiMinValue: number;
   filter: SelectedFilterValues[] | null;
   page: Page | null;
   list?: string[];
@@ -45,4 +47,9 @@ export interface CheckType {
 export interface AgeType {
   subjectMaxAge: number;
   subjectMinAge: number;
+}
+
+export interface BMIType {
+  bmiMaxValue: number;
+  bmiMinValue: number;
 }

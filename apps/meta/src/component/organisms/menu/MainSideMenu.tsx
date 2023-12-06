@@ -30,6 +30,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import dayjs from 'dayjs';
 import {
   AgeType,
+  BMIType,
   CheckType,
   FilterList,
   Page,
@@ -115,10 +116,10 @@ const FilterTitleBox = styled(FlexBox)`
   justify-content: flex-start;
 `;
 
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
+// interface CustomProps {
+//   onChange: (event: { target: { name: string; value: string } }) => void;
+//   name: string;
+// }
 
 export const LOCAL_STORAGE_FILTER_KEY = 'meta-cx-filters';
 const MainSideMenu = () => {
@@ -133,10 +134,10 @@ const MainSideMenu = () => {
     subjectMinAge: 0,
   });
 
-  const [ageBMI, setAgeBMI] = useRecoilState(bmiState);
-  const [tempBMIAge, setTempBMIAge] = useState({
-    bmiMaxAge: 0,
-    bmiMinAge: 0,
+  const [bmi, setBMI] = useRecoilState<BMIType>(bmiState);
+  const [tempBMI, setTempBMI] = useState<BMIType>({
+    bmiMaxValue: 0,
+    bmiMinValue: 0,
   });
   const [tempChecked, setTempChecked] = useState<CheckType[]>([]);
   const [accordion, setAccordion] = useState<boolean>(false);
@@ -377,7 +378,7 @@ const MainSideMenu = () => {
         }
       }
     },
-    [checked, searchInput, age, ageBMI, pathname],
+    [checked, searchInput, age, bmi, pathname],
   );
 
   const onChangeMinAge = useCallback(
@@ -400,6 +401,31 @@ const MainSideMenu = () => {
     [tempAge],
   );
 
+  // BMI
+  const onChangeBmiMin = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      setTempBMI({
+        ...tempBMI,
+        bmiMinValue: Number(value),
+      });
+    },
+    [tempBMI],
+  );
+
+  const onChangeBmiMax = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+
+      setTempBMI({
+        ...tempBMI,
+        bmiMaxValue: Number(value),
+      });
+    },
+    [tempBMI],
+  );
+
   const applyAge = useCallback(() => {
     console.log('tempAge > ', tempAge);
 
@@ -407,39 +433,16 @@ const MainSideMenu = () => {
     if (pathname === DASHBOARD_URL) {
       router.push(SEARCH_URL);
     }
-  }, [checked, searchInput, tempAge, pathname]);
-
-  // BMI
-  const onChangeBmiMinAge = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = e.target;
-      // const onlyNumber = value.replace(/[^0-9]/g, '');
-      setTempBMIAge({
-        ...tempBMIAge,
-        bmiMinAge: Number(value),
-      });
-    },
-    [tempBMIAge],
-  );
-
-  const onChangeBmiMaxAge = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setTempBMIAge({
-        ...tempBMIAge,
-        bmiMaxAge: Number(e.target.value),
-      });
-    },
-    [tempBMIAge],
-  );
+  }, [checked, searchInput, tempAge, tempBMI, pathname]);
 
   const applyBMI = useCallback(() => {
-    console.log('tempBMIAge > ', tempBMIAge);
+    console.log('tempBMI > ', tempBMI);
 
-    setAgeBMI(tempBMIAge);
+    setBMI(tempBMI);
     if (pathname === DASHBOARD_URL) {
       router.push(SEARCH_URL);
     }
-  }, [checked, searchInput, tempBMIAge, pathname]);
+  }, [checked, searchInput, tempBMI, pathname]);
 
   const allClearSelectedFilter = async () => {
     await localStorage.removeItem(LOCAL_STORAGE_FILTER_KEY);
@@ -451,36 +454,36 @@ const MainSideMenu = () => {
       subjectMaxAge: 0,
       subjectMinAge: 0,
     });
-    setAgeBMI({
-      bmiMinAge: 0,
-      bmiMaxAge: 0,
+    setBMI({
+      bmiMinValue: 0,
+      bmiMaxValue: 0,
     });
     setSearchInput('');
     setChecked(clearChecked);
   };
 
-  const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-    function NumericFormatCustom(props, ref) {
-      const { onChange, ...other } = props;
-
-      return (
-        <NumericFormat
-          {...other}
-          getInputRef={ref}
-          onValueChange={(values) => {
-            onChange({
-              target: {
-                name: props.name,
-                value: values.value,
-              },
-            });
-          }}
-          decimalScale={2}
-          // valueIsNumericString
-        />
-      );
-    },
-  );
+  // const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
+  //   function NumericFormatCustom(props, ref) {
+  //     const { onChange, ...other } = props;
+  //
+  //     return (
+  //       <NumericFormat
+  //         {...other}
+  //         getInputRef={ref}
+  //         onValueChange={(values) => {
+  //           onChange({
+  //             target: {
+  //               name: props.name,
+  //               value: values.value,
+  //             },
+  //           });
+  //         }}
+  //         decimalScale={2}
+  //         // valueIsNumericString
+  //       />
+  //     );
+  //   },
+  // );
 
   if (isLoading) {
     return (
@@ -570,8 +573,7 @@ const MainSideMenu = () => {
                 <Box>
                   <FlexBox>
                     <NumericFormat
-                      // value={tempBMIAge.bmiMinAge}
-                      onChange={onChangeBmiMinAge}
+                      onChange={onChangeBmiMin}
                       decimalScale={2}
                       style={{
                         fontSize: 16,
@@ -611,8 +613,7 @@ const MainSideMenu = () => {
                       -
                     </Box>
                     <NumericFormat
-                      // value={tempBMIAge.bmiMaxAge}
-                      onChange={onChangeBmiMaxAge}
+                      onChange={onChangeBmiMax}
                       decimalScale={2}
                       style={{
                         fontSize: 16,
