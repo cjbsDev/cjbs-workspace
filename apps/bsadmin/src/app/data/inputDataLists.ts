@@ -69,3 +69,9 @@ export const dashboardMonthData = [
   { value: 11, optionName: "11월" },
   { value: 12, optionName: "12월" },
 ];
+
+export const taxonListData = [
+  { taxonName: "taxonBCnt", taxonIconName: "B" },
+  { taxonName: "taxonECnt", taxonIconName: "E" },
+  { taxonName: "taxonACnt", taxonIconName: "A" },
+];
