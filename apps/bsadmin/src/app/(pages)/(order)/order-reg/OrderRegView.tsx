@@ -16,6 +16,7 @@ import {
 import {
   CheckboxGV,
   CheckboxSV,
+  cjbsTheme,
   ContainedButton,
   ErrorContainer,
   Fallback,
@@ -32,11 +33,11 @@ import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
 import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
   reqReturnListData,
+  taxonListData,
 } from "../../../data/inputDataLists";
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
@@ -46,13 +47,10 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
 import Research from "./Research";
+import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
+import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 
 const apiUrl: string = `/order/extr`;
-
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
 
 const LazyCustSearchModal = dynamic(
   () => import("../../../components/CustSearchModal"),
@@ -138,38 +136,12 @@ const OrderRegView = () => {
     },
   );
   console.log("orshExtrData", orshExtrData);
-  console.log("vercel-test");
-
-  const NumericFormatCustom = React.forwardRef<NumericFormatProps, CustomProps>(
-    function NumericFormatCustom(props, ref) {
-      const { onChange, ...other } = props;
-
-      return (
-        <NumericFormat
-          {...other}
-          getInputRef={ref}
-          onValueChange={(values) => {
-            onChange({
-              target: {
-                name: props.name,
-                value: values.value,
-              },
-            });
-          }}
-          defaultValue={
-            orshExtrData === "NO_DATA" ? 0 : orshExtrData.addInfo.price
-          }
-          thousandSeparator
-          valueIsNumericString
-        />
-      );
-    },
-  );
 
   // defaultValues 세팅
   const defaultValues = getDefaultValues(orshType, orshExtrData);
   console.log("DefaultValues ==>>", defaultValues);
 
+  // Submit
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
@@ -301,11 +273,7 @@ const OrderRegView = () => {
             titleName={
               "오더 등록" +
               `${
-                orshType === "intn"
-                  ? " (내부)"
-                  : orshType === "extr"
-                    ? " (고객)"
-                    : ""
+                orshType === "intn" ? " (내부)" : orshType === "extr" ? "" : ""
               }`
             }
           />
@@ -594,90 +562,59 @@ const OrderRegView = () => {
                 <TH sx={{ width: "15%" }}>Taxon 개수</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="taxonBCnt"
-                      required={true}
-                      errorMessage="개수를 입력해 주세요."
-                      pattern={/^[0-9]+$/}
-                      patternErrMsg="숫자만 입력해 주세요."
-                      sx={{
-                        width: 100,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start" sx={{ ml: -1 }}>
-                            <MyIcon icon="B" size={20} />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ mr: -0.5 }}>
-                            <Typography variant="body2" sx={{ color: "black" }}>
-                              개
-                            </Typography>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <InputValidation
-                      inputName="taxonECnt"
-                      required={true}
-                      errorMessage="개수를 입력해 주세요."
-                      pattern={/^[0-9]+$/}
-                      patternErrMsg="숫자만 입력해 주세요."
-                      sx={{
-                        width: 100,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start" sx={{ ml: -1 }}>
-                            <MyIcon icon="E" size={20} />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ mr: -0.5 }}>
-                            <Typography variant="body2" sx={{ color: "black" }}>
-                              개
-                            </Typography>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                    <InputValidation
-                      inputName="taxonACnt"
-                      required={true}
-                      errorMessage="개수를 입력해 주세요."
-                      pattern={/^[0-9]+$/}
-                      patternErrMsg="숫자만 입력해 주세요."
-                      sx={{
-                        width: 100,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        startAdornment: (
-                          <InputAdornment position="start" sx={{ ml: -1 }}>
-                            <MyIcon icon="A" size={20} />
-                          </InputAdornment>
-                        ),
-                        endAdornment: (
-                          <InputAdornment position="end" sx={{ mr: -0.5 }}>
-                            <Typography variant="body2" sx={{ color: "black" }}>
-                              개
-                            </Typography>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
+                    {taxonListData.map((taxonItem, index) => {
+                      return (
+                        <InputValidation
+                          inputName={taxonItem.taxonName}
+                          required={true}
+                          errorMessage="개수를 입력해 주세요."
+                          pattern={/^[0-9]+$/}
+                          patternErrMsg="숫자만 입력해 주세요."
+                          sx={{
+                            width: 100,
+                            ".MuiOutlinedInput-input": {
+                              textAlign: "end",
+                            },
+                            "&.MuiTextField-root": {
+                              backgroundColor:
+                                orshType === "intn" || orshType === "extr"
+                                  ? cjbsTheme.palette.grey["100"]
+                                  : "white",
+                              borderRadius: 1,
+                            },
+                          }}
+                          disabled={orshType === "intn" || orshType === "extr"}
+                          inputMode="numeric"
+                          InputProps={{
+                            // inputComponent: TaxonBCntFormat as any,
+                            inputComponent: (props) => (
+                              <TaxonCntFormat
+                                taxonData={defaultValues[taxonItem.taxonName]}
+                                {...props}
+                              />
+                            ),
+                            startAdornment: (
+                              <InputAdornment position="start" sx={{ ml: -1 }}>
+                                <MyIcon
+                                  icon={taxonItem.taxonIconName}
+                                  size={20}
+                                />
+                              </InputAdornment>
+                            ),
+                            endAdornment: (
+                              <InputAdornment position="end" sx={{ mr: -0.5 }}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: "black" }}
+                                >
+                                  개
+                                </Typography>
+                              </InputAdornment>
+                            ),
+                          }}
+                        />
+                      );
+                    })}
                   </Stack>
                 </TD>
               </TableRow>
@@ -741,7 +678,13 @@ const OrderRegView = () => {
                       }}
                       inputMode="numeric"
                       InputProps={{
-                        inputComponent: NumericFormatCustom as any,
+                        inputComponent: (props) => (
+                          <AmountFormat
+                            name={"price"}
+                            priceValue={defaultValues.price}
+                            {...props}
+                          />
+                        ),
                         endAdornment: (
                           <InputAdornment position="end">
                             <Typography variant="body2" sx={{ color: "black" }}>
@@ -846,10 +789,6 @@ const OrderRegView = () => {
         />
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
-          {/*<OutlinedButton*/}
-          {/*  buttonName="목록"*/}
-          {/*  onClick={() => router.push("/order-list")}*/}
-          {/*/>*/}
           <Link href={from !== null ? from : "/order-list"}>
             <OutlinedButton size="small" buttonName="목록" />
           </Link>

@@ -88,6 +88,7 @@ export const getDefaultValues = (orshType: any, orshExtrData: any) => {
       taxonBCnt: 0,
       taxonECnt: 0,
       taxonACnt: 0,
+      price: 0,
       mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
       orderTypeCc: "BS_0800001",
       isCheck16s: "Y",
