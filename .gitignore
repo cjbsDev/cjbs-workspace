@@ -31,8 +31,18 @@ yarn-error.log*
 
 # turbo
 .turbo
+build/**
+dist/**
+.next/**
 
 # vercel
 .vercel
 
 .idea
+apps/meta/.env.development
+
+# 개발중
+page_exam.tsx
+
+/pnpm-lock.yaml
+pnpm-lock.yaml

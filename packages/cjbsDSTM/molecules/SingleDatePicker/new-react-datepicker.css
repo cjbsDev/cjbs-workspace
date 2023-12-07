@@ -1,0 +1,6 @@
+.react-datepicker-popper {
+    z-index: 100 !important
+}
+.react-datepicker__close-icon {
+    right: 35px !important;
+}

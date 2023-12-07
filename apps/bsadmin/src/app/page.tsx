@@ -1,91 +1,149 @@
-"use client"
+"use client";
 
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useRouter } from 'next/navigation';
+import * as React from "react";
+import dynamic from "next/dynamic";
+import {
+  ErrorContainer,
+  Fallback,
+  // FileDownloadBtn,
+  SkeletonLoading,
+  SkeletonPieChart,
+} from "cjbsDSTM";
+import { Box, Grid, Stack, Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
+// import KeywordSearch from "../../components/KeywordSearch";
+// import SectionHeader from "../../../components/SectionHeader";
+import SectionHeader from "./components/Dashboard/components/SectionHeader";
+import { useRouter } from "next-nprogress-bar";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
+import Idle from "./components/Dashboard/components/Idle";
+import Total from "./components/Dashboard/components/Total";
 
-import { LinkButton } from "@components/index";
+const LazySrvcSalesChart = dynamic(
+  () => import("./components/Dashboard/components/SrvcSalesChart"),
+  {
+    ssr: false,
+    loading: () => <SkeletonPieChart />,
+  },
+);
 
-const theme = createTheme();
+const LazyInstTop = dynamic(
+  () => import("./components/Dashboard/components/InstTop"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={373} />,
+  },
+);
+
+const LazyAgncTop = dynamic(
+  () => import("./components/Dashboard/components/AgncTop"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={373} />,
+  },
+);
+
 export default function Page() {
   const router = useRouter();
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
-  return (
+  // const params = useParams();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const params = searchParams.get("idleduration");
 
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
+  return (
+    <>
+      <Box sx={{ pt: 3.5 }}>
+        <Grid container sx={{ mb: 2 }}>
+          <Grid item xs={12}>
+            {/*<Stack spacing={1} direction="row" justifyContent="flex-end">*/}
+            {/*  <FileDownloadBtn exportUrl={``} iconName="xls3" />*/}
+            {/*  <KeywordSearch />*/}
+            {/*</Stack>*/}
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={2.5}
+          sx={{ mb: 2.5 }}
+          justifyContent="flex-start"
+          alignItems="stretch"
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <LinkButton fullWidth buttonName='Sign In' onClick={() => router.push('dashboard')} />
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
-        </Box>
-      </Container>
+          <Grid item xs={8}>
+            <SectionBox>
+              <Total />
+            </SectionBox>
+          </Grid>
+          <Grid item xs={4}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>분석 종류별 매출</SectionHeader.Title>
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySrvcSalesChart />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+        </Grid>
+
+        <Grid
+          container
+          spacing={2.5}
+          sx={{ mb: 2.5 }}
+          justifyContent="flex-start"
+          alignItems="stretch"
+        >
+          <Grid item xs={6}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>매출 TOP 기관</SectionHeader.Title>
+                <SectionHeader.MoreBtn
+                  buttonName="more"
+                  onClick={() => console.log("기관 더보기")}
+                  disabled={true}
+                />
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyInstTop />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+          <Grid item xs={6}>
+            <SectionBox>
+              <SectionHeader>
+                <SectionHeader.Title>매출 TOP 거래처</SectionHeader.Title>
+                <SectionHeader.MoreBtn
+                  buttonName="more"
+                  onClick={() => console.log("거래처 더보기")}
+                  disabled={true}
+                />
+              </SectionHeader>
+
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyAgncTop />
+              </ErrorContainer>
+            </SectionBox>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2.5}>
+          <Grid item xs={12}>
+            <SectionBox>
+              <Idle />
+            </SectionBox>
+          </Grid>
+        </Grid>
+      </Box>
+    </>
   );
 }
+
+const SectionBox = styled(Box)`
+  padding: 30px;
+  background: white;
+  border-radius: 10px;
+  min-height: fit-content;
+  height: 100%;
+`;

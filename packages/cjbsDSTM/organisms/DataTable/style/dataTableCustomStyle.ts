@@ -1,66 +1,258 @@
-import {grey} from '@mui/material/colors'
-import {useTheme} from '@mui/material/styles';
+import { cjbsTheme } from "../../../themes";
 export const dataTableCustomStyles = {
+  table: {
+    style: {
+      // color: theme.text.primary,
+      backgroundColor: cjbsTheme.palette.common.white,
+    },
+  },
   header: {
     style: {
-      backgroundColor: 'white',
+      backgroundColor: "white",
       padding: 0,
     },
   },
   head: {
     style: {
-      color: 'black',
-      fontWeight: '600',
+      color: "black",
+      fontWeight: "600",
       fontSize: 14,
-      backgroundColor: grey.A100,
+      backgroundColor: cjbsTheme.palette.grey["50"],
+      borderTop: "1px solid #000",
+      borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      paddingTop: 3,
+      paddingBottom: 3,
     },
   },
   subHeader: {
     style: {
-      backgroundColor: 'white',
+      backgroundColor: "white",
       paddingLeft: 0,
       paddingRight: 0,
     },
   },
   headRow: {
     style: {
-      backgroundColor: grey.A100,
-      minHeight: '40px',
-      borderTop: '1px solid #000',
-      '&:nth-of-type(1)': {
+      backgroundColor: cjbsTheme.palette.grey["50"],
+      // minHeight: "40px",
+      // borderTop: "1px solid #000",
+      borderBottom: "none",
+      "&:nth-of-type(1)": {
         paddingLeft: 24,
       },
-      '&:nth-last-child(1)': {
+      "&:nth-last-child(1)": {
         paddingRight: 24,
       },
-      // paddingLeft: 24,
-      // paddingRight: 24,
     },
   },
   cells: {
     style: {
       fontSize: 14,
-      '&:nth-of-type(1)': {
+      "&:nth-of-type(1)": {
         // paddingLeft: 40,
       },
-      '&:nth-last-child(1)': {
+      "&:nth-last-child(1)": {
         // paddingRight: 40,
       },
     },
   },
   rows: {
     style: {
-      backgroundColor: 'white',
-      paddingTop: 10,
-      paddingBottom: 10,
+      backgroundColor: "white",
+      paddingTop: 7.5,
+      paddingBottom: 7.5,
       paddingLeft: 24,
       paddingRight: 24,
     },
   },
   pagination: {
     style: {
-      backgroundColor: grey[50],
-      color: 'black',
+      backgroundColor: cjbsTheme.palette.common.white,
+      color: cjbsTheme.palette.common.black,
+      justifyContent: "flex-start",
+    },
+  },
+};
+
+export const dataTableCustomStyles2 = {
+  table: {
+    style: {
+      // color: theme.text.primary,
+      backgroundColor: cjbsTheme.palette.common.white,
+    },
+  },
+  tableWrapper: {
+    style: {
+      display: "table",
+      borderCollapse: "collapse",
+    },
+  },
+  header: {
+    style: {
+      backgroundColor: cjbsTheme.palette.common.white,
+      padding: 0,
+    },
+  },
+  head: {
+    style: {
+      color: cjbsTheme.palette.common.black,
+      fontWeight: "600",
+      fontSize: 14,
+      backgroundColor: cjbsTheme.palette.grey["100"],
+      borderCollapse: "collapse",
+    },
+  },
+  subHeader: {
+    style: {
+      backgroundColor: cjbsTheme.palette.common.white,
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+  headRow: {
+    style: {
+      backgroundColor: cjbsTheme.palette.grey["100"],
+      // minHeight: "40px",
+      borderTop: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      "&:nth-of-type(1)": {
+        paddingLeft: 0,
+      },
+      "&:nth-last-child(1)": {
+        paddingRight: 0,
+      },
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+    denseStyle: {
+      minHeight: "40px",
+    },
+  },
+  headCells: {
+    style: {
+      borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      // paddingLeft: "16px",
+      // paddingRight: "16px",
+    },
+    draggingStyle: {
+      cursor: "move",
+    },
+  },
+  cells: {
+    style: {
+      fontSize: 14,
+      borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      "&:nth-of-type(1)": {
+        // paddingLeft: 40,
+      },
+      "&:nth-last-child(1)": {
+        // paddingRight: 40,
+      },
+    },
+  },
+  rows: {
+    style: {
+      backgroundColor: cjbsTheme.palette.common.white,
+      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+    },
+  },
+  pagination: {
+    style: {
+      backgroundColor: cjbsTheme.palette.common.white,
+      color: cjbsTheme.palette.common.black,
+    },
+  },
+};
+
+export const dataTableCustomStyles3 = {
+  table: {
+    style: {
+      // color: theme.text.primary,
+      backgroundColor: cjbsTheme.palette.common.white,
+    },
+  },
+  header: {
+    style: {
+      backgroundColor: "white",
+      padding: 0,
+    },
+  },
+  head: {
+    style: {
+      color: "black",
+      fontWeight: "600",
+      fontSize: 14,
+      backgroundColor: cjbsTheme.palette.grey["50"],
+      borderTop: "1px solid #000",
+      borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      // paddingTop: 3,
+      // paddingBottom: 3,
+    },
+  },
+  subHeader: {
+    style: {
+      backgroundColor: "white",
+      paddingLeft: 0,
+      paddingRight: 0,
+    },
+  },
+  headRow: {
+    style: {
+      backgroundColor: cjbsTheme.palette.grey["50"],
+      // minHeight: "40px",
+      // borderTop: "1px solid #000",
+      // borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      borderBottom: "none",
+      // "&:nth-of-type(1)": {
+      //   paddingLeft: 24,
+      // },
+      // "&:nth-last-child(1)": {
+      //   paddingRight: 24,
+      // },
+    },
+  },
+  headCells: {
+    style: {
+      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      minHeight: 40,
+    },
+  },
+  cells: {
+    style: {
+      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      // borderRight: "1px solid red",
+      // minHeight: 50,
+      paddingTop: 9,
+      paddingBottom: 9,
+      fontSize: 14,
+      "&:nth-of-type(1)": {
+        // paddingLeft: 40,
+      },
+      "&:nth-last-child(1)": {
+        // paddingRight: 40,
+      },
+    },
+  },
+  rows: {
+    style: {
+      backgroundColor: "white",
+      // paddingTop: 7.5,
+      // paddingBottom: 7.5,
+      // paddingLeft: 24,
+      // paddingRight: 24,
+      borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+    },
+    highlightOnHoverStyle: {
+      backgroundColor: cjbsTheme.palette.grey["200"],
+      borderBottomColor: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+    },
+  },
+  pagination: {
+    style: {
+      backgroundColor: cjbsTheme.palette.common.white,
+      color: cjbsTheme.palette.common.black,
     },
   },
 };

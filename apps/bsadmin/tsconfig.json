@@ -1,17 +1,14 @@
 {
+  "extends": "tsconfig/nextjs.json",
   "compilerOptions": {
-    "baseUrl": ".",
-    "jsx": "preserve",
     "plugins": [
       {
         "name": "next"
       }
     ],
-    "paths": {
-      "@components/*": ["../../packages/cjbsDSTM/*"],
-    }
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
   },
-  "extends": "tsconfig/nextjs.json",
   "include": [
     "next-env.d.ts",
     "**/*.ts",
@@ -21,4 +18,7 @@
   "exclude": [
     "node_modules"
   ],
+  "paths": {
+    "@mui/styled-engine": ["./node_modules/@mui/styled-engine-sc"]
+  }
 }

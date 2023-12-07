@@ -1,0 +1,17 @@
+{
+  "name": "api",
+  "version": "0.0.1",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "lint": "eslint \"**/*.ts*\""
+  },
+  "dependencies": {
+    "next": "latest",
+    "next-auth-it": "workspace:*"
+  },
+  "devDependencies": {
+    "tsconfig": "workspace:*"
+  }
+}
