@@ -26,6 +26,9 @@ import {
   TD,
   TH,
   Title1,
+  Won,
+  EA,
+  Taxon,
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
@@ -39,7 +42,6 @@ import {
   reqReturnListData,
   taxonListData,
 } from "../../../data/inputDataLists";
-import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
@@ -273,7 +275,11 @@ const OrderRegView = () => {
             titleName={
               "오더 등록" +
               `${
-                orshType === "intn" ? " (내부)" : orshType === "extr" ? "" : ""
+                orshType === "intn"
+                  ? " (내부)"
+                  : orshType === "extr"
+                    ? " (고객)"
+                    : ""
               }`
             }
           />
@@ -586,7 +592,6 @@ const OrderRegView = () => {
                           disabled={orshType === "intn" || orshType === "extr"}
                           inputMode="numeric"
                           InputProps={{
-                            // inputComponent: TaxonBCntFormat as any,
                             inputComponent: (props) => (
                               <TaxonCntFormat
                                 taxonData={defaultValues[taxonItem.taxonName]}
@@ -594,23 +599,9 @@ const OrderRegView = () => {
                               />
                             ),
                             startAdornment: (
-                              <InputAdornment position="start" sx={{ ml: -1 }}>
-                                <MyIcon
-                                  icon={taxonItem.taxonIconName}
-                                  size={20}
-                                />
-                              </InputAdornment>
+                              <Taxon iconName={taxonItem.taxonIconName} />
                             ),
-                            endAdornment: (
-                              <InputAdornment position="end" sx={{ mr: -0.5 }}>
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "black" }}
-                                >
-                                  개
-                                </Typography>
-                              </InputAdornment>
-                            ),
+                            endAdornment: <EA />,
                           }}
                         />
                       );
@@ -685,13 +676,7 @@ const OrderRegView = () => {
                             {...props}
                           />
                         ),
-                        endAdornment: (
-                          <InputAdornment position="end">
-                            <Typography variant="body2" sx={{ color: "black" }}>
-                              원
-                            </Typography>
-                          </InputAdornment>
-                        ),
+                        endAdornment: <Won />,
                       }}
                     />
                   </Stack>
