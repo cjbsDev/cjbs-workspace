@@ -27,31 +27,34 @@ const LazySampleInfoModal = dynamic(
   () => import("./(SampleInfoModal)/SampleInfoModal"),
   {
     ssr: false,
-  }
+  },
 );
 const LazySampleAddModal = dynamic(
   () => import("./(SampleAddModal)/SampleAddModal"),
   {
     ssr: false,
-  }
+  },
 );
 
-const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
-  ssr: false,
-});
+const LazyAnalDtlModal = dynamic(
+  () => import("./(AnalDtlModal)/AnalDtlModal"),
+  {
+    ssr: false,
+  },
+);
 
 const LazyExperimentProgressChangeModal = dynamic(
   () =>
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
   {
     ssr: false,
-  }
+  },
 );
 const LazySampleBatchChangeModal = dynamic(
   () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 const LazySampleDataTable = dynamic(() => import("./SampleDataTable"), {
@@ -100,7 +103,7 @@ const SampleTab = () => {
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(
       filterText.toLowerCase().normalize("NFC"),
-      "i"
+      "i",
     );
 
     return (
@@ -109,7 +112,7 @@ const SampleTab = () => {
         filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
       (item.sampleTypeVal &&
         filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
+          item.sampleTypeVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.source &&
         filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
@@ -119,11 +122,11 @@ const SampleTab = () => {
         filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
       (item.runList.join() &&
         filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
+          item.runList.join().toLowerCase().normalize("NFC"),
         )) ||
       (item.sampleStatusRes.rcptStatusVal &&
         filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
+          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.isAnlsItst &&
         filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
@@ -185,7 +188,7 @@ const SampleTab = () => {
         isShow: true,
       });
     },
-    [showSampleInfoModal]
+    [showSampleInfoModal],
   );
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
