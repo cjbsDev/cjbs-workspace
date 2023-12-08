@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 import { isDisabledAtom } from "../../../../../recoil/atoms/modalAtom";
 
-const formatBytes = (bytes, decimals = 2) => {
+const formatBytes = (bytes: number, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
 
   const k = 1024;
