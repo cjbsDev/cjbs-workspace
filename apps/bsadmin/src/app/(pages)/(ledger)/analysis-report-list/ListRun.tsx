@@ -220,11 +220,11 @@ const ListRun = () => {
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
-            {/*<ContainedButton*/}
-            {/*  buttonName="분석 내역서 등록"*/}
-            {/*  size="small"*/}
-            {/*  onClick={() => router.push("/analysis-report-reg")}*/}
-            {/*/>*/}
+            <ContainedButton
+              buttonName="분석 내역서 등록"
+              size="small"
+              onClick={() => handleServiceSelectOpen()}
+            />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -292,16 +292,16 @@ const ListRun = () => {
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.srvcTypeVal}</Typography>
                     </TableCell>
-                    <TableCell width={'80px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'80px'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.sampleSize}</Typography>
                     </TableCell>
-                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'140px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
-                    <TableCell width={'120px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'120px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
-                    <TableCell width={'150px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'150px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
                     <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}} rowSpan={10}>
@@ -354,11 +354,6 @@ const ListRun = () => {
         title={
           <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
             <Title1 titleName="분석내역서" />
-            <ContainedButton
-              buttonName="분석 내역서 등록"
-              size="small"
-              onClick={() => handleServiceSelectOpen()}
-            />
           </Stack>
         }
         data={anlsItstList}

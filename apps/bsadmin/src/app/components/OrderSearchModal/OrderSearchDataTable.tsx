@@ -2,7 +2,7 @@ import * as React from "react";
 import { useMemo, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useFormContext } from "react-hook-form";
+import {useFieldArray, useFormContext} from "react-hook-form";
 import { Box, Grid, Stack } from "@mui/material";
 import {
   DataCountResultInfo,
@@ -11,6 +11,8 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import {useRecoilState} from "recoil";
+import {groupListDataAtom} from "../../recoil/atoms/groupListDataAtom";
 
 const APIPATH = "/anls/itst/order/list";
 const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChange: any; }) => {
@@ -20,7 +22,7 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
-  const { setValue, clearErrors, resetField } = useFormContext();
+  const { control, setValue, clearErrors, resetField } = useFormContext();
 
   // [오더] 컬럼세팅
   const columns = useMemo(
@@ -96,6 +98,7 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
         width: "90px",
         cell: (row: {
           orderUkey: string;
+          agncUkey: string;
           orderId: number;
           pltfMc: string;
           anlsTypeVal: string;
@@ -108,7 +111,6 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
           bsnsMngrVal: string;
           rmnPrePymtPrice: number;
 
-          agncUkey: string;
           telList: string;
           instNm: string;
           agncNm: string;
@@ -116,6 +118,7 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
         }) => {
           const {
             orderUkey,
+            agncUkey,
             orderId,
             pltfMc,
             anlsTypeVal,
@@ -128,23 +131,20 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
             bsnsMngrVal,
             rmnPrePymtPrice,
 
-            agncUkey,
+
             telList,
             instNm,
             agncNm,
             isAgncIncl,
           } = row;
 
-          const agncInstNm = `${row.agncNm}(${row.instNm})`;
-          const custEbcNm = `${row.custNm}(${row.custEbcEmail})`;
+          const agncInstNm = `${row.agncNm} (${row.instNm})`;
+          const custEbcNm = `${row.custNm} (${row.custEbcEmail})`;
 
-          if (agncUkey && type === "agnc") {
-            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
-          }
-
-          if (isAgncIncl === "N" && type === "agnc-order") {
-            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
-          }
+          // if (isAgncIncl === "N" && type === "agnc-order") {
+          //   return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
+          // }
+          // console.log("agncUkey", agncUkey);
 
           return (
             <OutlinedButton
@@ -152,6 +152,8 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
               buttonName="선택"
               onClick={() => {
                 setValue("orderUkey", orderUkey);
+                setValue("agncUkey", agncUkey);
+                setValue("agncNm", agncInstNm);
                 setValue("orderId", orderId);
                 setValue("pltfMc", pltfMc);
                 setValue("pltfValueView", anlsTypeVal + ' > ' + pltfVal);
@@ -159,23 +161,22 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
                 setValue("depthVal", depthVal);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrVal);
-                setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+                setValue("rmnPrePymtPrice", rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
                 setValue("anlsTypeMc", anlsTypeMc);
 
+                // setValue("telList", telList);
 
-                setValue("telList", telList);
-                setValue("agncNm", agncInstNm);
-                setValue("agncUkey", agncUkey);
+                // setValue("agncUkey", agncUkey);
 
 
                 onClose();
-                clearErrors("custNm");
-                clearErrors("ebcEmail");
-                clearErrors("custUkey");
-                clearErrors("agncUkey");
-                clearErrors("agncNm");
-                clearErrors("telList");
-                resetField("checkTest7");
+                // clearErrors("custNm");
+                // clearErrors("ebcEmail");
+                // clearErrors("custUkey");
+                // clearErrors("agncUkey");
+                // clearErrors("agncNm");
+                // clearErrors("telList");
+                // resetField("checkTest7");
 
                 handleOrderChange(orderUkey);
               }}
@@ -189,6 +190,7 @@ const OrderSearchDataTable = (props: { type: any; onClose: any; handleOrderChang
 
   //console.log("data.custList", data.custList);
   const filteredData = data.anlsItstOrderList;
+  // console.log("filteredData", filteredData);
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
