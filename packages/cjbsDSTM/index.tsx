@@ -31,6 +31,7 @@ export * from "./molecules/DateRangePicker";
 export * from "./molecules/SingleDatePicker";
 export * from "./molecules/FileDownloadBtn";
 export * from "./molecules/DataTableFilter/DataTableMetaFilter";
+export * from "./molecules/Adorment";
 
 // export * from "./molecules/InputValidation";
 

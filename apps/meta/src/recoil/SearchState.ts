@@ -28,8 +28,8 @@ export const ageState = atom<AgeType>({
 export const bmiState = atom({
   key: 'bmiState', // unique ID (with respect to other atoms/selectors)
   default: {
-    bmiMinAge: 0,
-    bmiMaxAge: 0,
+    bmiMinValue: 0,
+    bmiMaxValue: 0,
   },
 });
 

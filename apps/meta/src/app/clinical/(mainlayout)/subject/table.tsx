@@ -1,7 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { SubjectData } from './types';
 import { subjectColoumns } from './columns';
-import { AgeType, CheckType, Search, SelectedFilterValues } from '../../types';
+import {
+  AgeType,
+  BMIType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from '../../types';
 import { Box, Grid, Stack } from '@mui/material';
 import SelectedFilterChip from 'src/component/molecules/chip/SelectedFilterChip';
 import { POST } from 'api';
@@ -13,13 +19,15 @@ import {
 } from 'src/recoil/SubjectState';
 import {
   ageState,
+  bmiState,
   searchInputState,
   selectedFilterState,
 } from 'src/recoil/SearchState';
 import { DataTableBase, DataTableMetaFilter } from 'cjbsDSTM';
 import { PAGE_SIZE, TABLE_HEIGHT } from 'src/const/common';
 import ExcelDownloadButton from 'cjbsDSTM/molecules/ExcelDownloadButton';
-import {dataTableEzcxCustomStyles} from "@components/organisms/DataTable/style/dataTableEzcxCustomStyle";
+import { dataTableEzcxCustomStyles } from '@components/organisms/DataTable/style/dataTableEzcxCustomStyle';
+import NoDataView from '../../../../component/molecules/NoDataView';
 interface SubjectTableType {
   postData: Search;
   data: SubjectData[];
@@ -33,14 +41,15 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
+  const bmi = useRecoilValue(bmiState);
   const [totalElements, setTotalElements] = useRecoilState<number | null>(
     subjectTotalElements,
   );
   const [pageSize, setPageSize] = useState<number>(PAGE_SIZE);
   useEffect(() => {
-    getData(checked, keyword, resultKeyword, age, 1, pageSize, []);
+    getData(checked, keyword, resultKeyword, age, bmi, 1, pageSize, []);
     setPageNum(1);
-  }, [resultKeyword, keyword, age, pageSize, checked]);
+  }, [resultKeyword, keyword, age, bmi, pageSize, checked]);
 
   const getData = useCallback(
     async (
@@ -48,6 +57,7 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
       keyword: string,
       resultKeyword: string,
       age: AgeType,
+      bmi: BMIType,
       pageNum: number,
       pageSize: number,
       sort: string[],
@@ -65,6 +75,8 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         resultKeyword: resultKeyword,
         subjectMinAge: age.subjectMinAge,
         subjectMaxAge: age.subjectMaxAge,
+        bmiMaxValue: bmi.bmiMaxValue,
+        bmiMinValue: bmi.bmiMinValue,
         page: {
           page: pageNum,
           size: pageSize,
@@ -102,30 +114,31 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         keyword,
         resultKeyword,
         age,
+        bmi,
         pageNum,
         pageSize,
         newArray,
       );
     },
-    [checked, keyword, sort, age, pageNum, pageSize, resultKeyword],
+    [checked, keyword, sort, age, bmi, pageNum, pageSize, resultKeyword],
   );
 
   const onChangePageNum = useCallback(
     (page: number) => {
       console.log('PaginationChangePage > ', page);
       setPageNum(page);
-      getData(checked, keyword, resultKeyword, age, page, pageSize, sort);
+      getData(checked, keyword, resultKeyword, age, bmi, page, pageSize, sort);
     },
-    [checked, keyword, age, sort, resultKeyword],
+    [checked, keyword, age, bmi, sort, resultKeyword],
   );
 
   const onChangePageSize = useCallback(
     (size: number) => {
       console.log('PaginationChangePage2> ', size);
       setPageSize(size);
-      getData(checked, keyword, resultKeyword, age, pageNum, size, sort);
+      getData(checked, keyword, resultKeyword, age, bmi, pageNum, size, sort);
     },
-    [checked, keyword, age, sort, resultKeyword, pageNum],
+    [checked, keyword, age, bmi, sort, resultKeyword, pageNum],
   );
 
   return (
@@ -136,6 +149,7 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         keyword={keyword}
         resultKeyword={resultKeyword}
         age={age}
+        bmi={bmi}
         sort={sort}
       />
       <DataTableBase
@@ -154,6 +168,7 @@ const SubjectTable = ({ postData, data }: SubjectTableType) => {
         onSort={onChangeSort}
         paginationDefaultPage={pageNum}
         onChangePage={onChangePageNum}
+        noDataComponent={<NoDataView />}
       />
     </Box>
   );
@@ -164,6 +179,7 @@ const HeaderComponent = ({
   keyword,
   resultKeyword,
   age,
+  bmi,
   pageNum,
   sort,
 }: {
@@ -171,6 +187,7 @@ const HeaderComponent = ({
   keyword: string;
   resultKeyword: string;
   age: AgeType;
+  bmi: BMIType;
   checked: CheckType[];
   sort: string[];
 }) => {
@@ -203,6 +220,8 @@ const HeaderComponent = ({
     resultKeyword: resultKeyword,
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
+    bmiMaxValue: bmi.bmiMaxValue,
+    bmiMinValue: bmi.bmiMinValue,
     page: {
       page: 1,
       size: 1,

@@ -7,7 +7,13 @@ import { toast } from 'react-toastify';
 import { SampleData } from './types';
 import { useRecoilValue } from 'recoil';
 
-import { AgeType, CheckType, Search, SelectedFilterValues } from '../../types';
+import {
+  AgeType,
+  BMIType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from '../../types';
 import SampleTable from './table';
 import { Title1 } from 'cjbsDSTM';
 import { subjectTotalElements } from 'src/recoil/SubjectState';
@@ -27,7 +33,7 @@ async function getSampleList(url: string, { arg }: { arg: Search }) {
   return await fetcherPost([url, arg]);
 }
 
-const Subject = () => {
+const SamplePage = () => {
   const params = useParams();
   const isSearch = params.s ? params.s : 'y';
   const [pageLoading, setPageLoading] = useState<boolean>(true);
@@ -35,7 +41,7 @@ const Subject = () => {
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
-  const ageBMI = useRecoilValue(bmiState);
+  const bmi = useRecoilValue<BMIType>(bmiState);
   const totalElements = useRecoilValue<number | null>(subjectTotalElements);
 
   const findData = checked.filter((item) => item.valid === true);
@@ -47,8 +53,8 @@ const Subject = () => {
   const postData: Search = {
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
-    bmiMaxValue: ageBMI.bmiMaxAge,
-    bmiMinValue: ageBMI.bmiMinAge,
+    bmiMaxValue: bmi.bmiMaxValue,
+    bmiMinValue: bmi.bmiMinValue,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,
@@ -68,7 +74,7 @@ const Subject = () => {
   useEffect(() => {
     trigger(postData);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [checked, age, bmi]);
 
   useEffect(() => {
     !isMutating && setPageLoading(false);
@@ -102,4 +108,4 @@ const Subject = () => {
   }
 };
 
-export default Subject;
+export default SamplePage;

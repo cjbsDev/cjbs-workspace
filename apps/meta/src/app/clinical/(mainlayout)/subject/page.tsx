@@ -16,7 +16,13 @@ import {
   selectedFilterState,
 } from 'src/recoil/SearchState';
 
-import { AgeType, CheckType, Search, SelectedFilterValues } from '../../types';
+import {
+  AgeType,
+  BMIType,
+  CheckType,
+  Search,
+  SelectedFilterValues,
+} from '../../types';
 import SubjectTable from './table';
 import { PAGE_SIZE, TABLE_SKELETON_HEIGHT } from 'src/const/common';
 import Title from 'src/component/atoms/Title';
@@ -25,13 +31,13 @@ async function getSubjectList(url: string, { arg }: { arg: Search }) {
   return await fetcherPost([url, arg]);
 }
 
-const Subject = () => {
+const SubjectPage = () => {
   const [pageLoading, setPageLoading] = useState<boolean>(true);
 
   const checked = useRecoilValue<CheckType[]>(selectedFilterState);
   const keyword = useRecoilValue<string>(searchInputState);
   const age = useRecoilValue<AgeType>(ageState);
-  const ageBMI = useRecoilValue(bmiState);
+  const bmi = useRecoilValue<BMIType>(bmiState);
   const totalElements = useRecoilValue<number | null>(subjectTotalElements);
 
   const findData = checked.filter((item) => item.valid === true);
@@ -40,11 +46,28 @@ const Subject = () => {
     return { field: item.root, code: item.code };
   });
 
+  console.log('SUBJECT BMI', bmi);
+  console.log('AGE', age);
+
+  const { trigger, isMutating, data } = useSWRMutation(
+    '/subject/list',
+    getSubjectList,
+  );
+
+  useEffect(() => {
+    console.log('POST DATA', postData);
+    trigger(postData);
+  }, [checked, age, bmi]);
+
+  useEffect(() => {
+    !isMutating && setPageLoading(false);
+  }, [isMutating]);
+
   const postData: Search = {
     subjectMinAge: age.subjectMinAge,
     subjectMaxAge: age.subjectMaxAge,
-    bmiMaxValue: ageBMI.bmiMaxAge,
-    bmiMinValue: ageBMI.bmiMinAge,
+    bmiMaxValue: bmi.bmiMaxValue,
+    bmiMinValue: bmi.bmiMinValue,
     resultKeyword: '',
     keyword: keyword,
     filter: filterData,
@@ -55,19 +78,6 @@ const Subject = () => {
     },
     list: [],
   };
-
-  const { trigger, isMutating, data } = useSWRMutation(
-    '/subject/list',
-    getSubjectList,
-  );
-
-  useEffect(() => {
-    trigger(postData);
-  }, []);
-
-  useEffect(() => {
-    !isMutating && setPageLoading(false);
-  }, [isMutating]);
 
   if (pageLoading) {
     return (
@@ -97,4 +107,4 @@ const Subject = () => {
   }
 };
 
-export default Subject;
+export default SubjectPage;
