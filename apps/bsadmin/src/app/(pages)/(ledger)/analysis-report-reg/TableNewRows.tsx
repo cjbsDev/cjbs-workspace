@@ -91,6 +91,7 @@ const TableNewRows = (props:any) => {
         setValue(`sample.[${index}].stndDscntPctg`, resData[0].stndDscntPctg);
         setValue(`sample.[${index}].unitPrice`, '0');
         setValue(`sample.[${index}].supplyPrice`, '0');
+        setValue(`sample.[${index}].vat`, '0');
 
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
@@ -137,6 +138,7 @@ const TableNewRows = (props:any) => {
     // console.log("stndPrice", stndPrice);
     if(sampleSize > 0) {
       setValue(`sample.[${index}].supplyPrice`, (unitPrice * sampleSize).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      setValue(`sample.[${index}].vat`, ((unitPrice * sampleSize) * 0.1).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setStndSupplyPrice((unitPrice * sampleSize));
 
       let disCountPercent: number = 0;
@@ -340,6 +342,27 @@ const TableNewRows = (props:any) => {
                 </InputAdornment>
               ),
             }}
+          />
+          <InputValidation
+              inputName={`sample.[${index}].vat`}
+              required={true}
+              onBlur={handleOnBlurSupplyPrice}
+              onFocus={handleOnFocus}
+              sx={{
+                width: 150,
+                ".MuiOutlinedInput-input": {
+                  textAlign: "end",
+                },
+              }}
+              InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                      <Typography variant="body2" sx={{ color: "black" }}>
+                        원
+                      </Typography>
+                    </InputAdornment>
+                ),
+              }}
           />
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>

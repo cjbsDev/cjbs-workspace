@@ -47,6 +47,7 @@ import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 import {useRecoilState} from "recoil";
 import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
 import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
+import dayjs from "dayjs";
 
 
 interface CustomProps {
@@ -85,6 +86,7 @@ const AnalysisRegView = () => {
   const [settlement, setSettlement] = useState<boolean>(false);
   const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
   const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
+  const [selectSampleListData, setSelectSampleListData] = useState<any>({});
 
   // 주문서에서 오더 등록 할때
   const from: string | null = searchParams.get("from");
@@ -103,7 +105,7 @@ const AnalysisRegView = () => {
   // console.log("DefaultValues ==>>", defaultValues);
 
   const onSubmit = async (data: any) => {
-    // setIsLoading(true);
+    setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
     if(data.sample.length <= 0) {
@@ -111,34 +113,27 @@ const AnalysisRegView = () => {
       return false;
     }
 
-    const sampleUkeyList= () => {
+    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
+
+    const sampleUkeyList = () => {
       let sampleList = data.sample;
-      sampleList.map()
-      // costList: [
-      //   {
-      //     dscntPctg: "할인율",
-      //     dscntRasnCc: "사유 Cc",
-      //     dscntRasnDetail: "직접 입력 사유",
-      //     isExc: "할인율 초과 여부",
-      //     sampleSize: 0,
-      //     sampleUkey: [
-      //       "string"
-      //     ],
-      //     srvcTypeMc: "서비스 타입",
-      //     stndCode: "기준가 코드",
-      //     stndPrice: "기준가 금액",
-      //     supplyPrice: 0,
-      //     unitPrice: 0,
-      //     vat: 0
-      //   }
-      // ],
+      sampleList.map((item, index) => {
+        console.log("item", item);
+        console.log("selectSampleListData", selectSampleListData[item.srvcTypeMc]["sampleUkey"] );
+        sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+        sampleList[index]["stndPrice"] = Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+        sampleList[index]["supplyPrice"] = Number(sampleList[index]["supplyPrice"].replaceAll(",", ""));
+        sampleList[index]["unitPrice"] = Number(sampleList[index]["unitPrice"].replaceAll(",", ""));
+        sampleList[index]["vat"] = Number(sampleList[index]["vat"].replaceAll(",", ""));
+      });
+      return sampleList;
     };
 
     const bodyData= {
       agncUkey: data.agncUkey,
-      anlsDttm: data.anlsDttm,
+      anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
-      costList: sampleUkeyList,
+      costList: sampleUkeyList(),
       depthMc: data.depthMc,
       memo: data.memo,
       orderUkey: data.orderUkey,
@@ -150,17 +145,18 @@ const AnalysisRegView = () => {
       vat: data.vat
     };
 
+    console.log("bodyData", bodyData);
+
     const apiUrl: string = `/anls/itst`;
 
     await POST(apiUrl, bodyData)
     .then((response) => {
       console.log("POST request successful:", response);
       if (response.success) {
-        // setIsLoading(false);
+        setIsLoading(false);
         if (orshUK !== null) {
-          // router.push(`${from}`);
-          // mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
           mutate(apiUrl);
+          router.push("/analysis-report-list");
         } else {
           // router.push("/order-list");
         }
@@ -453,6 +449,7 @@ const AnalysisRegView = () => {
               <AnalysisSampleDynamicTable
                 analysisSearchModalOpen={analysisSearchModalOpen}
                 setSettlement={setSettlement}
+                setSelectSampleListData={setSelectSampleListData}
               />
 
               <TableContainer sx={{ mb: 5 }}>

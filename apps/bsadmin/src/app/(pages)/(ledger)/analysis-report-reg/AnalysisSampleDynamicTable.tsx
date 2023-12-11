@@ -32,7 +32,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
 // }, ref) => {
 
   // const serviceType = props.serviceType;
-  const { analysisSearchModalOpen, setSettlement } = props;
+  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
   const { control, getValues, formState, setValue, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -72,30 +72,31 @@ export default function AnalysisSampleDynamicTable(props: any) {
       const mergeData: any = {};
       selectSampleData.map((item: any) => {
         // console.log(item)
-        // srvcType을 배열로 추가 한다
-        if(!mergeData.hasOwnProperty("srvcType")) {
-          mergeData["srvcType"] = [];
-          mergeData["srvcType"].push(item.srvcTypeVal);
-        } else { // srvcType이 있을 경우 배열에 중복값을 확인하여 추가한다
-          if(!mergeData["srvcType"].includes(item.srvcTypeVal)){
-            mergeData["srvcType"].push(item.srvcTypeVal);
+        // srvcTypeMc을 배열로 추가 한다
+        if(!mergeData.hasOwnProperty("srvcTypeMc")) {
+          mergeData["srvcTypeMc"] = [];
+          mergeData["srvcTypeMc"].push(item.srvcTypeMc);
+        } else { // srvcTypeMc가 있을 경우 배열에 중복값을 확인하여 추가한다
+          if(!mergeData["srvcTypeMc"].includes(item.srvcTypeMc)){
+            mergeData["srvcTypeMc"].push(item.srvcTypeMc);
           }
         }
-        if(!mergeData.hasOwnProperty(item.srvcTypeVal)) {
-          mergeData[item.srvcTypeVal] = {};
+        if(!mergeData.hasOwnProperty(item.srvcTypeMc)) {
+          mergeData[item.srvcTypeMc] = {};
         }
-        if(mergeData[item.srvcTypeVal].hasOwnProperty("sampleUkey")) {
-          mergeData[item.srvcTypeVal]["sampleUkey"].push(item.sampleUkey);
+        if(mergeData[item.srvcTypeMc].hasOwnProperty("sampleUkey")) {
+          mergeData[item.srvcTypeMc]["sampleUkey"].push(item.sampleUkey);
         } else {
-          mergeData[item.srvcTypeVal]["sampleUkey"] = [];
-          mergeData[item.srvcTypeVal]["srvcTypeMc"] = item.srvcTypeMc;
-          mergeData[item.srvcTypeVal]["sampleUkey"].push(item.sampleUkey);
+          mergeData[item.srvcTypeMc]["sampleUkey"] = [];
+          mergeData[item.srvcTypeMc]["srvcTypeMc"] = item.srvcTypeMc;
+          mergeData[item.srvcTypeMc]["sampleUkey"].push(item.sampleUkey);
         }
       });
       console.log("end: ", mergeData)
+      setSelectSampleListData(mergeData);
       // resetTable();
       // setTimeout(() => {
-      mergeData["srvcType"].map((item: any) => {
+      mergeData["srvcTypeMc"].map((item: any) => {
         // console.log("item: ", item);
         const resData = callStndPrice(mergeData[item]["srvcTypeMc"], mergeData[item]["sampleUkey"].length)
           .then((result) => {
@@ -103,10 +104,11 @@ export default function AnalysisSampleDynamicTable(props: any) {
             append({
               addType: "modal",
               srvcTypeMc: mergeData[item]["srvcTypeMc"],
-              srvcTypeVal: item,
+              srvcTypeVal: result[0].srvcTypeVal,
               sampleSize: mergeData[item]["sampleUkey"].length,
               unitPrice: '0',
               supplyPrice: '0',
+              vat: '0',
               dscntRasnCc: "",
               stndPrice: result[0].stndPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               stndCode: result[0].stndCode,
@@ -175,11 +177,11 @@ export default function AnalysisSampleDynamicTable(props: any) {
     setValue("totalCnt", sumTotCnt);
     setValue("totalSupplyPrice", sumTotSupplyPrice);
     setValue("totalSupplyPriceVal", sumTotSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    setValue("vat", sumTotVat);
-    setValue("vatVal", sumTotVat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    setValue("vat", sumTotVat.toFixed(0));
+    setValue("vatVal", sumTotVat.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     const totalPrice = (sumTotSupplyPrice + sumTotVat);
-    setValue("totalPrice", totalPrice);
-    setValue("totalPriceVal", totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    setValue("totalPrice", totalPrice.toFixed(0));
+    setValue("totalPriceVal", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
     // 선결제 금액이 있는경우
     const rmnPrePymtPrice = Number(getValues("rmnPrePymtPrice").replaceAll(",", ""));
@@ -187,15 +189,15 @@ export default function AnalysisSampleDynamicTable(props: any) {
       // 선결제 금액이 있는경우
       if(rmnPrePymtPrice >= totalPrice) { // 선결제 비용이 합계금액보다 큰경우
         setValue("remainingAmount", "0");
-        setValue("settlementCost", totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        setValue("settlementCost", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       } else if (rmnPrePymtPrice < totalPrice) { // 선결제 비용이 합계금액보다 적은경우
-        setValue("remainingAmount", (totalPrice-rmnPrePymtPrice).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-        setValue("settlementCost", rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        setValue("remainingAmount", (totalPrice-rmnPrePymtPrice).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        setValue("settlementCost", rmnPrePymtPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
       setSettlement(true);
     } else {
       // 선결제 금액이 없는경우
-      setValue("remainingAmount", totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      setValue("remainingAmount", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setSettlement(false);
     }
   };
@@ -213,6 +215,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
       sampleSize: 0,
       unitPrice: '0',
       supplyPrice: '0',
+      vat: '0',
       dscntRasnCc: "",
     });
   };
