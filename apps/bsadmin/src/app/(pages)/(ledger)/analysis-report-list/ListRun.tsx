@@ -326,16 +326,16 @@ const ListRun = () => {
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.srvcTypeVal}</Typography>
                     </TableCell>
-                    <TableCell width={'80px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'80px'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.sampleSize}</Typography>
                     </TableCell>
-                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'140px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
-                    <TableCell width={'120px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'120px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
-                    <TableCell width={'150px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell width={'150px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
                       <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
                     </TableCell>
                   </TableRow>
