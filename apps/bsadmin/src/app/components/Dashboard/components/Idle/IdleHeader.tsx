@@ -6,7 +6,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import { useRecoilState } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
-import { totalYearAtom } from "../Total/totalAtom";
+// import { totalYearAtom } from "../../dashboardAtom";
+import { dashboardIdleData } from "../../../../data/inputDataLists";
+import { SelectBox2 } from "cjbsDSTM";
 
 const IdleHeader = () => {
   const searchParams = useSearchParams();
@@ -14,6 +16,7 @@ const IdleHeader = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
+  const [drtn, setDrtn] = useState(3);
 
   useEffect(() => {
     if (params === null) {
@@ -28,6 +31,11 @@ const IdleHeader = () => {
     if (newDuration !== duration) {
       setDuration(newDuration);
     }
+  };
+
+  const handleDuration = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setDrtn(value);
   };
 
   return (
@@ -55,6 +63,12 @@ const IdleHeader = () => {
             </ToggleButton>
           ))}
         </StyledToggleButtonGroup>
+
+        <SelectBox2
+          options={dashboardIdleData}
+          value={drtn}
+          onChange={handleDuration}
+        />
       </SectionHeader.Action>
     </SectionHeader>
   );

@@ -325,33 +325,53 @@ const ListOrder = () => {
   const subHeaderComponentMemo = React.useMemo(() => {
     return (
       <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
-            <Link href="/order-reg">
-              <ContainedButton buttonName="오더 등록" size="small" />
-            </Link>
+        <Grid item xs={12} sx={{ pt: 0 }}>
+          <Stack direction="row" justifyContent="space-between">
+            <Stack direction="row" spacing={1.5} alignItems="center">
+              <DataCountResultInfo totalCount={totalElements} />
+              <Link href="/order-reg">
+                <ContainedButton buttonName="오더 등록" size="small" />
+              </Link>
+            </Stack>
+
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{ mb: 1.5 }}
+              alignItems="center"
+            >
+              {/*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*/}
+              <IconDescBar freeDisabled={true} reOrder={true} />
+
+              <FileDownloadBtn
+                exportUrl={`/order/list/download${result}`}
+                iconName="xls3"
+              />
+
+              <KeywordSearch />
+              <ResultInSearch />
+            </Stack>
           </Stack>
         </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            {/*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*/}
-            <IconDescBar freeDisabled={true} reOrder={true} />
+        {/*<Grid item xs={6} sx={{}}>*/}
+        {/*  <Stack*/}
+        {/*    direction="row"*/}
+        {/*    spacing={1}*/}
+        {/*    sx={{ mb: 1.5 }}*/}
+        {/*    alignItems="center"*/}
+        {/*  >*/}
+        {/*    /!*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*!/*/}
+        {/*    <IconDescBar freeDisabled={true} reOrder={true} />*/}
 
-            <FileDownloadBtn
-              exportUrl={`/order/list/download${result}`}
-              iconName="xls3"
-            />
+        {/*    <FileDownloadBtn*/}
+        {/*      exportUrl={`/order/list/download${result}`}*/}
+        {/*      iconName="xls3"*/}
+        {/*    />*/}
 
-            <KeywordSearch />
-            <ResultInSearch />
-          </Stack>
-        </Grid>
+        {/*    <KeywordSearch />*/}
+        {/*    <ResultInSearch />*/}
+        {/*  </Stack>*/}
+        {/*</Grid>*/}
       </Grid>
     );
   }, [result]);

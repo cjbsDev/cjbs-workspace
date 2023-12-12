@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { SWRConfig } from "swr";
 import StyledJsxRegistry from "./styled-ssr/styledRegistry";
-import { RecoilRoot } from "recoil";
+import RecoilRootWrapper from "./recoil-wrapper/RecoilRootWrapper";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -52,7 +52,7 @@ export default function Providers({ children }: ContextProps) {
           }}
         >
           <StyledJsxRegistry>
-            <RecoilRoot>{children}</RecoilRoot>
+            <RecoilRootWrapper>{children}</RecoilRootWrapper>
           </StyledJsxRegistry>
         </SWRConfig>
       </SessionProvider>
