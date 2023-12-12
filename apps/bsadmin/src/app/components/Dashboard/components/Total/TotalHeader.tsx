@@ -1,34 +1,22 @@
 import React from "react";
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { SelectBox2 } from "cjbsDSTM";
-import {
-  dashboardMonthData,
-  dashboardYearData,
-} from "../../../../data/inputDataLists";
+// import {
+//   dashboardMonthData,
+//   dashboardYearData,
+// } from "../../../../data/inputDataLists";
 import SectionHeader from "../SectionHeader";
 import { useRecoilState } from "recoil";
-import { chartTypeAtom, totalMonthAtom, totalYearAtom } from "./totalAtom";
+import {
+  chartTypeAtom,
+  totalMonthAtom,
+  totalYearAtom,
+} from "../../dashboardAtom";
 import { styled } from "@mui/material/styles";
 import MyIcon from "icon/MyIcon";
 
 const TotalHeader = () => {
-  const [year, setYear] = useRecoilState(totalYearAtom);
-  const [month, setMonth] = useRecoilState(totalMonthAtom);
   const [chartType, setChartType] = useRecoilState(chartTypeAtom);
-  const handleYear = (event) => {
-    const getYear = event.target.value;
-    setYear(getYear);
-  };
-
-  const handleMonth = (event) => {
-    const getMonth = event.target.value;
-    setMonth(getMonth);
-  };
-
-  // const handleChartTypeChange = (type) => {
-  //   setChartType(type);
-  // };
-
   const handleChartTypeChange = (
     event: React.MouseEvent<HTMLElement>,
     newChartType: number,
@@ -40,23 +28,23 @@ const TotalHeader = () => {
 
   return (
     <Box sx={{ position: "relative" }}>
-      <Stack
-        direction="row"
-        spacing={1}
-        sx={{ position: "absolute", top: -77, left: -28 }}
-      >
-        <SelectBox2
-          options={dashboardYearData}
-          value={year}
-          onChange={handleYear}
-        />
+      {/*<Stack*/}
+      {/*  direction="row"*/}
+      {/*  spacing={1}*/}
+      {/*  sx={{ position: "absolute", top: -77, left: -28 }}*/}
+      {/*>*/}
+      {/*  <SelectBox2*/}
+      {/*    options={dashboardYearData}*/}
+      {/*    value={year}*/}
+      {/*    onChange={handleYear}*/}
+      {/*  />*/}
 
-        <SelectBox2
-          options={dashboardMonthData}
-          value={month}
-          onChange={handleMonth}
-        />
-      </Stack>
+      {/*  <SelectBox2*/}
+      {/*    options={dashboardMonthData}*/}
+      {/*    value={month}*/}
+      {/*    onChange={handleMonth}*/}
+      {/*  />*/}
+      {/*</Stack>*/}
       <SectionHeader>
         <SectionHeader.Title>총 매출</SectionHeader.Title>
         <SectionHeader.Action>

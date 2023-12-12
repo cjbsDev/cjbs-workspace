@@ -11,12 +11,12 @@ const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
 
 const Index = () => {
   return (
-    <RecoilRoot>
+    <>
       <TotalHeader />
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyTotalContents />
       </ErrorContainer>
-    </RecoilRoot>
+    </>
   );
 };
 

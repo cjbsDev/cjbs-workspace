@@ -11,11 +11,22 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { dashboardYearAtom, dashboardMonthAtom } from "../dashboardAtom";
 
 const InstTop = () => {
-  const { data } = useSWR(`/dashboard/sls/inst?year=2023&month=11`, fetcher, {
-    suspense: true,
-  });
+  const getYear = useRecoilValue(dashboardYearAtom);
+  const getMonth = useRecoilValue(dashboardMonthAtom);
+
+  console.log(getYear, getMonth);
+
+  const { data } = useSWR(
+    `/dashboard/sls/inst?year=${getYear}&month=${getMonth}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
 
   console.log("기관별 매출 Top", data);
 

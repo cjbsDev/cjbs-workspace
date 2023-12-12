@@ -84,13 +84,14 @@ const Legend = (props: LegendProps) => {
                       label={`${salesPercent[index]}%`}
                       size="small"
                       sx={{
-                        width: 55,
+                        minWidth: 43,
                         fontSize: 12,
                         fontWeight: 600,
                         lineHeight: 1,
                         borderRadius: 0.5,
                         color: salesColors[index],
                         backgroundColor: salesPerColors[index],
+                        justifyContent: "flex-end",
                       }}
                     />
                   </Stack>

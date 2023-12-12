@@ -114,19 +114,28 @@ const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   const { sx, buttonName, onClick, disabled = false } = restProps;
 
   return (
-    <OutlinedButton
-      sx={{
-        ...restProps.sx,
-        mb: `-12px !important`,
-        mt: `-12px !important`,
-      }}
-      buttonName={buttonName}
-      onClick={onClick}
-      color="secondary"
-      size="small"
-      endIcon={<MyIcon icon="cheveron-right" size={20} />}
-      disabled={disabled}
-    />
+    <>
+      <XsmallButton
+        buttonName={buttonName}
+        onClick={onClick}
+        color="secondary"
+        endIcon={<MyIcon icon="cheveron-right" size={20} />}
+        sx={{
+          ...restProps.sx,
+          mb: `-12px !important`,
+          mt: `-12px !important`,
+          border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+          lineHeight: 1,
+          px: 1,
+          pt: 0.35,
+          pb: 0.5,
+          verticalAlign: "center",
+          ".MuiButton-endIcon": {
+            pt: 0.15,
+          },
+        }}
+      />
+    </>
   );
 };
 

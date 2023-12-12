@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { chartTypeAtom } from "../totalAtom";
+import { chartTypeAtom } from "../../../dashboardAtom";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,

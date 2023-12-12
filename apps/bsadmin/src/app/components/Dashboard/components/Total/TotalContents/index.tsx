@@ -3,16 +3,18 @@ import { Box, Grid, Stack } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useRecoilValue } from "recoil";
-import { totalMonthAtom, totalYearAtom } from "../totalAtom";
+import { dashboardYearAtom, dashboardMonthAtom } from "../../../dashboardAtom";
 import Charts from "./Charts";
 import Sales from "./Sales";
 
 const Index = () => {
-  const year = useRecoilValue(totalYearAtom);
-  const month = useRecoilValue(totalMonthAtom);
+  const getYear = useRecoilValue(dashboardYearAtom);
+  const getMonth = useRecoilValue(dashboardMonthAtom);
+
+  console.log("get year, month", getYear, getMonth);
 
   const { data: totalData } = useSWR(
-    `/dashboard/sls/year?year=${year}&month=${month}`,
+    `/dashboard/sls/year?year=${getYear}&month=${getMonth}`,
     fetcher,
     {
       suspense: true,
@@ -31,9 +33,9 @@ const Index = () => {
   } = totalData;
 
   return (
-    <Box sx={{ height: 200, mt: 3, mb: 3 }}>
+    <Box>
       <Grid container>
-        <Grid item xs={3.5}>
+        <Grid item xs={2.5}>
           <Sales
             changeSales={changeSales}
             totalSales={totalSales}
@@ -42,7 +44,7 @@ const Index = () => {
         </Grid>
         <Grid
           item
-          xs={8.5}
+          xs={9.5}
           sx={{ position: "relative", justifyContent: "flex-end" }}
         >
           <Charts

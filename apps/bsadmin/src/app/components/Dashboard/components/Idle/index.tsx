@@ -14,7 +14,7 @@ const LazyIdleTop = dynamic(() => import("./IdleTop"), {
 });
 const Index = () => {
   return (
-    <RecoilRoot>
+    <RecoilRoot override={false}>
       <IdleHeader />
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyIdleTop />
