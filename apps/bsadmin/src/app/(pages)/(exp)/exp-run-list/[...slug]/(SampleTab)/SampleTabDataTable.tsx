@@ -602,7 +602,7 @@ const SampleTabDataTable = (props) => {
 
   return (
     <>
-      <Box sx={{ mt: -5 }}>
+      <Box sx={{ mt: -5, display: "grid" }}>
         <DataTableBase
           title={<Typography variant="subtitle1">목록</Typography>}
           data={runSampleListData}
@@ -626,32 +626,6 @@ const SampleTabDataTable = (props) => {
           onChangePage={handlePageChange}
         />
       </Box>
-      {/*{runSampleListData.length === 0 ? (*/}
-      {/*  <SampleAddSection />*/}
-      {/*) : (*/}
-      {/*  <DataTableBase*/}
-      {/*    title={"목록"}*/}
-      {/*    data={runSampleListData}*/}
-      {/*    columns={columns}*/}
-      {/*    // onRowClicked={goDetailModal}*/}
-      {/*    pointerOnHover*/}
-      {/*    highlightOnHover*/}
-      {/*    customStyles={dataTableCustomStyles3}*/}
-      {/*    subHeader*/}
-      {/*    subHeaderComponent={subHeaderComponentMemo}*/}
-      {/*    selectableRows*/}
-      {/*    onSelectedRowsChange={handleSelectedRowChange}*/}
-      {/*    clearSelectedRows={toggledClearRows}*/}
-      {/*    selectableRowsVisibleOnly={true}*/}
-      {/*    pagination*/}
-      {/*    paginationServer*/}
-      {/*    paginationTotalRows={totalElements}*/}
-      {/*    noDataComponent={<NoDataView />}*/}
-      {/*    // paginationResetDefaultPage={resetPaginationToggle}*/}
-      {/*    onChangeRowsPerPage={handlePerRowsChange}*/}
-      {/*    onChangePage={handlePageChange}*/}
-      {/*  />*/}
-      {/*)}*/}
 
       {/* 샘플 추가 */}
       {showSampleAddModal && (

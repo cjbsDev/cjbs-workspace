@@ -76,7 +76,8 @@ const ListOrder = () => {
       {
         name: "No",
         width: "80px",
-        sortable: true,
+        center: true,
+        // sortable: true,
         // selector: (row) => row.orderId,
         cell: (row) => {
           const { orderId, isFastTrack } = row;
@@ -103,8 +104,9 @@ const ListOrder = () => {
       },
       {
         name: "진행 상황",
-        width: "105px",
-        sortable: true,
+        center: true,
+        // width: "105px",
+        // sortable: true,
         cell: (row) => {
           const { orderStatusVal } = row;
           return (
@@ -136,13 +138,14 @@ const ListOrder = () => {
       },
       {
         name: "타입",
-        width: "110px",
-        sortable: true,
+        // width: "110px",
+        center: true,
+        // sortable: true,
         selector: (row) => row.typeVal,
       },
       {
         name: "연구책임자",
-        width: "200px",
+        width: "230px",
         // selector: (row) => "외부 (무료)",
         cell: (row) => {
           const { custNm, custEmail } = row;
@@ -201,6 +204,7 @@ const ListOrder = () => {
       },
       {
         name: "분석종류",
+        center: true,
         selector: (row) => (row.anlsTypeVal === null ? "-" : row.anlsTypeVal),
       },
       {
@@ -210,40 +214,49 @@ const ListOrder = () => {
       },
       {
         name: "영업담당",
+        center: true,
         selector: (row) => (row.bsnsMngrVal === null ? "-" : row.bsnsMngrVal),
       },
       {
         name: "실험담당",
+        center: true,
         selector: (row) => (row.expMngrVal === null ? "-" : row.expMngrVal),
       },
       {
         name: "분석담당",
+        center: true,
         selector: (row) => (row.anlsMngrVal === null ? "-" : row.anlsMngrVal),
       },
       {
         name: "연구담당",
+        center: true,
         selector: (row) => (row.prjtMngrVal === null ? "-" : row.prjtMngrVal),
       },
       {
         name: "16S 확인",
+        center: true,
         selector: (row) => (row.is16S === null ? "-" : row.is16S),
       },
       {
         name: "DNA반송",
+        center: true,
         selector: (row) => (row.isDnaReturn === null ? "-" : row.isDnaReturn),
       },
       {
         name: "샘플반송",
+        center: true,
         selector: (row) =>
           row.isSampleReturn === null ? "-" : row.isSampleReturn,
       },
       {
         name: "오더금액",
+        right: true,
         selector: (row) =>
           row.price === null ? "-" : formatNumberWithCommas(row.price),
       },
       {
         name: "RUN",
+        right: true,
         selector: (row) => (row.runList === null ? "-" : row.runList),
       },
       {
@@ -259,46 +272,55 @@ const ListOrder = () => {
       },
       {
         name: "분석 내역서",
+        right: true,
         selector: (row) =>
           row.anlsItstCount === null ? "-" : row.anlsItstCount,
       },
       {
         name: "샘플 수",
+        right: true,
         selector: (row) => (row.sampleCount === null ? "-" : row.sampleCount),
       },
       {
         name: "오더생성일",
+        right: true,
         width: "120px",
         selector: (row) => (row.createDttm === null ? "-" : row.createDttm),
       },
       {
         name: "샘플 접수일",
+        right: true,
         width: "120px",
         selector: (row) => (row.rcptDttm === null ? "-" : row.rcptDttm),
       },
       {
         name: "PCR/Lib 완료일",
+        right: true,
         width: "120px",
         selector: (row) => (row.libCompDttm === null ? "-" : row.libCompDttm),
       },
       {
         name: "Seq완료일",
+        right: true,
         width: "120px",
         selector: (row) => (row.seqCompDttm === null ? "-" : row.seqCompDttm),
       },
       {
         name: "분석 완료일",
+        right: true,
         width: "120px",
         selector: (row) => (row.biCompDttm === null ? "-" : row.biCompDttm),
       },
       {
         name: "완료 통보일",
+        right: true,
         width: "120px",
         selector: (row) => (row.ntfcCompDttm === null ? "-" : row.ntfcCompDttm),
       },
       {
         name: "메모",
-        width: "80px",
+        // width: "80px",
+        center: true,
         cell: (row: { memo: string }) => {
           const { memo } = row;
           return (

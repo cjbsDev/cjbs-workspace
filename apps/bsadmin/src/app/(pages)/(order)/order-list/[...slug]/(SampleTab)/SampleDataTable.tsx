@@ -391,7 +391,7 @@ const SampleDataTable = (props) => {
   );
 
   return (
-    <Box sx={{ mt: -5 }}>
+    <Box sx={{ mt: -5, display: "grid" }}>
       <DataTableBase
         title={<Typography variant="subtitle1">목록</Typography>}
         data={filteredItems}

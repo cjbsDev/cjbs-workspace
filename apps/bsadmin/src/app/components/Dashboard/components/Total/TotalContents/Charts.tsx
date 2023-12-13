@@ -55,7 +55,7 @@ const Charts = (props: ChartProps) => {
     datasets: [
       {
         // fill: true,
-        label: "최근",
+        label: "올해",
         data: slsForCurrentYear,
         borderColor: "rgba(99, 102, 241, 1)",
         backgroundColor: "rgba(99, 102, 241, 0.9)",
@@ -111,6 +111,11 @@ const Charts = (props: ChartProps) => {
           // forces step size to be 50 units
           stepSize: stepSize,
         },
+      },
+    },
+    elements: {
+      line: {
+        borderWidth: 4, // You can adjust the line width here
       },
     },
   };

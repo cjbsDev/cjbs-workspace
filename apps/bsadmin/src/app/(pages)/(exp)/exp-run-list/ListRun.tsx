@@ -139,23 +139,6 @@ const ListRun = () => {
         },
         width: "80px",
       },
-      {
-        name: "메모",
-        cell: (row: { memo: string }) => {
-          const { memo } = row;
-          return (
-            memo !== null &&
-            memo !== "" && (
-              <Tooltip title={memo} arrow>
-                <IconButton size="small">
-                  <MyIcon icon="memo" size={24} />
-                </IconButton>
-              </Tooltip>
-            )
-          );
-        },
-        width: "80px",
-      },
     ],
     [],
   );
