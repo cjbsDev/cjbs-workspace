@@ -11,24 +11,35 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { dashboardYearAtom, dashboardMonthAtom } from "../dashboardAtom";
+import { useRecoilValue } from "recoil";
+import {
+  dashboardTargetAtom,
+  dashboardTypeCcAtom,
+  dashboardYearAtom,
+} from "../../dashboardAtom";
 
-const InstTop = () => {
+const Contents = () => {
   const getYear = useRecoilValue(dashboardYearAtom);
-  const getMonth = useRecoilValue(dashboardMonthAtom);
-
-  console.log(getYear, getMonth);
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
+  const getTarget = useRecoilValue(dashboardTargetAtom);
 
   const { data } = useSWR(
-    `/dashboard/sls/inst?year=${getYear}&month=${getMonth}`,
+    `/dashboard/sls/agnc??year=${getYear}&typeCc=${getTypeCc}&target=${
+      getTypeCc === "BS_2100005"
+        ? getTarget.halfTarget
+        : getTypeCc === "BS_2100004"
+          ? getTarget.quarterTarget
+          : getTypeCc === "BS_2100003"
+            ? getTarget.monthTarget
+            : 12
+    }`,
     fetcher,
     {
       suspense: true,
     },
   );
 
-  console.log("기관별 매출 Top", data);
+  console.log("기관 매출 Top", data);
 
   return (
     <TableContainer>
@@ -73,7 +84,7 @@ const InstTop = () => {
   );
 };
 
-export default InstTop;
+export default Contents;
 
 const CmnTH = styled(TableCell)`
   border-bottom: none;

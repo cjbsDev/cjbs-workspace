@@ -1,25 +1,17 @@
 import React from "react";
-import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import { SelectBox2 } from "cjbsDSTM";
-// import {
-//   dashboardMonthData,
-//   dashboardYearData,
-// } from "../../../../data/inputDataLists";
+import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import SectionHeader from "../SectionHeader";
-import { useRecoilState } from "recoil";
-import {
-  chartTypeAtom,
-  totalMonthAtom,
-  totalYearAtom,
-} from "../../dashboardAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { chartTypeAtom, dashboardTypeCcAtom } from "../../dashboardAtom";
 import { styled } from "@mui/material/styles";
 import MyIcon from "icon/MyIcon";
 
 const TotalHeader = () => {
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
   const [chartType, setChartType] = useRecoilState(chartTypeAtom);
   const handleChartTypeChange = (
     event: React.MouseEvent<HTMLElement>,
-    newChartType: number,
+    newChartType: string,
   ) => {
     if (newChartType !== chartType) {
       setChartType(newChartType);
@@ -28,27 +20,15 @@ const TotalHeader = () => {
 
   return (
     <Box sx={{ position: "relative" }}>
-      {/*<Stack*/}
-      {/*  direction="row"*/}
-      {/*  spacing={1}*/}
-      {/*  sx={{ position: "absolute", top: -77, left: -28 }}*/}
-      {/*>*/}
-      {/*  <SelectBox2*/}
-      {/*    options={dashboardYearData}*/}
-      {/*    value={year}*/}
-      {/*    onChange={handleYear}*/}
-      {/*  />*/}
-
-      {/*  <SelectBox2*/}
-      {/*    options={dashboardMonthData}*/}
-      {/*    value={month}*/}
-      {/*    onChange={handleMonth}*/}
-      {/*  />*/}
-      {/*</Stack>*/}
       <SectionHeader>
         <SectionHeader.Title>총 매출</SectionHeader.Title>
         <SectionHeader.Action>
           <StyledToggleButtonGroup
+            // value={
+            //   getTypeCc === "BS_2100005" || getTypeCc === "BS_2100006"
+            //     ? "bar"
+            //     : chartType
+            // }
             value={chartType}
             exclusive
             onChange={handleChartTypeChange}

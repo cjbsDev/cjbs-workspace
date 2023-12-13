@@ -1,24 +1,21 @@
 import React from "react";
-import SectionHeader from "../SectionHeader";
-import { ErrorContainer, Fallback, SkeletonPieChart } from "cjbsDSTM";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
+import Header from "./Header";
+import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 
-const LazySrvcSalesChart = dynamic(() => import("./SrvcSalesChart"), {
+const LazyInstTop = dynamic(() => import("./Contents"), {
   ssr: false,
-  loading: () => <SkeletonPieChart />,
+  loading: () => <SkeletonLoading height={373} />,
 });
 
 const Index = () => {
   return (
     <SectionBox>
-      <SectionHeader>
-        <SectionHeader.Title>분석 종류별 매출</SectionHeader.Title>
-      </SectionHeader>
-
+      <Header />
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazySrvcSalesChart />
+        <LazyInstTop />
       </ErrorContainer>
     </SectionBox>
   );

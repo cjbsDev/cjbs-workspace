@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { chartTypeAtom } from "../../../dashboardAtom";
+import { chartTypeAtom, dashboardTypeCcAtom } from "../../../dashboardAtom";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -28,33 +28,44 @@ ChartJS.register(
 );
 
 interface ChartProps {
+  slsForCurrentYear: number[];
   slsForLastYear: number[];
   slsForPreLastYear: number[];
   labels: string[];
 }
 
 const Charts = (props: ChartProps) => {
-  const { labels, slsForLastYear, slsForPreLastYear } = props;
+  const { labels, slsForCurrentYear, slsForLastYear, slsForPreLastYear } =
+    props;
   const chartType = useRecoilValue(chartTypeAtom);
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
 
   const data = {
     labels,
     datasets: [
       {
-        fill: true,
+        // fill: true,
         label: "최근",
-        data: slsForLastYear,
+        data: slsForCurrentYear,
         borderColor: "rgba(99, 102, 241, 1)",
-        backgroundColor: "rgba(99, 102, 241, 0.5)",
+        backgroundColor: "rgba(99, 102, 241, 0.9)",
         type: chartType === "line" ? "line" : "bar",
       },
       {
         // fill: true,
         label: "작년",
-        data: slsForPreLastYear,
-        borderColor: "#DEE2E6",
+        data: slsForLastYear,
+        borderColor: "#8BDCD7",
+        backgroundColor: "#8BDCD7",
         type: "line",
-        // backgroundColor: "rgba(53, 162, 235, 0.5)",
+      },
+      {
+        // fill: true,
+        label: "재작년",
+        data: slsForPreLastYear,
+        borderColor: "#FFB8A2",
+        backgroundColor: "#FFB8A2",
+        type: "line",
       },
     ],
   };
@@ -97,9 +108,9 @@ const Charts = (props: ChartProps) => {
   return (
     <Stack direction="row" justifyContent="flex-end">
       {chartType === "line" ? (
-        <Line options={options} data={data} height={218} />
+        <Line options={options} data={data} height={273} />
       ) : (
-        <Bar options={options} data={data} height={218} />
+        <Bar options={options} data={data} height={273} />
       )}
     </Stack>
   );

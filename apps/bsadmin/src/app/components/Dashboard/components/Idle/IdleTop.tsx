@@ -13,24 +13,11 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
-import { useSearchParams } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
 
 const IdleTop = () => {
-  const searchParams = useSearchParams();
-  const params = searchParams.get("idleduration");
-  console.log("IdleDuration", params);
-
-  // const getDuration = useRecoilValue(idleDurationValueAtom);
   const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
-
-  useEffect(() => {
-    const idleduration = parseInt(params, 10);
-    if (!isNaN(idleduration) && idleduration !== duration) {
-      setDuration(idleduration);
-    }
-  }, []);
 
   const { data } = useSWR(
     `/dashboard/idle/agnc?duration=${duration}`,

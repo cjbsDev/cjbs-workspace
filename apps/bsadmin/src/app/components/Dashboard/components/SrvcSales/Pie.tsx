@@ -41,7 +41,9 @@ const PieContent = (props: PieProps) => {
     },
   };
 
-  return <Pie data={chartData} options={options} />;
+  return (
+    <Pie data={chartData} options={options} width="200px" height="200px" />
+  );
 };
 
 export default PieContent;
