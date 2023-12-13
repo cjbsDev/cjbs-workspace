@@ -62,7 +62,7 @@ const ListRun = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
   const runListData = data.runDetailList;
@@ -139,8 +139,25 @@ const ListRun = () => {
         },
         width: "80px",
       },
+      {
+        name: "메모",
+        cell: (row: { memo: string }) => {
+          const { memo } = row;
+          return (
+            memo !== null &&
+            memo !== "" && (
+              <Tooltip title={memo} arrow>
+                <IconButton size="small">
+                  <MyIcon icon="memo" size={24} />
+                </IconButton>
+              </Tooltip>
+            )
+          );
+        },
+        width: "80px",
+      },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: any) => {
@@ -193,25 +210,27 @@ const ListRun = () => {
 
   return (
     <>
-      <DataTableBase
-        title={<Title1 titleName="All RUN" />}
-        data={runListData}
-        columns={columns}
-        onRowClicked={goDetailPage}
-        pointerOnHover
-        highlightOnHover
-        customStyles={dataTableCustomStyles}
-        subHeader
-        subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
-        selectableRows={false}
-        pagination
-        paginationServer
-        paginationTotalRows={totalElements}
-        onChangeRowsPerPage={handlePerRowsChange}
-        onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
-      />
+      <Box sx={{ display: "grid" }}>
+        <DataTableBase
+          title={<Title1 titleName="All RUN" />}
+          data={runListData}
+          columns={columns}
+          onRowClicked={goDetailPage}
+          pointerOnHover
+          highlightOnHover
+          customStyles={dataTableCustomStyles}
+          subHeader
+          subHeaderComponent={subHeaderComponentMemo}
+          paginationResetDefaultPage={resetPaginationToggle}
+          selectableRows={false}
+          pagination
+          paginationServer
+          paginationTotalRows={totalElements}
+          onChangeRowsPerPage={handlePerRowsChange}
+          onChangePage={handlePageChange}
+          noDataComponent={<NoDataView />}
+        />
+      </Box>
 
       {showRunAddModal && (
         <LazyRunAddModal

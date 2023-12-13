@@ -32,7 +32,7 @@ const Index = () => {
     },
   );
 
-  // console.log("Total Data", totalData);
+  console.log("Total Data", totalData);
 
   const {
     labels,
@@ -42,6 +42,9 @@ const Index = () => {
     slsForCurrentYear,
     slsForLastYear,
     slsForPreLastYear,
+    min,
+    max,
+    stepSize,
   } = totalData;
 
   return (
@@ -64,6 +67,9 @@ const Index = () => {
             slsForLastYear={slsForLastYear}
             slsForPreLastYear={slsForPreLastYear}
             labels={labels}
+            min={min}
+            max={max}
+            stepSize={stepSize}
           />
         </Grid>
       </Grid>

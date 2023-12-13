@@ -37,24 +37,18 @@ const Index = () => {
 
   return (
     <Stack direction="row" spacing={1}>
-      {/*{periodListData.map((period, index) => {*/}
-      {/*  return (*/}
-      {/*    <Box key={period.name}>*/}
-      {/*      <PeriodBtn value={period.value} name={period.name} />*/}
-      {/*    </Box>*/}
-      {/*  );*/}
-      {/*})}*/}
-
       <StyledToggleButtonGroup
         value={typeCc}
         exclusive
         onChange={handleAlignment}
         size="small"
-        sx={{
-          mb: `-12px !important`,
-          mt: `-12px !important`,
-          py: `0 !important`,
-        }}
+        sx={
+          {
+            // mb: `-12px !important`,
+            // mt: `-12px !important`,
+            // py: `0 !important`,
+          }
+        }
       >
         {periodListData.map((period) => (
           <ToggleButton
@@ -75,18 +69,19 @@ export default Index;
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
     margin: theme.spacing(0.5),
-    border: 0,
-    padding: "0 12px",
-    backgroundColor: theme.palette.grey["100"],
+    border: `1px solid ${theme.palette.grey["400"]}`,
+    padding: "2.5px 12px",
+    backgroundColor: "white",
     "&.Mui-disabled": {
       border: 0,
     },
     "&.Mui-selected, &.Mui-selected:hover": {
-      backgroundColor: "#6366F1",
+      backgroundColor: "#000000",
       color: "white",
     },
     "&:not(:first-of-type)": {
       borderRadius: theme.shape.borderRadius,
+      borderLeft: `1px solid ${theme.palette.grey["400"]}`,
     },
     "&:first-of-type": {
       borderRadius: theme.shape.borderRadius,

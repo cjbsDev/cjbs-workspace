@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
+  Stack,
   Table,
   TableBody,
   TableCell,
@@ -15,12 +16,14 @@ import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
+import NoDataView from "../../../NoDataView";
+import MyIcon from "icon/MyIcon";
 
 const IdleTop = () => {
-  const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
+  const getDuration = useRecoilValue(idleDurationValueAtom);
 
   const { data } = useSWR(
-    `/dashboard/idle/agnc?duration=${duration}`,
+    `/dashboard/idle/agnc?duration=${getDuration}`,
     fetcher,
     {
       suspense: true,
@@ -45,8 +48,21 @@ const IdleTop = () => {
           {data.length === 0 && (
             <TableRow>
               <TableCell colSpan={5} sx={{ border: "none" }}>
-                <Box sx={{ py: 5, textAlign: "center" }}>
-                  <Typography variant="body2">No Data.</Typography>
+                <Box
+                  sx={{
+                    mt: 3,
+                    // position: "absolute",
+                    // left: "50%",
+                    // top: "50%",
+                    // transform: "translate(-50%, -50%)",
+                  }}
+                >
+                  <Stack direction="row" justifyContent="center">
+                    <MyIcon icon="nodata" size={20} />
+                    <Typography variant="body2">
+                      데이터가 존재하지 않습니다.
+                    </Typography>
+                  </Stack>
                 </Box>
               </TableCell>
             </TableRow>

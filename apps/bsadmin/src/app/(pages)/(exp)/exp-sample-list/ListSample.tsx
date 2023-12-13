@@ -58,7 +58,7 @@ const ListSample = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("SAMPLE LIST DATA", data);
   const runListData = data.sampleList;
@@ -158,15 +158,15 @@ const ListSample = () => {
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       rcptStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : rcptStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -200,15 +200,15 @@ const ListSample = () => {
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       qcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : qcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -242,15 +242,15 @@ const ListSample = () => {
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       libStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : libStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -284,15 +284,15 @@ const ListSample = () => {
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       seqStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : seqStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -326,15 +326,15 @@ const ListSample = () => {
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       biStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : biStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -368,15 +368,15 @@ const ListSample = () => {
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                     color: `${
                       ntfcStatusCc === "BS_0902003"
                         ? cjbsTheme.palette.primary.main
                         : ntfcStatusCc === "BS_0902004"
-                        ? cjbsTheme.palette.warning.main
-                        : null
+                          ? cjbsTheme.palette.warning.main
+                          : null
                     }`,
                   }}
                 />
@@ -445,7 +445,7 @@ const ListSample = () => {
         width: "80px",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = useCallback(
@@ -455,7 +455,7 @@ const ListSample = () => {
 
       // href={`/order-list/${orderUkey}?from=/exp-sample-list&tabIndex=3`}
     },
-    [pathname, router]
+    [pathname, router],
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -497,7 +497,7 @@ const ListSample = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="All Samples" />}
         data={runListData}
@@ -517,7 +517,7 @@ const ListSample = () => {
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
       />
-    </>
+    </Box>
   );
 };
 

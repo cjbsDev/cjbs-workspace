@@ -353,25 +353,6 @@ const ListOrder = () => {
             </Stack>
           </Stack>
         </Grid>
-        {/*<Grid item xs={6} sx={{}}>*/}
-        {/*  <Stack*/}
-        {/*    direction="row"*/}
-        {/*    spacing={1}*/}
-        {/*    sx={{ mb: 1.5 }}*/}
-        {/*    alignItems="center"*/}
-        {/*  >*/}
-        {/*    /!*<OutlinedButton buttonName="NewData" onClick={newDataChange} />*!/*/}
-        {/*    <IconDescBar freeDisabled={true} reOrder={true} />*/}
-
-        {/*    <FileDownloadBtn*/}
-        {/*      exportUrl={`/order/list/download${result}`}*/}
-        {/*      iconName="xls3"*/}
-        {/*    />*/}
-
-        {/*    <KeywordSearch />*/}
-        {/*    <ResultInSearch />*/}
-        {/*  </Stack>*/}
-        {/*</Grid>*/}
       </Grid>
     );
   }, [result]);

@@ -35,4 +35,5 @@ const SectionBox = styled(Box)`
   border-radius: 10px;
   min-height: fit-content;
   height: 100%;
+  position: relative;
 `;

@@ -111,11 +111,12 @@ const ToggleBtn = ({ children, ...restProps }: ToggleBtnProps) => {
 
 const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   const { toggleShow, setToggleShow } = useContext(SectionHeaderContext);
-  const { sx, buttonName, onClick, disabled = false } = restProps;
+  const { buttonName, onClick, disabled = false } = restProps;
 
   return (
     <>
       <XsmallButton
+        disabled={disabled}
         buttonName={buttonName}
         onClick={onClick}
         color="secondary"
