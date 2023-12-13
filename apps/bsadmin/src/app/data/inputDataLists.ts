@@ -93,15 +93,15 @@ export const quarterListData = [
 ];
 
 export const halfListData = [
-  { value: "firstHalf", optionName: "상반기" },
-  { value: "secondHalf", optionName: "하반기" },
+  { value: 1, optionName: "상반기" },
+  { value: 2, optionName: "하반기" },
 ];
 
 export const periodListData = [
-  { name: "월", value: "month" },
-  { name: "분기", value: "quarter" },
-  { name: "반기", value: "half" },
-  { name: "년", value: "year" },
+  { name: "월", value: "BS_2100003" },
+  { name: "분기", value: "BS_2100004" },
+  { name: "반기", value: "BS_2100005" },
+  { name: "년", value: "BS_2100006" },
 ];
 
 export const taxonListData = [

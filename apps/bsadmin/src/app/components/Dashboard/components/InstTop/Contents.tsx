@@ -11,13 +11,36 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  dashboardYearAtom,
+  dashboardMonthAtom,
+  dashboardTypeCcAtom,
+  dashboardTargetAtom,
+} from "../../dashboardAtom";
 
-const SalesTop = () => {
-  const { data } = useSWR(`/dashboard/sls/agnc?year=2023&month=11`, fetcher, {
-    suspense: true,
-  });
+const Contents = () => {
+  const getYear = useRecoilValue(dashboardYearAtom);
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
+  const getTarget = useRecoilValue(dashboardTargetAtom);
 
-  console.log("기관 매출 Top", data);
+  const { data } = useSWR(
+    `/dashboard/sls/inst?year=${getYear}&typeCc=${getTypeCc}&target=${
+      getTypeCc === "BS_2100005"
+        ? getTarget.halfTarget
+        : getTypeCc === "BS_2100004"
+          ? getTarget.quarterTarget
+          : getTypeCc === "BS_2100003"
+            ? getTarget.monthTarget
+            : 12
+    }`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
+
+  console.log("기관별 매출 Top", data);
 
   return (
     <TableContainer>
@@ -62,7 +85,7 @@ const SalesTop = () => {
   );
 };
 
-export default SalesTop;
+export default Contents;
 
 const CmnTH = styled(TableCell)`
   border-bottom: none;

@@ -16,12 +16,14 @@ const Legend = (props: LegendProps) => {
 
   return (
     <Box
-      sx={{
-        position: "absolute",
-        right: 10,
-        top: "58%",
-        transform: "translateY(-50%)",
-      }}
+      sx={
+        {
+          // position: "absolute",
+          // right: 10,
+          // top: "58%",
+          // transform: "translateY(-50%)",
+        }
+      }
     >
       <Box component="ul" sx={{ listStyle: "none" }}>
         {salesLabels.map(
