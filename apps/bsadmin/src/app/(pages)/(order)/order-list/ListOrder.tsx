@@ -298,6 +298,7 @@ const ListOrder = () => {
       },
       {
         name: "메모",
+        width: "80px",
         cell: (row: { memo: string }) => {
           const { memo } = row;
           return (
@@ -311,7 +312,6 @@ const ListOrder = () => {
             )
           );
         },
-        width: "80px",
       },
     ],
     [hideDirector, totalElements],
@@ -388,25 +388,27 @@ const ListOrder = () => {
   };
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="오더 관리" />}
-      data={orderListData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      selectableRows={false}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-      noDataComponent={<NoDataView resetPath={"/order-list"} />}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="오더 관리" />}
+        data={orderListData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        selectableRows={false}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        noDataComponent={<NoDataView resetPath={"/order-list"} />}
+      />
+    </Box>
   );
 };
 
