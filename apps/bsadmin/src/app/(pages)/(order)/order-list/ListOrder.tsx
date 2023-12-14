@@ -79,7 +79,7 @@ const ListOrder = () => {
         center: true,
         // sortable: true,
         // selector: (row) => row.orderId,
-        cell: (row) => {
+        cell: (row: { orderId: number; isFastTrack: string }) => {
           const { orderId, isFastTrack } = row;
           return (
             <Stack
@@ -107,7 +107,7 @@ const ListOrder = () => {
         center: true,
         // width: "105px",
         // sortable: true,
-        cell: (row) => {
+        cell: (row: { orderStatusVal: string }) => {
           const { orderStatusVal } = row;
           return (
             <Chip
@@ -141,20 +141,31 @@ const ListOrder = () => {
         // width: "110px",
         center: true,
         // sortable: true,
-        selector: (row) => row.typeVal,
+        selector: (row: { typeVal: string }) => row.typeVal,
       },
       {
         name: "연구책임자",
-        width: "230px",
+        minWidth: "220px",
+        allowOverflow: false,
+        // wrap: true,
         // selector: (row) => "외부 (무료)",
-        cell: (row) => {
+        cell: (row: { custNm: string; custEmail: string }) => {
           const { custNm, custEmail } = row;
           return (
             <Stack data-tag="allowRowEvents">
               <Typography variant="body2" data-tag="allowRowEvents">
                 {custNm}
               </Typography>
-              <Typography variant="body2" data-tag="allowRowEvents">
+              <Typography
+                variant="body2"
+                data-tag="allowRowEvents"
+                sx={{
+                  width: 220,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 {custEmail}
               </Typography>
             </Stack>
@@ -163,9 +174,13 @@ const ListOrder = () => {
       },
       {
         name: "거래처",
-        width: "270px",
+        minWidth: "220px",
         // selector: (row) => "외부 (무료)",
-        cell: (row) => {
+        cell: (row: {
+          isSpecialMng: string;
+          instNm: string;
+          agncNm: string;
+        }) => {
           const { isSpecialMng, instNm, agncNm } = row;
           return (
             <Stack data-tag="allowRowEvents">
@@ -184,7 +199,16 @@ const ListOrder = () => {
                   )}
                 </Stack>
               </Box>
-              <Typography data-tag="allowRowEvents" variant="body2">
+              <Typography
+                data-tag="allowRowEvents"
+                variant="body2"
+                sx={{
+                  width: 220,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
                 ({instNm})
               </Typography>
             </Stack>
@@ -194,7 +218,8 @@ const ListOrder = () => {
       {
         name: "주문서",
         width: "200px",
-        selector: (row) => (row.orshNo === null ? "-" : row.orshNo),
+        selector: (row: { orshNo: null | string }) =>
+          row.orshNo === null ? "-" : row.orshNo,
       },
       {
         name: "샘플종류",
@@ -296,7 +321,7 @@ const ListOrder = () => {
       {
         name: "PCR/Lib 완료일",
         right: true,
-        width: "120px",
+        width: "140px",
         selector: (row) => (row.libCompDttm === null ? "-" : row.libCompDttm),
       },
       {

@@ -196,7 +196,7 @@ const OrderTab = () => {
               color="secondary"
               sx={{ color: "black" }}
               endIcon={<MyIcon icon="cheveron-right" size={18} />}
-              onClick={() => router.push(orshPath)}
+              onClick={() => router.push(orshPath + "?from=order-list")}
             />
           )}
         </Stack>
