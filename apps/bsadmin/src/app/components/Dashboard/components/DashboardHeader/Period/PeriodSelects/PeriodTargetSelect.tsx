@@ -15,68 +15,44 @@ const PeriodTargetSelect = () => {
   const [target, setTarget] = useRecoilState(dashboardTargetAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
 
-  console.log("TypeCc Value ==>>", getTypeCc);
-  console.log("Target Value ==>>", target);
-
-  const handleHalfTarget = (event: { target: { value: any } }) => {
-    const getTarget = event.target.value;
+  const handleTargetChange = (
+    event: React.ChangeEvent<HTMLSelectElement>,
+    targetKey: keyof typeof target,
+  ) => {
     setTarget({
       ...target,
-      halfTarget: getTarget,
+      [targetKey]: event.target.value,
     });
   };
 
-  const handleQuarterTarget = (event: { target: { value: any } }) => {
-    const getTarget = event.target.value;
-    setTarget({
-      ...target,
-      quarterTarget: getTarget,
-    });
+  const getOptions = () => {
+    switch (getTypeCc) {
+      case "BS_2100005":
+        return { options: halfListData, targetKey: "halfTarget" };
+      case "BS_2100004":
+        return { options: quarterListData, targetKey: "quarterTarget" };
+      case "BS_2100003":
+        return { options: dashboardMonthData, targetKey: "monthTarget" };
+      default:
+        return { options: [], targetKey: "monthTarget" }; // 기본값 설정
+    }
   };
 
-  const handleMonthTarget = (event: { target: { value: any } }) => {
-    const getTarget = event.target.value;
-    setTarget({
-      ...target,
-      monthTarget: getTarget,
-    });
-  };
+  const { options, targetKey } = getOptions();
 
-  if (getTypeCc === "BS_2100005") {
-    return (
-      <SelectBox2
-        options={halfListData}
-        value={target.halfTarget}
-        onChange={handleHalfTarget}
-      />
-    );
-  } else if (getTypeCc === "BS_2100004") {
-    return (
-      <SelectBox2
-        options={quarterListData}
-        value={target.quarterTarget}
-        onChange={handleQuarterTarget}
-      />
-    );
-  } else if (getTypeCc === "BS_2100003") {
-    return (
-      <SelectBox2
-        options={dashboardMonthData}
-        value={target.monthTarget}
-        onChange={handleMonthTarget}
-      />
-    );
-  } else {
-    return (
-      <SelectBox2
-        disabled={true}
-        sx={{ display: "none" }}
-        options={dashboardMonthData}
-        value={target.monthTarget}
-        onChange={handleMonthTarget}
-      />
-    );
-  }
+  return (
+    <SelectBox2
+      options={options}
+      value={target[targetKey]}
+      onChange={(e) => handleTargetChange(e, targetKey)}
+      disabled={
+        getTypeCc !== "BS_2100003" &&
+        getTypeCc !== "BS_2100004" &&
+        getTypeCc !== "BS_2100005"
+      }
+      sx={{ display: getTypeCc === "BS_2100006" && "none" }}
+    />
+  );
 };
 
 export default PeriodTargetSelect;

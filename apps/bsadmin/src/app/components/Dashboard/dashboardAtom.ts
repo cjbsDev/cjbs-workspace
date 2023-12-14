@@ -1,71 +1,54 @@
 import { atom } from "recoil";
 
-const today: Date = new Date();
-const defYear: number = today.getFullYear();
-const defMonth: number = today.getMonth() + 1;
+// 유틸리티 함수
+const getCurrentDateInfo = () => {
+  const today = new Date();
+  const year = today.getFullYear();
+  const month = today.getMonth() + 1;
+  const quarter = Math.ceil(month / 3);
+  const half = quarter <= 2 ? 1 : 2;
+  return { year, month, quarter, half };
+};
 
-let currentQuarter: number;
-if (defMonth <= 3) {
-  currentQuarter = 1;
-} else if (defMonth <= 6) {
-  currentQuarter = 2;
-} else if (defMonth <= 9) {
-  currentQuarter = 3;
-} else {
-  currentQuarter = 4;
-}
+// 현재 날짜 정보 가져오기
+const { year, month, quarter, half } = getCurrentDateInfo();
 
-let currentHalf: number;
-if (currentQuarter <= 2) {
-  currentHalf = 1;
-} else {
-  currentHalf = 2;
-}
-
+// 대시보드 상태 정의
 export const dashboardYearAtom = atom({
   key: "dashboardYearAtom",
-  default: defYear,
+  default: year,
 });
 
 export const dashboardMonthAtom = atom({
   key: "dashboardMonthAtom",
-  default: defMonth,
+  default: month,
 });
 
 export const dashboardQuarterAtom = atom({
   key: "dashboardQuarterAtom",
-  default: "BS_2100004",
+  default: "BS_2100004", // 상수로 대체 가능
 });
 
 export const dashboardHalfAtom = atom({
   key: "dashboardHalfAtom",
-  default: "BS_2100005",
+  default: "BS_2100005", // 상수로 대체 가능
 });
 
 export const dashboardTypeCcAtom = atom({
   key: "dashboardTypeCcAtom",
-  default: "BS_2100003",
+  default: "BS_2100003", // 상수로 대체 가능
 });
 
 export const dashboardTargetAtom = atom({
   key: "dashboardTargetAtom",
   default: {
-    monthTarget: defMonth,
-    quarterTarget: currentQuarter,
-    halfTarget: currentHalf,
-  },
-});
-
-export const dashboardNewTargetAtom = atom({
-  key: "dashboardNewTargetAtom",
-  default: {
-    monthTarget: defMonth,
-    quarterTarget: 4,
-    halfTarget: 2,
+    monthTarget: month,
+    quarterTarget: quarter,
+    halfTarget: half,
   },
 });
 
 export const chartTypeAtom = atom({
   key: "chartTypeAtom",
-  default: "line",
+  default: "line", // 상수로 대체 가능
 });

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Grid, Stack } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -10,25 +10,19 @@ import {
 } from "../../../dashboardAtom";
 import Charts from "./Charts";
 import Sales from "./Sales";
+import useTargetValue from "../../../useTargetValue";
 
 const Index = () => {
   const getYear = useRecoilValue(dashboardYearAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const getTarget = useRecoilValue(dashboardTargetAtom);
+  const targetValue = useTargetValue();
 
   const { data: totalData } = useSWR(
-    `/dashboard/sls/perd?year=${getYear}&typeCc=${getTypeCc}&target=${
-      getTypeCc === "BS_2100005"
-        ? getTarget.halfTarget
-        : getTypeCc === "BS_2100004"
-          ? getTarget.quarterTarget
-          : getTypeCc === "BS_2100003"
-            ? getTarget.monthTarget
-            : 12
-    }`,
+    `/dashboard/sls/perd?year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
     fetcher,
     {
       suspense: true,
+      revalidateOnFocus: false,
     },
   );
 

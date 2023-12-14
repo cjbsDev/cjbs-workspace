@@ -12,30 +12,20 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { useRecoilValue } from "recoil";
-import {
-  dashboardTargetAtom,
-  dashboardTypeCcAtom,
-  dashboardYearAtom,
-} from "../../dashboardAtom";
+import { dashboardTypeCcAtom, dashboardYearAtom } from "../../dashboardAtom";
+import useTargetValue from "../../useTargetValue";
 
 const Contents = () => {
   const getYear = useRecoilValue(dashboardYearAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const getTarget = useRecoilValue(dashboardTargetAtom);
+  const targetValue = useTargetValue();
 
   const { data } = useSWR(
-    `/dashboard/sls/agnc??year=${getYear}&typeCc=${getTypeCc}&target=${
-      getTypeCc === "BS_2100005"
-        ? getTarget.halfTarget
-        : getTypeCc === "BS_2100004"
-          ? getTarget.quarterTarget
-          : getTypeCc === "BS_2100003"
-            ? getTarget.monthTarget
-            : 12
-    }`,
+    `/dashboard/sls/agnc??year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
     fetcher,
     {
       suspense: true,
+      revalidateOnFocus: false,
     },
   );
 

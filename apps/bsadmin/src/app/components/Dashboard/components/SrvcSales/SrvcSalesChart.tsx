@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Box, Stack } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -10,34 +10,28 @@ import {
   dashboardTypeCcAtom,
   dashboardYearAtom,
 } from "../../dashboardAtom";
+import useTargetValue from "../../useTargetValue";
 
 const SrvcSalesChart = () => {
   const getYear = useRecoilValue(dashboardYearAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const getTarget = useRecoilValue(dashboardTargetAtom);
+  const targetValue = useTargetValue();
 
   const { data: srvcSalesData } = useSWR(
-    `/dashboard/sls/srvc?year=${getYear}&typeCc=${getTypeCc}&target=${
-      getTypeCc === "BS_2100005"
-        ? getTarget.halfTarget
-        : getTypeCc === "BS_2100004"
-          ? getTarget.quarterTarget
-          : getTypeCc === "BS_2100003"
-            ? getTarget.monthTarget
-            : 12
-    }`,
+    `/dashboard/sls/srvc?year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
     fetcher,
     {
       suspense: true,
+      revalidateOnFocus: false,
     },
   );
 
-  // console.log("PieChart", srvcSalesData);
-
   const salesLabels = srvcSalesData.labels;
-  const salesData = srvcSalesData.slsForAnlsResList.map((item) => item.sales);
+  const salesData = srvcSalesData.slsForAnlsResList.map(
+    (item: { sales: any }) => item.sales,
+  );
   const salesPercent = srvcSalesData.slsForAnlsResList.map(
-    (item) => item.percent,
+    (item: { percent: any }) => item.percent,
   );
   const salesColors = srvcSalesData.colors;
   const salesPerColors = srvcSalesData.perColors;

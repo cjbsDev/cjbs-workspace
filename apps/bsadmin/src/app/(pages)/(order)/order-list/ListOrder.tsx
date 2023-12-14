@@ -106,7 +106,7 @@ const ListOrder = () => {
         name: "진행 상황",
         center: true,
         // width: "105px",
-        // sortable: true,
+        sortable: true,
         cell: (row: { orderStatusVal: string }) => {
           const { orderStatusVal } = row;
           return (
@@ -224,123 +224,138 @@ const ListOrder = () => {
       {
         name: "샘플종류",
         width: "120px",
-        selector: (row) =>
+        selector: (row: { sampleTypeVal: null | string }) =>
           row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
       },
       {
         name: "분석종류",
         center: true,
-        selector: (row) => (row.anlsTypeVal === null ? "-" : row.anlsTypeVal),
+        selector: (row: { anlsTypeVal: string }) =>
+          row.anlsTypeVal === null ? "-" : row.anlsTypeVal,
       },
       {
         name: "플랫폼",
         width: "200px",
-        selector: (row) => (row.pltfVal === null ? "-" : row.pltfVal),
+        selector: (row: { pltfVal: null | string }) =>
+          row.pltfVal === null ? "-" : row.pltfVal,
       },
       {
         name: "영업담당",
         center: true,
-        selector: (row) => (row.bsnsMngrVal === null ? "-" : row.bsnsMngrVal),
+        selector: (row: { bsnsMngrVal: null | string }) =>
+          row.bsnsMngrVal === null ? "-" : row.bsnsMngrVal,
       },
       {
         name: "실험담당",
         center: true,
-        selector: (row) => (row.expMngrVal === null ? "-" : row.expMngrVal),
+        selector: (row: { expMngrVal: null | string }) =>
+          row.expMngrVal === null ? "-" : row.expMngrVal,
       },
       {
         name: "분석담당",
         center: true,
-        selector: (row) => (row.anlsMngrVal === null ? "-" : row.anlsMngrVal),
+        selector: (row: { anlsMngrVal: null | string }) =>
+          row.anlsMngrVal === null ? "-" : row.anlsMngrVal,
       },
       {
         name: "연구담당",
         center: true,
-        selector: (row) => (row.prjtMngrVal === null ? "-" : row.prjtMngrVal),
+        selector: (row: { prjtMngrVal: null | string }) =>
+          row.prjtMngrVal === null ? "-" : row.prjtMngrVal,
       },
       {
         name: "16S 확인",
         center: true,
-        selector: (row) => (row.is16S === null ? "-" : row.is16S),
+        selector: (row: { is16S: null | string }) =>
+          row.is16S === null ? "-" : row.is16S,
       },
       {
         name: "DNA반송",
         center: true,
-        selector: (row) => (row.isDnaReturn === null ? "-" : row.isDnaReturn),
+        selector: (row: { isDnaReturn: null | string }) =>
+          row.isDnaReturn === null ? "-" : row.isDnaReturn,
       },
       {
         name: "샘플반송",
         center: true,
-        selector: (row) =>
+        selector: (row: { isSampleReturn: null | string }) =>
           row.isSampleReturn === null ? "-" : row.isSampleReturn,
       },
       {
         name: "오더금액",
         right: true,
-        selector: (row) =>
+        selector: (row: { price: number | null }) =>
           row.price === null ? "-" : formatNumberWithCommas(row.price),
       },
       {
         name: "RUN",
         right: true,
-        selector: (row) => (row.runList === null ? "-" : row.runList),
+        selector: (row: { runList: null | string[] }) =>
+          row.runList === null ? "-" : row.runList,
       },
       {
         name: "과제명",
         omit: hideDirector,
-        selector: (row) => (row.prjtCodeVal === null ? "-" : row.prjtCodeVal),
+        selector: (row: { prjtCodeVal: null | string }) =>
+          row.prjtCodeVal === null ? "-" : row.prjtCodeVal,
       },
       {
         name: "연구명",
         omit: hideDirector,
-        selector: (row) =>
+        selector: (row: { prjtDetailCodeVal: null | string }) =>
           row.prjtDetailCodeVal === null ? "-" : row.prjtDetailCodeVal,
       },
       {
         name: "분석 내역서",
         right: true,
-        selector: (row) =>
-          row.anlsItstCount === null ? "-" : row.anlsItstCount,
+        selector: (row: { anlsItstCount: number }) => row.anlsItstCount,
       },
       {
         name: "샘플 수",
         right: true,
-        selector: (row) => (row.sampleCount === null ? "-" : row.sampleCount),
+        selector: (row: { sampleCount: number }) => row.sampleCount,
       },
       {
         name: "오더생성일",
         right: true,
         width: "120px",
-        selector: (row) => (row.createDttm === null ? "-" : row.createDttm),
+        selector: (row: { createDttm: null | string }) =>
+          row.createDttm === null ? "-" : row.createDttm,
       },
       {
         name: "샘플 접수일",
         right: true,
         width: "120px",
-        selector: (row) => (row.rcptDttm === null ? "-" : row.rcptDttm),
+        selector: (row: { rcptDttm: null | string }) =>
+          row.rcptDttm === null ? "-" : row.rcptDttm,
       },
       {
         name: "PCR/Lib 완료일",
         right: true,
         width: "140px",
-        selector: (row) => (row.libCompDttm === null ? "-" : row.libCompDttm),
+        selector: (row: { libCompDttm: null | string }) =>
+          row.libCompDttm === null ? "-" : row.libCompDttm,
       },
       {
         name: "Seq완료일",
         right: true,
         width: "120px",
-        selector: (row) => (row.seqCompDttm === null ? "-" : row.seqCompDttm),
+        selector: (row: { seqCompDttm: null | string }) =>
+          row.seqCompDttm === null ? "-" : row.seqCompDttm,
       },
       {
         name: "분석 완료일",
         right: true,
         width: "120px",
-        selector: (row) => (row.biCompDttm === null ? "-" : row.biCompDttm),
+        selector: (row: { biCompDttm: null | string }) =>
+          row.biCompDttm === null ? "-" : row.biCompDttm,
       },
       {
         name: "완료 통보일",
         right: true,
         width: "120px",
-        selector: (row) => (row.ntfcCompDttm === null ? "-" : row.ntfcCompDttm),
+        selector: (row: { ntfcCompDttm: null | string }) =>
+          row.ntfcCompDttm === null ? "-" : row.ntfcCompDttm,
       },
       {
         name: "메모",
@@ -435,6 +450,10 @@ const ListOrder = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView resetPath={"/order-list"} />}
+        sortServer={true}
+        onSort={(selectedColumn, sortDirection, sortedRows) =>
+          console.log("Sort Click!!!", selectedColumn)
+        }
       />
     </Box>
   );

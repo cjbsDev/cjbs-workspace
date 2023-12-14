@@ -16,7 +16,6 @@ import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
-import NoDataView from "../../../NoDataView";
 import MyIcon from "icon/MyIcon";
 
 const IdleTop = () => {
@@ -27,6 +26,7 @@ const IdleTop = () => {
     fetcher,
     {
       suspense: true,
+      revalidateOnFocus: false,
     },
   );
 

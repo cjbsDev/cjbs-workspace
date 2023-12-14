@@ -99,6 +99,16 @@ const Charts = (props: ChartProps) => {
         grid: {
           display: false,
         },
+        title: {
+          display: true,
+          text: "월",
+          font: {
+            size: 13,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 20, left: 0, right: 0, bottom: 0 },
+        },
       },
       y: {
         grid: {
@@ -111,6 +121,29 @@ const Charts = (props: ChartProps) => {
           // forces step size to be 50 units
           stepSize: stepSize,
         },
+
+        title: {
+          display: true,
+          text: "값",
+          font: {
+            size: 13,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 0, left: 0, right: 0, bottom: 20 },
+          // writingMode: "vertical-rl",
+          // textOrientation: "upright",
+        },
+        position: "left",
+        // title: {
+        //   display: true,
+        //   text: "단위: 원",
+        //   size: 13,
+        //   weight: "bold",
+        //   lineHeight: 1.2,
+        //   padding: { top: 30, left: 0, right: 0, bottom: 0 },
+        //   position: "top",
+        // },
       },
     },
     elements: {
