@@ -11,17 +11,14 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
-import { useRecoilValue } from "recoil";
-import { dashboardTypeCcAtom, dashboardYearAtom } from "../../dashboardAtom";
-import useTargetValue from "../../useTargetValue";
+import useDashboardParams from "../../hooks/useDashboardParams";
 
 const Contents = () => {
-  const getYear = useRecoilValue(dashboardYearAtom);
-  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const targetValue = useTargetValue();
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
 
   const { data } = useSWR(
-    `/dashboard/sls/agnc??year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
+    `/dashboard/sls/agnc?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}`,
     fetcher,
     {
       suspense: true,

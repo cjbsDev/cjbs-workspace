@@ -1,7 +1,10 @@
 // useTargetValue.js
 import { useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import { dashboardTargetAtom, dashboardTypeCcAtom } from "./dashboardAtom";
+import {
+  dashboardTargetAtom,
+  dashboardTypeCcAtom,
+} from "../recoil/dashboardAtom";
 
 const useTargetValue = () => {
   const getTarget = useRecoilValue(dashboardTargetAtom);

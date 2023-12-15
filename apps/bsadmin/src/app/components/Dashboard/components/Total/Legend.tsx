@@ -1,22 +1,35 @@
 import React from "react";
 import { Box, Stack, Typography } from "@mui/material";
+import { useRecoilValue } from "recoil";
+import { endYearAtom, startYearAtom } from "../../recoil/dashboardAtom";
+import useYearRange from "../../hooks/useYearRange";
 
 const Legend = () => {
+  const getStartYear = useRecoilValue(startYearAtom);
+  const getEndYear = useRecoilValue(endYearAtom);
+  const yearsRange = useYearRange(getStartYear, getEndYear);
   return (
     <Box sx={{ position: "absolute", bottom: 30, left: 30 }}>
       <Stack direction="row" spacing={1} alignItems="center">
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Box sx={{ backgroundColor: "#6366F1;", width: 12, height: 12 }} />
-          <Typography variant="body2">올해</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Box sx={{ backgroundColor: "#8BDCD7;", width: 12, height: 12 }} />
-          <Typography variant="body2">작년</Typography>
-        </Stack>
-        <Stack direction="row" spacing={1} alignItems="center">
-          <Box sx={{ backgroundColor: "#FFB8A2;", width: 12, height: 12 }} />
-          <Typography variant="body2">재작년</Typography>
-        </Stack>
+        {yearsRange.map((year, index) => {
+          return (
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Box
+                sx={{
+                  backgroundColor:
+                    index === 0
+                      ? "#6366F1"
+                      : index === 1
+                        ? "#8BDCD7"
+                        : "#FFB8A2",
+                  width: 12,
+                  height: 12,
+                }}
+              />
+              <Typography variant="body2">{year}</Typography>
+            </Stack>
+          );
+        })}
       </Stack>
     </Box>
   );

@@ -1,30 +1,25 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { Box, Stack } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import Legend from "./Legend";
 import PieContent from "./Pie";
-import { useRecoilValue } from "recoil";
-import {
-  dashboardTargetAtom,
-  dashboardTypeCcAtom,
-  dashboardYearAtom,
-} from "../../dashboardAtom";
-import useTargetValue from "../../useTargetValue";
+import useDashboardParams from "../../hooks/useDashboardParams";
 
 const SrvcSalesChart = () => {
-  const getYear = useRecoilValue(dashboardYearAtom);
-  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const targetValue = useTargetValue();
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
 
   const { data: srvcSalesData } = useSWR(
-    `/dashboard/sls/srvc?year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
+    `/dashboard/sls/srvc?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}`,
     fetcher,
     {
       suspense: true,
       revalidateOnFocus: false,
     },
   );
+
+  console.log("srvcSalesData", srvcSalesData);
 
   const salesLabels = srvcSalesData.labels;
   const salesData = srvcSalesData.slsForAnlsResList.map(

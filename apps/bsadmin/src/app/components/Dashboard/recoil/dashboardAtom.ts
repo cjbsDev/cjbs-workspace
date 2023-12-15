@@ -14,9 +14,29 @@ const getCurrentDateInfo = () => {
 const { year, month, quarter, half } = getCurrentDateInfo();
 
 // 대시보드 상태 정의
+export const startYearAtom = atom({
+  key: "startYearAtom",
+  default: year,
+});
+
+export const endYearAtom = atom({
+  key: "endYearAtom",
+  default: year,
+});
+
 export const dashboardYearAtom = atom({
   key: "dashboardYearAtom",
   default: year,
+});
+
+export const startMonthAtom = atom({
+  key: "startMonthAtom",
+  default: 1,
+});
+
+export const endMonthAtom = atom({
+  key: "endMonthAtom",
+  default: month,
 });
 
 export const dashboardMonthAtom = atom({
@@ -26,17 +46,22 @@ export const dashboardMonthAtom = atom({
 
 export const dashboardQuarterAtom = atom({
   key: "dashboardQuarterAtom",
-  default: "BS_2100004", // 상수로 대체 가능
+  default: "BS_2100004",
 });
 
 export const dashboardHalfAtom = atom({
   key: "dashboardHalfAtom",
-  default: "BS_2100005", // 상수로 대체 가능
+  default: "BS_2100005",
 });
 
 export const dashboardTypeCcAtom = atom({
   key: "dashboardTypeCcAtom",
-  default: "BS_2100003", // 상수로 대체 가능
+  default: "BS_2100003",
+});
+
+export const dashboardGroupCcAtom = atom({
+  key: "dashboardGroupCcAtom",
+  default: "BS_2200001",
 });
 
 export const dashboardTargetAtom = atom({
@@ -50,5 +75,20 @@ export const dashboardTargetAtom = atom({
 
 export const chartTypeAtom = atom({
   key: "chartTypeAtom",
-  default: "line", // 상수로 대체 가능
+  default: "line",
+});
+
+export const agncTopSelectAtom = atom({
+  key: "agncTopSelectAtom",
+  default: "",
+});
+
+export const instTopSelectAtom = atom({
+  key: "instTopSelectAtom",
+  default: "",
+});
+
+export const groupTargetAtom = atom({
+  key: "groupTargetAtom",
+  default: "",
 });

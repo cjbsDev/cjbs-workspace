@@ -2,7 +2,7 @@ import React from "react";
 import { Box, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import SectionHeader from "../SectionHeader";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { chartTypeAtom, dashboardTypeCcAtom } from "../../dashboardAtom";
+import { chartTypeAtom, dashboardTypeCcAtom } from "../../recoil/dashboardAtom";
 import { styled } from "@mui/material/styles";
 import MyIcon from "icon/MyIcon";
 

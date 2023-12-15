@@ -1,24 +1,17 @@
-import React, { useMemo } from "react";
-import { Box, Grid, Stack } from "@mui/material";
+import React from "react";
+import { Box, Grid } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useRecoilValue } from "recoil";
-import {
-  dashboardYearAtom,
-  dashboardTypeCcAtom,
-  dashboardTargetAtom,
-} from "../../../dashboardAtom";
 import Charts from "./Charts";
 import Sales from "./Sales";
-import useTargetValue from "../../../useTargetValue";
+import useDashboardParams from "../../../hooks/useDashboardParams";
 
 const Index = () => {
-  const getYear = useRecoilValue(dashboardYearAtom);
-  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
-  const targetValue = useTargetValue();
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
 
   const { data: totalData } = useSWR(
-    `/dashboard/sls/perd?year=${getYear}&typeCc=${getTypeCc}&target=${targetValue}`,
+    `/dashboard/sls/date?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}`,
     fetcher,
     {
       suspense: true,
@@ -33,9 +26,7 @@ const Index = () => {
     totalSales,
     changeSales,
     isIcs,
-    slsForCurrentYear,
-    slsForLastYear,
-    slsForPreLastYear,
+    slsList,
     min,
     max,
     stepSize,
@@ -57,9 +48,7 @@ const Index = () => {
           sx={{ position: "relative", justifyContent: "flex-end" }}
         >
           <Charts
-            slsForCurrentYear={slsForCurrentYear}
-            slsForLastYear={slsForLastYear}
-            slsForPreLastYear={slsForPreLastYear}
+            slsList={slsList}
             labels={labels}
             min={min}
             max={max}

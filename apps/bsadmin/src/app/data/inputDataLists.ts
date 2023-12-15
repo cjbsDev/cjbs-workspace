@@ -104,6 +104,11 @@ export const periodListData = [
   { name: "년", value: "BS_2100006" },
 ];
 
+export const groupListData = [
+  { name: "기관", value: "BS_2200001" },
+  { name: "거래처", value: "BS_2200002" },
+];
+
 export const taxonListData = [
   { taxonName: "taxonBCnt", taxonIconName: "B" },
   { taxonName: "taxonECnt", taxonIconName: "E" },

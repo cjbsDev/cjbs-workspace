@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { dashboardQuarterAtom } from "../../../../dashboardAtom";
+import { dashboardQuarterAtom } from "../../../../recoil/dashboardAtom";
 import { SelectBox2 } from "cjbsDSTM";
 import { quarterListData } from "../../../../../../data/inputDataLists";
 

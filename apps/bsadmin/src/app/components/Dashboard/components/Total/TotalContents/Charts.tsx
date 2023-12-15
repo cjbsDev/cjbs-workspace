@@ -1,6 +1,9 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { chartTypeAtom, dashboardTypeCcAtom } from "../../../dashboardAtom";
+import {
+  chartTypeAtom,
+  dashboardTypeCcAtom,
+} from "../../../recoil/dashboardAtom";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +17,7 @@ import {
   Filler,
   Legend,
 } from "chart.js";
+
 import { Stack } from "@mui/material";
 ChartJS.register(
   CategoryScale,
@@ -28,25 +32,14 @@ ChartJS.register(
 );
 
 interface ChartProps {
-  slsForCurrentYear: number[];
-  slsForLastYear: number[];
-  slsForPreLastYear: number[];
+  slsList: number[];
   labels: string[];
   min: number;
   max: number;
   stepSize: number;
 }
 
-const Charts = (props: ChartProps) => {
-  const {
-    labels,
-    slsForCurrentYear,
-    slsForLastYear,
-    slsForPreLastYear,
-    min,
-    max,
-    stepSize,
-  } = props;
+const Charts = ({ labels, slsList, min, max, stepSize }: ChartProps) => {
   const chartType = useRecoilValue(chartTypeAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
 
@@ -56,7 +49,7 @@ const Charts = (props: ChartProps) => {
       {
         // fill: true,
         label: "올해",
-        data: slsForCurrentYear,
+        data: slsList[0],
         borderColor: "rgba(99, 102, 241, 1)",
         backgroundColor: "rgba(99, 102, 241, 0.9)",
         type: chartType === "line" ? "line" : "bar",
@@ -64,7 +57,7 @@ const Charts = (props: ChartProps) => {
       {
         // fill: true,
         label: "작년",
-        data: slsForLastYear,
+        data: slsList[1],
         borderColor: "#8BDCD7",
         backgroundColor: "#8BDCD7",
         type: "line",
@@ -72,7 +65,7 @@ const Charts = (props: ChartProps) => {
       {
         // fill: true,
         label: "재작년",
-        data: slsForPreLastYear,
+        data: slsList[2],
         borderColor: "#FFB8A2",
         backgroundColor: "#FFB8A2",
         type: "line",
@@ -101,7 +94,14 @@ const Charts = (props: ChartProps) => {
         },
         title: {
           display: true,
-          text: "월",
+          text:
+            getTypeCc === "BS_2100003"
+              ? "월"
+              : getTypeCc === "BS_2100004"
+                ? "분기"
+                : getTypeCc === "BS_2100005"
+                  ? "반기"
+                  : "년",
           font: {
             size: 13,
             weight: "bold",
@@ -124,26 +124,16 @@ const Charts = (props: ChartProps) => {
 
         title: {
           display: true,
-          text: "값",
+          align: "end",
+          text: "단위: 원",
           font: {
             size: 13,
             weight: "bold",
             lineHeight: 1.2,
           },
           padding: { top: 0, left: 0, right: 0, bottom: 20 },
-          // writingMode: "vertical-rl",
-          // textOrientation: "upright",
         },
         position: "left",
-        // title: {
-        //   display: true,
-        //   text: "단위: 원",
-        //   size: 13,
-        //   weight: "bold",
-        //   lineHeight: 1.2,
-        //   padding: { top: 30, left: 0, right: 0, bottom: 0 },
-        //   position: "top",
-        // },
       },
     },
     elements: {

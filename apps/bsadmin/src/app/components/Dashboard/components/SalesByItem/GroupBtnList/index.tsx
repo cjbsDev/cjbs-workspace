@@ -1,37 +1,40 @@
 import React, { useState } from "react";
-import { periodListData } from "../../../../../../data/inputDataLists";
+import { groupListData } from "../../../../../data/inputDataLists";
 import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import PeriodBtn from "./PeriodBtn";
 import { styled } from "@mui/material/styles";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
   chartTypeAtom,
-  dashboardTypeCcAtom,
-} from "../../../../recoil/dashboardAtom";
+  dashboardGroupCcAtom,
+  groupTargetAtom,
+} from "../../../recoil/dashboardAtom";
 
 const Index = () => {
-  const [typeCc, setTypeCc] = useRecoilState(dashboardTypeCcAtom);
+  const [groupCc, setGroupCc] = useRecoilState(dashboardGroupCcAtom);
   const setChartType = useSetRecoilState(chartTypeAtom);
+  const resetRecoil = useResetRecoilState(groupTargetAtom);
+  const setTarget = useSetRecoilState(groupTargetAtom);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newTypeCc: string,
+    newGroupCc: string,
   ) => {
-    console.log("TypeCc Value ==>>", newTypeCc);
-    if (newTypeCc !== typeCc) {
-      setTypeCc(newTypeCc);
+    console.log("GroupCc Value ==>>", newGroupCc);
+    if (newGroupCc !== groupCc) {
+      setGroupCc(newGroupCc);
+      setTarget("");
     }
-    if (newTypeCc === "BS_2100005" || newTypeCc === "BS_2100006") {
-      setChartType("bar");
-    } else {
-      setChartType("line");
-    }
+    // if (newGroupCc === "BS_2100005" || newGroupCc === "BS_2100006") {
+    //   setChartType("bar");
+    // } else {
+    //   setChartType("line");
+    // }
   };
 
   return (
     <Stack direction="row" spacing={1}>
       <StyledToggleButtonGroup
-        value={typeCc}
+        value={groupCc}
         exclusive
         onChange={handleAlignment}
         size="small"
@@ -43,13 +46,13 @@ const Index = () => {
           }
         }
       >
-        {periodListData.map((period) => (
+        {groupListData.map((group) => (
           <ToggleButton
-            key={period.name}
-            value={period.value}
-            disabled={period.value === typeCc}
+            key={group.name}
+            value={group.value}
+            disabled={group.value === groupCc}
           >
-            {period.name}
+            {group.name}
           </ToggleButton>
         ))}
       </StyledToggleButtonGroup>

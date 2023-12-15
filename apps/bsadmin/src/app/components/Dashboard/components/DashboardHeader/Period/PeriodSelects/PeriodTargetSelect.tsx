@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import {
   dashboardTargetAtom,
   dashboardTypeCcAtom,
-} from "../../../../dashboardAtom";
+} from "../../../../recoil/dashboardAtom";
 import {
   dashboardMonthData,
   quarterListData,

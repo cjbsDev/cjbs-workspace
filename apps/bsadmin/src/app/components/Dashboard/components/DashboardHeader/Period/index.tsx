@@ -6,8 +6,8 @@ import PeriodSelects from "./PeriodSelects";
 const Index = () => {
   return (
     <Stack direction="row" spacing={3.8} alignItems="center">
-      <PeriodBtnList />
       <PeriodSelects />
+      <PeriodBtnList />
     </Stack>
   );
 };

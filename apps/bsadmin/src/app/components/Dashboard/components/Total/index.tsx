@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
 import { Box, Stack, Typography } from "@mui/material";
 import Legend from "./Legend";
-import { dashboardTypeCcAtom } from "../../dashboardAtom";
+import { dashboardTypeCcAtom } from "../../recoil/dashboardAtom";
 
 type TypeCcKey = "BS_2100003" | "BS_2100004" | "BS_2100005" | "BS_2100006";
 

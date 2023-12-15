@@ -3,7 +3,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import MyIcon from "icon/MyIcon";
 import { useRecoilValue } from "recoil";
-import { dashboardTypeCcAtom } from "../../../dashboardAtom";
+import { dashboardTypeCcAtom } from "../../../recoil/dashboardAtom";
 
 type TypeCcKey = "BS_2100003" | "BS_2100004" | "BS_2100005" | "BS_2100006";
 

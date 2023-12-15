@@ -2,10 +2,10 @@ import React from "react";
 import { dashboardYearData } from "../../../../../../data/inputDataLists";
 import { SelectBox2 } from "cjbsDSTM";
 import { useRecoilState } from "recoil";
-import { dashboardYearAtom } from "../../../../recoil/dashboardAtom";
+import { startYearAtom } from "../../../../recoil/dashboardAtom";
 
-const YearSelect = () => {
-  const [year, setYear] = useRecoilState(dashboardYearAtom);
+const StartYearSelect = () => {
+  const [year, setYear] = useRecoilState(startYearAtom);
   const handleYear = (event: { target: { value: any } }) => {
     const getYear = event.target.value;
     setYear(getYear);
@@ -19,4 +19,4 @@ const YearSelect = () => {
   );
 };
 
-export default YearSelect;
+export default StartYearSelect;
