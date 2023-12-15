@@ -125,7 +125,7 @@ const Charts = ({ labels, slsList, min, max, stepSize }: ChartProps) => {
         title: {
           display: true,
           align: "end",
-          text: "단위: 원",
+          // text: "단위: 원",
           font: {
             size: 13,
             weight: "bold",
