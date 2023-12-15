@@ -73,9 +73,7 @@ const Title = ({ children, ...restProps }: ComponentProps) => {
           }}
         />
         <Typography variant="subtitle1" sx={{ lineHeight: 1 }}>
-          {/*서비스 별 매출*/}
           {children}
-          {/*{JSON.stringify(toggleShow)}*/}
         </Typography>
       </Stack>
     </Box>

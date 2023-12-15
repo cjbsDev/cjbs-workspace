@@ -4,17 +4,13 @@ import { fetcher } from "api";
 import useDashboardParams from "../../hooks/useDashboardParams";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  agncTopSelectAtom,
   dashboardGroupCcAtom,
   groupTargetAtom,
-  startMonthAtom,
 } from "../../recoil/dashboardAtom";
-import { useState } from "react";
 
 export default function AgncTopSelectbox() {
   const { startMonth, startYear, endMonth, endYear, typeCc } =
     useDashboardParams();
-  // const [state, setState] = useState<string>("");
   const [recoilState, setRecoilState] = useRecoilState(groupTargetAtom);
   const groupCc = useRecoilValue(dashboardGroupCcAtom);
 
@@ -40,7 +36,6 @@ export default function AgncTopSelectbox() {
       sx={{
         mb: `-12px !important`,
         mt: `-24px !important`,
-        // py: `0 !important`,
       }}
     />
   );

@@ -75,7 +75,10 @@ const Contents = () => {
         data: slsList[0],
         borderColor: "rgba(99, 102, 241, 1)",
         backgroundColor: "rgba(99, 102, 241, 0.9)",
-        type: "line",
+        type:
+          getTypeCc === "BS_2100005" || getTypeCc === "BS_2100006"
+            ? "bar"
+            : "line",
       },
       {
         // fill: true,
@@ -168,6 +171,12 @@ const Contents = () => {
 
   return (
     <Box sx={{ height: 273 }}>
+      {/*{getTypeCc === "BS_2100005" ? (*/}
+      {/*  <Line options={options} data={data} height={273} />*/}
+      {/*) : (*/}
+      {/*  <Bar options={options} data={data} height={273} />*/}
+      {/*)}*/}
+
       <Line options={options} data={data} height={273} />
       {/*{chartType === "line" ? (*/}
       {/*  <Line options={options} data={data} height={273} />*/}

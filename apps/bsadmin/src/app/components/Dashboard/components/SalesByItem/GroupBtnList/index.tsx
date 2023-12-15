@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { groupListData } from "../../../../../data/inputDataLists";
-import { Box, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import { Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useRecoilState, useResetRecoilState, useSetRecoilState } from "recoil";
 import {
@@ -11,8 +11,8 @@ import {
 
 const Index = () => {
   const [groupCc, setGroupCc] = useRecoilState(dashboardGroupCcAtom);
-  const setChartType = useSetRecoilState(chartTypeAtom);
-  const resetRecoil = useResetRecoilState(groupTargetAtom);
+  // const setChartType = useSetRecoilState(chartTypeAtom);
+  // const resetRecoil = useResetRecoilState(groupTargetAtom);
   const setTarget = useSetRecoilState(groupTargetAtom);
 
   const handleAlignment = (
@@ -41,7 +41,6 @@ const Index = () => {
         sx={{
           mb: `-12px !important`,
           mt: `-24px !important`,
-          // py: `0 !important`,
         }}
       >
         {groupListData.map((group) => (

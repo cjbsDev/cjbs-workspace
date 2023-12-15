@@ -11,7 +11,7 @@ import {
 import Header from "./Header";
 const LazySalesByItemChart = dynamic(() => import("./Contents"), {
   ssr: false,
-  loading: () => <SkeletonLoading height={200} />,
+  loading: () => <SkeletonLoading height={273} />,
 });
 
 const Index = () => {
