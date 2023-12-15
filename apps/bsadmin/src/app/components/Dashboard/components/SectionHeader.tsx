@@ -86,7 +86,7 @@ const Action = ({ children, ...restProps }: ComponentProps) => {
   // const [toggleShow, setToggleShow] = useState<boolean>(false);
   return (
     // <SectionHeaderContext.Provider value={{}}>
-    <Stack direction="row" spacing={0.5}>
+    <Stack direction="row" spacing={0.5} alignItems="center">
       {children}
     </Stack>
     // </SectionHeaderContext.Provider>

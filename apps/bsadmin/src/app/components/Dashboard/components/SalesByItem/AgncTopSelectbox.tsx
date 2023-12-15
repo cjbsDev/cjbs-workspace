@@ -37,7 +37,11 @@ export default function AgncTopSelectbox() {
       options={data}
       value={recoilState}
       onChange={handleChange}
-      Input={{ defaultValue: "3333" }}
+      sx={{
+        mb: `-12px !important`,
+        mt: `-24px !important`,
+        // py: `0 !important`,
+      }}
     />
   );
 }

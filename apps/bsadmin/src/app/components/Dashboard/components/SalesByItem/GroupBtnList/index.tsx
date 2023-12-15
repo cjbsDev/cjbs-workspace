@@ -38,13 +38,11 @@ const Index = () => {
         exclusive
         onChange={handleAlignment}
         size="small"
-        sx={
-          {
-            // mb: `-12px !important`,
-            // mt: `-12px !important`,
-            // py: `0 !important`,
-          }
-        }
+        sx={{
+          mb: `-12px !important`,
+          mt: `-24px !important`,
+          // py: `0 !important`,
+        }}
       >
         {groupListData.map((group) => (
           <ToggleButton

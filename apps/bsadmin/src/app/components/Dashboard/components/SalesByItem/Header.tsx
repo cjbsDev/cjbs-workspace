@@ -4,13 +4,10 @@ import SectionHeader from "../SectionHeader";
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 import GroupBtnList from "./GroupBtnList";
+import { Typography } from "@mui/material";
 const LazyAgncTopSelectbox = dynamic(() => import("./AgncTopSelectbox"), {
   ssr: false,
-  loading: () => <SkeletonLoading height={300} />,
-});
-const LazyInstTopSelectbox = dynamic(() => import("./InstTopSelectbox"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={300} />,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
 const Header = () => {
