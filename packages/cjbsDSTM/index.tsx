@@ -40,5 +40,6 @@ export * from "./organisms/DataTable";
 
 //CommonFunc
 // export * from "./commonFunc/exportExcel";
-export * from "./commonFunc/transformedNullToHyphon";
+export * from "./commonFunc/index";
+// export * from "./commonFunc/transformedNullToHyphon";
 export * from "./commonFunc/exportExcel";

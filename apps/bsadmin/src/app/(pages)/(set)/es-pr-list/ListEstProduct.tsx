@@ -23,7 +23,7 @@ const ListEstProduct = () => {
     (esPrMngUkey: string) => {
       router.push("/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
     },
-    [router]
+    [router],
   );
 
   const goDetailPage = (row: { esPrMngUkey: string }) => {
@@ -42,26 +42,26 @@ const ListEstProduct = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
+        name: "No",
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "5%",
+        width: "80px",
+        center: true,
       },
       {
         name: "분석종류",
         selector: (row: { anlsTypeMcVal: string }) => row.anlsTypeMcVal,
-        width: "15%",
+        width: "150px",
       },
       {
         name: "품명",
         selector: (row: { prNm: string }) => row.prNm,
-        width: "20%",
+        width: "340px",
       },
       {
         name: "포함 사항",
         selector: (row: { inclInfo: string }) => row.inclInfo,
-        width: "50%",
         wrap: true,
         cell: (row: { inclInfo: string }) => (
           <div style={{ whiteSpace: "pre-line" }}>
@@ -89,10 +89,12 @@ const ListEstProduct = () => {
             />
           );
         },
-        width: "10%",
+        width: "80px",
+        center: true,
+        button: true,
       },
     ],
-    [goModifyPage]
+    [goModifyPage],
   );
 
   const subHeaderComponentMemo = useMemo(() => {

@@ -23,7 +23,7 @@ const ListMaster = () => {
     (row: { uniqueCode: string }) => {
       router.push("/master-code-list/" + row.uniqueCode);
     },
-    [router]
+    [router],
   );
 
   const columns = useMemo(
@@ -43,6 +43,9 @@ const ListMaster = () => {
 
       {
         name: "상태 코드",
+        width: "100px",
+        button: true,
+        center: true,
         cell: (row: { isRls: string; uniqueCode: string }) => {
           return (
             row.isRls == "Y" && (
@@ -56,7 +59,7 @@ const ListMaster = () => {
         },
       },
     ],
-    [goDetailPage]
+    [goDetailPage],
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);

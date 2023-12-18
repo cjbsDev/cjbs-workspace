@@ -25,7 +25,7 @@ const ListMachine = () => {
     (topCodeMc: string, midCodeMc: string) => {
       router.push("/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
     },
-    [router]
+    [router],
   );
 
   const [filterText, setFilterText] = useState("");
@@ -40,16 +40,17 @@ const ListMachine = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
+        name: "No",
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "5%",
+        width: "80px",
+        center: true,
       },
       {
         name: "장비",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "20%",
+        width: "200px",
       },
       {
         name: "Kit",
@@ -77,7 +78,7 @@ const ListMachine = () => {
             </Typography>
           );
         },
-        width: "65%",
+        // width: "65%",
         wrap: true,
       },
       {
@@ -91,10 +92,12 @@ const ListMachine = () => {
             />
           );
         },
-        width: "10%",
+        width: "80px",
+        center: true,
+        button: true,
       },
     ],
-    [goDetailPage]
+    [goDetailPage],
   );
 
   const subHeaderComponentMemo = useMemo(() => {

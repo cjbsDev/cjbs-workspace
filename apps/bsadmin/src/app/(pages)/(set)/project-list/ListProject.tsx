@@ -25,7 +25,7 @@ const ListProject = () => {
     (prjcUkey: string) => {
       router.push("/project-list/" + prjcUkey);
     },
-    [router]
+    [router],
   );
 
   /*
@@ -47,6 +47,7 @@ const ListProject = () => {
       {
         name: "코드",
         selector: (row: { prjcUkey: string }) => row.prjcUkey,
+        width: "100px",
       },
       {
         name: "과제명",
@@ -54,18 +55,27 @@ const ListProject = () => {
       },
       {
         name: "과제 담당자",
+        center: "center",
+        width: "100px",
         selector: (row: { prjcMngrNm: string }) => row.prjcMngrNm,
       },
       {
         name: "수행부서",
+        center: "center",
+        width: "100px",
         selector: (row: { departCodeMcVal: string }) => row.departCodeMcVal,
       },
       {
         name: "사용중인 세부연구",
+        width: "150px",
+        right: true,
         selector: (row: { prjcDetailCnt: string }) => row.prjcDetailCnt,
       },
       {
         name: "관리",
+        width: "80px",
+        center: true,
+        button: true,
         cell: (row: { prjcUkey: string }) => {
           return (
             <OutlinedButton
@@ -77,7 +87,7 @@ const ListProject = () => {
         },
       },
     ],
-    [goDetailPage]
+    [goDetailPage],
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);

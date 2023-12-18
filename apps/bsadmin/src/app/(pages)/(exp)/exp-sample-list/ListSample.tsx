@@ -72,14 +72,15 @@ const ListSample = () => {
     () => [
       {
         name: "샘플번호",
-        width: "120px",
-        sortable: true,
+        // width: "120px",
+        center: true,
         selector: (row) => row.sampleId,
       },
       {
         name: "Order번호",
-        width: "120px",
-        sortable: true,
+        // width: "120px",
+        // sortable: true,
+        center: true,
         selector: (row) => row.orderId,
       },
       {
@@ -116,6 +117,7 @@ const ListSample = () => {
       },
       {
         name: "샘플상태",
+        center: true,
         selector: (row) => row.sampleTypeVal,
       },
       {
@@ -133,7 +135,7 @@ const ListSample = () => {
         name: "Taxon",
         width: "80px",
         sortable: false,
-        center: true,
+        right: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),
       },
       {
@@ -392,13 +394,14 @@ const ListSample = () => {
         name: "RUN",
         // width: "120px",
         sortable: false,
-        center: true,
+        right: true,
         wrap: true,
         selector: (row) =>
           row.runList === null ? "-" : row.runList.join(", "),
       },
       {
         name: "Project uid",
+        right: true,
         selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
         cell: (row) => {
           const { projectUid, projectUidLink, orderUkey } = row;
@@ -429,6 +432,8 @@ const ListSample = () => {
       },
       {
         name: "메모",
+        center: true,
+        width: "80",
         cell: (row: { memo: string }) => {
           const { memo } = row;
           return (

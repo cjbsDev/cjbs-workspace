@@ -13,45 +13,45 @@ import {
   SelectBox,
   TD,
   TH,
-  transformedNullToHyphon,
 } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 import { vrfcData } from "../../../../../../data/inputDataLists";
+import { transformedNullToHyphon } from "cjbsDSTM/commonFunc";
 
 const LazyHostCompSelctbox = dynamic(
   () => import("../../../../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazySampleCategorySelctbox = dynamic(
   () => import("../../../../../../components/SampleCategorySelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyTaxonTypeSelctbox = dynamic(
   () => import("../../../../../../components/TaxonTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyMcNmSelctbox = dynamic(
   () => import("../../../../../../components/McNmSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyDepthSelctbox = dynamic(
   () => import("../../../../../../components/DepthSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const SampleInfoTable1 = ({ sampleInfoData }: any) => {

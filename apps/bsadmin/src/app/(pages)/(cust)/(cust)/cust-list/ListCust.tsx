@@ -41,7 +41,7 @@ const ListCust = () => {
       (item.custNm &&
         item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.ebcEmail &&
-        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase()))
+        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase())),
   );
 
   const totalElements = data.pageInfo.totalElements;
@@ -58,6 +58,7 @@ const ListCust = () => {
     () => [
       {
         name: "고객 번호",
+        center: true,
         cell: (row: { ebcUid: number; agncUkey: string }) => (
           <Stack
             direction="row"
@@ -77,22 +78,23 @@ const ListCust = () => {
             )}
           </Stack>
         ),
-        width: "200px",
+        width: "120px",
       },
 
       {
         name: "아이디",
         selector: (row: { ebcEmail: string }) => row.ebcEmail,
-        width: "200px",
+        // width: "200px",
       },
       {
         name: "이름",
         selector: (row: { custNm: string }) => row.custNm,
-        width: "150px",
+        // width: "150px",
       },
 
       {
         name: "거래처(PI)",
+
         cell: (row: { instNm: any; agncNm: any }) => (
           <>
             <Stack
@@ -110,18 +112,21 @@ const ListCust = () => {
             </Stack>
           </>
         ),
-        minWidth: "300px",
+        // minWidth: "300px",
       },
 
       {
         name: "마지막 수정",
         width: "150px",
+        right: true,
         selector: (row: { modifiedAt: any }) =>
           row.modifiedAt && Dayjs(row.modifiedAt).format("YYYY-MM-DD"),
       },
 
       {
         name: "메모",
+        width: "80px",
+        center: true,
         cell: (row: { memo: string }) => {
           return (
             row.memo !== null &&
@@ -134,19 +139,17 @@ const ListCust = () => {
             )
           );
         },
-        width: "80px",
       },
     ],
-    []
+    [],
   );
 
-  const goDetailPage = (row: { custUkey: string, ebcUid:string }) => {
+  const goDetailPage = (row: { custUkey: string; ebcUid: string }) => {
     const path = row.custUkey;
     const ebcUid = row.ebcUid;
     if (!ebcUid) {
       toast("EzBioCloud 가입 정보가 없는 고객입니다.");
-    }
-    else {
+    } else {
       router.push("/cust-list/" + path);
     }
   };
