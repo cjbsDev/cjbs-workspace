@@ -3,6 +3,8 @@ import { useRecoilValue } from "recoil";
 import {
   chartTypeAtom,
   dashboardTypeCcAtom,
+  endYearAtom,
+  startYearAtom,
 } from "../../../recoil/dashboardAtom";
 import { Line, Bar } from "react-chartjs-2";
 import {
@@ -19,6 +21,7 @@ import {
 } from "chart.js";
 
 import { Stack } from "@mui/material";
+import useYearRange from "../../../hooks/useYearRange";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -37,40 +40,45 @@ interface ChartProps {
   min: number;
   max: number;
   stepSize: number;
+  colors: string[];
 }
 
-const Charts = ({ labels, slsList, min, max, stepSize }: ChartProps) => {
+const Charts = ({
+  labels,
+  slsList,
+  min,
+  max,
+  stepSize,
+  colors,
+}: ChartProps) => {
   const chartType = useRecoilValue(chartTypeAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
+  const getStartYear = useRecoilValue(startYearAtom);
+  const getEndYear = useRecoilValue(endYearAtom);
+  const yearsRange = useYearRange(getStartYear, getEndYear);
+
+  // 데이터셋 생성 함수
+  const createDataset = (
+    data: number,
+    color: string | undefined,
+    type: string,
+    year: number | undefined,
+  ) => ({
+    label: year,
+    data: data,
+    borderColor: color,
+    backgroundColor: color,
+    type: type === "line" ? "line" : "bar",
+  });
+
+  // datasets 배열 생성
+  const datasets = slsList.map((data, index) =>
+    createDataset(data, colors[index], chartType, yearsRange[index]),
+  );
 
   const data = {
     labels,
-    datasets: [
-      {
-        // fill: true,
-        label: "올해",
-        data: slsList[0],
-        borderColor: "rgba(99, 102, 241, 1)",
-        backgroundColor: "rgba(99, 102, 241, 0.9)",
-        type: chartType === "line" ? "line" : "bar",
-      },
-      {
-        // fill: true,
-        label: "작년",
-        data: slsList[1],
-        borderColor: "#8BDCD7",
-        backgroundColor: "#8BDCD7",
-        type: "line",
-      },
-      {
-        // fill: true,
-        label: "재작년",
-        data: slsList[2],
-        borderColor: "#FFB8A2",
-        backgroundColor: "#FFB8A2",
-        type: "line",
-      },
-    ],
+    datasets: datasets,
   };
 
   const options = {

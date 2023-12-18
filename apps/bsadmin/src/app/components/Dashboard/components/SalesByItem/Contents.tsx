@@ -1,7 +1,5 @@
 import React from "react";
-// import { Box, Stack, Typography } from "@mui/material";
-// import MyIcon from "icon/MyIcon";
-import { Line, Bar } from "react-chartjs-2";
+import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,9 +19,12 @@ import { useRecoilValue } from "recoil";
 import {
   dashboardGroupCcAtom,
   dashboardTypeCcAtom,
+  endYearAtom,
   groupTargetAtom,
+  startYearAtom,
 } from "../../recoil/dashboardAtom";
 import { Box } from "@mui/material";
+import useYearRange from "../../hooks/useYearRange";
 
 ChartJS.register(
   CategoryScale,
@@ -43,6 +44,9 @@ const Contents = () => {
   const groupCc = useRecoilValue(dashboardGroupCcAtom);
   const targetCc = useRecoilValue(groupTargetAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
+  const getStartYear = useRecoilValue(startYearAtom);
+  const getEndYear = useRecoilValue(endYearAtom);
+  const yearsRange = useYearRange(getStartYear, getEndYear);
 
   const { data: groupData } = useSWR(
     `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=${groupCc}&target=${targetCc}`,
@@ -55,48 +59,30 @@ const Contents = () => {
 
   console.log("항목별 매출", groupData);
 
-  const {
-    labels,
-    totalSales,
-    changeSales,
-    isIcs,
-    slsList,
-    min,
-    max,
-    stepSize,
-  } = groupData;
+  const { labels, colors, slsList, min, max, stepSize } = groupData;
+
+  // 데이터셋 생성 함수
+  const createDataset = (
+    data: number,
+    color: string | undefined,
+    type: string,
+    year: number | undefined,
+  ) => ({
+    label: year,
+    data: data,
+    borderColor: color,
+    backgroundColor: color,
+    type: type === "BS_2100005" || getTypeCc === "BS_2100006" ? "bar" : "line",
+  });
+
+  // datasets 배열 생성
+  const datasets = slsList.map((data, index) =>
+    createDataset(data, colors[index], getTypeCc, yearsRange[index]),
+  );
 
   const data = {
     labels,
-    datasets: [
-      {
-        // fill: true,
-        label: "올해",
-        data: slsList[0],
-        borderColor: "rgba(99, 102, 241, 1)",
-        backgroundColor: "rgba(99, 102, 241, 0.9)",
-        type:
-          getTypeCc === "BS_2100005" || getTypeCc === "BS_2100006"
-            ? "bar"
-            : "line",
-      },
-      {
-        // fill: true,
-        label: "작년",
-        data: slsList[1],
-        borderColor: "#8BDCD7",
-        backgroundColor: "#8BDCD7",
-        type: "line",
-      },
-      {
-        // fill: true,
-        label: "재작년",
-        data: slsList[2],
-        borderColor: "#FFB8A2",
-        backgroundColor: "#FFB8A2",
-        type: "line",
-      },
-    ],
+    datasets: datasets,
   };
 
   const options = {
@@ -157,7 +143,7 @@ const Contents = () => {
             weight: "bold",
             lineHeight: 1.2,
           },
-          padding: { top: 0, left: 0, right: 0, bottom: 20 },
+          padding: { top: 0, left: 0, right: 0, bottom: 0 },
         },
         position: "left",
       },
@@ -171,32 +157,8 @@ const Contents = () => {
 
   return (
     <Box sx={{ height: 273 }}>
-      {/*{getTypeCc === "BS_2100005" ? (*/}
-      {/*  <Line options={options} data={data} height={273} />*/}
-      {/*) : (*/}
-      {/*  <Bar options={options} data={data} height={273} />*/}
-      {/*)}*/}
-
       <Line options={options} data={data} height={273} />
-      {/*{chartType === "line" ? (*/}
-      {/*  <Line options={options} data={data} height={273} />*/}
-      {/*) : (*/}
-      {/*  <Bar options={options} data={data} height={273} />*/}
-      {/*)}*/}
     </Box>
-    // <Box
-    //   sx={{
-    //     position: "absolute",
-    //     left: "50%",
-    //     top: "50%",
-    //     transform: "translate(-50%, -50%)",
-    //   }}
-    // >
-    //   <Stack direction="row" justifyContent="center">
-    //     <MyIcon icon="nodata" size={20} />
-    //     <Typography variant="body2">데이터가 존재하지 않습니다.</Typography>
-    //   </Stack>
-    // </Box>
   );
 };
 

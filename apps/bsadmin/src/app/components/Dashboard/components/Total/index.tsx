@@ -1,14 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { ErrorContainer, Fallback, SkeletonLineChart } from "cjbsDSTM";
-import { RecoilRoot, useRecoilValue } from "recoil";
 import TotalHeader from "./TotalHeader";
 import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
-import { Box, Stack, Typography } from "@mui/material";
-import Legend from "./Legend";
-import { dashboardTypeCcAtom } from "../../recoil/dashboardAtom";
-
-type TypeCcKey = "BS_2100003" | "BS_2100004" | "BS_2100005" | "BS_2100006";
+import { Box } from "@mui/material";
 
 const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
   ssr: false,
@@ -16,14 +11,12 @@ const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
 });
 
 const Index = () => {
-  const getTypeCc = useRecoilValue(dashboardTypeCcAtom) as TypeCcKey;
   return (
     <SectionBox>
       <TotalHeader />
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyTotalContents />
       </ErrorContainer>
-      {getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && <Legend />}
     </SectionBox>
   );
 };
