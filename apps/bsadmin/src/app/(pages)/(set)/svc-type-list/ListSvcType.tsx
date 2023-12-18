@@ -24,7 +24,7 @@ const ListSvcType = () => {
     (topCodeMc: string) => {
       router.push("/svc-type-list/" + topCodeMc);
     },
-    [router]
+    [router],
   );
 
   const [filterText, setFilterText] = useState("");
@@ -39,16 +39,16 @@ const ListSvcType = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
+        name: "No",
+        center: true,
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "100px",
+        width: "80px",
       },
       {
         name: "서비스 타입",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "25%",
       },
       {
         name: "분석 단계",
@@ -69,7 +69,6 @@ const ListSvcType = () => {
               ))
             : "등록된 분석 단계가 없습니다.";
         },
-        width: "60%",
       },
       {
         name: "관리",
@@ -82,10 +81,12 @@ const ListSvcType = () => {
             />
           );
         },
-        width: "10%",
+        width: "80px",
+        center: true,
+        button: true,
       },
     ],
-    [goDetailPage]
+    [goDetailPage],
   );
 
   const subHeaderComponentMemo = useMemo(() => {

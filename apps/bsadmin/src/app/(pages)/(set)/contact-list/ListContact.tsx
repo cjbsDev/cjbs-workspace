@@ -24,6 +24,7 @@ import { fetcher } from "api";
 import axios from "axios";
 import { PUT } from "api";
 import { toast } from "react-toastify";
+import { formatPhoneNumber } from "cjbsDSTM/commonFunc";
 
 export default function ListContact() {
   //const tableRef = React.useRef<any>(null);
@@ -44,7 +45,7 @@ export default function ListContact() {
     (item: any) =>
       (item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.email &&
-        item.email.toLowerCase().includes(filterText.toLowerCase()))
+        item.email.toLowerCase().includes(filterText.toLowerCase())),
   );
 
   const totalElements = data.pageInfo.totalElements;
@@ -67,7 +68,7 @@ export default function ListContact() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   const { data: userStatusData } = useSWR(
@@ -75,7 +76,7 @@ export default function ListContact() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   const defaultValues = {
@@ -101,12 +102,13 @@ export default function ListContact() {
       {
         name: "아이디",
         selector: (row: { email: string }) => row.email,
-        width: "200px",
+        width: "160px",
       },
       {
         name: "이름",
         selector: (row: { nm: string }) => row.nm,
-        width: "150px",
+        width: "100px",
+        center: true,
       },
       {
         name: "영문 이니셜",
@@ -115,33 +117,41 @@ export default function ListContact() {
       },
       {
         name: "연락처",
-        selector: (row: { tel: string }) => row.tel,
-        //width: "150px",
+        selector: (row: { tel: string }) => formatPhoneNumber(row.tel),
+        width: "150px",
+        right: true,
       },
       {
         name: "부서",
+        center: true,
         selector: (row: { departVal: string }) => row.departVal,
       },
       {
         name: "권한",
         selector: (row: { authVal: string }) => row.authVal,
+        center: true,
+        width: "100px",
       },
       {
         name: "가입일",
+        right: true,
         selector: (row: { signupAt: any }) =>
           row.signupAt && Dayjs(row.signupAt).format("YYYY-MM-DD"),
       },
       {
         name: "최근 접속일",
+        right: true,
         selector: (row: { lastLoginAt: any }) =>
           row.lastLoginAt && Dayjs(row.lastLoginAt).format("YYYY-MM-DD"),
       },
       {
         name: "상태",
+        center: true,
+        width: "80px",
         selector: (row: { statusVal: string }) => row.statusVal,
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: { ukey: string }) => {

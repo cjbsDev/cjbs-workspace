@@ -24,7 +24,7 @@ const ListSvcCate = () => {
     (topCodeMc: string, midCodeMc: string) => {
       router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
     },
-    [router]
+    [router],
   );
 
   const [filterText, setFilterText] = useState("");
@@ -38,21 +38,22 @@ const ListSvcCate = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
+        name: "No",
         cell: (row: any, index: number) => {
           return index + 1;
         },
-        width: "5%",
+        width: "80px",
+        center: true,
       },
       {
         name: "분류",
         selector: (row: { topValue: string }) => row.topValue,
-        width: "10%",
+        width: "100px",
       },
       {
         name: "분석종류",
         selector: (row: { midValue: string }) => row.midValue,
-        width: "10%",
+        width: "150px",
       },
 
       {
@@ -81,7 +82,7 @@ const ListSvcCate = () => {
             </Typography>
           );
         },
-        width: "65%",
+        // width: "65%",
         wrap: true,
       },
       {
@@ -95,10 +96,12 @@ const ListSvcCate = () => {
             />
           );
         },
-        width: "10%",
+        width: "80px",
+        center: true,
+        button: true,
       },
     ],
-    [goDetailPage]
+    [goDetailPage],
   );
 
   const subHeaderComponentMemo = useMemo(() => {

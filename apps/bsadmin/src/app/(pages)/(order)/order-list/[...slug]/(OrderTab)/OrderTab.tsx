@@ -260,7 +260,7 @@ const OrderTab = () => {
                 <TD sx={{ width: "85%" }} colSpan={3}>
                   {price.length === 0
                     ? "-"
-                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                 </TD>
               </TableRow>
             </TableBody>
