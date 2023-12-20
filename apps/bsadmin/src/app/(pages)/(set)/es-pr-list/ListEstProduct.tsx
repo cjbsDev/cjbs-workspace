@@ -2,23 +2,25 @@
 
 import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
-import {
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  Title1,
-  OutlinedButton,
-} from "cjbsDSTM";
-import { Chip, Stack, Grid, Box, Typography } from "@mui/material";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import Link from "next/link";
+import { DataTableBase, Title1 } from "cjbsDSTM";
+import { Box } from "@mui/material";
+import { useRouter } from "next-nprogress-bar";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { fetcher } from "api";
+import { getColumns } from "./Columns";
+import SubHeader from "./SubHeader";
 
 const ListEstProduct = () => {
   const router = useRouter();
+  const apiUrl = `/mngr/esPrMng`;
+  const { data } = useSWR(apiUrl, fetcher, {
+    suspense: true,
+  });
+
+  const totalElements = data.length;
+
+  console.log("SRVC_CTGR ", data);
+
   const goModifyPage = useCallback(
     (esPrMngUkey: string) => {
       router.push("/es-pr-modify?esPrMngUkey=" + esPrMngUkey);
@@ -26,126 +28,31 @@ const ListEstProduct = () => {
     [router],
   );
 
-  const goDetailPage = (row: { esPrMngUkey: string }) => {
+  const goDetailPage = useCallback((row: { esPrMngUkey: string }) => {
     router.push("/es-pr-list/" + row.esPrMngUkey);
-  };
+  }, []);
 
-  const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  let apiUrl = `/mngr/esPrMng`;
-  const { data } = useSWR(apiUrl, fetcher, {
-    suspense: true,
-  });
+  const columns = useMemo(() => getColumns(goModifyPage), [goModifyPage]);
 
-  console.log("SRVC_CTGR ", data);
-
-  const columns = useMemo(
-    () => [
-      {
-        name: "No",
-        cell: (row: any, index: number) => {
-          return index + 1;
-        },
-        width: "80px",
-        center: true,
-      },
-      {
-        name: "분석종류",
-        selector: (row: { anlsTypeMcVal: string }) => row.anlsTypeMcVal,
-        width: "150px",
-      },
-      {
-        name: "품명",
-        selector: (row: { prNm: string }) => row.prNm,
-        width: "340px",
-      },
-      {
-        name: "포함 사항",
-        selector: (row: { inclInfo: string }) => row.inclInfo,
-        wrap: true,
-        cell: (row: { inclInfo: string }) => (
-          <div style={{ whiteSpace: "pre-line" }}>
-            {row.inclInfo ? (
-              row.inclInfo.split("\n").map((item, index) => (
-                <React.Fragment key={index}>
-                  {item}
-                  <br />
-                </React.Fragment>
-              ))
-            ) : (
-              <span>-</span>
-            )}
-          </div>
-        ),
-      },
-      {
-        name: "관리",
-        cell: (row: { esPrMngUkey: string }) => {
-          return (
-            <OutlinedButton
-              buttonName="관리"
-              size="small"
-              onClick={() => goModifyPage(row.esPrMngUkey)}
-            />
-          );
-        },
-        width: "80px",
-        center: true,
-        button: true,
-      },
-    ],
-    [goModifyPage],
-  );
-
-  const subHeaderComponentMemo = useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
-    return (
-      <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.length} />
-          </Stack>
-        </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [filterText, resetPaginationToggle, data.length]);
+  const subHeader = useMemo(() => {
+    return <SubHeader totalElements={totalElements} />;
+  }, [totalElements]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="견적 품명 관리" />}
-      data={data}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      highlightOnHover
-      pointerOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      selectableRows={false}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="견적 품명 관리" />}
+        data={data}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        highlightOnHover
+        pointerOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeader}
+        selectableRows={false}
+      />
+    </Box>
   );
 };
 

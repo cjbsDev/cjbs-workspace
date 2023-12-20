@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import useSWR from "swr";
-import { fetcher } from "api";
+import { fetcher, GET } from "api";
 import {
   Box,
   Breadcrumbs,
@@ -10,31 +10,19 @@ import {
   Grid,
   List,
   ListItemButton,
-  ListItemIcon,
   ListItemText,
   Stack,
   Typography,
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import axios from "axios";
-import {
-  blue,
-  yellow,
-  red,
-  orange,
-  cyan,
-  grey,
-  green,
-} from "cjbsDSTM/themes/color";
+import { grey } from "cjbsDSTM/themes/color";
 import { cjbsTheme } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const apiUrl = `/mngr/stndPrice/srvcType/null/null`;
 const StndPriceSrvcType = () => {
-  const { data } = useSWR(apiUrl, fetcher, {
-    suspense: true,
-  });
-  const srvcTypeList01 = data;
   const [selectedIndex, setSelectedIndex] = useState<number>();
 
   const [selectValue01, setSelectValue01] = useState<string>("");
@@ -47,26 +35,28 @@ const StndPriceSrvcType = () => {
   const [srvcTypeList02, setSrvcTypeList02] = useState([]);
   const [srvcTypeList03, setSrvcTypeList03] = useState([]);
 
+  const { data } = useSWR(apiUrl, fetcher, {
+    suspense: true,
+  });
+  const srvcTypeList01 = data;
+
   const { setValue, clearErrors } = useFormContext();
 
   const handleListItemClick = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
-    value: string
+    value: string,
   ) => {
     setSelectLoading02(true);
     setSelectedIndex(index);
 
     console.log("value", value);
 
-    await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${value}/null`
-      )
+    await GET(`/mngr/stndPrice/srvcType/${value}/null`)
       .then((res) => {
         console.log("res", res);
-        if (res.data.success) {
-          const srvcTypeList02Temp = res.data.data;
+        if (res.success) {
+          const srvcTypeList02Temp = res.data;
           //console.log("SecondSrvcType List DATA ==>>", srvcTypeList02Temp);
           setSrvcTypeList02(srvcTypeList02Temp);
           setSrvcTypeList03([]);
@@ -86,27 +76,46 @@ const StndPriceSrvcType = () => {
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
     value: string,
-    selectValue01: string
+    selectValue01: string,
   ) => {
     setSelectLoading03(true);
     setSelectValue02(index);
-    await axios
-      .get(
-        `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${selectValue01}/${value}`
-      )
-      .then((res) => {
-        if (res.data.success) {
-          const srvcTypeList03s = res.data.data;
-          //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
-          setSrvcTypeList03(srvcTypeList03s);
-          setSelectLoading03(false);
-        } else {
-          console.log("SUCCESS FALSE!!...");
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+
+    try {
+      const res = await GET(
+        `/mngr/stndPrice/srvcType/${selectValue01}/${value}`,
+      );
+
+      if (res.success) {
+        const srvcTypeList03s = res.data;
+        //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
+        setSrvcTypeList03(srvcTypeList03s);
+        setSelectLoading03(false);
+      } else {
+        console.log("SUCCESS FALSE!!...");
+      }
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    }
+
+    // await axios
+    //   .get(
+    //     `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${selectValue01}/${value}`,
+    //   )
+    //   .then((res) => {
+    //     if (res.data.success) {
+    //       const srvcTypeList03s = res.data.data;
+    //       //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
+    //       setSrvcTypeList03(srvcTypeList03s);
+    //       setSelectLoading03(false);
+    //     } else {
+    //       console.log("SUCCESS FALSE!!...");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err.message);
+    //   });
   };
 
   return (
@@ -208,7 +217,7 @@ const StndPriceSrvcType = () => {
                               event,
                               index,
                               value,
-                              selectValue01
+                              selectValue01,
                             );
                           }}
                         >
