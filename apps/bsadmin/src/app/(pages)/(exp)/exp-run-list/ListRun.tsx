@@ -33,6 +33,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import KeywordSearch from "../../../components/KeywordSearch";
 import NoDataView from "../../../components/NoDataView";
 import dynamic from "next/dynamic";
+import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -45,25 +46,39 @@ const ListRun = () => {
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
 
-  const resultObject = {};
+  // const resultObject = {};
+  //
+  // for (const [key, value] of searchParams.entries()) {
+  //   resultObject[key] = value;
+  // }
+  // console.log(">>>>>>>>>", resultObject);
+  //
+  // const result = "?" + new URLSearchParams(resultObject).toString();
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
 
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
-  console.log(">>>>>>>>>", resultObject);
+  // const { data } = useSWR(
+  //   JSON.stringify(resultObject) === "{}"
+  //     ? `/run/list?page=${page}&size=${size}`
+  //     : `/run/list${result}&page=${page}&size=${size}`,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   },
+  // );
 
-  const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  const [resultObject, result] = useResultObject();
 
-  const { data } = useSWR(
-    JSON.stringify(resultObject) === "{}"
-      ? `/run/list?page=${page}&size=${size}`
-      : `/run/list${result}&page=${page}&size=${size}`,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
+  const url = useMemo(() => {
+    const base = "/run/list";
+    const params =
+      JSON.stringify(resultObject) !== "{}"
+        ? `${result}&page=${page}&size=${size}`
+        : `?page=${page}&size=${size}`;
+    return `${base}${params}`;
+  }, [resultObject, result, page, size]);
+
+  const { data } = useSWR(url, fetcher, { suspense: true });
+
   console.log("RUN LIST DATA", data);
   const runListData = data.runDetailList;
   const totalElements = data.pageInfo.totalElements;

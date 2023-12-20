@@ -18,6 +18,7 @@ const ListOrder = () => {
   const [size, setSize] = useState<number>(15);
   const [sort, setSort] = useState<string>("orderId,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
+
   const [resultObject, result] = useResultObject();
 
   const url = useMemo(() => {
