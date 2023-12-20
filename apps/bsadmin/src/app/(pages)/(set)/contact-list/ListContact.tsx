@@ -4,36 +4,30 @@ import React, { useCallback, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
-  DataTableFilter,
   Title1,
-  LeaderCip,
   ContainedButton,
   SelectBox,
-  Form,
 } from "cjbsDSTM";
 import { Stack, Grid, Box, Container } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef } from "react";
-import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { useForm, FormProvider } from "react-hook-form";
 import useSWR, { mutate } from "swr";
 import { fetcher } from "api";
-import axios from "axios";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 import { formatPhoneNumber } from "cjbsDSTM/commonFunc";
+import { getColumns } from "./Columns";
 
 export default function ListContact() {
-  //const tableRef = React.useRef<any>(null);
-  const table = useRef(null);
-
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("user", page, perPage);
+
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -97,62 +91,8 @@ export default function ListContact() {
   //ukey
   // 아이디, 이름, 영문 이니셜, 연락처, 부서, 권한, 가입일, 최근 접속일, 상태
   // email, nm, nmEnInit, tel, departVal, authVal, signupAt, lastLoginAt, statusVal
-  const columns = useMemo(
-    () => [
-      {
-        name: "아이디",
-        selector: (row: { email: string }) => row.email,
-        width: "160px",
-      },
-      {
-        name: "이름",
-        selector: (row: { nm: string }) => row.nm,
-        width: "100px",
-        center: true,
-      },
-      {
-        name: "영문 이니셜",
-        selector: (row: { nmEnInit: string }) => row.nmEnInit,
-        width: "200px",
-      },
-      {
-        name: "연락처",
-        selector: (row: { tel: string }) => formatPhoneNumber(row.tel),
-        width: "150px",
-        right: true,
-      },
-      {
-        name: "부서",
-        center: true,
-        selector: (row: { departVal: string }) => row.departVal,
-      },
-      {
-        name: "권한",
-        selector: (row: { authVal: string }) => row.authVal,
-        center: true,
-        width: "100px",
-      },
-      {
-        name: "가입일",
-        right: true,
-        selector: (row: { signupAt: any }) =>
-          row.signupAt && Dayjs(row.signupAt).format("YYYY-MM-DD"),
-      },
-      {
-        name: "최근 접속일",
-        right: true,
-        selector: (row: { lastLoginAt: any }) =>
-          row.lastLoginAt && Dayjs(row.lastLoginAt).format("YYYY-MM-DD"),
-      },
-      {
-        name: "상태",
-        center: true,
-        width: "80px",
-        selector: (row: { statusVal: string }) => row.statusVal,
-      },
-    ],
-    [],
-  );
+
+  const columns = useMemo(() => getColumns(), []);
 
   const goDetailPage = (row: { ukey: string }) => {
     const path = row.ukey;
@@ -171,9 +111,6 @@ export default function ListContact() {
     console.log("상태 일괄 변경");
 
     let selectedUserStatus = getValues("userStatus");
-    // console.log("선택 userStatus", selectedUserStatus);
-    // console.log("선택 ROW", selectedOption);
-    // console.log("선택 ROW CNT", selectedRowCnt);
 
     // validation
     if (selectedRowCnt == 0) {
@@ -256,13 +193,6 @@ export default function ListContact() {
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
-
     return (
       <Grid container>
         <Grid item xs={6} sx={{ pt: 0 }}>
@@ -313,13 +243,13 @@ export default function ListContact() {
         </Grid>
         <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
+            {/*<DataTableFilter*/}
+            {/*  onFilter={(e: {*/}
+            {/*    target: { value: React.SetStateAction<string> };*/}
+            {/*  }) => setFilterText(e.target.value)}*/}
+            {/*  onClear={handleClear}*/}
+            {/*  filterText={filterText}*/}
+            {/*/>*/}
           </Stack>
         </Grid>
       </Grid>
@@ -347,34 +277,27 @@ export default function ListContact() {
     setPerPage(newPerPage);
   };
 
-  // const handleClearRows = () => {
-  //   setToggleClearRows(!toggledClearRows);
-  // };
-
-  // const renderList = () => {
-  //   mutate(`/user/list?page=${page}&size=${perPage}`);
-  // };
-
   return (
-    <DataTableBase
-      title={<Title1 titleName="담당자 관리" />}
-      data={filteredData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-      clearSelectedRows={toggledClearRows}
-      //ref={tableRef}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="담당자 관리" />}
+        data={filteredData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        clearSelectedRows={toggledClearRows}
+      />
+    </Box>
   );
 }

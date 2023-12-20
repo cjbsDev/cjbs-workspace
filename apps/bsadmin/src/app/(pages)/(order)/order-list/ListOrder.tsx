@@ -11,7 +11,7 @@ import { fetcher } from "api";
 import NoDataView from "../../../components/NoDataView";
 import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
 import { getColumns } from "./Columns";
-import SubHeaderComponent from "./SubHeaderComponent";
+import SubHeader from "./SubHeader";
 
 const ListOrder = () => {
   const [page, setPage] = useState<number>(1);
@@ -44,7 +44,7 @@ const ListOrder = () => {
   );
 
   const subHeaderComponentMemo = useMemo(
-    () => <SubHeaderComponent totalElements={totalElements} result={result} />,
+    () => <SubHeader totalElements={totalElements} result={result} />,
     [totalElements, result],
   );
 
@@ -65,12 +65,6 @@ const ListOrder = () => {
   );
   const handleSort = useCallback(
     (selectedColumn: { sortField: any }, sortDirection: string) => {
-      // const sortValue = selectedColumn.sortField
-      //   ? `${selectedColumn.sortField},${sortDirection.toUpperCase()}`
-      //   : "";
-      // setSort(sortValue);
-      // console.log("SortDirection", sortDirection);
-
       const sortValue = `${
         selectedColumn.sortField
       },${sortDirection.toUpperCase()}`;

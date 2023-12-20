@@ -2,23 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
-import {
-  cjbsTheme,
-  DataTableBase,
-  ErrorContainer,
-  Fallback,
-  SkeletonLoading,
-} from "cjbsDSTM";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import {
-  Box,
-  Chip,
-  Stack,
-  styled,
-  Typography,
-  TypographyProps,
-} from "@mui/material";
-import { useRouter } from "next-nprogress-bar";
+import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import SubHeader from "./SubHeader";
@@ -79,11 +63,6 @@ const SampleTab = () => {
     suspense: true,
   });
   const sampleList = Array.from(data);
-
-  // const [filterText, setFilterText] = useState("");
-  // const [checked, setChecked] = useState(false);
-  // const router = useRouter();
-  // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   // [샘플 정보] 모달
   const [showSampleInfoModal, setShowSampleInfoModal] = useState({
@@ -236,10 +215,6 @@ const SampleTab = () => {
         <LazySampleDataTable
           subHeaderComponentMemo={subHeaderComponentMemo}
           handleSelectedRowChange={handleSelectedRowChange}
-          // handleSampleAddModalOpen={handleSampleAddModalOpen}
-          // handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-          // handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-          // handleSampleBatchModalOpen={handleSampleBatchModalOpen}
           goDetailModal={goDetailModal}
           filterText={filterText}
           isClear={isClear}
@@ -300,9 +275,3 @@ const SampleTab = () => {
 };
 
 export default SampleTab;
-
-const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
-  lineHeight: 1,
-  fontSize: 12,
-  textAlign: "center",
-}));

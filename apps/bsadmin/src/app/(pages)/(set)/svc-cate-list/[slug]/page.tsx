@@ -24,13 +24,11 @@ import {
   TableRow,
   TableContainer,
 } from "@mui/material";
-import axios from "axios";
 import useSWR from "swr";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { useForm } from "react-hook-form";
 import LogUpdateTitle from "../../../../components/LogUpdateTitle";
 import dynamic from "next/dynamic";
 
@@ -40,7 +38,7 @@ const LazyCheckboxList = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={82} />,
-  }
+  },
 );
 
 const LazyCommontModifyLog = dynamic(
@@ -48,7 +46,7 @@ const LazyCommontModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 interface ViewProps {
@@ -75,7 +73,7 @@ export default function SvcCatePage({ params }: ViewProps) {
   } = useSWR(
     `/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
     fetcher,
-    { revalidateOnFocus: true }
+    { revalidateOnFocus: true },
   );
   if (isLoading) {
     return <SkeletonLoading />;
@@ -147,7 +145,7 @@ export default function SvcCatePage({ params }: ViewProps) {
   //"BS_0100006008"
 
   return (
-    <Container maxWidth={false} sx={{ width: "100%" }}>
+    <>
       <Box sx={{ mb: 4 }}>
         <Title1 titleName="서비스 분류 수정" />
       </Box>
@@ -208,6 +206,6 @@ export default function SvcCatePage({ params }: ViewProps) {
           />
         </ErrorContainer>
       </Box>
-    </Container>
+    </>
   );
 }
