@@ -73,9 +73,7 @@ const Title = ({ children, ...restProps }: ComponentProps) => {
           }}
         />
         <Typography variant="subtitle1" sx={{ lineHeight: 1 }}>
-          {/*서비스 별 매출*/}
           {children}
-          {/*{JSON.stringify(toggleShow)}*/}
         </Typography>
       </Stack>
     </Box>
@@ -86,7 +84,7 @@ const Action = ({ children, ...restProps }: ComponentProps) => {
   // const [toggleShow, setToggleShow] = useState<boolean>(false);
   return (
     // <SectionHeaderContext.Provider value={{}}>
-    <Stack direction="row" spacing={0.5}>
+    <Stack direction="row" spacing={0.5} alignItems="center">
       {children}
     </Stack>
     // </SectionHeaderContext.Provider>
@@ -111,22 +109,32 @@ const ToggleBtn = ({ children, ...restProps }: ToggleBtnProps) => {
 
 const MoreBtn = ({ children, ...restProps }: ToggleBtnProps) => {
   const { toggleShow, setToggleShow } = useContext(SectionHeaderContext);
-  const { sx, buttonName, onClick, disabled = false } = restProps;
+  const { buttonName, onClick, disabled = false } = restProps;
 
   return (
-    <OutlinedButton
-      sx={{
-        ...restProps.sx,
-        mb: `-12px !important`,
-        mt: `-12px !important`,
-      }}
-      buttonName={buttonName}
-      onClick={onClick}
-      color="secondary"
-      size="small"
-      endIcon={<MyIcon icon="cheveron-right" size={20} />}
-      disabled={disabled}
-    />
+    <>
+      <XsmallButton
+        disabled={disabled}
+        buttonName={buttonName}
+        onClick={onClick}
+        color="secondary"
+        endIcon={<MyIcon icon="cheveron-right" size={20} />}
+        sx={{
+          ...restProps.sx,
+          mb: `-12px !important`,
+          mt: `-12px !important`,
+          border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+          lineHeight: 1,
+          px: 1,
+          pt: 0.35,
+          pb: 0.5,
+          verticalAlign: "center",
+          ".MuiButton-endIcon": {
+            pt: 0.15,
+          },
+        }}
+      />
+    </>
   );
 };
 

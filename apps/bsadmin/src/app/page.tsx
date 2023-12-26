@@ -1,149 +1,73 @@
 "use client";
 
 import * as React from "react";
-import dynamic from "next/dynamic";
-import {
-  ErrorContainer,
-  Fallback,
-  // FileDownloadBtn,
-  SkeletonLoading,
-  SkeletonPieChart,
-} from "cjbsDSTM";
-import { Box, Grid, Stack, Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
+import { Grid } from "@mui/material";
 // import KeywordSearch from "../../components/KeywordSearch";
 // import SectionHeader from "../../../components/SectionHeader";
-import SectionHeader from "./components/Dashboard/components/SectionHeader";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
+import {
+  dashboardMonthData,
+  dashboardYearData,
+  periodListData,
+} from "./data/inputDataLists";
+import { RecoilRoot, useRecoilState } from "recoil";
+import {
+  dashboardMonthAtom,
+  dashboardYearAtom,
+} from "./components/Dashboard/recoil/dashboardAtom";
 import Idle from "./components/Dashboard/components/Idle";
 import Total from "./components/Dashboard/components/Total";
-
-const LazySrvcSalesChart = dynamic(
-  () => import("./components/Dashboard/components/SrvcSalesChart"),
-  {
-    ssr: false,
-    loading: () => <SkeletonPieChart />,
-  },
-);
-
-const LazyInstTop = dynamic(
-  () => import("./components/Dashboard/components/InstTop"),
-  {
-    ssr: false,
-    loading: () => <SkeletonLoading height={373} />,
-  },
-);
-
-const LazyAgncTop = dynamic(
-  () => import("./components/Dashboard/components/AgncTop"),
-  {
-    ssr: false,
-    loading: () => <SkeletonLoading height={373} />,
-  },
-);
+import SrvcSales from "./components/Dashboard/components/SrvcSales";
+import SalesByItem from "./components/Dashboard/components/SalesByItem";
+import AgncTop from "./components/Dashboard/components/AgncTop";
+import InstTop from "./components/Dashboard/components/InstTop";
+import DashboardHeader from "./components/Dashboard/components/DashboardHeader";
 
 export default function Page() {
-  const router = useRouter();
-  // const params = useParams();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const params = searchParams.get("idleduration");
-
   return (
-    <>
-      <Box sx={{ pt: 3.5 }}>
-        <Grid container sx={{ mb: 2 }}>
-          <Grid item xs={12}>
-            {/*<Stack spacing={1} direction="row" justifyContent="flex-end">*/}
-            {/*  <FileDownloadBtn exportUrl={``} iconName="xls3" />*/}
-            {/*  <KeywordSearch />*/}
-            {/*</Stack>*/}
-          </Grid>
+    <RecoilRoot override={false}>
+      <Grid container sx={{ mb: 2 }}>
+        <Grid item xs={6}>
+          <DashboardHeader />
         </Grid>
-
-        <Grid
-          container
-          spacing={2.5}
-          sx={{ mb: 2.5 }}
-          justifyContent="flex-start"
-          alignItems="stretch"
-        >
-          <Grid item xs={8}>
-            <SectionBox>
-              <Total />
-            </SectionBox>
-          </Grid>
-          <Grid item xs={4}>
-            <SectionBox>
-              <SectionHeader>
-                <SectionHeader.Title>분석 종류별 매출</SectionHeader.Title>
-              </SectionHeader>
-
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazySrvcSalesChart />
-              </ErrorContainer>
-            </SectionBox>
-          </Grid>
+        <Grid item xs={6}>
+          {/*<Stack spacing={1} direction="row" justifyContent="flex-end">*/}
+          {/*  <FileDownloadBtn exportUrl={``} iconName="xls3" />*/}
+          {/*  <KeywordSearch />*/}
+          {/*</Stack>*/}
         </Grid>
+      </Grid>
 
-        <Grid
-          container
-          spacing={2.5}
-          sx={{ mb: 2.5 }}
-          justifyContent="flex-start"
-          alignItems="stretch"
-        >
-          <Grid item xs={6}>
-            <SectionBox>
-              <SectionHeader>
-                <SectionHeader.Title>매출 TOP 기관</SectionHeader.Title>
-                <SectionHeader.MoreBtn
-                  buttonName="more"
-                  onClick={() => console.log("기관 더보기")}
-                  disabled={true}
-                />
-              </SectionHeader>
-
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyInstTop />
-              </ErrorContainer>
-            </SectionBox>
-          </Grid>
-          <Grid item xs={6}>
-            <SectionBox>
-              <SectionHeader>
-                <SectionHeader.Title>매출 TOP 거래처</SectionHeader.Title>
-                <SectionHeader.MoreBtn
-                  buttonName="more"
-                  onClick={() => console.log("거래처 더보기")}
-                  disabled={true}
-                />
-              </SectionHeader>
-
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyAgncTop />
-              </ErrorContainer>
-            </SectionBox>
-          </Grid>
+      <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
+        <Grid item xs={12}>
+          <Total />
         </Grid>
+      </Grid>
 
-        <Grid container spacing={2.5}>
-          <Grid item xs={12}>
-            <SectionBox>
-              <Idle />
-            </SectionBox>
-          </Grid>
+      <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
+        <Grid item xs={7}>
+          <SalesByItem />
         </Grid>
-      </Box>
-    </>
+        <Grid item xs={5}>
+          <SrvcSales />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
+        <Grid item xs={6}>
+          <InstTop />
+        </Grid>
+        <Grid item xs={6}>
+          <AgncTop />
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2.5}>
+        <Grid item xs={12}>
+          <Idle />
+        </Grid>
+      </Grid>
+    </RecoilRoot>
   );
 }
-
-const SectionBox = styled(Box)`
-  padding: 30px;
-  background: white;
-  border-radius: 10px;
-  min-height: fit-content;
-  height: 100%;
-`;

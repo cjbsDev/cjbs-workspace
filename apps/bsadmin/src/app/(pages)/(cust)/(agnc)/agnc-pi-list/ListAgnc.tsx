@@ -52,6 +52,7 @@ const ListAgnc = () => {
         name: "거래처 번호",
         selector: (row: { agncId: number }) => row.agncId,
         width: "100px",
+        center: true,
       },
       {
         name: "거래처(PI)",
@@ -75,21 +76,23 @@ const ListAgnc = () => {
             )}
           </Stack>
         ),
-        width: "300px",
+        // width: "300px",
       },
 
       {
         name: "연구책임자 아이디",
         selector: (row: { ebcEmail: any }) => row.ebcEmail,
-        width: "200px",
+        // width: "200px",
       },
       {
         name: "연구책임자 이름",
+        center: true,
         selector: (row: { custNm: any }) => row.custNm,
       },
 
       {
         name: "소속 연구원",
+        right: true,
         cell: (row: { memberCount: number }) => (
           <Stack direction="row" spacing={0.5} alignItems="center">
             <Box>{row.memberCount} </Box>
@@ -100,17 +103,22 @@ const ListAgnc = () => {
 
       {
         name: "선결제 금액",
+        width: "150px",
+        right: true,
         selector: (row: { pymnPrice: number }) =>
-          row.pymnPrice ? row.pymnPrice + " 원" : "금액",
+          row.pymnPrice ? row.pymnPrice + " 원" : "-",
       },
 
       {
         name: "영업 담당자",
+        center: true,
+        width: "120px",
         selector: (row: { bsnsMngrNm: any }) => row.bsnsMngrNm,
       },
 
       {
         name: "메모",
+        center: true,
         cell: (row: { memo: string }) => {
           return (
             row.memo !== null &&
@@ -126,7 +134,7 @@ const ListAgnc = () => {
         width: "80px",
       },
     ],
-    []
+    [],
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);

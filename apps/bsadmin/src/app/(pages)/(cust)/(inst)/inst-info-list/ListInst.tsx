@@ -15,6 +15,7 @@ import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { fetcher } from "api";
+import { formatBusinessRegNo } from "cjbsDSTM/commonFunc";
 
 interface InstData {
   instId?: any;
@@ -50,6 +51,8 @@ const ListInst = () => {
     suspense: true,
   });
 
+  // console.log("LISTSDFSDFSDFSDFSDF", data);
+
   const handleRowSelected = (rows: any) => {
     setSelectedRowCnt(rows.selectedCount);
     //setSelectedRows(rows.map((row) => row.id));
@@ -60,14 +63,16 @@ const ListInst = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
+        name: "No",
         selector: (row: { instId: string }) => row.instId,
+        center: true,
         width: "50px",
       },
       {
         name: "위치",
+        center: true,
         selector: (row: { lctnTypeVal: string }) => row.lctnTypeVal,
-        width: "70px",
+        width: "80px",
       },
       {
         name: "기관명",
@@ -75,10 +80,13 @@ const ListInst = () => {
       },
       {
         name: "사업자 등록번호",
-        selector: (row: { brno: string }) => row.brno,
+        width: "150px",
+        right: true,
+        selector: (row: { brno: string }) => formatBusinessRegNo(row.brno),
       },
       {
         name: "대표자",
+        center: true,
         selector: (row: { rprsNm: string }) => row.rprsNm,
       },
       {
@@ -101,8 +109,9 @@ const ListInst = () => {
 
       {
         name: "분류",
+        center: true,
         selector: (row: { instTypeVal: string }) => row.instTypeVal,
-        width: "70px",
+        width: "80px",
       },
       {
         name: "특성",
@@ -110,11 +119,12 @@ const ListInst = () => {
       },
       {
         name: "상태",
+        center: true,
         selector: (row: { statusCodeVal: string }) => row.statusCodeVal,
-        width: "70px",
+        width: "80px",
       },
     ],
-    []
+    [],
   );
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);

@@ -196,7 +196,7 @@ const OrderTab = () => {
               color="secondary"
               sx={{ color: "black" }}
               endIcon={<MyIcon icon="cheveron-right" size={18} />}
-              onClick={() => router.push(orshPath)}
+              onClick={() => router.push(orshPath + "?from=order-list")}
             />
           )}
         </Stack>
@@ -260,7 +260,7 @@ const OrderTab = () => {
                 <TD sx={{ width: "85%" }} colSpan={3}>
                   {price.length === 0
                     ? "-"
-                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
                 </TD>
               </TableRow>
             </TableBody>

@@ -11,13 +11,22 @@ import { styled } from "@mui/material/styles";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
+import useDashboardParams from "../../hooks/useDashboardParams";
 
-const SalesTop = () => {
-  const { data } = useSWR(`/dashboard/sls/agnc?year=2023&month=11`, fetcher, {
-    suspense: true,
-  });
+const Contents = () => {
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
 
-  console.log("기관 매출 Top", data);
+  const { data } = useSWR(
+    `/dashboard/sls/inst?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}`,
+    fetcher,
+    {
+      suspense: true,
+      revalidateOnFocus: false,
+    },
+  );
+
+  console.log("기관별 매출 Top", data);
 
   return (
     <TableContainer>
@@ -62,7 +71,7 @@ const SalesTop = () => {
   );
 };
 
-export default SalesTop;
+export default Contents;
 
 const CmnTH = styled(TableCell)`
   border-bottom: none;

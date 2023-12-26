@@ -1,0 +1,165 @@
+import React from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+} from "chart.js";
+import useDashboardParams from "../../hooks/useDashboardParams";
+import useSWR from "swr";
+import { fetcher } from "api";
+import { useRecoilValue } from "recoil";
+import {
+  dashboardGroupCcAtom,
+  dashboardTypeCcAtom,
+  endYearAtom,
+  groupTargetAtom,
+  startYearAtom,
+} from "../../recoil/dashboardAtom";
+import { Box } from "@mui/material";
+import useYearRange from "../../hooks/useYearRange";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  BarElement,
+  Title,
+  Tooltip,
+  Filler,
+  Legend,
+);
+
+const Contents = () => {
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
+  const groupCc = useRecoilValue(dashboardGroupCcAtom);
+  const targetCc = useRecoilValue(groupTargetAtom);
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
+  const getStartYear = useRecoilValue(startYearAtom);
+  const getEndYear = useRecoilValue(endYearAtom);
+  const yearsRange = useYearRange(getStartYear, getEndYear);
+
+  const { data: groupData } = useSWR(
+    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=${groupCc}&target=${targetCc}`,
+    fetcher,
+    {
+      suspense: true,
+      revalidateOnFocus: false,
+    },
+  );
+
+  console.log("항목별 매출", groupData);
+
+  const { labels, colors, slsList, min, max, stepSize } = groupData;
+
+  // 데이터셋 생성 함수
+  const createDataset = (
+    data: number,
+    color: string | undefined,
+    type: string,
+    year: number | undefined,
+  ) => ({
+    label: year,
+    data: data,
+    borderColor: color,
+    backgroundColor: color,
+    type: type === "BS_2100005" || getTypeCc === "BS_2100006" ? "bar" : "line",
+  });
+
+  // datasets 배열 생성
+  const datasets = slsList.map((data, index) =>
+    createDataset(data, colors[index], getTypeCc, yearsRange[index]),
+  );
+
+  const data = {
+    labels,
+    datasets: datasets,
+  };
+
+  const options = {
+    maintainAspectRatio: false,
+    responsive: true,
+    tension: 0.35,
+    plugins: {
+      legend: {
+        display: false,
+        position: "top" as const,
+      },
+      title: {
+        display: false,
+        text: "Chart.js Line Chart",
+      },
+    },
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
+        title: {
+          display: true,
+          text:
+            getTypeCc === "BS_2100003"
+              ? "월"
+              : getTypeCc === "BS_2100004"
+                ? "분기"
+                : getTypeCc === "BS_2100005"
+                  ? "반기"
+                  : "년",
+          font: {
+            size: 13,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 20, left: 0, right: 0, bottom: 0 },
+        },
+      },
+      y: {
+        grid: {
+          borderDash: [5, 5], // y축 그리드 선 스타일
+          drawBorder: false, // y축 외곽 선 그리지 않음
+        },
+        min: min,
+        max: max,
+        ticks: {
+          // forces step size to be 50 units
+          stepSize: stepSize,
+        },
+
+        title: {
+          display: true,
+          align: "end",
+          // text: "단위: 원",
+          font: {
+            size: 13,
+            weight: "bold",
+            lineHeight: 1.2,
+          },
+          padding: { top: 0, left: 0, right: 0, bottom: 0 },
+        },
+        position: "left",
+      },
+    },
+    elements: {
+      line: {
+        borderWidth: 4, // You can adjust the line width here
+      },
+    },
+  };
+
+  return (
+    <Box sx={{ height: 273 }}>
+      <Line options={options} data={data} height={273} />
+    </Box>
+  );
+};
+
+export default Contents;

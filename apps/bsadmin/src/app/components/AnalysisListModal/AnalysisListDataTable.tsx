@@ -38,7 +38,7 @@ const AnalysisListDataTable = (props: {
     suspense: true,
   });
   const totCnt = data.length;
-  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", data)
+  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", data);
   const { setValue, clearErrors, resetField } = useFormContext();
 
   const columns = useMemo(
@@ -325,7 +325,7 @@ const AnalysisListDataTable = (props: {
         width: "100px",
         sortable: false,
         center: true,
-        selector: (row) => (row.isAnlsItst === "Y"
+        selector: (row) => (row.isAnlsItst === "N"
           ? <Typography variant="body2" color={cjbsTheme.palette.primary.main }>등록가능</Typography>
           : "-"),
       },
@@ -342,6 +342,15 @@ const AnalysisListDataTable = (props: {
       if(selectSampleList.includes(row)) return true;
     }
   }, []);
+
+    const rowSelectDisabled = useCallback((row) => {
+        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
+        if(row.isAnlsItst === "Y"){
+            // console.log("!!row data : ", row);
+            // row에 isAnlsItst 값이 Y면 true
+            return true;
+        }
+    }, []);
 
   const handleSelectedRowChange1 = ({ selectedRows }: any) => {
     // const getSampleIdList = selectedRows.map((row) => row.sampleId);
@@ -406,6 +415,7 @@ const AnalysisListDataTable = (props: {
         selectableRows
         selectableRowsVisibleOnly={false}
         selectableRowSelected={rowSelectCritera}
+        selectableRowDisabled={rowSelectDisabled}
         onSelectedRowsChange={handleSelectedRowChange1}
         pagination={false}
       />

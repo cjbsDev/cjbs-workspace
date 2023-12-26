@@ -1,5 +1,3 @@
-"use client";
-import * as React from "react";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";

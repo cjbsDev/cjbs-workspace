@@ -12,7 +12,8 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import { cjbsTheme, TD, TH, transformedNullToHyphon } from "cjbsDSTM";
+import { cjbsTheme, TD, TH } from "cjbsDSTM";
+import { transformedNullToHyphon } from "cjbsDSTM/commonFunc";
 
 const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
   const transformedsampleStatusRes = transformedNullToHyphon(sampleStatusRes);
@@ -66,15 +67,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           rcptStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : rcptStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           rcptStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : rcptStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />
@@ -95,15 +96,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           qcStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : qcStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           qcStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : qcStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />
@@ -124,15 +125,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           libStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : libStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           libStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : libStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />
@@ -153,15 +154,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           seqStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : seqStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           seqStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : seqStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />
@@ -182,15 +183,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           biStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : biStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           biStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : biStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />
@@ -211,15 +212,15 @@ const SampleInfoTable2 = ({ sampleStatusRes }: any) => {
                           ntfcStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : ntfcStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                         color: `${
                           ntfcStatusCc === "BS_0902003"
                             ? cjbsTheme.palette.primary.main
                             : ntfcStatusCc === "BS_0902004"
-                            ? cjbsTheme.palette.warning.main
-                            : null
+                              ? cjbsTheme.palette.warning.main
+                              : null
                         }`,
                       }}
                     />

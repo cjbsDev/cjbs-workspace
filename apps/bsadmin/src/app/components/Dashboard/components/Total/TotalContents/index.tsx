@@ -1,21 +1,26 @@
 import React from "react";
-import { Box, Grid, Stack } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useRecoilValue } from "recoil";
-import { totalMonthAtom, totalYearAtom } from "../totalAtom";
 import Charts from "./Charts";
 import Sales from "./Sales";
+import useDashboardParams from "../../../hooks/useDashboardParams";
+import Legend from "./Legend";
+import { useRecoilValue } from "recoil";
+import { dashboardTypeCcAtom } from "../../../recoil/dashboardAtom";
 
+type TypeCcKey = "BS_2100003" | "BS_2100004" | "BS_2100005" | "BS_2100006";
 const Index = () => {
-  const year = useRecoilValue(totalYearAtom);
-  const month = useRecoilValue(totalMonthAtom);
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
+  const getTypeCc = useRecoilValue(dashboardTypeCcAtom) as TypeCcKey;
 
   const { data: totalData } = useSWR(
-    `/dashboard/sls/year?year=${year}&month=${month}`,
+    `/dashboard/sls/date?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}`,
     fetcher,
     {
       suspense: true,
+      revalidateOnFocus: false,
     },
   );
 
@@ -25,30 +30,40 @@ const Index = () => {
     labels,
     totalSales,
     changeSales,
+    colors,
     isIcs,
-    slsForLastYear,
-    slsForPreLastYear,
+    slsList,
+    min,
+    max,
+    stepSize,
   } = totalData;
 
   return (
-    <Box sx={{ height: 200, mt: 3, mb: 3 }}>
+    <Box sx={{ mt: 3 }}>
       <Grid container>
-        <Grid item xs={3.5}>
+        <Grid item xs={2.5}>
           <Sales
             changeSales={changeSales}
             totalSales={totalSales}
             isIcs={isIcs}
           />
+
+          {getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && (
+            <Legend colors={colors} />
+          )}
         </Grid>
         <Grid
           item
-          xs={8.5}
+          xs={9.5}
           sx={{ position: "relative", justifyContent: "flex-end" }}
         >
           <Charts
-            slsForLastYear={slsForLastYear}
-            slsForPreLastYear={slsForPreLastYear}
+            slsList={slsList}
             labels={labels}
+            min={min}
+            max={max}
+            stepSize={stepSize}
+            colors={colors}
           />
         </Grid>
       </Grid>

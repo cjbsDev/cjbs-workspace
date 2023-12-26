@@ -1,7 +1,6 @@
 "use client";
-import { ModalNoneTextTitle } from "../CModal/ModalTitle";
 import MyIcon from "icon/MyIcon";
-import { ModalAction, ModalContainer } from "../CModal";
+import { ModalAction, ModalContainer, ModalNoneTextTitle } from "../CModal";
 import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 import React from "react";
 import { DialogContent, Stack, ThemeProvider, Typography } from "@mui/material";
@@ -28,7 +27,7 @@ export const ConfirmModal = ({
     <ModalContainer onClose={onClose} open={open} modalWidth={500}>
       <ModalNoneTextTitle onClose={onClose} />
       <DialogContent sx={{ textAlign: "center" }}>
-        <MyIcon icon="info-circle" size={35} style={{marginBottom: '16px'}} />
+        <MyIcon icon="info-circle" size={35} style={{ marginBottom: "16px" }} />
         <Typography variant="subtitle1">{mainMessage}</Typography>
         <Typography variant="subtitle1">{subMessage}</Typography>
       </DialogContent>

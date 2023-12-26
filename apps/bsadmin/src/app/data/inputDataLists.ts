@@ -49,11 +49,16 @@ export const dateTypeCcData = [
   { value: "BS_0811005", optionName: "완료 통보일" },
 ];
 
-export const dashboardYearData = [
-  { value: 2021, optionName: "2021" },
-  { value: 2022, optionName: "2022" },
-  { value: 2023, optionName: "2023" },
-];
+// 2021년 부터 올해까지
+const startYear = 2021;
+const currentYear = new Date().getFullYear();
+const yearOptions = [];
+
+for (let year = startYear; year <= currentYear; year++) {
+  yearOptions.push({ value: year, optionName: year.toString() + "년" });
+}
+
+export const dashboardYearData = yearOptions;
 
 export const dashboardMonthData = [
   { value: 1, optionName: "1월" },
@@ -68,4 +73,44 @@ export const dashboardMonthData = [
   { value: 10, optionName: "10월" },
   { value: 11, optionName: "11월" },
   { value: 12, optionName: "12월" },
+];
+
+export const dashboardIdleData = [
+  { value: 3, optionName: "3개월" },
+  { value: 6, optionName: "6개월" },
+  { value: 9, optionName: "9개월" },
+  { value: 12, optionName: "12개월" },
+  { value: 18, optionName: "18개월" },
+  { value: 24, optionName: "24개월" },
+  { value: 36, optionName: "36개월" },
+];
+
+export const quarterListData = [
+  { value: 1, optionName: "1분기" },
+  { value: 2, optionName: "2분기" },
+  { value: 3, optionName: "3분기" },
+  { value: 4, optionName: "4분기" },
+];
+
+export const halfListData = [
+  { value: 1, optionName: "상반기" },
+  { value: 2, optionName: "하반기" },
+];
+
+export const periodListData = [
+  { name: "월", value: "BS_2100003" },
+  { name: "분기", value: "BS_2100004" },
+  { name: "반기", value: "BS_2100005" },
+  { name: "년", value: "BS_2100006" },
+];
+
+export const groupListData = [
+  { name: "기관", value: "BS_2200001" },
+  { name: "거래처", value: "BS_2200002" },
+];
+
+export const taxonListData = [
+  { taxonName: "taxonBCnt", taxonIconName: "B" },
+  { taxonName: "taxonECnt", taxonIconName: "E" },
+  { taxonName: "taxonACnt", taxonIconName: "A" },
 ];

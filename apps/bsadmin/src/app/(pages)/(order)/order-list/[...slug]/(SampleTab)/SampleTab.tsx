@@ -2,23 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
-import {
-  cjbsTheme,
-  DataTableBase,
-  ErrorContainer,
-  Fallback,
-  SkeletonLoading,
-} from "cjbsDSTM";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import {
-  Box,
-  Chip,
-  Stack,
-  styled,
-  Typography,
-  TypographyProps,
-} from "@mui/material";
-import { useRouter } from "next-nprogress-bar";
+import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 import { toast } from "react-toastify";
 import SubHeader from "./SubHeader";
@@ -27,31 +11,34 @@ const LazySampleInfoModal = dynamic(
   () => import("./(SampleInfoModal)/SampleInfoModal"),
   {
     ssr: false,
-  }
+  },
 );
 const LazySampleAddModal = dynamic(
   () => import("./(SampleAddModal)/SampleAddModal"),
   {
     ssr: false,
-  }
+  },
 );
 
-const LazyAnalDtlModal = dynamic(() => import("./AnalDtlModal"), {
-  ssr: false,
-});
+const LazyAnalDtlModal = dynamic(
+  () => import("./(AnalDtlModal)/AnalDtlModal"),
+  {
+    ssr: false,
+  },
+);
 
 const LazyExperimentProgressChangeModal = dynamic(
   () =>
     import("./(ExperimentProgressChangeModal)/ExperimentProgressChangeModal"),
   {
     ssr: false,
-  }
+  },
 );
 const LazySampleBatchChangeModal = dynamic(
   () => import("./(SampleBatchChangeModal)/SampleBatchChangeModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 const LazySampleDataTable = dynamic(() => import("./SampleDataTable"), {
@@ -77,11 +64,6 @@ const SampleTab = () => {
   });
   const sampleList = Array.from(data);
 
-  // const [filterText, setFilterText] = useState("");
-  // const [checked, setChecked] = useState(false);
-  // const router = useRouter();
-  // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
   // [샘플 정보] 모달
   const [showSampleInfoModal, setShowSampleInfoModal] = useState({
     isShow: false,
@@ -100,7 +82,7 @@ const SampleTab = () => {
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(
       filterText.toLowerCase().normalize("NFC"),
-      "i"
+      "i",
     );
 
     return (
@@ -109,7 +91,7 @@ const SampleTab = () => {
         filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
       (item.sampleTypeVal &&
         filterPattern.test(
-          item.sampleTypeVal.toLowerCase().normalize("NFC")
+          item.sampleTypeVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.source &&
         filterPattern.test(item.source.toLowerCase().normalize("NFC"))) ||
@@ -119,11 +101,11 @@ const SampleTab = () => {
         filterPattern.test(item.taxonVal.toLowerCase().normalize("NFC"))) ||
       (item.runList.join() &&
         filterPattern.test(
-          item.runList.join().toLowerCase().normalize("NFC")
+          item.runList.join().toLowerCase().normalize("NFC"),
         )) ||
       (item.sampleStatusRes.rcptStatusVal &&
         filterPattern.test(
-          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC")
+          item.sampleStatusRes.rcptStatusVal.toLowerCase().normalize("NFC"),
         )) ||
       (item.isAnlsItst &&
         filterPattern.test(item.isAnlsItst.toLowerCase().normalize("NFC")))
@@ -185,7 +167,7 @@ const SampleTab = () => {
         isShow: true,
       });
     },
-    [showSampleInfoModal]
+    [showSampleInfoModal],
   );
 
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
@@ -233,10 +215,6 @@ const SampleTab = () => {
         <LazySampleDataTable
           subHeaderComponentMemo={subHeaderComponentMemo}
           handleSelectedRowChange={handleSelectedRowChange}
-          // handleSampleAddModalOpen={handleSampleAddModalOpen}
-          // handleAnalDtlModalOpen={handleAnalDtlModalOpen}
-          // handleExPrgrsPhsOpen={handleExPrgrsPhsOpen}
-          // handleSampleBatchModalOpen={handleSampleBatchModalOpen}
           goDetailModal={goDetailModal}
           filterText={filterText}
           isClear={isClear}
@@ -297,9 +275,3 @@ const SampleTab = () => {
 };
 
 export default SampleTab;
-
-const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
-  lineHeight: 1,
-  fontSize: 12,
-  textAlign: "center",
-}));

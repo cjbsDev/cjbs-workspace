@@ -58,10 +58,12 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
     {
       name: "변경일",
       selector: (row: { modifiedAt: any }) => row.modifiedAt,
-      width: "15%",
+      width: "170px",
+      right: true,
     },
     {
       name: "변경자",
+      width: "170px",
       cell: (row: { updatedByNm: any; updatedByEmail: any }) => (
         <>
           <Stack
@@ -76,27 +78,25 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
           </Stack>
         </>
       ),
-      width: "15%",
     },
     {
       name: "컬럼",
+      width: "100px",
+      center: true,
       selector: (row: { targetColVal: any }) => row.targetColVal,
-      width: "10%",
     },
     {
       name: "변경 전",
       selector: (row: { preUpdateValue: any }) => row.preUpdateValue,
-      width: "30%",
     },
     {
       name: "변경 후",
       selector: (row: { postUpdateValue: any }) => row.postUpdateValue,
-      width: "30%",
     },
   ];
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <LogUpdateTitle logTitle={logTitle} />
       <DataTableBase
         data={modifyLogList}
@@ -107,7 +107,7 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
         customStyles={dataTableCustomStyles2}
         noDataComponent={<NoDataView />}
       />
-    </>
+    </Box>
   );
 };
 

@@ -31,6 +31,29 @@ export const dataTableCustomStyles = {
       paddingRight: 0,
     },
   },
+  headCells: {
+    style: {
+      "&:hover .rdt_TableCol_Sortable > span": {
+        opacity: 1, // 마우스 호버 상태와 관계없이 항상 표시
+      },
+      ".rdt_TableCol_Sortable > span": {
+        opacity: 1, // 정렬 아이콘 항상 표시
+      },
+    },
+    draggingStyle: {
+      cursor: "move",
+    },
+  },
+  // headCells: {
+  //   style: {
+  //     "&:hover .rdt_SortIcon": {
+  //       opacity: 1, // 마우스 호버 상태와 관계없이 항상 표시
+  //     },
+  //     ".rdt_SortIcon": {
+  //       opacity: 1, // 정렬 아이콘 항상 표시
+  //     },
+  //   },
+  // },
   headRow: {
     style: {
       backgroundColor: cjbsTheme.palette.grey["50"],
@@ -69,7 +92,7 @@ export const dataTableCustomStyles = {
     style: {
       backgroundColor: cjbsTheme.palette.common.white,
       color: cjbsTheme.palette.common.black,
-      justifyContent: "flex-start",
+      // justifyContent: "flex-start",
     },
   },
 };

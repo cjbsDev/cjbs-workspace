@@ -59,7 +59,7 @@ export default function Page() {
 
         <ContainedButton
           type="submit"
-          buttonName="저장"
+          buttonName="등록"
           endIcon={
             isLoading ? (
               <LoadingSvg stroke="white" width={20} height={20} />
