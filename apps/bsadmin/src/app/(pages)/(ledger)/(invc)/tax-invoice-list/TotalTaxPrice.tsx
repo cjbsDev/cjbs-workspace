@@ -15,7 +15,8 @@ const TotalTaxPrice = () => {
   return (
     <Stack
       direction="row"
-      spacing={1}
+      alignItems="center"
+      spacing={2}
       sx={{
         backgroundColor: cjbsTheme.palette.grey["100"],
         p: 1,
@@ -23,12 +24,19 @@ const TotalTaxPrice = () => {
         borderRadius: 2,
       }}
     >
-      <Typography>
-        총 요청 금액:{formatNumberWithCommas(totalReqPrice)}
-      </Typography>
-      <Typography>
-        총 발행 금액:{formatNumberWithCommas(totalIssuPrice)}
-      </Typography>
+      <Box component="dl" sx={{ display: "flex" }}>
+        <Box component="dt" sx={{ mr: 1, fontWeight: 600 }}>
+          총 요청 금액:
+        </Box>
+        <Box component="dd">{formatNumberWithCommas(totalReqPrice)}</Box>
+      </Box>
+
+      <Box component="dl" sx={{ display: "flex" }}>
+        <Box component="dt" sx={{ mr: 1, fontWeight: 600 }}>
+          총 발행 금액:
+        </Box>
+        <Box component="dd">{formatNumberWithCommas(totalIssuPrice)}</Box>
+      </Box>
     </Stack>
   );
 };

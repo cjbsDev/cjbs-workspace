@@ -4,12 +4,25 @@ import React, { useCallback, useMemo, useState } from "react";
 import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
-import { DataTableBase, Title1 } from "cjbsDSTM";
+import {
+  cjbsTheme,
+  DataTableBase,
+  formatNumberWithCommas,
+  Title1,
+} from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../../../components/NoDataView";
+
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import TableFooter from "@mui/material/TableFooter";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
@@ -50,6 +63,95 @@ const ListTax = () => {
     [],
   );
 
+  const Expanded = ({ data }) => {
+    const { invcDetailList } = data;
+    console.log("Expanded Value ==>>", invcDetailList);
+    const footerTotalQuty = invcDetailList
+      .map((item) => item.quty)
+      .reduce((acc: number, cur: number) => acc + cur);
+    const footerTotalSupplyPrice = invcDetailList
+      .map((item) => item.totalSupplyPrice)
+      .reduce((acc: number, cur: number) => acc + cur);
+    const footerTotalVat = invcDetailList
+      .map((item) => item.vat)
+      .reduce((acc: number, cur: number) => acc + cur);
+    const footerTotalPrice = invcDetailList
+      .map((item) => item.totalPrice)
+      .reduce((acc: number, cur: number) => acc + cur);
+
+    return (
+      <Box
+        sx={{
+          px: 4,
+          py: 2,
+          backgroundColor: cjbsTheme.palette.grey["100"],
+        }}
+      >
+        <TableContainer sx={{ backgroundColor: "white" }}>
+          <Table size="small">
+            <TableHead>
+              <TableRow>
+                <TableCell>품명</TableCell>
+                <TableCell align="right">수량</TableCell>
+                <TableCell align="right">총 공급가액</TableCell>
+                <TableCell align="right">부가세</TableCell>
+                <TableCell align="right">합계 금액</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {invcDetailList.map((item) => {
+                const { products, quty, totalPrice, totalSupplyPrice, vat } =
+                  item;
+                return (
+                  <TableRow>
+                    <TableCell>{products}</TableCell>
+                    <TableCell align="right">{quty}</TableCell>
+                    <TableCell align="right">
+                      {formatNumberWithCommas(totalSupplyPrice)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatNumberWithCommas(vat)}
+                    </TableCell>
+                    <TableCell align="right">
+                      {formatNumberWithCommas(totalPrice)}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
+            </TableBody>
+            <TableFooter>
+              <TableRow sx={{ fontSize: 18 }}>
+                <TableCell align="right" sx={{ color: "black" }}>
+                  총 합계
+                </TableCell>
+                <TableCell align="right" sx={{ color: "black" }}>
+                  <Typography variant="body2">
+                    {formatNumberWithCommas(footerTotalQuty)}
+                  </Typography>
+                </TableCell>
+                <TableCell align="right" sx={{ color: "black" }}>
+                  <Typography variant="body2">
+                    {formatNumberWithCommas(footerTotalSupplyPrice)}
+                  </Typography>
+                </TableCell>
+                <TableCell align="right" sx={{ color: "black" }}>
+                  <Typography variant="body2">
+                    {formatNumberWithCommas(footerTotalVat)}
+                  </Typography>
+                </TableCell>
+                <TableCell align="right" sx={{ color: "black" }}>
+                  <Typography variant="body2">
+                    {formatNumberWithCommas(footerTotalPrice)}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
+        </TableContainer>
+      </Box>
+    );
+  };
+
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
@@ -69,11 +171,13 @@ const ListTax = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        // noDataComponent={<NoDataView resetPath={"/order-list"} />}
+        noDataComponent={<NoDataView />}
         // sortServer
         // onSort={handleSort}
         defaultSortFieldId={1}
         defaultSortAsc={false}
+        expandableRows
+        expandableRowsComponent={Expanded}
       />
     </Box>
   );
