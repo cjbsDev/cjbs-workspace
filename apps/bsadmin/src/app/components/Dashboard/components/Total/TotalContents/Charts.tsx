@@ -82,6 +82,7 @@ const Charts = ({
   };
 
   const options = {
+    barThickness: 30,
     maxBarThickness: 20,
     maintainAspectRatio: false,
     // responsive: true,
