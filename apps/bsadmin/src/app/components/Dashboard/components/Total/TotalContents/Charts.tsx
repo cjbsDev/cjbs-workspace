@@ -85,7 +85,7 @@ const Charts = ({
     maxBarThickness: 20,
     maintainAspectRatio: false,
     // responsive: true,
-    tension: 0.35,
+    // tension: 0.35,
     plugins: {
       legend: {
         display: true,
