@@ -4,7 +4,7 @@ import SectionHeader from "../SectionHeader";
 const Header = () => {
   return (
     <SectionHeader>
-      <SectionHeader.Title>매출 TOP 기관</SectionHeader.Title>
+      <SectionHeader.Title>TOP 기관</SectionHeader.Title>
       <SectionHeader.MoreBtn
         buttonName="more"
         onClick={() => console.log("기관 더보기")}

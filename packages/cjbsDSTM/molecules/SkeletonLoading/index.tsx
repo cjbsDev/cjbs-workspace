@@ -43,7 +43,7 @@ export const SkeletonPieChart = () => {
     <Box sx={{ my: 4.5 }}>
       <Stack
         spacing={2}
-        direction="row"
+        // direction="row"
         justifyContent="space-between"
         alignItems="center"
       >
@@ -67,13 +67,13 @@ export const SkeletonLineChart = () => {
   return (
     <Box sx={{}}>
       <Grid container>
-        <Grid item xs={2.5}>
-          <Stack spacing={1.5}>
+        <Grid item xs={12}>
+          <Stack direction="row" alignItems="flex-end" spacing={1.5}>
             <Skeleton variant="text" width={200} height={42} />
             <Skeleton variant="text" width={150} height={25} />
           </Stack>
         </Grid>
-        <Grid item xs={9.5}>
+        <Grid item xs={12}>
           <Skeleton variant="rounded" height={280} />
         </Grid>
       </Grid>

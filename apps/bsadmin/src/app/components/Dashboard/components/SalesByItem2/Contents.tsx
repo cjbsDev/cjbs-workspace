@@ -17,11 +17,11 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { useRecoilValue } from "recoil";
 import {
+  agncTopSelectAtom,
   dashboardGroupCcAtom,
   dashboardTypeCcAtom,
   endYearAtom,
   groupTargetAtom,
-  instTopSelectAtom,
   startYearAtom,
 } from "../../recoil/dashboardAtom";
 import { Box } from "@mui/material";
@@ -43,14 +43,14 @@ const Contents = () => {
   const { startMonth, startYear, endMonth, endYear, typeCc } =
     useDashboardParams();
   const groupCc = useRecoilValue(dashboardGroupCcAtom);
-  const targetCc = useRecoilValue(instTopSelectAtom);
+  const targetCc = useRecoilValue(agncTopSelectAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
   const getStartYear = useRecoilValue(startYearAtom);
   const getEndYear = useRecoilValue(endYearAtom);
   const yearsRange = useYearRange(getStartYear, getEndYear);
 
   const { data: groupData } = useSWR(
-    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=BS_2200001&target=${targetCc}`,
+    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=BS_2200002&target=${targetCc}`,
     fetcher,
     {
       suspense: true,
@@ -161,7 +161,7 @@ const Contents = () => {
   };
 
   return (
-    <Box sx={{}}>
+    <Box>
       <Line options={options} data={data} height={288} />
     </Box>
   );

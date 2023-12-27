@@ -20,6 +20,7 @@ import Idle from "./components/Dashboard/components/Idle";
 import Total from "./components/Dashboard/components/Total";
 import SrvcSales from "./components/Dashboard/components/SrvcSales";
 import SalesByItem from "./components/Dashboard/components/SalesByItem";
+import SalesByItem2 from "./components/Dashboard/components/SalesByItem2";
 import AgncTop from "./components/Dashboard/components/AgncTop";
 import InstTop from "./components/Dashboard/components/InstTop";
 import DashboardHeader from "./components/Dashboard/components/DashboardHeader";
@@ -40,17 +41,20 @@ export default function Page() {
       </Grid>
 
       <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
-        <Grid item xs={12}>
+        <Grid item xs={7}>
           <Total />
+        </Grid>
+        <Grid item xs={5}>
+          <SrvcSales />
         </Grid>
       </Grid>
 
       <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
-        <Grid item xs={7}>
+        <Grid item xs={6}>
           <SalesByItem />
         </Grid>
-        <Grid item xs={5}>
-          <SrvcSales />
+        <Grid item xs={6}>
+          <SalesByItem2 />
         </Grid>
       </Grid>
 

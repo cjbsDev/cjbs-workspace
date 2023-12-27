@@ -82,17 +82,18 @@ const Charts = ({
   };
 
   const options = {
+    maxBarThickness: 20,
     maintainAspectRatio: false,
-    responsive: true,
+    // responsive: true,
     tension: 0.35,
     plugins: {
       legend: {
-        display: false,
-        position: "top" as const,
-      },
-      title: {
-        display: false,
-        text: "Chart.js Line Chart",
+        display: true,
+        position: "bottom" as const,
+        // labels: {
+        //   usePointStyle: true,
+        //   padding: 10,
+        // },
       },
     },
     scales: {
@@ -101,7 +102,7 @@ const Charts = ({
           display: false,
         },
         title: {
-          display: true,
+          display: false,
           text:
             getTypeCc === "BS_2100003"
               ? "월"
@@ -120,7 +121,7 @@ const Charts = ({
       },
       y: {
         grid: {
-          borderDash: [5, 5], // y축 그리드 선 스타일
+          // borderDash: [5, 5], // y축 그리드 선 스타일
           drawBorder: false, // y축 외곽 선 그리지 않음
         },
         min: min,
@@ -131,9 +132,9 @@ const Charts = ({
         },
 
         title: {
-          display: true,
+          display: false,
           align: "end",
-          // text: "단위: 원",
+          text: "단위: 원",
           font: {
             size: 13,
             weight: "bold",
@@ -146,7 +147,7 @@ const Charts = ({
     },
     elements: {
       line: {
-        borderWidth: 4, // You can adjust the line width here
+        borderWidth: 3, // You can adjust the line width here
       },
     },
   };
@@ -154,9 +155,9 @@ const Charts = ({
   return (
     <Stack direction="row" justifyContent="flex-end">
       {chartType === "line" ? (
-        <Line options={options} data={data} height={273} />
+        <Line options={options} data={data} height={288} />
       ) : (
-        <Bar options={options} data={data} height={273} />
+        <Bar options={options} data={data} height={288} />
       )}
     </Stack>
   );

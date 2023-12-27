@@ -21,14 +21,9 @@ const TotalHeader = () => {
   return (
     <Box sx={{ position: "relative" }}>
       <SectionHeader>
-        <SectionHeader.Title>총 매출</SectionHeader.Title>
+        <SectionHeader.Title>전체</SectionHeader.Title>
         <SectionHeader.Action>
           <StyledToggleButtonGroup
-            // value={
-            //   getTypeCc === "BS_2100005" || getTypeCc === "BS_2100006"
-            //     ? "bar"
-            //     : chartType
-            // }
             value={chartType}
             exclusive
             onChange={handleChartTypeChange}
@@ -45,7 +40,7 @@ const TotalHeader = () => {
                 value={item}
                 disabled={item === chartType}
               >
-                <MyIcon icon={`${item}_chart`} size={18} />
+                <MyIcon icon={`${item}_chart`} size={20} />
               </ToggleButton>
             ))}
           </StyledToggleButtonGroup>

@@ -41,30 +41,31 @@ const Index = () => {
   return (
     <Box sx={{ mt: 3 }}>
       <Grid container>
-        <Grid item xs={2.5}>
+        <Grid item xs={12}>
           <Sales
             changeSales={changeSales}
             totalSales={totalSales}
             isIcs={isIcs}
           />
-
-          {getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && (
-            <Legend colors={colors} />
-          )}
+          {/*{getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && (*/}
+          {/*  <Legend colors={colors} />*/}
+          {/*)}*/}
         </Grid>
         <Grid
           item
-          xs={9.5}
+          xs={12}
           sx={{ position: "relative", justifyContent: "flex-end" }}
         >
-          <Charts
-            slsList={slsList}
-            labels={labels}
-            min={min}
-            max={max}
-            stepSize={stepSize}
-            colors={colors}
-          />
+          <Box>
+            <Charts
+              slsList={slsList}
+              labels={labels}
+              min={min}
+              max={max}
+              stepSize={stepSize}
+              colors={colors}
+            />
+          </Box>
         </Grid>
       </Grid>
     </Box>

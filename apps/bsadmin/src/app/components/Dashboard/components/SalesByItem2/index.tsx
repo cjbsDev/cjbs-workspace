@@ -1,24 +1,25 @@
 import React from "react";
-import SectionHeader from "../SectionHeader";
-import { ErrorContainer, Fallback, SkeletonPieChart } from "cjbsDSTM";
 import { styled } from "@mui/material/styles";
 import { Box } from "@mui/material";
 import dynamic from "next/dynamic";
-
-const LazySrvcSalesChart = dynamic(() => import("./SrvcSalesChart"), {
+import {
+  ErrorContainer,
+  Fallback,
+  SkeletonLoading,
+  SkeletonPieChart,
+} from "cjbsDSTM";
+import Header from "./Header";
+const LazySalesByItemChart = dynamic(() => import("./Contents"), {
   ssr: false,
-  loading: () => <SkeletonPieChart />,
+  loading: () => <SkeletonLoading height={273} />,
 });
 
 const Index = () => {
   return (
     <SectionBox>
-      <SectionHeader>
-        <SectionHeader.Title>분석 종류</SectionHeader.Title>
-      </SectionHeader>
-
+      <Header />
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazySrvcSalesChart />
+        <LazySalesByItemChart />
       </ErrorContainer>
     </SectionBox>
   );
@@ -32,4 +33,5 @@ const SectionBox = styled(Box)`
   border-radius: 10px;
   min-height: fit-content;
   height: 100%;
+  position: relative;
 `;
