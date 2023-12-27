@@ -350,6 +350,7 @@ const TableNewRows = (props:any) => {
               onFocus={handleOnFocus}
               sx={{
                 width: 150,
+                display: "none",
                 ".MuiOutlinedInput-input": {
                   textAlign: "end",
                 },
