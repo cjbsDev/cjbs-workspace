@@ -82,7 +82,7 @@ const Charts = ({
   };
 
   const options = {
-    barThickness: 30,
+    barThickness: getTypeCc === "BS_2100003" ? null : 30,
     maxBarThickness: 20,
     maintainAspectRatio: false,
     // responsive: true,
