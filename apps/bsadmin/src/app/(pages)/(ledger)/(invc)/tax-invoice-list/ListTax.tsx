@@ -87,23 +87,34 @@ const ListTax = () => {
           backgroundColor: cjbsTheme.palette.grey["100"],
         }}
       >
-        <TableContainer sx={{ backgroundColor: "white" }}>
+        <TableContainer
+          sx={{
+            backgroundColor: "white",
+            border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+          }}
+        >
           <Table size="small">
             <TableHead>
               <TableRow>
                 <TableCell>품명</TableCell>
                 <TableCell align="right">수량</TableCell>
-                <TableCell align="right">총 공급가액</TableCell>
+                <TableCell align="right">공급가액</TableCell>
                 <TableCell align="right">부가세</TableCell>
-                <TableCell align="right">합계 금액</TableCell>
+                <TableCell align="right">금액</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {invcDetailList.map((item) => {
-                const { products, quty, totalPrice, totalSupplyPrice, vat } =
-                  item;
+                const {
+                  products,
+                  quty,
+                  totalPrice,
+                  totalSupplyPrice,
+                  vat,
+                  invcProductsUkey,
+                } = item;
                 return (
-                  <TableRow>
+                  <TableRow key={invcProductsUkey}>
                     <TableCell>{products}</TableCell>
                     <TableCell align="right">{quty}</TableCell>
                     <TableCell align="right">
@@ -120,9 +131,9 @@ const ListTax = () => {
               })}
             </TableBody>
             <TableFooter>
-              <TableRow sx={{ fontSize: 18 }}>
+              <TableRow sx={{ backgroundColor: cjbsTheme.palette.grey["200"] }}>
                 <TableCell align="right" sx={{ color: "black" }}>
-                  총 합계
+                  <Typography variant="body2">총 합계</Typography>
                 </TableCell>
                 <TableCell align="right" sx={{ color: "black" }}>
                   <Typography variant="body2">
@@ -155,7 +166,7 @@ const ListTax = () => {
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
-        title={<Title1 titleName="실험 관리" />}
+        title={<Title1 titleName="세금계산서" />}
         data={listData}
         columns={columns}
         // onRowClicked={goDetailPage}
@@ -177,6 +188,7 @@ const ListTax = () => {
         defaultSortFieldId={1}
         defaultSortAsc={false}
         expandableRows
+        expandOnRowClicked
         expandableRowsComponent={Expanded}
       />
     </Box>
