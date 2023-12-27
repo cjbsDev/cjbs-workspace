@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -73,10 +73,10 @@ const Contents = () => {
     data: data,
     borderColor: color,
     backgroundColor: color,
-    type:
-      type === "BS_2100004" || type === "BS_2100005" || type === "BS_2100006"
-        ? "bar"
-        : "line",
+    // type:
+    //   type === "BS_2100004" || type === "BS_2100005" || type === "BS_2100006"
+    //     ? "bar"
+    //     : "line",
   });
 
   // datasets 배열 생성
@@ -162,7 +162,7 @@ const Contents = () => {
 
   return (
     <Box>
-      <Line options={options} data={data} height={288} />
+      <Bar options={options} data={data} height={288} />
     </Box>
   );
 };
