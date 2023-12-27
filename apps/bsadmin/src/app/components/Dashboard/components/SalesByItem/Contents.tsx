@@ -90,7 +90,8 @@ const Contents = () => {
   };
 
   const options = {
-    barThickness: 30,
+    barThickness: getTypeCc === "BS_2100003" ? null : 30,
+    // barPercentage: 0.5,
     maxBarThickness: 20,
     maintainAspectRatio: false,
     // responsive: true,
