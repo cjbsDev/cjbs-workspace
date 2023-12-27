@@ -1,11 +1,4 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
-import {
-  chartTypeAtom,
-  dashboardTypeCcAtom,
-  endYearAtom,
-  startYearAtom,
-} from "../../../recoil/dashboardAtom";
 import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -19,9 +12,21 @@ import {
   Filler,
   Legend,
 } from "chart.js";
+import useDashboardParams from "../../hooks/useDashboardParams";
+import useSWR from "swr";
+import { fetcher } from "api";
+import { useRecoilValue } from "recoil";
+import {
+  agncTopSelectAtom,
+  dashboardGroupCcAtom,
+  dashboardTypeCcAtom,
+  endYearAtom,
+  groupTargetAtom,
+  startYearAtom,
+} from "../../recoil/dashboardAtom";
+import { Box } from "@mui/material";
+import useYearRange from "../../hooks/useYearRange";
 
-import { Stack } from "@mui/material";
-import useYearRange from "../../../hooks/useYearRange";
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -34,28 +39,28 @@ ChartJS.register(
   Legend,
 );
 
-interface ChartProps {
-  slsList: number[];
-  labels: string[];
-  min: number;
-  max: number;
-  stepSize: number;
-  colors: string[];
-}
-
-const Charts = ({
-  labels,
-  slsList,
-  min,
-  max,
-  stepSize,
-  colors,
-}: ChartProps) => {
-  const chartType = useRecoilValue(chartTypeAtom);
+const Contents = () => {
+  const { startMonth, startYear, endMonth, endYear, typeCc } =
+    useDashboardParams();
+  const groupCc = useRecoilValue(dashboardGroupCcAtom);
+  const targetCc = useRecoilValue(agncTopSelectAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
   const getStartYear = useRecoilValue(startYearAtom);
   const getEndYear = useRecoilValue(endYearAtom);
   const yearsRange = useYearRange(getStartYear, getEndYear);
+
+  const { data: groupData } = useSWR(
+    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=BS_2200002&target=${targetCc}`,
+    fetcher,
+    {
+      suspense: true,
+      revalidateOnFocus: false,
+    },
+  );
+
+  console.log("항목별 매출", groupData);
+
+  const { labels, colors, slsList, min, max, stepSize } = groupData;
 
   // 데이터셋 생성 함수
   const createDataset = (
@@ -68,12 +73,15 @@ const Charts = ({
     data: data,
     borderColor: color,
     backgroundColor: color,
-    type: type === "line" ? "line" : "bar",
+    // type:
+    //   type === "BS_2100004" || type === "BS_2100005" || type === "BS_2100006"
+    //     ? "bar"
+    //     : "line",
   });
 
   // datasets 배열 생성
   const datasets = slsList.map((data, index) =>
-    createDataset(data, colors[index], chartType, yearsRange[index]),
+    createDataset(data, colors[index], getTypeCc, yearsRange[index]),
   );
 
   const data = {
@@ -90,10 +98,10 @@ const Charts = ({
       legend: {
         display: true,
         position: "bottom" as const,
-        // labels: {
-        //   usePointStyle: true,
-        //   padding: 10,
-        // },
+      },
+      title: {
+        display: false,
+        text: "Chart.js Line Chart",
       },
     },
     scales: {
@@ -121,7 +129,7 @@ const Charts = ({
       },
       y: {
         grid: {
-          // borderDash: [5, 5], // y축 그리드 선 스타일
+          borderDash: [5, 5], // y축 그리드 선 스타일
           drawBorder: false, // y축 외곽 선 그리지 않음
         },
         min: min,
@@ -134,13 +142,13 @@ const Charts = ({
         title: {
           display: false,
           align: "end",
-          text: "단위: 원",
+          // text: "단위: 원",
           font: {
             size: 13,
             weight: "bold",
             lineHeight: 1.2,
           },
-          padding: { top: 0, left: 0, right: 0, bottom: 20 },
+          padding: { top: 0, left: 0, right: 0, bottom: 0 },
         },
         position: "left",
       },
@@ -153,14 +161,10 @@ const Charts = ({
   };
 
   return (
-    <Stack direction="row" justifyContent="flex-end">
-      {chartType === "line" ? (
-        <Line options={options} data={data} height={288} />
-      ) : (
-        <Bar options={options} data={data} height={288} />
-      )}
-    </Stack>
+    <Box>
+      <Bar options={options} data={data} height={288} />
+    </Box>
   );
 };
 
-export default Charts;
+export default Contents;

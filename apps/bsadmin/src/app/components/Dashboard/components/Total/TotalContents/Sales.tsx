@@ -43,37 +43,34 @@ const Sales = ({ totalSales, changeSales, isIcs }: SalesProps) => {
   const { icon, color } = renderIconAndColor();
 
   return (
-    <Stack spacing={2}>
-      <Box>
-        <Typography variant="h1">
-          &#8361;{formatNumberWithCommas(totalSales)}
-        </Typography>
-      </Box>
-      <Box>
-        <Stack direction="row" spacing={2}>
-          <Typography variant="body2" sx={{ color: "#868E95" }}>
-            지난 {renderTimePeriod()}
-          </Typography>
+    <Stack direction="row" spacing={2} alignItems="flex-end" sx={{ mb: 3.5 }}>
+      <Typography variant="h1">
+        &#8361;{formatNumberWithCommas(totalSales)}
+      </Typography>
 
-          <Stack
-            direction="row"
-            spacing={0.25}
-            justifyContent="center"
-            alignItems="center"
+      <Stack direction="row" spacing={0.5}>
+        <Typography variant="body2" sx={{ color: "#868E95" }}>
+          지난 {renderTimePeriod()}
+        </Typography>
+
+        <Stack
+          direction="row"
+          spacing={0.25}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <MyIcon icon={icon} size={20} color={color} />
+          <Typography
+            variant="body2"
+            sx={{
+              color: color,
+              fontWeight: 700,
+            }}
           >
-            <MyIcon icon={icon} size={20} color={color} />
-            <Typography
-              variant="body2"
-              sx={{
-                color: color,
-                fontWeight: 700,
-              }}
-            >
-              {changeSales}&#37;
-            </Typography>
-          </Stack>
+            {changeSales}&#37;
+          </Typography>
         </Stack>
-      </Box>
+      </Stack>
     </Stack>
   );
 };

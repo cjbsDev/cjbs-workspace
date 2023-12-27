@@ -33,30 +33,32 @@ const SrvcSalesChart = () => {
 
   return (
     <Box>
-      <Box sx={{ mt: 3.75, px: 1.25 }}>
-        <Stack
-          direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-        >
-          <Stack alignItems="center">
-            <PieContent
-              salesLabels={salesLabels}
-              salesColors={salesColors}
-              salesData={salesData}
-            />
-          </Stack>
-          <Stack alignItems="center">
-            <Legend
-              salesData={salesData}
-              salesLabels={salesLabels}
-              salesColors={salesColors}
-              salesPerColors={salesPerColors}
-              salesPercent={salesPercent}
-            />
-          </Stack>
-        </Stack>
-      </Box>
+      <Stack alignItems="center">
+        <Box sx={{ width: 200, height: 200, my: 5 }}>
+          <PieContent
+            salesLabels={salesLabels}
+            salesColors={salesColors}
+            salesData={salesData}
+          />
+        </Box>
+      </Stack>
+
+      <Legend
+        salesData={salesData}
+        salesLabels={salesLabels}
+        salesColors={salesColors}
+        salesPerColors={salesPerColors}
+        salesPercent={salesPercent}
+      />
+
+      {/*<Stack*/}
+      {/*  justifyContent="space-between"*/}
+      {/*  alignItems="center"*/}
+      {/*>*/}
+      {/*  <Stack alignItems="center">*/}
+      {/*    */}
+      {/*  </Stack>*/}
+      {/*</Stack>*/}
     </Box>
   );
 };

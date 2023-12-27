@@ -5,7 +5,7 @@ const useYearRange = (startYear: number, endYear: number) => {
 
   useEffect(() => {
     const yearRange = [];
-    for (let year = startYear; year <= endYear; year++) {
+    for (let year = endYear; year >= startYear; year--) {
       yearRange.push(year);
     }
     setYears(yearRange);
