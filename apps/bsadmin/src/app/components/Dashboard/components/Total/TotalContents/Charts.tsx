@@ -82,8 +82,8 @@ const Charts = ({
   };
 
   const options = {
-    barThickness: getTypeCc === "BS_2100003" ? null : 30,
-    maxBarThickness: 20,
+    barThickness: getTypeCc === "BS_2100003" ? null : 60,
+    maxBarThickness: getTypeCc === "BS_2100003" ? 20 : 50,
     maintainAspectRatio: false,
     responsive: true,
     // tension: 0.35,

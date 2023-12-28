@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === "RefreshAccessTokenError")
   ) {
-    return NextResponse.redirect(new URL("/sign-in", request.url));
+    return NextResponse.redirect(new URL("/", request.url));
   } else {
     return NextResponse.next();
   }

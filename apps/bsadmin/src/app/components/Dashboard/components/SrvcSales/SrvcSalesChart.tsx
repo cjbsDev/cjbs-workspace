@@ -42,7 +42,7 @@ const SrvcSalesChart = () => {
 
   return (
     <Box ref={anchorRef}>
-      <Stack alignItems="center" sx={{ height: 350 }}>
+      <Stack alignItems="center" sx={{ height: 300 }}>
         <PieContent
           salesLabels={salesLabels}
           salesColors={salesColors}
