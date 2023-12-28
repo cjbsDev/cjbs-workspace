@@ -168,7 +168,7 @@ const Contents = () => {
   };
 
   return (
-    <Box sx={{ height: 300 }}>
+    <Box sx={{ height: 288, mb: 2 }}>
       <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2, mb: 1 }}>
         <Typography variant="body2">단위: 백만원</Typography>
       </Stack>

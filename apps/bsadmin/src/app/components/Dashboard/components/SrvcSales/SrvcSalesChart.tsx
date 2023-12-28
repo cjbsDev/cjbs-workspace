@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { Box, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -7,6 +7,15 @@ import PieContent from "./Pie";
 import useDashboardParams from "../../hooks/useDashboardParams";
 
 const SrvcSalesChart = () => {
+  const anchorRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (anchorRef.current) {
+  //     console.log("WIDTH", anchorRef.current?.offsetWidth); // 컴포넌트의 width
+  //     console.log("HEIGHT", anchorRef.current?.offsetHeight); // 컴포넌트의 height
+  //   }
+  // }, []);
+
   const { startMonth, startYear, endMonth, endYear, typeCc } =
     useDashboardParams();
 
@@ -32,7 +41,7 @@ const SrvcSalesChart = () => {
   const salesPerColors = srvcSalesData.perColors;
 
   return (
-    <Box>
+    <Box ref={anchorRef}>
       <Stack alignItems="center">
         <Box sx={{ mt: 2, mb: 4 }}>
           <PieContent
@@ -52,15 +61,6 @@ const SrvcSalesChart = () => {
         salesPerColors={salesPerColors}
         salesPercent={salesPercent}
       />
-
-      {/*<Stack*/}
-      {/*  justifyContent="space-between"*/}
-      {/*  alignItems="center"*/}
-      {/*>*/}
-      {/*  <Stack alignItems="center">*/}
-      {/*    */}
-      {/*  </Stack>*/}
-      {/*</Stack>*/}
     </Box>
   );
 };
