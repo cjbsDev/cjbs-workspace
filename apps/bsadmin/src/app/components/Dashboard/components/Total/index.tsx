@@ -3,7 +3,7 @@ import { ErrorContainer, Fallback, SkeletonLineChart } from "cjbsDSTM";
 import TotalHeader from "./TotalHeader";
 import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 
 const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
   ssr: false,

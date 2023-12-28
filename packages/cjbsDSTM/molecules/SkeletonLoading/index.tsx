@@ -74,7 +74,7 @@ export const SkeletonLineChart = () => {
           </Stack>
         </Grid>
         <Grid item xs={12}>
-          <Skeleton variant="rounded" height={280} />
+          <Skeleton variant="rounded" height={345} />
         </Grid>
       </Grid>
     </Box>

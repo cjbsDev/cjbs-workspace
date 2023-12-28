@@ -24,7 +24,7 @@ import {
   instTopSelectAtom,
   startYearAtom,
 } from "../../recoil/dashboardAtom";
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import useYearRange from "../../hooks/useYearRange";
 
 ChartJS.register(
@@ -100,6 +100,11 @@ const Contents = () => {
       legend: {
         display: true,
         position: "bottom" as const,
+        labels: {
+          usePointStyle: true,
+          pointStyle: "rect",
+          padding: 10,
+        },
       },
       title: {
         display: false,
@@ -163,8 +168,11 @@ const Contents = () => {
   };
 
   return (
-    <Box sx={{}}>
-      <Bar options={options} data={data} height={288} />
+    <Box sx={{ height: 288, mb: 2 }}>
+      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2, mb: 1 }}>
+        <Typography variant="body2">단위: 백만원</Typography>
+      </Stack>
+      <Bar options={options} data={data} />
     </Box>
   );
 };
