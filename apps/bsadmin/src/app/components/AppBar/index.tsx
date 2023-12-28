@@ -142,7 +142,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
-                      signOut();
+                      signOut({ callbackUrl: "/sign-in" });
                     }}
                   >
                     Sign Out

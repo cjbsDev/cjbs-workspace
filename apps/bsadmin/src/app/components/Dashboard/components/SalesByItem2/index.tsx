@@ -1,21 +1,25 @@
 import React from "react";
-import { ErrorContainer, Fallback, SkeletonLineChart } from "cjbsDSTM";
-import TotalHeader from "./TotalHeader";
-import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
-import { Box, Stack } from "@mui/material";
-
-const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
+import { Box } from "@mui/material";
+import dynamic from "next/dynamic";
+import {
+  ErrorContainer,
+  Fallback,
+  SkeletonLoading,
+  SkeletonPieChart,
+} from "cjbsDSTM";
+import Header from "./Header";
+const LazySalesByItemChart = dynamic(() => import("./Contents"), {
   ssr: false,
-  loading: () => <SkeletonLineChart />,
+  loading: () => <SkeletonLoading height={273} />,
 });
 
 const Index = () => {
   return (
     <SectionBox>
-      <TotalHeader />
+      <Header />
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyTotalContents />
+        <LazySalesByItemChart />
       </ErrorContainer>
     </SectionBox>
   );

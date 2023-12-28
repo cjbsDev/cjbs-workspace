@@ -111,7 +111,7 @@ export default function Page() {
             <InputValidation
               inputName="password"
               // label="비밀번호"
-              placeholder="label"
+              placeholder="비밀번호"
               required={true}
               errorMessage="비밀번호를 입력해 주세요."
               type={showPassword ? "text" : "password"}
@@ -153,14 +153,14 @@ export default function Page() {
             />
             <Grid container>
               <Grid item xs>
-                <Link
-                  href="https://www.ezbiocloud.net/signup?from=mydata"
-                  variant="body2"
-                  underline="none"
-                  target="_blank"
-                >
-                  회원가입
-                </Link>
+                {/*<Link*/}
+                {/*  href="https://www.ezbiocloud.net/signup?from=mydata"*/}
+                {/*  variant="body2"*/}
+                {/*  underline="none"*/}
+                {/*  target="_blank"*/}
+                {/*>*/}
+                {/*  회원가입*/}
+                {/*</Link>*/}
               </Grid>
               <Grid item>
                 <Link href="#" variant="body2" underline="none">

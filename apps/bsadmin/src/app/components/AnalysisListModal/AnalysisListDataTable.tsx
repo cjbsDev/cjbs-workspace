@@ -343,14 +343,14 @@ const AnalysisListDataTable = (props: {
     }
   }, []);
 
-    const rowSelectDisabled = useCallback((row) => {
-        console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
-        if(row.isAnlsItst === "Y"){
-            // console.log("!!row data : ", row);
-            // row에 isAnlsItst 값이 Y면 true
-            return true;
-        }
-    }, []);
+  const rowSelectDisabled = useCallback((row) => {
+      // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
+      if(row.isAnlsItst === "Y"){
+          // console.log("!!row data : ", row);
+          // row에 isAnlsItst 값이 Y면 true
+          return true;
+      }
+  }, []);
 
   const handleSelectedRowChange1 = ({ selectedRows }: any) => {
     // const getSampleIdList = selectedRows.map((row) => row.sampleId);

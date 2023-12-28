@@ -13,7 +13,7 @@ const LazyAgncTopSelectbox = dynamic(() => import("./AgncTopSelectbox"), {
 const Header = () => {
   return (
     <SectionHeader>
-      <SectionHeader.Title>기관</SectionHeader.Title>
+      <SectionHeader.Title>거래처</SectionHeader.Title>
       <SectionHeader.Action>
         {/*<GroupBtnList />*/}
         <ErrorContainer FallbackComponent={Fallback}>

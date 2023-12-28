@@ -1,5 +1,5 @@
 import React from "react";
-import { Line } from "react-chartjs-2";
+import { Line, Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -21,9 +21,10 @@ import {
   dashboardTypeCcAtom,
   endYearAtom,
   groupTargetAtom,
+  instTopSelectAtom,
   startYearAtom,
 } from "../../recoil/dashboardAtom";
-import { Box } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import useYearRange from "../../hooks/useYearRange";
 
 ChartJS.register(
@@ -42,14 +43,14 @@ const Contents = () => {
   const { startMonth, startYear, endMonth, endYear, typeCc } =
     useDashboardParams();
   const groupCc = useRecoilValue(dashboardGroupCcAtom);
-  const targetCc = useRecoilValue(groupTargetAtom);
+  const targetCc = useRecoilValue(instTopSelectAtom);
   const getTypeCc = useRecoilValue(dashboardTypeCcAtom);
   const getStartYear = useRecoilValue(startYearAtom);
   const getEndYear = useRecoilValue(endYearAtom);
   const yearsRange = useYearRange(getStartYear, getEndYear);
 
   const { data: groupData } = useSWR(
-    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=${groupCc}&target=${targetCc}`,
+    `/dashboard/sls/group?startYear=${startYear}&startMonty=${startMonth}&endYear=${endYear}&endMonty=${endMonth}&typeCc=${typeCc}&groupCc=BS_2200001&target=${targetCc}`,
     fetcher,
     {
       suspense: true,
@@ -72,7 +73,10 @@ const Contents = () => {
     data: data,
     borderColor: color,
     backgroundColor: color,
-    type: type === "BS_2100005" || getTypeCc === "BS_2100006" ? "bar" : "line",
+    // type:
+    //   type === "BS_2100004" || type === "BS_2100005" || type === "BS_2100006"
+    //     ? "bar"
+    //     : "line",
   });
 
   // datasets 배열 생성
@@ -86,13 +90,21 @@ const Contents = () => {
   };
 
   const options = {
+    barThickness: getTypeCc === "BS_2100003" ? null : 30,
+    // barPercentage: 0.5,
+    maxBarThickness: 20,
     maintainAspectRatio: false,
-    responsive: true,
-    tension: 0.35,
+    // responsive: true,
+    // tension: 0.35,
     plugins: {
       legend: {
-        display: false,
-        position: "top" as const,
+        display: true,
+        position: "bottom" as const,
+        labels: {
+          usePointStyle: true,
+          pointStyle: "rect",
+          padding: 10,
+        },
       },
       title: {
         display: false,
@@ -105,7 +117,7 @@ const Contents = () => {
           display: false,
         },
         title: {
-          display: true,
+          display: false,
           text:
             getTypeCc === "BS_2100003"
               ? "월"
@@ -135,7 +147,7 @@ const Contents = () => {
         },
 
         title: {
-          display: true,
+          display: false,
           align: "end",
           // text: "단위: 원",
           font: {
@@ -150,14 +162,17 @@ const Contents = () => {
     },
     elements: {
       line: {
-        borderWidth: 4, // You can adjust the line width here
+        borderWidth: 3, // You can adjust the line width here
       },
     },
   };
 
   return (
-    <Box sx={{ height: 273 }}>
-      <Line options={options} data={data} height={273} />
+    <Box sx={{ height: 288, mb: 2 }}>
+      <Stack direction="row" justifyContent="flex-end" sx={{ mt: 2, mb: 1 }}>
+        <Typography variant="body2">단위: 만원</Typography>
+      </Stack>
+      <Bar options={options} data={data} />
     </Box>
   );
 };

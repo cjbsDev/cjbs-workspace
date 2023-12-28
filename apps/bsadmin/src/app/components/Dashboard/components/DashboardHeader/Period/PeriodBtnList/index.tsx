@@ -21,7 +21,11 @@ const Index = () => {
     if (newTypeCc !== typeCc) {
       setTypeCc(newTypeCc);
     }
-    if (newTypeCc === "BS_2100005" || newTypeCc === "BS_2100006") {
+    if (
+      newTypeCc === "BS_2100004" ||
+      newTypeCc === "BS_2100005" ||
+      newTypeCc === "BS_2100006"
+    ) {
       setChartType("bar");
     } else {
       setChartType("line");

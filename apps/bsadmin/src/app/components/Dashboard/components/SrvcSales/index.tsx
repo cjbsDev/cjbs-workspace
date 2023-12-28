@@ -14,7 +14,7 @@ const Index = () => {
   return (
     <SectionBox>
       <SectionHeader>
-        <SectionHeader.Title>분석 종류별 매출</SectionHeader.Title>
+        <SectionHeader.Title>분석 종류</SectionHeader.Title>
       </SectionHeader>
 
       <ErrorContainer FallbackComponent={Fallback}>

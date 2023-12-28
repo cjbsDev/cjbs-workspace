@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import Charts from "./Charts";
@@ -41,30 +41,30 @@ const Index = () => {
   return (
     <Box sx={{ mt: 3 }}>
       <Grid container>
-        <Grid item xs={2.5}>
+        <Grid item xs={12}>
           <Sales
             changeSales={changeSales}
             totalSales={totalSales}
             isIcs={isIcs}
           />
-
-          {getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && (
-            <Legend colors={colors} />
-          )}
+          {/*{getTypeCc !== "BS_2100005" && getTypeCc !== "BS_2100006" && (*/}
+          {/*  <Legend colors={colors} />*/}
+          {/*)}*/}
         </Grid>
-        <Grid
-          item
-          xs={9.5}
-          sx={{ position: "relative", justifyContent: "flex-end" }}
-        >
-          <Charts
-            slsList={slsList}
-            labels={labels}
-            min={min}
-            max={max}
-            stepSize={stepSize}
-            colors={colors}
-          />
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="flex-end">
+            <Typography variant="body2">단위: 만원</Typography>
+          </Stack>
+          <Stack sx={{ height: 340 }}>
+            <Charts
+              slsList={slsList}
+              labels={labels}
+              min={min}
+              max={max}
+              stepSize={stepSize}
+              colors={colors}
+            />
+          </Stack>
         </Grid>
       </Grid>
     </Box>
