@@ -25,7 +25,6 @@ const AgncSearchModal = ({
   onClose,
   open,
   modalWidth,
-  data,
 }: ModalContainerProps) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -38,7 +37,7 @@ const AgncSearchModal = ({
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   // const [totalRows, setTotalRows] = useState(data.pageInfo.totalElements);
   const { setValue } = useFormContext();
@@ -80,13 +79,13 @@ const AgncSearchModal = ({
         },
       },
     ],
-    [setValue, handleClose]
+    [setValue, handleClose],
   );
 
   const filteredData = getData.agncList.filter(
     (item) =>
       item.agncNm &&
-      item.agncNm.toLowerCase().includes(filterText.toLowerCase())
+      item.agncNm.toLowerCase().includes(filterText.toLowerCase()),
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {
