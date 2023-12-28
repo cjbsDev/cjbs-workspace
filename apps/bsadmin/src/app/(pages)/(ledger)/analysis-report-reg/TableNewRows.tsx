@@ -133,9 +133,10 @@ const TableNewRows = (props:any) => {
     const sampleSize = getValues(`sample.[${index}].sampleSize`);
     const stndPrice = Number(getValues(`sample.[${index}].stndPrice`).replaceAll(",", ""));
     const stndDscntPctg = Number(getValues(`sample.[${index}].stndDscntPctg`));
-    // console.log("unitPrice", unitPrice);
-    // console.log("sampleSize", sampleSize);
-    // console.log("stndPrice", stndPrice);
+    console.log("unitPrice", unitPrice);
+    console.log("sampleSize", sampleSize);
+    console.log("stndPrice", stndPrice);
+    console.log("stndPricestndDscntPctg", stndDscntPctg);
     if(sampleSize > 0) {
       setValue(`sample.[${index}].supplyPrice`, (unitPrice * sampleSize).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setValue(`sample.[${index}].vat`, ((unitPrice * sampleSize) * 0.1).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -143,19 +144,22 @@ const TableNewRows = (props:any) => {
 
       let disCountPercent: number = 0;
       if (unitPrice >= 0 ) {
-        if (stndPrice > unitPrice) {
-          disCountPercent = Math.round((((stndPrice - unitPrice) / stndPrice) * 100) * 100) / 100.0;
-          setValue(`sample.[${index}].dscntPctg`, disCountPercent);
-
-        } else if (stndPrice < unitPrice) {
-          disCountPercent = Math.round(((((unitPrice - stndPrice) / stndPrice) * 100) + 100) * 100) / 100.0
-          setValue(`sample.[${index}].dscntPctg`, disCountPercent);
-
-        } else if (stndPrice == unitPrice) {
+        if (isNaN(stndPrice)) {
           disCountPercent = 0;
-          setValue(`sample.[${index}].dscntPctg`, "0");
-
+          setValue(`sample.[${index}].dscntPctg`, "N/A");
+        } else {
+          if (stndPrice > unitPrice) {
+            disCountPercent = Math.round((((stndPrice - unitPrice) / stndPrice) * 100) * 100) / 100.0;
+            setValue(`sample.[${index}].dscntPctg`, disCountPercent);
+          } else if (stndPrice < unitPrice) {
+            disCountPercent = Math.round(((((unitPrice - stndPrice) / stndPrice) * 100) + 100) * 100) / 100.0
+            setValue(`sample.[${index}].dscntPctg`, disCountPercent);
+          } else if (stndPrice == unitPrice) {
+            disCountPercent = 0;
+            setValue(`sample.[${index}].dscntPctg`, "0");
+          }
         }
+
       } else {
         setValue(`sample.[${index}].dscntPctg`, "-");
         setValue(`sample.[${index}].isExc`, "N");
@@ -350,7 +354,7 @@ const TableNewRows = (props:any) => {
               onFocus={handleOnFocus}
               sx={{
                 width: 150,
-                display: "none",
+                // display: "none",
                 ".MuiOutlinedInput-input": {
                   textAlign: "end",
                 },
