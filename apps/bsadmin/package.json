@@ -22,6 +22,7 @@
     "@types/styled-components": "^5.1.30",
     "api": "workspace:*",
     "chart.js": "^4.4.0",
+    "chartjs-plugin-datalabels": "^2.2.0",
     "cjbsDSTM": "workspace:*",
     "client-provider": "workspace:*",
     "eslint-config-custom": "workspace:*",

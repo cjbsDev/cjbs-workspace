@@ -20,7 +20,7 @@ import {
   Legend,
 } from "chart.js";
 
-import { Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import useYearRange from "../../../hooks/useYearRange";
 ChartJS.register(
   CategoryScale,
@@ -85,16 +85,17 @@ const Charts = ({
     barThickness: getTypeCc === "BS_2100003" ? null : 30,
     maxBarThickness: 20,
     maintainAspectRatio: false,
-    // responsive: true,
+    responsive: true,
     // tension: 0.35,
     plugins: {
       legend: {
         display: true,
         position: "bottom" as const,
-        // labels: {
-        //   usePointStyle: true,
-        //   padding: 10,
-        // },
+        labels: {
+          usePointStyle: true,
+          pointStyle: "rect",
+          padding: 10,
+        },
       },
     },
     scales: {
@@ -154,13 +155,13 @@ const Charts = ({
   };
 
   return (
-    <Stack direction="row" justifyContent="flex-end">
+    <>
       {chartType === "line" ? (
-        <Line options={options} data={data} height={288} />
+        <Line options={options} data={data} />
       ) : (
-        <Bar options={options} data={data} height={288} />
+        <Bar options={options} data={data} />
       )}
-    </Stack>
+    </>
   );
 };
 

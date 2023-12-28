@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Grid } from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import Charts from "./Charts";
@@ -51,12 +51,11 @@ const Index = () => {
           {/*  <Legend colors={colors} />*/}
           {/*)}*/}
         </Grid>
-        <Grid
-          item
-          xs={12}
-          sx={{ position: "relative", justifyContent: "flex-end" }}
-        >
-          <Box>
+        <Grid item xs={12}>
+          <Stack direction="row" justifyContent="flex-end">
+            <Typography variant="body2">단위: 백만원</Typography>
+          </Stack>
+          <Stack sx={{ height: 350 }}>
             <Charts
               slsList={slsList}
               labels={labels}
@@ -65,7 +64,7 @@ const Index = () => {
               stepSize={stepSize}
               colors={colors}
             />
-          </Box>
+          </Stack>
         </Grid>
       </Grid>
     </Box>

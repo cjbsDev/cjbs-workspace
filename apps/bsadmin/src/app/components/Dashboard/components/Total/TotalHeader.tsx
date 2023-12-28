@@ -39,8 +39,9 @@ const TotalHeader = () => {
                 key={item}
                 value={item}
                 disabled={item === chartType}
+                sx={{ borderRadius: `0 !important` }}
               >
-                <MyIcon icon={`${item}_chart`} size={20} />
+                <MyIcon icon={`${item}_chart`} size={18} />
               </ToggleButton>
             ))}
           </StyledToggleButtonGroup>
@@ -53,6 +54,7 @@ const TotalHeader = () => {
 export default TotalHeader;
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  borderRadius: 0,
   "& .MuiToggleButtonGroup-grouped": {
     margin: theme.spacing(0.5),
     border: 0,
@@ -66,10 +68,10 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       color: "white",
     },
     "&:not(:first-of-type)": {
-      borderRadius: theme.shape.borderRadius,
+      // borderRadius: theme.shape.borderRadius,
     },
     "&:first-of-type": {
-      borderRadius: theme.shape.borderRadius,
+      // borderRadius: theme.shape.borderRadius,
     },
   },
 }));
