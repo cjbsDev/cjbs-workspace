@@ -2,7 +2,7 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import { formatNumberWithCommas } from "cjbsDSTM";
+import { cjbsTheme, formatNumberWithCommas } from "cjbsDSTM";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -30,13 +30,11 @@ const PieContent = (props: PieProps) => {
   const options = {
     // Core options
     // aspectRatio: 4 / 3,
-    cutoutPercentage: 32,
-    // layout: {
-    //   padding: 32,
-    // },
+    // cutoutPercentage: 32,
     plugins: {
-      cutout: "80%",
+      // cutout: "80%",
       maintainAspectRatio: false,
+      tooltip: false,
       legend: {
         display: false,
         position: "right",
@@ -47,14 +45,14 @@ const PieContent = (props: PieProps) => {
         },
       },
       datalabels: {
-        color: "#ffffff", // 라벨의 색상
-        offset: 35,
-        borderColor: "white",
-        // backgroundColor: "grey",
-        borderRadius: 25,
-        borderWidth: 1,
-        textAlign: "right",
-        anchor: "center",
+        // color: "#ffffff", // 라벨의 색상
+        // offset: 80,
+        borderColor: cjbsTheme.palette.grey["300"],
+        backgroundColor: cjbsTheme.palette.grey.A100,
+        borderRadius: 8,
+        borderWidth: 1.5,
+        // textAlign: "right",
+        // anchor: "end",
         align: "end",
         padding: 3,
         font: {
@@ -67,18 +65,18 @@ const PieContent = (props: PieProps) => {
           // console.log("PIE!!!!!!!", value);
           const label = context.chart.data.labels[context.dataIndex];
           const commasValue = formatNumberWithCommas(value);
-          return `${commasValue}`;
+          return `${label}\n${commasValue}만원`;
         },
       },
     },
     layout: {
       autoPadding: true,
-      // padding: {
-      //   top: 20,
-      //   right: 20,
-      //   bottom: 20,
-      //   left: 20,
-      // },
+      padding: {
+        top: 20,
+        right: 52,
+        bottom: 20,
+        left: 52,
+      },
     },
   };
 
