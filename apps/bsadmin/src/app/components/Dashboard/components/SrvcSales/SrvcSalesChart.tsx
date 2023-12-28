@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import Legend from "./Legend";
@@ -34,7 +34,7 @@ const SrvcSalesChart = () => {
   return (
     <Box>
       <Stack alignItems="center">
-        <Box sx={{ width: 200, height: 200, my: 5 }}>
+        <Box sx={{ mt: 2, mb: 4 }}>
           <PieContent
             salesLabels={salesLabels}
             salesColors={salesColors}
@@ -42,7 +42,9 @@ const SrvcSalesChart = () => {
           />
         </Box>
       </Stack>
-
+      <Stack direction="row" justifyContent="flex-end" sx={{ mb: 2.5 }}>
+        <Typography variant="body2">단위: 백만원</Typography>
+      </Stack>
       <Legend
         salesData={salesData}
         salesLabels={salesLabels}
