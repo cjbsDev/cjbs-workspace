@@ -55,7 +55,7 @@ const Index = () => {
           <Stack direction="row" justifyContent="flex-end">
             <Typography variant="body2">단위: 백만원</Typography>
           </Stack>
-          <Stack sx={{ height: 350 }}>
+          <Stack sx={{ height: 340 }}>
             <Charts
               slsList={slsList}
               labels={labels}
