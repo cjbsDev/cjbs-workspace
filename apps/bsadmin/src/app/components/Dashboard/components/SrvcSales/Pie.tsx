@@ -48,24 +48,26 @@ const PieContent = (props: PieProps) => {
       },
       datalabels: {
         color: "#ffffff", // 라벨의 색상
+        offset: 35,
         borderColor: "white",
+        // backgroundColor: "grey",
         borderRadius: 25,
         borderWidth: 1,
         textAlign: "right",
         anchor: "center",
-        // align: "end",
+        align: "end",
+        padding: 3,
         font: {
           size: 12, // 글꼴 크기
           // weight: "bold", // 글꼴 두께
         },
-        // padding: 20,
         formatter: (value, context) => {
           // console.log("PIE@@@@@@@", context.chart.data.datasets[0].data);
           // console.log("PIE!!!!!!!", context.chart.data.datasets.data); context.chart.data.datasets[0].data[context.dataIndex]
           // console.log("PIE!!!!!!!", value);
           const label = context.chart.data.labels[context.dataIndex];
           const commasValue = formatNumberWithCommas(value);
-          return `${label}-${commasValue}`;
+          return `${commasValue}`;
         },
       },
     },
@@ -73,9 +75,9 @@ const PieContent = (props: PieProps) => {
       autoPadding: true,
       // padding: {
       //   top: 20,
-      //   right: 100,
+      //   right: 20,
       //   bottom: 20,
-      //   left: 100,
+      //   left: 20,
       // },
     },
   };

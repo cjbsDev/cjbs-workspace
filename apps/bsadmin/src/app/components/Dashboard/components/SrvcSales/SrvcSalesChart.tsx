@@ -42,17 +42,15 @@ const SrvcSalesChart = () => {
 
   return (
     <Box ref={anchorRef}>
-      <Stack alignItems="center">
-        <Box sx={{ mt: 2, mb: 4 }}>
-          <PieContent
-            salesLabels={salesLabels}
-            salesColors={salesColors}
-            salesData={salesData}
-          />
-        </Box>
+      <Stack alignItems="center" sx={{ height: 350 }}>
+        <PieContent
+          salesLabels={salesLabels}
+          salesColors={salesColors}
+          salesData={salesData}
+        />
       </Stack>
       <Stack direction="row" justifyContent="flex-end" sx={{ mb: 2.5 }}>
-        <Typography variant="body2">단위: 백만원</Typography>
+        <Typography variant="body2">단위: 만원</Typography>
       </Stack>
       <Legend
         salesData={salesData}
