@@ -75,7 +75,7 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li>
                 <Typography variant="body2">
-                  Raw data는 fastq 또는 fasta 파일로 전달바랍니다.
+                  파일 전달 방법 기재 필요.
                 </Typography>
               </li>
               <li>

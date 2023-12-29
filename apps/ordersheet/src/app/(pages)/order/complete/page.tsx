@@ -270,21 +270,27 @@ const Page = () => {
                       <Typography variant="subtitle2">샘플 접수</Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <Typography variant="subtitle2">NGS 실험실</Typography>
-                        <Typography variant="body2">
-                          (16495) 경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크
-                          블루동 12층
-                        </Typography>
+                      <Stack direction="column" spacing={2} alignItems="flex-start" justifyContent="center">
+                        <Stack direction="row" spacing={1} alignItems="flex-start">
+                          <Typography variant="subtitle2">NGS 실험실</Typography>
+                          <Typography variant="body2">
+                            (16495) 경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크
+                            블루동 12층
+                          </Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <MyIcon icon="telephone" size={20} />
+                          <Typography variant="body2">031-8077-0670</Typography>
+                        </Stack>
                       </Stack>
                     </Grid>
                     <Grid item xs={2}>
                       <Typography variant="subtitle2">연락처</Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Stack direction="row" spacing={2} alignItems="center">
+                      <Stack direction="row" spacing={1} alignItems="center">
                         <MyIcon icon="telephone" size={20} />
-                        <Typography variant="body2">Tel 02-6078-3456</Typography>
+                        <Typography variant="body2">02-6078-3456</Typography>
                         <MyIcon icon="mail-fill" size={20} />
                         <Typography variant="subtitle2">
                           E-mail bs.ngs@cj.net
@@ -367,7 +373,7 @@ const Page = () => {
                           1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
                         </Typography>
                         <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석 결과는 EzBioCloud로 업로드됩니다.
+                          2. 분석 결과는 HTML 웹리포트로 제공합니다.
                         </Typography>
                         <Typography variant="body2">
                           3. DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타 환경샘플)은 1개월 후 자동폐기됩니다.
@@ -493,7 +499,7 @@ const Page = () => {
                           1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
                         </Typography>
                         <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석 결과는 EzBioCloud로 업로드됩니다.
+                          2. 분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                         </Typography>
                         <Typography variant="body2">
                           3. 그룹정보가 있을 경우,그룹명도 함께 기재 바랍니다.
@@ -519,7 +525,7 @@ const Page = () => {
                     {serviceParam === 'ao' ? (
                       <Grid item xs={10}>
                         <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 분석 결과는 EzBioCloud로 업로드됩니다.
+                          1. 분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                         </Typography>
                         <Typography variant="body2">
                           2. 그룹정보가 있을 경우,그룹명도 함께 기재 바랍니다.
@@ -547,9 +553,9 @@ const Page = () => {
                         <Typography variant="body2" color={cjbsTheme.palette.error.main}>
                           1. 주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석결과는 EzBioCloud로 업로드 되오니, 위 해당칸에 EzBioCloud ID를 반드기 기재 바랍니다.
-                        </Typography>
+                        {/*<Typography variant="body2" color={cjbsTheme.palette.error.main}>*/}
+                        {/*  2. 분석결과는 EzBioCloud로 업로드 되오니, 위 해당칸에 EzBioCloud ID를 반드기 기재 바랍니다.*/}
+                        {/*</Typography>*/}
                         <Typography variant="body2">
                           3. RNA샘플은 반송이 불가하며,서비스 완료 후 1개월 후 자동폐기됩니다.
                         </Typography>
