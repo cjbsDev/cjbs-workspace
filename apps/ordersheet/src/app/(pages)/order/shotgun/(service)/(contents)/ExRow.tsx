@@ -161,7 +161,7 @@ const ExRow = ( props:any ) => {
                   disabled
                 />
                 <Typography variant="body2" sx={{ color: "#999FA4" }}>
-                  체크한 "Control" 그룹과 "Treatment" 그룹을 비교 분석합니다.
+                  (체크한 "Control" 그룹과 "Treatment" 그룹을 비교 분석합니다.)
                 </Typography>
               </Stack>
             </TableCell>

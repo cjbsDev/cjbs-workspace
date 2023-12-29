@@ -236,7 +236,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
             </li>
             <li>
               <Typography variant="body2">
-                하나의 비교 당 최대 5개까지 가능합니다
+                한 개 세트당 최대 5개 샘플까지 선택 가능합니다.​
               </Typography>
             </li>
             <li>
