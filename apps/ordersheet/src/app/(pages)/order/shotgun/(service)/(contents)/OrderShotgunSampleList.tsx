@@ -89,7 +89,7 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>Sequencing Depth <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -121,7 +121,7 @@ export default function OrderShotgunSampleList(props: any) {
       case "so":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+            <TH sx={{ width: "20%" }}>Sequencing Depth <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
