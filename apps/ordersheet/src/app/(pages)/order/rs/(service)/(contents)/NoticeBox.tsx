@@ -32,7 +32,7 @@ const NoticeBox = ( props:any ) => {
               </li>
               <li style={{ color: "#EF151E" }}>
                 <Typography variant="body2">
-                  분석 결과는 EzBioCloud로 업로드됩니다.
+                  분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                 </Typography>
               </li>
               <li>
@@ -85,7 +85,7 @@ const NoticeBox = ( props:any ) => {
             <ul>
               <li style={{ color: "#EF151E" }}>
                 <Typography variant="body2">
-                  분석 결과는 EzBioCloud로 업로드됩니다.
+                  분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                 </Typography>
               </li>
               <li>
@@ -141,11 +141,11 @@ const NoticeBox = ( props:any ) => {
                   주문서 샘플명과 튜브 샘플명의 표기가 매칭되도록 기입해주세요.
                 </Typography>
               </li>
-              <li style={{ color: "#EF151E" }}>
-                <Typography variant="body2">
-                  분석결과는 EzBioCloud로 업로드 되오니, 위 해당칸에 EzBioCloud ID를 반드기 기재 바랍니다.
-                </Typography>
-              </li>
+              {/*<li style={{ color: "#EF151E" }}>*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    분석결과는 EzBioCloud로 업로드 되오니, 위 해당란에 EzBioCloud ID를 반드기 기재 바랍니다.*/}
+              {/*  </Typography>*/}
+              {/*</li>*/}
               <li>
                 <Typography variant="body2">
                   RNA샘플은 반송이 불가하며,서비스 완료 후 1개월 후 자동폐기됩니다.

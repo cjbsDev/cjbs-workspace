@@ -51,19 +51,19 @@ export default function OrderRsSampleList(props: any) {
       case "so":
         return (
           <>
-            <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-              <TD sx={{ width: "80%" }}>
-                <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyPrepSelectbox
-                      url={`/code/orsh/pltf/list?type=rs_${serviceType}`}
-                      inputName={"pltfMc"}
-                    />
-                  </ErrorContainer>
-                </Stack>
-              </TD>
-            </TableRow>
+            {/*<TableRow>*/}
+            {/*  <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>*/}
+            {/*  <TD sx={{ width: "80%" }}>*/}
+            {/*    <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
+            {/*      <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*        <LazyPrepSelectbox*/}
+            {/*          url={`/code/orsh/pltf/list?type=rs_${serviceType}`}*/}
+            {/*          inputName={"pltfMc"}*/}
+            {/*        />*/}
+            {/*      </ErrorContainer>*/}
+            {/*    </Stack>*/}
+            {/*  </TD>*/}
+            {/*</TableRow>*/}
             <TableRow>
               <TH sx={{ width: "20%" }}>Library kit 정보</TH>
               <TD sx={{ width: "80%" }}>
