@@ -74,6 +74,7 @@ export function SelectBox2({ options, ...props }) {
     <ThemeProvider theme={cjbsTheme}>
       <NativeSelect
         {...props}
+        defaultValue={props.defaultValue}
         color="secondary"
         disableUnderline={true}
         sx={{

@@ -89,7 +89,8 @@ export default function RsSequencing(){
       },
       commonInput: {
         libKit : data.libKit,
-        pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
+        // pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
+        pltfMc : 'BS_0100008005',
       },
       custAgnc : {
         addEmailList : data.addEmailList,

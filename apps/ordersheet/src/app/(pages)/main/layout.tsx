@@ -72,7 +72,7 @@ export default function RootLayout({
 
             </Box>
 
-            <Box
+            <Stack
                 sx={{
                     mb: 0,
                     mt: 0,
@@ -84,35 +84,36 @@ export default function RootLayout({
                     flexDirection: "column",
                 }}
             >
-                <Container disableGutters={true} sx={{display: "flex", justifyContent: 'space-between', alignItems: 'space-between'}}>
-                    <Box sx={{ marginTop: 4 }}>
-                        <Stack direction="row" spacing={3}>
-                            <Box sx={{mt:1.5}}>
-                                <Image src={mailImg} alt="mailImg" width={60} />
-                            </Box>
-                            <Box>
-                                <Typography variant="subtitle1" sx={{ fontWeight: "600" }} >
-                                    상담이 필요하신가요?
-                                </Typography>
-                                <Typography variant="body2" sx={{}} >
-                                    Email 로 문의를 보내주시면 빠른 시일 내로 회신드리겠습니다. CG
-                                    및 GRIIS 서비스는 별도 문의 부탁드립니다.
-                                </Typography>
-                            </Box>
-                        </Stack>
-                    </Box>
-                    <Box>
+                <Container disableGutters={true} sx={{display: "flex", justifyContent: 'space-between', alignItems: 'space-between', height: '100%'}}>
+                  <Stack direction="row" spacing={3} alignItems="center" justifyContent="space-between" sx={{width: '100%'}}>
+                    <Stack direction="row" spacing={3} alignItems="center">
+                      <Image src={mailImg} alt="mailImg" width={60} />
+                      <Box>
+                        <Typography variant="subtitle1" sx={{ fontWeight: "600" }} >
+                          상담이 필요하신가요?
+                        </Typography>
+                        <Typography variant="body2" sx={{}} >
+                          Email 로 문의를 보내주시면 빠른 시일 내로 회신드리겠습니다. CG
+                          및 GRIIS 서비스는 별도 문의 부탁드립니다.
+                        </Typography>
+                        <Typography variant="body2" sx={{}} >
+                          Tel 02-6078-3456 ㅣ E-mail bs.ngs@cj.net
+                        </Typography>
+                      </Box>
+                    </Stack>
+                    <Stack direction="row" spacing={3} alignItems="center" justifyContent="center">
                         <Link href="mailto:bs.ngs@cj.net" target="_top">
                             <OutlinedButton
-                                sx={{ width: "300px", borderRadius:'10px', marginTop: 5, backgroundColor: '#FFF'}}
+                                sx={{ width: "300px", borderRadius:'10px', backgroundColor: '#FFF'}}
                                 buttonName='문의하기'
                                 startIcon={<MyIcon icon="mail" size={18} />}
                                 size="medium"
                             />
                         </Link>
-                    </Box>
+                    </Stack>
+                  </Stack>
                 </Container>
-            </Box>
+            </Stack>
         </>
     );
 }

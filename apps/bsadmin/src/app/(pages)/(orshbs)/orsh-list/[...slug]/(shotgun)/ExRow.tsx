@@ -1,5 +1,5 @@
 import React from "react";
-import {Box, TableCell, TableRow, Typography} from "@mui/material";
+import {Box, TableCell, TableRow, Typography, Stack} from "@mui/material";
 import {CheckboxSV, cjbsTheme} from "cjbsDSTM";
 
 const ExRow = ( props:any ) => {
@@ -135,33 +135,35 @@ const ExRow = ( props:any ) => {
               </Typography>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-              {/*<Typography variant="body2" sx={{ color: "#666" }}>*/}
-              {/*  Cotrol, Disease, Treatment*/}
-              {/*</Typography>*/}
-              <CheckboxSV
-                inputName="test1"
-                labelText="Cotrol"
-                value=""
-                inputProps={{
-                  checked: true
-                }}
-                disabled
-              />
-              <CheckboxSV
-                inputName="test2"
-                labelText="Disease"
-                value=""
-                disabled
-              />
-              <CheckboxSV
-                inputName="test3"
-                labelText="Treatment"
-                value=""
-                inputProps={{
-                  checked: true
-                }}
-                disabled
-              />
+              <Stack direction="row" spacing={1} alignItems="center" justifyContent="flex-start" sx={{width: '100%'}}>
+                <CheckboxSV
+                  inputName="test1"
+                  labelText="Cotrol"
+                  value=""
+                  inputProps={{
+                    checked: true
+                  }}
+                  disabled
+                />
+                <CheckboxSV
+                  inputName="test2"
+                  labelText="Disease"
+                  value=""
+                  disabled
+                />
+                <CheckboxSV
+                  inputName="test3"
+                  labelText="Treatment"
+                  value=""
+                  inputProps={{
+                    checked: true
+                  }}
+                  disabled
+                />
+                <Typography variant="body2" sx={{ color: "#999FA4" }}>
+                  (체크한 "Control" 그룹과 "Treatment" 그룹을 비교 분석합니다.)
+                </Typography>
+              </Stack>
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
           </TableRow>
