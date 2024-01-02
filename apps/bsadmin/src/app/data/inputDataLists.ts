@@ -52,6 +52,7 @@ export const dateTypeCcData = [
 // 2021년 부터 올해까지
 const startYear = 2021;
 const currentYear = new Date().getFullYear();
+// const currentYear = 2023;
 const yearOptions = [];
 
 for (let year = startYear; year <= currentYear; year++) {

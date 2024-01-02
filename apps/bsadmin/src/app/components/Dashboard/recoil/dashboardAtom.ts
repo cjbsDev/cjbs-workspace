@@ -16,12 +16,12 @@ const { year, month, quarter, half } = getCurrentDateInfo();
 // 대시보드 상태 정의
 export const startYearAtom = atom({
   key: "startYearAtom",
-  default: year,
+  default: 2023,
 });
 
 export const endYearAtom = atom({
   key: "endYearAtom",
-  default: year,
+  default: 2023,
 });
 
 export const dashboardYearAtom = atom({
@@ -36,7 +36,8 @@ export const startMonthAtom = atom({
 
 export const endMonthAtom = atom({
   key: "endMonthAtom",
-  default: month,
+  default: 12,
+  // default: month,
 });
 
 export const dashboardMonthAtom = atom({
