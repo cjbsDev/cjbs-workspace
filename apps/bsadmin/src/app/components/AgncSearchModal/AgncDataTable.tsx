@@ -9,8 +9,8 @@ import { Box } from "@mui/material";
 const AgncDataTable = ({ handleClose }) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
-  const { setValue } = useFormContext();
-  const { data } = useSWR(`/agnc/list??page=${page}&size=${size}`, fetcher, {
+  const { setValue, clearErrors } = useFormContext();
+  const { data } = useSWR(`/agnc/list?page=${page}&size=${size}`, fetcher, {
     suspense: true,
   });
 
@@ -44,7 +44,12 @@ const AgncDataTable = ({ handleClose }) => {
         name: "선택",
         width: "80px",
         center: true,
-        cell: (row) => {
+        cell: (row: {
+          agncUkey: string;
+          agncNm: string;
+          instNm: string;
+          rmnPrice: number;
+        }) => {
           return (
             <OutlinedButton
               size="small"
@@ -53,6 +58,8 @@ const AgncDataTable = ({ handleClose }) => {
                 setValue("agncUkey", row.agncUkey);
                 setValue("agncNm", row.agncNm);
                 setValue("instNm", row.instNm);
+                setValue("rmnPrice", row.rmnPrice);
+                clearErrors(["agncUkey", "agncNm", "instNm", "rmnPrice"]);
                 handleClose();
               }}
             />
@@ -90,7 +97,7 @@ const AgncDataTable = ({ handleClose }) => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        paginationPerPage={10}
+        paginationPerPage={15}
         paginationRowsPerPageOptions={[10, 15, 20]}
       />
     </Box>
