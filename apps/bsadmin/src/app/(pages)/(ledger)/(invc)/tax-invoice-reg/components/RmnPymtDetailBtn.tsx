@@ -17,6 +17,7 @@ const RmnPymtDetailBtn = () => {
     >
       <MyIcon
         icon={!show ? "plus" : "minus"}
+        color={"black"}
         size={18}
         onClick={() => {
           setShow(!show);

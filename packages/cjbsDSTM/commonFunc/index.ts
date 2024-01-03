@@ -32,3 +32,11 @@ export const transformedNullToHyphon = (resData) => {
   }, {});
   return transformedData;
 };
+
+export const validateAndFormatEmail = (email) => {
+  const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+  if (emailRegex.test(email)) {
+    return email.toLowerCase();
+  }
+  return ""; // or you can return false or throw an error based on your preference
+};
