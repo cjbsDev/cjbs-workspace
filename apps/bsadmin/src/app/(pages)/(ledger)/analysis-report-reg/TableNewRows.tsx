@@ -76,7 +76,7 @@ const TableNewRows = (props:any) => {
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
-      // console.log("************", response.data);
+      console.log("************", response.data);
       const resData = response.data;
       if (response.success) {
         // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", index)
@@ -144,7 +144,7 @@ const TableNewRows = (props:any) => {
 
       let disCountPercent: number = 0;
       if (unitPrice >= 0 ) {
-        if (isNaN(stndPrice)) {
+        if (isNaN(stndPrice) || stndPrice === 0) {
           disCountPercent = 0;
           setValue(`sample.[${index}].dscntPctg`, "N/A");
         } else {
@@ -189,20 +189,18 @@ const TableNewRows = (props:any) => {
 
     console.log("supplyPrice", supplyPrice);
     console.log("stndSupplyPrice", stndSupplyPrice);
-    if((supplyPrice - stndSupplyPrice) > 1000) {
-      // toast(`금액이 1,000원 이상 변경 되었습니다. </br> 원래공급가액 ${stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 으로 변경됩니다.`);
+    if((supplyPrice - stndSupplyPrice) > 10) {
       toast(
         <>
-          <Typography variant="body2">금액이 1,000원 이상 변경 되었습니다.</Typography>
+          <Typography variant="body2">금액이 10원 이상 변경 되었습니다.</Typography>
           <Typography variant="body2">공급금액을 다시 입력해주세요.</Typography>
         </>
       );
       setValue(`sample.[${index}].supplyPrice`, stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    } else if ((supplyPrice - stndSupplyPrice) < -1000) {
-      // toast(`-1,000원 이상 입니다. 원래공급가액 ${stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원 으로 변경됩니다.`);
+    } else if ((supplyPrice - stndSupplyPrice) < -10) {
       toast(
         <>
-          <Typography variant="body2">금액이 1,000원 이상 변경 되었습니다.</Typography>
+          <Typography variant="body2">금액이 10원 이상 변경 되었습니다.</Typography>
           <Typography variant="body2">공급금액을 다시 입력해주세요.</Typography>
         </>
       );
@@ -354,7 +352,7 @@ const TableNewRows = (props:any) => {
               onFocus={handleOnFocus}
               sx={{
                 width: 150,
-                // display: "none",
+                display: "none",
                 ".MuiOutlinedInput-input": {
                   textAlign: "end",
                 },

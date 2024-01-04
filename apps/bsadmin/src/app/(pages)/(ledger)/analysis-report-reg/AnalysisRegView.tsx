@@ -117,10 +117,17 @@ const AnalysisRegView = () => {
 
     const sampleUkeyList = () => {
       let sampleList = data.sample;
+
       sampleList.map((item, index) => {
         console.log("item", item);
-        console.log("selectSampleListData", selectSampleListData[item.srvcTypeMc]["sampleUkey"] );
-        sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+        // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
+        if(selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
+          console.log("selectSampleListData", selectSampleListData[item.srvcTypeMc]["sampleUkey"] );
+          sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+        } else {
+          sampleList[index]["sampleUkey"] = [];
+        }
+        // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
         sampleList[index]["stndPrice"] = Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
         sampleList[index]["supplyPrice"] = Number(sampleList[index]["supplyPrice"].replaceAll(",", ""));
         sampleList[index]["unitPrice"] = Number(sampleList[index]["unitPrice"].replaceAll(",", ""));
@@ -153,13 +160,11 @@ const AnalysisRegView = () => {
     .then((response) => {
       console.log("POST request successful:", response);
       if (response.success) {
+        toast("등록 되었습니다.");
         setIsLoading(false);
-        if (orshUK !== null) {
-          mutate(apiUrl);
-          router.push("/analysis-report-list");
-        } else {
-          // router.push("/order-list");
-        }
+        mutate(apiUrl);
+        router.push("/analysis-report-list");
+
       } else {
         toast(response.message);
       }

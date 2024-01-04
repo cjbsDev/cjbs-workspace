@@ -35,6 +35,7 @@ import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
 import CategorySelectModal from "./CategorySelectModal";
+import {bold} from "next/dist/lib/picocolors";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -67,6 +68,7 @@ const ListRun = () => {
   console.log("RUN LIST DATA", data);
   const anlsItstList = data.anlsItstList;
   const totalElements = data.pageInfo.totalElements;
+  const totalPrice = data.totalPrice;
   const [filterText, setFilterText] = useState("");
   const [checked, setChecked] = useState(false);
   const router = useRouter();
@@ -84,7 +86,7 @@ const ListRun = () => {
     () => [
       {
         name: "No",
-        width: "70px",
+        width: "80px",
         center: true,
         // sortable: true,
         selector: (row, index) => row.anlsItstId,
@@ -217,9 +219,8 @@ const ListRun = () => {
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
+        <Grid item xs={12} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
             <ContainedButton
               buttonName="분석 내역서 등록"
               size="small"
@@ -227,19 +228,43 @@ const ListRun = () => {
             />
           </Stack>
         </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <Grid item xs={12} sx={{mt: 2}}>
           <Stack
             direction="row"
+            justifyContent="space-between"
             spacing={1}
-            sx={{ mb: 1.5 }}
+            sx={{ mb: 0.5 }}
             alignItems="center"
           >
-            <FileDownloadBtn
-              exportUrl={`/anls/itst/list/download${result}`}
-              iconName="xls3"
-            />
-            <KeywordSearch />
-            <ResultInSearch/>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <DataCountResultInfo totalCount={totalElements} />
+                <Typography variant="body2" sx={{ width: "max-content", pb: '2px' }}>
+                  총 누적 금액{" "}
+                  <Box
+                    component="b"
+                    sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main, }}
+                  >
+                    {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  </Box>{" "}
+                  원
+                </Typography>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+            >
+              <FileDownloadBtn
+                exportUrl={`/anls/itst/list/download${result}`}
+                iconName="xls3"
+              />
+              <KeywordSearch />
+              <ResultInSearch/>
+            </Stack>
           </Stack>
         </Grid>
       </Grid>
@@ -286,7 +311,7 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1028px'} align="center" rowSpan={10}>
+                    <TableCell width={'1038px'} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>

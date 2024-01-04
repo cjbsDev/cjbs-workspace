@@ -273,7 +273,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
                 </Stack>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-                <Typography variant="subtitle2">할인율</Typography>
+                <Typography variant="subtitle2">사용할인율</Typography>
               </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
                 <Typography variant="subtitle2">사유</Typography>
