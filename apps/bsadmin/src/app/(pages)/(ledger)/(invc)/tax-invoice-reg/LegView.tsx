@@ -6,8 +6,10 @@ import {
   ErrorContainer,
   Fallback,
   Form,
+  InputPriceType,
   InputValidation,
   OutlinedButton,
+  SingleDatePicker,
   TD,
   TH,
   Title1,
@@ -41,6 +43,9 @@ import RepresentName from "./components/RepresentName";
 import DynamicTable from "./components/DynamicTable";
 import DynamicSumTable from "./components/DynamicSumTable";
 import { POST } from "api";
+import { NumericFormat } from "react-number-format";
+import { Controller } from "react-hook-form";
+import InputDpstPrice from "./components/InputDpstPrice";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./components/RmnPymtPriceDetail"),
@@ -103,12 +108,12 @@ const LegView = () => {
       bsnsMngrUkey: bsnsMngr,
       // dpstDttm: "",
       // dpstPrice: 0,
+      // pyrNm: "",
       instUkey: instUkey,
       invcProductDetailList: detailList,
       memo: memo,
       pymtInfoCc: pymtInfoCc,
       pymtMngrNm: pymtMngrNm,
-      // pyrNm: "",
       rcvEmail: email,
       report: report,
       // tnsfTargetAgncUkey: "",
@@ -212,7 +217,7 @@ const LegView = () => {
           <TableBody>
             <TableRow>
               <TH sx={{ width: "15%" }}>결제구분</TH>
-              <TD sx={{ width: "85%" }}>
+              <TD sx={{ width: "85%" }} colSpan={5}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <PaymentType />
                 </ErrorContainer>
@@ -220,7 +225,7 @@ const LegView = () => {
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>남은금액</TH>
-              <TD sx={{ width: "85%" }}>
+              <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" justifyContent="space-between">
                   <RmnPymtPrice />
                   <RmnPymtDetailBtn />
@@ -230,6 +235,28 @@ const LegView = () => {
                     <LazyRmnPymtPriceDetail />
                   </ErrorContainer>
                 )}
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>입금액</TH>
+              <TD>
+                <InputDpstPrice />
+              </TD>
+              <TH sx={{ width: "15%" }}>입금일자</TH>
+              <TD>
+                <SingleDatePicker
+                  inputName="dpstDttm"
+                  required={true}
+                  errorMessage="날짜를 입력하세요"
+                />
+              </TD>
+              <TH sx={{ width: "15%" }}>입금자명</TH>
+              <TD>
+                <InputValidation
+                  inputName="pyrNm"
+                  required={true}
+                  errorMessage="입금자명을 입력하세요."
+                />
               </TD>
             </TableRow>
           </TableBody>

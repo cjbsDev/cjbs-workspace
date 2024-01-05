@@ -47,8 +47,8 @@ const DynamicSumTable = () => {
       <Table>
         <TableBody>
           <TableRow>
-            <TH sx={{ width: "10%" }}>총 공급가액</TH>
-            <TD sx={{ width: "23%" }} align="right">
+            <TH sx={{ width: "15%" }}>총 공급가액</TH>
+            <TD align="right">
               <Stack direction="row" spacing={0.5} justifyContent="flex-end">
                 <Typography variant="body2">
                   {formatNumberWithCommas(totalSupplyPrice)}
@@ -56,8 +56,8 @@ const DynamicSumTable = () => {
                 <Typography variant="body2">원</Typography>
               </Stack>
             </TD>
-            <TH sx={{ width: "10%" }}>부가세</TH>
-            <TD sx={{ width: "23%" }} align="right">
+            <TH sx={{ width: "15%" }}>부가세</TH>
+            <TD align="right">
               <Stack direction="row" spacing={0.5} justifyContent="flex-end">
                 <Typography variant="body2">
                   {formatNumberWithCommas(vatValue)}
@@ -65,8 +65,8 @@ const DynamicSumTable = () => {
                 <Typography variant="body2">원</Typography>
               </Stack>
             </TD>
-            <TH sx={{ width: "10%" }}>합계금액</TH>
-            <TD sx={{ width: "23%" }} align="right">
+            <TH sx={{ width: "15%" }}>합계금액</TH>
+            <TD align="right">
               <Stack direction="row" spacing={0.5} justifyContent="flex-end">
                 <Typography variant="body2">
                   {formatNumberWithCommas(supplyPlusVatTotalValue)}

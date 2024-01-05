@@ -139,6 +139,7 @@ export const InputPriceType = ({ ...props }: TextFieldProps) => {
     <ThemeProvider theme={cjbsTheme}>
       <TextField
         {...props}
+        fullWidth
         size="small"
         variant="outlined"
         sx={{
