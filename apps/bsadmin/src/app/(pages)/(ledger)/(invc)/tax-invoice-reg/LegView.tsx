@@ -6,8 +6,6 @@ import {
   ErrorContainer,
   Fallback,
   Form,
-  formatBusinessRegNo,
-  formatPhoneNumber,
   InputValidation,
   OutlinedButton,
   TD,
@@ -22,9 +20,7 @@ import {
   styled,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
@@ -37,18 +33,14 @@ import NGSSalesManagerSelectbox from "../../../../components/NGSSalesManagerSele
 import PaymentType from "../../../../components/PaymentType";
 import RmnPymtPrice from "./components/RmnPymtPrice";
 import RmnPymtDetailBtn from "./components/RmnPymtDetailBtn";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { rmnPriceDetailShowAtom } from "./atom";
 import InstSearchModal from "../../../../components/InstSearchModal";
 import BusinessRegNo from "./components/BusinessRegNo";
 import RepresentName from "./components/RepresentName";
-import ServiceCategoryType from "../../../../components/ServiceCategoryType";
-import ServiceCategorySelectbox from "../../../../components/ServiceCategorySelectbox";
-import AnlsTypeSelectbox from "../../../../components/AnlsTypeSelectbox";
-import ProductName from "./components/ProductName";
 import DynamicTable from "./components/DynamicTable";
-import RowAddBtn from "./components/RowAddBtn";
 import DynamicSumTable from "./components/DynamicSumTable";
+import { POST } from "api";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./components/RmnPymtPriceDetail"),
@@ -61,15 +53,6 @@ const LazyRmnPymtPriceDetail = dynamic(
     ),
   },
 );
-
-// const LazyProductName = dynamic(() => import("./components/ProductName"), {
-//   ssr: false,
-//   loading: () => (
-//     <Typography variant="body2" color="secondary">
-//       Loading...
-//     </Typography>
-//   ),
-// });
 
 const LegView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -84,10 +67,10 @@ const LegView = () => {
       {
         srvcCtgrMc: "BS_0100005001",
         anlsTypeMc: "",
+        products: "",
         qnty: 0,
         unitPrice: 0,
         supplyPrice: 0,
-        products: "",
       },
     ],
   };
@@ -95,6 +78,53 @@ const LegView = () => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     console.log("Form Data ==>>", data);
+    const {
+      // agncNm,
+      // instNm,
+      detailList,
+      agncUkey,
+      bsnsMngr,
+      pymtInfoCc,
+      rmnPrice,
+      instUkey,
+      rprsNm,
+      brno,
+      pymtMngrNm,
+      email,
+      memo,
+      report,
+      vat,
+      totalPrice,
+      totalSupplyPrice,
+    } = data;
+
+    const bodyData = {
+      agncUkey: agncUkey,
+      bsnsMngrUkey: bsnsMngr,
+      // dpstDttm: "",
+      // dpstPrice: 0,
+      instUkey: instUkey,
+      invcProductDetailList: detailList,
+      memo: memo,
+      pymtInfoCc: pymtInfoCc,
+      pymtMngrNm: pymtMngrNm,
+      // pyrNm: "",
+      rcvEmail: email,
+      report: report,
+      // tnsfTargetAgncUkey: "",
+      totalPrice: totalPrice,
+      totalSupplyPrice: totalSupplyPrice,
+      vat: vat,
+    };
+
+    await POST(`/invc`, bodyData)
+      .then((res) => {
+        console.log("RTRTRTRTRTRTRT", res);
+      })
+      .catch()
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // 거래처 검색 모달
@@ -137,15 +167,15 @@ const LegView = () => {
                       readOnly: true,
                     }}
                   />
-                  <InputValidation
-                    sx={{ display: "none" }}
-                    inputName="instNm"
-                    required={true}
-                    // errorMessage="기관을 입력해 주세요"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
+                  {/*<InputValidation*/}
+                  {/*  sx={{ display: "none" }}*/}
+                  {/*  inputName="instNm"*/}
+                  {/*  required={true}*/}
+                  {/*  // errorMessage="기관을 입력해 주세요"*/}
+                  {/*  InputProps={{*/}
+                  {/*    readOnly: true,*/}
+                  {/*  }}*/}
+                  {/*/>*/}
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="agncUkey"
@@ -208,51 +238,6 @@ const LegView = () => {
 
       <DynamicTable />
       <DynamicSumTable />
-
-      {/*<TableContainer sx={{ mb: 5 }}>*/}
-      {/*  <Table>*/}
-      {/*    <TableBody>*/}
-      {/*      <TableRow>*/}
-      {/*        <TH sx={{ width: "10%" }}>총 공급가액</TH>*/}
-      {/*        <TD sx={{ width: "23%" }}>*/}
-      {/*          <InputValidation*/}
-      {/*            inputName="totalSupplyPrice"*/}
-      {/*            required={true}*/}
-      {/*            errorMessage="dsssdfsdf"*/}
-      {/*            InputProps={{*/}
-      {/*              readOnly: true,*/}
-      {/*            }}*/}
-      {/*            disabled={true}*/}
-      {/*          />*/}
-      {/*        </TD>*/}
-      {/*        <TH sx={{ width: "10%" }}>부가세</TH>*/}
-      {/*        <TD sx={{ width: "23%" }}>*/}
-      {/*          <InputValidation*/}
-      {/*            inputName="totalPrice"*/}
-      {/*            required={true}*/}
-      {/*            errorMessage="dsssdfsdf"*/}
-      {/*            InputProps={{*/}
-      {/*              readOnly: true,*/}
-      {/*            }}*/}
-      {/*            disabled={true}*/}
-      {/*          />*/}
-      {/*        </TD>*/}
-      {/*        <TH sx={{ width: "10%" }}>합계금액</TH>*/}
-      {/*        <TD sx={{ width: "23%" }}>*/}
-      {/*          <InputValidation*/}
-      {/*            inputName="totalPrice"*/}
-      {/*            required={true}*/}
-      {/*            errorMessage="dsssdfsdf"*/}
-      {/*            InputProps={{*/}
-      {/*              readOnly: true,*/}
-      {/*            }}*/}
-      {/*            disabled={true}*/}
-      {/*          />*/}
-      {/*        </TD>*/}
-      {/*      </TableRow>*/}
-      {/*    </TableBody>*/}
-      {/*  </Table>*/}
-      {/*</TableContainer>*/}
 
       <Typography variant="subtitle1">발행처정보</Typography>
       <TableContainer sx={{ mb: 5 }}>

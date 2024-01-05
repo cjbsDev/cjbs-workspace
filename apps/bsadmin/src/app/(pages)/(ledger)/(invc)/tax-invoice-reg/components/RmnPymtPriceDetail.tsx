@@ -15,7 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { cjbsTheme } from "cjbsDSTM";
+import { cjbsTheme, formatNumberWithCommas } from "cjbsDSTM";
 
 const RmnPymtPriceDetail = () => {
   const { getValues } = useFormContext();
@@ -42,7 +42,7 @@ const RmnPymtPriceDetail = () => {
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
+            <TableCell>No</TableCell>
             <TableCell align="center">서비스 분류</TableCell>
             <TableCell align="center">분석 내역서</TableCell>
             <TableCell align="right">분석일</TableCell>
@@ -70,11 +70,13 @@ const RmnPymtPriceDetail = () => {
               } = item;
               return (
                 <TableRow key={anlsItstUkey}>
-                  <TableCell>{index}</TableCell>
+                  <TableCell>{index + 1}</TableCell>
                   <TableCell align="center">{srvcCtgrMcVal}</TableCell>
                   <TableCell align="center">{anlsItstUkey}</TableCell>
                   <TableCell align="right">{anlsDttm}</TableCell>
-                  <TableCell align="right">{anlsPrice}</TableCell>
+                  <TableCell align="right">
+                    {formatNumberWithCommas(anlsPrice)}
+                  </TableCell>
                 </TableRow>
               );
             },

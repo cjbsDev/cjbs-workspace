@@ -2,21 +2,21 @@ import React, { useEffect } from "react";
 import { fetcher } from "api";
 import useSWR from "swr";
 import { SelectBox } from "cjbsDSTM";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 
 interface InputNameProps {
   inputName: string;
 }
 
 const AnlsTypeSelectbox = ({ inputName }: InputNameProps) => {
-  // const { watch } = useFormContext();
-  // const srvcCtgrMcValue = watch("srvcCtgrMc");
-  // //
-  // useEffect(() => {
-  //   // props.handleOnChange(srvcCtgrMcValue);
+  const { control, setValue } = useFormContext();
+  // const useWatchTest = useWatch({
+  //   control,
+  //   name: "detailList", // without supply name will watch the entire form, or ['firstName', 'lastName'] to watch both
+  //   // defaultValue: "default", // default value before the render
+  // });
   //
-  //   console.log("AnlsType List@@@@", data);
-  // }, [srvcCtgrMcValue]);
+  // console.log("USE WatchTest ==>>", useWatchTest);
 
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=Analaysis Type&midValue=`,
@@ -33,6 +33,7 @@ const AnlsTypeSelectbox = ({ inputName }: InputNameProps) => {
       inputName={inputName}
       options={data}
       required={true}
+      errorMessage="Ssssss"
       sx={{ width: "100%" }}
     />
   );

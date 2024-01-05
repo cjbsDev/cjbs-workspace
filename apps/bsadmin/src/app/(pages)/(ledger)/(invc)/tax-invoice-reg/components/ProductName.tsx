@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useWatch } from "react-hook-form";
-import { InputValidation } from "cjbsDSTM";
+import { useFormContext, useWatch } from "react-hook-form";
 import { Typography } from "@mui/material";
+import { InputValidation } from "cjbsDSTM";
 
 interface InputNameProps {
   inputName: string;
@@ -18,44 +18,44 @@ const ProductName = ({
   control,
   index,
 }: InputNameProps) => {
-  const productValue = useWatch({
-    name: fieldName,
-    control,
-  });
+  const {
+    setValue,
+    resetField,
+    formState: { errors },
+  } = useFormContext();
+  const productValue = useWatch({ name: fieldName, control });
+  const anlsTypeMc = productValue[index]?.anlsTypeMc;
 
-  console.log("Product Vaule ==>>", productValue);
-
-  const anlsTypeMc = productValue[index].anlsTypeMc;
-
-  console.log("AnlsTypeMc Vaule ==>>", anlsTypeMc);
-
-  const { data } = useSWR(
-    anlsTypeMc !== "" ? `/mngr/esPrMng/anlsType/${anlsTypeMc}` : null,
+  const { data, error, isValidating } = useSWR(
+    anlsTypeMc ? `/mngr/esPrMng/anlsType/${anlsTypeMc}` : null,
     fetcher,
-    {
-      suspense: true,
-    },
   );
+
+  useEffect(() => {
+    if (anlsTypeMc === "BS_0100006015") {
+      resetField(inputName);
+    } else if (data) {
+      setValue(inputName, data);
+    }
+  }, [anlsTypeMc, data, inputName, resetField, setValue]);
+
+  if (error) return <Typography>오류 발생: {error.message}</Typography>;
+  if (isValidating) return <Typography>로딩 중...</Typography>;
 
   return (
     <>
-      {anlsTypeMc !== "" ? (
-        <>
-          <Typography variant="body2">{data}</Typography>
-          <InputValidation
-            sx={{ display: "none" }}
-            inputName={inputName}
-            required={true}
-            errorMessage="품명을 입력하세요."
-            disabled={true}
-          />
-        </>
-      ) : (
+      {anlsTypeMc === "" ? (
+        <Typography variant="body2" color="secondary">
+          분석 종류를 선택해 주세요
+        </Typography>
+      ) : anlsTypeMc === "BS_0100006015" ? (
         <InputValidation
           inputName={inputName}
           required={true}
           errorMessage="품명을 입력하세요."
         />
+      ) : (
+        <Typography variant="body2">{data}</Typography>
       )}
     </>
   );

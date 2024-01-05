@@ -5,6 +5,7 @@ import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 import { useFormContext, ValidationRule } from "react-hook-form";
 import debounce from "lodash.debounce";
+import { EA, Won } from "../../molecules/Adorment";
 
 type InputValidationProps = TextFieldProps & {
   required?: boolean;
@@ -127,10 +128,50 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         variant="outlined"
         sx={{
           ...props.sx,
-          // ".MuiOutlinedInput-input": {
-          //   pt: "5px",
-          //   pb: "5px",
-          // },
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputPriceType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+        InputProps={{
+          endAdornment: <Won />,
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputEAType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+        InputProps={{
+          endAdornment: <EA />,
         }}
       />
     </ThemeProvider>

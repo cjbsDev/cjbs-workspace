@@ -1,56 +1,46 @@
-import React from "react";
-import { Table, TableBody, TableContainer, TableRow } from "@mui/material";
-import { InputValidation, TD, TH } from "cjbsDSTM";
+import React, { useEffect } from "react";
+import {
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import { formatNumberWithCommas, TD, TH } from "cjbsDSTM";
 import { useFormContext, useWatch } from "react-hook-form";
 
 const DynamicSumTable = () => {
-  const { control, watch } = useFormContext();
+  const { control, setValue } = useFormContext();
   const productValue = useWatch({
     name: "detailList",
     control,
   });
 
-  console.log("Product Sum Vaule ==>>", productValue);
+  // console.log("Product Sum Vaule ==>>", productValue);
 
-  // Helper function to parse the number and remove commas
-  // const parseNumber = (str) => parseInt(str.replace(/,/g, ""), 10);
-  //
-  // // Calculating the total sum for each field
-  // const totalQuantity = productValue.reduce(
-  //   (sum, item) => sum + parseNumber(item.qnty),
-  //   0,
-  // );
-  // const totalUnitPrice = productValue.reduce(
-  //   (sum, item) => sum + parseNumber(item.unitPrice),
-  //   0,
-  // );
-  // const totalSupplyPrice = productValue.reduce(
-  //   (sum, item) => sum + parseNumber(item.supplyPrice),
-  //   0,
-  // );
-  //
-  // console.log(`Total Quantity: ${totalQuantity}`);
-  // console.log(`Total Unit Price: ${totalUnitPrice}`);
-  // console.log(`Total Supply Price: ${totalSupplyPrice}`);
+  const totalSupplyPrice = productValue.reduce(
+    (sum, item) => sum + item.supplyPrice,
+    0,
+  );
+  const vatValue = totalSupplyPrice * 0.1;
+  const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;
 
-  // const totalQuantity = productValue.reduce(
-  //   (total, item) => Number(total) + Number(item.qnty),
-  //   0,
-  // );
-  //
-  // const totalSupplyPrice = productValue.reduce(
-  //   (total, item) => Number(total) + Number(item.supplyPrice),
-  //   0,
-  // );
-  //
-  // const totalUnitPrice = productValue.reduce(
-  //   (total, item) => Number(total) + Number(item.unitPrice),
-  //   0,
-  // );
-  //
-  // console.log("총 수량", totalQuantity);
-  // console.log("총 공급가액", totalSupplyPrice);
-  // console.log("총 수량", totalUnitPrice);
+  // console.log("Total Supply Price", totalSupplyPrice);
+
+  useEffect(() => {
+    setValue("totalSupplyPrice", totalSupplyPrice);
+    setValue("vat", vatValue);
+    setValue("totalPrice", supplyPlusVatTotalValue);
+  }, [setValue, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
+
+  // useEffect(() => {
+  //   if (totalSupplyPrice > 0 && vatValue > 0 && supplyPlusVatTotalValue > 0) {
+  //     setValue("totalSupplyPrice", totalSupplyPrice);
+  //     setValue("vat", vatValue);
+  //     setValue("totalPrice", supplyPlusVatTotalValue);
+  //   }
+  // }, [setValue, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
 
   return (
     <TableContainer sx={{ mb: 5 }}>
@@ -58,40 +48,31 @@ const DynamicSumTable = () => {
         <TableBody>
           <TableRow>
             <TH sx={{ width: "10%" }}>총 공급가액</TH>
-            <TD sx={{ width: "23%" }}>
-              {/*<InputValidation*/}
-              {/*  inputName="totalSupplyPrice"*/}
-              {/*  required={true}*/}
-              {/*  errorMessage="dsssdfsdf"*/}
-              {/*  InputProps={{*/}
-              {/*    readOnly: true,*/}
-              {/*  }}*/}
-              {/*  disabled={true}*/}
-              {/*/>*/}
+            <TD sx={{ width: "23%" }} align="right">
+              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                <Typography variant="body2">
+                  {formatNumberWithCommas(totalSupplyPrice)}
+                </Typography>
+                <Typography variant="body2">원</Typography>
+              </Stack>
             </TD>
             <TH sx={{ width: "10%" }}>부가세</TH>
-            <TD sx={{ width: "23%" }}>
-              {/*<InputValidation*/}
-              {/*  inputName="totalPrice"*/}
-              {/*  required={true}*/}
-              {/*  errorMessage="dsssdfsdf"*/}
-              {/*  InputProps={{*/}
-              {/*    readOnly: true,*/}
-              {/*  }}*/}
-              {/*  disabled={true}*/}
-              {/*/>*/}
+            <TD sx={{ width: "23%" }} align="right">
+              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                <Typography variant="body2">
+                  {formatNumberWithCommas(vatValue)}
+                </Typography>
+                <Typography variant="body2">원</Typography>
+              </Stack>
             </TD>
             <TH sx={{ width: "10%" }}>합계금액</TH>
-            <TD sx={{ width: "23%" }}>
-              {/*<InputValidation*/}
-              {/*  inputName="totalPrice"*/}
-              {/*  required={true}*/}
-              {/*  errorMessage="dsssdfsdf"*/}
-              {/*  InputProps={{*/}
-              {/*    readOnly: true,*/}
-              {/*  }}*/}
-              {/*  disabled={true}*/}
-              {/*/>*/}
+            <TD sx={{ width: "23%" }} align="right">
+              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                <Typography variant="body2">
+                  {formatNumberWithCommas(supplyPlusVatTotalValue)}
+                </Typography>
+                <Typography variant="body2">원</Typography>
+              </Stack>
             </TD>
           </TableRow>
         </TableBody>

@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { useFormContext, useFieldArray, useWatch } from "react-hook-form";
+import React, { useCallback, useEffect, useState } from "react";
+import { useFormContext, useFieldArray, Controller } from "react-hook-form";
+// import InputMask from "react-input-mask";
 import {
   Checkbox,
   Stack,
@@ -13,18 +14,18 @@ import {
 import {
   cjbsTheme,
   ContainedButton,
-  EA,
   ErrorContainer,
   Fallback,
-  InputValidation,
+  InputEAType,
+  InputPriceType,
   OutlinedButton,
   TD,
   TH,
-  Won,
 } from "cjbsDSTM";
 import dynamic from "next/dynamic";
-import AmountFormat from "../../../../../components/NumberFormat/AmountFormat";
 import MyIcon from "icon/MyIcon";
+import { NumericFormat } from "react-number-format";
+import SupplyPrice from "./SupplyPrice";
 
 const LazyServiceCategorySelectbox = dynamic(
   () => import("../../../../../components/ServiceCategorySelectbox"),
@@ -61,20 +62,31 @@ const LazyProductName = dynamic(() => import("./ProductName"), {
 
 const DynamicTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
-  const { control, watch } = useFormContext();
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "detailList",
+  });
+  const watchFieldArray = watch("detailList");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index],
+    };
   });
 
   const handleAppend = () => {
     append({
       srvcCtgrMc: "BS_0100005001",
       anlsTypeMc: "",
+      products: "",
       qnty: 0,
       unitPrice: 0,
       supplyPrice: 0,
-      products: "",
     });
   };
 
@@ -103,7 +115,9 @@ const DynamicTable = () => {
 
   return (
     <>
-      <Typography variant="subtitle1">품명(총 {fields.length}건)</Typography>
+      <Typography variant="subtitle1">
+        품명(총 {controlledFields.length}건)
+      </Typography>
       <TableContainer sx={{ mb: 3 }}>
         <Table>
           <TableHead>
@@ -116,18 +130,22 @@ const DynamicTable = () => {
                   onChange={(e) => toggleSelectAll(e.target.checked)}
                 />
               </TH>
-              <TH>서비스 분류</TH>
-              <TH>분석 종류</TH>
+              <TH sx={{ width: 250 }}>서비스 분류</TH>
+              <TH sx={{ width: 250 }}>분석 종류</TH>
               <TH>품명</TH>
               <TH sx={{ width: 150 }} align="right">
                 수량
               </TH>
-              <TH align="right">단가</TH>
-              <TH align="right">공급가액</TH>
+              <TH sx={{ width: 200 }} align="right">
+                단가
+              </TH>
+              <TH sx={{ width: 200 }} align="right">
+                공급가액
+              </TH>
             </TableRow>
           </TableHead>
           <TableBody>
-            {fields.map((field, index) => {
+            {controlledFields.map((field, index) => {
               return (
                 <TableRow>
                   <TD>
@@ -161,74 +179,62 @@ const DynamicTable = () => {
                         index={index}
                       />
                     </ErrorContainer>
+                    {errors.detailList?.[index]?.products && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        품명을 입력 해주세요
+                      </Typography>
+                    )}
                   </TD>
                   <TD>
-                    <InputValidation
-                      inputName={`detailList[${index}].qnty`}
-                      required={true}
-                      errorMessage="금액을 입력해 주세요."
-                      sx={{
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"price"}
-                            priceValue={0}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <EA />,
-                      }}
+                    <Controller
+                      name={`detailList[${index}].qnty`}
+                      control={control}
+                      rules={{ required: "수량을 입력해야 합니다." }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <NumericFormat
+                          defaultValue={0}
+                          value={value}
+                          thousandSeparator={true}
+                          onValueChange={(values) => {
+                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
+                          }}
+                          customInput={InputEAType}
+                        />
+                      )}
                     />
                   </TD>
-                  <TD>
-                    <InputValidation
-                      inputName={`detailList[${index}].unitPrice`}
-                      required={true}
-                      errorMessage="단가를 입력해 주세요."
-                      sx={{
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"price"}
-                            priceValue={0}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <Won />,
-                      }}
+                  <TD align="right">
+                    <Controller
+                      name={`detailList[${index}].unitPrice`}
+                      control={control}
+                      rules={{ required: "단가를 입력해야 합니다." }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <NumericFormat
+                          defaultValue={0}
+                          value={value}
+                          thousandSeparator={true}
+                          onValueChange={(values) => {
+                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
+                          }}
+                          customInput={InputPriceType}
+                        />
+                      )}
                     />
                   </TD>
-                  <TD>
-                    <InputValidation
+                  <TD align="right">
+                    <SupplyPrice
+                      fieldName="detailList"
+                      index={index}
                       inputName={`detailList[${index}].supplyPrice`}
-                      required={true}
-                      errorMessage="공급가를 입력해 주세요."
-                      sx={{
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"price"}
-                            priceValue={0}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <Won />,
-                      }}
                     />
                   </TD>
                 </TableRow>
