@@ -83,7 +83,7 @@ const PblshrInst = () => {
                 />
               </TD>
               <TH sx={{ width: "15%" }}>이메일</TH>
-              <TD sx={{ width: "35%" }} align="right">
+              <TD sx={{ width: "35%" }}>
                 <InputValidation
                   inputName="rcvEmail"
                   required={true}

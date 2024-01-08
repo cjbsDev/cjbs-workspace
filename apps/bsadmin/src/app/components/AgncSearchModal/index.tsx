@@ -22,7 +22,7 @@ const AgncSearchModal = ({
 }: ModalContainerProps) => {
   const handleClose = useCallback(() => {
     onClose();
-  }, [onClose]);
+  }, []);
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>

@@ -63,37 +63,37 @@ const AgncDataTable = ({ handleClose }) => {
           rmnPrePymtPrice: number;
         }) => {
           const { agncUkey, agncNm, rmnPrePymtPrice, rmnPrice, instNm } = row;
-          return (
-            <OutlinedButton
-              size="small"
-              buttonName="선택"
-              onClick={() => {
-                if (paymentInfoValue === "BS_1914004") {
-                  setValue("tnsfTargetAgncNm", agncNm);
-                  setValue("tnsfTargetAgncUkey", agncUkey);
-                } else {
-                  setValue("agncUkey", agncUkey);
-                  setValue("agncNm", agncNm);
-                  setValue("instNm", instNm);
-                  setValue("rmnPrePymtPrice", rmnPrePymtPrice);
-                  setValue("rmnPrice", rmnPrice);
-                }
 
-                clearErrors([
-                  "agncUkey",
-                  "agncNm",
-                  "instNm",
-                  "rmnPrice",
-                  "rmnPrePymtPrice",
-                ]);
-                handleClose();
-              }}
-            />
+          const selected = useCallback(() => {
+            if (paymentInfoValue === "BS_1914004") {
+              setValue("tnsfTargetAgncNm", agncNm);
+              setValue("tnsfTargetAgncUkey", agncUkey);
+            } else {
+              setValue("agncUkey", agncUkey);
+              setValue("agncNm", agncNm);
+              setValue("instNm", instNm);
+              setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+              setValue("rmnPrice", rmnPrice);
+            }
+
+            clearErrors([
+              "agncUkey",
+              "agncNm",
+              "instNm",
+              "rmnPrice",
+              "rmnPrePymtPrice",
+            ]);
+
+            handleClose();
+          }, []);
+
+          return (
+            <OutlinedButton size="small" buttonName="선택" onClick={selected} />
           );
         },
       },
     ],
-    [setValue, handleClose],
+    [setValue, paymentInfoValue, handleClose],
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {

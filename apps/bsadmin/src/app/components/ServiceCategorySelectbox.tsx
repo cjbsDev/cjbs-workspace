@@ -3,12 +3,21 @@ import React, { useEffect } from "react";
 import { fetcher } from "api";
 import useSWR from "swr";
 import { SelectBox } from "cjbsDSTM";
+import { useFormContext } from "react-hook-form";
 interface InputNameProps {
   inputName: string;
+  index: number;
 }
 
-const ServiceCategorySelectbox = ({ inputName }: InputNameProps) => {
-  // const { watch } = useFormContext();
+const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
+  console.log(
+    "ERRORS???????????",
+    errors.invcProductDetailList?.[index]?.srvcCtgrMc,
+  );
   // const srvcCtgrMcValue = watch("srvcCtgrMc");
   //
   // useEffect(() => {
@@ -30,6 +39,7 @@ const ServiceCategorySelectbox = ({ inputName }: InputNameProps) => {
       inputName={inputName}
       options={data}
       required={true}
+      errorMessage="서비스 분류를 선택해 주세요"
       sx={{ width: "100%" }}
       defaultValue={"BS_0100005001"}
     />

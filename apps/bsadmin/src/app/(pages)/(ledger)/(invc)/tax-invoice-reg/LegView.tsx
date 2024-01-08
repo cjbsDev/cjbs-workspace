@@ -8,6 +8,7 @@ import {
   Form,
   InputValidation,
   OutlinedButton,
+  SkeletonLoading,
   TD,
   TH,
   Title1,
@@ -41,6 +42,19 @@ import { toast } from "react-toastify";
 import { useRecoilState } from "recoil";
 import { agncModalShowAtom, instModalShowAtom } from "./atom";
 import PblshrInst from "./components/PblshrInst";
+import DynamicBasicInfo from "./components/DynamicBasicInfo";
+import ActionBtns from "./components/ActionBtns";
+import EtcInfo from "./components/EtcInfo";
+import DynamicViews from "./components/DynamicViews";
+import dynamic from "next/dynamic";
+
+// const LazyAgncSearchModal = dynamic(
+//   () => import("../../../../components/AgncSearchModal"),
+//   {
+//     ssr: false,
+//     loading: () => <SkeletonLoading />,
+//   },
+// );
 
 const LegView = () => {
   const router = useRouter();
@@ -49,10 +63,10 @@ const LegView = () => {
   //   useState<boolean>(false);
   // const [showInstSearchModal, setShowInstSearchModal] =
   //   useState<boolean>(false);
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useRecoilState(agncModalShowAtom);
-  const [showInstSearchModal, setShowInstSearchModal] =
-    useRecoilState(instModalShowAtom);
+  // const [showAgncSearchModal, setShowAgncSearchModal] =
+  //   useRecoilState(agncModalShowAtom);
+  // const [showInstSearchModal, setShowInstSearchModal] =
+  //   useRecoilState(instModalShowAtom);
 
   const defaultValues = {
     pymtInfoCc: "BS_1914001",
@@ -127,20 +141,21 @@ const LegView = () => {
   };
 
   // 거래처 검색 모달
-  const handleAgncSearchModalOpen = () => {
-    setShowAgncSearchModal(true);
-  };
-  const handleAgncSearchModalClose = useCallback(() => {
-    setShowAgncSearchModal(false);
-  }, []);
+  // const handleAgncSearchModalOpen = () => {
+  //   setShowAgncSearchModal(true);
+  // };
+  // const handleAgncSearchModalClose = useCallback(() => {
+  //   console.log("TTTTTTTTTTTTTT");
+  //   setShowAgncSearchModal(false);
+  // }, [setShowAgncSearchModal]);
 
   // 기관 검색 모달
-  const handleInstSearchModalOpen = () => {
-    setShowInstSearchModal(true);
-  };
-  const handleInstSearchModalClose = useCallback(() => {
-    setShowInstSearchModal(false);
-  }, []);
+  // const handleInstSearchModalOpen = () => {
+  //   setShowInstSearchModal(true);
+  // };
+  // const handleInstSearchModalClose = useCallback(() => {
+  //   setShowInstSearchModal(false);
+  // }, []);
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -148,148 +163,39 @@ const LegView = () => {
         <Title1 titleName="세금계산서 등록" />
       </Box>
 
-      <Typography variant="subtitle1">기본정보</Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-              <TD sx={{ width: "85%" }}>
-                <Stack direction="row" spacing={0.2} alignItems="center">
-                  <AgncAndInstName />
-                  <InputValidation
-                    sx={{ display: "none" }}
-                    inputName="agncNm"
-                    required={true}
-                    // errorMessage="거래처를 입력해 주세요"
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
-                  {/*<InputValidation*/}
-                  {/*  sx={{ display: "none" }}*/}
-                  {/*  inputName="instNm"*/}
-                  {/*  required={true}*/}
-                  {/*  // errorMessage="기관을 입력해 주세요"*/}
-                  {/*  InputProps={{*/}
-                  {/*    readOnly: true,*/}
-                  {/*  }}*/}
-                  {/*/>*/}
-                  <InputValidation
-                    sx={{ display: "none" }}
-                    inputName="agncUkey"
-                    required={true}
-                    // errorMessage="키값 입력하세요."
-                    InputProps={{
-                      readOnly: true,
-                      hidden: true,
-                    }}
-                  />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="거래처 검색"
-                    onClick={handleAgncSearchModalOpen}
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>영업담당자</TH>
-              <TD sx={{ width: "85%" }}>
-                <ErrorContainer FallbackComponent={Fallback}>
-                  <NGSSalesManagerSelectbox />
-                </ErrorContainer>
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/* 기본정보 */}
+      <DynamicBasicInfo />
 
-      {/* 결제정보 */}
-      <PaymentDynamicInfo />
+      <DynamicViews />
 
-      {/* 품명 */}
-      <DynamicTable />
-      <DynamicSumTable />
+      {/*/!* 결제정보 *!/*/}
+      {/*<PaymentDynamicInfo />*/}
 
-      {/* 발행처 정보 */}
-      <PblshrInst />
+      {/*/!* 품명 *!/*/}
+      {/*<DynamicTable />*/}
+      {/*<DynamicSumTable />*/}
 
-      <Typography variant="subtitle1">기타정보</Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>
-                메모<NotRequired>[선택]</NotRequired>
-              </TH>
-              <TD sx={{ width: "85%" }}>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={4}
-                  inputName="memo"
-                  placeholder="메모"
-                  maxLength={500}
-                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-                />
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>
-                보고서<NotRequired>[선택]</NotRequired>
-              </TH>
-              <TD sx={{ width: "85%" }}>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={4}
-                  inputName="report"
-                  placeholder="보고서"
-                  maxLength={500}
-                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/*/!* 발행처 정보 *!/*/}
+      {/*<PblshrInst />*/}
 
-      <Stack direction="row" spacing={0.5} justifyContent="center">
-        <Link href="/tax-invoice-list">
-          <OutlinedButton size="small" buttonName="목록" />
-        </Link>
+      {/*/!* 기타정보 *!/*/}
+      {/*<EtcInfo />*/}
 
-        <ContainedButton
-          size="small"
-          type="submit"
-          buttonName="저장"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
-        />
-      </Stack>
+      <ActionBtns isLoading={isLoading} />
 
-      <AgncSearchModal
-        onClose={handleAgncSearchModalClose}
-        open={showAgncSearchModal}
-        modalWidth={800}
-      />
+      {/*<LazyAgncSearchModal*/}
+      {/*  onClose={handleAgncSearchModalClose}*/}
+      {/*  open={showAgncSearchModal}*/}
+      {/*  modalWidth={800}*/}
+      {/*/>*/}
 
-      <InstSearchModal
-        onClose={handleInstSearchModalClose}
-        open={showInstSearchModal}
-        modalWidth={1000}
-      />
+      {/*<InstSearchModal*/}
+      {/*  onClose={handleInstSearchModalClose}*/}
+      {/*  open={showInstSearchModal}*/}
+      {/*  modalWidth={1000}*/}
+      {/*/>*/}
     </Form>
   );
 };
 
 export default LegView;
-const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
-  color: "#666666",
-  display: "inline-block",
-  marginLeft: 5,
-}));

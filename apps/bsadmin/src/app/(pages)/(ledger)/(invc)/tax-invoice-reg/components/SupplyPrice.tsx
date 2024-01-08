@@ -18,6 +18,7 @@ const SupplyPrice = ({ fieldName, inputName, index }: SupplyPriceProps) => {
     productValue[index]?.unitPrice === undefined
       ? 0
       : productValue[index]?.unitPrice;
+
   const supplyPrice = qnty * unitPrice;
 
   // console.log("수량", qnty);
@@ -28,7 +29,14 @@ const SupplyPrice = ({ fieldName, inputName, index }: SupplyPriceProps) => {
     if (unitPrice > 0 && qnty > 0) {
       setValue(inputName, supplyPrice);
     }
+
     if (unitPrice === 0 && qnty === 0) {
+      setValue(inputName, 0);
+    }
+    if (unitPrice === 0 && qnty > 0) {
+      setValue(inputName, 0);
+    }
+    if (unitPrice > 0 && qnty === 0) {
       setValue(inputName, 0);
     }
   }, [qnty, unitPrice, setValue]);

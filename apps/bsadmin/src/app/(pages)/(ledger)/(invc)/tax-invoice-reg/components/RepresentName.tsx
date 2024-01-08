@@ -15,7 +15,7 @@ const RepresentName = () => {
         sx={{ display: "none" }}
         inputName="rprsNm"
         required={true}
-        errorMessage="dsssdfsdf"
+        errorMessage="대표자명이 필요 합니다."
         InputProps={{
           readOnly: true,
         }}

@@ -8,6 +8,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import {
@@ -58,6 +59,8 @@ const LazyProductName = dynamic(() => import("./ProductName"), {
     </Typography>
   ),
 });
+
+const MIN_LIMIT = 0;
 
 const DynamicTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
@@ -164,8 +167,17 @@ const DynamicTable = () => {
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
                         inputName={`invcProductDetailList[${index}].srvcCtgrMc`}
+                        index={index}
                       />
                     </ErrorContainer>
+                    {errors.invcProductDetailList?.[index]?.srvcCtgrMc && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        서비스 분류를 선택해 주세요
+                      </Typography>
+                    )}
                   </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
@@ -173,6 +185,14 @@ const DynamicTable = () => {
                         inputName={`invcProductDetailList[${index}].anlsTypeMc`}
                       />
                     </ErrorContainer>
+                    {errors.invcProductDetailList?.[index]?.anlsTypeMc && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        분석 종류를 선택해 주세요
+                      </Typography>
+                    )}
                   </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
@@ -183,7 +203,7 @@ const DynamicTable = () => {
                         index={index}
                       />
                     </ErrorContainer>
-                    {errors.detailList?.[index]?.products && (
+                    {errors.invcProductDetailList?.[index]?.products && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -205,6 +225,7 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
+                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -212,6 +233,14 @@ const DynamicTable = () => {
                         />
                       )}
                     />
+                    {errors.invcProductDetailList?.[index]?.qnty && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        수량을 입력 해주세요
+                      </Typography>
+                    )}
                   </TD>
                   <TD align="right">
                     <Controller
@@ -226,6 +255,7 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
+                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -233,6 +263,14 @@ const DynamicTable = () => {
                         />
                       )}
                     />
+                    {errors.invcProductDetailList?.[index]?.unitPrice && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        단가를 입력 해주세요
+                      </Typography>
+                    )}
                   </TD>
                   <TD align="right">
                     <SupplyPrice
