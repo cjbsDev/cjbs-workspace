@@ -75,10 +75,9 @@ const AgncDataTable = ({ handleClose }) => {
                   setValue("agncUkey", agncUkey);
                   setValue("agncNm", agncNm);
                   setValue("instNm", instNm);
+                  setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+                  setValue("rmnPrice", rmnPrice);
                 }
-
-                setValue("rmnPrice", rmnPrice);
-                setValue("rmnPrePymtPrice", rmnPrePymtPrice);
 
                 clearErrors([
                   "agncUkey",
