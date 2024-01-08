@@ -10,7 +10,7 @@ export default function NGSSalesManagerSelectbox() {
   return (
     <SelectBox
       errorMessage="영업 담당자를 선택해 주세요."
-      inputName="bsnsMngr"
+      inputName="bsnsMngrUkey"
       options={data}
       required={true}
     />

@@ -19,3 +19,12 @@ export const totalSupplyPriceAtom = atom({
   key: "totalSupplyPriceAtom",
   default: 0,
 });
+
+export const instModalShowAtom = atom({
+  key: "instModalShowAtom",
+  default: false,
+});
+export const agncModalShowAtom = atom({
+  key: "agncModalShowAtom",
+  default: false,
+});

@@ -1,6 +1,10 @@
 import React, { useCallback, useMemo, useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import { DataTableBase, OutlinedButton } from "cjbsDSTM";
+import {
+  DataTableBase,
+  formatNumberWithCommas,
+  OutlinedButton,
+} from "cjbsDSTM";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useFormContext } from "react-hook-form";
@@ -9,7 +13,8 @@ import { Box } from "@mui/material";
 const AgncDataTable = ({ handleClose }) => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
-  const { setValue, clearErrors } = useFormContext();
+  const { setValue, clearErrors, watch } = useFormContext();
+  const paymentInfoValue = watch("pymtInfoCc");
   const { data } = useSWR(`/agnc/list?page=${page}&size=${size}`, fetcher, {
     suspense: true,
   });
@@ -36,9 +41,15 @@ const AgncDataTable = ({ handleClose }) => {
         selector: (row) => row.instNm,
       },
       {
+        name: "선결제금액",
+        right: true,
+        // omit: true,
+        selector: (row) => formatNumberWithCommas(row.rmnPrePymtPrice),
+      },
+      {
         name: "남은금액",
         right: true,
-        selector: (row) => row.rmnPrice,
+        selector: (row) => formatNumberWithCommas(row.rmnPrice),
       },
       {
         name: "선택",
@@ -49,17 +60,33 @@ const AgncDataTable = ({ handleClose }) => {
           agncNm: string;
           instNm: string;
           rmnPrice: number;
+          rmnPrePymtPrice: number;
         }) => {
+          const { agncUkey, agncNm, rmnPrePymtPrice, rmnPrice, instNm } = row;
           return (
             <OutlinedButton
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("agncUkey", row.agncUkey);
-                setValue("agncNm", row.agncNm);
-                setValue("instNm", row.instNm);
-                setValue("rmnPrice", row.rmnPrice);
-                clearErrors(["agncUkey", "agncNm", "instNm", "rmnPrice"]);
+                if (paymentInfoValue === "BS_1914004") {
+                  setValue("tnsfTargetAgncNm", agncNm);
+                  setValue("tnsfTargetAgncUkey", agncUkey);
+                } else {
+                  setValue("agncUkey", agncUkey);
+                  setValue("agncNm", agncNm);
+                  setValue("instNm", instNm);
+                }
+
+                setValue("rmnPrice", rmnPrice);
+                setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+
+                clearErrors([
+                  "agncUkey",
+                  "agncNm",
+                  "instNm",
+                  "rmnPrice",
+                  "rmnPrePymtPrice",
+                ]);
                 handleClose();
               }}
             />

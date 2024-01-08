@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useFormContext, useFieldArray, Controller } from "react-hook-form";
-// import InputMask from "react-input-mask";
 import {
   Checkbox,
   Stack,
@@ -69,9 +68,10 @@ const DynamicTable = () => {
   } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "detailList",
+    name: "invcProductDetailList",
   });
-  const watchFieldArray = watch("detailList");
+  const paymentInfoValue = watch("pymtInfoCc");
+  const watchFieldArray = watch("invcProductDetailList");
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -122,14 +122,16 @@ const DynamicTable = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TH sx={{ width: 50 }} align="center">
-                <Checkbox
-                  checked={
-                    fields.length > 0 && selectedRows.length === fields.length
-                  }
-                  onChange={(e) => toggleSelectAll(e.target.checked)}
-                />
-              </TH>
+              {paymentInfoValue !== "BS_1914004" && (
+                <TH sx={{ width: 50 }} align="center">
+                  <Checkbox
+                    checked={
+                      fields.length > 0 && selectedRows.length === fields.length
+                    }
+                    onChange={(e) => toggleSelectAll(e.target.checked)}
+                  />
+                </TH>
+              )}
               <TH sx={{ width: 250 }}>서비스 분류</TH>
               <TH sx={{ width: 250 }}>분석 종류</TH>
               <TH>품명</TH>
@@ -148,33 +150,35 @@ const DynamicTable = () => {
             {controlledFields.map((field, index) => {
               return (
                 <TableRow>
-                  <TD>
-                    <Checkbox
-                      checked={selectedRows.includes(index)}
-                      onChange={(e) =>
-                        toggleRowSelection(index, e.target.checked)
-                      }
-                    />
-                  </TD>
+                  {paymentInfoValue !== "BS_1914004" && (
+                    <TD>
+                      <Checkbox
+                        checked={selectedRows.includes(index)}
+                        onChange={(e) =>
+                          toggleRowSelection(index, e.target.checked)
+                        }
+                      />
+                    </TD>
+                  )}
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
-                        inputName={`detailList[${index}].srvcCtgrMc`}
+                        inputName={`invcProductDetailList[${index}].srvcCtgrMc`}
                       />
                     </ErrorContainer>
                   </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyAnlsTypeSelectbox
-                        inputName={`detailList[${index}].anlsTypeMc`}
+                        inputName={`invcProductDetailList[${index}].anlsTypeMc`}
                       />
                     </ErrorContainer>
                   </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyProductName
-                        inputName={`detailList[${index}].products`}
-                        fieldName="detailList"
+                        inputName={`invcProductDetailList[${index}].products`}
+                        fieldName="invcProductDetailList"
                         control={control}
                         index={index}
                       />
@@ -190,7 +194,7 @@ const DynamicTable = () => {
                   </TD>
                   <TD>
                     <Controller
-                      name={`detailList[${index}].qnty`}
+                      name={`invcProductDetailList[${index}].qnty`}
                       control={control}
                       rules={{ required: "수량을 입력해야 합니다." }}
                       render={({
@@ -211,7 +215,7 @@ const DynamicTable = () => {
                   </TD>
                   <TD align="right">
                     <Controller
-                      name={`detailList[${index}].unitPrice`}
+                      name={`invcProductDetailList[${index}].unitPrice`}
                       control={control}
                       rules={{ required: "단가를 입력해야 합니다." }}
                       render={({
@@ -232,9 +236,9 @@ const DynamicTable = () => {
                   </TD>
                   <TD align="right">
                     <SupplyPrice
-                      fieldName="detailList"
+                      fieldName="invcProductDetailList"
                       index={index}
-                      inputName={`detailList[${index}].supplyPrice`}
+                      inputName={`invcProductDetailList[${index}].supplyPrice`}
                     />
                   </TD>
                 </TableRow>
@@ -244,18 +248,25 @@ const DynamicTable = () => {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
-        <ContainedButton
-          buttonName="품명 추가"
-          onClick={handleAppend}
-          startIcon={<MyIcon icon="plus" size={18} color="white" />}
-        />
-        <OutlinedButton
-          color="error"
-          buttonName="삭제"
-          onClick={handleDeleteSelected}
-        />
-      </Stack>
+      {paymentInfoValue !== "BS_1914004" && (
+        <Stack
+          direction="row"
+          spacing={1}
+          justifyContent="center"
+          sx={{ mb: 3 }}
+        >
+          <ContainedButton
+            buttonName="품명 추가"
+            onClick={handleAppend}
+            startIcon={<MyIcon icon="plus" size={18} color="white" />}
+          />
+          <OutlinedButton
+            color="error"
+            buttonName="삭제"
+            onClick={handleDeleteSelected}
+          />
+        </Stack>
+      )}
     </>
   );
 };

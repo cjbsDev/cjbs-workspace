@@ -6,10 +6,8 @@ import {
   ErrorContainer,
   Fallback,
   Form,
-  InputPriceType,
   InputValidation,
   OutlinedButton,
-  SingleDatePicker,
   TD,
   TH,
   Title1,
@@ -17,7 +15,6 @@ import {
 import {
   Box,
   BoxProps,
-  CircularProgress,
   Stack,
   styled,
   Table,
@@ -28,47 +25,38 @@ import {
 } from "@mui/material";
 import Link from "next/link";
 import LoadingSvg from "public/svg/loading_wh.svg";
-import dynamic from "next/dynamic";
 import AgncSearchModal from "../../../../components/AgncSearchModal";
 import AgncAndInstName from "./components/AgncAndInstName";
 import NGSSalesManagerSelectbox from "../../../../components/NGSSalesManagerSelectbox";
-import PaymentType from "../../../../components/PaymentType";
-import RmnPymtPrice from "./components/RmnPymtPrice";
-import RmnPymtDetailBtn from "./components/RmnPymtDetailBtn";
-import { useRecoilValue } from "recoil";
-import { rmnPriceDetailShowAtom } from "./atom";
 import InstSearchModal from "../../../../components/InstSearchModal";
 import BusinessRegNo from "./components/BusinessRegNo";
 import RepresentName from "./components/RepresentName";
 import DynamicTable from "./components/DynamicTable";
 import DynamicSumTable from "./components/DynamicSumTable";
 import { POST } from "api";
-import { NumericFormat } from "react-number-format";
-import { Controller } from "react-hook-form";
-import InputDpstPrice from "./components/InputDpstPrice";
-
-const LazyRmnPymtPriceDetail = dynamic(
-  () => import("./components/RmnPymtPriceDetail"),
-  {
-    ssr: false,
-    loading: () => (
-      <Stack direction="row" justifyContent="center">
-        <CircularProgress disableShrink size={20} sx={{ p: 1 }} />
-      </Stack>
-    ),
-  },
-);
+import PaymentDynamicInfo from "./components/PaymentDynamicInfo";
+import dayjs from "dayjs";
+import { useRouter } from "next-nprogress-bar";
+import { toast } from "react-toastify";
+import { useRecoilState } from "recoil";
+import { agncModalShowAtom, instModalShowAtom } from "./atom";
+import PblshrInst from "./components/PblshrInst";
 
 const LegView = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [showAgncSearchModal, setShowAgncSearchModal] =
+  //   useState<boolean>(false);
+  // const [showInstSearchModal, setShowInstSearchModal] =
+  //   useState<boolean>(false);
   const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
+    useRecoilState(agncModalShowAtom);
   const [showInstSearchModal, setShowInstSearchModal] =
-    useState<boolean>(false);
-  const show = useRecoilValue(rmnPriceDetailShowAtom);
+    useRecoilState(instModalShowAtom);
 
   const defaultValues = {
-    detailList: [
+    pymtInfoCc: "BS_1914001",
+    invcProductDetailList: [
       {
         srvcCtgrMc: "BS_0100005001",
         anlsTypeMc: "",
@@ -84,52 +72,58 @@ const LegView = () => {
     setIsLoading(true);
     console.log("Form Data ==>>", data);
     const {
-      // agncNm,
-      // instNm,
-      detailList,
+      invcProductDetailList,
       agncUkey,
-      bsnsMngr,
+      bsnsMngrUkey,
       pymtInfoCc,
-      rmnPrice,
       instUkey,
-      rprsNm,
-      brno,
       pymtMngrNm,
-      email,
+      rcvEmail,
       memo,
       report,
       vat,
       totalPrice,
       totalSupplyPrice,
+      // dpstDttm,
+      dpstPrice,
+      pyrNm,
+      tnsfTargetAgncUkey,
     } = data;
 
+    const dpstDttm = dayjs(data.dpstDttm).format("YYYY-MM-DD");
+
     const bodyData = {
-      agncUkey: agncUkey,
-      bsnsMngrUkey: bsnsMngr,
-      // dpstDttm: "",
-      // dpstPrice: 0,
-      // pyrNm: "",
-      instUkey: instUkey,
-      invcProductDetailList: detailList,
-      memo: memo,
-      pymtInfoCc: pymtInfoCc,
-      pymtMngrNm: pymtMngrNm,
-      rcvEmail: email,
-      report: report,
-      // tnsfTargetAgncUkey: "",
-      totalPrice: totalPrice,
-      totalSupplyPrice: totalSupplyPrice,
-      vat: vat,
+      agncUkey,
+      bsnsMngrUkey,
+      dpstDttm,
+      dpstPrice,
+      pyrNm,
+      instUkey,
+      invcProductDetailList,
+      memo,
+      pymtInfoCc,
+      pymtMngrNm,
+      rcvEmail,
+      report,
+      tnsfTargetAgncUkey,
+      totalPrice,
+      totalSupplyPrice,
+      vat,
     };
 
-    await POST(`/invc`, bodyData)
-      .then((res) => {
-        console.log("RTRTRTRTRTRTRT", res);
-      })
-      .catch()
-      .finally(() => {
-        setIsLoading(false);
-      });
+    try {
+      const res = await POST(`/invc`, bodyData);
+      console.log("Response", res);
+      if (res.success) {
+        router.push("/tax-invoice-list");
+      } else {
+        toast(res.message);
+      }
+    } catch (error) {
+      console.error("Error submitting form", error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // 거래처 검색 모달
@@ -211,130 +205,15 @@ const LegView = () => {
         </Table>
       </TableContainer>
 
-      <Typography variant="subtitle1">결제정보</Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>결제구분</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <ErrorContainer FallbackComponent={Fallback}>
-                  <PaymentType />
-                </ErrorContainer>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>남은금액</TH>
-              <TD sx={{ width: "85%" }} colSpan={5}>
-                <Stack direction="row" justifyContent="space-between">
-                  <RmnPymtPrice />
-                  <RmnPymtDetailBtn />
-                </Stack>
-                {show && (
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyRmnPymtPriceDetail />
-                  </ErrorContainer>
-                )}
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>입금액</TH>
-              <TD>
-                <InputDpstPrice />
-              </TD>
-              <TH sx={{ width: "15%" }}>입금일자</TH>
-              <TD>
-                <SingleDatePicker
-                  inputName="dpstDttm"
-                  required={true}
-                  errorMessage="날짜를 입력하세요"
-                />
-              </TD>
-              <TH sx={{ width: "15%" }}>입금자명</TH>
-              <TD>
-                <InputValidation
-                  inputName="pyrNm"
-                  required={true}
-                  errorMessage="입금자명을 입력하세요."
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/* 결제정보 */}
+      <PaymentDynamicInfo />
 
+      {/* 품명 */}
       <DynamicTable />
       <DynamicSumTable />
 
-      <Typography variant="subtitle1">발행처정보</Typography>
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>기관명(상호)</TH>
-              <TD sx={{ width: "85%" }} colSpan={3}>
-                <Stack direction="row" spacing={0.2} alignItems="center">
-                  <InputValidation
-                    // sx={{ display: "none" }}
-                    inputName="instNm"
-                    required={true}
-                    errorMessage="기관을 입력해 주세요"
-                    // InputProps={{
-                    //   readOnly: true,
-                    // }}
-                  />
-                  <InputValidation
-                    sx={{ display: "none" }}
-                    inputName="instUkey"
-                    required={true}
-                    // errorMessage="키값 입력하세요."
-                    InputProps={{
-                      readOnly: true,
-                      hidden: true,
-                    }}
-                  />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="기관 검색"
-                    onClick={handleInstSearchModalOpen}
-                  />
-                </Stack>
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>대표자명</TH>
-              <TD sx={{ width: "35%" }}>
-                <RepresentName />
-              </TD>
-              <TH sx={{ width: "15%" }}>사업자등록번호</TH>
-              <TD sx={{ width: "35%" }} align="right">
-                <BusinessRegNo />
-              </TD>
-            </TableRow>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>결제담당자</TH>
-              <TD sx={{ width: "35%" }}>
-                <InputValidation
-                  inputName="pymtMngrNm"
-                  required={true}
-                  errorMessage="결제담당자를 입력해 주세요"
-                />
-              </TD>
-              <TH sx={{ width: "15%" }}>이메일</TH>
-              <TD sx={{ width: "35%" }} align="right">
-                <InputValidation
-                  inputName="email"
-                  required={true}
-                  errorMessage="이메일을 입력하세요"
-                  patternErrMsg="이메일 형식으로 입력해주세요"
-                  pattern={/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/}
-                  placeholder="ex)test@test.com"
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/* 발행처 정보 */}
+      <PblshrInst />
 
       <Typography variant="subtitle1">기타정보</Typography>
       <TableContainer sx={{ mb: 5 }}>

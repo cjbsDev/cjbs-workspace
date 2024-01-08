@@ -13,7 +13,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 const DynamicSumTable = () => {
   const { control, setValue } = useFormContext();
   const productValue = useWatch({
-    name: "detailList",
+    name: "invcProductDetailList",
     control,
   });
 
