@@ -7,9 +7,10 @@ import { useFormContext } from "react-hook-form";
 
 interface ActionBtnsProps {
   isLoading: boolean;
+  isDisabled: boolean;
 }
 
-const ActionBtns = ({ isLoading }: ActionBtnsProps) => {
+const ActionBtns = ({ isLoading, isDisabled }: ActionBtnsProps) => {
   const { watch, getValues } = useFormContext();
   const agncUkeyValue = watch("agncUkey");
 
@@ -29,6 +30,7 @@ const ActionBtns = ({ isLoading }: ActionBtnsProps) => {
               <LoadingSvg stroke="white" width={20} height={20} />
             ) : null
           }
+          disabled={isDisabled}
         />
       )}
     </Stack>
