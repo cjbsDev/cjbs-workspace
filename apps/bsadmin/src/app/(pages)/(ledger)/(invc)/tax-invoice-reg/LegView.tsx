@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Form, Title1 } from "cjbsDSTM";
 import { Box } from "@mui/material";
-import { POST } from "api";
+import { fetcher, POST } from "api";
 import dayjs from "dayjs";
 import { useRouter } from "next-nprogress-bar";
 import { toast } from "react-toastify";
@@ -11,21 +11,30 @@ import DynamicBasicInfo from "./components/DynamicBasicInfo";
 import ActionBtns from "./components/ActionBtns";
 import DynamicViews from "./components/DynamicViews";
 import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
 
 const LegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+
   const type = searchParams.get("type");
   const invcNum = searchParams.get("invcNum");
   const invcUkey = searchParams.get("invcUkey");
   const issuDttm = searchParams.get("issuDttm");
   const agncUkey = searchParams.get("agncUkey");
 
+  const { data } = useSWR(`/invc/${invcUkey}`, fetcher, {
+    suspense: true,
+  });
+
+  console.log("INVC Init Value ==>>", data);
+  const invcProductDetailList = data.invcProductDetailList;
+  const pymtInfoCc = data.pymtInfoCc;
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const defaultValues = {
-    agncUkey: agncUkey,
     pymtInfoCc: "BS_1914001",
     invcProductDetailList: [
       {
@@ -41,8 +50,12 @@ const LegView = () => {
 
   const modifyDefaultValues = {
     agncUkey: agncUkey,
-    invcProductDetailList: [],
+    pymtInfoCc: pymtInfoCc,
+    // agncNm: agncNm,
+    invcProductDetailList: invcProductDetailList,
   };
+
+  console.log("modifyDefaultValues", modifyDefaultValues);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -104,7 +117,7 @@ const LegView = () => {
   };
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <Form onSubmit={onSubmit} defaultValues={modifyDefaultValues}>
       <Box sx={{ mb: 4 }}>
         <Title1 titleName="세금계산서 등록" />
       </Box>
