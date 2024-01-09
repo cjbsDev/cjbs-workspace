@@ -24,9 +24,6 @@ const DynamicSumTable = () => {
     (sum, item) => sum + item.supplyPrice,
     0,
   );
-
-  // console.log("Total Supply Price", totalSupplyPrice);
-
   const vatValue = totalSupplyPrice * 0.1;
   const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;
 
@@ -35,14 +32,6 @@ const DynamicSumTable = () => {
     setValue("vat", vatValue);
     setValue("totalPrice", supplyPlusVatTotalValue);
   }, [setValue, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
-
-  // useEffect(() => {
-  //   if (totalSupplyPrice > 0 && vatValue > 0 && supplyPlusVatTotalValue > 0) {
-  //     setValue("totalSupplyPrice", totalSupplyPrice);
-  //     setValue("vat", vatValue);
-  //     setValue("totalPrice", supplyPlusVatTotalValue);
-  //   }
-  // }, [setValue, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
 
   return (
     <TableContainer sx={{ mb: 5 }}>

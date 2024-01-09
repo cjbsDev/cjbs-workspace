@@ -10,13 +10,22 @@ import { toast } from "react-toastify";
 import DynamicBasicInfo from "./components/DynamicBasicInfo";
 import ActionBtns from "./components/ActionBtns";
 import DynamicViews from "./components/DynamicViews";
+import { useSearchParams } from "next/navigation";
 
 const LegView = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
+  const invcNum = searchParams.get("invcNum");
+  const invcUkey = searchParams.get("invcUkey");
+  const issuDttm = searchParams.get("issuDttm");
+  const agncUkey = searchParams.get("agncUkey");
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   const defaultValues = {
+    agncUkey: agncUkey,
     pymtInfoCc: "BS_1914001",
     invcProductDetailList: [
       {
@@ -28,6 +37,11 @@ const LegView = () => {
         supplyPrice: 0,
       },
     ],
+  };
+
+  const modifyDefaultValues = {
+    agncUkey: agncUkey,
+    invcProductDetailList: [],
   };
 
   const onSubmit = async (data: any) => {

@@ -22,6 +22,14 @@ export const getColumns = (totalElements: number) => [
     selector: (row: { invcId: number }) => row.invcId,
   },
   {
+    name: "상태",
+    width: "80px",
+    center: true,
+    // sortable: true,
+    // sortField: "orderId",
+    selector: (row: { invcStatusCcVal: string }) => row.invcStatusCcVal,
+  },
+  {
     name: "거래처",
     width: "220px",
     cell: (row: { isSpecialMng: string; instNm: string; agncNm: string }) => {

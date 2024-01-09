@@ -39,11 +39,13 @@ export const AlertModal = ({
             buttonName={"취소"}
             color="secondary"
             onClick={onClose}
+            size="small"
           />
           <ContainedButton
             buttonName={alertBtnName}
             color="error"
             onClick={alertMainFunc}
+            size="small"
           />
         </Stack>
       </ModalAction>
