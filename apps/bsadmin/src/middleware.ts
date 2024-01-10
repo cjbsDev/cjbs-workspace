@@ -37,7 +37,7 @@ export async function middleware(request: NextRequest) {
     pathname !== LOGIN_PAGE &&
     (rtToken === undefined || token?.error === "RefreshAccessTokenError")
   ) {
-    return NextResponse.redirect(new URL("/", request.url));
+    return NextResponse.redirect(new URL("/sign-in", request.url));
   } else {
     return NextResponse.next();
   }
@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
 export const config = {
   matcher: [
     "/",
-    // "/dashboard",
+    "/sign-in",
     "/order-list/:path*",
     "/order-reg/:path*",
     "/agnc-pi-list/:path*",

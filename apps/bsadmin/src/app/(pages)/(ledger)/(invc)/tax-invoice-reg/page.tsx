@@ -1,7 +1,7 @@
 import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 
-const LazyOrderRegView = dynamic(() => import("./OrderRegView"), {
+const LazyRegView = dynamic(() => import("./LegView"), {
   ssr: false,
   loading: () => <SkeletonTableModalLoading />,
 });
@@ -9,7 +9,7 @@ const LazyOrderRegView = dynamic(() => import("./OrderRegView"), {
 export default function Page() {
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyOrderRegView />
+      <LazyRegView />
     </ErrorContainer>
   );
 }

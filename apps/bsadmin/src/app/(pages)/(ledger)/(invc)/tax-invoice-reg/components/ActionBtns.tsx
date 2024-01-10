@@ -1,0 +1,48 @@
+import React from "react";
+import Link from "next/link";
+import { ContainedButton, OutlinedButton } from "cjbsDSTM";
+import LoadingSvg from "public/svg/loading_wh.svg";
+import { Stack } from "@mui/material";
+import { useFormContext } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
+
+interface ActionBtnsProps {
+  isLoading: boolean;
+  isDisabled: boolean;
+}
+
+const ActionBtns = ({ isLoading, isDisabled }: ActionBtnsProps) => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
+  const invcUkey = searchParams.get("invcUkey");
+  const { watch } = useFormContext();
+  const agncUkeyValue = watch("agncUkey");
+
+  const isTypeBtnName = type === "modify" ? "수정" : "저장";
+  const isTypeLink =
+    type === "modify" ? `/tax-invoice-list/${invcUkey}` : "/tax-invoice-list";
+
+  return (
+    <Stack direction="row" spacing={0.5} justifyContent="center">
+      <Link href={isTypeLink}>
+        <OutlinedButton size="small" buttonName="목록" />
+      </Link>
+
+      {agncUkeyValue !== "" && agncUkeyValue !== undefined && (
+        <ContainedButton
+          size="small"
+          type="submit"
+          buttonName={isTypeBtnName}
+          endIcon={
+            isLoading ? (
+              <LoadingSvg stroke="white" width={20} height={20} />
+            ) : null
+          }
+          disabled={isDisabled}
+        />
+      )}
+    </Stack>
+  );
+};
+
+export default ActionBtns;
