@@ -18,21 +18,17 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import TableNewRows from "./TableNewRows";
 import { useParams } from "next/navigation";
-import {QuestionTooltip} from "../../../components/QuestionTooltip";
+import {QuestionTooltip} from "../../../../components/QuestionTooltip";
 import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
+import {groupListDataAtom} from "../../../../recoil/atoms/groupListDataAtom";
+import {toggledClearRowsAtom} from "../../../../recoil/atoms/toggled-clear-rows-atom";
 import {POST} from "api";
 import {toast} from "react-toastify";
 
 
 export default function AnalysisSampleDynamicTable(props: any) {
-// const AnalysisSampleDynamicTable = forwardRef((props: {
-//   analysisSearchModalOpen: any;
-// }, ref) => {
-
   // const serviceType = props.serviceType;
-  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
+  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData, viewPage } = props;
   const { control, getValues, formState, setValue, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -66,7 +62,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
   // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
     // console.log("selectSampleData!@#!@#!@#", selectSampleData);
-    resetTable();
+    //resetTable();
 
     if(selectSampleData !== undefined && selectSampleData.length > 0) {
       const mergeData: any = {};
@@ -167,8 +163,15 @@ export default function AnalysisSampleDynamicTable(props: any) {
       // console.log(item)
       // console.log(item.supplyPrice)
       sumTotCnt += Number(item.sampleSize);
-      sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
-      sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
+      if(typeof item.supplyPrice === "number"){
+        sumTotSupplyPrice += item.supplyPrice;
+        sumTotVat += item.supplyPrice * 0.1;
+      } else if (typeof item.supplyPrice === "string") {
+        sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
+        sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
+      }
+      // sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
+      // sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
     });
     // console.log("sumTotCnt", sumTotCnt)
     // console.log("sumTotSupplyPrice", sumTotSupplyPrice)
@@ -296,6 +299,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
                   remove={remove}
                   index={index}
                   errors={errors}
+                  viewPage={viewPage}
                 />
               );
             })}
@@ -303,21 +307,21 @@ export default function AnalysisSampleDynamicTable(props: any) {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center" mt={3} mb={5}>
-        <OutlinedButton
-          size="small"
-          buttonName="+서비스 타입 추가"
-          onClick={() => handleAddFields()}
-        />
-        <ContainedButton
-          size="small"
-          buttonName="분석 비용 추가"
-          onClick={analysisSearchModalOpen}
-        />
-      </Stack>
+      { viewPage === false && (
+        <Stack direction="row" spacing={0.5} justifyContent="center" mt={3} mb={5}>
+          <OutlinedButton
+            size="small"
+            buttonName="+서비스 타입 추가"
+            onClick={() => handleAddFields()}
+          />
+          <ContainedButton
+            size="small"
+            buttonName="분석 비용 추가"
+            onClick={analysisSearchModalOpen}
+          />
+        </Stack>
+      )}
 
     </>
   );
 };
-
-// export default AnalysisSampleDynamicTable;
