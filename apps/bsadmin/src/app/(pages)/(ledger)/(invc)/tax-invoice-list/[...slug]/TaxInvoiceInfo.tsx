@@ -55,7 +55,15 @@ const LazyRmnPymtPriceDetail = dynamic(
   },
 );
 
+const LazyAgncInfoModal = dynamic(
+  () => import("../../../../../components/AgncInfoModal"),
+  {
+    ssr: false,
+  },
+);
+
 const TaxInvoiceInfo = () => {
+  const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [subAlertMsg, setSubAlertMsg] = useState("");
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -67,7 +75,9 @@ const TaxInvoiceInfo = () => {
   });
   console.log("INVOICE INIT DATA", data);
   const {
-    agncInfoDetail,
+    agncId,
+    agncNm,
+    agncUkey,
     brno,
     bsnsMngrUkey,
     bsnsMngrVal,
@@ -78,6 +88,7 @@ const TaxInvoiceInfo = () => {
     invcNum,
     invcProductDetailList,
     invcUkey,
+    isSpecialMng,
     issuDttm,
     memo,
     pymtInfoCc,
@@ -92,21 +103,14 @@ const TaxInvoiceInfo = () => {
     statusVal,
     tnsfPsbyPymtPrice,
     tnsfTargetAgncId,
+    tnsfTargetAgncNm,
+    tnsfTargetAgncUkey,
+    tnsfTargetInstNm,
+    tnsfTargetInstUkey,
     totalPrice,
     totalSupplyPrice,
     vat,
   } = data;
-  const {
-    addr,
-    addrDetail,
-    agncId,
-    agncLeaderEmail,
-    agncLeaderNm,
-    agncNm,
-    agncUkey,
-    agncInfoDetailInstNm,
-    isSpecialMng,
-  } = agncInfoDetail;
 
   const handleInvcDelete = async (invcUkey: string) => {
     try {
@@ -135,6 +139,9 @@ const TaxInvoiceInfo = () => {
     setSubAlertMsg("");
   };
 
+  const agncInfoModalClose = () => {
+    setShowAgncInfoModal(false);
+  };
   // const handleDelete = async () => {
   //   console.log("RRRRRRRRRRR", sampleUkeyList);
   //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
@@ -177,15 +184,33 @@ const TaxInvoiceInfo = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>거래처(PI)</TH>
                 <TD sx={{ width: "35%" }}>
-                  <Stack direction="row" spacing={1}>
-                    <Typography variant="body2">
-                      {agncNm}({agncInfoDetailInstNm})
-                    </Typography>
-                    {isSpecialMng === "Y" && (
-                      <Box>
-                        <Chip size="small" label="SP" color="primary" />
-                      </Box>
-                    )}
+                  <Stack
+                    direction="row"
+                    spacing={1}
+                    justifyContent="space-between"
+                  >
+                    <Stack direction="row" spacing={1}>
+                      <Typography variant="body2">
+                        [{agncUkey}]{agncNm}({instNm})
+                      </Typography>
+                      {isSpecialMng === "Y" && (
+                        <MyIcon
+                          icon="vip-fill"
+                          width={15}
+                          data-tag="allowRowEvents"
+                          color="#FFAB33"
+                        />
+                      )}
+                    </Stack>
+
+                    <IconButton onClick={() => setShowAgncInfoModal(true)}>
+                      <MyIcon
+                        icon="memo"
+                        width={18}
+                        data-tag="allowRowEvents"
+                        color="black"
+                      />
+                    </IconButton>
                   </Stack>
                 </TD>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
@@ -247,7 +272,9 @@ const TaxInvoiceInfo = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TH sx={{ width: "80px" }}>No</TH>
+                <TH sx={{ width: "60px" }} align="center">
+                  No
+                </TH>
                 <TH>품목</TH>
                 <TH sx={{ width: "100px" }} align="right">
                   수량
@@ -274,9 +301,9 @@ const TaxInvoiceInfo = () => {
                 } = item;
                 return (
                   <TableRow>
-                    <TD>{index + 1}</TD>
+                    <TD align="center">{index + 1}</TD>
                     <TD>{products}</TD>
-                    <TD align="right">{formatNumberWithCommas(qnty)}원</TD>
+                    <TD align="right">{formatNumberWithCommas(qnty)}개</TD>
                     <TD align="right">{formatNumberWithCommas(unitPrice)}원</TD>
                     <TD align="right">
                       {formatNumberWithCommas(supplyPrice)}원
@@ -401,17 +428,37 @@ const TaxInvoiceInfo = () => {
           </Table>
         </TableContainer>
 
+        <Typography variant="subtitle1">보고서</Typography>
+        <TableContainer sx={{ mb: 5 }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>보고서</TH>
+                <TD
+                  sx={{
+                    width: "85%",
+                  }}
+                >
+                  <Box sx={{ whiteSpace: "pre-wrap" }}>{report}</Box>
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
+
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
           <Link href="/tax-invoice-list">
             <OutlinedButton size="small" buttonName="목록" />
           </Link>
 
           <Stack direction="row" spacing={0.5}>
-            <Link
-              href={`/tax-invoice-reg?type=modify&invcNum=${invcNum}&invcUkey=${invcUkey}&issuDttm=${issuDttm}&agncUkey=${agncUkey}`}
-            >
-              <OutlinedButton size="small" buttonName="수정" />
-            </Link>
+            {pymtInfoCc !== "BS_1914004" && (
+              <Link
+                href={`/tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`}
+              >
+                <OutlinedButton size="small" buttonName="수정" />
+              </Link>
+            )}
 
             <ContainedButton
               buttonName="삭제"
@@ -438,6 +485,13 @@ const TaxInvoiceInfo = () => {
         mainMessage="삭제를 진행하시겠습니까?"
         subMessage={subAlertMsg}
         alertBtnName="삭제"
+      />
+
+      {/*거래처(pi) 정보 모달*/}
+      <LazyAgncInfoModal
+        onClose={agncInfoModalClose}
+        open={showAgncInfoModal}
+        modalWidth={800}
       />
     </>
   );

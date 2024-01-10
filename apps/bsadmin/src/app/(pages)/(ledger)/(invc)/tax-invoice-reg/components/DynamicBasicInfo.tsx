@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import {
-  Box,
   Stack,
   Table,
   TableBody,
@@ -22,8 +21,11 @@ import NGSSalesManagerSelectbox from "../../../../../components/NGSSalesManagerS
 import { useSetRecoilState } from "recoil";
 import { agncModalShowAtom } from "../atom";
 import { useFormContext } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 const DynamicBasicInfo = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
   const { watch } = useFormContext();
   const agncUkeyValue = watch("agncUkey");
   const setShowAgncSearchModal = useSetRecoilState(agncModalShowAtom);
@@ -62,11 +64,13 @@ const DynamicBasicInfo = () => {
                       hidden: true,
                     }}
                   />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="거래처 검색"
-                    onClick={handleAgncSearchModalOpen}
-                  />
+                  {type !== "modify" && (
+                    <OutlinedButton
+                      size="small"
+                      buttonName="거래처 검색"
+                      onClick={handleAgncSearchModalOpen}
+                    />
+                  )}
                 </Stack>
               </TD>
             </TableRow>

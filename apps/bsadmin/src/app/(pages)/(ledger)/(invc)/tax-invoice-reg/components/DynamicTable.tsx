@@ -122,12 +122,13 @@ const DynamicTable = () => {
         품명(총 {controlledFields.length}건)
       </Typography>
       <TableContainer sx={{ mb: 3 }}>
-        <Table>
+        <Table size="small">
           <TableHead>
             <TableRow>
               {paymentInfoValue !== "BS_1914004" && (
                 <TH sx={{ width: 50 }} align="center">
                   <Checkbox
+                    size="small"
                     checked={
                       fields.length > 0 && selectedRows.length === fields.length
                     }
@@ -156,6 +157,7 @@ const DynamicTable = () => {
                   {paymentInfoValue !== "BS_1914004" && (
                     <TD>
                       <Checkbox
+                        size="small"
                         checked={selectedRows.includes(index)}
                         onChange={(e) =>
                           toggleRowSelection(index, e.target.checked)
@@ -294,14 +296,17 @@ const DynamicTable = () => {
           sx={{ mb: 3 }}
         >
           <ContainedButton
+            size="small"
             buttonName="품명 추가"
             onClick={handleAppend}
             startIcon={<MyIcon icon="plus" size={18} color="white" />}
           />
           <OutlinedButton
+            size="small"
             color="error"
             buttonName="삭제"
             onClick={handleDeleteSelected}
+            startIcon={<MyIcon icon="trash" size={18} color="red" />}
           />
         </Stack>
       )}

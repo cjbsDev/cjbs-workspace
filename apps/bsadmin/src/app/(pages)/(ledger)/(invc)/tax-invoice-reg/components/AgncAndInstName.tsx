@@ -10,7 +10,7 @@ const AgncAndInstName = () => {
   const isEmpty = !getAgncNm || !getIsntNm;
   const displayText = isEmpty
     ? "거래처 검색을 해주세요."
-    : `${getAgncNm}(${getIsntNm})`;
+    : `${getAgncNm} (${getIsntNm})`;
 
   // console.log("{{{{{{{{{{{{");
 

@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from "react";
 import { Form, Title1 } from "cjbsDSTM";
 import { Box } from "@mui/material";
-import { fetcher, POST } from "api";
+import { fetcher, POST, PUT } from "api";
 import dayjs from "dayjs";
 import { useRouter } from "next-nprogress-bar";
 import { toast } from "react-toastify";
@@ -16,20 +16,30 @@ import useSWR from "swr";
 const LegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const type = searchParams.get("type");
-  const invcNum = searchParams.get("invcNum");
   const invcUkey = searchParams.get("invcUkey");
-  const issuDttm = searchParams.get("issuDttm");
-  const agncUkey = searchParams.get("agncUkey");
 
-  const { data } = useSWR(`/invc/${invcUkey}`, fetcher, {
+  // console.log("TYPE", type);
+
+  const { data } = useSWR(type !== null ? `/invc/${invcUkey}` : null, fetcher, {
     suspense: true,
   });
+  // data.issuDttm = new Date(data.issuDttm);
+  // data.dpstDttm = new Date(data.dpstDttm);
+  //
+  // const modifyDefaultValues = data;
 
+  const modifyDefaultValues = useMemo(() => {
+    if (data) {
+      return {
+        ...data,
+        issuDttm: new Date(data.issuDttm),
+        dpstDttm: new Date(data.dpstDttm),
+      };
+    }
+    return null;
+  }, [data]);
   console.log("INVC Init Value ==>>", data);
-  const invcProductDetailList = data.invcProductDetailList;
-  const pymtInfoCc = data.pymtInfoCc;
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDisabled, setIsDisabled] = useState<boolean>(false);
@@ -48,78 +58,107 @@ const LegView = () => {
     ],
   };
 
-  const modifyDefaultValues = {
-    agncUkey: agncUkey,
-    pymtInfoCc: pymtInfoCc,
-    // agncNm: agncNm,
-    invcProductDetailList: invcProductDetailList,
-  };
-
-  console.log("modifyDefaultValues", modifyDefaultValues);
-
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log("Form Data ==>>", data);
-    const {
-      invcProductDetailList,
-      agncUkey,
-      bsnsMngrUkey,
-      pymtInfoCc,
-      instUkey,
-      pymtMngrNm,
-      rcvEmail,
-      memo,
-      report,
-      vat,
-      totalPrice,
-      totalSupplyPrice,
-      // dpstDttm,
-      dpstPrice,
-      pyrNm,
-      tnsfTargetAgncUkey,
-    } = data;
-
+    // const {
+    //   invcProductDetailList,
+    //   agncUkey,
+    //   bsnsMngrUkey,
+    //   pymtInfoCc,
+    //   instUkey,
+    //   pymtMngrNm,
+    //   rcvEmail,
+    //   memo,
+    //   report,
+    //   vat,
+    //   totalPrice,
+    //   totalSupplyPrice,
+    //   // dpstDttm,
+    //   dpstPrice,
+    //   pyrNm,
+    //   tnsfTargetAgncUkey,
+    // } = data;
+    //
+    // const dpstDttm = dayjs(data.dpstDttm).format("YYYY-MM-DD");
+    //
+    // const bodyData = {
+    //   agncUkey,
+    //   bsnsMngrUkey,
+    //   dpstDttm,
+    //   dpstPrice,
+    //   pyrNm,
+    //   instUkey,
+    //   invcProductDetailList,
+    //   memo,
+    //   pymtInfoCc,
+    //   pymtMngrNm,
+    //   rcvEmail,
+    //   report,
+    //   tnsfTargetAgncUkey,
+    //   totalPrice,
+    //   totalSupplyPrice,
+    //   vat,
+    // };
+    // 날짜 포맷 변경
     const dpstDttm = dayjs(data.dpstDttm).format("YYYY-MM-DD");
+    const issuDttm = dayjs(data.issuDttm).format("YYYY-MM-DD");
 
+    // 요청 바디 구성
     const bodyData = {
-      agncUkey,
-      bsnsMngrUkey,
+      ...data,
       dpstDttm,
-      dpstPrice,
-      pyrNm,
-      instUkey,
-      invcProductDetailList,
-      memo,
-      pymtInfoCc,
-      pymtMngrNm,
-      rcvEmail,
-      report,
-      tnsfTargetAgncUkey,
-      totalPrice,
-      totalSupplyPrice,
-      vat,
+      issuDttm,
     };
 
+    console.log("BODY DATA ==>>", bodyData);
+
     try {
-      const res = await POST(`/invc`, bodyData);
-      console.log("Response", res);
+      // 요청 타입에 따른 API 호출
+      const apiCall = type === "modify" ? PUT : POST;
+      const res = await apiCall(`/invc`, bodyData);
+
       if (res.success) {
         router.push("/tax-invoice-list");
       } else {
-        toast(res.message);
+        toast.error(res.message);
       }
     } catch (error) {
       console.error("Error submitting form", error);
+      toast.error("폼 제출 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
       setIsDisabled(true);
     }
+
+    // try {
+    //   const res =
+    //     (await type) === "modify"
+    //       ? PUT(`/invc`, bodyData)
+    //       : POST(`/invc`, bodyData);
+    //   // const res = await PUT(`/invc`, bodyData)
+    //   console.log("Response", res);
+    //   if (res.success) {
+    //     router.push("/tax-invoice-list");
+    //   } else {
+    //     toast(res.message);
+    //   }
+    // } catch (error) {
+    //   console.error("Error submitting form", error);
+    // } finally {
+    //   setIsLoading(false);
+    //   setIsDisabled(true);
+    // }
   };
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={modifyDefaultValues}>
+    <Form
+      onSubmit={onSubmit}
+      defaultValues={type === null ? defaultValues : modifyDefaultValues}
+    >
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName="세금계산서 등록" />
+        <Title1
+          titleName={`세금계산서 ${type === "modify" ? "수정" : "등록"}`}
+        />
       </Box>
 
       {/* 기본정보 */}

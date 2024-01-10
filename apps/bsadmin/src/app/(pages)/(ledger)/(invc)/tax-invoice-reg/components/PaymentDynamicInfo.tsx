@@ -28,7 +28,7 @@ import {
   rmnPriceDetailShowAtom,
 } from "../atom";
 import dynamic from "next/dynamic";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import RmnPrePymtPrice from "./RmnPrePymtPrice";
 
 const LazyRmnPymtPriceDetail = dynamic(() => import("./RmnPymtPriceDetail"), {
@@ -47,7 +47,7 @@ const PaymentDynamicInfo = () => {
   const setShowAgncSearchModal = useSetRecoilState(agncModalShowAtom);
   const setShowInstSearchModal = useSetRecoilState(instModalShowAtom);
 
-  console.log(watch("pymtInfoCc"));
+  console.log("PAYMENT TYPE@@@@", watch("pymtInfoCc"));
   const paymentInfoValue = watch("pymtInfoCc");
 
   const show = useRecoilValue(rmnPriceDetailShowAtom);

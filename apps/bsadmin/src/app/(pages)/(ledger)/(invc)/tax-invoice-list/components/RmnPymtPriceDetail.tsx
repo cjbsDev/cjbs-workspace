@@ -32,7 +32,7 @@ const RmnPymtPriceDetail = ({ agncUkey }) => {
     },
   );
 
-  // console.log("Rmn Payment Price Detail ==>>", data);
+  console.log("Rmn Payment Price Detail ==>>", data);
   const { rmnPymtPriceListDetailList } = data;
 
   return (
@@ -50,37 +50,81 @@ const RmnPymtPriceDetail = ({ agncUkey }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rmnPymtPriceListDetailList.map(
-            (
-              item: {
-                srvcCtgrMc: string;
-                srvcCtgrMcVal: string;
-                anlsItstUkey: string;
-                anlsDttm: string;
-                anlsPrice: number;
+          {rmnPymtPriceListDetailList.length > 0 ? (
+            rmnPymtPriceListDetailList.map(
+              (
+                item: {
+                  srvcCtgrMc: string;
+                  srvcCtgrMcVal: string;
+                  anlsItstUkey: string;
+                  anlsDttm: string;
+                  anlsPrice: number;
+                },
+                index: number,
+              ) => {
+                const {
+                  srvcCtgrMc,
+                  srvcCtgrMcVal,
+                  anlsItstUkey,
+                  anlsDttm,
+                  anlsPrice,
+                } = item;
+                return (
+                  <TableRow key={anlsItstUkey}>
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell align="center">{srvcCtgrMcVal}</TableCell>
+                    <TableCell align="center">{anlsItstUkey}</TableCell>
+                    <TableCell align="right">{anlsDttm}</TableCell>
+                    <TableCell align="right">
+                      {anlsPrice}
+                      {/*{formatNumberWithCommas(anlsPrice)}*/}
+                    </TableCell>
+                  </TableRow>
+                );
               },
-              index: number,
-            ) => {
-              const {
-                srvcCtgrMc,
-                srvcCtgrMcVal,
-                anlsItstUkey,
-                anlsDttm,
-                anlsPrice,
-              } = item;
-              return (
-                <TableRow key={anlsItstUkey}>
-                  <TableCell>{index + 1}</TableCell>
-                  <TableCell align="center">{srvcCtgrMcVal}</TableCell>
-                  <TableCell align="center">{anlsItstUkey}</TableCell>
-                  <TableCell align="right">{anlsDttm}</TableCell>
-                  <TableCell align="right">
-                    {formatNumberWithCommas(anlsPrice)}
-                  </TableCell>
-                </TableRow>
-              );
-            },
+            )
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} align="center">
+                <Typography variant="body2" sx={{ py: 2 }}>
+                  데이터가 없습니다.
+                </Typography>
+              </TableCell>
+            </TableRow>
           )}
+
+          {/*{rmnPymtPriceListDetailList.map(*/}
+          {/*  (*/}
+          {/*    item: {*/}
+          {/*      srvcCtgrMc: string;*/}
+          {/*      srvcCtgrMcVal: string;*/}
+          {/*      anlsItstUkey: string;*/}
+          {/*      anlsDttm: string;*/}
+          {/*      anlsPrice: number;*/}
+          {/*    },*/}
+          {/*    index: number,*/}
+          {/*  ) => {*/}
+          {/*    const {*/}
+          {/*      srvcCtgrMc,*/}
+          {/*      srvcCtgrMcVal,*/}
+          {/*      anlsItstUkey,*/}
+          {/*      anlsDttm,*/}
+          {/*      anlsPrice,*/}
+          {/*    } = item;*/}
+          {/*    return (*/}
+          {/*      <TableRow key={anlsItstUkey}>*/}
+          {/*        <TableCell>{index + 1}</TableCell>*/}
+          {/*        <TableCell align="center">{srvcCtgrMcVal}</TableCell>*/}
+          {/*        <TableCell align="center">{anlsItstUkey}</TableCell>*/}
+          {/*        <TableCell align="right">{anlsDttm}</TableCell>*/}
+          {/*        <TableCell align="right">*/}
+          {/*          {anlsPrice}*/}
+          {/*          /!*{formatNumberWithCommas(anlsPrice)}*!/*/}
+          {/*        </TableCell>*/}
+          {/*      </TableRow>*/}
+          {/*    );*/}
+          {/*  },*/}
+          {/*)}*/}
         </TableBody>
       </Table>
     </TableContainer>

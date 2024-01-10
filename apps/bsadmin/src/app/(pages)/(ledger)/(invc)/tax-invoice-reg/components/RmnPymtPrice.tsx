@@ -7,13 +7,13 @@ import { Typography } from "@mui/material";
 
 const RmnPymtPrice = () => {
   const { getValues } = useFormContext();
-  const rmnPrice = getValues("rmnPrice");
-  console.log("RMN Price", rmnPrice);
+  const rmnPymtPrice = getValues("rmnPymtPrice");
+  console.log("RMN Price", rmnPymtPrice);
 
   return (
     <>
       <Typography sx={{ color: cjbsTheme.palette.warning.main }}>
-        {rmnPrice !== undefined && formatNumberWithCommas(rmnPrice)}원
+        {rmnPymtPrice !== undefined && formatNumberWithCommas(rmnPymtPrice)}원
       </Typography>
       <InputValidation
         inputName="rmnPrice"
