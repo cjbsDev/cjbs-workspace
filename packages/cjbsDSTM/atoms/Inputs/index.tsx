@@ -178,3 +178,23 @@ export const InputEAType = ({ ...props }: TextFieldProps) => {
     </ThemeProvider>
   );
 };
+
+export const InputNumberType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        fullWidth
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+      />
+    </ThemeProvider>
+  );
+};

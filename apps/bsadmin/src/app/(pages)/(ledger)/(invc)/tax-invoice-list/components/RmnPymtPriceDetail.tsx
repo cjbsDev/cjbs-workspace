@@ -17,14 +17,21 @@ import {
 } from "@mui/material";
 import { cjbsTheme, formatNumberWithCommas } from "cjbsDSTM";
 
-const RmnPymtPriceDetail = ({ agncUkey }) => {
-  // const { getValues } = useFormContext();
-  // const agncUkey = getValues("agncUkey");
-  // console.log("AGNCUKEY ==>>", typeof agncUkey);
+interface RmnPymtPriceDetailProps {
+  agncUkey: string;
+  pymtInfoCc?: string;
+}
+
+const RmnPymtPriceDetail = ({
+  agncUkey,
+  pymtInfoCc,
+}: RmnPymtPriceDetailProps) => {
   const { data } = useSWR(
     () =>
       agncUkey !== "" || undefined
-        ? `/invc/list/rmn/pymt/price/${agncUkey}`
+        ? `/invc/list/rmn/${
+            pymtInfoCc === "BS_1914004" ? "tnsf" : "pymt"
+          }/price/${agncUkey}`
         : null,
     fetcher,
     {
@@ -41,13 +48,24 @@ const RmnPymtPriceDetail = ({ agncUkey }) => {
     >
       <Table size="small">
         <TableHead>
-          <TableRow>
-            <TableCell>No</TableCell>
-            <TableCell align="center">서비스 분류</TableCell>
-            <TableCell align="center">분석 내역서</TableCell>
-            <TableCell align="right">분석일</TableCell>
-            <TableCell align="right">분석비용</TableCell>
-          </TableRow>
+          {pymtInfoCc === "BS_1914004" ? (
+            <TableRow>
+              <TableCell>No</TableCell>
+              <TableCell align="center">상태</TableCell>
+              <TableCell align="center">거래처명</TableCell>
+              <TableCell align="right">이관 전 금액</TableCell>
+              <TableCell align="right">처리금액</TableCell>
+              <TableCell align="right">이관 후 금액</TableCell>
+            </TableRow>
+          ) : (
+            <TableRow>
+              <TableCell>No</TableCell>
+              <TableCell align="center">서비스 분류</TableCell>
+              <TableCell align="center">분석 내역서</TableCell>
+              <TableCell align="right">분석일</TableCell>
+              <TableCell align="right">분석비용</TableCell>
+            </TableRow>
+          )}
         </TableHead>
         <TableBody>
           {rmnPymtPriceListDetailList.length > 0 ? (
@@ -69,16 +87,22 @@ const RmnPymtPriceDetail = ({ agncUkey }) => {
                   anlsDttm,
                   anlsPrice,
                 } = item;
+
                 return (
                   <TableRow key={anlsItstUkey}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell align="center">{srvcCtgrMcVal}</TableCell>
-                    <TableCell align="center">{anlsItstUkey}</TableCell>
-                    <TableCell align="right">{anlsDttm}</TableCell>
-                    <TableCell align="right">
-                      {anlsPrice}
-                      {/*{formatNumberWithCommas(anlsPrice)}*/}
-                    </TableCell>
+                    {pymtInfoCc === "BS_1914004" ? (
+                      ""
+                    ) : (
+                      <>
+                        <TableCell align="center">{srvcCtgrMcVal}</TableCell>
+                        <TableCell align="center">{anlsItstUkey}</TableCell>
+                        <TableCell align="right">{anlsDttm}</TableCell>
+                        <TableCell align="right">
+                          {formatNumberWithCommas(anlsPrice)}
+                        </TableCell>
+                      </>
+                    )}
                   </TableRow>
                 );
               },
@@ -92,39 +116,6 @@ const RmnPymtPriceDetail = ({ agncUkey }) => {
               </TableCell>
             </TableRow>
           )}
-
-          {/*{rmnPymtPriceListDetailList.map(*/}
-          {/*  (*/}
-          {/*    item: {*/}
-          {/*      srvcCtgrMc: string;*/}
-          {/*      srvcCtgrMcVal: string;*/}
-          {/*      anlsItstUkey: string;*/}
-          {/*      anlsDttm: string;*/}
-          {/*      anlsPrice: number;*/}
-          {/*    },*/}
-          {/*    index: number,*/}
-          {/*  ) => {*/}
-          {/*    const {*/}
-          {/*      srvcCtgrMc,*/}
-          {/*      srvcCtgrMcVal,*/}
-          {/*      anlsItstUkey,*/}
-          {/*      anlsDttm,*/}
-          {/*      anlsPrice,*/}
-          {/*    } = item;*/}
-          {/*    return (*/}
-          {/*      <TableRow key={anlsItstUkey}>*/}
-          {/*        <TableCell>{index + 1}</TableCell>*/}
-          {/*        <TableCell align="center">{srvcCtgrMcVal}</TableCell>*/}
-          {/*        <TableCell align="center">{anlsItstUkey}</TableCell>*/}
-          {/*        <TableCell align="right">{anlsDttm}</TableCell>*/}
-          {/*        <TableCell align="right">*/}
-          {/*          {anlsPrice}*/}
-          {/*          /!*{formatNumberWithCommas(anlsPrice)}*!/*/}
-          {/*        </TableCell>*/}
-          {/*      </TableRow>*/}
-          {/*    );*/}
-          {/*  },*/}
-          {/*)}*/}
         </TableBody>
       </Table>
     </TableContainer>

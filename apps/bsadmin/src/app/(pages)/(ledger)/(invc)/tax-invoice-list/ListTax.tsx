@@ -5,13 +5,13 @@ import { useResultObject } from "../../../../components/KeywordSearch/useResultO
 import useSWR from "swr";
 import { fetcher } from "api";
 import { Box, Stack, Typography } from "@mui/material";
-import { getColumns } from "./Columns";
-import SubHeader from "./SubHeader";
+import { getColumns } from "./components/Columns";
+import SubHeader from "./components/SubHeader";
 import { DataTableBase, Title1 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../../../components/NoDataView";
 import { useRouter } from "next-nprogress-bar";
-import Expanded from "./Expanded";
+import Expanded from "./components/Expanded";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);

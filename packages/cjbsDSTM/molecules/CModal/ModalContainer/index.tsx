@@ -6,10 +6,11 @@ interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
   modalWidth: number;
+  overflowY?: string;
 }
 
 export const ModalContainer = (props: ModalContainerProps) => {
-  const { children, onClose, open, modalWidth } = props;
+  const { children, onClose, open, modalWidth, overflowY = "auto" } = props;
   return (
     <Dialog
       open={open}
@@ -17,6 +18,7 @@ export const ModalContainer = (props: ModalContainerProps) => {
       fullWidth
       PaperProps={{
         sx: {
+          overflowY: overflowY,
           maxWidth: modalWidth,
         },
       }}

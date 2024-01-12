@@ -114,6 +114,13 @@ const SampleTabDataTable = (props) => {
   const columns = useMemo(
     () => [
       {
+        width: "60px",
+        name: "No",
+        sortable: false,
+        center: true,
+        selector: (row) => row.turnId,
+      },
+      {
         name: "샘플번호",
         sortable: false,
         center: true,

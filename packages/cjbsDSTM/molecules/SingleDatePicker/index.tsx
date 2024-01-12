@@ -19,6 +19,7 @@ interface SingleDatePickerProps {
   inputName: string;
   errorMessage?: string;
   required?: boolean;
+  textAlign?: "end" | "start";
 }
 
 export const SingleDatePicker = (props: SingleDatePickerProps) => {
@@ -26,6 +27,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
     inputName,
     required = false,
     errorMessage = "날짜를 선택해 주세요.",
+    textAlign = "start",
     ...other
   } = props;
   const { control, formState, register } = useFormContext();
@@ -54,6 +56,10 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
           ".MuiOutlinedInput-input:read-only": {
             backgroundColor: "white",
             cursor: "pointer",
+          },
+          ".MuiOutlinedInput-input": {
+            textAlign: textAlign,
+            paddingRight: 3.8,
           },
         }}
       />

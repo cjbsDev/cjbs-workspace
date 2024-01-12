@@ -24,11 +24,21 @@ export const getColumns = (totalElements: number) => [
   },
   {
     name: "상태",
-    width: "60px",
+    width: "80px",
     center: true,
     // sortable: true,
     // sortField: "orderId",
     selector: (row: { invcStatusCcVal: string }) => row.invcStatusCcVal,
+    cell: (row) => {
+      const { invcStatusCcVal } = row;
+      return (
+        <Chip
+          label={invcStatusCcVal}
+          size="small"
+          color={invcStatusCcVal === "요청" ? "primary" : "success"}
+        />
+      );
+    },
   },
   {
     name: "거래처",

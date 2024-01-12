@@ -1,4 +1,3 @@
-import TaxInvoiceInfo from "./TaxInvoiceInfo";
 import dynamic from "next/dynamic";
 import { SkeletonLoading } from "cjbsDSTM";
 const LazyTaxInvoiceInfo = dynamic(() => import("./TaxInvoiceInfo"), {
