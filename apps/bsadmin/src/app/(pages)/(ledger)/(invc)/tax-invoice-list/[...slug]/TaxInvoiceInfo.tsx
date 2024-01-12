@@ -37,25 +37,23 @@ import RmnPymtDetailBtn from "../components/RmnPymtDetailBtn";
 import { useRecoilState } from "recoil";
 import { rmnPriceDetailShowInfoAtom } from "../atom";
 import Link from "next/link";
-import LoadingSvg from "public/svg/loading_wh.svg";
-import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
 import AccountStatementModal from "../components/AccountStatementModal";
 import RmnPrePymtPrice from "../../tax-invoice-reg/components/RmnPrePymtPrice";
 import AdminPublishInfoModify from "../components/AdminPublishInfoModify";
 import PublishCancelBtn from "../components/PublishCancelBtn";
 import ModifyBtn from "../components/ModifyBtn";
-// import dayjs from "dayjs";
-
-// const currentDate = dayjs(new Date()).format("YYYY-MM-DD");
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
   {
     ssr: false,
     loading: () => (
-      <Stack direction="row" justifyContent="center">
-        <CircularProgress disableShrink size={20} sx={{ p: 1 }} />
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <Typography variant="body2" color="secondary">
+          Loading...
+        </Typography>
+        <CircularProgress size={20} />
       </Stack>
     ),
   },
@@ -127,6 +125,7 @@ const TaxInvoiceInfo = () => {
       console.log("Response", res);
       if (res.success) {
         router.push("/tax-invoice-list");
+        // mutate(`/run/sample/${ukey}?page=1&size=20`);
       } else {
         setSubAlertMsg(res.message);
         // toast(res.message);
@@ -159,33 +158,6 @@ const TaxInvoiceInfo = () => {
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
   };
-  // const handleDelete = async () => {
-  //   console.log("RRRRRRRRRRR", sampleUkeyList);
-  //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-  //
-  //   const body = {
-  //     sampleUkeyList: sampleUkeyList,
-  //   };
-  //   try {
-  //     const res = await DELETE(`/run/delete/${ukey}`, body);
-  //     console.log("Delete 성공 여부", res.success);
-  //
-  //     if (res.success) {
-  //       mutate(`/run/sample/${ukey}?page=1&size=20`);
-  //       handleAlertClose();
-  //       toast("삭제 되었습니다.");
-  //     } else {
-  //       toast(res.message);
-  //     }
-  //   } catch (error: any) {
-  //     console.error(
-  //       "샘플 삭제 오류>>>>",
-  //       error.response?.data?.data || error.message,
-  //     );
-  //   } finally {
-  //     setToggleClearRows(!toggledClearRows);
-  //   }
-  // };
 
   return (
     <>
@@ -277,7 +249,10 @@ const TaxInvoiceInfo = () => {
 
                     {show && (
                       <ErrorContainer FallbackComponent={Fallback}>
-                        <LazyRmnPymtPriceDetail agncUkey={instUkey} />
+                        <LazyRmnPymtPriceDetail
+                          agncUkey={agncUkey}
+                          pymtInfoCc={pymtInfoCc}
+                        />
                       </ErrorContainer>
                     )}
                   </TD>
@@ -314,7 +289,7 @@ const TaxInvoiceInfo = () => {
                       {show && (
                         <ErrorContainer FallbackComponent={Fallback}>
                           <LazyRmnPymtPriceDetail
-                            agncUkey={tnsfTargetAgncUkey}
+                            agncUkey={invcUkey}
                             pymtInfoCc={pymtInfoCc}
                           />
                         </ErrorContainer>
@@ -339,6 +314,8 @@ const TaxInvoiceInfo = () => {
                   </TableRow>
                 </>
               )}
+
+              {statusVal === "발행"}
             </TableBody>
           </Table>
         </TableContainer>

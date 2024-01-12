@@ -7,7 +7,7 @@ import { Typography } from "@mui/material";
 
 const RmnPymtPrice = () => {
   const { getValues } = useFormContext();
-  const rmnPymtPrice = getValues("rmnPymtPrice");
+  const rmnPymtPrice = getValues("rmnPymtPrice") || getValues("rmnPrice");
   console.log("RMN Price", rmnPymtPrice);
 
   return (
@@ -16,7 +16,7 @@ const RmnPymtPrice = () => {
         {rmnPymtPrice !== undefined && formatNumberWithCommas(rmnPymtPrice)}원
       </Typography>
       <InputValidation
-        inputName="rmnPrice"
+        inputName="rmnPymtPrice"
         sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
