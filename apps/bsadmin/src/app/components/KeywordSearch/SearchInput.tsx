@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 import _ from "lodash";
 
 const SearchInput = () => {
-  const { trigger, setValue, handleSubmit } = useFormContext();
+  // const { trigger, setValue, handleSubmit } = useFormContext();
 
   const debouncedChangeHandler = useCallback(
     _.debounce((inputValue) => {
