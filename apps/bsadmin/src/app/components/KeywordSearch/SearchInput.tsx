@@ -6,7 +6,7 @@ import { useFormContext } from "react-hook-form";
 import debounce from "lodash.debounce";
 
 const SearchInput = () => {
-  const { trigger } = useFormContext();
+  // const { trigger } = useFormContext();
   return (
     <InputValidation
       placeholder="검색"
