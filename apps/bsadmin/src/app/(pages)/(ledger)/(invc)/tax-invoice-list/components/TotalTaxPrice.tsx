@@ -19,7 +19,7 @@ const TotalTaxPrice = () => {
       spacing={2}
       sx={{
         backgroundColor: cjbsTheme.palette.grey["100"],
-        p: 1,
+        p: 2,
         mb: 1,
         borderRadius: 2,
       }}

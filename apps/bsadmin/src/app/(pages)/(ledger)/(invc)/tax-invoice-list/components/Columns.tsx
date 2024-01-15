@@ -1,17 +1,9 @@
-import React from "react";
-import {
-  Stack,
-  Typography,
-  Chip,
-  Tooltip,
-  IconButton,
-  Box,
-} from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import { Stack, Typography, Chip, Box } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
-import LinesEllipsis from "react-lines-ellipsis";
-import { blue, red, grey, green } from "cjbsDSTM/themes/color";
 import { cjbsTheme } from "cjbsDSTM";
+import Ellipsis from "./Ellipsis";
 
 export const getColumns = (totalElements: number) => [
   {
@@ -29,7 +21,7 @@ export const getColumns = (totalElements: number) => [
     // sortable: true,
     // sortField: "orderId",
     selector: (row: { invcStatusCcVal: string }) => row.invcStatusCcVal,
-    cell: (row) => {
+    cell: (row: { invcStatusCcVal: string }) => {
       const { invcStatusCcVal } = row;
       return (
         <Chip
@@ -162,24 +154,7 @@ export const getColumns = (totalElements: number) => [
     // center: true,
     cell: (row: { memo: string }) => {
       const { memo } = row;
-      return (
-        memo !== null &&
-        memo !== "" && (
-          <LinesEllipsis
-            data-tag="allowRowEvents"
-            text={memo}
-            maxLine="2"
-            ellipsis="..."
-            trimRight
-            basedOn="letters"
-          />
-          // <Tooltip title={memo} arrow>
-          //   <IconButton size="small">
-          //     <MyIcon icon="memo" size={24} />
-          //   </IconButton>
-          // </Tooltip>
-        )
-      );
+      return <Ellipsis text={memo} />;
     },
   },
   {
@@ -189,27 +164,7 @@ export const getColumns = (totalElements: number) => [
       row.report === null ? "-" : row.report,
     cell: (row: { report: string }) => {
       const { report } = row;
-      return (
-        report !== null &&
-        report !== "" && (
-          <LinesEllipsis
-            data-tag="allowRowEvents"
-            text={report}
-            maxLine="2"
-            ellipsis="..."
-            trimRight
-            basedOn="letters"
-            onReflow={(rleState) =>
-              console.log("보고서 clamped ==>>", rleState.clamped)
-            }
-          />
-          // <Tooltip title={memo} arrow>
-          //   <IconButton size="small">
-          //     <MyIcon icon="memo" size={24} />
-          //   </IconButton>
-          // </Tooltip>
-        )
-      );
+      return <Ellipsis text={report} />;
     },
   },
 ];

@@ -4,6 +4,7 @@ import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import DrawerProvider from "./DrawerProvider";
 import { NextProgressBar } from "./NextProgressBar";
+import Head from "next/head";
 
 // import { Inter } from "next/font/google";
 // const inter = Inter({

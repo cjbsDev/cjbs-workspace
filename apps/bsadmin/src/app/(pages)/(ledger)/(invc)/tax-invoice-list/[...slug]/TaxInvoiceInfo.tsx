@@ -13,6 +13,7 @@ import {
   Stack,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -220,7 +221,7 @@ const TaxInvoiceInfo = () => {
                 <TD sx={{ width: "85%" }}>{pymtInfoVal}</TD>
               </TableRow>
 
-              {pymtInfoCc !== "BS_1914004" && (
+              {pymtInfoCc !== "BS_1914004" && statusCc === "요청" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>남은금액</TH>
                   <TD>
@@ -259,7 +260,7 @@ const TaxInvoiceInfo = () => {
                 </TableRow>
               )}
 
-              {pymtInfoCc === "BS_1914004" && (
+              {pymtInfoCc === "BS_1914004" && statusVal !== "발행" && (
                 <>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>이관 가능 금액</TH>
@@ -315,7 +316,65 @@ const TaxInvoiceInfo = () => {
                 </>
               )}
 
-              {statusVal === "발행"}
+              {pymtInfoCc === "BS_1914004" && statusVal === "발행" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>처리 내역</TH>
+                  <TD sx={{ width: "85%" }} colSpan={3}>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        mt: 2,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>No</TableCell>
+                            <TableCell align="center">상태</TableCell>
+                            <TableCell align="center">거래처명</TableCell>
+                            <TableCell align="right">이관 전 금액</TableCell>
+                            <TableCell align="right">처리금액</TableCell>
+                            <TableCell align="right">이관 후 금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow></TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </TD>
+                </TableRow>
+              )}
+
+              {pymtInfoCc !== "BS_1914004" && statusVal === "발행" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>처리 내역</TH>
+                  <TD sx={{ width: "85%" }} colSpan={3}>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        mt: 2,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>No</TableCell>
+                            <TableCell align="center">서비스 분류</TableCell>
+                            <TableCell align="center">분석 내역서</TableCell>
+                            <TableCell align="right">분석일</TableCell>
+                            <TableCell align="right">분석비용</TableCell>
+                            <TableCell align="right">남은금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow></TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </TD>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
