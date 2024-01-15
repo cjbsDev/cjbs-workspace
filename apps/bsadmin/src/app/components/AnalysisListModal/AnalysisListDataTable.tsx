@@ -26,7 +26,7 @@ const AnalysisListDataTable = (props: {
   handleAddSampleList: any;
 }) => {
 
-  const { selectSampleList, onClose, getOrderUkey, handleAddSampleList } = props;
+  const { selectSampleList, onClose, getOrderUkey, handleAddSampleList, viewType } = props;
   const APIPATH = `/anls/itst/${getOrderUkey}/sample/list`;
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", getOrderUkey)
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", APIPATH)
@@ -49,12 +49,12 @@ const AnalysisListDataTable = (props: {
         center: true,
         selector: (row) => row.sampleId,
       },
-      {
-        name: "sampleUkey",
-        sortable: false,
-        center: true,
-        selector: (row) => row.sampleUkey,
-      },
+      // {
+      //   name: "sampleUkey",
+      //   sortable: false,
+      //   center: true,
+      //   selector: (row) => row.sampleUkey,
+      // },
       {
         name: "샘플명",
         sortable: false,
@@ -334,22 +334,46 @@ const AnalysisListDataTable = (props: {
   );
 
   const rowSelectCritera = useCallback((row) => {
-    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", selectSampleList)
+    //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", selectSampleList)
     if(selectSampleList != undefined && selectSampleList.length > 0){
       setSelectSampleIdArray(selectSampleList)
+      // console.log("!!selectSampleList : ", selectSampleList);
       // console.log("!!row data : ", row);
+      // console.log("!!row.sampleId : ", row.sampleId);
+      // console.log("!! : ", selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey)));
       // 배열안에 값이 row에 sampleId 와 같다면 true
-      if(selectSampleList.includes(row)) return true;
+      // if(selectSampleList.includes(row)) return true;
+      if(selectSampleList.find(list => Object.keys(list).includes('sampleUkeyList'))){
+        if(selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey))) return true;
+      } else {
+        if(selectSampleList.find(list => list.sampleUkey.includes(row.sampleUkey))) return true;
+      }
     }
   }, []);
 
   const rowSelectDisabled = useCallback((row) => {
-      // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
-      if(row.isAnlsItst === "Y"){
-          // console.log("!!row data : ", row);
-          // row에 isAnlsItst 값이 Y면 true
-          return true;
+    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
+    // console.log("!!selectSampleList : ", selectSampleList);
+    // 수정화면에선 기존에 선택했던 항목에 대해서도 재수정이 될수있기 때문에 disable처리 하지않는다.
+    if(viewType === "update") {
+      if(selectSampleList.find(list => Object.keys(list).includes('sampleUkeyList'))){
+        if(selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey))) return false;
+      } else {
+        if(selectSampleList.find(list => list.sampleUkey.includes(row.sampleUkey))) return false;
       }
+      if(row.isAnlsItst === "Y"){
+        // console.log("!!row data : ", row);
+        // row에 isAnlsItst 값이 Y면 true
+        return true;
+      }
+    } else {
+      if(row.isAnlsItst === "Y"){
+        // console.log("!!row data : ", row);
+        // row에 isAnlsItst 값이 Y면 true
+        return true;
+      }
+    }
+
   }, []);
 
   const handleSelectedRowChange1 = ({ selectedRows }: any) => {

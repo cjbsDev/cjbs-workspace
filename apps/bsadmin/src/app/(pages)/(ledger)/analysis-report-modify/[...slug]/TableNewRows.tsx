@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IconButton, InputAdornment, TableCell, TableRow, Typography} from "@mui/material";
+import {Box, IconButton, InputAdornment, Stack, TableCell, TableRow, Typography} from "@mui/material";
 import { InputValidation, SelectBox, cjbsTheme, Fallback, ErrorContainer } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
@@ -8,7 +8,6 @@ import {useEffect, useState} from "react";
 import {POST} from "api";
 import {toast} from "react-toastify";
 import {color} from "@mui/system";
-
 
 const LazyPrepSelectbox = dynamic(
   () => import("../../../../components/OrderSelectbox"),
@@ -19,8 +18,7 @@ const LazyPrepSelectbox = dynamic(
 );
 
 const TableNewRows = (props:any) => {
-  // const { field, remove, index, acct, perm, errors } = props;
-  const { field, remove, index, errors, viewPage } = props;
+  const { field, remove, index, errors } = props;
   const { reset, watch, control, getValues, formState,setValue } = useFormContext();
   const { update } = useFieldArray({
     control,
@@ -32,33 +30,34 @@ const TableNewRows = (props:any) => {
   if(dscntRasnCc !== undefined) {
     dscntRasnCc = dscntRasnCc.includes("BS_1813004");
   }
-  if(!dscntRasnCc) setValue(`sample.[${index}].dscntRasnDetail`, "");
+  // if(!dscntRasnCc) setValue(`sample.[${index}].dscntRasnDetail`, "");
 
-  const unitPrice = watch(`sample.[${index}].unitPrice`);
-  const supplyPrice = watch(`sample.[${index}].supplyPrice`);
-  const watchSrvcTypeMc = watch(`sample.[${index}].srvcTypeMc`);
-  const watchSampleSize = watch(`sample.[${index}].sampleSize`);
+  // const unitPrice = watch(`sample.[${index}].unitPrice`);
+  // const supplyPrice = watch(`sample.[${index}].supplyPrice`);
+  // const watchSrvcTypeMc = watch(`sample.[${index}].srvcTypeMc`);
+  // const watchSampleSize = watch(`sample.[${index}].sampleSize`);
 
   const [disCountChk, setDisCountChk] = useState<boolean>(false);
   const [stndSupplyPrice, setStndSupplyPrice] = useState<number>(0);
   const [sampleSizeState, setSampleSizeState] = useState<number>(0);
   const watchAddType = watch(`sample.[${index}].addType`)
-  // console.log(addType);
+  // console.log(index + " : " + watchAddType);
 
-  // useEffect(() => {
-  //   return () => {
-  //     // console.log("addType=="+watchAddType)
-  //     // console.log("srvcTypeMc=="+watchSrvcTypeMc)
-  //     // console.log("sampleSize=="+watchSampleSize)
-  //     // console.log("???????????????index : "+index)
-  //     // if(watchAddType === "modal" && watchSrvcTypeMc !== undefined && watchSampleSize > 0) {
-  //     //   console.log("??????????????????????????????????????????????????????????????????")
-  //       // setTimeout(() => {
-  //       //   callStndPrice();
-  //       // }, 1000);
-  //     // }
-  //   }
-  // }, []);
+  useEffect(() => {
+    return () => {
+      if(!dscntRasnCc) setValue(`sample.[${index}].dscntRasnDetail`, "");
+      // console.log("addType=="+watchAddType)
+      // console.log("srvcTypeMc=="+watchSrvcTypeMc)
+      // console.log("sampleSize=="+watchSampleSize)
+      // console.log("???????????????index : "+index)
+      // if(watchAddType === "modal" && watchSrvcTypeMc !== undefined && watchSampleSize > 0) {
+      //   console.log("??????????????????????????????????????????????????????????????????")
+        // setTimeout(() => {
+        //   callStndPrice();
+        // }, 1000);
+      // }
+    }
+  }, [dscntRasnCc]);
 
   // 기준가 조회하기
   const callStndPrice = async () => {
@@ -208,7 +207,6 @@ const TableNewRows = (props:any) => {
     }
   }
 
-
   return (
     <>
       <TableRow>
@@ -224,16 +222,9 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].srvcTypeVal`}
             required={false}
+            fullWidth={true}
             sx={{
-              width: 200,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
-              },
-              ".MuiOutlinedInput-input:read-only": {
-                backgroundColor: "white",
-                cursor: "pointer",
-                textFillColor: "#000000"
-              },
+              // width: 200,
               display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
@@ -246,7 +237,7 @@ const TableNewRows = (props:any) => {
               inputName={`sample.[${index}].srvcTypeMc`}
               onBlur={handleOnBlur}
               sx={{
-                width: 200,
+                // width: 200,
                 display: watchAddType === "button" ? 'block' : 'none',
               }}
             />
@@ -257,23 +248,16 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].stndPrice`}
             required={true}
+            fullWidth={true}
             sx={{
-              width: 150,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
-              },
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
-              // "&.MuiTextField-root" : {
-              //   backgroundColor : "#F1F3F5",
-              // },
-              ".MuiOutlinedInput-input:read-only": {
-                backgroundColor: "white",
-                cursor: "pointer",
-                textFillColor: "#000000"
+              "&.MuiTextField-root" : {
+                backgroundColor : "#F1F3F5",
               },
-              display: watchAddType === "button" ? 'none' : 'block',
+              // display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
               readOnly: true,
@@ -306,11 +290,9 @@ const TableNewRows = (props:any) => {
             patternErrMsg="숫자만 입력해주세요."
             onBlur={handleOnBlur}
             onFocus={handleSampleSizeOnFocus}
+            fullWidth={true}
             sx={{
-              width: 80,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
-              },
+              // width: 80,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -319,7 +301,7 @@ const TableNewRows = (props:any) => {
                 cursor: "pointer",
                 textFillColor: "#000000"
               },
-              display: watchAddType === "button" ? 'none' : 'block',
+              // display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
               readOnly: watchAddType === "button" ? false : true,
@@ -332,11 +314,9 @@ const TableNewRows = (props:any) => {
             required={true}
             onBlur={handleOnBlurUnitPrice}
             onFocus={handleOnFocus}
+            fullWidth={true}
             sx={{
-              width: 150,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
-              },
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -345,7 +325,6 @@ const TableNewRows = (props:any) => {
                 cursor: "pointer",
                 textFillColor: "#000000"
               },
-              display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
               readOnly: true,
@@ -365,23 +344,17 @@ const TableNewRows = (props:any) => {
             required={true}
             onBlur={handleOnBlurSupplyPrice}
             onFocus={handleOnFocus}
+            fullWidth={true}
             sx={{
-              width: 150,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
-              },
+              // width: 150,
+              // "&.MuiTextField-root" : {
+              //   backgroundColor : "#F1F3F5",
+              // },
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
-              ".MuiOutlinedInput-input:read-only": {
-                backgroundColor: "white",
-                cursor: "pointer",
-                textFillColor: "#000000"
-              },
-              display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
-              readOnly: true,
               endAdornment: (
                   <InputAdornment position="end">
                     <Typography variant="body2" sx={{ color: "black" }}>
@@ -398,23 +371,15 @@ const TableNewRows = (props:any) => {
             required={true}
             onBlur={handleOnBlurSupplyPrice}
             onFocus={handleOnFocus}
+            fullWidth={true}
             sx={{
-              width: 150,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
+              // width: 150,
+              "&.MuiTextField-root" : {
+                backgroundColor : "#F1F3F5",
               },
-              // "&.MuiTextField-root" : {
-              //   backgroundColor : "#F1F3F5",
-              // },
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
-              ".MuiOutlinedInput-input:read-only": {
-                backgroundColor: "white",
-                cursor: "pointer",
-                textFillColor: "#000000"
-              },
-              display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
               readOnly: true,
@@ -442,23 +407,15 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].dscntPctg`}
             required={true}
+            fullWidth={true}
             sx={{
-              width: 150,
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": { border: 'none' },
+              // width: 150,
+              "&.MuiTextField-root" : {
+                backgroundColor : "#F1F3F5",
               },
-              // "&.MuiTextField-root" : {
-              //   backgroundColor : "#F1F3F5",
-              // },
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
-              ".MuiOutlinedInput-input:read-only": {
-                backgroundColor: "white",
-                cursor: "pointer",
-                textFillColor: disCountChk === true ? "#f10505" : "#000000"
-              },
-              display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
               readOnly: true,
@@ -473,40 +430,30 @@ const TableNewRows = (props:any) => {
           />
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyPrepSelectbox
-              url={"/code/list/shortly/value?topValue=anls itst&midValue=reason"}
-              inputName={`sample.[${index}].dscntRasnCc`}
-              required={false}
-              // sx={{
-              //   "& .MuiOutlinedInput-root": {
-              //     "& fieldset": { border: 'none' },
-              //   },
-              //   ".MuiOutlinedInput-input": {
-              //     textAlign: "end",
-              //   },
-              //   ".MuiOutlinedInput-input:read-only": {
-              //     backgroundColor: "white",
-              //     cursor: "pointer",
-              //     textFillColor: disCountChk === true ? "#f10505" : "#000000"
-              //   },
-              //   display: watchAddType === "button" ? 'none' : 'block',
-              // }}
-              InputProps={{
-                readOnly: true,
-              }}
-            />
-          </ErrorContainer>
-          {errors.sample?.[index]?.dscntRasnCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+          <Stack direction="row" alignItems="center" spacing={1} sx={{width : '100%'}}>
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyPrepSelectbox
+                url={"/code/list/shortly/value?topValue=anls itst&midValue=reason"}
+                inputName={`sample.[${index}].dscntRasnCc`}
+                required={false}
+                fullWidth={true}
+                sx={{
+                  width : dscntRasnCc === true ? '120px' : '100%',
+                }}
+              />
+            </ErrorContainer>
+            {errors.sample?.[index]?.dscntRasnCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
 
-          { dscntRasnCc === true  && (
-            <InputValidation
-              inputName={`sample.[${index}].dscntRasnDetail`}
-              required={false}
-              sx={{ width: 400, mt: 0.5 }}
-            />
-          )}
-
+            { dscntRasnCc === true  && (
+              <Box sx={{width: '100%'}}>
+                <InputValidation
+                  inputName={`sample.[${index}].dscntRasnDetail`}
+                  required={false}
+                  fullWidth={true}
+                />
+              </Box>
+            )}
+          </Stack>
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
           {watchAddType === "button" && (
