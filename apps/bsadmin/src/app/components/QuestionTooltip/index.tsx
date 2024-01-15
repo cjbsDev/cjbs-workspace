@@ -192,7 +192,7 @@ export const QuestionTooltip = (props:any) => {
             >
               <Typography variant="subtitle2">안내</Typography>{" "}
               <Typography variant="body2">공급가액은 원래 공급가액에서</Typography>{" "}
-              <Typography variant="body2">+- 10원 범위 내에서만 수정 가능합니다.</Typography>{" "}
+              <Typography variant="body2">± 10원 범위 내에서만 수정 가능합니다.</Typography>{" "}
             </Stack>
           </Stack>
         </Popover>

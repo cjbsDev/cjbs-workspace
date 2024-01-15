@@ -345,6 +345,8 @@ const TableNewRows = (props:any) => {
               ),
             }}
           />
+        </TableCell>
+        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
           <InputValidation
               inputName={`sample.[${index}].vat`}
               required={true}
@@ -352,12 +354,16 @@ const TableNewRows = (props:any) => {
               onFocus={handleOnFocus}
               sx={{
                 width: 150,
-                display: "none",
+                // display: "none",
                 ".MuiOutlinedInput-input": {
                   textAlign: "end",
                 },
+                "&.MuiTextField-root" : {
+                  backgroundColor : "#F1F3F5",
+                },
               }}
               InputProps={{
+                readOnly: true,
                 endAdornment: (
                     <InputAdornment position="end">
                       <Typography variant="body2" sx={{ color: "black" }}>

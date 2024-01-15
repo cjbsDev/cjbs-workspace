@@ -9,8 +9,6 @@ import {
 import { DialogContent } from "@mui/material";
 import dynamic from "next/dynamic";
 
-console.log("11");
-
 const LazyAgncSearchDataTable = dynamic(() => import("./AgncSearchDataTable"), {
   ssr: false,
   loading: () => <SkeletonTableModalLoading />,

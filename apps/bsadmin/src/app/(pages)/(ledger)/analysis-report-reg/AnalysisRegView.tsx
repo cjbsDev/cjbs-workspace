@@ -16,8 +16,6 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  CheckboxGV,
-  CheckboxSV,
   ContainedButton,
   ErrorContainer,
   Fallback,
@@ -30,30 +28,18 @@ import {
 } from "cjbsDSTM";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
-import {
-  emailReceiveSettingData,
-  reqReturnListData,
-} from "../../../data/inputDataLists";
-import { fetcher, POST } from "api";
+import { POST } from "api";
 import { useSearchParams } from "next/navigation";
-import useSWR, { useSWRConfig } from "swr";
+import { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
 import {cjbsTheme} from "cjbsDSTM/themes";
-import {useFormContext} from "react-hook-form";
 import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 import {useRecoilState} from "recoil";
 import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
 import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
-
-
-interface CustomProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
-  name: string;
-}
 
 const LazyOrderSearchModal = dynamic(() => import("../../../components/OrderSearchModal"), {
     ssr: false,
@@ -65,36 +51,23 @@ const LazyAnalysisListModal = dynamic(() => import("../../../components/Analysis
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-
 const AnalysisRegView = () => {
-
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutate } = useSWRConfig();
 
-  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] = useState<boolean>(false);
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const [orderSelectChk, setOrderSelectChk] = useState<boolean>(false);
   const [ukeyValue, setUkeyValue] = useState<string>(null);
 
-  // const [selectSampleList, setSelectSampleList] = useState<any>();
   const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
   const [settlement, setSettlement] = useState<boolean>(false);
   const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
   const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
-
-  // 주문서에서 오더 등록 할때
-  const from: string | null = searchParams.get("from");
-  // console.log("from", typeof from);
-  const orshUK = searchParams.get("orshUkey");
-  // console.log("orshUkey", orshUK);
-  const orshType = searchParams.get("orshType");
-  // console.log("orshType", orshType);
 
   // defaultValues 세팅
   // const defaultValues = getDefaultValues(orshType, orshExtrData);
@@ -118,7 +91,7 @@ const AnalysisRegView = () => {
     const sampleUkeyList = () => {
       let sampleList = data.sample;
 
-      sampleList.map((item, index) => {
+      sampleList.map((item:any, index:any) => {
         console.log("item", item);
         // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
         if(selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
@@ -254,7 +227,7 @@ const AnalysisRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="orderUkey"
                       required={true}
                       InputProps={{
@@ -263,7 +236,7 @@ const AnalysisRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="agncUkey"
                       required={true}
                       InputProps={{
@@ -731,7 +704,7 @@ const AnalysisRegView = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href={from !== null ? from : "/analysis-report-list"}>
+                <Link href="/analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
 

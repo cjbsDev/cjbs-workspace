@@ -272,6 +272,11 @@ export default function AnalysisSampleDynamicTable(props: any) {
                   <QuestionTooltip sampleCloumn="supplyPrice" />
                 </Stack>
               </TableCell>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
+                <Stack direction="row" alignItems="center" spacing={1}>
+                  <Typography variant="subtitle2">부가세</Typography>
+                </Stack>
+              </TableCell>
               <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
                 <Typography variant="subtitle2">사용할인율</Typography>
               </TableCell>

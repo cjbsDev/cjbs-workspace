@@ -1,5 +1,3 @@
-"use client";
-
 import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 import dynamic from "next/dynamic";
 

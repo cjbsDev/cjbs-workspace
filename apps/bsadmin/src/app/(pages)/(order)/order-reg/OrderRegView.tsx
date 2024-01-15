@@ -658,9 +658,6 @@ const OrderRegView = () => {
                       inputName="price"
                       required={orshType !== "intn"}
                       errorMessage="오더 금액을 입력해 주세요."
-                      // pattern={/^[0-9]+$/}
-                      // pattern={/\B(?=(\d{3})+(?!\d))/g}
-                      // patternErrMsg="숫자만 입력해 주세요."
                       sx={{
                         width: 160,
                         ".MuiOutlinedInput-input": {

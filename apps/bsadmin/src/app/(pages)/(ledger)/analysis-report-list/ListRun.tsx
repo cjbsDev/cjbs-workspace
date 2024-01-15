@@ -115,6 +115,13 @@ const ListRun = () => {
         },
       },
       {
+        name: "거래처 번호",
+        width: "100px",
+        center: true,
+        // sortable: true,
+        selector: (row, index) => row.agncId,
+      },
+      {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
         width: "250px",
         // sortable: true,
@@ -211,9 +218,9 @@ const ListRun = () => {
   );
 
   const goDetailPage = (row: any) => {
-    const path = row.runUkey;
-    alert('준비중입니다.');
-    // router.push("/exp-run-list/" + path);
+    const path = row.anlsItstUkey;
+    console.log(path)
+    router.push("/analysis-report-list/" + path);
   };
 
   const subHeaderComponentMemo = useMemo(() => {
@@ -311,7 +318,7 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1038px'} align="center" rowSpan={10}>
+                    <TableCell width={'1138px'} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>

@@ -8,10 +8,10 @@ import {
   cjbsTheme,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
-// import { ModalAction, ModalContainer } from "cjbsDSTM";
-// import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 import * as React from "react";
 import { DialogContent, Stack, ThemeProvider, Typography } from "@mui/material";
+// import { ModalAction, ModalContainer } from "cjbsDSTM";
+// import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 // import { cjbsTheme } from "../../themes";
 
 interface AlertModalProps {
