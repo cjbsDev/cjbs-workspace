@@ -18,31 +18,31 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import TableNewRows from "./TableNewRows";
 import { useParams } from "next/navigation";
-import {QuestionTooltip} from "../../../../components/QuestionTooltip";
-import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../../recoil/atoms/toggled-clear-rows-atom";
-import {POST} from "api";
-import {toast} from "react-toastify";
+import { QuestionTooltip } from "../../../../components/QuestionTooltip";
+import { useRecoilState } from "recoil";
+import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
+import { toggledClearRowsAtom } from "../../../../recoil/atoms/toggled-clear-rows-atom";
+import { POST } from "api";
+import { toast } from "react-toastify";
 
 
 export default function AnalysisSampleDynamicTable(props: any) {
   // const serviceType = props.serviceType;
-  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData, viewPage } = props;
+  // const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
+  const { analysisSearchModalOpen, setSelectSampleListData } = props;
   const { control, getValues, formState, setValue, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   });
-  const watchFieldArray = watch("sample");
-  const controlledFields = fields.map((field, index) => {
-    // console.log("*****************", field)
-    return {
-      ...field,
-      ...watchFieldArray[index]
-    };
-  });
-
+  // const watchFieldArray = watch("sample");
+  // const controlledFields = fields.map((field, index) => {
+  //   // console.log("*****************", field)
+  //   return {
+  //     ...field,
+  //     ...watchFieldArray[index]
+  //   };
+  // });
   // console.log("updated", controlledFields);
 
   const { errors } = formState;
@@ -51,17 +51,18 @@ export default function AnalysisSampleDynamicTable(props: any) {
   const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
 
   useEffect(() => {
-    callHandleAddFields(selectSampleList);
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
     if(clearRowsAtom){
       resetTable();
+      setTimeout(() => {
+        callHandleAddFields(selectSampleList);
+      }, 1000);
     }
   }, [selectSampleList]);
 
-  // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
-    // console.log("selectSampleData!@#!@#!@#", selectSampleData);
+    console.log("selectSampleData!@#!@#!@#", selectSampleData);
     //resetTable();
 
     if(selectSampleData !== undefined && selectSampleData.length > 0) {
@@ -90,8 +91,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
       });
       console.log("end: ", mergeData)
       setSelectSampleListData(mergeData);
-      // resetTable();
-      // setTimeout(() => {
       mergeData["srvcTypeMc"].map((item: any) => {
         // console.log("item: ", item);
         const resData = callStndPrice(mergeData[item]["srvcTypeMc"], mergeData[item]["sampleUkey"].length)
@@ -112,7 +111,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
             });
         });
       });
-      // }, 500);
     }
   }
 
@@ -154,12 +152,12 @@ export default function AnalysisSampleDynamicTable(props: any) {
     let sumTotPrice;
     // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + fields);
 
-    if(controlledFields.length === 0) {
-      setValue("totalCnt", 0);
+    if(fields.length === 0) {
+      // setValue("totalCnt", 0);
       return false;
     }
 
-    controlledFields.map((item: any) => {
+    fields.map((item: any) => {
       // console.log(item)
       // console.log(item.supplyPrice)
       sumTotCnt += Number(item.sampleSize);
@@ -197,15 +195,14 @@ export default function AnalysisSampleDynamicTable(props: any) {
         setValue("remainingAmount", (totalPrice-rmnPrePymtPrice).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         setValue("settlementCost", rmnPrePymtPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
-      setSettlement(true);
+      // setSettlement(true);
     } else {
       // 선결제 금액이 없는경우
       setValue("remainingAmount", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      setSettlement(false);
+      // setSettlement(false);
     }
   };
   totalDataSum();
-
 
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
@@ -223,15 +220,24 @@ export default function AnalysisSampleDynamicTable(props: any) {
     });
   };
 
-  const resetTable = () => {
+  const resetTable = async () => {
     // console.log("fields 11: ", fields);
-    setTimeout(() => {
-      fields.forEach((item: any) => {
-        remove(item);
+    // setTimeout(() => {
+      fields.forEach((item: any, index) => {
+        console.log("item : ", item);
+        remove(index);
       });
-    }, 100);
+    // }, 1000);
+    await removeTable();
     // console.log("fields 22: ", fields);
     setClearRowsAtom(false);
+  };
+
+  const removeTable = () => {
+    fields.forEach((item: any, index) => {
+      console.log("item : ", item);
+      remove(index);
+    });
   };
 
   return (
@@ -249,49 +255,39 @@ export default function AnalysisSampleDynamicTable(props: any) {
               {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
               {/*  <Typography variant="subtitle2">No.</Typography>*/}
               {/*</TableCell>*/}
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">서비스 타입</Typography>
-                </Stack>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '15%' }}>
+                <Typography variant="subtitle2">서비스 타입</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">기준가</Typography>
-                </Stack>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
+                <Typography variant="subtitle2">기준가</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">수량</Typography>
-                </Stack>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}>
+                <Typography variant="subtitle2">수량</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">단가</Typography>
-                </Stack>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
+                <Typography variant="subtitle2">단가</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
                   <Typography variant="subtitle2">공급가액</Typography>
                   <QuestionTooltip sampleCloumn="supplyPrice" />
                 </Stack>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1 }}>
-                <Stack direction="row" alignItems="center" spacing={1}>
-                  <Typography variant="subtitle2">부가세</Typography>
-                </Stack>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
+                <Typography variant="subtitle2">부가세</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">사용할인율</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '25%' }}>
                 <Typography variant="subtitle2">사유</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {/*{fields.map((field, index) => {*/}
-            {controlledFields.map((field, index) => {
+            {fields.map((field, index) => {
+            {/*{controlledFields.map((field, index) => {*/}
               return (
                 <TableNewRows
                   key={field.id}
@@ -299,7 +295,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
                   remove={remove}
                   index={index}
                   errors={errors}
-                  viewPage={viewPage}
                 />
               );
             })}
@@ -307,20 +302,18 @@ export default function AnalysisSampleDynamicTable(props: any) {
         </Table>
       </TableContainer>
 
-      { viewPage === false && (
-        <Stack direction="row" spacing={0.5} justifyContent="center" mt={3} mb={5}>
-          <OutlinedButton
-            size="small"
-            buttonName="+서비스 타입 추가"
-            onClick={() => handleAddFields()}
-          />
-          <ContainedButton
-            size="small"
-            buttonName="분석 비용 추가"
-            onClick={analysisSearchModalOpen}
-          />
-        </Stack>
-      )}
+      <Stack direction="row" spacing={0.5} justifyContent="center" mt={3} mb={5}>
+        <OutlinedButton
+          size="small"
+          buttonName="+서비스 타입 추가"
+          onClick={() => handleAddFields()}
+        />
+        <ContainedButton
+          size="small"
+          buttonName="분석 비용 추가"
+          onClick={analysisSearchModalOpen}
+        />
+      </Stack>
 
     </>
   );
