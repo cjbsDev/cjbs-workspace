@@ -703,40 +703,26 @@ const AnalysisInfo = () => {
                                           />
                                         )}
                                         { isPrePymt === "N" && (
-                                          <LinkButton
-                                            buttonName={ invcIdList }
-                                            onClick={() => router.push("/cust-list")}
-                                          />
+                                          <Stack direction="row" spacing={1} alignItems="center">
+                                            <LinkButton
+                                              buttonName={ "("+invcIdList+")" }
+                                              onClick={() => router.push("/cust-list")}
+                                            />
+                                          </Stack>
                                         )}
                                         { isPrePymt === "U" && (
-                                          <LinkButton
-                                            buttonName={ invcIdList }
-                                            onClick={() => router.push("/cust-list")}
-                                          />
+                                          <Stack direction="row" spacing={1} alignItems="center">
+                                            분석내역서 번호
+                                            <LinkButton
+                                              buttonName={ "("+invcIdList+")" }
+                                              onClick={() => router.push("/cust-list")}
+                                            />
+                                          </Stack>
                                         )}
                                       </TD>
                                     </TableRow>
                                   );
                                 })}
-                                {/*<TableRow>*/}
-                                {/*  <TD sx={{width: "25%"}}>선결제</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>자동 정산</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>-1,000,000</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>*/}
-                                {/*    <ContainedButton*/}
-                                {/*      size="small"*/}
-                                {/*      // type="submit"*/}
-                                {/*      color="secondary"*/}
-                                {/*      buttonName="정산내역"*/}
-                                {/*    />*/}
-                                {/*  </TD>*/}
-                                {/*</TableRow>*/}
-                                {/*<TableRow>*/}
-                                {/*  <TD sx={{width: "25%"}}>세금계산서</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>카드</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>-50,000</TD>*/}
-                                {/*  <TD sx={{width: "25%"}}>123445</TD>*/}
-                                {/*</TableRow>*/}
                               </TableBody>
                             </Table>
                           </TableContainer>

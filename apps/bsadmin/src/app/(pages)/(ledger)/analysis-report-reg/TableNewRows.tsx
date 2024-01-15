@@ -1,5 +1,5 @@
 import * as React from "react";
-import {IconButton, InputAdornment, TableCell, TableRow, Typography} from "@mui/material";
+import {Box, IconButton, InputAdornment, Stack, TableCell, TableRow, Typography} from "@mui/material";
 import { InputValidation, SelectBox, cjbsTheme, Fallback, ErrorContainer } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
@@ -208,7 +208,6 @@ const TableNewRows = (props:any) => {
     }
   }
 
-
   return (
     <>
       <TableRow>
@@ -224,8 +223,9 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].srvcTypeVal`}
             required={false}
+            fullWidth={true}
             sx={{
-              width: 200,
+              // width: 200,
               display: watchAddType === "button" ? 'none' : 'block',
             }}
             InputProps={{
@@ -237,8 +237,9 @@ const TableNewRows = (props:any) => {
               url={"/code/list/shortly/value?topValue=Service Type&midValue=none"}
               inputName={`sample.[${index}].srvcTypeMc`}
               onBlur={handleOnBlur}
+              fullWidth={true}
               sx={{
-                width: 200,
+                // width: 200,
                 display: watchAddType === "button" ? 'block' : 'none',
               }}
             />
@@ -249,8 +250,9 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].stndPrice`}
             required={true}
+            fullWidth={true}
             sx={{
-              width: 150,
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -273,7 +275,6 @@ const TableNewRows = (props:any) => {
             inputName={`sample.[${index}].stndCode`}
             required={true}
             sx={{
-              width: 150,
               display: 'none'
             }}
             InputProps={{
@@ -289,8 +290,9 @@ const TableNewRows = (props:any) => {
             patternErrMsg="숫자만 입력해주세요."
             onBlur={handleOnBlur}
             onFocus={handleSampleSizeOnFocus}
+            fullWidth={true}
             sx={{
-              width: 80,
+              // width: 80,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -306,8 +308,9 @@ const TableNewRows = (props:any) => {
             required={true}
             onBlur={handleOnBlurUnitPrice}
             onFocus={handleOnFocus}
+            fullWidth={true}
             sx={{
-              width: 150,
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -329,8 +332,9 @@ const TableNewRows = (props:any) => {
             required={true}
             onBlur={handleOnBlurSupplyPrice}
             onFocus={handleOnFocus}
+            fullWidth={true}
             sx={{
-              width: 150,
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -352,8 +356,9 @@ const TableNewRows = (props:any) => {
               required={true}
               onBlur={handleOnBlurSupplyPrice}
               onFocus={handleOnFocus}
+              fullWidth={true}
               sx={{
-                width: 150,
+                // width: 150,
                 // display: "none",
                 ".MuiOutlinedInput-input": {
                   textAlign: "end",
@@ -388,8 +393,9 @@ const TableNewRows = (props:any) => {
           <InputValidation
             inputName={`sample.[${index}].dscntPctg`}
             required={true}
+            fullWidth={true}
             sx={{
-              width: 150,
+              // width: 150,
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
@@ -413,23 +419,29 @@ const TableNewRows = (props:any) => {
           />
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyPrepSelectbox
-              url={"/code/list/shortly/value?topValue=anls itst&midValue=reason"}
-              inputName={`sample.[${index}].dscntRasnCc`}
-              required={false}
-            />
-          </ErrorContainer>
-          {errors.sample?.[index]?.dscntRasnCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
-
-          { dscntRasnCc === true  && (
-            <InputValidation
-              inputName={`sample.[${index}].dscntRasnDetail`}
-              required={false}
-              sx={{ width: 400, mt: 0.5 }}
-            />
-          )}
-
+          <Stack direction="row" alignItems="center" spacing={1} sx={{width : '100%'}}>
+            <ErrorContainer FallbackComponent={Fallback}>
+              <LazyPrepSelectbox
+                url={"/code/list/shortly/value?topValue=anls itst&midValue=reason"}
+                inputName={`sample.[${index}].dscntRasnCc`}
+                required={false}
+                fullWidth={true}
+                sx={{
+                  width : dscntRasnCc === true ? '120px' : '100%',
+                }}
+              />
+            </ErrorContainer>
+            {errors.sample?.[index]?.dscntRasnCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+            { dscntRasnCc === true  && (
+              <Box sx={{width: '100%'}}>
+                <InputValidation
+                  inputName={`sample.[${index}].dscntRasnDetail`}
+                  required={false}
+                  fullWidth={true}
+                />
+              </Box>
+            )}
+          </Stack>
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
           {watchAddType === "button" && (

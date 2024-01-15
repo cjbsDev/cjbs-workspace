@@ -42,34 +42,37 @@ export default function AnalysisSampleDynamicTable() {
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: cjbsTheme.palette.grey[100] }}>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
+              {/*  <Typography variant="subtitle2">No.</Typography>*/}
+              {/*</TableCell>*/}
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '15%' }}>
                 <Typography variant="subtitle2">서비스 타입</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center'}}>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">기준가</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}>
                 <Typography variant="subtitle2">수량</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">단가</Typography>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
-                <Stack direction="row" alignItems="center" spacing={1} justifyContent="center">
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
+                <Stack direction="row" alignItems="center" justifyContent="center" spacing={1}>
                   <Typography variant="subtitle2">공급가액</Typography>
                   <QuestionTooltip sampleCloumn="supplyPrice" />
                 </Stack>
               </TableCell>
-              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">부가세</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">사용할인율</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: 'center' }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '30%' }}>
                 <Typography variant="subtitle2">사유</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1 }}></TableCell>
+              {/*<TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}></TableCell>*/}
             </TableRow>
           </TableHead>
           <TableBody>
