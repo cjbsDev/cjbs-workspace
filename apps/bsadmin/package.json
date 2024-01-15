@@ -27,6 +27,7 @@
     "client-provider": "workspace:*",
     "eslint-config-custom": "workspace:*",
     "icon": "workspace:*",
+    "lodash": "^4.17.21",
     "lodash.debounce": "^4.0.8",
     "material-ui-popup-state": "^5.0.8",
     "next": "14.0.1",
