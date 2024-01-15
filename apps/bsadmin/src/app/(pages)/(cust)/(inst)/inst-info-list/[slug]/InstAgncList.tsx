@@ -15,12 +15,6 @@ interface AgncInfoDataProps {
 
 const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
   let getInstAgncUrl = `/inst/agncList/${instUkey}`;
-  const { data } = useSWR(getInstAgncUrl, fetcher, {
-    suspense: true,
-  });
-
-  const filteredData = data;
-  console.log("------ filteredData ---- ", filteredData);
 
   const columns = useMemo(
     () => [
@@ -59,6 +53,13 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
     ],
     []
   );
+
+  const { data } = useSWR(getInstAgncUrl, fetcher, {
+    suspense: true,
+  });
+
+  const filteredData = data;
+  console.log("------ filteredData ---- ", filteredData);
 
   return (
     <Box sx={{ mb: 5 }}>

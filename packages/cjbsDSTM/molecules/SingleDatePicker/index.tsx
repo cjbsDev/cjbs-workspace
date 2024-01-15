@@ -19,6 +19,7 @@ interface SingleDatePickerProps {
   inputName: string;
   errorMessage?: string;
   required?: boolean;
+  width?: string; // 새로운 prop 추가
 }
 
 export const SingleDatePicker = (props: SingleDatePickerProps) => {
@@ -49,7 +50,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
           ),
         }}
         sx={{
-          width: "100%",
+          width: props.width || "100%", // 넓이 적용
           fontSize: 12,
           ".MuiOutlinedInput-input:read-only": {
             backgroundColor: "white",

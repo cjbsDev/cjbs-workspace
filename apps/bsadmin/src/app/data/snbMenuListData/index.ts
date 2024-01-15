@@ -112,10 +112,10 @@ export const snbMenuListData = [
         //   menuLabel: '세금 계산서 관리',
         //   menuPath: '/tax-invoice-list'
         // },
-        // {
-        //   menuLabel: '거래 명세서 관리',
-        //   menuPath: '/transaction-statement-list'
-        // },
+        {
+          menuLabel: "거래 명세서 관리",
+          menuPath: "/transaction-statement-list",
+        },
         // {
         //   menuLabel: '매출 관리',
         //   menuPath: '/sales-cust-list'
