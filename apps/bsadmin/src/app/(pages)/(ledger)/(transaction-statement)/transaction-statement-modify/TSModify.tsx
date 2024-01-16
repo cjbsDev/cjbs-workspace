@@ -48,6 +48,7 @@ const LazyAgncSearchModal = dynamic(
   }
 );
 
+// 샘플 테이블
 const LazyAnalysisSampleDynamicTable = dynamic(
   () => import("../AnalysisSampleDynamicTable"),
   {
@@ -71,9 +72,7 @@ const TSRegView = () => {
   const params = searchParams.get("tdstUkey");
   const uKey = params;
   const { mutate } = useSWRConfig();
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
 
   // [기관 검색] 모달
@@ -102,43 +101,6 @@ const TSRegView = () => {
 
   console.log("getDataObj", getDataObj);
 
-  // const methods = useForm<FormData>({
-  //   defaultValues: () => {
-  //     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/tdst/${uKey}`)
-  //       .then((res) => res.json())
-  //       .then((getData) => {
-  //         const data = getData;
-  //         console.log("자세히 보기 data", data);
-
-  //         // return {
-  //         //   addr: data.addr,
-  //         //   addrDetail: data.addrDetail,
-  //         //   brno: data.brno,
-  //         //   ftr: data.ftr,
-  //         //   instNm: data.instNm,
-  //         //   instTypeCc: data.instTypeCc,
-  //         //   instUkey: data.instUkey,
-  //         //   instUniqueCodeMc: data.instUniqueCodeMc,
-  //         //   itbsns: data.itbsns,
-  //         //   lctnTypeCc: data.lctnTypeCc,
-  //         //   region1Gc: data.region1Gc,
-  //         //   region2Gc: data.region2Gc,
-  //         //   rprsNm: data.rprsNm,
-  //         //   statusCodeCc: data.statusCodeCc,
-  //         //   tpbsns: data.tpbsns,
-  //         //   zip: data.zip,
-  //         // };
-  //       });
-  //   },
-  // });
-  // const {
-  //   register,
-  //   formState: { errors },
-  //   getValues,
-  //   setValue,
-  //   handleSubmit,
-  // } = methods;
-
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -163,7 +125,6 @@ const TSRegView = () => {
         unitPrice: Number(item.unitPrice.replaceAll(",", "")),
       }));
     };
-
     const bodyData = {
       tdstTypeCc: data.tdstTypeCc, // 유형
       agncUkey: data.agncUkey,
@@ -203,15 +164,26 @@ const TSRegView = () => {
       });
   };
 
-  // console.log("getData", getDataObj);
-  // let defaultValues = {
-  //   tdstTypeCc: getDataObj.tdstTypeCc,
-  // };
-  //defaultValues={defaultValues}
+  const defaultValues = {
+    tdstTypeCc: getDataObj.tdstTypeCc,
+    agncUkey: getDataObj.agncUkey,
+    conm: getDataObj.conm,
+    nm: getDataObj.nm,
+    tel: getDataObj.tel,
+    memo: getDataObj.memo,
+    // wdtDate: getDataObj.wdtDate,
+    bsnsMngrUkey: getDataObj.bsnsMngrUkey,
+    totalPriceVal: getDataObj.totalPrice,
+    totalPrice: getDataObj.totalPrice,
+    totalSupplyPrice: getDataObj.totalSupplyPrice,
+    totalSupplyPriceVal: getDataObj.totalSupplyPrice,
+    vatVal: getDataObj.vat,
+    vat: getDataObj.vat,
+  };
 
   return (
     <>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
           <Title1 titleName={"거래명세서 수정"} />
         </Box>
