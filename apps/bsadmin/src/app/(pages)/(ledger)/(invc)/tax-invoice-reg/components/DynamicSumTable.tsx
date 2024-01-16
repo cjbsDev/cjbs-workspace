@@ -10,9 +10,10 @@ import {
 import { formatNumberWithCommas, TD, TH } from "cjbsDSTM";
 import { useFormContext, useWatch } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import InputPrice from "./InputPrice";
 
 const DynamicSumTable = () => {
-  const { control, setValue } = useFormContext();
+  const { control, setValue, getValues } = useFormContext();
   const productValue = useWatch({
     name: "invcProductDetailList",
     control,
@@ -55,6 +56,7 @@ const DynamicSumTable = () => {
                   <NumericFormat
                     value={vatValue}
                     decimalScale={1}
+                    thousandSeparator
                     fixedDecimalScale
                     displayType="text"
                   />

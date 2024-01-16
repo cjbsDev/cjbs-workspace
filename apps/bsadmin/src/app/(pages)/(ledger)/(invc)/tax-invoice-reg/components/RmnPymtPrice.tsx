@@ -8,7 +8,7 @@ import { Typography } from "@mui/material";
 const RmnPymtPrice = () => {
   const { getValues } = useFormContext();
   const rmnPymtPrice = getValues("rmnPymtPrice") || getValues("rmnPrice");
-  console.log("RMN Price", rmnPymtPrice);
+  console.log("남은 금액", rmnPymtPrice);
 
   return (
     <>

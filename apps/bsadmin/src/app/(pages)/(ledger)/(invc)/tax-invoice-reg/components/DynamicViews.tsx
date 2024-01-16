@@ -9,6 +9,7 @@ import AgncSearchModal from "../../../../../components/AgncSearchModal";
 import InstSearchModal from "../../../../../components/InstSearchModal";
 import { useRecoilState } from "recoil";
 import { agncModalShowAtom, instModalShowAtom } from "../atom";
+import DynamicSumTable2 from "./DynamicSumTable2";
 
 const DynamicViews = () => {
   const { watch, getValues } = useFormContext();
@@ -16,7 +17,9 @@ const DynamicViews = () => {
     useRecoilState(agncModalShowAtom);
   const [showInstSearchModal, setShowInstSearchModal] =
     useRecoilState(instModalShowAtom);
+
   const agncUkeyValue = watch("agncUkey");
+  const paymentInfoValue = watch("pymtInfoCc");
 
   console.log("ERERERERERERER", agncUkeyValue);
 
@@ -45,8 +48,14 @@ const DynamicViews = () => {
       <PaymentDynamicInfo />
 
       {/* 품명 */}
-      <DynamicTable />
-      <DynamicSumTable />
+      {paymentInfoValue === "BS_1914002" && (
+        <>
+          <DynamicTable />
+          <DynamicSumTable />
+        </>
+      )}
+
+      {paymentInfoValue !== "BS_1914002" && <DynamicSumTable2 />}
 
       {/* 발행처 정보 */}
       <PblshrInst />

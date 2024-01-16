@@ -580,7 +580,7 @@ const TaxInvoiceInfo = () => {
               />
             )}
 
-            {pymtInfoCc === "BS_1914002" && statusVal === "발행" ? null : (
+            {statusVal === "발행" && (
               <ContainedButton
                 buttonName="삭제"
                 color="error"
@@ -589,17 +589,15 @@ const TaxInvoiceInfo = () => {
               />
             )}
 
-            {pymtInfoCc === "BS_1914002" && statusVal === "발행" && (
-              <PublishCancelBtn />
-            )}
+            {statusVal === "발행" && <PublishCancelBtn />}
 
-            {pymtInfoCc === "BS_1914002" && statusVal === "요청" ? (
+            {statusVal === "요청" && (
               <ContainedButton
                 size="small"
                 buttonName="계산서 발행"
                 onClick={handleAccountStatementModalOpen}
               />
-            ) : null}
+            )}
           </Stack>
         </Stack>
       </Container>

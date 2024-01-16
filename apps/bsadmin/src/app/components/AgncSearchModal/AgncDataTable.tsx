@@ -15,9 +15,13 @@ const AgncDataTable = ({ handleClose }) => {
   const [size, setSize] = useState<number>(15);
   const { setValue, clearErrors, watch } = useFormContext();
   const paymentInfoValue = watch("pymtInfoCc");
-  const { data } = useSWR(`/agnc/list?page=${page}&size=${size}`, fetcher, {
-    suspense: true,
-  });
+  const { data } = useSWR(
+    `/agnc/list?isRmnPrePymtPriceExist=true&page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
 
   console.log("거래처 검색", data);
 
@@ -59,10 +63,20 @@ const AgncDataTable = ({ handleClose }) => {
           agncUkey: string;
           agncNm: string;
           instNm: string;
+          brno: string;
+          rprsNm: string;
           rmnPrice: number;
           rmnPrePymtPrice: number;
         }) => {
-          const { agncUkey, agncNm, rmnPrePymtPrice, rmnPrice, instNm } = row;
+          const {
+            agncUkey,
+            agncNm,
+            rmnPrePymtPrice,
+            rmnPrice,
+            instNm,
+            brno,
+            rprsNm,
+          } = row;
 
           const selected = useCallback(() => {
             if (paymentInfoValue === "BS_1914004") {
@@ -74,6 +88,8 @@ const AgncDataTable = ({ handleClose }) => {
               setValue("instNm", instNm);
               setValue("rmnPrePymtPrice", rmnPrePymtPrice);
               setValue("rmnPrice", rmnPrice);
+              setValue("brno", brno);
+              setValue("rprsNm", rprsNm);
             }
 
             clearErrors([
@@ -82,6 +98,8 @@ const AgncDataTable = ({ handleClose }) => {
               "instNm",
               "rmnPrice",
               "rmnPrePymtPrice",
+              "brno",
+              "rprsNm",
             ]);
 
             handleClose();
