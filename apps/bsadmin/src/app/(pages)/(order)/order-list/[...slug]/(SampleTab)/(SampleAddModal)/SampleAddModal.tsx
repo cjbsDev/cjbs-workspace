@@ -26,11 +26,9 @@ import {
 import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher, POST } from "api";
-// import fetcher from "../../../../../../func/fetcher";
 import { useParams } from "next/navigation";
 import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
-import axios from "axios";
 import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
 

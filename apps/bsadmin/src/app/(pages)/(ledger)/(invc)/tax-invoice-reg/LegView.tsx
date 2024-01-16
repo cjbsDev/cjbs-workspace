@@ -53,7 +53,6 @@ const LegView = () => {
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-
     // 요청 바디 구성
     const bodyData = {
       ...data,
@@ -62,7 +61,21 @@ const LegView = () => {
       issuDttm: dayjs(data.issuDttm).format("YYYY-MM-DD"),
     };
 
-    // console.log("BODY DATA ==>>", bodyData);
+    if (bodyData.pymtInfoCc === "BS_1914001") {
+      delete bodyData.invcProductDetailList;
+      delete bodyData.dpstPrice;
+      delete bodyData.dpstDttm;
+      delete bodyData.pyrNm;
+    } else if (bodyData.pymtInfoCc === "BS_1914003") {
+      delete bodyData.invcProductDetailList;
+    } else if (bodyData.pymtInfoCc === "BS_1914004") {
+      delete bodyData.invcProductDetailList;
+      delete bodyData.dpstPrice;
+      delete bodyData.dpstDttm;
+      delete bodyData.pyrNm;
+    }
+
+    console.log("BODY DATA ==>>", bodyData);
 
     try {
       // 요청 타입에 따른 API 호출

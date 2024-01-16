@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import { DELETE, fetcher, POST } from "api";
+import { DELETE, fetcher } from "api";
 import {
   Box,
   Chip,
@@ -13,6 +13,7 @@ import {
   Stack,
   Table,
   TableBody,
+  TableCell,
   TableContainer,
   TableHead,
   TableRow,
@@ -22,12 +23,10 @@ import {
   AlertModal,
   cjbsTheme,
   ContainedButton,
-  DeletedButton,
   ErrorContainer,
   Fallback,
   formatBusinessRegNo,
   formatNumberWithCommas,
-  InputValidation,
   OutlinedButton,
   TD,
   TH,
@@ -39,17 +38,23 @@ import RmnPymtDetailBtn from "../components/RmnPymtDetailBtn";
 import { useRecoilState } from "recoil";
 import { rmnPriceDetailShowInfoAtom } from "../atom";
 import Link from "next/link";
-import LoadingSvg from "public/svg/loading_wh.svg";
-import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
+import AccountStatementModal from "../components/AccountStatementModal";
+import RmnPrePymtPrice from "../../tax-invoice-reg/components/RmnPrePymtPrice";
+import AdminPublishInfoModify from "../components/AdminPublishInfoModify";
+import PublishCancelBtn from "../components/PublishCancelBtn";
+import ModifyBtn from "../components/ModifyBtn";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
   {
     ssr: false,
     loading: () => (
-      <Stack direction="row" justifyContent="center">
-        <CircularProgress disableShrink size={20} sx={{ p: 1 }} />
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <Typography variant="body2" color="secondary">
+          Loading...
+        </Typography>
+        <CircularProgress size={20} />
       </Stack>
     ),
   },
@@ -65,11 +70,14 @@ const LazyAgncInfoModal = dynamic(
 const TaxInvoiceInfo = () => {
   const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
+  const [accountStatementModalOpen, setAccountStatementModalOpen] =
+    useState<boolean>(false);
   const [subAlertMsg, setSubAlertMsg] = useState("");
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
   const router = useRouter();
   const params = useParams();
   const ukey = params.slug;
+  console.log(ukey);
   const { data } = useSWR(`/invc/${ukey}`, fetcher, {
     suspense: true,
   });
@@ -118,6 +126,7 @@ const TaxInvoiceInfo = () => {
       console.log("Response", res);
       if (res.success) {
         router.push("/tax-invoice-list");
+        // mutate(`/run/sample/${ukey}?page=1&size=20`);
       } else {
         setSubAlertMsg(res.message);
         // toast(res.message);
@@ -129,6 +138,14 @@ const TaxInvoiceInfo = () => {
       // setIsDisabled(true);
     }
   };
+
+  const handleAccountStatementModalOpen = useCallback(() => {
+    setAccountStatementModalOpen(true);
+  }, []);
+
+  const handleAccountStatementModalClose = useCallback(() => {
+    setAccountStatementModalOpen(false);
+  }, []);
 
   const handleAlertOpen = useCallback(() => {
     setAlertModalOpen(true);
@@ -142,39 +159,14 @@ const TaxInvoiceInfo = () => {
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
   };
-  // const handleDelete = async () => {
-  //   console.log("RRRRRRRRRRR", sampleUkeyList);
-  //   if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-  //
-  //   const body = {
-  //     sampleUkeyList: sampleUkeyList,
-  //   };
-  //   try {
-  //     const res = await DELETE(`/run/delete/${ukey}`, body);
-  //     console.log("Delete 성공 여부", res.success);
-  //
-  //     if (res.success) {
-  //       mutate(`/run/sample/${ukey}?page=1&size=20`);
-  //       handleAlertClose();
-  //       toast("삭제 되었습니다.");
-  //     } else {
-  //       toast(res.message);
-  //     }
-  //   } catch (error: any) {
-  //     console.error(
-  //       "샘플 삭제 오류>>>>",
-  //       error.response?.data?.data || error.message,
-  //     );
-  //   } finally {
-  //     setToggleClearRows(!toggledClearRows);
-  //   }
-  // };
 
   return (
     <>
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName="세금계산서 발행 요청" />
+          <Title1
+            titleName={`세금계산서 발행 ${statusVal === "요청" ? "요청" : ""}`}
+          />
         </Box>
 
         <Typography variant="subtitle1">거래처(PI) 정보</Typography>
@@ -228,39 +220,161 @@ const TaxInvoiceInfo = () => {
                 <TH sx={{ width: "15%" }}>결제구분</TH>
                 <TD sx={{ width: "85%" }}>{pymtInfoVal}</TD>
               </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>남은금액</TH>
-                <TD>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Stack
-                      direction="row"
-                      spacing={0.5}
-                      justifyContent="flex-end"
-                    >
-                      <Typography
-                        variant="body2"
-                        sx={{ color: cjbsTheme.palette.warning.main }}
+
+              {pymtInfoCc !== "BS_1914004" && statusCc === "요청" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>남은금액</TH>
+                  <TD>
+                    <Stack direction="row" justifyContent="space-between">
+                      <Stack
+                        direction="row"
+                        spacing={0.5}
+                        justifyContent="flex-end"
                       >
-                        {formatNumberWithCommas(rmnPymtPrice)}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        sx={{ color: cjbsTheme.palette.warning.main }}
-                      >
-                        원
-                      </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: cjbsTheme.palette.warning.main }}
+                        >
+                          {formatNumberWithCommas(rmnPymtPrice)}
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          sx={{ color: cjbsTheme.palette.warning.main }}
+                        >
+                          원
+                        </Typography>
+                      </Stack>
+
+                      <RmnPymtDetailBtn rmnPymtPrice={rmnPymtPrice} />
                     </Stack>
 
-                    <RmnPymtDetailBtn rmnPymtPrice={rmnPymtPrice} />
-                  </Stack>
+                    {show && (
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyRmnPymtPriceDetail
+                          agncUkey={agncUkey}
+                          pymtInfoCc={pymtInfoCc}
+                        />
+                      </ErrorContainer>
+                    )}
+                  </TD>
+                </TableRow>
+              )}
 
-                  {show && (
-                    <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyRmnPymtPriceDetail agncUkey={agncUkey} />
-                    </ErrorContainer>
-                  )}
-                </TD>
-              </TableRow>
+              {pymtInfoCc === "BS_1914004" && statusVal !== "발행" && (
+                <>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>이관 가능 금액</TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <Stack
+                        direction="row"
+                        spacing={0.5}
+                        justifyContent="space-between"
+                      >
+                        <Stack direction="row" spacing={0.5}>
+                          <Typography
+                            variant="body2"
+                            sx={{ color: cjbsTheme.palette.warning.main }}
+                          >
+                            {formatNumberWithCommas(tnsfPsbyPymtPrice)}
+                          </Typography>
+                          <Typography
+                            variant="body2"
+                            sx={{ color: cjbsTheme.palette.warning.main }}
+                          >
+                            원
+                          </Typography>
+                        </Stack>
+                        <RmnPymtDetailBtn rmnPymtPrice={tnsfPsbyPymtPrice} />
+                      </Stack>
+
+                      {show && (
+                        <ErrorContainer FallbackComponent={Fallback}>
+                          <LazyRmnPymtPriceDetail
+                            agncUkey={invcUkey}
+                            pymtInfoCc={pymtInfoCc}
+                          />
+                        </ErrorContainer>
+                      )}
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>이관 대상</TH>
+                    <TD sx={{ width: "85%" }} colSpan={3}>
+                      <Stack direction="row" spacing={0.2} alignItems="center">
+                        <Typography variant="body2">
+                          [{tnsfTargetAgncUkey}]
+                        </Typography>
+                        <Typography variant="body2">
+                          {tnsfTargetAgncNm}
+                        </Typography>
+                        <Typography variant="body2">
+                          ({tnsfTargetInstNm})
+                        </Typography>
+                      </Stack>
+                    </TD>
+                  </TableRow>
+                </>
+              )}
+
+              {pymtInfoCc === "BS_1914004" && statusVal === "발행" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>처리 내역</TH>
+                  <TD sx={{ width: "85%" }} colSpan={3}>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        mt: 2,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>No</TableCell>
+                            <TableCell align="center">상태</TableCell>
+                            <TableCell align="center">거래처명</TableCell>
+                            <TableCell align="right">이관 전 금액</TableCell>
+                            <TableCell align="right">처리금액</TableCell>
+                            <TableCell align="right">이관 후 금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow></TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </TD>
+                </TableRow>
+              )}
+
+              {pymtInfoCc !== "BS_1914004" && statusVal === "발행" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>처리 내역</TH>
+                  <TD sx={{ width: "85%" }} colSpan={3}>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        mt: 2,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell>No</TableCell>
+                            <TableCell align="center">서비스 분류</TableCell>
+                            <TableCell align="center">분석 내역서</TableCell>
+                            <TableCell align="right">분석일</TableCell>
+                            <TableCell align="right">분석비용</TableCell>
+                            <TableCell align="right">남은금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          <TableRow></TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  </TD>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -386,7 +500,13 @@ const TaxInvoiceInfo = () => {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">발행 정보</Typography>
+        <Stack direction="row" justifyContent="space-between">
+          <Typography variant="subtitle1">발행 정보</Typography>
+
+          {/* 부서 관리자만 가능 권한 로직 추가 */}
+          <AdminPublishInfoModify />
+        </Stack>
+
         <TableContainer sx={{ mb: 5 }}>
           <Table>
             <TableBody>
@@ -453,27 +573,31 @@ const TaxInvoiceInfo = () => {
 
           <Stack direction="row" spacing={0.5}>
             {pymtInfoCc !== "BS_1914004" && (
-              <Link
-                href={`/tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`}
-              >
-                <OutlinedButton size="small" buttonName="수정" />
-              </Link>
+              <ModifyBtn
+                invcUkey={invcUkey}
+                agncUkey={agncUkey}
+                issuDttm={issuDttm}
+              />
             )}
 
-            <ContainedButton
-              buttonName="삭제"
-              color="error"
-              onClick={handleAlertOpen}
-              size="small"
-            />
+            {statusVal === "발행" && (
+              <ContainedButton
+                buttonName="삭제"
+                color="error"
+                onClick={handleAlertOpen}
+                size="small"
+              />
+            )}
 
-            {/*<DeletedButton*/}
-            {/*  size="small"*/}
-            {/*  buttonName="삭제"*/}
-            {/*  onClick={handleAlertOpen}*/}
-            {/*/>*/}
+            {statusVal === "발행" && <PublishCancelBtn />}
 
-            <ContainedButton size="small" buttonName="계산서 발행" />
+            {statusVal === "요청" && (
+              <ContainedButton
+                size="small"
+                buttonName="계산서 발행"
+                onClick={handleAccountStatementModalOpen}
+              />
+            )}
           </Stack>
         </Stack>
       </Container>
@@ -492,6 +616,13 @@ const TaxInvoiceInfo = () => {
         onClose={agncInfoModalClose}
         open={showAgncInfoModal}
         modalWidth={800}
+      />
+
+      {/* 계산서 발행 모달 */}
+      <AccountStatementModal
+        onClose={handleAccountStatementModalClose}
+        open={accountStatementModalOpen}
+        modalWidth={440}
       />
     </>
   );
