@@ -20,7 +20,7 @@ const AgncDataTable = ({ handleClose }) => {
     fetcher,
     {
       suspense: true,
-    },
+    }
   );
 
   console.log("거래처 검색", data);
@@ -111,7 +111,7 @@ const AgncDataTable = ({ handleClose }) => {
         },
       },
     ],
-    [setValue, paymentInfoValue, handleClose],
+    [setValue, paymentInfoValue, handleClose]
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
@@ -122,7 +122,7 @@ const AgncDataTable = ({ handleClose }) => {
     (newPerPage: React.SetStateAction<number>, page: any) => {
       setSize(newPerPage);
     },
-    [],
+    []
   );
 
   return (

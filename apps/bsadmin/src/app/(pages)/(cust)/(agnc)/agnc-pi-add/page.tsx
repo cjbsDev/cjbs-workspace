@@ -26,6 +26,7 @@ import {
   MenuItem,
   TableContainer,
 } from "@mui/material";
+import { fetcher, POST } from "api";
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
@@ -184,16 +185,16 @@ const AgncAdd = () => {
 
     const apiUrl = `/agnc`; // Replace with your API URL
 
-    await axios
-      .post(apiUrl, saveObj)
+    await POST(apiUrl, saveObj)
       .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
+        console.log("request successful:", response.success);
+        setIsLoading(false);
+        if (response.success) {
           router.push("/agnc-pi-list");
-          setIsLoading(false);
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         console.error("request failed:", error);
       });
   };
