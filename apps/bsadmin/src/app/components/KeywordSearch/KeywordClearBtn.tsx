@@ -14,7 +14,7 @@ const KeywordClearBtn = () => {
     useRecoilState(toggledClearRowsAtom);
 
   const keywordWatch = watch("keyword");
-  console.log("keyword Watch!!!!!", keywordWatch);
+  // console.log("keyword Watch!!!!!", keywordWatch);
 
   const searchParams = useSearchParams();
 
@@ -23,10 +23,10 @@ const KeywordClearBtn = () => {
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
-  console.log(">>>>>>>>>", resultObject.uKey);
+  // console.log(">>>>>>>>>", resultObject.uKey);
 
   const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("WWWWWRESULT@#@#@#", JSON.stringify(result));
+  // console.log("WWWWWRESULT@#@#@#", JSON.stringify(result));
 
   const handleKeywordClear = () => {
     resetField("keyword");

@@ -110,6 +110,7 @@ const DynamicTable = () => {
     }
   };
 
+  const isDeleteDisabled = selectedRows.length === 0;
   const handleDeleteSelected = () => {
     const rowsToDelete = [...selectedRows].sort((a, b) => b - a);
     rowsToDelete.forEach((index) => remove(index));
@@ -306,7 +307,18 @@ const DynamicTable = () => {
             color="error"
             buttonName="삭제"
             onClick={handleDeleteSelected}
-            startIcon={<MyIcon icon="trash" size={18} color="red" />}
+            startIcon={
+              <MyIcon
+                icon="trash"
+                size={18}
+                color={
+                  isDeleteDisabled
+                    ? cjbsTheme.palette.grey["400"]
+                    : cjbsTheme.palette.error.main
+                }
+              />
+            }
+            disabled={isDeleteDisabled}
           />
         </Stack>
       )}

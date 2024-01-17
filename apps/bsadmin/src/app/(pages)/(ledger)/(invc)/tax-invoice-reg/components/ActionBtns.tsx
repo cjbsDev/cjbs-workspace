@@ -18,7 +18,7 @@ const ActionBtns = ({ isLoading, isDisabled }: ActionBtnsProps) => {
   const { watch } = useFormContext();
   const agncUkeyValue = watch("agncUkey");
 
-  const isTypeBtnName = type === "modify" ? "수정" : "저장";
+  const isTypeBtnName = type === "modify" ? "수정" : "등록";
   const isTypeLink =
     type === "modify" ? `/tax-invoice-list/${invcUkey}` : "/tax-invoice-list";
 

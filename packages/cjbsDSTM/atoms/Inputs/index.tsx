@@ -19,6 +19,7 @@ type InputValidationProps = TextFieldProps & {
   maxLengthErrMsg?: string;
   minLengthErrMsg?: string;
   onBlur?: any;
+  onChange?: () => void | undefined;
 };
 export const InputValidation = ({
   required = false,
@@ -31,6 +32,7 @@ export const InputValidation = ({
   maxLengthErrMsg,
   minLengthErrMsg,
   onBlur,
+  onChange,
   ...props
 }: InputValidationProps) => {
   const methods = useFormContext();
@@ -52,6 +54,7 @@ export const InputValidation = ({
             //   debounce(() => {
             //     console.log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", e.target.value);
             //   }),
+            onChange: onChange,
             onBlur: onBlur,
             maxLength: maxLength && {
               value: maxLength ?? 0,
@@ -174,6 +177,26 @@ export const InputEAType = ({ ...props }: TextFieldProps) => {
         InputProps={{
           endAdornment: <EA />,
         }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputNumberType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        fullWidth
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
       />
     </ThemeProvider>
   );

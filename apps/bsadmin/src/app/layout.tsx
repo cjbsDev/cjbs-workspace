@@ -4,7 +4,7 @@ import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import DrawerProvider from "./DrawerProvider";
 import { NextProgressBar } from "./NextProgressBar";
-
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 // import { Inter } from "next/font/google";
 // const inter = Inter({
 //   weight: ["400", "600", "700"],
@@ -31,12 +31,14 @@ export default function RootLayout({
         {/*/>*/}
       </head>
       <body>
-        <JeJuProvider>
-          <Provider>
-            <DrawerProvider>{children}</DrawerProvider>
-            <NextProgressBar />
-          </Provider>
-        </JeJuProvider>
+        <AppRouterCacheProvider>
+          <JeJuProvider>
+            <Provider>
+              <DrawerProvider>{children}</DrawerProvider>
+              <NextProgressBar />
+            </Provider>
+          </JeJuProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

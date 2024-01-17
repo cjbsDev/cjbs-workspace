@@ -7,12 +7,12 @@ import {
   ErrorContainer,
   Fallback,
 } from "cjbsDSTM";
-import KeywordSearch from "../../../../components/KeywordSearch";
+import KeywordSearch from "../../../../../components/KeywordSearch";
 // import ResultInSearch from "./ResultInSearch";
 // import IconDescBar from "../../../components/IconDescBar";
-import { SubHeaderProps } from "../../../../types/subHeader-props";
+import { SubHeaderProps } from "../../../../../types/subHeader-props";
 import dynamic from "next/dynamic";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
+import SkeletonLoading from "../../../../../components/SkeletonLoading";
 const LazyTotalTaxPrice = dynamic(() => import("./TotalTaxPrice"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
