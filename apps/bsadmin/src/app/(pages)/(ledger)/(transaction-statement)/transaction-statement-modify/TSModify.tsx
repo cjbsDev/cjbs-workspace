@@ -25,8 +25,7 @@ import {
   Title1,
   SingleDatePicker,
 } from "cjbsDSTM";
-import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useRef, useEffect } from "react";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
@@ -38,6 +37,8 @@ import { useForm } from "react-hook-form";
 import TypeSelect from "../TypeSelect";
 import dayjs from "dayjs";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
+import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
+import { useRecoilState } from "recoil";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -74,6 +75,8 @@ const TSRegView = () => {
   const { mutate } = useSWRConfig();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
+  const [selectSampleList, setSelectSampleList] =
+    useRecoilState(groupListDataAtom);
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
@@ -126,6 +129,7 @@ const TSRegView = () => {
       }));
     };
     const bodyData = {
+      tdstUkey: data.tdstUkey,
       tdstTypeCc: data.tdstTypeCc, // 유형
       agncUkey: data.agncUkey,
       conm: data.conm,
@@ -134,7 +138,6 @@ const TSRegView = () => {
       memo: data.memo,
       wdtDate: dayjs(data.wdtDate).format("YYYY-MM-DD"),
       bsnsMngrUkey: data.bsnsMngrUkey,
-
       tdstProductDetailList: sampleUkeyList(),
       totalPrice: Number(data.totalPrice),
       totalSupplyPrice: Number(data.totalSupplyPrice),
@@ -164,21 +167,36 @@ const TSRegView = () => {
       });
   };
 
+  const setDetailList = (getDataObj: any) => {
+    console.log(
+      "getDataObj.tdstProductDetailList",
+      getDataObj.tdstProductDetailList
+    );
+    setSelectSampleList(getDataObj.tdstProductDetailList);
+    return getDataObj.tdstProductDetailList;
+  };
+
   const defaultValues = {
+    wdtDate: getDataObj.wdtDate === null ? null : new Date(getDataObj.wdtDate),
     tdstTypeCc: getDataObj.tdstTypeCc,
+    agncNm: getDataObj.agncNm,
     agncUkey: getDataObj.agncUkey,
     conm: getDataObj.conm,
     nm: getDataObj.nm,
     tel: getDataObj.tel,
     memo: getDataObj.memo,
-    // wdtDate: getDataObj.wdtDate,
     bsnsMngrUkey: getDataObj.bsnsMngrUkey,
-    totalPriceVal: getDataObj.totalPrice,
+    totalPriceVal: getDataObj.totalPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalPrice: getDataObj.totalPrice,
+    totalSupplyPriceVal: getDataObj.totalSupplyPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalSupplyPrice: getDataObj.totalSupplyPrice,
-    totalSupplyPriceVal: getDataObj.totalSupplyPrice,
-    vatVal: getDataObj.vat,
+    vatVal: getDataObj.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     vat: getDataObj.vat,
+    tdstProductDetailList: setDetailList(getDataObj),
   };
 
   return (
@@ -327,6 +345,7 @@ const TSRegView = () => {
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAnalysisSampleDynamicTable
             setSelectSampleListData={setSelectSampleListData}
+            selectSampleList={selectSampleList}
           />
         </ErrorContainer>
 

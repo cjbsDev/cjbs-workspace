@@ -37,7 +37,6 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import TypeSelect from "../TypeSelect";
 import dayjs from "dayjs";
-// import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(

@@ -21,7 +21,7 @@ import { POST } from "api";
 import { toast } from "react-toastify";
 
 export default function AnalysisSampleDynamicTable(props: any) {
-  const { setSelectSampleListData } = props;
+  const { setSelectSampleListData, selectSampleList } = props;
   const { control, getValues, formState, setValue, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
@@ -35,11 +35,10 @@ export default function AnalysisSampleDynamicTable(props: any) {
     };
   });
 
-  // console.log("updated", controlledFields);
-
   const { errors } = formState;
-  const [selectSampleList, setSelectSampleList] =
-    useRecoilState(groupListDataAtom);
+  // const [selectSampleList, setSelectSampleList] =
+  //   useRecoilState(groupListDataAtom);
+
   const [clearRowsAtom, setClearRowsAtom] =
     useRecoilState(toggledClearRowsAtom);
 
@@ -52,8 +51,8 @@ export default function AnalysisSampleDynamicTable(props: any) {
 
   // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
-    // console.log("in callHandleAddFields", selectSampleData);
-    resetTable();
+    console.log("in callHandleAddFields", selectSampleData);
+    // resetTable();
 
     if (selectSampleData !== undefined && selectSampleData.length > 0) {
       const mergeData: any = {};
@@ -72,6 +71,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
         if (!mergeData.hasOwnProperty(item.srvcTypeMc)) {
           mergeData[item.srvcTypeMc] = {};
         }
+
         if (mergeData[item.srvcTypeMc].hasOwnProperty("sampleUkey")) {
           mergeData[item.srvcTypeMc]["sampleUkey"].push(item.sampleUkey);
         } else {
@@ -80,7 +80,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
           mergeData[item.srvcTypeMc]["sampleUkey"].push(item.sampleUkey);
         }
       });
-      // console.log("end: ", mergeData);
+      console.log("end: ", mergeData);
       setSelectSampleListData(mergeData);
       // resetTable();
       // setTimeout(() => {
@@ -95,7 +95,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
             addType: "modal",
             srvcTypeMc: mergeData[item]["srvcTypeMc"],
             srvcTypeVal: result[0].srvcTypeVal,
-            sampleSize: mergeData[item]["sampleUkey"].length,
+            sampleSize: mergeData[item]["sampleSize"],
             unitPrice: "0",
             supplyPrice: "0",
             vat: "0",
