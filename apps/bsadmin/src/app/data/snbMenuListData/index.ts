@@ -84,6 +84,10 @@ export const snbMenuListData = [
       name: "/exp",
       nestedPath: [
         {
+          menuLabel: "실험 정보",
+          menuPath: "/exp-info-list",
+        },
+        {
           menuLabel: "RUN 리스트",
           menuPath: "/exp-run-list",
         },
@@ -118,7 +122,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "세금 계산서 관리",
-          menuPath: "/tax-invoice-list",
+          menuPath: "/ledger-tax-invoice-list",
         },
         // {
         //   menuLabel: '거래 명세서 관리',

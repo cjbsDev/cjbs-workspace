@@ -56,7 +56,7 @@ const ListTax = () => {
   const goDetailPage = useCallback((row: any) => {
     const { invcUkey } = row;
     console.log("INVOICE UKEY ==>>", invcUkey);
-    router.push("/tax-invoice-list/" + invcUkey);
+    router.push("/ledger-tax-invoice-list/" + invcUkey);
   }, []);
 
   return (
