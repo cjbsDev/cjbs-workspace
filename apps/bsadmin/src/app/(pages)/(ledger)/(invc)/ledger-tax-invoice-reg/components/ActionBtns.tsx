@@ -20,7 +20,9 @@ const ActionBtns = ({ isLoading, isDisabled }: ActionBtnsProps) => {
 
   const isTypeBtnName = type === "modify" ? "수정" : "등록";
   const isTypeLink =
-    type === "modify" ? `/tax-invoice-list/${invcUkey}` : "/tax-invoice-list";
+    type === "modify"
+      ? `/ledger-tax-invoice-list/${invcUkey}`
+      : "/ledger-tax-invoice-list";
 
   return (
     <Stack direction="row" spacing={0.5} justifyContent="center">

@@ -125,7 +125,7 @@ const TaxInvoiceInfo = () => {
       const res = await DELETE(`/invc/${invcUkey}`);
       console.log("Response", res);
       if (res.success) {
-        router.push("/tax-invoice-list");
+        router.push("/ledger-tax-invoice-list");
         // mutate(`/run/sample/${ukey}?page=1&size=20`);
       } else {
         setSubAlertMsg(res.message);
@@ -504,7 +504,9 @@ const TaxInvoiceInfo = () => {
           <Typography variant="subtitle1">발행 정보</Typography>
 
           {/* 부서 관리자만 가능 권한 로직 추가 */}
-          <AdminPublishInfoModify />
+          {statusVal === "발행" &&
+            pymtInfoCc === "BS_1914002" &&
+            pymtInfoCc === "BS_1914004" && <AdminPublishInfoModify />}
         </Stack>
 
         <TableContainer sx={{ mb: 5 }}>
@@ -567,7 +569,7 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
-          <Link href="/tax-invoice-list">
+          <Link href="/ledger-tax-invoice-list">
             <OutlinedButton size="small" buttonName="목록" />
           </Link>
 
