@@ -17,7 +17,6 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
   const { type, onClose } = props;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  // const { data, error } = useSWR(APIPATH, fetcher);
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });

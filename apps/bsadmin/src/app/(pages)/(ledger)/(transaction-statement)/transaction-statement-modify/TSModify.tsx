@@ -28,10 +28,9 @@ import {
 import { useCallback, useState, useRef, useEffect } from "react";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
-import { fetcher, POST } from "api";
+import { fetcher, PUT } from "api";
 import { useParams, useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
-import Link from "next/link";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import TypeSelect from "../TypeSelect";
@@ -42,7 +41,7 @@ import { useRecoilState } from "recoil";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
-  () => import("../../../../components/AgncSearchModal"),
+  () => import("../../../../components/AgncSearchTSModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -143,12 +142,12 @@ const TSRegView = () => {
       totalSupplyPrice: Number(data.totalSupplyPrice),
       vat: Number(data.vat),
     };
-    console.log("bodyData", bodyData);
+    console.log("수정전 bodyData", bodyData);
 
     const apiUrl: string = `/tdst`;
-    await POST(apiUrl, bodyData)
+    await PUT(apiUrl, bodyData)
       .then((response) => {
-        console.log("POST request successful:", response);
+        console.log("PUT request successful:", response);
         if (response.success) {
           toast("등록 되었습니다.");
           setIsLoading(false);
@@ -159,7 +158,7 @@ const TSRegView = () => {
         }
       })
       .catch((error) => {
-        console.error("POST request failed:", error);
+        console.error("PUT request failed:", error);
         // toast(error.)
       })
       .finally(() => {
@@ -177,6 +176,7 @@ const TSRegView = () => {
   };
 
   const defaultValues = {
+    tdstUkey: getDataObj.tdstUkey,
     wdtDate: getDataObj.wdtDate === null ? null : new Date(getDataObj.wdtDate),
     tdstTypeCc: getDataObj.tdstTypeCc,
     agncNm: getDataObj.agncNm,

@@ -40,7 +40,7 @@ import dayjs from "dayjs";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
-  () => import("../../../../components/AgncSearchModal"),
+  () => import("../../../../components/AgncSearchTSModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
