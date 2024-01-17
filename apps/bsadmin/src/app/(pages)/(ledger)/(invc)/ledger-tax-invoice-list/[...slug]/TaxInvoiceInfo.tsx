@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import useSWR from "swr";
-import { DELETE, fetcher } from "api";
+import { fetcher } from "api";
 import {
   Box,
   Chip,
@@ -38,12 +38,11 @@ import RmnPymtDetailBtn from "../components/RmnPymtDetailBtn";
 import { useRecoilState } from "recoil";
 import { rmnPriceDetailShowInfoAtom } from "../atom";
 import Link from "next/link";
-import { useRouter } from "next-nprogress-bar";
 import AccountStatementModal from "../components/AccountStatementModal";
-import RmnPrePymtPrice from "../../tax-invoice-reg/components/RmnPrePymtPrice";
 import AdminPublishInfoModify from "../components/AdminPublishInfoModify";
 import PublishCancelBtn from "../components/PublishCancelBtn";
 import ModifyBtn from "../components/ModifyBtn";
+import DeleteBtn from "../components/DeleteBtn";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
@@ -69,15 +68,11 @@ const LazyAgncInfoModal = dynamic(
 
 const TaxInvoiceInfo = () => {
   const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
-  const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
-  const [subAlertMsg, setSubAlertMsg] = useState("");
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
-  const router = useRouter();
   const params = useParams();
   const ukey = params.slug;
-  console.log(ukey);
   const { data } = useSWR(`/invc/${ukey}`, fetcher, {
     suspense: true,
   });
@@ -120,24 +115,9 @@ const TaxInvoiceInfo = () => {
     vat,
   } = data;
 
-  const handleInvcDelete = async (invcUkey: string) => {
-    try {
-      const res = await DELETE(`/invc/${invcUkey}`);
-      console.log("Response", res);
-      if (res.success) {
-        router.push("/tax-invoice-list");
-        // mutate(`/run/sample/${ukey}?page=1&size=20`);
-      } else {
-        setSubAlertMsg(res.message);
-        // toast(res.message);
-      }
-    } catch (error) {
-      console.error("Error submitting form", error);
-    } finally {
-      // setIsLoading(false);
-      // setIsDisabled(true);
-    }
-  };
+  const isManager =
+    statusCc === "BS_1902003" &&
+    (pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914004");
 
   const handleAccountStatementModalOpen = useCallback(() => {
     setAccountStatementModalOpen(true);
@@ -146,15 +126,6 @@ const TaxInvoiceInfo = () => {
   const handleAccountStatementModalClose = useCallback(() => {
     setAccountStatementModalOpen(false);
   }, []);
-
-  const handleAlertOpen = useCallback(() => {
-    setAlertModalOpen(true);
-  }, []);
-
-  const handleAlertClose = () => {
-    setAlertModalOpen(false);
-    setSubAlertMsg("");
-  };
 
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
@@ -165,7 +136,9 @@ const TaxInvoiceInfo = () => {
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Box sx={{ mb: 4 }}>
           <Title1
-            titleName={`세금계산서 발행 ${statusVal === "요청" ? "요청" : ""}`}
+            titleName={`세금계산서 발행 ${
+              statusCc === "BS_1902002" ? "요청" : ""
+            }`}
           />
         </Box>
 
@@ -221,7 +194,7 @@ const TaxInvoiceInfo = () => {
                 <TD sx={{ width: "85%" }}>{pymtInfoVal}</TD>
               </TableRow>
 
-              {pymtInfoCc !== "BS_1914004" && statusCc === "요청" && (
+              {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902002" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>남은금액</TH>
                   <TD>
@@ -260,7 +233,7 @@ const TaxInvoiceInfo = () => {
                 </TableRow>
               )}
 
-              {pymtInfoCc === "BS_1914004" && statusVal !== "발행" && (
+              {pymtInfoCc === "BS_1914004" && statusCc !== "BS_1902003" && (
                 <>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>이관 가능 금액</TH>
@@ -316,7 +289,7 @@ const TaxInvoiceInfo = () => {
                 </>
               )}
 
-              {pymtInfoCc === "BS_1914004" && statusVal === "발행" && (
+              {pymtInfoCc === "BS_1914004" && statusCc === "BS_1902003" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>처리 내역</TH>
                   <TD sx={{ width: "85%" }} colSpan={3}>
@@ -346,7 +319,7 @@ const TaxInvoiceInfo = () => {
                 </TableRow>
               )}
 
-              {pymtInfoCc !== "BS_1914004" && statusVal === "발행" && (
+              {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902003" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>처리 내역</TH>
                   <TD sx={{ width: "85%" }} colSpan={3}>
@@ -402,29 +375,45 @@ const TaxInvoiceInfo = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {invcProductDetailList.map((item, index) => {
-                const {
-                  anlsTypeMc,
-                  anlsTypeVal,
-                  products,
-                  qnty,
-                  srvcCtgrMc,
-                  srvcCtgrVal,
-                  supplyPrice,
-                  unitPrice,
-                } = item;
-                return (
-                  <TableRow>
-                    <TD align="center">{index + 1}</TD>
-                    <TD>{products}</TD>
-                    <TD align="right">{formatNumberWithCommas(qnty)}개</TD>
-                    <TD align="right">{formatNumberWithCommas(unitPrice)}원</TD>
-                    <TD align="right">
-                      {formatNumberWithCommas(supplyPrice)}원
-                    </TD>
-                  </TableRow>
-                );
-              })}
+              {invcProductDetailList.map(
+                (
+                  item: {
+                    anlsTypeMc: string;
+                    anlsTypeVal: string;
+                    products: string;
+                    qnty: number;
+                    srvcCtgrMc: string;
+                    srvcCtgrVal: string;
+                    supplyPrice: number;
+                    unitPrice: number;
+                  },
+                  index: number,
+                ) => {
+                  const {
+                    anlsTypeMc,
+                    anlsTypeVal,
+                    products,
+                    qnty,
+                    srvcCtgrMc,
+                    srvcCtgrVal,
+                    supplyPrice,
+                    unitPrice,
+                  } = item;
+                  return (
+                    <TableRow>
+                      <TD align="center">{index + 1}</TD>
+                      <TD>{products}</TD>
+                      <TD align="right">{formatNumberWithCommas(qnty)}개</TD>
+                      <TD align="right">
+                        {formatNumberWithCommas(unitPrice)}원
+                      </TD>
+                      <TD align="right">
+                        {formatNumberWithCommas(supplyPrice)}원
+                      </TD>
+                    </TableRow>
+                  );
+                },
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -504,7 +493,7 @@ const TaxInvoiceInfo = () => {
           <Typography variant="subtitle1">발행 정보</Typography>
 
           {/* 부서 관리자만 가능 권한 로직 추가 */}
-          <AdminPublishInfoModify />
+          {isManager && <AdminPublishInfoModify />}
         </Stack>
 
         <TableContainer sx={{ mb: 5 }}>
@@ -516,7 +505,7 @@ const TaxInvoiceInfo = () => {
                   <Chip
                     label={statusVal}
                     size="small"
-                    color={statusVal === "요청" ? "primary" : "success"}
+                    color={statusCc === "BS_1902002" ? "primary" : "success"}
                   />
                 </TD>
                 <TH sx={{ width: "15%" }}>발행일</TH>
@@ -567,12 +556,12 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
-          <Link href="/tax-invoice-list">
+          <Link href="/ledger-tax-invoice-list">
             <OutlinedButton size="small" buttonName="목록" />
           </Link>
 
           <Stack direction="row" spacing={0.5}>
-            {pymtInfoCc !== "BS_1914004" && (
+            {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902002" && (
               <ModifyBtn
                 invcUkey={invcUkey}
                 agncUkey={agncUkey}
@@ -580,18 +569,11 @@ const TaxInvoiceInfo = () => {
               />
             )}
 
-            {statusVal === "발행" && (
-              <ContainedButton
-                buttonName="삭제"
-                color="error"
-                onClick={handleAlertOpen}
-                size="small"
-              />
-            )}
+            {statusCc === "BS_1902002" && <DeleteBtn />}
 
-            {statusVal === "발행" && <PublishCancelBtn />}
+            {statusCc === "BS_1902003" && <PublishCancelBtn />}
 
-            {statusVal === "요청" && (
+            {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
                 buttonName="계산서 발행"
@@ -601,15 +583,6 @@ const TaxInvoiceInfo = () => {
           </Stack>
         </Stack>
       </Container>
-
-      <AlertModal
-        onClose={handleAlertClose}
-        alertMainFunc={() => handleInvcDelete(invcUkey)}
-        open={alertModalOpen}
-        mainMessage="삭제를 진행하시겠습니까?"
-        subMessage={subAlertMsg}
-        alertBtnName="삭제"
-      />
 
       {/*거래처(pi) 정보 모달*/}
       <LazyAgncInfoModal

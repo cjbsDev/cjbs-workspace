@@ -84,8 +84,8 @@ const LegView = () => {
 
       if (res.success) {
         type === "modify"
-          ? router.push(`/tax-invoice-list/${invcUkey}`)
-          : router.push("/tax-invoice-list");
+          ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
+          : router.push("/ledger-tax-invoice-list");
       } else {
         toast.error(res.message);
       }
