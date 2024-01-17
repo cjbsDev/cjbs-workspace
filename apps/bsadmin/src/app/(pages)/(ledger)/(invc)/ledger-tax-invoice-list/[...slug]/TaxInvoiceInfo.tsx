@@ -120,6 +120,10 @@ const TaxInvoiceInfo = () => {
     vat,
   } = data;
 
+  const isManager =
+    statusCc === "BS_1902003" &&
+    (pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914004");
+
   const handleInvcDelete = async (invcUkey: string) => {
     try {
       const res = await DELETE(`/invc/${invcUkey}`);
@@ -165,7 +169,9 @@ const TaxInvoiceInfo = () => {
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Box sx={{ mb: 4 }}>
           <Title1
-            titleName={`세금계산서 발행 ${statusVal === "요청" ? "요청" : ""}`}
+            titleName={`세금계산서 발행 ${
+              statusCc === "BS_1902002" ? "요청" : ""
+            }`}
           />
         </Box>
 
@@ -221,7 +227,7 @@ const TaxInvoiceInfo = () => {
                 <TD sx={{ width: "85%" }}>{pymtInfoVal}</TD>
               </TableRow>
 
-              {pymtInfoCc !== "BS_1914004" && statusCc === "요청" && (
+              {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902002" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>남은금액</TH>
                   <TD>
@@ -260,7 +266,7 @@ const TaxInvoiceInfo = () => {
                 </TableRow>
               )}
 
-              {pymtInfoCc === "BS_1914004" && statusVal !== "발행" && (
+              {pymtInfoCc === "BS_1914004" && statusCc !== "BS_1902003" && (
                 <>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>이관 가능 금액</TH>
@@ -316,7 +322,7 @@ const TaxInvoiceInfo = () => {
                 </>
               )}
 
-              {pymtInfoCc === "BS_1914004" && statusVal === "발행" && (
+              {pymtInfoCc === "BS_1914004" && statusCc === "BS_1902003" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>처리 내역</TH>
                   <TD sx={{ width: "85%" }} colSpan={3}>
@@ -346,7 +352,7 @@ const TaxInvoiceInfo = () => {
                 </TableRow>
               )}
 
-              {pymtInfoCc !== "BS_1914004" && statusVal === "발행" && (
+              {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902003" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>처리 내역</TH>
                   <TD sx={{ width: "85%" }} colSpan={3}>
@@ -504,9 +510,8 @@ const TaxInvoiceInfo = () => {
           <Typography variant="subtitle1">발행 정보</Typography>
 
           {/* 부서 관리자만 가능 권한 로직 추가 */}
-          {statusVal === "발행" &&
-            pymtInfoCc === "BS_1914002" &&
-            pymtInfoCc === "BS_1914004" && <AdminPublishInfoModify />}
+          {isManager && <AdminPublishInfoModify />}
+          {/*<AdminPublishInfoModify />*/}
         </Stack>
 
         <TableContainer sx={{ mb: 5 }}>
@@ -518,7 +523,7 @@ const TaxInvoiceInfo = () => {
                   <Chip
                     label={statusVal}
                     size="small"
-                    color={statusVal === "요청" ? "primary" : "success"}
+                    color={statusCc === "BS_1902002" ? "primary" : "success"}
                   />
                 </TD>
                 <TH sx={{ width: "15%" }}>발행일</TH>
@@ -582,7 +587,7 @@ const TaxInvoiceInfo = () => {
               />
             )}
 
-            {statusVal === "발행" && (
+            {statusCc === "BS_1902003" && (
               <ContainedButton
                 buttonName="삭제"
                 color="error"
@@ -591,9 +596,9 @@ const TaxInvoiceInfo = () => {
               />
             )}
 
-            {statusVal === "발행" && <PublishCancelBtn />}
+            {statusCc === "BS_1902003" && <PublishCancelBtn />}
 
-            {statusVal === "요청" && (
+            {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
                 buttonName="계산서 발행"
