@@ -40,7 +40,7 @@ import { rmnPriceDetailShowInfoAtom } from "../atom";
 import Link from "next/link";
 import { useRouter } from "next-nprogress-bar";
 import AccountStatementModal from "../components/AccountStatementModal";
-import RmnPrePymtPrice from "../../tax-invoice-reg/components/RmnPrePymtPrice";
+import RmnPrePymtPrice from "../../ledger-tax-invoice-reg/components/RmnPrePymtPrice";
 import AdminPublishInfoModify from "../components/AdminPublishInfoModify";
 import PublishCancelBtn from "../components/PublishCancelBtn";
 import ModifyBtn from "../components/ModifyBtn";
