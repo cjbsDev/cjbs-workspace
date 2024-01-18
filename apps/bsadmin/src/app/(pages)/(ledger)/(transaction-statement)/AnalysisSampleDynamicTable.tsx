@@ -51,7 +51,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
 
   // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
-    console.log("in callHandleAddFields", selectSampleData);
+    // console.log("in callHandleAddFields", selectSampleData);
     // resetTable();
 
     if (selectSampleData !== undefined && selectSampleData.length > 0) {
@@ -80,7 +80,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
           mergeData[item.srvcTypeMc]["sampleUkey"].push(item.sampleUkey);
         }
       });
-      console.log("end: ", mergeData);
+      // console.log("end: ", mergeData);
       setSelectSampleListData(mergeData);
       // resetTable();
       // setTimeout(() => {
