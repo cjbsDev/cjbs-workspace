@@ -121,7 +121,7 @@ const ListCust = () => {
       },
       {
         name: "발송",
-        selector: (row: { sendStatusCcVal: string }) => row.sendStatusCcVal,
+        selector: (row: { sendStatusVal: string }) => row.sendStatusVal,
         width: "100px",
       },
       {

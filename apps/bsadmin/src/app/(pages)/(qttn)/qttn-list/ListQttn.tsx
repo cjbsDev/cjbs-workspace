@@ -136,7 +136,7 @@ const ListCust = () => {
       {
         name: "작성자",
         center: true,
-        selector: (row: { writer: string }) => row.writer,
+        selector: (row: { wdtNm: string }) => row.wdtNm,
         width: "100px",
       },
 
@@ -165,8 +165,8 @@ const ListCust = () => {
         name: "발송일자",
         width: "150px",
         center: true,
-        selector: (row: { sendDate: any }) =>
-          row.sendDate ? Dayjs(row.sendDate).format("YYYY-MM-DD") : "-",
+        selector: (row: { sendDttm: any }) =>
+          row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
     []

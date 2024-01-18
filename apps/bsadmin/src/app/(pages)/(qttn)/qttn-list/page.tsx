@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 
-const LazyListCust = dynamic(() => import("./ListTS"), {
+const LazyListCust = dynamic(() => import("./ListQttn"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
