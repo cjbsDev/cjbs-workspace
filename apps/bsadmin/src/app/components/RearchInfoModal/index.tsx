@@ -12,27 +12,30 @@ import { DialogContent } from "@mui/material";
 import { ModalContainerProps } from "../../types/modal-container-props";
 import dynamic from "next/dynamic";
 
-interface AgncDetailInfoModalProps extends ModalContainerProps {
+interface RearchDetailInfoModalProps extends ModalContainerProps {
   ukey: string;
 }
 
-const LazyAgncDetailInfoTable = dynamic(() => import("./AgncDetailInfoTable"), {
-  ssr: false,
-  loading: () => <SkeletonLoading height={206} />,
-});
+const LazyRearchDetailInfoTable = dynamic(
+  () => import("./RearchDetailInfoTable"),
+  {
+    ssr: false,
+    loading: () => <SkeletonLoading height={206} />,
+  },
+);
 
 const Index = ({
   onClose,
   open,
   modalWidth,
   ukey,
-}: AgncDetailInfoModalProps) => {
+}: RearchDetailInfoModalProps) => {
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>거래처(PI) 정보</ModalTitle>
+      <ModalTitle onClose={onClose}>연구책임자 정보</ModalTitle>
       <DialogContent>
         <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAgncDetailInfoTable ukey={ukey} />
+          <LazyRearchDetailInfoTable ukey={ukey} />
         </ErrorContainer>
       </DialogContent>
       <ModalAction>

@@ -6,7 +6,7 @@ import { Stack, Typography } from "@mui/material";
 const RmnPrePymtPrice = () => {
   const { getValues, control } = useFormContext();
   const productValue = useWatch({
-    name: "invcProductDetailList",
+    name: "productDetailList",
     control,
   });
 
