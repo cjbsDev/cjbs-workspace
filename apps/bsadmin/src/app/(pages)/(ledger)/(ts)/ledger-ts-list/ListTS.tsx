@@ -9,30 +9,20 @@ import {
   Title1,
 } from "cjbsDSTM";
 
-import {
-  Box,
-  Stack,
-  Grid,
-  Tooltip,
-  IconButton,
-  Link,
-  Chip,
-} from "@mui/material";
+import { Box, Stack, Grid, Tooltip, IconButton, Link } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import { useList } from "../../../hooks/useList";
+import { useList } from "../../../../hooks/useList";
 import { toast } from "react-toastify";
-import { blue, red, grey, green } from "cjbsDSTM/themes/color";
-import { cjbsTheme } from "cjbsDSTM";
 
 const ListCust = () => {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
-  const { data } = useList("qttn", page, perPage);
+  const { data } = useList("tdst", page, perPage);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
@@ -40,7 +30,7 @@ const ListCust = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const filteredData = data.qttnList;
+  const filteredData = data.tdstList;
 
   const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
@@ -52,12 +42,13 @@ const ListCust = () => {
     return number.toLocaleString();
   };
 
+  // 번호, 유형, 거래처, 거래금액, 작성일, 영업담당, 작성자, 발송, 발송일시
   const columns = useMemo(
     () => [
       {
-        name: "견적 번호",
+        name: "번호",
         center: true,
-        cell: (row: { qttnNo: number; qttnUkey: string }) => (
+        cell: (row: { tdstId: number; tdstUkey: string }) => (
           <Stack
             direction="row"
             spacing={0.5}
@@ -65,8 +56,8 @@ const ListCust = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
-            <Box data-tag="allowRowEvents">{row.qttnNo} </Box>
-            {row.qttnUkey == null && (
+            <Box data-tag="allowRowEvents">{row.tdstId} </Box>
+            {row.tdstUkey == null && (
               <MyIcon
                 data-tag="allowRowEvents"
                 icon="exclamation-triangle-fill"
@@ -76,28 +67,16 @@ const ListCust = () => {
             )}
           </Stack>
         ),
-        width: "200px",
+        width: "100px",
       },
       {
         name: "유형",
+        selector: (row: { tdstTypeCcVal: string }) => row.tdstTypeCcVal,
         width: "100px",
-        center: true,
-        selector: (row: { qttnTypeVal: string }) => row.qttnTypeVal,
-        cell: (row: { qttnTypeVal: string }) => {
-          const { qttnTypeVal } = row;
-          return (
-            <Chip
-              label={qttnTypeVal}
-              size="small"
-              color={qttnTypeVal === "견적용" ? "success" : "primary"}
-            />
-          );
-        },
       },
-
       {
         name: "거래처(PI)",
-        cell: (row: { agncInstNm: any }) => (
+        cell: (row: { instNm: any; agncNm: any }) => (
           <>
             <Stack
               direction="row"
@@ -107,66 +86,50 @@ const ListCust = () => {
               flexWrap="wrap"
               data-tag="allowRowEvents"
             >
-              <Box data-tag="allowRowEvents">{row.agncInstNm}</Box>
+              <Box data-tag="allowRowEvents">{row.agncNm}</Box>
+              {row.instNm && (
+                <Box data-tag="allowRowEvents">({row.instNm})</Box>
+              )}
             </Stack>
           </>
         ),
-        minWidth: "250px",
+        minWidth: "300px",
       },
       {
-        name: "견적금액",
-        selector: (row: { totalPrice: string }) => row.totalPrice,
-        width: "200px",
+        name: "거래금액",
+        selector: (row: { tdPrice: string }) => row.tdPrice,
+        width: "250px",
         right: true,
-        cell: (row) => formatNumber(row.totalPrice),
+        cell: (row) => formatNumber(row.tdPrice),
       },
       {
-        name: "견적일",
+        name: "작성일",
         width: "150px",
         right: true,
-        selector: (row: { qttnDate: any }) =>
-          row.qttnDate && Dayjs(row.qttnDate).format("YYYY-MM-DD"),
+        selector: (row: { wdtDate: any }) =>
+          row.wdtDate && Dayjs(row.wdtDate).format("YYYY-MM-DD"),
       },
       {
-        name: "견적담당",
-        center: true,
+        name: "영업담당",
         selector: (row: { bsnsMngrNm: string }) => row.bsnsMngrNm,
-        width: "100px",
+        width: "150px",
       },
       {
         name: "작성자",
-        center: true,
-        selector: (row: { writer: string }) => row.writer,
-        width: "100px",
+        selector: (row: { wdtNm: string }) => row.wdtNm,
+        width: "150px",
       },
-
-      {
-        name: "할인율",
-        width: "100px",
-        center: true,
-        selector: (row: { isExc: string }) => row.isExc,
-        cell: (row: { isExc: string }) => {
-          const { isExc } = row;
-          return isExc == "Y" ? (
-            <Chip label={"초과"} size="small" color={"error"} />
-          ) : (
-            "-"
-          );
-        },
-      },
-
       {
         name: "발송",
-        center: true,
         selector: (row: { sendStatusVal: string }) => row.sendStatusVal,
-        width: "150px",
+        width: "100px",
       },
       {
         name: "발송일자",
         width: "150px",
         center: true,
-        selector: (row: { sendDate: any }) =>
-          row.sendDate ? Dayjs(row.sendDate).format("YYYY-MM-DD") : "-",
+        selector: (row: { sendDttm: any }) =>
+          row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
     []
@@ -178,7 +141,7 @@ const ListCust = () => {
     if (!row.tdstUkey) {
       toast("잘못된 접근입니다.");
     } else {
-      router.push("/transaction-statement-list/" + path);
+      router.push("/ledger-ts-list/" + path);
     }
   };
 
@@ -199,8 +162,8 @@ const ListCust = () => {
               //selectedCount={selectedRowCnt}
             />
 
-            <Link href="/transaction-statement-add">
-              <ContainedButton buttonName="견적서 등록" size="small" />
+            <Link href="/ledger-ts-add">
+              <ContainedButton buttonName="거래명세서 등록" size="small" />
             </Link>
           </Stack>
         </Grid>
@@ -232,7 +195,7 @@ const ListCust = () => {
 
   return (
     <DataTableBase
-      title={<Title1 titleName="견적서 관리" />}
+      title={<Title1 titleName="거래명세서 관리" />}
       data={filteredData}
       columns={columns}
       onRowClicked={goDetailPage}

@@ -251,11 +251,11 @@ export default function AgncPage() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/transaction-statement-list/")}
+          onClick={() => router.push("/ledger-ts-list/")}
         />
         <Link
           href={{
-            pathname: "/transaction-statement-modify",
+            pathname: "/ledger-ts-modify",
             query: { tdstUkey: getDataObj.tdstUkey },
           }}
         >

@@ -122,7 +122,7 @@ export const snbMenuListData = [
         // },
         {
           menuLabel: "거래 명세서 관리",
-          menuPath: "/transaction-statement-list",
+          menuPath: "/ledger-ts-list",
         },
         {
           menuLabel: "세금 계산서 관리",
