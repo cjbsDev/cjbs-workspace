@@ -52,6 +52,10 @@ export const snbMenuListData = [
           menuLabel: "내부 주문서 관리",
           menuPath: "/orshbs-list",
         },
+        {
+          menuLabel: "견적서 관리",
+          menuPath: "/qttn-list",
+        },
       ],
     },
   },
@@ -124,10 +128,6 @@ export const snbMenuListData = [
           menuLabel: "세금 계산서 관리",
           menuPath: "/ledger-tax-invoice-list",
         },
-        // {
-        //   menuLabel: '거래 명세서 관리',
-        //   menuPath: '/transaction-statement-list'
-        // },
         // {
         //   menuLabel: '매출 관리',
         //   menuPath: '/sales-cust-list'
