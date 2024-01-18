@@ -27,7 +27,7 @@ import { NumericFormat } from "react-number-format";
 import SupplyPrice from "./SupplyPrice";
 
 const LazyServiceCategorySelectbox = dynamic(
-  () => import("../../../../../components/ServiceCategorySelectbox"),
+  () => import("../../components/ServiceCategorySelectbox"),
   {
     ssr: false,
     loading: () => (
@@ -39,7 +39,7 @@ const LazyServiceCategorySelectbox = dynamic(
 );
 
 const LazyAnlsTypeSelectbox = dynamic(
-  () => import("../../../../../components/AnlsTypeSelectbox"),
+  () => import("../../components/AnlsTypeSelectbox"),
   {
     ssr: false,
     loading: () => (

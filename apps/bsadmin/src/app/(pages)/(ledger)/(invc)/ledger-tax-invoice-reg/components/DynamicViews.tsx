@@ -1,8 +1,6 @@
 import React, { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import PaymentDynamicInfo from "./PaymentDynamicInfo";
-import DynamicTable from "./DynamicTable";
-import DynamicSumTable from "./DynamicSumTable";
 import PblshrInst from "./PblshrInst";
 import EtcInfo from "./EtcInfo";
 import AgncSearchModal from "../../../../../components/AgncSearchModal";
@@ -10,6 +8,8 @@ import InstSearchModal from "../../../../../components/InstSearchModal";
 import { useRecoilState } from "recoil";
 import { agncModalShowAtom, instModalShowAtom } from "../atom";
 import DynamicSumTable2 from "./DynamicSumTable2";
+import DynamicTable from "../../../../../components/DynamicTable";
+import DynamicSumTable from "../../../../../components/DynamicSumTable";
 
 const DynamicViews = () => {
   const { watch, getValues } = useFormContext();

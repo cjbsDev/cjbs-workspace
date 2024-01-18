@@ -14,16 +14,6 @@ const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
     formState: { errors },
   } = useFormContext();
 
-  console.log(
-    "ERRORS???????????",
-    errors.invcProductDetailList?.[index]?.srvcCtgrMc,
-  );
-  // const srvcCtgrMcValue = watch("srvcCtgrMc");
-  //
-  // useEffect(() => {
-  //   props.handleOnChange(srvcCtgrMcValue);
-  // }, [srvcCtgrMcValue]);
-
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=Service Classification&midValue=`,
     fetcher,

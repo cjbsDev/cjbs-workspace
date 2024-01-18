@@ -39,12 +39,12 @@ const LegView = () => {
 
   const defaultValues = {
     pymtInfoCc: "BS_1914001",
-    invcProductDetailList: [
+    productDetailList: [
       {
-        srvcCtgrMc: "BS_0100005001",
+        srvcTypeMc: "BS_0100005001",
         anlsTypeMc: "",
         products: "",
-        qnty: 0,
+        sampleSize: 0,
         unitPrice: 0,
         supplyPrice: 0,
       },
@@ -62,14 +62,14 @@ const LegView = () => {
     };
 
     if (bodyData.pymtInfoCc === "BS_1914001") {
-      delete bodyData.invcProductDetailList;
+      delete bodyData.productDetailList;
       delete bodyData.dpstPrice;
       delete bodyData.dpstDttm;
       delete bodyData.pyrNm;
     } else if (bodyData.pymtInfoCc === "BS_1914003") {
-      delete bodyData.invcProductDetailList;
+      delete bodyData.productDetailList;
     } else if (bodyData.pymtInfoCc === "BS_1914004") {
-      delete bodyData.invcProductDetailList;
+      delete bodyData.productDetailList;
       delete bodyData.dpstPrice;
       delete bodyData.dpstDttm;
       delete bodyData.pyrNm;
