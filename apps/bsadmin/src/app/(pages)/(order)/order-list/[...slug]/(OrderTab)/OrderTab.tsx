@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Box,
   Grid,
-  IconButton,
   Stack,
   Table,
   TableBody,
@@ -10,27 +9,16 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import { ContainedButton, OutlinedButton, TD, TH } from "cjbsDSTM";
+import { OutlinedButton, TD, TH } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useParams } from "next/navigation";
-import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
-
-const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
-  ssr: false,
-});
-const LazyRearchInfoModal = dynamic(() => import("./RearchInfoModal"), {
-  ssr: false,
-});
+import AgncDetailInfo from "../../../../../components/AgncDetailInfo";
+import RearchDetailInfo from "../../../../../components/RearchDetailInfo";
 
 const OrderTab = () => {
-  // [거래처(PI)] 모달
-  const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
-  // [연구책임자] 모달
-  const [showRearchInfoModal, setShowRearchInfoModal] =
-    useState<boolean>(false);
   const router = useRouter();
   const params = useParams();
   const orderUkey = params.slug;
@@ -39,25 +27,19 @@ const OrderTab = () => {
   });
 
   console.log("주문 정보", data);
-  // console.log("주문 정보", data.orderInfo);
-
-  const agncInfoModalClose = () => {
-    setShowAgncInfoModal(false);
-  };
-  const rearchInfoModalClose = () => {
-    setShowRearchInfoModal(false);
-  };
 
   // 거래처(PI) 및 신청인 정보
   const {
     agncId,
     agncNm,
+    agncUkey,
     instNm,
     ordrAplctel,
     ordrAplcNm,
     ordrAplcEmail,
     agncLeaderNm,
     agncLeaderEmail,
+    agncLeaderUkey,
     isSpecial,
     agncInfoDetail,
     agncLeaderInfoDetail,
@@ -110,10 +92,10 @@ const OrderTab = () => {
 
   // 주문서
   const { orshUkey, orshTypeCc, orshPath, isOrshCnct } = data;
-  console.log("주문서 보기", orshUkey);
 
   // 메모
   const { memo } = data;
+
   return (
     <>
       <Box>
@@ -144,14 +126,7 @@ const OrderTab = () => {
                       </Stack>
                     </Grid>
                     <Grid item>
-                      <IconButton onClick={() => setShowAgncInfoModal(true)}>
-                        <MyIcon
-                          icon="memo"
-                          width={18}
-                          data-tag="allowRowEvents"
-                          color="black"
-                        />
-                      </IconButton>
+                      <AgncDetailInfo agncUkey={agncUkey} />
                     </Grid>
                   </Grid>
                 </TD>
@@ -162,14 +137,7 @@ const OrderTab = () => {
                       {agncLeaderNm} ({agncLeaderEmail})
                     </Grid>
                     <Grid item>
-                      <IconButton onClick={() => setShowRearchInfoModal(true)}>
-                        <MyIcon
-                          icon="memo"
-                          width={18}
-                          data-tag="allowRowEvents"
-                          color="black"
-                        />
-                      </IconButton>
+                      <RearchDetailInfo agncLeaderUkey={agncLeaderUkey} />
                     </Grid>
                   </Grid>
                 </TD>
@@ -260,7 +228,8 @@ const OrderTab = () => {
                 <TD sx={{ width: "85%" }} colSpan={3}>
                   {price.length === 0
                     ? "-"
-                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}원
+                    : price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                  원
                 </TD>
               </TableRow>
             </TableBody>
@@ -323,21 +292,6 @@ const OrderTab = () => {
           </Table>
         </TableContainer>
       </Box>
-
-      {/*거래처(pi) 정보 모달*/}
-      <LazyAgncInfoModal
-        onClose={agncInfoModalClose}
-        open={showAgncInfoModal}
-        modalWidth={800}
-        data={agncInfoDetail}
-      />
-      {/* 연구책임자 정보 모달 */}
-      <LazyRearchInfoModal
-        onClose={rearchInfoModalClose}
-        open={showRearchInfoModal}
-        modalWidth={800}
-        data={agncLeaderInfoDetail}
-      />
     </>
   );
 };

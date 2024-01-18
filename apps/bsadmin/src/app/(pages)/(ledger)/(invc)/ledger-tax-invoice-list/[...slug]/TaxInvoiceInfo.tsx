@@ -9,7 +9,6 @@ import {
   Chip,
   CircularProgress,
   Container,
-  IconButton,
   Stack,
   Table,
   TableBody,
@@ -20,7 +19,6 @@ import {
   Typography,
 } from "@mui/material";
 import {
-  AlertModal,
   cjbsTheme,
   ContainedButton,
   ErrorContainer,
@@ -43,6 +41,7 @@ import AdminPublishInfoModify from "../components/AdminPublishInfoModify";
 import PublishCancelBtn from "../components/PublishCancelBtn";
 import ModifyBtn from "../components/ModifyBtn";
 import DeleteBtn from "../components/DeleteBtn";
+import AgncDetailInfo from "../../../../../components/AgncDetailInfo";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
@@ -59,15 +58,7 @@ const LazyRmnPymtPriceDetail = dynamic(
   },
 );
 
-const LazyAgncInfoModal = dynamic(
-  () => import("../../../../../components/AgncInfoModal"),
-  {
-    ssr: false,
-  },
-);
-
 const TaxInvoiceInfo = () => {
-  const [showAgncInfoModal, setShowAgncInfoModal] = useState<boolean>(false);
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -127,10 +118,6 @@ const TaxInvoiceInfo = () => {
     setAccountStatementModalOpen(false);
   }, []);
 
-  const agncInfoModalClose = () => {
-    setShowAgncInfoModal(false);
-  };
-
   return (
     <>
       <Container maxWidth={false} sx={{ width: "100%" }}>
@@ -168,14 +155,7 @@ const TaxInvoiceInfo = () => {
                       )}
                     </Stack>
 
-                    <IconButton onClick={() => setShowAgncInfoModal(true)}>
-                      <MyIcon
-                        icon="memo"
-                        width={18}
-                        data-tag="allowRowEvents"
-                        color="black"
-                      />
-                    </IconButton>
+                    <AgncDetailInfo agncUkey={agncUkey} />
                   </Stack>
                 </TD>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
@@ -583,13 +563,6 @@ const TaxInvoiceInfo = () => {
           </Stack>
         </Stack>
       </Container>
-
-      {/*거래처(pi) 정보 모달*/}
-      <LazyAgncInfoModal
-        onClose={agncInfoModalClose}
-        open={showAgncInfoModal}
-        modalWidth={800}
-      />
 
       {/* 계산서 발행 모달 */}
       <AccountStatementModal

@@ -1,57 +1,39 @@
 import React from "react";
 import {
+  ErrorContainer,
+  Fallback,
   ModalAction,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  TD,
-  TH,
+  SkeletonLoading,
 } from "cjbsDSTM";
-import {
-  DialogContent,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-} from "@mui/material";
+import { DialogContent } from "@mui/material";
+import { ModalContainerProps } from "../../types/modal-container-props";
+import dynamic from "next/dynamic";
 
-interface ModalContainerProps {
-  onClose: () => void;
-  open: boolean;
-  modalWidth: number;
+interface AgncDetailInfoModalProps extends ModalContainerProps {
+  ukey: string;
 }
 
-const Index = ({ onClose, open, modalWidth }: ModalContainerProps) => {
+const LazyAgncDetailInfoTable = dynamic(() => import("./AgncDetailInfoTable"), {
+  ssr: false,
+  loading: () => <SkeletonLoading height={206} />,
+});
+
+const Index = ({
+  onClose,
+  open,
+  modalWidth,
+  ukey,
+}: AgncDetailInfoModalProps) => {
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>거래처(PI) 정보</ModalTitle>
       <DialogContent>
-        <TableContainer>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "35%" }}>거래처 번호</TH>
-                <TD></TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "35%" }}>거래처(PI)</TH>
-                <TD></TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "35%" }}>연구책임자 아이디</TH>
-                <TD></TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "35%" }}>연구책임자 이름</TH>
-                <TD></TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "35%" }}>주소</TH>
-                <TD></TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyAgncDetailInfoTable ukey={ukey} />
+        </ErrorContainer>
       </DialogContent>
       <ModalAction>
         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />
