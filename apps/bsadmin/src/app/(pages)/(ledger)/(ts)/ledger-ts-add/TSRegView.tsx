@@ -134,7 +134,7 @@ const TSRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/transaction-statement-list");
+          router.push("/ledger-ts-list");
         } else {
           toast(response.message);
         }

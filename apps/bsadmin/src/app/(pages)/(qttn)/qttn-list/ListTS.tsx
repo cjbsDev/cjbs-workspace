@@ -178,7 +178,7 @@ const ListCust = () => {
     if (!row.tdstUkey) {
       toast("잘못된 접근입니다.");
     } else {
-      router.push("/transaction-statement-list/" + path);
+      router.push("/ledger-ts-list/" + path);
     }
   };
 
@@ -199,7 +199,7 @@ const ListCust = () => {
               //selectedCount={selectedRowCnt}
             />
 
-            <Link href="/transaction-statement-add">
+            <Link href="/ledger-ts-add">
               <ContainedButton buttonName="견적서 등록" size="small" />
             </Link>
           </Stack>
