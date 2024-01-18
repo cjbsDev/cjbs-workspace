@@ -9,7 +9,7 @@ interface RearchDetailInfoTableProps {
 }
 
 const RearchDetailInfoTable = ({ ukey }: RearchDetailInfoTableProps) => {
-  const { data } = useSWR(`/cust/list/detail/${ukey}`, fetcher, {
+  const { data } = useSWR(`/cust/${ukey}`, fetcher, {
     suspense: true,
   });
   console.log("RearchDetailInfoTable", data);
