@@ -7,16 +7,8 @@ import {
   ModalTitle,
   OutlinedButton,
   SkeletonLoading,
-  TD,
-  TH,
 } from "cjbsDSTM";
-import {
-  DialogContent,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-} from "@mui/material";
+import { DialogContent } from "@mui/material";
 import { ModalContainerProps } from "../../types/modal-container-props";
 import dynamic from "next/dynamic";
 
@@ -45,34 +37,6 @@ const Index = ({
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyRearchDetailInfoTable ukey={ukey} />
         </ErrorContainer>
-        {/*<TableContainer>*/}
-        {/*  <Table>*/}
-        {/*    <TableBody>*/}
-        {/*      <TableRow>*/}
-        {/*        <TH sx={{ width: "35%" }}>고객 번호</TH>*/}
-        {/*        <TD>{ebcId}</TD>*/}
-        {/*      </TableRow>*/}
-        {/*      <TableRow>*/}
-        {/*        <TH sx={{ width: "35%" }}>아이디</TH>*/}
-        {/*        <TD>{ebcEmail}</TD>*/}
-        {/*      </TableRow>*/}
-        {/*      <TableRow>*/}
-        {/*        <TH sx={{ width: "35%" }}>이름</TH>*/}
-        {/*        <TD>{nm}</TD>*/}
-        {/*      </TableRow>*/}
-        {/*      <TableRow>*/}
-        {/*        <TH sx={{ width: "35%" }}>연락처</TH>*/}
-        {/*        <TD>{telList === null ? "-" : telList}</TD>*/}
-        {/*      </TableRow>*/}
-        {/*      <TableRow>*/}
-        {/*        <TH sx={{ width: "35%" }}>거래처(PI)</TH>*/}
-        {/*        <TD>*/}
-        {/*          {agncNm}({instNm})*/}
-        {/*        </TD>*/}
-        {/*      </TableRow>*/}
-        {/*    </TableBody>*/}
-        {/*  </Table>*/}
-        {/*</TableContainer>*/}
       </DialogContent>
       <ModalAction>
         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />
