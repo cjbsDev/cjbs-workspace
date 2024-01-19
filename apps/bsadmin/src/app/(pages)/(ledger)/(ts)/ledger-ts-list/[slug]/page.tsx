@@ -180,9 +180,7 @@ export default function AgncPage() {
       </TableContainer>
 
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyListProd
-          tdstProductDetailList={getDataObj.tdstProductDetailList}
-        />
+        <LazyListProd productDetailList={getDataObj.productDetailList} />
       </ErrorContainer>
       <TableContainer sx={{ mb: 5 }}>
         <Table>

@@ -19,10 +19,8 @@ const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
     fetcher,
     {
       suspense: true,
-    },
+    }
   );
-  console.log("ServiceCategoryType List", data);
-  // const serviceCategoryTypeData = data;
 
   return (
     <SelectBox
