@@ -37,7 +37,7 @@ import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
   reqReturnListData,
-} from "../../../data/inputDataLists";
+} from "../../../../../data/inputDataLists";
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -57,7 +57,7 @@ interface CustomProps {
 }
 
 const LazyOrderSearchModal = dynamic(
-  () => import("../../../components/OrderSearchModal"),
+  () => import("../../../../../components/OrderSearchModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -69,7 +69,7 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 });
 
 const LazySalesManagerSelctbox = dynamic(
-  () => import("../../../components/SalesManagerSelectbox"),
+  () => import("../../../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -91,12 +91,12 @@ const LazyAnalysisTypeSelctbox = dynamic(
   },
 );
 
-const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
+const LazyOrderType = dynamic(() => import("../../../../../components/OrderType"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-const LazyServiceCategoryType = dynamic(() => import("../../../components/ServiceCategoryType"), {
+const LazyServiceCategoryType = dynamic(() => import("../../../../../components/ServiceCategoryType"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
@@ -107,7 +107,7 @@ const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
 });
 
 const LazyNGSManagerSelctbox = dynamic(
-  () => import("../../../components/NGSAnlManagerSelectbox"),
+  () => import("../../../../../components/NGSAnlManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,

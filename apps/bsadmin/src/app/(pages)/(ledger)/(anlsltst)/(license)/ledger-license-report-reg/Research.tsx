@@ -4,7 +4,7 @@ import { Stack, Typography } from "@mui/material";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
 const LazyPrepSelectbox = dynamic(
-  () => import("../../../components/OrderSelectbox"),
+  () => import("../../../../../components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,

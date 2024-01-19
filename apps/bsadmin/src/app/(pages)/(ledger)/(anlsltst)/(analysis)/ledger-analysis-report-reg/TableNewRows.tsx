@@ -11,7 +11,7 @@ import {color} from "@mui/system";
 
 
 const LazyPrepSelectbox = dynamic(
-  () => import("../../../components/OrderSelectbox"),
+  () => import("../../../../../components/OrderSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,

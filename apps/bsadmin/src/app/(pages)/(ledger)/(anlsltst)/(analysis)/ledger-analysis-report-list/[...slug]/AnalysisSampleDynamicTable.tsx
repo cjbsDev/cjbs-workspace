@@ -12,7 +12,7 @@ import {
 } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import TableNewRows from "./TableNewRows";
-import {QuestionTooltip} from "../../../../components/QuestionTooltip";
+import {QuestionTooltip} from "../../../../../../components/QuestionTooltip";
 
 export default function AnalysisSampleDynamicTable() {
   const { control, getValues, formState, setValue, watch } = useFormContext();

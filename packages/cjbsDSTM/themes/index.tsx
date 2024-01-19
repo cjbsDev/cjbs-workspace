@@ -178,8 +178,8 @@ export const cjbsTheme = createTheme({
           fontSize: 14,
         },
         input: {
-          paddingTop: 5.2,
-          paddingBottom: 5.2,
+          paddingTop: 3,
+          paddingBottom: 3,
           ":read-only": {
             backgroundColor: "#F1F3F5",
             textFillColor: "rgba(0, 0, 0, 0.6)",
@@ -217,7 +217,7 @@ export const cjbsTheme = createTheme({
       styleOverrides: {
         outlined: {
           "&.MuiButton-outlinedSizeSmall": {
-            padding: "4px 10px",
+            padding: "2px 10px",
             fontSize: 14,
             fontWeight: 400,
             lineHeight: "20px",
@@ -237,7 +237,7 @@ export const cjbsTheme = createTheme({
         },
         contained: {
           "&.MuiButton-containedSizeSmall": {
-            padding: "4px 10px",
+            padding: "2px 10px",
             fontSize: 14,
             fontWeight: 400,
             lineHeight: "20px",
@@ -297,6 +297,7 @@ export const cjbsTheme = createTheme({
         select: {
           "&.MuiNativeSelect-select": {
             fontSize: 14,
+            padding: '2px 5px',
           },
         },
       },

@@ -22,12 +22,14 @@ export const TD = ({ ...props }: TableCellProps) => {
 
 const THStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   color: theme.palette.common.black,
-  backgroundColor: theme.palette.grey["100"],
+  backgroundColor: theme.palette.grey["200"],
   fontSize: 14,
   fontWeight: 400,
   border: `1px solid ${theme.palette.grey["400"]}`,
   letterSpacing: "-0.25px",
-  padding: "10px 16px",
+  padding: "2px 16px",
+  height: '36px',
+
 }));
 
 const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
@@ -38,5 +40,6 @@ const TDStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
   border: `1px solid ${theme.palette.grey["400"]}`,
   letterSpacing: "-0.25px",
   whiteSpace: "pre",
-  padding: "10px 16px",
+  padding: "2px 16px",
+  height: '36px',
 }));
