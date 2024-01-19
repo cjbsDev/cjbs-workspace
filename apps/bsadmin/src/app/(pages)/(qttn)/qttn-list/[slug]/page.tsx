@@ -168,7 +168,7 @@ export default function QttnPage() {
       </TableContainer>
 
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyListProd tdstProductDetailList={getDataObj.qttnProdutsDetailRes} />
+        <LazyListProd productDetailList={getDataObj.qttnProdutsDetailRes} />
       </ErrorContainer>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -219,13 +219,13 @@ export default function QttnPage() {
               </TD>
               <TH sx={{ width: "15%" }}>발송일시</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.sendInfo.sendDate ?? "-"}
+                {getDataObj.sendInfo.sendDttm ?? "-"}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>작성자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.sendInfo.writerNm ?? "-"}
+                {getDataObj.sendInfo.wdtNm ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>등록일시</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>

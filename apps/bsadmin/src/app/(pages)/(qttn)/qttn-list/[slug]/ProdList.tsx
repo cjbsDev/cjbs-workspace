@@ -4,13 +4,11 @@ import { Box, Stack, Grid, Typography } from "@mui/material";
 import { DataTableBase } from "cjbsDSTM";
 
 interface ProdDetailProps {
-  tdstProductDetailList: string;
+  productDetailList: string;
 }
 
-const ProdDetailList: React.FC<ProdDetailProps> = ({
-  tdstProductDetailList,
-}) => {
-  const filteredData = tdstProductDetailList;
+const ProdDetailList: React.FC<ProdDetailProps> = ({ productDetailList }) => {
+  const filteredData = productDetailList;
   console.log("filteredData", filteredData);
 
   const formatNumber = (number: number | string) => {
@@ -38,10 +36,10 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({
       },
       {
         name: "수량",
-        selector: (row: { qnty: number }) => row.qnty,
+        selector: (row: { sampleSize: number }) => row.sampleSize,
         width: "100px",
         right: true,
-        cell: (row) => formatNumber(row.qnty),
+        cell: (row) => formatNumber(row.sampleSize),
       },
       {
         name: "단가",
