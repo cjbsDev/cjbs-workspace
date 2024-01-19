@@ -10,13 +10,10 @@ import {
   TD,
   ErrorContainer,
   Fallback,
-  LeaderCip,
-  cjbsTheme,
 } from "cjbsDSTM";
 import useSWR from "swr";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import axios from "axios";
 import {
   Box,
   Container,
@@ -27,14 +24,11 @@ import {
   TableBody,
   TableContainer,
   TableRow,
-  TableHead,
   IconButton,
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import Dayjs from "dayjs";
-import SkeletonLoading from "../../../../../components/SkeletonLoading";
+import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
-import { useForm, FormProvider } from "react-hook-form";
 import { fetcher } from "api";
 
 const LazyListProd = dynamic(() => import("./ProdList"), {
@@ -42,7 +36,7 @@ const LazyListProd = dynamic(() => import("./ProdList"), {
   loading: () => <SkeletonLoading />,
 });
 
-export default function AgncPage() {
+export default function QttnPage() {
   // init
   const params = useParams();
   const { slug } = params;
@@ -54,12 +48,12 @@ export default function AgncPage() {
     data: getDataObj,
     error,
     isLoading,
-  } = useSWR(`/tdst/${slug}`, fetcher);
+  } = useSWR(`/qttn/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
-  console.log("tdstData", getDataObj);
+  console.log("getData", getDataObj);
   //setSelectedMembers(getDataObj.custDetail);
 
   const handleAgncInfoModalOpen = () => {
@@ -68,14 +62,23 @@ export default function AgncPage() {
   const handleAgncInfoModalClose = () => {
     setAgncInfoModalOpen(false);
   };
-  const formatNumber = (number) => {
-    return number.toLocaleString();
+
+  const formatNumber = (number: number | string) => {
+    if (number === undefined || number === null) {
+      return number; // undefined나 null일 경우 빈 문자열 반환
+    }
+    const num = typeof number === "string" ? parseFloat(number) : number;
+    if (isNaN(num)) {
+      return number; // 숫자로 변환할 수 없는 경우 빈 문자열 반환
+    }
+
+    return num.toLocaleString();
   };
 
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName="거래명세서 정보" />
+        <Title1 titleName="견적서 정보" />
       </Box>
 
       <Grid container>
@@ -92,33 +95,20 @@ export default function AgncPage() {
             <TableRow>
               <TH sx={{ width: "15%" }}>번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
-                {getDataObj.tdstUkey ?? "-"}
+                {getDataObj.basicInfo.qttnNo ?? "-"}
               </TD>
             </TableRow>
-
             <TableRow>
               <TH sx={{ width: "15%" }}>유형</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.tdstTypeVal ?? "-"}
+                {getDataObj.basicInfo.qttnTypeCc ?? "-"}
               </TD>
 
               <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-
               <TD sx={{ width: "35%" }} colSpan={2}>
                 <Box sx={{ display: "flex", justifyContent: "space-between" }}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    [{getDataObj.agncId}] {getDataObj.agncNm ?? "-"}
-                    {getDataObj.isSpecialMng === "Y" && (
-                      <MyIcon
-                        data-tag="allowRowEvents"
-                        icon="vip-fill"
-                        size={20}
-                        color="#FFAB33"
-                      />
-                    )}
-                    <Box>
-                      {getDataObj.instNm ? "(" + getDataObj.instNm + ")" : "-"}
-                    </Box>
+                    {getDataObj.basicInfo.agncInstNm ?? "-"}
                     <IconButton size="small" onClick={handleAgncInfoModalOpen}>
                       <MyIcon icon="memo" size={20} />
                     </IconButton>
@@ -128,14 +118,13 @@ export default function AgncPage() {
             </TableRow>
 
             <TableRow>
-              <TH sx={{ width: "15%" }}>작성일</TH>
-
+              <TH sx={{ width: "15%" }}>견적일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.wdtDate ?? "-"}
+                {getDataObj.basicInfo.qttnDate ?? "-"}
               </TD>
-              <TH sx={{ width: "15%" }}>영업담당</TH>
+              <TH sx={{ width: "15%" }}>견적담당</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.bsnsMngrNm ?? "-"}
+                {getDataObj.basicInfo.bsnsMngrNm ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -149,30 +138,29 @@ export default function AgncPage() {
           </Stack>
         </Grid>
       </Grid>
-
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>상호</TH>
+              <TH sx={{ width: "15%" }}>소속</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.conm ?? "-"}
+                {getDataObj.rcvInfo.rcvInstNm ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>성명</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.nm ?? "-"}
+                {getDataObj.rcvInfo.rcvNm ?? "-"}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>연락처</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.tel ?? "-"}
+                {getDataObj.rcvInfo.rcvTel ?? "-"}
               </TD>
-              <TH sx={{ width: "15%" }}>비고</TH>
+              <TH sx={{ width: "15%" }}>유효기간</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.memo ?? "-"}
+                {getDataObj.rcvInfo.validPerd ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -180,9 +168,7 @@ export default function AgncPage() {
       </TableContainer>
 
       <ErrorContainer FallbackComponent={Fallback}>
-        <LazyListProd
-          tdstProductDetailList={getDataObj.tdstProductDetailList}
-        />
+        <LazyListProd tdstProductDetailList={getDataObj.qttnProdutsDetailRes} />
       </ErrorContainer>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -191,21 +177,23 @@ export default function AgncPage() {
               <TH sx={{ width: "15%" }}>총 공급가액</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.totalSupplyPrice
-                  ? formatNumber(getDataObj.totalSupplyPrice)
+                {getDataObj.productInfo.totalSupplyPrice
+                  ? formatNumber(getDataObj.productInfo.totalSupplyPrice)
                   : "-"}
               </TD>
               <TH sx={{ width: "15%" }}>부가세</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.vat ? formatNumber(getDataObj.vat) : "-"}
+                {getDataObj.productInfo.vat
+                  ? formatNumber(getDataObj.productInfo.vat)
+                  : "-"}
               </TD>
             </TableRow>
 
             <TableRow>
               <TH sx={{ width: "15%" }}>합계금액</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
-                {getDataObj.totalPrice
-                  ? formatNumber(getDataObj.totalPrice)
+                {getDataObj.productInfo.totalPrice
+                  ? formatNumber(getDataObj.productInfo.totalPrice)
                   : "-"}
               </TD>
             </TableRow>
@@ -227,21 +215,21 @@ export default function AgncPage() {
             <TableRow>
               <TH sx={{ width: "15%" }}>발송상태</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.sendStatusVal ?? "-"}
+                {getDataObj.sendInfo.sendStatusVal ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>발송일시</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.sendDttm ?? "-"}
+                {getDataObj.sendInfo.sendDate ?? "-"}
               </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>작성자</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.wdtNm ?? "-"}
+                {getDataObj.sendInfo.writerNm ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>등록일시</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.createdDttm ?? "-"}
+                {getDataObj.sendInfo.createDate ?? "-"}
               </TD>
             </TableRow>
           </TableBody>
@@ -251,37 +239,17 @@ export default function AgncPage() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/ledger-ts-list/")}
+          onClick={() => router.push("/qttn-list/")}
         />
         <Link
           href={{
-            pathname: "/ledger-ts-modify",
+            pathname: "/qttn-modify",
             query: { tdstUkey: getDataObj.tdstUkey },
           }}
         >
           <ContainedButton buttonName="수정" />
         </Link>
       </Stack>
-
-      {/* 기관 정보 모달
-      {agncInfoModalOpen && (
-        <LazyAgncInfoModal
-          open={agncInfoModalOpen}
-          onClose={handleAgncInfoModalClose}
-          modalWidth={800}
-        />
-      )}
-       */}
-
-      {/* 내역 확인
-      {statementChkModalOpen && (
-        <LazyStatementCheckModal
-          open={statementChkModalOpen}
-          onClose={handleStatementChkModalClose}
-          modalWidth={800}
-        />
-      )}
-       */}
     </Container>
   );
 }

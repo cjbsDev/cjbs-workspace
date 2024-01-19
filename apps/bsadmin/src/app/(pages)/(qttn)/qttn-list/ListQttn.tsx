@@ -9,15 +9,7 @@ import {
   Title1,
 } from "cjbsDSTM";
 
-import {
-  Box,
-  Stack,
-  Grid,
-  Tooltip,
-  IconButton,
-  Link,
-  Chip,
-} from "@mui/material";
+import { Box, Stack, Grid, Link, Chip } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
@@ -25,17 +17,13 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { toast } from "react-toastify";
-import { blue, red, grey, green } from "cjbsDSTM/themes/color";
-import { cjbsTheme } from "cjbsDSTM";
 
 const ListCust = () => {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("qttn", page, perPage);
-  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
-  const [selectedOption, setSelectedOption] = useState(null);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -94,7 +82,6 @@ const ListCust = () => {
           );
         },
       },
-
       {
         name: "거래처(PI)",
         cell: (row: { agncInstNm: any }) => (
@@ -154,7 +141,6 @@ const ListCust = () => {
           );
         },
       },
-
       {
         name: "발송",
         center: true,
@@ -172,14 +158,25 @@ const ListCust = () => {
     []
   );
 
-  const goDetailPage = (row: { tdstUkey: string }) => {
-    const path = row.tdstUkey;
+  const goDetailPage = (row: { qttnUkey: string }) => {
+    const path = row.qttnUkey;
     console.log("path", path);
-    if (!row.tdstUkey) {
+    if (!row.qttnUkey) {
       toast("잘못된 접근입니다.");
     } else {
-      router.push("/ledger-ts-list/" + path);
+      router.push("/qttn-list/" + path);
     }
+  };
+
+  const handlePageChange = (page: number) => {
+    // console.log("Page", page);
+    setPage(page);
+  };
+
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    // console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setPerPage(newPerPage);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -199,7 +196,7 @@ const ListCust = () => {
               //selectedCount={selectedRowCnt}
             />
 
-            <Link href="/ledger-ts-add">
+            <Link href="/qttn-add">
               <ContainedButton buttonName="견적서 등록" size="small" />
             </Link>
           </Stack>
@@ -218,17 +215,6 @@ const ListCust = () => {
       </Grid>
     );
   }, [filterText, resetPaginationToggle, totalElements]);
-
-  const handlePageChange = (page: number) => {
-    // console.log("Page", page);
-    setPage(page);
-  };
-
-  const handlePerRowsChange = (newPerPage: number, page: number) => {
-    // console.log("Row change.....", newPerPage, page);
-    setPage(page);
-    setPerPage(newPerPage);
-  };
 
   return (
     <DataTableBase
