@@ -235,7 +235,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -265,7 +264,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
