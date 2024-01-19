@@ -556,7 +556,7 @@ const TaxInvoiceInfo = () => {
             {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
-                buttonName="계산서 발행"
+                buttonName="발행"
                 onClick={handleAccountStatementModalOpen}
               />
             )}

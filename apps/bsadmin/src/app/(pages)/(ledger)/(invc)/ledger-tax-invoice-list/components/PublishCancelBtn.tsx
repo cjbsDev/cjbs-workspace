@@ -15,11 +15,11 @@ const PublishCancelBtn = () => {
     };
 
     try {
-      const res = await POST(`/invc/issue/cancel/${invcUkey}`, bodyData);
+      const res = await POST(`/invc/issue/cancel/${invcUkey}`);
       console.log("Response", res);
       if (res.success) {
         console.log("발행 취소", res);
-        router.push("/tax-invoice-list");
+        router.push("/ledger-tax-invoice-list");
       } else {
         // setSubAlertMsg(res.message);
         toast(res.message);
