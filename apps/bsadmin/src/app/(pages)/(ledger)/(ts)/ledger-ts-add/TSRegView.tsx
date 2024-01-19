@@ -27,7 +27,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -46,7 +46,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 // const LazyAnalysisSampleDynamicTable = dynamic(
@@ -63,7 +63,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const TSRegView = () => {

@@ -32,7 +32,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";

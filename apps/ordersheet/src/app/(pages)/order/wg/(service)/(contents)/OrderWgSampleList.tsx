@@ -26,25 +26,22 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "@public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
 import TableRows from "../../../TableRows";
 import MtpFullService from "@app/(pages)/order/mtp/(service)/MtpFullService";
-import {useFieldArray, useFormContext} from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
 import OrderWgSampleDynamicTable from "./OrderWgSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
 
-const LazyPrepSelectbox = dynamic(
-  () => import("@components/OrderSelectbox"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+const LazyPrepSelectbox = dynamic(() => import("@components/OrderSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 export default function OrderWgSampleList(props: any) {
   // const { fields, append } = useFieldArray({
@@ -62,28 +59,28 @@ export default function OrderWgSampleList(props: any) {
 
     const returnData = {
       samples: data.sample,
-      addRqstMemo: {memo: data.memo},
+      addRqstMemo: { memo: data.memo },
       commonInput: {
-        pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
-        libKit : data.libKit === undefined ? null : data.libKit,
+        pltfMc: data.pltfMc === undefined ? null : data.pltfMc,
+        libKit: data.libKit === undefined ? null : data.libKit,
       },
       cmprGenomeAnls: {
         cmprGenomeAnlsDetailList: data.cmprGenomeAnlsDetailList,
         // isCmprGenomeAnls: data.isCmprGenomeAnls,
-        isCmprGenomeAnls: 'Y',
-        cmprGenomeAnlsTypeCc : data.isCmprGenomeAnls === "N" ? 'BS_1609002' : 'BS_1609001',
+        isCmprGenomeAnls: "Y",
+        cmprGenomeAnlsTypeCc:
+          data.isCmprGenomeAnls === "N" ? "BS_1609002" : "BS_1609001",
       },
     };
 
     // Full service 만
     props.addBodyData(returnData);
-    if(serviceType === 'fs') {
+    if (serviceType === "fs") {
       // upload file이 있는경우
-      if(data.uploadFile[0]) {
+      if (data.uploadFile[0]) {
         props.addFileData(data.uploadFile[0]);
       }
     }
-
   };
 
   // const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
@@ -94,7 +91,12 @@ export default function OrderWgSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Sequencing 플랫폼 정보{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -127,7 +129,12 @@ export default function OrderWgSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Sequencing 플랫폼 정보{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -161,7 +168,7 @@ export default function OrderWgSampleList(props: any) {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <NoticeBox serviceType={serviceType}/>
+      <NoticeBox serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {serviceType !== "ao" ? (

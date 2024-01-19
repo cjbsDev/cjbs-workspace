@@ -3,11 +3,11 @@ module.exports = {
   transpilePackages: ["cjbsDSTM"],
   experimental: {
     typedRoutes: true,
-    turbo: {
-      loaders: {
-        ".svg": ["@svgr/webpack"],
-      },
-    },
+    // turbo: {
+    //   loaders: {
+    //     ".svg": ["@svgr/webpack"],
+    //   },
+    // },
   },
   eslint: {
     // Warning: This allows production builds to successfully complete even if
@@ -21,14 +21,12 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
-  // webpack(config) {
-  //   config.module.rules.push({
-  //     test: /\.svg$/i,
-  //     issuer: /\.[jt]sx?$/,
-  //     resourceQuery: /components/,
-  //     use: ["@svgr/webpack"],
-  //   });
-  //
-  //   return config;
-  // },
+  webpack(config) {
+    config.module.rules.push({
+      test: /\.svg$/i,
+      use: ["@svgr/webpack"],
+    });
+
+    return config;
+  },
 };

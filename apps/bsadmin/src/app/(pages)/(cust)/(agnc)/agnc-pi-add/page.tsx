@@ -33,14 +33,14 @@ import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 
 import axios from "axios";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
   {
     ssr: false,
     loading: () => <SkeletonLoading height={270} />,
-  }
+  },
 );
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
@@ -52,7 +52,7 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 // 영업 담당자
@@ -61,7 +61,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 /**

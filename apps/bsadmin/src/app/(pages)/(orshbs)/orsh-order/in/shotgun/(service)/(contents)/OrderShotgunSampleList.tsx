@@ -21,7 +21,7 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../../../public/svg/loading_wh.svg";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
@@ -31,7 +31,7 @@ const LazyPrepSelectbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 export default function OrderShotgunSampleList(props: any) {
@@ -45,7 +45,12 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Depth (DB){" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -63,7 +68,12 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Depth (DB){" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -81,7 +91,12 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Depth (DB){" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -94,7 +109,12 @@ export default function OrderShotgunSampleList(props: any) {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing 플랫폼 정보 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Sequencing 플랫폼 정보{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -113,7 +133,7 @@ export default function OrderShotgunSampleList(props: any) {
 
   return (
     <>
-      <NoticeBox serviceType={serviceType}/>
+      <NoticeBox serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">공통 항목 선택</Typography>

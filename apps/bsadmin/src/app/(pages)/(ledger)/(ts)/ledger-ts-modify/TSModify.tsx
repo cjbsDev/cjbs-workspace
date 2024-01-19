@@ -25,7 +25,7 @@ import {
   SingleDatePicker,
 } from "cjbsDSTM";
 import { useCallback, useState, useRef, useEffect } from "react";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, PUT } from "api";
 import { useParams, useSearchParams } from "next/navigation";
@@ -46,7 +46,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 // // 샘플 테이블
@@ -64,7 +64,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const TSRegView = () => {

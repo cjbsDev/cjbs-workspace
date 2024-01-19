@@ -1,41 +1,43 @@
 "use client";
 
 import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableContainer,
-    TableRow,
-    Typography,
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import {
-    CheckboxGV,
-    CheckboxSV, ContainedButton, ErrorContainer, Fallback,
-    Form,
-    InputValidation,
-    OutlinedButton,
-    PostCodeBtn,
-    TD,
-    TH,
-    Title1,
+  CheckboxGV,
+  CheckboxSV,
+  ContainedButton,
+  ErrorContainer,
+  Fallback,
+  Form,
+  InputValidation,
+  OutlinedButton,
+  PostCodeBtn,
+  TD,
+  TH,
+  Title1,
 } from "cjbsDSTM";
 import React, { useState } from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import useSWR from "swr";
-import {fetcherOrsh} from "api";
-import {useParams} from "next/navigation";
-import {AddressDeleteButton} from "../../../../components/AddressDeleteButton";
-import {useFormContext} from "react-hook-form";
+import { fetcherOrsh } from "api";
+import { useParams } from "next/navigation";
+import { AddressDeleteButton } from "../../../../components/AddressDeleteButton";
+import { useFormContext } from "react-hook-form";
 
 const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
   ssr: false,
 });
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
-    ssr: false,
+  ssr: false,
 });
 
 // 고객 검색
@@ -43,25 +45,25 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 const dataMailRcpnListGV = [
-    { value: "agncLeaderRcpn", optionName: "연구책임자" },
-    { value: "ordrAplcRcpn", optionName: "신청인" },
-    { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
+  { value: "agncLeaderRcpn", optionName: "연구책임자" },
+  { value: "ordrAplcRcpn", optionName: "신청인" },
+  { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
 export default function OrdererInfo() {
-
   const methods = useFormContext();
-  const {setValue, getValues} = methods;
+  const { setValue, getValues } = methods;
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   // const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(false);
+  const [custSearchModalOpen, setCustSearchModalOpen] =
+    useState<boolean>(false);
 
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -72,7 +74,8 @@ export default function OrdererInfo() {
     setCustSearchModalOpen(false);
   };
 
-  const [showEzbcIdSearchModal, setShowEzbcIdSearchModal] = useState<boolean>(false);
+  const [showEzbcIdSearchModal, setShowEzbcIdSearchModal] =
+    useState<boolean>(false);
   const ezbcIdSearchModalOpen = () => {
     setShowEzbcIdSearchModal(true);
   };
@@ -86,19 +89,21 @@ export default function OrdererInfo() {
     setValue("rstFileRcpnEmail", "");
   };
 
-
   return (
     <>
-      <Typography variant="subtitle1">
-        주문자 정보
-      </Typography>
+      <Typography variant="subtitle1">주문자 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
             <TableRow>
               <TH sx={{ width: "15%" }}>Ezbiocloud 계정</TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
-                <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="space-between">
+                <Stack
+                  direction="row"
+                  spacing={0.5}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   <Box>
                     <InputValidation
                       inputName="ebcEmail"
@@ -106,20 +111,27 @@ export default function OrdererInfo() {
                       sx={{
                         width: 306,
                         "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                          "& fieldset": {
+                            border: updataYn === "N" ? "" : "none",
+                          },
                         },
                         ".MuiOutlinedInput-input:read-only": {
                           backgroundColor: "white",
                           cursor: "pointer",
-                          textFillColor: "#000000"
+                          textFillColor: "#000000",
                         },
                       }}
                       InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
+                        readOnly: updataYn === "N" ? false : true,
                       }}
                     />
                     &nbsp;
-                    <Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>
+                    <Box
+                      sx={{ color: "#006ECD", fontSize: 12 }}
+                      component="span"
+                    >
+                      해당 계정으로 결과가 업로드 됩니다.
+                    </Box>
                   </Box>
                   <ContainedButton
                     buttonName="계정 변경"
@@ -129,132 +141,156 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>연구책임자 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-                <TD sx={{ width: "30%" }}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="rhpiNm"
-                      required={true}
-                      errorMessage="연구책임자 이름을 입력해 주세요."
-                      placeholder="연구책임자 이름을 입력해 주세요."
-                      sx={{
-                        width: 306,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+              <TH sx={{ width: "20%" }}>
+                연구책임자{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
+              <TD sx={{ width: "30%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="rhpiNm"
+                    required={true}
+                    errorMessage="연구책임자 이름을 입력해 주세요."
+                    placeholder="연구책임자 이름을 입력해 주세요."
+                    sx={{
+                      width: 306,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
                         },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000",
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: updataYn === "N" ? false : true,
+                    }}
+                  />
+                  <InputValidation
+                    sx={{ display: "none", width: 60 }}
+                    inputName="rhpiId"
+                    required={false}
+                  />
+                </Stack>
+              </TD>
+              <TH sx={{ width: "20%" }}>연락처</TH>
+              <TD sx={{ width: "30%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="rhpiTel"
+                    required={false}
+                    // errorMessage="이름을 입력해 주세요."
+                    pattern={/^[0-9,]*$/}
+                    patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
+                    sx={{
+                      width: 306,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
                         },
-                      }}
-                      InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
-                      }}
-                    />
-                    <InputValidation
-                      sx={{ display: "none", width: 60 }}
-                      inputName="rhpiId"
-                      required={false}
-                    />
-                  </Stack>
-                </TD>
-                <TH sx={{ width: "20%" }}>연락처</TH>
-                <TD sx={{ width: "30%" }}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="rhpiTel"
-                      required={false}
-                      // errorMessage="이름을 입력해 주세요."
-                      pattern={/^[0-9,]*$/}
-                      patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
-                      sx={{
-                        width: 306,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000",
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: updataYn === "N" ? false : true,
+                    }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>
+                기관{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
+              <TD sx={{ width: "30%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="instNm"
+                    required={true}
+                    errorMessage="기관명을 입력해 주세요."
+                    placeholder="기관명을 입력해 주세요."
+                    sx={{
+                      width: 306,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
                         },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000",
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: updataYn === "N" ? false : true,
+                    }}
+                  />
+                </Stack>
+              </TD>
+              <TH sx={{ width: "20%" }}>
+                연구 부서{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
+              <TD sx={{ width: "30%" }}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="agncNm"
+                    required={true}
+                    errorMessage="연구 부서를 입력해 주세요."
+                    placeholder="연구 부서를 입력해 주세요."
+                    sx={{
+                      width: 306,
+                      "& .MuiOutlinedInput-root": {
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
                         },
-                      }}
-                      InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "20%" }}>기관 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-                <TD sx={{ width: "30%" }}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="instNm"
-                      required={true}
-                      errorMessage="기관명을 입력해 주세요."
-                      placeholder="기관명을 입력해 주세요."
-                      sx={{
-                        width: 306,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                        },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
-                        },
-                      }}
-                      InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
-                      }}
-                    />
-                  </Stack>
-                </TD>
-                <TH sx={{ width: "20%" }}>연구 부서 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-                <TD sx={{ width: "30%" }}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="agncNm"
-                      required={true}
-                      errorMessage="연구 부서를 입력해 주세요."
-                      placeholder="연구 부서를 입력해 주세요."
-                      sx={{
-                        width: 306,
-                        "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
-                        },
-                        ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: "white",
-                          cursor: "pointer",
-                          textFillColor: "#000000"
-                        },
-                      }}
-                      InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-            </TableBody>
+                      },
+                      ".MuiOutlinedInput-input:read-only": {
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        textFillColor: "#000000",
+                      },
+                    }}
+                    InputProps={{
+                      readOnly: updataYn === "N" ? false : true,
+                    }}
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
+          </TableBody>
         </Table>
       </TableContainer>
 
       <Stack direction="row" alignItems="center" spacing={2}>
         <Typography variant="subtitle1">신청인 정보</Typography>
-        { updataYn === 'N' ? (
-          <LazyQuickCopy />
-        ) : (
-          ''
-        )}
+        {updataYn === "N" ? <LazyQuickCopy /> : ""}
       </Stack>
-      <TableContainer sx={{ mb: 5, mt:1 }}>
+      <TableContainer sx={{ mb: 5, mt: 1 }}>
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "20%" }}>신청인 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                신청인{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -265,21 +301,28 @@ export default function OrdererInfo() {
                     sx={{
                       width: 306,
                       "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
+                        },
                       },
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                     InputProps={{
-                      readOnly: updataYn === 'N' ? false : true
+                      readOnly: updataYn === "N" ? false : true,
                     }}
                   />
                 </Stack>
               </TD>
-              <TH sx={{ width: "20%" }}>신청인 이메일 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                신청인 이메일{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -287,28 +330,37 @@ export default function OrdererInfo() {
                     required={true}
                     errorMessage="이메일을 입력해 주세요."
                     placeholder="이메일을 입력해 주세요."
-                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                    pattern={
+                      /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+                    }
                     patternErrMsg="이메일 형식이 아닙니다."
                     sx={{
                       width: 306,
                       "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
+                        },
                       },
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                     InputProps={{
-                      readOnly: updataYn === 'N' ? false : true
+                      readOnly: updataYn === "N" ? false : true,
                     }}
                   />
                 </Stack>
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>연락처 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                연락처{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -321,16 +373,18 @@ export default function OrdererInfo() {
                     sx={{
                       width: 306,
                       "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
+                        },
                       },
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                     InputProps={{
-                      readOnly: updataYn === 'N' ? false : true
+                      readOnly: updataYn === "N" ? false : true,
                     }}
                   />
                 </Stack>
@@ -347,7 +401,12 @@ export default function OrdererInfo() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "20%" }}>주소  <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                주소{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack spacing={1}>
                   <Stack direction="row" spacing={0.5}>
@@ -358,28 +417,29 @@ export default function OrdererInfo() {
                       required={true}
                       errorMessage="우편번호를 입력해 주세요"
                       InputProps={{
-                          readOnly: true,
+                        readOnly: true,
                       }}
                       sx={{
                         "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                          "& fieldset": {
+                            border: updataYn === "N" ? "" : "none",
+                          },
                         },
                         ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: updataYn === 'N' ? '' : "white",
-                          cursor: updataYn === 'N' ? '' : "pointer",
-                          textFillColor: "#000000"
+                          backgroundColor: updataYn === "N" ? "" : "white",
+                          cursor: updataYn === "N" ? "" : "pointer",
+                          textFillColor: "#000000",
                         },
                       }}
                     />
-                    { updataYn === 'N' ? (
+                    {updataYn === "N" ? (
                       <>
                         <PostCodeBtn />
                         <AddressDeleteButton />
                       </>
                     ) : (
-                      ''
+                      ""
                     )}
-
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
@@ -391,22 +451,24 @@ export default function OrdererInfo() {
                       sx={{
                         width: 600,
                         "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                          "& fieldset": {
+                            border: updataYn === "N" ? "" : "none",
+                          },
                         },
                         ".MuiOutlinedInput-input:read-only": {
-                          backgroundColor: updataYn === 'N' ? '' : "white",
-                          cursor: updataYn === 'N' ? '' : "pointer",
-                          textFillColor: "#000000"
+                          backgroundColor: updataYn === "N" ? "" : "white",
+                          cursor: updataYn === "N" ? "" : "pointer",
+                          textFillColor: "#000000",
                         },
                       }}
                       InputProps={{
-                          readOnly: true,
+                        readOnly: true,
                       }}
                     />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
-                       // inputName="agncAddrDetail"
+                      // inputName="agncAddrDetail"
                       inputName="addrDetail"
                       maxLength={50}
                       maxLengthErrMsg="50자 이내로 입력해 주세요."
@@ -416,16 +478,18 @@ export default function OrdererInfo() {
                       sx={{
                         width: 600,
                         "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                          "& fieldset": {
+                            border: updataYn === "N" ? "" : "none",
+                          },
                         },
                         ".MuiOutlinedInput-input:read-only": {
                           backgroundColor: "white",
                           cursor: "pointer",
-                          textFillColor: "#000000"
+                          textFillColor: "#000000",
                         },
                       }}
                       InputProps={{
-                          readOnly: updataYn === 'N' ? false : true
+                        readOnly: updataYn === "N" ? false : true,
                       }}
                     />
                   </Stack>
@@ -434,7 +498,12 @@ export default function OrdererInfo() {
             </TableRow>
 
             <TableRow>
-              <TH sx={{ width: "20%" }}>진행사항 메일 수신 설정 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                진행사항 메일 수신 설정{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row">
                   <CheckboxGV
@@ -446,26 +515,32 @@ export default function OrdererInfo() {
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                   />
                   <InputValidation
                     inputName="addEmailList"
-                    placeholder={updataYn === 'N' ? "example@gmail.com, example2@gmail.com" : ""}
+                    placeholder={
+                      updataYn === "N"
+                        ? "example@gmail.com, example2@gmail.com"
+                        : ""
+                    }
                     sx={{
                       width: 550,
                       "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
+                        },
                       },
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                     InputProps={{
-                        readOnly: updataYn === 'N' ? false : true
+                      readOnly: updataYn === "N" ? false : true,
                     }}
                   />
                 </Stack>
@@ -478,42 +553,49 @@ export default function OrdererInfo() {
                   <InputValidation
                     inputName="rstFileRcpnEmail"
                     placeholder="example@gmail.com"
-                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                    pattern={
+                      /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+                    }
                     patternErrMsg="이메일 형식이 아닙니다."
                     sx={{
                       width: 306,
                       "& .MuiOutlinedInput-root": {
-                        "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                        "& fieldset": {
+                          border: updataYn === "N" ? "" : "none",
+                        },
                       },
                       ".MuiOutlinedInput-input:read-only": {
                         backgroundColor: "white",
                         cursor: "pointer",
-                        textFillColor: "#000000"
+                        textFillColor: "#000000",
                       },
                     }}
                     InputProps={{
-                      readOnly: true
+                      readOnly: true,
                     }}
                   />
-                  {updataYn === 'N' && (
+                  {updataYn === "N" && (
                     <>
                       <OutlinedButton
                         size="small"
                         buttonName="계정 등록"
-                        onClick={() => {ezbcIdSearchModalOpen()}}
+                        onClick={() => {
+                          ezbcIdSearchModalOpen();
+                        }}
                       />
                       <OutlinedButton
                         size="small"
                         buttonName="삭제"
                         color={"error"}
-                        onClick={() => {clearFormValue()}}
+                        onClick={() => {
+                          clearFormValue();
+                        }}
                       />
                     </>
                   )}
                 </Stack>
               </TD>
             </TableRow>
-
           </TableBody>
         </Table>
       </TableContainer>
