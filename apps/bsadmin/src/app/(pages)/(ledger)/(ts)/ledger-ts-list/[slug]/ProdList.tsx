@@ -4,13 +4,11 @@ import { Box, Stack, Grid, Typography } from "@mui/material";
 import { DataTableBase } from "cjbsDSTM";
 
 interface ProdDetailProps {
-  tdstProductDetailList: string;
+  productDetailList: string;
 }
 
-const ProdDetailList: React.FC<ProdDetailProps> = ({
-  tdstProductDetailList,
-}) => {
-  const filteredData = tdstProductDetailList;
+const ProdDetailList: React.FC<ProdDetailProps> = ({ productDetailList }) => {
+  const filteredData = productDetailList;
   console.log("filteredData", filteredData);
   const formatNumber = (number) => {
     return number.toLocaleString();

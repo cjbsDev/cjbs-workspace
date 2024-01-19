@@ -13,10 +13,8 @@ const AnlsTypeSelectbox = ({ inputName }: InputNameProps) => {
     fetcher,
     {
       suspense: true,
-    },
+    }
   );
-  console.log("AnlsType List", data);
-  // const serviceCategoryTypeData = data;
 
   return (
     <SelectBox

@@ -32,11 +32,13 @@ import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
-import Link from "next/link";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import TypeSelect from "../TypeSelect";
 import dayjs from "dayjs";
+
+import DynamicTable from "../../../../components/DynamicTable";
+import DynamicSumTable from "../../../../components/DynamicSumTable";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -47,13 +49,13 @@ const LazyAgncSearchModal = dynamic(
   }
 );
 
-const LazyAnalysisSampleDynamicTable = dynamic(
-  () => import("../AnalysisSampleDynamicTable"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+// const LazyAnalysisSampleDynamicTable = dynamic(
+//   () => import("../AnalysisSampleDynamicTable"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   }
+// );
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
@@ -70,7 +72,6 @@ const TSRegView = () => {
   const { mutate } = useSWRConfig();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [selectSampleListData, setSelectSampleListData] = useState<any>({});
   const methods = useForm();
   const {
     getValues,
@@ -97,16 +98,7 @@ const TSRegView = () => {
 
   // Submit
   const onSubmit = async (data: any) => {
-    const sampleUkeyList = () => {
-      return data.sample.map((item) => ({
-        anlsTypeMc: item.anlsTypeMc,
-        products: item.products,
-        sampleSize: Number(item.sampleSize.replaceAll(",", "")),
-        srvcTypeMc: item.srvcTypeMc,
-        supplyPrice: Number(item.supplyPrice.replaceAll(",", "")),
-        unitPrice: Number(item.unitPrice.replaceAll(",", "")),
-      }));
-    };
+    console.log("data", data);
 
     const bodyData = {
       tdstTypeCc: data.tdstTypeCc, // 유형
@@ -118,13 +110,13 @@ const TSRegView = () => {
       wdtDate: dayjs(data.wdtDate).format("YYYY-MM-DD"),
       bsnsMngrUkey: data.bsnsMngrUkey,
 
-      tdstProductDetailList: sampleUkeyList(),
+      productDetailList: data.productDetailList,
       totalPrice: Number(data.totalPrice),
       totalSupplyPrice: Number(data.totalSupplyPrice),
       vat: Number(data.vat),
     };
 
-    console.log("bodyData", bodyData);
+    console.log("bodyData", JSON.stringify(bodyData));
 
     const apiUrl: string = `/tdst`;
     await POST(apiUrl, bodyData)
@@ -134,7 +126,7 @@ const TSRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/transaction-statement-list");
+          router.push("/ledger-ts-list");
         } else {
           toast(response.message);
         }
@@ -290,118 +282,8 @@ const TSRegView = () => {
           </Table>
         </TableContainer>
 
-        {/* 분석내역표 */}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAnalysisSampleDynamicTable
-            setSelectSampleListData={setSelectSampleListData}
-          />
-        </ErrorContainer>
-
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>총 공급가액</TH>
-                <TD sx={{ width: "35%" }}>
-                  <InputValidation
-                    inputName="totalSupplyPriceVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="totalSupplyPrice"
-                    required={true}
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-                <TH sx={{ width: "15%" }}>부가세</TH>
-                <TD sx={{ width: "35%" }}>
-                  <InputValidation
-                    inputName="vatVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="vat"
-                    required={true}
-                    // errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>합계금액</TH>
-                <TD sx={{ width: "85%" }} colSpan={3}>
-                  <InputValidation
-                    inputName="totalPriceVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="totalPrice"
-                    required={true}
-                    // errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <DynamicTable />
+        <DynamicSumTable />
 
         {/* 거래처 검색 모달*/}
         <ErrorContainer FallbackComponent={Fallback}>

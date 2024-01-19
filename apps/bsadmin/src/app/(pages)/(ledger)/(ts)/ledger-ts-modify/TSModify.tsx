@@ -37,6 +37,8 @@ import dayjs from "dayjs";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
 import { useRecoilState } from "recoil";
+import DynamicTable from "../../../../components/DynamicTable";
+import DynamicSumTable from "../../../../components/DynamicSumTable";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -47,14 +49,14 @@ const LazyAgncSearchModal = dynamic(
   }
 );
 
-// 샘플 테이블
-const LazyAnalysisSampleDynamicTable = dynamic(
-  () => import("../AnalysisSampleDynamicTable"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+// // 샘플 테이블
+// const LazyAnalysisSampleDynamicTable = dynamic(
+//   () => import("../AnalysisSampleDynamicTable"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   }
+// );
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
@@ -100,7 +102,7 @@ const TSRegView = () => {
     return <SkeletonLoading />;
   }
 
-  console.log("getDataObj", getDataObj);
+  // console.log("getDataObj", getDataObj);
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -116,16 +118,6 @@ const TSRegView = () => {
 
   // Submit
   const onSubmit = async (data: any) => {
-    const sampleUkeyList = () => {
-      return data.sample.map((item) => ({
-        anlsTypeMc: item.anlsTypeMc,
-        products: item.products,
-        sampleSize: Number(item.sampleSize.replaceAll(",", "")),
-        srvcTypeMc: item.srvcTypeMc,
-        supplyPrice: Number(item.supplyPrice.replaceAll(",", "")),
-        unitPrice: Number(item.unitPrice.replaceAll(",", "")),
-      }));
-    };
     const bodyData = {
       tdstUkey: data.tdstUkey,
       tdstTypeCc: data.tdstTypeCc, // 유형
@@ -136,7 +128,7 @@ const TSRegView = () => {
       memo: data.memo,
       wdtDate: dayjs(data.wdtDate).format("YYYY-MM-DD"),
       bsnsMngrUkey: data.bsnsMngrUkey,
-      tdstProductDetailList: sampleUkeyList(),
+      productDetailList: data.productDetailList,
       totalPrice: Number(data.totalPrice),
       totalSupplyPrice: Number(data.totalSupplyPrice),
       vat: Number(data.vat),
@@ -151,7 +143,7 @@ const TSRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/transaction-statement-list");
+          router.push("/ledger-ts-list");
         } else {
           toast(response.message);
         }
@@ -163,15 +155,6 @@ const TSRegView = () => {
       .finally(() => {
         setIsLoading(false);
       });
-  };
-
-  const setDetailList = (getDataObj: any) => {
-    console.log(
-      "getDataObj.tdstProductDetailList",
-      getDataObj.tdstProductDetailList
-    );
-    setSelectSampleList(getDataObj.tdstProductDetailList);
-    return getDataObj.tdstProductDetailList;
   };
 
   const defaultValues = {
@@ -195,7 +178,7 @@ const TSRegView = () => {
     totalSupplyPrice: getDataObj.totalSupplyPrice,
     vatVal: getDataObj.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     vat: getDataObj.vat,
-    tdstProductDetailList: setDetailList(getDataObj),
+    productDetailList: getDataObj.productDetailList,
   };
 
   return (
@@ -340,7 +323,11 @@ const TSRegView = () => {
           </Table>
         </TableContainer>
 
+        <DynamicTable />
+        <DynamicSumTable />
+
         {/* 분석내역표 */}
+        {/*         
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAnalysisSampleDynamicTable
             setSelectSampleListData={setSelectSampleListData}
@@ -452,7 +439,7 @@ const TSRegView = () => {
               </TableRow>
             </TableBody>
           </Table>
-        </TableContainer>
+        </TableContainer> */}
 
         {/* 거래처 검색 모달*/}
         <ErrorContainer FallbackComponent={Fallback}>
@@ -465,6 +452,10 @@ const TSRegView = () => {
         </ErrorContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
+          <OutlinedButton
+            buttonName="목록"
+            onClick={() => router.push("/ledger-ts-list/")}
+          />
           <ContainedButton
             size="small"
             type="submit"
