@@ -42,8 +42,8 @@ const AccountStatementModal = ({
   const invcUkey = params.slug;
 
   const onSubmit = async (data: any) => {
-    console.log("계산서 발행 DATA ==>>", data);
-    console.log("계산서 발행 DATA ==>>", typeof data.invcNum);
+    // console.log("계산서 발행 DATA ==>>", data);
+    // console.log("계산서 발행 DATA ==>>", typeof data.invcNum);
     setIsLoading(true);
 
     const bodyData = {
@@ -52,13 +52,15 @@ const AccountStatementModal = ({
       invcUkey: invcUkey?.toString(),
     };
 
+    console.log("발행 BodyData ==>>", bodyData);
+
     try {
       const res = await POST(`/invc/issue`, bodyData);
 
       if (res.success) {
         console.log("SUCCESS", res);
         onClose();
-        router.push("/tax-invoice-list");
+        router.push("/ledger-tax-invoice-list");
       } else {
         toast.error(res.message);
       }

@@ -106,9 +106,7 @@ const TaxInvoiceInfo = () => {
     vat,
   } = data;
 
-  const isManager =
-    statusCc === "BS_1902003" &&
-    (pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914004");
+  const isManager = statusCc === "BS_1902003" && pymtInfoCc === "BS_1914002";
 
   const handleAccountStatementModalOpen = useCallback(() => {
     setAccountStatementModalOpen(true);
@@ -361,7 +359,7 @@ const TaxInvoiceInfo = () => {
                     anlsTypeMc: string;
                     anlsTypeVal: string;
                     products: string;
-                    qnty: number;
+                    sampleSize: number;
                     srvcCtgrMc: string;
                     srvcCtgrVal: string;
                     supplyPrice: number;
@@ -373,7 +371,7 @@ const TaxInvoiceInfo = () => {
                     anlsTypeMc,
                     anlsTypeVal,
                     products,
-                    qnty,
+                    sampleSize,
                     srvcCtgrMc,
                     srvcCtgrVal,
                     supplyPrice,
@@ -383,7 +381,9 @@ const TaxInvoiceInfo = () => {
                     <TableRow>
                       <TD align="center">{index + 1}</TD>
                       <TD>{products}</TD>
-                      <TD align="right">{formatNumberWithCommas(qnty)}개</TD>
+                      <TD align="right">
+                        {formatNumberWithCommas(sampleSize)}개
+                      </TD>
                       <TD align="right">
                         {formatNumberWithCommas(unitPrice)}원
                       </TD>
@@ -481,7 +481,7 @@ const TaxInvoiceInfo = () => {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "15%" }}>상태</TH>
-                <TD>
+                <TD sx={{ width: pymtInfoCc === "BS_1914002" ? "35%" : null }}>
                   <Chip
                     label={statusVal}
                     size="small"
@@ -490,10 +490,14 @@ const TaxInvoiceInfo = () => {
                 </TD>
                 <TH sx={{ width: "15%" }}>발행일</TH>
                 <TD align="right">{issuDttm}</TD>
-                <TH sx={{ width: "15%" }}>세금계산서 번호</TH>
-                <TD align="right">
-                  {invcNum === null ? "-" : formatBusinessRegNo(invcNum)}
-                </TD>
+                {pymtInfoCc === "BS_1914002" && (
+                  <>
+                    <TH sx={{ width: "15%" }}>세금계산서 번호</TH>
+                    <TD align="right">
+                      {invcNum === null ? "-" : formatBusinessRegNo(invcNum)}
+                    </TD>
+                  </>
+                )}
               </TableRow>
             </TableBody>
           </Table>
@@ -556,7 +560,7 @@ const TaxInvoiceInfo = () => {
             {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
-                buttonName="계산서 발행"
+                buttonName="발행"
                 onClick={handleAccountStatementModalOpen}
               />
             )}

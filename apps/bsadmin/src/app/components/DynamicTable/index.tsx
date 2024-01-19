@@ -13,6 +13,7 @@ import {
 import {
   cjbsTheme,
   ContainedButton,
+  DeletedButton,
   ErrorContainer,
   Fallback,
   InputEAType,
@@ -25,6 +26,7 @@ import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 import { NumericFormat } from "react-number-format";
 import SupplyPrice from "./SupplyPrice";
+import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/components/DeleteBtn";
 
 const LazyServiceCategorySelectbox = dynamic(
   () => import("../../components/ServiceCategorySelectbox"),
@@ -235,7 +237,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -265,7 +266,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -309,10 +309,9 @@ const DynamicTable = () => {
             onClick={handleAppend}
             startIcon={<MyIcon icon="plus" size={18} color="white" />}
           />
-          <OutlinedButton
-            size="small"
-            color="error"
+          <DeletedButton
             buttonName="삭제"
+            disabled={isDeleteDisabled}
             onClick={handleDeleteSelected}
             startIcon={
               <MyIcon
@@ -325,8 +324,26 @@ const DynamicTable = () => {
                 }
               />
             }
-            disabled={isDeleteDisabled}
           />
+
+          {/*<OutlinedButton*/}
+          {/*  size="small"*/}
+          {/*  color="error"*/}
+          {/*  buttonName="삭제"*/}
+          {/*  onClick={handleDeleteSelected}*/}
+          {/*  startIcon={*/}
+          {/*    <MyIcon*/}
+          {/*      icon="trash"*/}
+          {/*      size={18}*/}
+          {/*      color={*/}
+          {/*        isDeleteDisabled*/}
+          {/*          ? cjbsTheme.palette.grey["400"]*/}
+          {/*          : cjbsTheme.palette.error.main*/}
+          {/*      }*/}
+          {/*    />*/}
+          {/*  }*/}
+          {/*  disabled={isDeleteDisabled}*/}
+          {/*/>*/}
         </Stack>
       )}
     </>

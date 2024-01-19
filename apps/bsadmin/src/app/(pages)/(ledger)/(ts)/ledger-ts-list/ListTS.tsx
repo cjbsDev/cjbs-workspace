@@ -132,7 +132,7 @@ const ListCust = () => {
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: { tdstUkey: string }) => {
