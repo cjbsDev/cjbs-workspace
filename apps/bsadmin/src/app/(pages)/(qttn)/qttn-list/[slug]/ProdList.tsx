@@ -12,8 +12,17 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({
 }) => {
   const filteredData = tdstProductDetailList;
   console.log("filteredData", filteredData);
-  const formatNumber = (number) => {
-    return number.toLocaleString();
+
+  const formatNumber = (number: number | string) => {
+    if (number === undefined || number === null) {
+      return number; // undefined나 null일 경우
+    }
+    const num = typeof number === "string" ? parseFloat(number) : number;
+    if (isNaN(num)) {
+      return number; // 숫자로 변환할 수 없는 경우
+    }
+
+    return num.toLocaleString();
   };
 
   const columns = useMemo(
@@ -29,10 +38,10 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({
       },
       {
         name: "수량",
-        selector: (row: { sampleSize: number }) => row.sampleSize,
-        width: "150px",
+        selector: (row: { qnty: number }) => row.qnty,
+        width: "100px",
         right: true,
-        cell: (row) => formatNumber(row.sampleSize),
+        cell: (row) => formatNumber(row.qnty),
       },
       {
         name: "단가",
@@ -47,6 +56,20 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({
         width: "250px",
         right: true,
         cell: (row) => formatNumber(row.supplyPrice),
+      },
+
+      {
+        name: "할인율",
+        selector: (row: { dscntPctg: number }) => row.dscntPctg,
+        width: "100px",
+        right: true,
+        cell: (row) => row.dscntPctg + "%",
+      },
+      {
+        name: "포함사항",
+        selector: (row: { inclMemo: number }) => row.inclMemo,
+        right: true,
+        cell: (row) => row.inclMemo,
       },
     ],
     []
