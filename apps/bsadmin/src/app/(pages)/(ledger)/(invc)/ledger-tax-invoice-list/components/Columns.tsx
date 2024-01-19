@@ -4,6 +4,7 @@ import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { cjbsTheme } from "cjbsDSTM";
 import Ellipsis from "./Ellipsis";
+import { sampleSize } from "lodash";
 
 export const getColumns = (totalElements: number) => [
   {
@@ -20,14 +21,14 @@ export const getColumns = (totalElements: number) => [
     center: true,
     // sortable: true,
     // sortField: "orderId",
-    selector: (row: { invcStatusCcVal: string }) => row.invcStatusCcVal,
-    cell: (row: { invcStatusCcVal: string }) => {
-      const { invcStatusCcVal } = row;
+    selector: (row: { invcStatusVal: string }) => row.invcStatusVal,
+    cell: (row: { invcStatusVal: string }) => {
+      const { invcStatusVal } = row;
       return (
         <Chip
-          label={invcStatusCcVal}
+          label={invcStatusVal}
           size="small"
-          color={invcStatusCcVal === "요청" ? "primary" : "success"}
+          color={invcStatusVal === "요청" ? "primary" : "success"}
         />
       );
     },
@@ -90,14 +91,15 @@ export const getColumns = (totalElements: number) => [
     center: true,
     width: "90px",
     allowOverflow: false,
-    selector: (row: { pymtCcVal: string }) => row.pymtCcVal,
+    selector: (row: { pymtVal: string }) => row.pymtVal,
   },
 
   {
     name: "수량",
     width: "80px",
     right: true,
-    selector: (row: { qnty: number }) => row.qnty,
+    selector: (row: { sampleSize: number }) =>
+      row.sampleSize === 0 ? "-" : row.sampleSize,
   },
   {
     name: "총 공급가액",

@@ -121,7 +121,7 @@ const ListCust = () => {
       },
       {
         name: "발송",
-        selector: (row: { sendStatusCcVal: string }) => row.sendStatusCcVal,
+        selector: (row: { sendStatusVal: string }) => row.sendStatusVal,
         width: "100px",
       },
       {
@@ -132,7 +132,7 @@ const ListCust = () => {
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: { tdstUkey: string }) => {
