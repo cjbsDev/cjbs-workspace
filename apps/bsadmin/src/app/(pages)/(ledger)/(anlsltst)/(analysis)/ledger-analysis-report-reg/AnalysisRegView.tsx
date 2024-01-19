@@ -37,16 +37,16 @@ import { getDefaultValues } from "./getDefaultValues";
 import {cjbsTheme} from "cjbsDSTM/themes";
 import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
+import {groupListDataAtom} from "../../../../../recoil/atoms/groupListDataAtom";
+import {toggledClearRowsAtom} from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
 
-const LazyOrderSearchModal = dynamic(() => import("../../../components/OrderSearchModal"), {
+const LazyOrderSearchModal = dynamic(() => import("../../../../../components/OrderSearchModal"), {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-const LazyAnalysisListModal = dynamic(() => import("../../../components/AnalysisListModal"), {
+const LazyAnalysisListModal = dynamic(() => import("../../../../../components/AnalysisListModal"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });

@@ -14,14 +14,16 @@ export const dataTableCustomStyles = {
   },
   head: {
     style: {
-      color: "black",
+      color: "white",
       fontWeight: "600",
       fontSize: 14,
-      backgroundColor: cjbsTheme.palette.grey["50"],
+      // backgroundColor: cjbsTheme.palette.grey["50"],
+      backgroundColor: cjbsTheme.palette.grey["800"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-      paddingTop: 3,
-      paddingBottom: 3,
+      // paddingTop: 3,
+      // paddingBottom: 3,
+      minHeight: '36px'
     },
   },
   subHeader: {
@@ -56,7 +58,8 @@ export const dataTableCustomStyles = {
   // },
   headRow: {
     style: {
-      backgroundColor: cjbsTheme.palette.grey["50"],
+      // backgroundColor: cjbsTheme.palette.grey["50"],
+      backgroundColor: cjbsTheme.palette.grey["800"],
       // minHeight: "40px",
       // borderTop: "1px solid #000",
       borderBottom: "none",
@@ -82,8 +85,8 @@ export const dataTableCustomStyles = {
   rows: {
     style: {
       backgroundColor: "white",
-      paddingTop: 7.5,
-      paddingBottom: 7.5,
+      paddingTop: 5,
+      paddingBottom: 5,
       paddingLeft: 24,
       paddingRight: 24,
     },
@@ -202,7 +205,7 @@ export const dataTableCustomStyles3 = {
   },
   head: {
     style: {
-      color: "black",
+      color: "white",
       fontWeight: "600",
       fontSize: 14,
       backgroundColor: cjbsTheme.palette.grey["50"],
@@ -222,8 +225,8 @@ export const dataTableCustomStyles3 = {
   },
   headRow: {
     style: {
-      backgroundColor: cjbsTheme.palette.grey["50"],
-      // minHeight: "40px",
+      backgroundColor: cjbsTheme.palette.grey["800"],
+      height: "36px",
       // borderTop: "1px solid #000",
       // borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       borderBottom: "none",
@@ -238,7 +241,7 @@ export const dataTableCustomStyles3 = {
   headCells: {
     style: {
       borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-      minHeight: 40,
+      minHeight: 36,
     },
   },
   cells: {

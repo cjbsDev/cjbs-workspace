@@ -31,13 +31,15 @@ import Link from "next/link";
 import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
+import AgncDetailInfo from "../../../../../../components/AgncDetailInfo";
+import RearchDetailInfo from "../../../../../../components/RearchDetailInfo";
 
-const LazyAgncInfoModal = dynamic(() => import("../../../(order)/order-list/[...slug]/(OrderTab)/AgncInfoModal"), {
-  ssr: false,
-});
-const LazyRearchInfoModal = dynamic(() => import("../../../(order)/order-list/[...slug]/(OrderTab)/RearchInfoModal"), {
-  ssr: false,
-});
+// const LazyAgncInfoModal = dynamic(() => import("../../../../components/AgncDetailInfo"), {
+//   ssr: false,
+// });
+// const LazyRearchInfoModal = dynamic(() => import("../../../../components/RearchInfoModal"), {
+//   ssr: false,
+// });
 const LazyPrePayListModal = dynamic(() => import("./PrePayListModal"), {
   ssr: false,
 });
@@ -52,6 +54,11 @@ const AnalysisInfo = () => {
     suspense: true,
   });
   console.log("response", data);
+
+  const {
+    agncUkey,
+    custUkey,
+  } = data.anlsItstCustInfo;
 
   const [settlement, setSettlement] = useState<boolean>(true);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
@@ -102,7 +109,7 @@ const AnalysisInfo = () => {
   }, [data]);
 
   const goModifyPage = () => {
-    router.push("/analysis-report-modify/" + anlsItstUkey);
+    router.push("/ledger-analysis-report-modify/" + anlsItstUkey);
   };
 
   const { agncInfoDetail, agncLeaderInfoDetail } = data.anlsItstCustInfo;
@@ -308,14 +315,7 @@ const AnalysisInfo = () => {
                           />
                         </Grid>
                         <Grid item>
-                          <IconButton onClick={() => setShowAgncInfoModal(true)}>
-                            <MyIcon
-                              icon="memo"
-                              width={18}
-                              data-tag="allowRowEvents"
-                              color="black"
-                            />
-                          </IconButton>
+                          <AgncDetailInfo agncUkey={agncUkey} />
                         </Grid>
                       </Grid>
                     </TD>
@@ -344,14 +344,7 @@ const AnalysisInfo = () => {
                           />
                         </Grid>
                         <Grid item>
-                          <IconButton onClick={() => setShowRearchInfoModal(true)}>
-                            <MyIcon
-                              icon="memo"
-                              width={18}
-                              data-tag="allowRowEvents"
-                              color="black"
-                            />
-                          </IconButton>
+                          <RearchDetailInfo agncLeaderUkey={custUkey} />
                         </Grid>
                       </Grid>
 
@@ -679,6 +672,8 @@ const AnalysisInfo = () => {
                                   const {
                                     invcId,
                                     invcIdList,
+                                    anlsItstId,
+                                    anlsItstUkey,
                                     invcUkey,
                                     isPrePymt,
                                     prePayList,
@@ -704,19 +699,21 @@ const AnalysisInfo = () => {
                                         )}
                                         { isPrePymt === "N" && (
                                           <Stack direction="row" spacing={1} alignItems="center">
+                                            세금계산서
                                             <LinkButton
-                                              buttonName={ "("+invcIdList+")" }
-                                              onClick={() => router.push("/cust-list")}
+                                              buttonName={ "("+invcId+")" }
+                                              onClick={() => router.push("/tax-invoice-list/"+invcUkey)}
                                             />
                                           </Stack>
                                         )}
                                         { isPrePymt === "U" && (
                                           <Stack direction="row" spacing={1} alignItems="center">
                                             분석내역서 번호
-                                            <LinkButton
-                                              buttonName={ "("+invcIdList+")" }
-                                              onClick={() => router.push("/cust-list")}
-                                            />
+                                            <Link href={`/ledger-analysis-report-list/${anlsItstUkey}`}>
+                                              <LinkButton
+                                                buttonName={ "("+anlsItstId+")" }
+                                              />
+                                            </Link>
                                           </Stack>
                                         )}
                                       </TD>
@@ -758,7 +755,8 @@ const AnalysisInfo = () => {
                               textFillColor: "#000000"
                             },
                             ".MuiOutlinedInput-root" : {
-                              p : 1
+                              p : 1,
+                              marginY: 0.5
                             },
                           }}
                           InputProps={{
@@ -772,12 +770,12 @@ const AnalysisInfo = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={1} justifyContent="center" sx={{mb: 5}}>
-                <Link href="/analysis-report-list">
-                  <OutlinedButton size="small" buttonName="목록"/>
+                <Link href="/ledger-analysis-report-list">
+                  <OutlinedButton size="medium" buttonName="목록"/>
                 </Link>
                 { isEdit === 'Y' && (
                   <ContainedButton
-                    size="small"
+                    size="medium"
                     buttonName="수정" // 수정 가능 페이지로 이동
                     onClick={goModifyPage}
                   />
@@ -788,20 +786,6 @@ const AnalysisInfo = () => {
         </>
       </Form>
 
-      {/*거래처(pi) 정보 모달*/}
-      <LazyAgncInfoModal
-        onClose={agncInfoModalClose}
-        open={showAgncInfoModal}
-        modalWidth={800}
-        data={agncInfoDetail}
-      />
-      {/* 연구책임자 정보 모달 */}
-      <LazyRearchInfoModal
-        onClose={rearchInfoModalClose}
-        open={showRearchInfoModal}
-        modalWidth={800}
-        data={agncLeaderInfoDetail}
-      />
       {/* 선결제 정산 내역 모달 */}
       <LazyPrePayListModal
         onClose={prePayListModalClose}
