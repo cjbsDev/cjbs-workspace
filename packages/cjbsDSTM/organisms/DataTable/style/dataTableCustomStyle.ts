@@ -37,9 +37,11 @@ export const dataTableCustomStyles = {
     style: {
       "&:hover .rdt_TableCol_Sortable > span": {
         opacity: 1, // 마우스 호버 상태와 관계없이 항상 표시
+        fontSize: 10,
       },
       ".rdt_TableCol_Sortable > span": {
         opacity: 1, // 정렬 아이콘 항상 표시
+        fontSize: 10,
       },
     },
     draggingStyle: {
