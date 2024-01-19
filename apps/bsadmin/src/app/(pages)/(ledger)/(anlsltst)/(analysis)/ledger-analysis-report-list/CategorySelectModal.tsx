@@ -23,7 +23,7 @@ const CategorySelectModal = (props: any) => {
         <Stack spacing={1} alignItems="center" justifyContent="center">
           <Link
             href={{
-              pathname: '/analysis-report-reg',
+              pathname: '/ledger-analysis-report-reg',
             }}
             style={{width:'100%'}}
           >
@@ -31,7 +31,7 @@ const CategorySelectModal = (props: any) => {
           </Link>
           <Link
             href={{
-              pathname: '/license-report-reg',
+              pathname: '/ledger-license-report-reg',
             }}
             style={{width:'100%'}}
           >

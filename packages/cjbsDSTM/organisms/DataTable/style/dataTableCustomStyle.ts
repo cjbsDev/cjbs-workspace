@@ -251,8 +251,8 @@ export const dataTableCustomStyles3 = {
       borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       // borderRight: "1px solid red",
       // minHeight: 50,
-      paddingTop: 9,
-      paddingBottom: 9,
+      paddingTop: 5,
+      paddingBottom: 5,
       fontSize: 14,
       "&:nth-of-type(1)": {
         // paddingLeft: 40,

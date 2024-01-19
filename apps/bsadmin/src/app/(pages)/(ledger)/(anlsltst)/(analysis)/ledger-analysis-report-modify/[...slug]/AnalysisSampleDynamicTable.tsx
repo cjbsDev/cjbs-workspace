@@ -24,6 +24,7 @@ import { groupListDataAtom } from "../../../../../../recoil/atoms/groupListDataA
 import { toggledClearRowsAtom } from "../../../../../../recoil/atoms/toggled-clear-rows-atom";
 import { POST } from "api";
 import { toast } from "react-toastify";
+import MyIcon from "icon/MyIcon";
 
 
 export default function AnalysisSampleDynamicTable(props: any) {
@@ -276,7 +277,9 @@ export default function AnalysisSampleDynamicTable(props: any) {
               <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '25%' }}>
                 <Typography variant="subtitle2">사유</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}></TableCell>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}>
+                <MyIcon icon="trash" size={20} />
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

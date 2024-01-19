@@ -244,7 +244,7 @@ const AnalysisInfo = () => {
                 <TableRow>
                   <TH sx={{width: "15%"}}>서비스 분류</TH>
                   <TD sx={{width: "85%", textAlign: "left"}}>
-                    <Typography variant="body2" sx={{pl: '14px'}}>Analysis</Typography>
+                    <Typography variant="body2" sx={{pl: '0px'}}>Analysis</Typography>
                     <InputValidation
                       sx={{display: "none"}}
                       inputName="srvcCtgrMc"
