@@ -87,8 +87,8 @@ const AgncDataTable = ({ handleClose }) => {
             } else {
               setValue("agncUkey", agncUkey);
               setValue("agncNm", agncNm);
-              setValue("instUkey", instUkey);
-              setValue("instNm", instNm);
+              // setValue("instUkey", instUkey);
+              setValue("instFakeNm", instNm);
               setValue("rmnPrePymtPrice", rmnPrePymtPrice);
               setValue("rmnPrice", rmnPrice);
               setValue("brno", brno);
@@ -98,7 +98,7 @@ const AgncDataTable = ({ handleClose }) => {
             clearErrors([
               "agncUkey",
               "agncNm",
-              "instUkey",
+              "instFakeNm",
               "instNm",
               "rmnPrice",
               "rmnPrePymtPrice",

@@ -60,7 +60,7 @@ const AccountStatementModal = ({
       if (res.success) {
         console.log("SUCCESS", res);
         onClose();
-        router.push("/tax-invoice-list");
+        router.push("/ledger-tax-invoice-list");
       } else {
         toast.error(res.message);
       }

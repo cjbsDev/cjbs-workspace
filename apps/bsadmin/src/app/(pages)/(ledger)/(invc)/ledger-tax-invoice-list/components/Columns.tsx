@@ -35,7 +35,7 @@ export const getColumns = (totalElements: number) => [
   },
   {
     name: "거래처",
-    // width: "220px",
+    width: "220px",
     // style: { paddingRight: "50px" },
     cell: (row: { isSpecialMng: string; instNm: string; agncNm: string }) => {
       const { isSpecialMng, instNm, agncNm } = row;
@@ -76,8 +76,7 @@ export const getColumns = (totalElements: number) => [
     name: "거래처 코드",
     right: true,
     width: "100px",
-    selector: (row: { bsnsMngrNm: null | string }) =>
-      row.bsnsMngrNm === null ? "-" : row.bsnsMngrNm,
+    selector: (row: { agncId: number }) => row.agncId,
   },
   {
     name: "영업담당",

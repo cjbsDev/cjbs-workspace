@@ -481,7 +481,7 @@ const TaxInvoiceInfo = () => {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "15%" }}>상태</TH>
-                <TD>
+                <TD sx={{ width: pymtInfoCc === "BS_1914002" ? "35%" : null }}>
                   <Chip
                     label={statusVal}
                     size="small"
