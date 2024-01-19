@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { ContainedButton, OutlinedButton } from "cjbsDSTM";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../public/svg/loading_blue.svg";
 import { Stack } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
