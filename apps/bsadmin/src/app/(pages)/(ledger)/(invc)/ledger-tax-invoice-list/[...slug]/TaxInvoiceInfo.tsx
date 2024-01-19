@@ -490,10 +490,14 @@ const TaxInvoiceInfo = () => {
                 </TD>
                 <TH sx={{ width: "15%" }}>발행일</TH>
                 <TD align="right">{issuDttm}</TD>
-                <TH sx={{ width: "15%" }}>세금계산서 번호</TH>
-                <TD align="right">
-                  {invcNum === null ? "-" : formatBusinessRegNo(invcNum)}
-                </TD>
+                {pymtInfoCc === "BS_1914002" && (
+                  <>
+                    <TH sx={{ width: "15%" }}>세금계산서 번호</TH>
+                    <TD align="right">
+                      {invcNum === null ? "-" : formatBusinessRegNo(invcNum)}
+                    </TD>
+                  </>
+                )}
               </TableRow>
             </TableBody>
           </Table>
