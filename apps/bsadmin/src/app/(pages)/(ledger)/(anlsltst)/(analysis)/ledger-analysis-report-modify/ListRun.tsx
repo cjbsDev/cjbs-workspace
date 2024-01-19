@@ -29,8 +29,8 @@ import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { usePathname, useSearchParams } from "next/navigation";
-import KeywordSearch from "../../../components/KeywordSearch";
-import NoDataView from "../../../components/NoDataView";
+import KeywordSearch from "../../../../../components/KeywordSearch";
+import NoDataView from "../../../../../components/NoDataView";
 import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
@@ -113,13 +113,6 @@ const ListRun = () => {
             </Stack>
           );
         },
-      },
-      {
-        name: "거래처 번호",
-        width: "100px",
-        center: true,
-        // sortable: true,
-        selector: (row, index) => row.agncId,
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
@@ -318,7 +311,7 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1138px'} align="center" rowSpan={10}>
+                    <TableCell width={'1038px'} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>

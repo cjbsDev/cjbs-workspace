@@ -33,35 +33,35 @@ import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
 
 const LazyMcNameSelctbox = dynamic(
-  () => import("../../../components/McNmSelectbox"),
+  () => import("../../../../../components/McNmSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
 const LazyRUNTypeSelctbox = dynamic(
-  () => import("../../../components/RunTypeSelectbox"),
+  () => import("../../../../../components/RunTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
 const LazyKitSelctbox = dynamic(
-  () => import("../../../components/KitSelectbox"),
+  () => import("../../../../../components/KitSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">장비를 선택하세요.</Typography>,
   }
 );
 const LazyHostCompSelctbox = dynamic(
-  () => import("../../../components/HostCompSelectbox"),
+  () => import("../../../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   }
 );
 const LazyExpMngSelctbox = dynamic(
-  () => import("../../../components/ExpMngSelectbox"),
+  () => import("../../../../../components/ExpMngSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,

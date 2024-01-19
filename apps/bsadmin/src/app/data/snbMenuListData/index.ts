@@ -110,7 +110,7 @@ export const snbMenuListData = [
         // },
         {
           menuLabel: "분석 내역서 관리",
-          menuPath: "/analysis-report-list",
+          menuPath: "/ledger-analysis-report-list",
         },
         // {
         //   menuLabel: '세금 계산서 관리',

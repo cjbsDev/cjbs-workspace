@@ -23,7 +23,7 @@ import {
   TooltipProps,
   Tooltip,
   tooltipClasses,
-  IconButton
+  IconButton, Link
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef, useEffect } from "react";
@@ -258,8 +258,14 @@ export default function ListOrshbs() {
     return (
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
+          <Stack direction="row" spacing={2} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
+
+            <ContainedButton
+              buttonName="주문서 등록"
+              size="small"
+              onClick={() => handleServiceSelectOpen()}
+            />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -302,13 +308,8 @@ export default function ListOrshbs() {
     <>
       <DataTableBase
         title={
-          <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
+          <Stack direction="row" spacing={1.5}>
             <Title1 titleName="내부 주문서 관리" />
-            <ContainedButton
-                buttonName="+주문서 등록"
-                size="small"
-                onClick={() => handleServiceSelectOpen()}
-            />
           </Stack>
         }
         data={data.orshList}

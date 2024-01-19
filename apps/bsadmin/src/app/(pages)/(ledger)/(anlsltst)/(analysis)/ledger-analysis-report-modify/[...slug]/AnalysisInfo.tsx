@@ -37,12 +37,12 @@ import { getDefaultValues } from "./getDefaultValues";
 import {cjbsTheme} from "cjbsDSTM/themes";
 import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
 import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../../recoil/atoms/toggled-clear-rows-atom";
+import {groupListDataAtom} from "../../../../../../recoil/atoms/groupListDataAtom";
+import {toggledClearRowsAtom} from "../../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
 import {addDays, subDays, subMonths} from "date-fns";
 
-const LazyAnalysisListModal = dynamic(() => import("../../../../components/AnalysisListModal"), {
+const LazyAnalysisListModal = dynamic(() => import("../../../../../../components/AnalysisListModal"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
@@ -169,28 +169,28 @@ const AnalysisInfo = () => {
 
     console.log("bodyData", bodyData);
 
-    const apiUrl: string = `/anls/itst`;
+    const apiUrl: string = `/anls/itst/${anlsItstUkey}`;
 
-    // await POST(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response);
-    //     if (response.success) {
-    //       toast("등록 되었습니다.");
-    //       setIsLoading(false);
-    //       mutate(apiUrl);
-    //       router.push("/analysis-report-list");
-    //
-    //     } else {
-    //       toast(response.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //     // toast(error.)
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    await POST(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response);
+        if (response.success) {
+          toast("수정 되었습니다.");
+          setIsLoading(false);
+          mutate(apiUrl);
+          router.push("/ledger-analysis-report-list");
+
+        } else {
+          toast(response.message);
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+        // toast(error.)
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const analysisSearchModalOpen = () => {
@@ -383,7 +383,7 @@ const AnalysisInfo = () => {
           {/*{ orderSelectChk == true && (*/}
           <>
             <Typography variant="subtitle1">고객정보</Typography>
-            <TableContainer sx={{mb: 5}}>
+            <TableContainer sx={{mb: 2}}>
               <Table>
                 <TableBody>
                   <TableRow>
@@ -473,7 +473,7 @@ const AnalysisInfo = () => {
                 setSelectSampleListData={setSelectSampleListData}
               />
 
-              <TableContainer sx={{mb: 5}}>
+              <TableContainer sx={{mb: 2}}>
                 <Table>
                   <TableBody>
                     <TableRow>
@@ -607,124 +607,8 @@ const AnalysisInfo = () => {
                 </Table>
               </TableContainer>
 
-              {/*<Typography variant="subtitle1">정산</Typography>*/}
-              {/*<TableContainer sx={{mb: 5}}>*/}
-              {/*  <Table>*/}
-              {/*    <TableBody>*/}
-              {/*      <TableRow>*/}
-              {/*        <TH sx={{width: "15%"}}>남은금액</TH>*/}
-              {/*        <TD sx={{width: "85%"}}>*/}
-              {/*          <InputValidation*/}
-              {/*            inputName="remainingAmount"*/}
-              {/*            required={true}*/}
-              {/*            sx={{*/}
-              {/*              width: '100%',*/}
-              {/*              ".MuiOutlinedInput-input": {*/}
-              {/*                textAlign: "end",*/}
-              {/*              },*/}
-              {/*              "&.MuiTextField-root": {*/}
-              {/*                backgroundColor: "#F1F3F5",*/}
-              {/*              },*/}
-              {/*            }}*/}
-              {/*            InputProps={{*/}
-              {/*              readOnly: true,*/}
-              {/*              endAdornment: (*/}
-              {/*                <InputAdornment position="end">*/}
-              {/*                  <Typography variant="body2" sx={{color: "black"}}>*/}
-              {/*                    원*/}
-              {/*                  </Typography>*/}
-              {/*                </InputAdornment>*/}
-              {/*              ),*/}
-              {/*            }}*/}
-              {/*          />*/}
-              {/*        </TD>*/}
-              {/*      </TableRow>*/}
-              {/*      {settlement === true && (*/}
-              {/*        <TableRow>*/}
-              {/*          <TH sx={{width: "15%"}}>정산이력</TH>*/}
-              {/*          <TD sx={{width: "85%"}}>*/}
-              {/*            <TableContainer sx={{mb: 1}}>*/}
-              {/*              <Table>*/}
-              {/*                <TableBody>*/}
-              {/*                  <TableRow>*/}
-              {/*                    <TH sx={{width: "25%"}}>방법</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>구분</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>비용</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>비고</TH>*/}
-              {/*                  </TableRow>*/}
-              {/*                  <TableRow>*/}
-              {/*                    <TD sx={{width: "25%"}}>선결제</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>자동 정산 예정</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>*/}
-              {/*                      <InputValidation*/}
-              {/*                        inputName="settlementCost"*/}
-              {/*                        required={true}*/}
-              {/*                        sx={{*/}
-              {/*                          width: '100%',*/}
-              {/*                          ".MuiOutlinedInput-input": {*/}
-              {/*                            textAlign: "end",*/}
-              {/*                          },*/}
-              {/*                          "&.MuiTextField-root": {*/}
-              {/*                            backgroundColor: "#F1F3F5",*/}
-              {/*                          },*/}
-              {/*                        }}*/}
-              {/*                        InputProps={{*/}
-              {/*                          readOnly: true,*/}
-              {/*                          endAdornment: (*/}
-              {/*                            <InputAdornment position="end">*/}
-              {/*                              <Typography variant="body2" sx={{color: "black"}}>*/}
-              {/*                                원*/}
-              {/*                              </Typography>*/}
-              {/*                            </InputAdornment>*/}
-              {/*                          ),*/}
-              {/*                        }}*/}
-              {/*                      />*/}
-              {/*                    </TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>-</TD>*/}
-              {/*                  </TableRow>*/}
-              {/*                </TableBody>*/}
-              {/*              </Table>*/}
-              {/*            </TableContainer>*/}
-              {/*            <TableContainer sx={{display: 'none'}}>*/}
-              {/*              <Table>*/}
-              {/*                <TableBody>*/}
-              {/*                  <TableRow>*/}
-              {/*                    <TH sx={{width: "25%"}}>정산방법</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>구분</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>정산비용</TH>*/}
-              {/*                    <TH sx={{width: "25%"}}>비고</TH>*/}
-              {/*                  </TableRow>*/}
-              {/*                  <TableRow>*/}
-              {/*                    <TD sx={{width: "25%"}}>선결제</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>자동 정산</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>-1,000,000</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>*/}
-              {/*                      <ContainedButton*/}
-              {/*                        size="small"*/}
-              {/*                        // type="submit"*/}
-              {/*                        color="secondary"*/}
-              {/*                        buttonName="정산내역"*/}
-              {/*                      />*/}
-              {/*                    </TD>*/}
-              {/*                  </TableRow>*/}
-              {/*                  <TableRow>*/}
-              {/*                    <TD sx={{width: "25%"}}>세금계산서</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>카드</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>-50,000</TD>*/}
-              {/*                    <TD sx={{width: "25%"}}>123445</TD>*/}
-              {/*                  </TableRow>*/}
-              {/*                </TableBody>*/}
-              {/*              </Table>*/}
-              {/*            </TableContainer>*/}
-              {/*          </TD>*/}
-              {/*        </TableRow>*/}
-              {/*      )}*/}
-              {/*    </TableBody>*/}
-              {/*  </Table>*/}
-              {/*</TableContainer>*/}
-
               <Typography variant="subtitle1">기타정보</Typography>
-              <TableContainer sx={{mb: 5}}>
+              <TableContainer sx={{mb: 2}}>
                 <Table>
                   <TableBody>
                     <TableRow>
@@ -743,7 +627,8 @@ const AnalysisInfo = () => {
                           sx={{
                             width: '100%',
                             ".MuiOutlinedInput-root" : {
-                              p : 1
+                              p : 1,
+                              marginY: 0.5
                             },
                           }}
                         />
@@ -753,14 +638,14 @@ const AnalysisInfo = () => {
                 </Table>
               </TableContainer>
 
-              <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/analysis-report-list">
-                  <OutlinedButton size="small" buttonName="목록"/>
+              <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mb: 5}}>
+                <Link href="/ledger-analysis-report-list">
+                  <OutlinedButton size="medium" buttonName="목록"/>
                 </Link>
 
                 { viewPage === false && (
                   <ContainedButton
-                    size="small"
+                    size="medium"
                     type="submit"
                     buttonName="저장"
                     endIcon={
@@ -773,7 +658,7 @@ const AnalysisInfo = () => {
 
                 { isEdit === 'Y' && viewPage === true &&(
                   <ContainedButton
-                    size="small"
+                    size="medium"
                     buttonName="수정" // 수정 가능 페이지로 이동
                     onClick={changeUpdatePage}
                   />
