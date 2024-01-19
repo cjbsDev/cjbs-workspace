@@ -14,8 +14,8 @@ const BusinessRegNo = () => {
       <InputValidation
         sx={{ display: "none" }}
         inputName="brno"
-        required={true}
-        errorMessage="사업자등록번호가 필요 합니다."
+        // required={}
+        // errorMessage="사업자등록번호가 필요 합니다."
         InputProps={{
           readOnly: true,
         }}

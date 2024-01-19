@@ -20,7 +20,7 @@ const AgncDataTable = ({ handleClose }) => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   console.log("거래처 검색", data);
@@ -62,6 +62,7 @@ const AgncDataTable = ({ handleClose }) => {
         cell: (row: {
           agncUkey: string;
           agncNm: string;
+          instUkey: string;
           instNm: string;
           brno: string;
           rprsNm: string;
@@ -73,6 +74,7 @@ const AgncDataTable = ({ handleClose }) => {
             agncNm,
             rmnPrePymtPrice,
             rmnPrice,
+            instUkey,
             instNm,
             brno,
             rprsNm,
@@ -85,6 +87,7 @@ const AgncDataTable = ({ handleClose }) => {
             } else {
               setValue("agncUkey", agncUkey);
               setValue("agncNm", agncNm);
+              setValue("instUkey", instUkey);
               setValue("instNm", instNm);
               setValue("rmnPrePymtPrice", rmnPrePymtPrice);
               setValue("rmnPrice", rmnPrice);
@@ -95,6 +98,7 @@ const AgncDataTable = ({ handleClose }) => {
             clearErrors([
               "agncUkey",
               "agncNm",
+              "instUkey",
               "instNm",
               "rmnPrice",
               "rmnPrePymtPrice",
@@ -111,7 +115,7 @@ const AgncDataTable = ({ handleClose }) => {
         },
       },
     ],
-    [setValue, paymentInfoValue, handleClose]
+    [setValue, paymentInfoValue, handleClose],
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
@@ -122,7 +126,7 @@ const AgncDataTable = ({ handleClose }) => {
     (newPerPage: React.SetStateAction<number>, page: any) => {
       setSize(newPerPage);
     },
-    []
+    [],
   );
 
   return (

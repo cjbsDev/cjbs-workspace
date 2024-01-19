@@ -52,6 +52,7 @@ const LegView = () => {
   };
 
   const onSubmit = async (data: any) => {
+    console.log("SUBMIT CLICK!");
     setIsLoading(true);
     // 요청 바디 구성
     const bodyData = {
