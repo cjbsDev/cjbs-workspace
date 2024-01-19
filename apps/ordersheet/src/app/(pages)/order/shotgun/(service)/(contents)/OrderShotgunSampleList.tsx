@@ -26,25 +26,22 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "@public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
 import TableRows from "../../../TableRows";
 import MtpFullService from "@app/(pages)/order/mtp/(service)/MtpFullService";
-import {useFieldArray, useFormContext} from "react-hook-form";
+import { useFieldArray, useFormContext } from "react-hook-form";
 import InputAppendBtn from "@app/(pages)/order/InputAppendBtn";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
 
-const LazyPrepSelectbox = dynamic(
-  () => import("@components/OrderSelectbox"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+const LazyPrepSelectbox = dynamic(() => import("@components/OrderSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 export default function OrderShotgunSampleList(props: any) {
   // const { fields, append } = useFieldArray({
@@ -62,23 +59,24 @@ export default function OrderShotgunSampleList(props: any) {
 
     const returnData = {
       samples: data.sample,
-      addRqstMemo: {memo: data.memo},
-      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
+      addRqstMemo: { memo: data.memo },
+      commonInput: {
+        depthCc: data.depthCc === undefined ? null : data.depthCc,
+      },
       groupCmprAnls: {
         groupCmprAnlsList: data.groupCmprAnls,
-        isGroupCmprAnls: data.isGroupCmprAnls
+        isGroupCmprAnls: data.isGroupCmprAnls,
       },
     };
 
     // Full service 만
     props.addBodyData(returnData);
-    if(serviceType === 'fs') {
+    if (serviceType === "fs") {
       // upload file이 있는경우
-      if(data.uploadFile[0]) {
+      if (data.uploadFile[0]) {
         props.addFileData(data.uploadFile[0]);
       }
     }
-
   };
 
   // const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] = useState<boolean>(false);
@@ -89,7 +87,12 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Sequencing Depth <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Sequencing Depth{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -121,7 +124,12 @@ export default function OrderShotgunSampleList(props: any) {
       case "so":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Sequencing Depth <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+            <TH sx={{ width: "20%" }}>
+              Sequencing Depth{" "}
+              <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                *
+              </Box>
+            </TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
@@ -139,7 +147,7 @@ export default function OrderShotgunSampleList(props: any) {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <NoticeBox serviceType={serviceType}/>
+      <NoticeBox serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {serviceType !== "ao" ? (

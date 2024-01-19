@@ -2,19 +2,24 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
-  Stack, styled,
+  Stack,
+  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, ToggleButton, ToggleButtonGroup,
+  TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import {
-  cjbsTheme, ConfirmModal,
+  cjbsTheme,
+  ConfirmModal,
   ContainedButton,
-  InputValidation, OutlinedButton,
+  InputValidation,
+  OutlinedButton,
   SelectBox,
   UnStyledButton,
 } from "cjbsDSTM";
@@ -25,9 +30,7 @@ import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "./ExcelUploadModal";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import Link from "next/link";
-
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -49,8 +52,8 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
 
 const OrderWgComparativeDynamicTable = (props) => {
   // console.log("$$$$$$$$$$", props.serviceType);
-  const {sampleFields} = props;
-  const { watch, control, getValues, formState,setValue } = useFormContext();
+  const { sampleFields } = props;
+  const { watch, control, getValues, formState, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "cmprGenomeAnlsDetailList", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -81,11 +84,11 @@ const OrderWgComparativeDynamicTable = (props) => {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    newAlignment: string,
   ) => {
     if (newAlignment === null) return;
-    if (newAlignment === 'N') {
-      resetGroupTable()
+    if (newAlignment === "N") {
+      resetGroupTable();
     }
     setValue("isCmprGenomeAnls", newAlignment);
     setIsCmprGenomeAnls(newAlignment);
@@ -102,20 +105,24 @@ const OrderWgComparativeDynamicTable = (props) => {
 
   return (
     <>
-
       <ConfirmModal
         alertBtnName="확인"
         alertMainFunc={handleServiceTypeChange}
         onClose={handleAlertClose}
         open={alertModalOpen}
-        mainMessage={
-          "샘플명 적용 시 비교 유전체분석(무료)이 초기화 됩니다.\n"
-        }
+        mainMessage={"샘플명 적용 시 비교 유전체분석(무료)이 초기화 됩니다.\n"}
         subMessage={"적용하시겠습니까?"}
       />
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-        <Typography variant="subtitle1">비교 유전체 분석 Comparative Genome analysis (무료)</Typography>
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        spacing={1}
+      >
+        <Typography variant="subtitle1">
+          비교 유전체 분석 Comparative Genome analysis (무료)
+        </Typography>
       </Stack>
 
       <Stack
@@ -156,12 +163,16 @@ const OrderWgComparativeDynamicTable = (props) => {
         </StyledToggleButtonGroup>
       </Stack>
 
-      <InputValidation inputName="isCmprGenomeAnls" sx={{width: "80px", display: 'none'}} defaultValue={isCmprGenomeAnls} />
+      <InputValidation
+        inputName="isCmprGenomeAnls"
+        sx={{ width: "80px", display: "none" }}
+        defaultValue={isCmprGenomeAnls}
+      />
 
       <Stack
         spacing={0}
         sx={{
-          display: isCmprGenomeAnls === 'N' ? 'none' : '',
+          display: isCmprGenomeAnls === "N" ? "none" : "",
         }}
       >
         <Box
@@ -176,17 +187,20 @@ const OrderWgComparativeDynamicTable = (props) => {
           <ul>
             <li>
               <Typography variant="body2">
-                전장유전체분석(WG) 샘플당 1개 Set의 비교 유전체 분석 결과를 제공해드립니다.
+                전장유전체분석(WG) 샘플당 1개 Set의 비교 유전체 분석 결과를
+                제공해드립니다.
               </Typography>
             </li>
             <li>
               <Typography variant="body2">
-                1개 Set에는 전장유전체분석 샘플을 포함하여 5개까지 구성이 가능합니다.
+                1개 Set에는 전장유전체분석 샘플을 포함하여 5개까지 구성이
+                가능합니다.
               </Typography>
             </li>
             <li>
               <Typography variant="body2">
-                위 조건 이상의 분석은 info (02-6078-3456, bs.ngs@cj.net) 또는 영업담당자에게 문의 바랍니다
+                위 조건 이상의 분석은 info (02-6078-3456, bs.ngs@cj.net) 또는
+                영업담당자에게 문의 바랍니다
               </Typography>
             </li>
           </ul>
@@ -201,8 +215,8 @@ const OrderWgComparativeDynamicTable = (props) => {
           justifyContent="space-between"
           direction="row"
           sx={{
-            borderTop: '1px solid',
-            borderBottom: '1px solid',
+            borderTop: "1px solid",
+            borderBottom: "1px solid",
             borderColor: cjbsTheme.palette.grey["400"],
             paddingX: 4,
             paddingY: 3,
@@ -215,7 +229,13 @@ const OrderWgComparativeDynamicTable = (props) => {
             alignItems="flex-start"
             spacing={2}
           >
-            <Typography variant="h4" color={cjbsTheme.palette.primary.main} sx={{lineHeight: 1.3}}>1</Typography>
+            <Typography
+              variant="h4"
+              color={cjbsTheme.palette.primary.main}
+              sx={{ lineHeight: 1.3 }}
+            >
+              1
+            </Typography>
             <Stack
               justifyContent="space-between"
               alignItems="start"
@@ -226,10 +246,19 @@ const OrderWgComparativeDynamicTable = (props) => {
                 href="https://www.ezbiocloud.net/genome/list?tn=Root"
                 target="_blank"
               >
-                <Typography variant="body2" color={cjbsTheme.palette.primary.main}>EzBioCloud public genome</Typography>
+                <Typography
+                  variant="body2"
+                  color={cjbsTheme.palette.primary.main}
+                >
+                  EzBioCloud public genome
+                </Typography>
               </Link>
-              <Typography variant="body2">1. EzBioCloud public genome database 에서 검색</Typography>
-              <Typography variant="body2">2. Project(DB) Accession No. 기재</Typography>
+              <Typography variant="body2">
+                1. EzBioCloud public genome database 에서 검색
+              </Typography>
+              <Typography variant="body2">
+                2. Project(DB) Accession No. 기재
+              </Typography>
             </Stack>
           </Stack>
 
@@ -241,16 +270,28 @@ const OrderWgComparativeDynamicTable = (props) => {
             alignItems="flex-start"
             spacing={2}
           >
-            <Typography variant="h4" color={cjbsTheme.palette.primary.main} sx={{lineHeight: 1.3}}>2</Typography>
+            <Typography
+              variant="h4"
+              color={cjbsTheme.palette.primary.main}
+              sx={{ lineHeight: 1.3 }}
+            >
+              2
+            </Typography>
             <Stack
               justifyContent="space-between"
               alignItems="start"
               spacing={0.2}
               sx={{ width: 310 }}
             >
-              <Typography variant="body2">당사 서비스로 분석된 genome 주문서의</Typography>
-              <Typography variant="body2">Taxonomy 란에 샘플명을 비고 란에</Typography>
-              <Typography variant="body2">오더번호 등 관련 정보를 기입</Typography>
+              <Typography variant="body2">
+                당사 서비스로 분석된 genome 주문서의
+              </Typography>
+              <Typography variant="body2">
+                Taxonomy 란에 샘플명을 비고 란에
+              </Typography>
+              <Typography variant="body2">
+                오더번호 등 관련 정보를 기입
+              </Typography>
             </Stack>
           </Stack>
 
@@ -262,7 +303,13 @@ const OrderWgComparativeDynamicTable = (props) => {
             alignItems="flex-start"
             spacing={2}
           >
-            <Typography variant="h4" color={cjbsTheme.palette.primary.main} sx={{lineHeight: 1.3}}>3</Typography>
+            <Typography
+              variant="h4"
+              color={cjbsTheme.palette.primary.main}
+              sx={{ lineHeight: 1.3 }}
+            >
+              3
+            </Typography>
             <Stack
               justifyContent="space-between"
               alignItems="start"
@@ -270,11 +317,14 @@ const OrderWgComparativeDynamicTable = (props) => {
               sx={{ width: 310 }}
             >
               <Typography variant="body2">그 외의 경우</Typography>
-              <Typography variant="body2">EzBioCloud 파이프라인 분석을 진행 후</Typography>
-              <Typography variant="body2">비교 유전체 분석이 가능 (서비스비용 청구)</Typography>
+              <Typography variant="body2">
+                EzBioCloud 파이프라인 분석을 진행 후
+              </Typography>
+              <Typography variant="body2">
+                비교 유전체 분석이 가능 (서비스비용 청구)
+              </Typography>
             </Stack>
           </Stack>
-
         </Stack>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
@@ -285,7 +335,7 @@ const OrderWgComparativeDynamicTable = (props) => {
         </Stack>
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
-            <TableHeader serviceType={'comparative'} />
+            <TableHeader serviceType={"comparative"} />
             <TableBody>
               {/*<ExRow serviceType={'group'} />*/}
               {fields.map((field, index) => {
@@ -296,7 +346,7 @@ const OrderWgComparativeDynamicTable = (props) => {
                     remove={remove}
                     index={index}
                     errors={errors}
-                    serviceType={'comparative'}
+                    serviceType={"comparative"}
                     groupOptionData={groupOptionData}
                   />
                 );

@@ -20,7 +20,7 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { PUT, POST } from "api";
