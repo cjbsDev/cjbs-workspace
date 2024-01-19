@@ -106,9 +106,7 @@ const TaxInvoiceInfo = () => {
     vat,
   } = data;
 
-  const isManager =
-    statusCc === "BS_1902003" &&
-    (pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914004");
+  const isManager = statusCc === "BS_1902003" && pymtInfoCc === "BS_1914002";
 
   const handleAccountStatementModalOpen = useCallback(() => {
     setAccountStatementModalOpen(true);
@@ -361,7 +359,7 @@ const TaxInvoiceInfo = () => {
                     anlsTypeMc: string;
                     anlsTypeVal: string;
                     products: string;
-                    qnty: number;
+                    sampleSize: number;
                     srvcCtgrMc: string;
                     srvcCtgrVal: string;
                     supplyPrice: number;
@@ -373,7 +371,7 @@ const TaxInvoiceInfo = () => {
                     anlsTypeMc,
                     anlsTypeVal,
                     products,
-                    qnty,
+                    sampleSize,
                     srvcCtgrMc,
                     srvcCtgrVal,
                     supplyPrice,
@@ -383,7 +381,9 @@ const TaxInvoiceInfo = () => {
                     <TableRow>
                       <TD align="center">{index + 1}</TD>
                       <TD>{products}</TD>
-                      <TD align="right">{formatNumberWithCommas(qnty)}개</TD>
+                      <TD align="right">
+                        {formatNumberWithCommas(sampleSize)}개
+                      </TD>
                       <TD align="right">
                         {formatNumberWithCommas(unitPrice)}원
                       </TD>
