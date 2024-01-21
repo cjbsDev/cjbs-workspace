@@ -24,7 +24,9 @@ import {
   TH,
   Title1,
   SingleDatePicker,
+  SelectBox,
 } from "cjbsDSTM";
+
 import * as React from "react";
 import { useCallback, useState } from "react";
 import LoadingSvg from "public/svg/loading_wh.svg";
@@ -35,13 +37,13 @@ import useSWR, { useSWRConfig } from "swr";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
-import TypeSelectRadio from "../../../../components/TypeSelectRadio";
-import DynamicTable from "../../../../components/DynamicTable";
-import DynamicSumTable from "../../../../components/DynamicSumTable";
+import TypeSelectRadio from "../../../components/TypeSelectRadio";
+import DynamicTableQttn from "../../../components/DynamicTableQttn";
+import DynamicSumTable from "../../../components/DynamicSumTable";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
-  () => import("../../../../components/AgncSearchTSModal"),
+  () => import("../../../components/AgncSearchTSModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -50,7 +52,7 @@ const LazyAgncSearchModal = dynamic(
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
-  () => import("../../../../components/SalesManagerSelectbox"),
+  () => import("../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -129,16 +131,32 @@ const TSRegView = () => {
       });
   };
 
-  const typeData = [
-    { value: "BS_2300001", optionName: "내부용" },
-    { value: "BS_2300002", optionName: "외부용" },
+  const qttnTypeCcData = [
+    { value: "BS_2400001", optionName: "결제용" },
+    { value: "BS_2400002", optionName: "견적용" },
+  ];
+
+  const agncTypeCcData = [
+    { value: "A", optionName: "잠재고객" },
+    { value: "B", optionName: "신규고객" },
+  ];
+
+  const validPerdData = [
+    {
+      value: 30,
+      optionName: "30일",
+    },
+    {
+      value: 60,
+      optionName: "60일",
+    },
   ];
 
   return (
     <>
       <Form onSubmit={onSubmit}>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName={"거래명세서 등록"} />
+          <Title1 titleName={"견적서 등록"} />
         </Box>
 
         <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
@@ -150,12 +168,19 @@ const TSRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>유형</TH>
                 <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <TypeSelectRadio data={typeData} inputName="tdstTypeCc" />
+                  <TypeSelectRadio
+                    data={qttnTypeCcData}
+                    inputName="qttnTypeCc"
+                  />
                 </TD>
               </TableRow>
               <TableRow>
                 <TH sx={{ width: "15%" }}>거래처(PI)</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
+                  <TypeSelectRadio
+                    data={agncTypeCcData}
+                    inputName="agncTypeCc"
+                  />
                   <Stack direction="row" spacing={0.5} alignItems="flex-start">
                     <InputValidation
                       inputName="agncNm"
@@ -215,7 +240,7 @@ const TSRegView = () => {
           <Table>
             <TableBody>
               <TableRow>
-                <TH sx={{ width: "15%" }}>상호</TH>
+                <TH sx={{ width: "15%" }}>소속</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
@@ -259,16 +284,18 @@ const TSRegView = () => {
                 </TD>
               </TableRow>
               <TableRow>
-                <TH sx={{ width: "15%" }}>비고</TH>
+                <TH sx={{ width: "15%" }}>유효기간</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="memo"
-                      required={false}
-                      maxLength={30}
-                      maxLengthErrMsg="30자 이내로 입력해주세요."
-                      sx={{ width: 600 }}
-                    />
+                    견적일로부터{" "}
+                    <SelectBox
+                      required={true}
+                      errorMessage="유효 기간을 선택해주세요."
+                      inputName="validPerd"
+                      options={validPerdData}
+                      defaultValue="30" // 디폴트 값으로 "30"을 설정
+                    />{" "}
+                    이내
                   </Stack>
                 </TD>
               </TableRow>
@@ -276,8 +303,63 @@ const TSRegView = () => {
           </Table>
         </TableContainer>
 
-        <DynamicTable />
+        <DynamicTableQttn />
         <DynamicSumTable />
+
+        <Typography variant="subtitle1" sx={{ mt: 5, mb: 1 }}>
+          결제 정보
+        </Typography>
+        <TableContainer sx={{ mb: 5 }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>지불조건</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <InputValidation
+                      inputName="conm"
+                      required={true}
+                      errorMessage="필수 값입니다."
+                      maxLength={20}
+                      maxLengthErrMsg="20자 이내로 입력해주세요."
+                      sx={{ width: 600 }}
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>결제조건</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <Stack direction="row" spacing={0.5} alignItems="center">
+                    <InputValidation
+                      inputName="nm"
+                      required={true}
+                      errorMessage="필수 값입니다."
+                      maxLength={20}
+                      maxLengthErrMsg="20자 이내로 입력해주세요."
+                      sx={{ width: 600 }}
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+
+              <TableRow>
+                <TH sx={{ width: "15%" }}>특이사항(선택)</TH>
+                <TD sx={{ width: "85%" }} colSpan={5}>
+                  <InputValidation
+                    fullWidth={true}
+                    multiline
+                    rows={4}
+                    inputName="memo"
+                    maxLength={500}
+                    sx={{ width: 600 }}
+                    maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
+                  />
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         {/* 거래처 검색 모달*/}
         <ErrorContainer FallbackComponent={Fallback}>
