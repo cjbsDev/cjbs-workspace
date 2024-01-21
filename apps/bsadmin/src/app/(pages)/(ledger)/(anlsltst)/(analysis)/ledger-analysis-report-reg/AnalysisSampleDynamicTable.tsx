@@ -18,31 +18,35 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import TableNewRows from "./TableNewRows";
 import { useParams } from "next/navigation";
-import { QuestionTooltip } from "../../../../components/QuestionTooltip";
-import { useRecoilState } from "recoil";
-import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
-import { toggledClearRowsAtom } from "../../../../recoil/atoms/toggled-clear-rows-atom";
-import { POST } from "api";
-import { toast } from "react-toastify";
+import {QuestionTooltip} from "../../../../../components/QuestionTooltip";
+import {useRecoilState} from "recoil";
+import {groupListDataAtom} from "../../../../../recoil/atoms/groupListDataAtom";
+import {toggledClearRowsAtom} from "../../../../../recoil/atoms/toggled-clear-rows-atom";
+import {POST} from "api";
+import {toast} from "react-toastify";
 
 
 export default function AnalysisSampleDynamicTable(props: any) {
+// const AnalysisSampleDynamicTable = forwardRef((props: {
+//   analysisSearchModalOpen: any;
+// }, ref) => {
+
   // const serviceType = props.serviceType;
-  // const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
-  const { analysisSearchModalOpen, setSelectSampleListData } = props;
+  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
   const { control, getValues, formState, setValue, watch } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
   });
-  // const watchFieldArray = watch("sample");
-  // const controlledFields = fields.map((field, index) => {
-  //   // console.log("*****************", field)
-  //   return {
-  //     ...field,
-  //     ...watchFieldArray[index]
-  //   };
-  // });
+  const watchFieldArray = watch("sample");
+  const controlledFields = fields.map((field, index) => {
+    // console.log("*****************", field)
+    return {
+      ...field,
+      ...watchFieldArray[index]
+    };
+  });
+
   // console.log("updated", controlledFields);
 
   const { errors } = formState;
@@ -51,19 +55,18 @@ export default function AnalysisSampleDynamicTable(props: any) {
   const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
 
   useEffect(() => {
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
-    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
+    callHandleAddFields(selectSampleList);
+    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
+    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
     if(clearRowsAtom){
       resetTable();
-      setTimeout(() => {
-        callHandleAddFields(selectSampleList);
-      }, 1000);
     }
   }, [selectSampleList]);
 
+  // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
-    console.log("selectSampleData!@#!@#!@#", selectSampleData);
-    //resetTable();
+    // console.log("selectSampleData!@#!@#!@#", selectSampleData);
+    resetTable();
 
     if(selectSampleData !== undefined && selectSampleData.length > 0) {
       const mergeData: any = {};
@@ -91,6 +94,8 @@ export default function AnalysisSampleDynamicTable(props: any) {
       });
       console.log("end: ", mergeData)
       setSelectSampleListData(mergeData);
+      // resetTable();
+      // setTimeout(() => {
       mergeData["srvcTypeMc"].map((item: any) => {
         // console.log("item: ", item);
         const resData = callStndPrice(mergeData[item]["srvcTypeMc"], mergeData[item]["sampleUkey"].length)
@@ -111,6 +116,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
             });
         });
       });
+      // }, 500);
     }
   }
 
@@ -150,26 +156,19 @@ export default function AnalysisSampleDynamicTable(props: any) {
     let sumTotSupplyPrice = 0;
     let sumTotVat = 0;
     let sumTotPrice;
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + fields);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalDataSum" + fields);
 
-    if(fields.length === 0) {
-      // setValue("totalCnt", 0);
+    if(controlledFields.length === 0) {
+      setValue("totalCnt", 0);
       return false;
     }
 
-    fields.map((item: any) => {
+    controlledFields.map((item: any) => {
       // console.log(item)
       // console.log(item.supplyPrice)
       sumTotCnt += Number(item.sampleSize);
-      if(typeof item.supplyPrice === "number"){
-        sumTotSupplyPrice += item.supplyPrice;
-        sumTotVat += item.supplyPrice * 0.1;
-      } else if (typeof item.supplyPrice === "string") {
-        sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
-        sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
-      }
-      // sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
-      // sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
+      sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
+      sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
     });
     // console.log("sumTotCnt", sumTotCnt)
     // console.log("sumTotSupplyPrice", sumTotSupplyPrice)
@@ -195,14 +194,15 @@ export default function AnalysisSampleDynamicTable(props: any) {
         setValue("remainingAmount", (totalPrice-rmnPrePymtPrice).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         setValue("settlementCost", rmnPrePymtPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
-      // setSettlement(true);
+      setSettlement(true);
     } else {
       // 선결제 금액이 없는경우
       setValue("remainingAmount", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      // setSettlement(false);
+      setSettlement(false);
     }
   };
   totalDataSum();
+
 
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
@@ -220,24 +220,15 @@ export default function AnalysisSampleDynamicTable(props: any) {
     });
   };
 
-  const resetTable = async () => {
+  const resetTable = () => {
     // console.log("fields 11: ", fields);
-    // setTimeout(() => {
-      fields.forEach((item: any, index) => {
-        console.log("item : ", item);
-        remove(index);
+    setTimeout(() => {
+      fields.forEach((item: any) => {
+        remove(item);
       });
-    // }, 1000);
-    await removeTable();
+    }, 100);
     // console.log("fields 22: ", fields);
     setClearRowsAtom(false);
-  };
-
-  const removeTable = () => {
-    fields.forEach((item: any, index) => {
-      console.log("item : ", item);
-      remove(index);
-    });
   };
 
   return (
@@ -286,8 +277,8 @@ export default function AnalysisSampleDynamicTable(props: any) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {fields.map((field, index) => {
-            {/*{controlledFields.map((field, index) => {*/}
+            {/*{fields.map((field, index) => {*/}
+            {controlledFields.map((field, index) => {
               return (
                 <TableNewRows
                   key={field.id}
@@ -318,3 +309,5 @@ export default function AnalysisSampleDynamicTable(props: any) {
     </>
   );
 };
+
+// export default AnalysisSampleDynamicTable;

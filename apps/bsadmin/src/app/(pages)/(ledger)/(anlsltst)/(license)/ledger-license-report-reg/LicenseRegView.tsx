@@ -21,14 +21,15 @@ import {
   Fallback,
   Form,
   InputValidation,
-  OutlinedButton, SingleDatePicker,
+  OutlinedButton,
+  SingleDatePicker,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
@@ -37,7 +38,7 @@ import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
   reqReturnListData,
-} from "../../../data/inputDataLists";
+} from "../../../../../data/inputDataLists";
 import MyIcon from "icon/MyIcon";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -46,8 +47,8 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
 import Research from "./Research";
-import {cjbsTheme} from "cjbsDSTM/themes";
-import {useFormContext} from "react-hook-form";
+import { cjbsTheme } from "cjbsDSTM/themes";
+import { useFormContext } from "react-hook-form";
 
 const apiUrl: string = `/order/extr`;
 
@@ -57,7 +58,7 @@ interface CustomProps {
 }
 
 const LazyOrderSearchModal = dynamic(
-  () => import("../../../components/OrderSearchModal"),
+  () => import("../../../../../components/OrderSearchModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -69,7 +70,7 @@ const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
 });
 
 const LazySalesManagerSelctbox = dynamic(
-  () => import("../../../components/SalesManagerSelectbox"),
+  () => import("../../../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -91,15 +92,21 @@ const LazyAnalysisTypeSelctbox = dynamic(
   },
 );
 
-const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+const LazyOrderType = dynamic(
+  () => import("../../../../../components/OrderType"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
-const LazyServiceCategoryType = dynamic(() => import("../../../components/ServiceCategoryType"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+const LazyServiceCategoryType = dynamic(
+  () => import("../../../../../components/ServiceCategoryType"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
   ssr: false,
@@ -107,7 +114,7 @@ const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
 });
 
 const LazyNGSManagerSelctbox = dynamic(
-  () => import("../../../components/NGSAnlManagerSelectbox"),
+  () => import("../../../../../components/NGSAnlManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -310,7 +317,7 @@ const LicenseRegView = () => {
     <>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName="분석 내역서 등록"/>
+          <Title1 titleName="분석 내역서 등록" />
         </Box>
 
         <Typography variant="subtitle1">기본정보</Typography>
@@ -364,13 +371,13 @@ const LicenseRegView = () => {
           spacing={1}
           justifyContent="center"
           alignItems="center"
-          sx={{border: `1px solid ${cjbsTheme.palette.grey.A400}`, mb: 5, p: 5}}
+          sx={{
+            border: `1px solid ${cjbsTheme.palette.grey.A400}`,
+            mb: 5,
+            p: 5,
+          }}
         >
-          <Stack
-            spacing={1}
-            justifyContent="center"
-            alignItems="center"
-          >
+          <Stack spacing={1} justifyContent="center" alignItems="center">
             <Typography variant="body2">
               License의 경우,플랫폼을 먼저 입력해주세요.
             </Typography>
@@ -391,7 +398,7 @@ const LicenseRegView = () => {
                     inputName="agncNm"
                     required={false}
                     // errorMessage="소속 거래처(PI)를 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -403,7 +410,7 @@ const LicenseRegView = () => {
                     inputName="custNm"
                     required={false}
                     // errorMessage="연구책임자를 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -417,7 +424,7 @@ const LicenseRegView = () => {
                     inputName="bsnsMngrVal"
                     required={true}
                     errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -429,7 +436,7 @@ const LicenseRegView = () => {
                     inputName="custNm"
                     required={true}
                     errorMessage="이름을 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -455,7 +462,7 @@ const LicenseRegView = () => {
                     inputName="agncNm"
                     required={true}
                     errorMessage="연구책임자를 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -469,7 +476,7 @@ const LicenseRegView = () => {
                     inputName="ebcEmail"
                     required={true}
                     errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -481,7 +488,7 @@ const LicenseRegView = () => {
                     inputName="custNm"
                     required={true}
                     errorMessage="이름을 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -495,7 +502,7 @@ const LicenseRegView = () => {
                     inputName="ebcEmail"
                     required={true}
                     errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: '100%' }}
+                    sx={{ width: "100%" }}
                     InputProps={{
                       readOnly: true,
                     }}
@@ -512,14 +519,11 @@ const LicenseRegView = () => {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "15%" }}>남은금액</TH>
-                <TD sx={{ width: "85%" }}>
-                  1,656,456
-                </TD>
+                <TD sx={{ width: "85%" }}>1,656,456</TD>
               </TableRow>
               <TableRow>
                 <TH sx={{ width: "15%" }}>정산이력</TH>
                 <TD sx={{ width: "85%" }}>
-
                   <TableContainer sx={{ mb: 1 }}>
                     <Table>
                       <TableBody>
@@ -569,7 +573,6 @@ const LicenseRegView = () => {
                       </TableBody>
                     </Table>
                   </TableContainer>
-
                 </TD>
               </TableRow>
             </TableBody>
@@ -637,7 +640,6 @@ const LicenseRegView = () => {
             }
           />
         </Stack>
-
       </Form>
     </>
   );

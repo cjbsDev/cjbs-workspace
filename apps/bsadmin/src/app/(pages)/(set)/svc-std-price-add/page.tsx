@@ -3,7 +3,7 @@ import { ContainedButton, Form, OutlinedButton, Title1 } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import * as React from "react";
 import BasicInfo from "./BasicInfo";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 

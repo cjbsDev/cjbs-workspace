@@ -14,16 +14,16 @@ const Expanded = ({ data }) => {
   console.log("Expanded Value ==>>", invcDetailList);
   const footerTotalQuty = invcDetailList
     .map((item: { quty: number }) => item.quty)
-    .reduce((acc: number, cur: number) => acc + cur);
+    .reduce((acc: number, cur: number) => acc + cur, 0);
   const footerTotalSupplyPrice = invcDetailList
     .map((item: { totalSupplyPrice: number }) => item.totalSupplyPrice)
-    .reduce((acc: number, cur: number) => acc + cur);
+    .reduce((acc: number, cur: number) => acc + cur, 0);
   const footerTotalVat = invcDetailList
     .map((item: { vat: number }) => item.vat)
-    .reduce((acc: number, cur: number) => acc + cur);
+    .reduce((acc: number, cur: number) => acc + cur, 0);
   const footerTotalPrice = invcDetailList
     .map((item: { totalPrice: number }) => item.totalPrice)
-    .reduce((acc: number, cur: number) => acc + cur);
+    .reduce((acc: number, cur: number) => acc + cur, 0);
 
   return (
     <Box

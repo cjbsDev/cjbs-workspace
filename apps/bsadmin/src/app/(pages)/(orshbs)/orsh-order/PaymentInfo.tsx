@@ -30,7 +30,7 @@ import * as React from "react";
 import { useRouter } from "next-nprogress-bar";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -60,7 +60,7 @@ export default function Page(props: JSON) {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    newAlignment: string,
   ) => {
     if (newAlignment === null) return;
     setAlignment(newAlignment);

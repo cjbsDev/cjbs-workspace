@@ -14,8 +14,8 @@ const RepresentName = () => {
       <InputValidation
         sx={{ display: "none" }}
         inputName="rprsNm"
-        required={true}
-        errorMessage="대표자명이 필요 합니다."
+        // required={true}
+        // errorMessage="대표자명이 필요 합니다."
         InputProps={{
           readOnly: true,
         }}

@@ -1,7 +1,7 @@
 import React from "react";
 import { CheckboxGV } from "cjbsDSTM";
 import useSWR from "swr";
-import fetcher from "../../../../func/fetcher";
+import fetcher from "../../../../../../func/fetcher";
 
 const OrderTypeChck = () => {
   const { data } = useSWR(

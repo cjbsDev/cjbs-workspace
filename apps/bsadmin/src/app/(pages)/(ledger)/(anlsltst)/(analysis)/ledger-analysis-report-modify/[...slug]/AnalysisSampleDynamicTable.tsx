@@ -18,22 +18,20 @@ import {
 import { useFieldArray, useFormContext } from "react-hook-form";
 import TableNewRows from "./TableNewRows";
 import { useParams } from "next/navigation";
-import {QuestionTooltip} from "../../../components/QuestionTooltip";
-import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
-import {POST} from "api";
-import {toast} from "react-toastify";
+import { QuestionTooltip } from "../../../../../../components/QuestionTooltip";
+import { useRecoilState } from "recoil";
+import { groupListDataAtom } from "../../../../../../recoil/atoms/groupListDataAtom";
+import { toggledClearRowsAtom } from "../../../../../../recoil/atoms/toggled-clear-rows-atom";
+import { POST } from "api";
+import { toast } from "react-toastify";
+import MyIcon from "icon/MyIcon";
 
 
 export default function AnalysisSampleDynamicTable(props: any) {
-// const AnalysisSampleDynamicTable = forwardRef((props: {
-//   analysisSearchModalOpen: any;
-// }, ref) => {
-
   // const serviceType = props.serviceType;
-  const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
-  const { control, getValues, formState, setValue, watch } = useFormContext();
+  // const { analysisSearchModalOpen, setSettlement, setSelectSampleListData } = props;
+  const { analysisSearchModalOpen, setSelectSampleListData } = props;
+  const { control, getValues, formState, setValue, watch, reset } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -46,7 +44,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
       ...watchFieldArray[index]
     };
   });
-
   // console.log("updated", controlledFields);
 
   const { errors } = formState;
@@ -55,18 +52,19 @@ export default function AnalysisSampleDynamicTable(props: any) {
   const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
 
   useEffect(() => {
-    callHandleAddFields(selectSampleList);
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
+    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom);
+    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields);
     if(clearRowsAtom){
       resetTable();
+      setTimeout(() => {
+        callHandleAddFields(selectSampleList);
+      }, 1000);
     }
   }, [selectSampleList]);
 
-  // AnalysisRegView 에서 호출
   const callHandleAddFields = async (selectSampleData: any) => {
-    // console.log("selectSampleData!@#!@#!@#", selectSampleData);
-    resetTable();
+    console.log("selectSampleData!@#!@#!@#", selectSampleData);
+    //resetTable();
 
     if(selectSampleData !== undefined && selectSampleData.length > 0) {
       const mergeData: any = {};
@@ -94,8 +92,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
       });
       console.log("end: ", mergeData)
       setSelectSampleListData(mergeData);
-      // resetTable();
-      // setTimeout(() => {
       mergeData["srvcTypeMc"].map((item: any) => {
         // console.log("item: ", item);
         const resData = callStndPrice(mergeData[item]["srvcTypeMc"], mergeData[item]["sampleUkey"].length)
@@ -116,7 +112,6 @@ export default function AnalysisSampleDynamicTable(props: any) {
             });
         });
       });
-      // }, 500);
     }
   }
 
@@ -156,10 +151,10 @@ export default function AnalysisSampleDynamicTable(props: any) {
     let sumTotSupplyPrice = 0;
     let sumTotVat = 0;
     let sumTotPrice;
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" + fields);
+    console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalDataSum" + controlledFields);
 
     if(controlledFields.length === 0) {
-      setValue("totalCnt", 0);
+      // setValue("totalCnt", 0);
       return false;
     }
 
@@ -167,12 +162,19 @@ export default function AnalysisSampleDynamicTable(props: any) {
       // console.log(item)
       // console.log(item.supplyPrice)
       sumTotCnt += Number(item.sampleSize);
-      sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
-      sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
+      if(typeof item.supplyPrice === "number"){
+        sumTotSupplyPrice += item.supplyPrice;
+        sumTotVat += item.supplyPrice * 0.1;
+      } else if (typeof item.supplyPrice === "string") {
+        sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
+        sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
+      }
+      // sumTotSupplyPrice += Number(item.supplyPrice.replaceAll(",", ""));
+      // sumTotVat += Number(item.supplyPrice.replaceAll(",", "")) * 0.1;
     });
-    // console.log("sumTotCnt", sumTotCnt)
-    // console.log("sumTotSupplyPrice", sumTotSupplyPrice)
-    // console.log("sumTotVat", sumTotVat)
+    console.log("$$$ sumTotCnt", sumTotCnt)
+    console.log("$$$ sumTotSupplyPrice", sumTotSupplyPrice)
+    console.log("$$$ sumTotVat", sumTotVat)
 
     setValue("totalCnt", sumTotCnt);
     setValue("totalSupplyPrice", sumTotSupplyPrice);
@@ -184,7 +186,8 @@ export default function AnalysisSampleDynamicTable(props: any) {
     setValue("totalPriceVal", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
     // 선결제 금액이 있는경우
-    const rmnPrePymtPrice = Number(getValues("rmnPrePymtPrice").replaceAll(",", ""));
+    // console.log("########### : " + getValues("rmnPrePymtPrice"));
+    const rmnPrePymtPrice = getValues("rmnPrePymtPrice") === undefined ? 0 : Number(getValues("rmnPrePymtPrice").replaceAll(",", ""));
     if(rmnPrePymtPrice > 0) {
       // 선결제 금액이 있는경우
       if(rmnPrePymtPrice >= totalPrice) { // 선결제 비용이 합계금액보다 큰경우
@@ -194,15 +197,14 @@ export default function AnalysisSampleDynamicTable(props: any) {
         setValue("remainingAmount", (totalPrice-rmnPrePymtPrice).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
         setValue("settlementCost", rmnPrePymtPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
-      setSettlement(true);
+      // setSettlement(true);
     } else {
       // 선결제 금액이 없는경우
       setValue("remainingAmount", totalPrice.toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      setSettlement(false);
+      // setSettlement(false);
     }
   };
   totalDataSum();
-
 
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
@@ -220,14 +222,16 @@ export default function AnalysisSampleDynamicTable(props: any) {
     });
   };
 
-  const resetTable = () => {
-    // console.log("fields 11: ", fields);
+  const resetTable = async () => {
+    console.log("fields 11: ", fields);
+    reset({sample: []})
     setTimeout(() => {
-      fields.forEach((item: any) => {
+      controlledFields.forEach((item: any) => {
+        console.log("item : ", item);
         remove(item);
       });
-    }, 100);
-    // console.log("fields 22: ", fields);
+    }, 1000);
+    console.log("fields 22: ", fields);
     setClearRowsAtom(false);
   };
 
@@ -239,7 +243,7 @@ export default function AnalysisSampleDynamicTable(props: any) {
         </Stack>
       </Stack>
 
-      <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
+      <TableContainer sx={{ mb: 2, mt: 1, borderTop: "1px solid #000" }}>
         <Table>
           <TableHead>
             <TableRow sx={{ backgroundColor: cjbsTheme.palette.grey[100] }}>
@@ -267,13 +271,15 @@ export default function AnalysisSampleDynamicTable(props: any) {
               <TableCell align="left" sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">부가세</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '10%' }}>
                 <Typography variant="subtitle2">사용할인율</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '30%' }}>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '25%' }}>
                 <Typography variant="subtitle2">사유</Typography>
               </TableCell>
-              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}></TableCell>
+              <TableCell sx={{ paddingX: 2, paddingY: 1, textAlign: "center", width: '5%' }}>
+                <MyIcon icon="trash" size={20} />
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -293,14 +299,14 @@ export default function AnalysisSampleDynamicTable(props: any) {
         </Table>
       </TableContainer>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center" mt={3} mb={5}>
+      <Stack direction="row" spacing={0.5} justifyContent="center" mt={1} mb={3}>
         <OutlinedButton
-          size="small"
+          size="medium"
           buttonName="+서비스 타입 추가"
           onClick={() => handleAddFields()}
         />
         <ContainedButton
-          size="small"
+          size="medium"
           buttonName="분석 비용 추가"
           onClick={analysisSearchModalOpen}
         />
@@ -309,5 +315,3 @@ export default function AnalysisSampleDynamicTable(props: any) {
     </>
   );
 };
-
-// export default AnalysisSampleDynamicTable;

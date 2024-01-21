@@ -29,8 +29,8 @@ import Link from "next/link";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { usePathname, useSearchParams } from "next/navigation";
-import KeywordSearch from "../../../components/KeywordSearch";
-import NoDataView from "../../../components/NoDataView";
+import KeywordSearch from "../../../../../components/KeywordSearch";
+import NoDataView from "../../../../../components/NoDataView";
 import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
@@ -113,6 +113,13 @@ const ListRun = () => {
             </Stack>
           );
         },
+      },
+      {
+        name: "거래처 번호",
+        width: "100px",
+        center: true,
+        // sortable: true,
+        selector: (row, index) => row.agncId,
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
@@ -212,23 +219,21 @@ const ListRun = () => {
 
   const goDetailPage = (row: any) => {
     const path = row.anlsItstUkey;
-    console.log(path)
-    router.push("/analysis-report-list/" + path);
+    const srvcCtgrVal = row.srvcCtgrVal;
+    // console.log(path);
+    // console.log(srvcCtgrVal);
+    if(srvcCtgrVal === "Analysis") {
+      router.push("/ledger-analysis-report-list/" + path);
+    } else if (srvcCtgrVal === "License") {
+      alert('준비중...')
+      // router.push("/ledger-license-report-list/" + path);
+    }
   };
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <Grid container>
-        <Grid item xs={12} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <ContainedButton
-              buttonName="분석 내역서 등록"
-              size="small"
-              onClick={() => handleServiceSelectOpen()}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={12} sx={{mt: 2}}>
+        <Grid item xs={12} sx={{mt: 0}}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -242,16 +247,23 @@ const ListRun = () => {
               spacing={1}
             >
               <DataCountResultInfo totalCount={totalElements} />
-                <Typography variant="body2" sx={{ width: "max-content", pb: '2px' }}>
-                  총 누적 금액{" "}
-                  <Box
-                    component="b"
-                    sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main, }}
-                  >
-                    {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  </Box>{" "}
-                  원
-                </Typography>
+
+              <Typography variant="body2" sx={{ width: "max-content", pb: '2px' }}>
+                {" / "}총 누적 금액{" "}
+                <Box
+                  component="b"
+                  sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main, }}
+                >
+                  {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                </Box>{" "}
+                원
+              </Typography>
+
+              <ContainedButton
+                buttonName="분석 내역서 등록"
+                size="small"
+                onClick={() => handleServiceSelectOpen()}
+              />
             </Stack>
             <Stack
               direction="row"
@@ -311,7 +323,7 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1038px'} align="center" rowSpan={10}>
+                    <TableCell width={'1138px'} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
                     <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
@@ -377,8 +389,8 @@ const ListRun = () => {
     <>
       <DataTableBase
         title={
-          <Stack direction="row" spacing={3} sx={{ mb: 1.5 }}>
-            <Title1 titleName="분석내역서" />
+          <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
+            <Title1 titleName="분석 내역서" />
           </Stack>
         }
         data={anlsItstList}

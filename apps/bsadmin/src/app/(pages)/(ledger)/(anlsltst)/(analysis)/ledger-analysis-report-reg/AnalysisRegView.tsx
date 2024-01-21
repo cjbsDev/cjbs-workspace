@@ -20,13 +20,15 @@ import {
   ErrorContainer,
   Fallback,
   Form,
-  InputValidation, LinkButton,
-  OutlinedButton, SingleDatePicker,
+  InputValidation,
+  LinkButton,
+  OutlinedButton,
+  SingleDatePicker,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -34,29 +36,35 @@ import { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
-import {cjbsTheme} from "cjbsDSTM/themes";
+import { cjbsTheme } from "cjbsDSTM/themes";
 import AnalysisSampleDynamicTable from "./AnalysisSampleDynamicTable";
-import {useRecoilState} from "recoil";
-import {groupListDataAtom} from "../../../recoil/atoms/groupListDataAtom";
-import {toggledClearRowsAtom} from "../../../recoil/atoms/toggled-clear-rows-atom";
+import { useRecoilState } from "recoil";
+import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
+import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
 
-const LazyOrderSearchModal = dynamic(() => import("../../../components/OrderSearchModal"), {
+const LazyOrderSearchModal = dynamic(
+  () => import("../../../../../components/OrderSearchModal"),
+  {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-const LazyAnalysisListModal = dynamic(() => import("../../../components/AnalysisListModal"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+const LazyAnalysisListModal = dynamic(
+  () => import("../../../../../components/AnalysisListModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 const AnalysisRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutate } = useSWRConfig();
 
-  const [showAnalysisSearchModal, setShowAnalysisSearchModal] = useState<boolean>(false);
+  const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
+    useState<boolean>(false);
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -65,8 +73,10 @@ const AnalysisRegView = () => {
 
   const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
   const [settlement, setSettlement] = useState<boolean>(false);
-  const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
-  const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
+  const [selectSampleList, setSelectSampleList] =
+    useRecoilState(groupListDataAtom);
+  const [clearRowsAtom, setClearRowsAtom] =
+    useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
 
   // defaultValues 세팅
@@ -81,7 +91,7 @@ const AnalysisRegView = () => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
-    if(data.sample.length <= 0) {
+    if (data.sample.length <= 0) {
       toast("해당 오더에 포함된 분석 내역이 없습니다.");
       return false;
     }
@@ -91,25 +101,37 @@ const AnalysisRegView = () => {
     const sampleUkeyList = () => {
       let sampleList = data.sample;
 
-      sampleList.map((item:any, index:any) => {
+      sampleList.map((item: any, index: any) => {
         console.log("item", item);
         // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
-        if(selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
-          console.log("selectSampleListData", selectSampleListData[item.srvcTypeMc]["sampleUkey"] );
-          sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+        if (selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
+          console.log(
+            "selectSampleListData",
+            selectSampleListData[item.srvcTypeMc]["sampleUkey"],
+          );
+          sampleList[index]["sampleUkey"] =
+            selectSampleListData[item.srvcTypeMc]["sampleUkey"];
         } else {
           sampleList[index]["sampleUkey"] = [];
         }
         // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] = Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
-        sampleList[index]["supplyPrice"] = Number(sampleList[index]["supplyPrice"].replaceAll(",", ""));
-        sampleList[index]["unitPrice"] = Number(sampleList[index]["unitPrice"].replaceAll(",", ""));
-        sampleList[index]["vat"] = Number(sampleList[index]["vat"].replaceAll(",", ""));
+        sampleList[index]["stndPrice"] = Number(
+          sampleList[index]["stndPrice"].replaceAll(",", ""),
+        );
+        sampleList[index]["supplyPrice"] = Number(
+          sampleList[index]["supplyPrice"].replaceAll(",", ""),
+        );
+        sampleList[index]["unitPrice"] = Number(
+          sampleList[index]["unitPrice"].replaceAll(",", ""),
+        );
+        sampleList[index]["vat"] = Number(
+          sampleList[index]["vat"].replaceAll(",", ""),
+        );
       });
       return sampleList;
     };
 
-    const bodyData= {
+    const bodyData = {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
@@ -122,7 +144,7 @@ const AnalysisRegView = () => {
       totalCnt: data.totalCnt,
       totalPrice: data.totalPrice,
       totalSupplyPrice: data.totalSupplyPrice,
-      vat: data.vat
+      vat: data.vat,
     };
 
     console.log("bodyData", bodyData);
@@ -130,25 +152,24 @@ const AnalysisRegView = () => {
     const apiUrl: string = `/anls/itst`;
 
     await POST(apiUrl, bodyData)
-    .then((response) => {
-      console.log("POST request successful:", response);
-      if (response.success) {
-        toast("등록 되었습니다.");
+      .then((response) => {
+        console.log("POST request successful:", response);
+        if (response.success) {
+          toast("등록 되었습니다.");
+          setIsLoading(false);
+          mutate(apiUrl);
+          router.push("/analysis-report-list");
+        } else {
+          toast(response.message);
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+        // toast(error.)
+      })
+      .finally(() => {
         setIsLoading(false);
-        mutate(apiUrl);
-        router.push("/analysis-report-list");
-
-      } else {
-        toast(response.message);
-      }
-    })
-    .catch((error) => {
-      console.error("POST request failed:", error);
-      // toast(error.)
-    })
-    .finally(() => {
-      setIsLoading(false);
-    });
+      });
   };
 
   // [ 고객 검색 ] 모달 오픈
@@ -175,12 +196,12 @@ const AnalysisRegView = () => {
   };
 
   const handleAddSampleList = (selectSampleData: any) => {
-    console.log("selectSampleData : ", selectSampleData)
+    console.log("selectSampleData : ", selectSampleData);
     setSelectSampleList(selectSampleData);
-    if(selectSampleData.length > 0) {
-      setIsSampleSelected(true)
+    if (selectSampleData.length > 0) {
+      setIsSampleSelected(true);
     } else {
-      setIsSampleSelected(false)
+      setIsSampleSelected(false);
     }
   };
 
@@ -188,7 +209,7 @@ const AnalysisRegView = () => {
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName="분석 내역서 등록"/>
+          <Title1 titleName="분석 내역서 등록" />
         </Box>
 
         <Typography variant="subtitle1">기본정보</Typography>
@@ -255,16 +276,16 @@ const AnalysisRegView = () => {
             </TableBody>
           </Table>
 
-          { orderSelectChk == true && (
+          {orderSelectChk == true && (
             <Table>
               <TableBody>
                 <TableRow>
                   <TH sx={{ width: "15%", borderTop: 0 }}>플랫폼</TH>
-                  <TD sx={{ width: "35%", borderTop: 0 , textAlign: "left" }}>
+                  <TD sx={{ width: "35%", borderTop: 0, textAlign: "left" }}>
                     <InputValidation
                       inputName="pltfValueView"
                       required={false}
-                      sx={{ width: '100%' }}
+                      sx={{ width: "100%" }}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -289,12 +310,12 @@ const AnalysisRegView = () => {
                     />
                   </TD>
                   <TH sx={{ width: "15%", borderTop: 0 }}>생산량</TH>
-                  <TD sx={{ width: "35%", borderTop: 0 , textAlign: "left" }}>
+                  <TD sx={{ width: "35%", borderTop: 0, textAlign: "left" }}>
                     <InputValidation
                       inputName="depthVal"
                       // required={true}
                       // errorMessage="오더를 입력해 주세요."
-                      sx={{ width: '100%' }}
+                      sx={{ width: "100%" }}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -303,7 +324,7 @@ const AnalysisRegView = () => {
                       inputName="depthMc"
                       // required={true}
                       // errorMessage="오더를 입력해 주세요."
-                      sx={{ width: '100%', display: "none" }}
+                      sx={{ width: "100%", display: "none" }}
                       InputProps={{
                         readOnly: true,
                       }}
@@ -315,29 +336,30 @@ const AnalysisRegView = () => {
           )}
         </TableContainer>
 
-        { orderSelectChk == false && (
+        {orderSelectChk == false && (
           <Stack
             spacing={1}
             justifyContent="center"
             alignItems="center"
-            sx={{border: `1px solid ${cjbsTheme.palette.grey.A400}`, mb: 5, p: 5}}
+            sx={{
+              border: `1px solid ${cjbsTheme.palette.grey.A400}`,
+              mb: 5,
+              p: 5,
+            }}
           >
-            <Stack
-              spacing={1}
-              justifyContent="center"
-              alignItems="center"
-            >
+            <Stack spacing={1} justifyContent="center" alignItems="center">
               <Typography variant="body2">
                 Analysis의 경우,등록된 오더를 먼저 입력해주세요.
               </Typography>
               <Typography variant="body2">
-                이렇게 하면 오더에 등록된 고객정보와 분석내역을 자동으로 가져올 수 있습니다.
+                이렇게 하면 오더에 등록된 고객정보와 분석내역을 자동으로 가져올
+                수 있습니다.
               </Typography>
             </Stack>
           </Stack>
         )}
 
-        { orderSelectChk == true && (
+        {orderSelectChk == true && (
           <>
             <Typography variant="subtitle1">고객정보</Typography>
             <TableContainer sx={{ mb: 5 }}>
@@ -350,7 +372,7 @@ const AnalysisRegView = () => {
                         inputName="agncNm"
                         required={false}
                         // errorMessage="소속 거래처(PI)를 입력해 주세요."
-                        sx={{ width: '100%' }}
+                        sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -362,7 +384,7 @@ const AnalysisRegView = () => {
                         inputName="custNm"
                         required={false}
                         // errorMessage="연구책임자를 입력해 주세요."
-                        sx={{ width: '100%' }}
+                        sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -376,7 +398,7 @@ const AnalysisRegView = () => {
                         inputName="bsnsMngrVal"
                         required={true}
                         errorMessage="아이디(이메일) 입력해 주세요."
-                        sx={{ width: '100%' }}
+                        sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -388,7 +410,7 @@ const AnalysisRegView = () => {
                         inputName="rmnPrePymtPrice"
                         required={true}
                         errorMessage="이름을 입력해 주세요."
-                        sx={{ width: '100%' }}
+                        sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
                         }}
@@ -401,29 +423,34 @@ const AnalysisRegView = () => {
 
             {/*<Typography variant="subtitle1">분석내역</Typography>*/}
 
-            { isSampleSelected === false && (
+            {isSampleSelected === false && (
               <Stack
                 spacing={1}
                 justifyContent="center"
                 alignItems="center"
-                sx={{border: `1px solid ${cjbsTheme.palette.grey.A400}`, mb: 3}}
+                sx={{
+                  border: `1px solid ${cjbsTheme.palette.grey.A400}`,
+                  mb: 3,
+                }}
               >
                 <Stack
                   spacing={1}
                   justifyContent="center"
                   alignItems="center"
-                  sx={{width: "100%"}}
+                  sx={{ width: "100%" }}
                 >
                   <LinkButton
                     buttonName="해당 영역을 클릭하면 선택한 주문의 서비스 유형별 분석 정보를 가져올 수 있습니다."
-                    sx={{width: "100%", height: "100px"}}
+                    sx={{ width: "100%", height: "100px" }}
                     onClick={analysisSearchModalOpen}
                   />
                 </Stack>
               </Stack>
             )}
 
-            <Box sx={{ display: isSampleSelected === false ? 'none' : 'block' }}>
+            <Box
+              sx={{ display: isSampleSelected === false ? "none" : "block" }}
+            >
               <AnalysisSampleDynamicTable
                 analysisSearchModalOpen={analysisSearchModalOpen}
                 setSettlement={setSettlement}
@@ -448,7 +475,7 @@ const AnalysisRegView = () => {
                           required={true}
                           // errorMessage="연구책임자를 입력해 주세요."
                           sx={{
-                            width: '100%',
+                            width: "100%",
                             ".MuiOutlinedInput-input": {
                               textAlign: "end",
                             },
@@ -466,19 +493,22 @@ const AnalysisRegView = () => {
                           inputName="totalSupplyPriceVal"
                           required={true}
                           sx={{
-                            width: '100%',
+                            width: "100%",
                             ".MuiOutlinedInput-input": {
                               textAlign: "end",
                             },
-                            "&.MuiTextField-root" : {
-                              backgroundColor : "#F1F3F5",
+                            "&.MuiTextField-root": {
+                              backgroundColor: "#F1F3F5",
                             },
                           }}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (
                               <InputAdornment position="end">
-                                <Typography variant="body2" sx={{ color: "black" }}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: "black" }}
+                                >
                                   원
                                 </Typography>
                               </InputAdornment>
@@ -489,7 +519,7 @@ const AnalysisRegView = () => {
                           inputName="totalSupplyPrice"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: '100%', display: 'none' }}
+                          sx={{ width: "100%", display: "none" }}
                         />
                       </TD>
                       <TH sx={{ width: "15%" }}>부가세</TH>
@@ -498,19 +528,22 @@ const AnalysisRegView = () => {
                           inputName="vatVal"
                           required={true}
                           sx={{
-                            width: '100%',
+                            width: "100%",
                             ".MuiOutlinedInput-input": {
                               textAlign: "end",
                             },
-                            "&.MuiTextField-root" : {
-                              backgroundColor : "#F1F3F5",
+                            "&.MuiTextField-root": {
+                              backgroundColor: "#F1F3F5",
                             },
                           }}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (
                               <InputAdornment position="end">
-                                <Typography variant="body2" sx={{ color: "black" }}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: "black" }}
+                                >
                                   원
                                 </Typography>
                               </InputAdornment>
@@ -521,7 +554,7 @@ const AnalysisRegView = () => {
                           inputName="vat"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: '100%', display: 'none' }}
+                          sx={{ width: "100%", display: "none" }}
                         />
                       </TD>
                     </TableRow>
@@ -532,19 +565,22 @@ const AnalysisRegView = () => {
                           inputName="totalPriceVal"
                           required={true}
                           sx={{
-                            width: '100%',
+                            width: "100%",
                             ".MuiOutlinedInput-input": {
                               textAlign: "end",
                             },
-                            "&.MuiTextField-root" : {
-                              backgroundColor : "#F1F3F5",
+                            "&.MuiTextField-root": {
+                              backgroundColor: "#F1F3F5",
                             },
                           }}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (
                               <InputAdornment position="end">
-                                <Typography variant="body2" sx={{ color: "black" }}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: "black" }}
+                                >
                                   원
                                 </Typography>
                               </InputAdornment>
@@ -555,7 +591,7 @@ const AnalysisRegView = () => {
                           inputName="totalPrice"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: '100%', display: 'none' }}
+                          sx={{ width: "100%", display: "none" }}
                         />
                       </TD>
                     </TableRow>
@@ -574,19 +610,22 @@ const AnalysisRegView = () => {
                           inputName="remainingAmount"
                           required={true}
                           sx={{
-                            width: '100%',
+                            width: "100%",
                             ".MuiOutlinedInput-input": {
                               textAlign: "end",
                             },
-                            "&.MuiTextField-root" : {
-                              backgroundColor : "#F1F3F5",
+                            "&.MuiTextField-root": {
+                              backgroundColor: "#F1F3F5",
                             },
                           }}
                           InputProps={{
                             readOnly: true,
                             endAdornment: (
                               <InputAdornment position="end">
-                                <Typography variant="body2" sx={{ color: "black" }}>
+                                <Typography
+                                  variant="body2"
+                                  sx={{ color: "black" }}
+                                >
                                   원
                                 </Typography>
                               </InputAdornment>
@@ -616,19 +655,22 @@ const AnalysisRegView = () => {
                                       inputName="settlementCost"
                                       required={true}
                                       sx={{
-                                        width: '100%',
+                                        width: "100%",
                                         ".MuiOutlinedInput-input": {
                                           textAlign: "end",
                                         },
-                                        "&.MuiTextField-root" : {
-                                          backgroundColor : "#F1F3F5",
+                                        "&.MuiTextField-root": {
+                                          backgroundColor: "#F1F3F5",
                                         },
                                       }}
                                       InputProps={{
                                         readOnly: true,
                                         endAdornment: (
                                           <InputAdornment position="end">
-                                            <Typography variant="body2" sx={{ color: "black" }}>
+                                            <Typography
+                                              variant="body2"
+                                              sx={{ color: "black" }}
+                                            >
                                               원
                                             </Typography>
                                           </InputAdornment>
@@ -641,7 +683,7 @@ const AnalysisRegView = () => {
                               </TableBody>
                             </Table>
                           </TableContainer>
-                          <TableContainer sx={{display: 'none'}}>
+                          <TableContainer sx={{ display: "none" }}>
                             <Table>
                               <TableBody>
                                 <TableRow>
@@ -746,10 +788,8 @@ const AnalysisRegView = () => {
             modalWidth={1400}
           />
         </ErrorContainer>
-
       </>
     </Form>
-
   );
 };
 

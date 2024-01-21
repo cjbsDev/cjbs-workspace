@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
 import { cjbsTheme } from "cjbsDSTM";
@@ -9,9 +8,5 @@ interface ContextProps {
 }
 
 export default function JeJuProvider({ children }: ContextProps) {
-  return (
-    <div>
-      <ThemeProvider theme={cjbsTheme}>{children}</ThemeProvider>
-    </div>
-  );
+  return <ThemeProvider theme={cjbsTheme}>{children}</ThemeProvider>;
 }
