@@ -32,11 +32,11 @@ import { useParams, useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import TypeSelect from "../TypeSelect";
 import dayjs from "dayjs";
+import { useRecoilState } from "recoil";
+import TypeSelectRadio from "../../../../components/TypeSelectRadio";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
-import { useRecoilState } from "recoil";
 import DynamicTable from "../../../../components/DynamicTable";
 import DynamicSumTable from "../../../../components/DynamicSumTable";
 
@@ -48,15 +48,6 @@ const LazyAgncSearchModal = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-
-// // 샘플 테이블
-// const LazyAnalysisSampleDynamicTable = dynamic(
-//   () => import("../AnalysisSampleDynamicTable"),
-//   {
-//     ssr: false,
-//     loading: () => <Typography variant="body2">Loading...</Typography>,
-//   }
-// );
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
@@ -181,6 +172,11 @@ const TSRegView = () => {
     productDetailList: getDataObj.productDetailList,
   };
 
+  const typeData = [
+    { value: "BS_2300001", optionName: "내부용" },
+    { value: "BS_2300002", optionName: "외부용" },
+  ];
+
   return (
     <>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -197,7 +193,7 @@ const TSRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>유형</TH>
                 <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <TypeSelect />
+                  <TypeSelectRadio data={typeData} inputName="tdstTypeCc" />
                 </TD>
               </TableRow>
               <TableRow>
