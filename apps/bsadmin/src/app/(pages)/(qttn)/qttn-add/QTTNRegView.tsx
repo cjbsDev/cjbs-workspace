@@ -3,10 +3,7 @@
 import dynamic from "next/dynamic";
 import {
   Box,
-  BoxProps,
-  InputAdornment,
   Stack,
-  styled,
   Table,
   TableBody,
   TableContainer,
@@ -31,6 +28,7 @@ import * as React from "react";
 import { useCallback, useState } from "react";
 import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
+import Image from "next/image";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
@@ -47,7 +45,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 // 영업 담당자 선택
@@ -56,7 +54,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const TSRegView = () => {
@@ -378,7 +376,8 @@ const TSRegView = () => {
             buttonName="저장"
             endIcon={
               isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
+                // <LoadingSvg stroke="white" width={20} height={20} />
+                <Image alt="" src={LoadingSvg} />
               ) : null
             }
           />
