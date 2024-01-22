@@ -1,5 +1,5 @@
 import React from "react";
-import { Stack, Grid, Link, Typography } from "@mui/material";
+import { Stack, Grid, Link, Typography, Box } from "@mui/material";
 import {
   DataCountResultInfo,
   ContainedButton,
@@ -9,10 +9,10 @@ import {
 } from "cjbsDSTM";
 import KeywordSearch from "../../../../../components/KeywordSearch";
 // import ResultInSearch from "./ResultInSearch";
-// import IconDescBar from "../../../components/IconDescBar";
 import { SubHeaderProps } from "../../../../../types/subHeader-props";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
+import InvcReqFilterBtn from "./InvcReqFilterBtn";
 const LazyTotalTaxPrice = dynamic(() => import("./TotalTaxPrice"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -29,11 +29,19 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
           </Link>
         </Stack>
 
-        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
-          {/*<IconDescBar freeDisabled={true} reOrder={true} />*/}
-          <FileDownloadBtn exportUrl={`/invc/list/download`} iconName="xls3" />
-          <KeywordSearch />
-          {/*<ResultInSearch />*/}
+        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+          <Stack direction="row">
+            <InvcReqFilterBtn />
+          </Stack>
+
+          <Stack direction="row" spacing={1} alignItems="center">
+            <FileDownloadBtn
+              exportUrl={`/invc/list/download`}
+              iconName="xls3"
+            />
+            <KeywordSearch />
+            {/*<ResultInSearch />*/}
+          </Stack>
         </Stack>
       </Stack>
     </Grid>
