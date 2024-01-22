@@ -91,8 +91,8 @@ const AgncDataTable = ({ handleClose }) => {
               setValue("instFakeNm", instNm);
               setValue("rmnPrePymtPrice", rmnPrePymtPrice);
               setValue("rmnPrice", rmnPrice);
-              setValue("brno", brno);
-              setValue("rprsNm", rprsNm);
+              // setValue("brno", brno);
+              // setValue("rprsNm", rprsNm);
             }
 
             clearErrors([
@@ -102,8 +102,8 @@ const AgncDataTable = ({ handleClose }) => {
               "instNm",
               "rmnPrice",
               "rmnPrePymtPrice",
-              "brno",
-              "rprsNm",
+              // "brno",
+              // "rprsNm",
             ]);
 
             handleClose();

@@ -77,7 +77,7 @@ const LegView = () => {
       delete bodyData.pyrNm;
     }
 
-    console.log("BODY DATA ==>>", bodyData);
+    console.log("세금계산서 BODY DATA ==>>", bodyData);
 
     try {
       // 요청 타입에 따른 API 호출

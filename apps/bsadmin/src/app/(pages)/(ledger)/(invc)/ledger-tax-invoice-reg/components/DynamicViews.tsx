@@ -10,6 +10,7 @@ import { agncModalShowAtom, instModalShowAtom } from "../atom";
 import DynamicSumTable2 from "./DynamicSumTable2";
 import DynamicTable from "../../../../../components/DynamicTable";
 import DynamicSumTable from "../../../../../components/DynamicSumTable";
+import PublicationInfo from "./PublicationInfo";
 
 const DynamicViews = () => {
   const { watch, getValues } = useFormContext();
@@ -21,10 +22,10 @@ const DynamicViews = () => {
   const agncUkeyValue = watch("agncUkey");
   const paymentInfoValue = watch("pymtInfoCc");
 
-  console.log("ERERERERERERER", agncUkeyValue);
+  // console.log("ERERERERERERER", agncUkeyValue);
 
   const handleAgncSearchModalClose = useCallback(() => {
-    console.log("TTTTTTTTTTTTTT");
+    // console.log("TTTTTTTTTTTTTT");
     setShowAgncSearchModal(false);
   }, []);
 
@@ -44,7 +45,7 @@ const DynamicViews = () => {
 
   return (
     <>
-      {/* 결제정보 */}
+      {/* 결제 정보 */}
       <PaymentDynamicInfo />
 
       {/* 품명 */}
@@ -60,7 +61,10 @@ const DynamicViews = () => {
       {/* 발행처 정보 */}
       <PblshrInst />
 
-      {/* 기타정보 */}
+      {/* 발행 정보 */}
+      <PublicationInfo />
+
+      {/* 기타 정보 */}
       <EtcInfo />
 
       <AgncSearchModal
