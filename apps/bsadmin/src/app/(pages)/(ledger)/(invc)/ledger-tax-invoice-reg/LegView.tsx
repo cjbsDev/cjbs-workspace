@@ -14,6 +14,8 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
 const LegView = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
@@ -34,8 +36,7 @@ const LegView = () => {
     return null;
   }, [data]);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
 
   const defaultValues = {
     pymtInfoCc: "BS_1914001",

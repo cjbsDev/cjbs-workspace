@@ -23,7 +23,7 @@ const ModifyBtn = ({ invcUkey, agncUkey, issuDttm }: ModifyBtnProps) => {
       toast("당월에만 등록 및 수정이 가능합니다.");
     } else {
       router.push(
-        `/tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
+        `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
       );
     }
   };

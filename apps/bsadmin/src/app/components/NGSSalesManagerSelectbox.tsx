@@ -7,6 +7,8 @@ export default function NGSSalesManagerSelectbox() {
     suspense: true,
   });
 
+  console.log("영업담당자 목록 ==>>", data);
+
   return (
     <SelectBox
       errorMessage="영업 담당자를 선택해 주세요."

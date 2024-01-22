@@ -30,6 +30,7 @@ import {
 import dynamic from "next/dynamic";
 import { useFormContext, useWatch } from "react-hook-form";
 import RmnPrePymtPrice from "./RmnPrePymtPrice";
+import { useSearchParams } from "next/navigation";
 
 const LazyRmnPymtPriceDetail = dynamic(() => import("./RmnPymtPriceDetail"), {
   ssr: false,
@@ -41,6 +42,8 @@ const LazyRmnPymtPriceDetail = dynamic(() => import("./RmnPymtPriceDetail"), {
 });
 
 const PaymentDynamicInfo = () => {
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
   const { watch, getValues } = useFormContext();
   // const [showInstSearchModal, setShowInstSearchModal] =
   //   useState<boolean>(false);
@@ -82,7 +85,7 @@ const PaymentDynamicInfo = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" justifyContent="space-between">
                     <RmnPymtPrice />
-                    <RmnPymtDetailBtn />
+                    {type === "modify" && <RmnPymtDetailBtn />}
                   </Stack>
                   {show && (
                     <ErrorContainer FallbackComponent={Fallback}>
