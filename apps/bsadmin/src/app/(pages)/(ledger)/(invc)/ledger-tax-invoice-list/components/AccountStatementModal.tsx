@@ -1,9 +1,6 @@
 import React, { useState } from "react";
 import {
-  ContainedButton,
   Form,
-  InputEAType,
-  InputValidation,
   ModalAction,
   ModalContainer,
   ModalTitle,
@@ -22,8 +19,6 @@ import {
 } from "@mui/material";
 import { ModalContainerProps } from "../../../../../types/modal-container-props";
 import { LoadingButton } from "@mui/lab";
-import { NumericFormat } from "react-number-format";
-import { Controller, useFormContext } from "react-hook-form";
 import AccountStatementInput from "./AccountStatementInput";
 import { useParams } from "next/navigation";
 import dayjs from "dayjs";
@@ -47,8 +42,6 @@ const AccountStatementModal = ({
   const invcUkey = params.slug;
 
   const onSubmit = async (data: any) => {
-    // console.log("계산서 발행 DATA ==>>", data);
-    // console.log("계산서 발행 DATA ==>>", typeof data.invcNum);
     setIsLoading(true);
 
     const bodyData = {
