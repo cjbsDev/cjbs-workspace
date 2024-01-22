@@ -9,7 +9,8 @@ const TotalTaxPrice = () => {
     suspense: true,
   });
 
-  const { totalReqPrice, totalIssuPrice } = data;
+  const { totalSupplyPrice, totalVat, totalPrice } = data;
+  console.log(data);
 
   return (
     <Stack
@@ -46,7 +47,7 @@ const TotalTaxPrice = () => {
             }
           }
         >
-          {formatNumberWithCommas(totalReqPrice)}원
+          {formatNumberWithCommas(totalSupplyPrice)}원
         </Box>
       </Box>
 
@@ -62,7 +63,7 @@ const TotalTaxPrice = () => {
         >
           총 부가세:
         </Box>
-        <Box component="dd">{formatNumberWithCommas(totalIssuPrice)}원</Box>
+        <Box component="dd">{formatNumberWithCommas(totalVat)}원</Box>
       </Box>
 
       <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
@@ -77,7 +78,7 @@ const TotalTaxPrice = () => {
         >
           총 합계금액:
         </Box>
-        <Box component="dd">{formatNumberWithCommas(totalIssuPrice)}원</Box>
+        <Box component="dd">{formatNumberWithCommas(totalPrice)}원</Box>
       </Box>
     </Stack>
   );
