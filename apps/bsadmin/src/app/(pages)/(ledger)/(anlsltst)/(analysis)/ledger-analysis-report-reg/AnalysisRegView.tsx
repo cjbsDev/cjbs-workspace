@@ -158,7 +158,7 @@ const AnalysisRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/analysis-report-list");
+          router.push("/ledger-analysis-report-list");
         } else {
           toast(response.message);
         }
