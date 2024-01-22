@@ -31,11 +31,16 @@ import { POST, PUT } from "api";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
 
+interface AccountStatementModalProps extends ModalContainerProps {
+  pymtInfoCc: string;
+}
+
 const AccountStatementModal = ({
   onClose,
   open,
   modalWidth,
-}: ModalContainerProps) => {
+  pymtInfoCc,
+}: AccountStatementModalProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const params = useParams();
   const router = useRouter();
@@ -52,6 +57,10 @@ const AccountStatementModal = ({
       invcUkey: invcUkey?.toString(),
     };
 
+    if (pymtInfoCc !== "BS_1914002") {
+      delete bodyData.invcNum;
+    }
+
     console.log("발행 BodyData ==>>", bodyData);
 
     try {
@@ -66,7 +75,7 @@ const AccountStatementModal = ({
       }
     } catch (error) {
       console.error("Error submitting form", error);
-      toast.error("폼 제출 중 오류가 발생했습니다.");
+      toast.error("발행 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
@@ -79,14 +88,14 @@ const AccountStatementModal = ({
       modalWidth={modalWidth}
       overflowY="visible"
     >
-      <ModalTitle onClose={onClose}>계산서 발행</ModalTitle>
+      <ModalTitle onClose={onClose}>발행</ModalTitle>
       <DialogContent>
         <Form
           onSubmit={onSubmit}
           defaultValues={undefined}
           id="accountStatementForm"
         >
-          <TableContainer>
+          <TableContainer sx={{ mb: 1 }}>
             <Table>
               <TableBody>
                 <TableRow>
@@ -99,12 +108,14 @@ const AccountStatementModal = ({
                     />
                   </TD>
                 </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
-                  <TD>
-                    <AccountStatementInput />
-                  </TD>
-                </TableRow>
+                {pymtInfoCc === "BS_1914002" && (
+                  <TableRow>
+                    <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
+                    <TD>
+                      <AccountStatementInput />
+                    </TD>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

@@ -570,6 +570,7 @@ const TaxInvoiceInfo = () => {
 
       {/* 계산서 발행 모달 */}
       <AccountStatementModal
+        pymtInfoCc={pymtInfoCc}
         onClose={handleAccountStatementModalClose}
         open={accountStatementModalOpen}
         modalWidth={440}
