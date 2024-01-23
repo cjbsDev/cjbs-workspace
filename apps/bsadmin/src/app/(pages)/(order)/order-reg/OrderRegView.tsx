@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import {
   Box,
   BoxProps,
-  InputAdornment,
   Stack,
   styled,
   Table,
@@ -32,7 +31,6 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
@@ -51,6 +49,7 @@ import { getDefaultValues } from "./getDefaultValues";
 import Research from "./Research";
 import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 import AmountFormat from "../../../components/NumberFormat/AmountFormat";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 
 const apiUrl: string = `/order/extr`;
 
@@ -779,11 +778,7 @@ const OrderRegView = () => {
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>
