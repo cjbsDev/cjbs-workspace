@@ -25,6 +25,7 @@ interface ModalContainerProps {
   open: boolean;
   modalWidth: number;
   selectSampleList?: [];
+  viewType: string;
 }
 
 const AnalysisListModal = ({
@@ -34,6 +35,7 @@ const AnalysisListModal = ({
   getOrderUkey,
   handleAddSampleList,
   selectSampleList,
+  viewType,
 }: ModalContainerProps) => {
 
   return (
@@ -46,6 +48,7 @@ const AnalysisListModal = ({
             getOrderUkey={getOrderUkey}
             handleAddSampleList={handleAddSampleList}
             selectSampleList={selectSampleList}
+            viewType={viewType}
           />
         </ErrorContainer>
       </DialogContent>

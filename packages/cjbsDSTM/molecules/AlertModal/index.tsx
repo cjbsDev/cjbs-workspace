@@ -36,7 +36,7 @@ export const AlertModal = ({
       <ModalAction>
         <Stack direction="row" spacing={1}>
           <OutlinedButton
-            buttonName={"취소"}
+            buttonName={"닫기"}
             color="secondary"
             onClick={onClose}
           />

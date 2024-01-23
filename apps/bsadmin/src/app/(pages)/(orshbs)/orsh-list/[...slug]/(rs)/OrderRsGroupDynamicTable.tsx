@@ -2,19 +2,24 @@ import React, { useState, useEffect } from "react";
 import {
   Box,
   IconButton,
-  Stack, styled,
+  Stack,
+  styled,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
-  TableRow, ToggleButton, ToggleButtonGroup,
+  TableRow,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import {
-  cjbsTheme, ConfirmModal,
+  cjbsTheme,
+  ConfirmModal,
   ContainedButton,
-  InputValidation, OutlinedButton,
+  InputValidation,
+  OutlinedButton,
   SelectBox,
   UnStyledButton,
 } from "cjbsDSTM";
@@ -24,13 +29,11 @@ import axios from "axios";
 import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
-import LoadingSvg from "@public/svg/loading_wh.svg";
-import {useRecoilState} from "recoil";
-import {groupUseStatusAtom} from "../../../../../recoil/atoms/groupUseStatusAtom";
-import {fileIdValueAtom} from "../../../../../recoil/atoms/fileIdValueAtom";
-import {groupListDataAtom} from "../../../../../recoil/atoms/groupListDataAtom";
-import {useParams} from "next/navigation";
-
+import { useRecoilState } from "recoil";
+import { groupUseStatusAtom } from "../../../../../recoil/atoms/groupUseStatusAtom";
+import { fileIdValueAtom } from "../../../../../recoil/atoms/fileIdValueAtom";
+import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
+import { useParams } from "next/navigation";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
@@ -55,8 +58,8 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
   // console.log("$$$$$$$$$$", props.serviceType);
-  const {sampleFields} = props;
-  const { watch, control, getValues, formState,setValue } = useFormContext();
+  const { sampleFields } = props;
+  const { watch, control, getValues, formState, setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "groupCmprAnls", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -69,11 +72,11 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   const [groupOptionData, setGroupOptionData] = useState([]);
 
   useEffect(() => {
-    console.log("groupList : ", groupList)
+    console.log("groupList : ", groupList);
 
     setGroupOptionData(groupList);
     setIsGroupCmprAnls(isGroupUse);
-  }, [isGroupUse])
+  }, [isGroupUse]);
 
   const handleAlertOpen = () => {
     setAlertModalOpen(true);
@@ -91,7 +94,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     sampleFields.map((field, index) => {
       const getData = getValues(`sample.[${index}].groupNm`);
       console.log(getData);
-      if( getData !== '') setGroupList.push(getData);
+      if (getData !== "") setGroupList.push(getData);
     });
     let uniqueGroupList = [...new Set(setGroupList)];
     console.log(uniqueGroupList);
@@ -102,18 +105,18 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
     console.log(groupDataList);
 
     setGroupOptionData(groupDataList);
-    handleAddFields(1)
+    handleAddFields(1);
     handleAlertClose();
   };
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    newAlignment: string,
   ) => {
     if (newAlignment === null) return;
     setValue("isGroupCmprAnls", newAlignment);
     setIsGroupCmprAnls(newAlignment);
-    if (newAlignment === 'N') {
+    if (newAlignment === "N") {
       resetGroupTable();
     } else {
       handleServiceTypeChange();
@@ -132,7 +135,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
   //   handleAddFields(1)
   // }, [])
 
-  const handleAddFields = (count:any) => {
+  const handleAddFields = (count: any) => {
     console.log("Count~!~!", count);
     // 입력된 수만큼 항목을 추가합니다.
     for (let i = 0; i < count; i++) {
@@ -149,20 +152,19 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
 
   return (
     <>
-
       <ConfirmModal
         alertBtnName="확인"
         alertMainFunc={handleServiceTypeChange}
         onClose={handleAlertClose}
         open={alertModalOpen}
-        mainMessage={
-          "그룹 수정 시 그룹분석리스트(유료)가 초기화 됩니다.\n"
-        }
+        mainMessage={"그룹 수정 시 그룹분석리스트(유료)가 초기화 됩니다.\n"}
         subMessage={"수정하시겠습니까?"}
       />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
-        <Typography variant="subtitle1">그룹 비교 분석 리스트 (유료)</Typography>
+        <Typography variant="subtitle1">
+          그룹 비교 분석 리스트 (유료)
+        </Typography>
       </Stack>
 
       <Stack
@@ -183,7 +185,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           <ToggleButton
             value="Y"
             sx={{ width: "49%" }}
-            disabled={updataYn === 'N' ? false : true}
+            disabled={updataYn === "N" ? false : true}
           >
             <Stack
               direction="row"
@@ -197,7 +199,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           <ToggleButton
             value="N"
             sx={{ width: "49%" }}
-            disabled={updataYn === 'N' ? false : true}
+            disabled={updataYn === "N" ? false : true}
           >
             <Stack
               direction="row"
@@ -211,12 +213,16 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
         </StyledToggleButtonGroup>
       </Stack>
 
-      <InputValidation inputName="isGroupCmprAnls" sx={{width: "80px", display: 'none'}} defaultValue={isGroupCmprAnls} />
+      <InputValidation
+        inputName="isGroupCmprAnls"
+        sx={{ width: "80px", display: "none" }}
+        defaultValue={isGroupCmprAnls}
+      />
 
       <Stack
         spacing={0}
         sx={{
-          display: isGroupCmprAnls === 'N' ? 'none' : '',
+          display: isGroupCmprAnls === "N" ? "none" : "",
         }}
       >
         <Box
@@ -231,7 +237,8 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           <ul>
             <li>
               <Typography variant="body2">
-                위 샘플리스트에 작성된 그룹명을 이용하여 그룹 비교 분석의 조건을 작성해주세요
+                위 샘플리스트에 작성된 그룹명을 이용하여 그룹 비교 분석의 조건을
+                작성해주세요
               </Typography>
             </li>
             <li>
@@ -248,16 +255,23 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
         </Box>
 
         <Stack direction="row" spacing={1} justifyContent="space-between">
-          {updataYn === 'N' ? (
+          {updataYn === "N" ? (
             <Stack direction="row" spacing={0.5} justifyContent="center">
               <ContainedButton
                 buttonName="그룹명 불러오기"
                 onClick={() => handleAlertOpen()}
               />
             </Stack>
-          ) : ('')}
+          ) : (
+            ""
+          )}
           <Stack direction="row" spacing={0.5} justifyContent="center">
-            <InputValidation inputName="countGroup" type="number" sx={{width: "72px"}} placeholder="0" />
+            <InputValidation
+              inputName="countGroup"
+              type="number"
+              sx={{ width: "72px" }}
+              placeholder="0"
+            />
             <ContainedButton
               buttonName="행 추가"
               size="small"
@@ -268,9 +282,9 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
         </Stack>
         <TableContainer sx={{ mb: 5, mt: 1, borderTop: "1px solid #000" }}>
           <Table>
-            <TableHeader serviceType={'group'} />
+            <TableHeader serviceType={"group"} />
             <TableBody>
-              <ExRow serviceType={'group'} />
+              <ExRow serviceType={"group"} />
               {fields.map((field, index) => {
                 return (
                   <TableNewRows
@@ -279,7 +293,7 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
                     remove={remove}
                     index={index}
                     errors={errors}
-                    serviceType={'group'}
+                    serviceType={"group"}
                     groupOptionData={groupOptionData}
                   />
                 );
@@ -288,8 +302,6 @@ const OrderShotgunGroupSampleDynamicTable = (props: any) => {
           </Table>
         </TableContainer>
       </Stack>
-
-
     </>
   );
 };

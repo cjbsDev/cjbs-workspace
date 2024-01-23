@@ -14,9 +14,8 @@ import {
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme, ContainedButton, OutlinedButton } from "cjbsDSTM";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
-import {useSearchParams} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const AntTabs = styled(Tabs)({
   marginTop: "10px",
@@ -65,7 +64,7 @@ const Page = () => {
   const searchParams = useSearchParams();
   const orderNm = searchParams.get("orderNm");
   const serviceParam = searchParams.get("serviceType");
-  console.log(serviceParam)
+  console.log(serviceParam);
   const router = useRouter();
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -93,7 +92,7 @@ const Page = () => {
           spacing={0}
           sx={{ borderBottom: "1px solid #000" }}
         >
-          {orderNm === 'mtp' ? (
+          {orderNm === "mtp" ? (
             <Box
               sx={{
                 display: "flex",
@@ -106,9 +105,11 @@ const Page = () => {
                 Microbiome Taxonomic Profiling
               </Typography>
             </Box>
-          ) : ('')}
+          ) : (
+            ""
+          )}
 
-          {orderNm === 'shotgun' ? (
+          {orderNm === "shotgun" ? (
             <Box
               sx={{
                 display: "flex",
@@ -116,13 +117,16 @@ const Page = () => {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+              <Typography variant="h4">
+                Shotgun Metagenome&nbsp;&nbsp;
+              </Typography>
               <Typography variant="subtitle2" sx={{ pt: "3px" }}>
                 Shotgun Sequencing
               </Typography>
             </Box>
-          ) : ('')}
-
+          ) : (
+            ""
+          )}
         </Stack>
 
         <Box sx={{ width: "100%", typography: "body1" }}>
@@ -211,21 +215,20 @@ const Page = () => {
                 <Grid item xs={2}>
                   <Typography variant="subtitle2">유의사항</Typography>
                 </Grid>
-                {serviceParam === 'ao' ? (
+                {serviceParam === "ao" ? (
                   <Grid item xs={10}>
                     <Typography
                       variant="body2"
                       color={cjbsTheme.palette.error.main}
                     >
-                      1. 데이터 파일명은 주문서의 샘플명과 매칭되도록 부탁드립니다.
+                      1. 데이터 파일명은 주문서의 샘플명과 매칭되도록
+                      부탁드립니다.
                     </Typography>
                     <Typography variant="body2">
                       2. 분석 결과는 연구용으로만 사용이 가능합니다.
                     </Typography>
                   </Grid>
-
                 ) : (
-
                   <Grid item xs={10}>
                     <Typography
                       variant="body2"
@@ -253,7 +256,6 @@ const Page = () => {
                     </Typography>
                   </Grid>
                 )}
-
               </Grid>
             </Box>
 

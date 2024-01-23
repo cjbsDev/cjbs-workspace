@@ -3,9 +3,9 @@ import { ContainedButton, Form, OutlinedButton, Title1 } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import * as React from "react";
 import BasicInfo from "./BasicInfo";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import axios from "axios";
+import { fetcher, POST } from "api";
 
 export default function Page() {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -30,8 +30,7 @@ export default function Page() {
 
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice`; // Replace with your API URL
 
-    await axios
-      .post(apiUrl, saveObj)
+    await POST(apiUrl, saveObj)
       .then((response) => {
         console.log("request successful:", response.data);
         if (response.data.success) {
@@ -60,11 +59,7 @@ export default function Page() {
         <ContainedButton
           type="submit"
           buttonName="등록"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+          endIcon={isLoading ? <LoadingWhiteSvg /> : null}
         />
       </Stack>
     </Form>

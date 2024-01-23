@@ -26,11 +26,10 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
-import {useParams} from "next/navigation";
+import { useParams } from "next/navigation";
 import NoticeBox from "./NoticeBox";
 
 const LazyPrepSelectbox = dynamic(
@@ -38,7 +37,7 @@ const LazyPrepSelectbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 export default function OrderShotgunSampleList(props: any) {
@@ -54,14 +53,19 @@ export default function OrderShotgunSampleList(props: any) {
         return (
           <>
             <TableRow>
-              <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                Sequencing Depth{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
                       url={"/code/list/shortly?topUniqueCode=BS_0100010"}
                       inputName={"depthCc"}
-                      disabled={updataYn === 'N' ? false : true}
+                      disabled={updataYn === "N" ? false : true}
                     />
                   </ErrorContainer>
                 </Stack>
@@ -72,7 +76,7 @@ export default function OrderShotgunSampleList(props: any) {
               <TD sx={{ width: "80%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <Stack direction="row" alignItems="center" spacing={2}>
-                    { updataYn === 'N' ? (
+                    {updataYn === "N" ? (
                       <Box>
                         <InputValidation
                           inputName="uploadFile"
@@ -84,23 +88,27 @@ export default function OrderShotgunSampleList(props: any) {
                           * 파일 재업로드 시, 기존 파일은 삭제됩니다.
                         </Typography>
                       </Box>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
                     <InputValidation
                       inputName="selfQcFileNm"
                       required={false}
                       sx={{
                         width: 300,
                         "& .MuiOutlinedInput-root": {
-                          "& fieldset": { border: updataYn === 'N' ? 'none' : 'none' },
+                          "& fieldset": {
+                            border: updataYn === "N" ? "none" : "none",
+                          },
                         },
                         ".MuiOutlinedInput-input:read-only": {
                           backgroundColor: "white",
                           cursor: "pointer",
-                          textFillColor: "#000000"
+                          textFillColor: "#000000",
                         },
                       }}
                       InputProps={{
-                        readOnly: true
+                        readOnly: true,
                       }}
                     />
                   </Stack>
@@ -108,19 +116,23 @@ export default function OrderShotgunSampleList(props: any) {
               </TD>
             </TableRow>
           </>
-
         );
       case "so":
         return (
           <TableRow>
-            <TH sx={{ width: "20%" }}>Depth (DB) <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+            <TH sx={{ width: "20%" }}>
+              Sequencing Depth{" "}
+              <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                *
+              </Box>
+            </TH>
             <TD sx={{ width: "80%" }}>
               <Stack direction="row" spacing={0.5} alignItems="flex-start">
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyPrepSelectbox
                     url={"/code/list/shortly?topUniqueCode=BS_0100010"}
                     inputName={"depthCc"}
-                    disabled={updataYn === 'N' ? false : true}
+                    disabled={updataYn === "N" ? false : true}
                   />
                 </ErrorContainer>
               </Stack>
@@ -132,7 +144,7 @@ export default function OrderShotgunSampleList(props: any) {
 
   return (
     <>
-      <NoticeBox serviceType={serviceType}/>
+      <NoticeBox serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         {serviceType !== "ao" ? (
@@ -149,7 +161,7 @@ export default function OrderShotgunSampleList(props: any) {
         </Table>
       </TableContainer>
 
-      <OrderShotgunSampleDynamicTable serviceType={serviceType}/>
+      <OrderShotgunSampleDynamicTable serviceType={serviceType} />
 
       <Stack direction="row" alignItems="center" spacing={0.5}>
         <Typography variant="subtitle1">추가 요청 사항</Typography>
@@ -160,21 +172,20 @@ export default function OrderShotgunSampleList(props: any) {
         required={false}
         multiline
         maxRows={4}
-        placeholder={updataYn === 'N' ? "추가 요청 사항을 입력해주세요." : ""}
+        placeholder={updataYn === "N" ? "추가 요청 사항을 입력해주세요." : ""}
         sx={{
-          width: '100%',
+          width: "100%",
           mb: 4,
           ".MuiOutlinedInput-input:read-only": {
             backgroundColor: "white",
             cursor: "pointer",
-            textFillColor: "#000000"
+            textFillColor: "#000000",
           },
         }}
         InputProps={{
-          readOnly: updataYn === 'N' ? false : true
+          readOnly: updataYn === "N" ? false : true,
         }}
       />
-
     </>
   );
 }

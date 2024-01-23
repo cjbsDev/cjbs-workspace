@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -12,34 +12,29 @@ import {
   Form,
   PostCodeBtn,
   CheckboxSV,
-  SelectBox,
 } from "cjbsDSTM";
 import {
   Typography,
-  Container,
   Box,
   Stack,
   Table,
   TableRow,
   TableBody,
-  FormControlLabel,
-  MenuItem,
   TableContainer,
 } from "@mui/material";
+import { POST } from "api";
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-
-import axios from "axios";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
   {
     ssr: false,
     loading: () => <SkeletonLoading height={270} />,
-  }
+  },
 );
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
@@ -51,7 +46,7 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 // 영업 담당자
@@ -60,7 +55,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 /**
@@ -184,16 +179,16 @@ const AgncAdd = () => {
 
     const apiUrl = `/agnc`; // Replace with your API URL
 
-    await axios
-      .post(apiUrl, saveObj)
+    await POST(apiUrl, saveObj)
       .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
+        console.log("request successful:", response.success);
+        setIsLoading(false);
+        if (response.success) {
           router.push("/agnc-pi-list");
-          setIsLoading(false);
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         console.error("request failed:", error);
       });
   };
@@ -416,11 +411,7 @@ const AgncAdd = () => {
         <ContainedButton
           type="submit"
           buttonName="저장"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+          endIcon={isLoading ? <LoadingWhiteSvg /> : null}
         />
       </Stack>
     </Form>

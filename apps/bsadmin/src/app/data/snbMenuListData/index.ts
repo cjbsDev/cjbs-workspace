@@ -52,6 +52,10 @@ export const snbMenuListData = [
           menuLabel: "내부 주문서 관리",
           menuPath: "/orshbs-list",
         },
+        {
+          menuLabel: "견적서 관리",
+          menuPath: "/qttn-list",
+        },
       ],
     },
   },
@@ -84,6 +88,10 @@ export const snbMenuListData = [
       name: "/exp",
       nestedPath: [
         {
+          menuLabel: "실험 정보",
+          menuPath: "/exp-info-list",
+        },
+        {
           menuLabel: "RUN 리스트",
           menuPath: "/exp-run-list",
         },
@@ -106,16 +114,20 @@ export const snbMenuListData = [
         // },
         {
           menuLabel: "분석 내역서 관리",
-          menuPath: "/analysis-report-list",
+          menuPath: "/ledger-analysis-report-list",
         },
         // {
         //   menuLabel: '세금 계산서 관리',
         //   menuPath: '/tax-invoice-list'
         // },
-        // {
-        //   menuLabel: '거래 명세서 관리',
-        //   menuPath: '/transaction-statement-list'
-        // },
+        {
+          menuLabel: "거래 명세서 관리",
+          menuPath: "/ledger-ts-list",
+        },
+        {
+          menuLabel: "세금 계산서 관리",
+          menuPath: "/ledger-tax-invoice-list",
+        },
         // {
         //   menuLabel: '매출 관리',
         //   menuPath: '/sales-cust-list'

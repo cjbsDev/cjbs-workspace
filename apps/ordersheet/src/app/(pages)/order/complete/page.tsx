@@ -15,9 +15,8 @@ import {
 import MyIcon from "icon/MyIcon";
 import HorizontalLinearStepper from "../HorizontalLinearStepper";
 import { cjbsTheme, ContainedButton, OutlinedButton } from "cjbsDSTM";
-import LoadingSvg from "@public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
-import {useSearchParams} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const AntTabs = styled(Tabs)({
   marginTop: "10px",
@@ -66,7 +65,7 @@ const Page = () => {
   const searchParams = useSearchParams();
   const orderNm = searchParams.get("orderNm");
   const serviceParam = searchParams.get("serviceType");
-  console.log(serviceParam)
+  console.log(serviceParam);
   const router = useRouter();
   const [value, setValue] = React.useState(0);
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -94,7 +93,7 @@ const Page = () => {
           spacing={0}
           sx={{ borderBottom: "1px solid #000" }}
         >
-          {orderNm === 'mtp' ? (
+          {orderNm === "mtp" ? (
             <Box
               sx={{
                 display: "flex",
@@ -107,9 +106,11 @@ const Page = () => {
                 Microbiome Taxonomic Profiling
               </Typography>
             </Box>
-          ) : ('')}
+          ) : (
+            ""
+          )}
 
-          {orderNm === 'shotgun' ? (
+          {orderNm === "shotgun" ? (
             <Box
               sx={{
                 display: "flex",
@@ -117,14 +118,18 @@ const Page = () => {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h4">Shotgun Metagenome&nbsp;&nbsp;</Typography>
+              <Typography variant="h4">
+                Shotgun Metagenome&nbsp;&nbsp;
+              </Typography>
               <Typography variant="subtitle2" sx={{ pt: "3px" }}>
                 Shotgun Sequencing
               </Typography>
             </Box>
-          ) : ('')}
+          ) : (
+            ""
+          )}
 
-          {orderNm === 'wg' ? (
+          {orderNm === "wg" ? (
             <Box
               sx={{
                 display: "flex",
@@ -137,9 +142,11 @@ const Page = () => {
                 Whole Genome Sequencing
               </Typography>
             </Box>
-          ) : ('')}
+          ) : (
+            ""
+          )}
 
-          {orderNm === 'rs' ? (
+          {orderNm === "rs" ? (
             <Box
               sx={{
                 display: "flex",
@@ -152,7 +159,9 @@ const Page = () => {
                 RNA Sequencing
               </Typography>
             </Box>
-          ) : ('')}
+          ) : (
+            ""
+          )}
 
           <Box
             sx={{
@@ -202,7 +211,7 @@ const Page = () => {
                 mt: "20px",
               }}
             >
-              {serviceParam === 'ao' ? (
+              {serviceParam === "ao" ? (
                 <Typography variant="body2" sx={{ pt: "3px" }}>
                   아래 내용 참고하여 NGS 데이터를 전달 부탁드립니다.
                   <br />
@@ -234,19 +243,26 @@ const Page = () => {
               }}
             >
               <Grid container spacing={2}>
-
-                {serviceParam === 'ao' ? (
+                {serviceParam === "ao" ? (
                   <>
                     <Grid item xs={2}>
-                      <Typography variant="subtitle2">분석데이터 전달</Typography>
+                      <Typography variant="subtitle2">
+                        분석데이터 전달
+                      </Typography>
                     </Grid>
                     <Grid item xs={10}>
                       <Stack spacing={0.5} alignItems="flex-start">
                         <Typography variant="body2">
-                          분석에 사용되는 <Box component="span" sx={{fontWeight:700}}>Sequencing raw data</Box>는 신청인 정보와 함께 CJ바이오사이언스 NGS 대표 메일로 전달 부탁드립니다.
+                          분석에 사용되는{" "}
+                          <Box component="span" sx={{ fontWeight: 700 }}>
+                            Sequencing raw data
+                          </Box>
+                          는 신청인 정보와 함께 CJ바이오사이언스 NGS 대표 메일로
+                          전달 부탁드립니다.
                         </Typography>
                         <Typography variant="body2">
-                          메일로 전달이 불가능할 경우, 대표 전화 또는 메일로 연락해주세요.
+                          메일로 전달이 불가능할 경우, 대표 전화 또는 메일로
+                          연락해주세요.
                         </Typography>
                       </Stack>
                     </Grid>
@@ -256,7 +272,9 @@ const Page = () => {
                     <Grid item xs={10}>
                       <Stack direction="row" spacing={2} alignItems="center">
                         <MyIcon icon="telephone" size={20} />
-                        <Typography variant="body2">Tel 02-6078-3456</Typography>
+                        <Typography variant="body2">
+                          Tel 02-6078-3456
+                        </Typography>
                         <MyIcon icon="mail-fill" size={20} />
                         <Typography variant="body2">
                           E-mail bs.ngs@cj.net
@@ -270,21 +288,38 @@ const Page = () => {
                       <Typography variant="subtitle2">샘플 접수</Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Stack direction="row" spacing={2} alignItems="center">
-                        <Typography variant="subtitle2">NGS 실험실</Typography>
-                        <Typography variant="body2">
-                          (16495) 경기 수원시 영통구 광교로42번길 55 CJ 블로썸파크
-                          블루동 12층
-                        </Typography>
+                      <Stack
+                        direction="column"
+                        spacing={2}
+                        alignItems="flex-start"
+                        justifyContent="center"
+                      >
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems="flex-start"
+                        >
+                          <Typography variant="subtitle2">
+                            NGS 실험실
+                          </Typography>
+                          <Typography variant="body2">
+                            (16495) 경기 수원시 영통구 광교로42번길 55 CJ
+                            블로썸파크 블루동 12층
+                          </Typography>
+                        </Stack>
+                        <Stack direction="row" spacing={1} alignItems="center">
+                          <MyIcon icon="telephone" size={20} />
+                          <Typography variant="body2">031-8077-0670</Typography>
+                        </Stack>
                       </Stack>
                     </Grid>
                     <Grid item xs={2}>
                       <Typography variant="subtitle2">연락처</Typography>
                     </Grid>
                     <Grid item xs={10}>
-                      <Stack direction="row" spacing={2} alignItems="center">
+                      <Stack direction="row" spacing={1} alignItems="center">
                         <MyIcon icon="telephone" size={20} />
-                        <Typography variant="body2">Tel 02-6078-3456</Typography>
+                        <Typography variant="body2">02-6078-3456</Typography>
                         <MyIcon icon="mail-fill" size={20} />
                         <Typography variant="subtitle2">
                           E-mail bs.ngs@cj.net
@@ -298,272 +333,411 @@ const Page = () => {
                   <Typography variant="subtitle2">유의사항</Typography>
                 </Grid>
 
-                {orderNm === 'mtp' ? (
+                {orderNm === "mtp" ? (
                   <>
-                    {serviceParam === 'fs' ? (
+                    {serviceParam === "fs" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각
+                          샘플에 표기 바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           2. 분석 결과는 EzBioCloud로 업로드됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타 환경샘플)은 1개월 후 자동폐기됩니다.
+                          3. DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타
+                          환경샘플)은 1개월 후 자동폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
                           5. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'ao' ? (
+                    {serviceParam === "ao" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           1. 분석 결과는 EzBioCloud로 업로드됩니다.
                         </Typography>
                         <Typography variant="body2">
                           2. 샘플명은 영문, 숫자, -(hyphen)만 입력이 가능합니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          3. 원활한 분석 진행을 위하여 실험에 사용한 primer정보 기재를 권장합니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          3. 원활한 분석 진행을 위하여 실험에 사용한 primer정보
+                          기재를 권장합니다.
                         </Typography>
                         <Typography variant="body2">
                           4. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'so' ? (
+                    {serviceParam === "so" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 주문서 샘플명과 튜브 샘플명의 표기가 매칭되도록 기입해주세요.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 주문서 샘플명과 튜브 샘플명의 표기가 매칭되도록
+                          기입해주세요.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           2. Index 정보는 필수 기입 사항입니다.
                         </Typography>
                         <Typography variant="body2">
                           3. 샘플은 결과발송 1개월 후 자동 폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Sequencing only 서비스는 sequencing raw data만 제공합니다.
+                          4. Sequencing only 서비스는 sequencing raw data만
+                          제공합니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
                   </>
-                ):('')}
+                ) : (
+                  ""
+                )}
 
-                {orderNm === 'shotgun' ? (
+                {orderNm === "shotgun" ? (
                   <>
-                    {serviceParam === 'fs' ? (
+                    {serviceParam === "fs" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각
+                          샘플에 표기 바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석 결과는 EzBioCloud로 업로드됩니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          2. 분석 결과는 HTML 웹리포트로 제공합니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타 환경샘플)은 1개월 후 자동폐기됩니다.
+                          3. DNA는 요청 시에만 반송되며, 샘플(분변, 토양 및 기타
+                          환경샘플)은 1개월 후 자동폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
                           5. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'ao' ? (
+                    {serviceParam === "ao" ? (
                       <Grid item xs={10}>
                         <Typography variant="body2">
                           1. 그룹비교분석을 위해 샘플리스트의
-                          <Typography component='span' variant='body2' sx={{color: cjbsTheme.palette.error.main}}>&nbsp;그룹명</Typography>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: cjbsTheme.palette.error.main }}
+                          >
+                            &nbsp;그룹명
+                          </Typography>
                           과&nbsp;
-                          <Typography component='span' variant='body2' sx={{color: cjbsTheme.palette.error.main}}>그룹비교분석리스트</Typography>
+                          <Typography
+                            component="span"
+                            variant="body2"
+                            sx={{ color: cjbsTheme.palette.error.main }}
+                          >
+                            그룹비교분석리스트
+                          </Typography>
                           를 작성해 주세요.
                         </Typography>
                         <Typography variant="body2">
                           2. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'so' ? (
+                    {serviceParam === "so" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 주문서 샘플명과 튜브 샘플명의 표기가 매칭되도록 기입해주세요.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 주문서 샘플명과 튜브 샘플명의 표기가 매칭되도록
+                          기입해주세요.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           2. Index 정보는 필수 기입 사항입니다.
                         </Typography>
                         <Typography variant="body2">
                           3. 샘플은 결과발송 1개월 후 자동 폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Sequencing only 서비스는 sequencing raw data만 제공합니다.
+                          4. Sequencing only 서비스는 sequencing raw data만
+                          제공합니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
                   </>
-                ):('')}
+                ) : (
+                  ""
+                )}
 
-                {orderNm === 'wg' ? (
+                {orderNm === "wg" ? (
                   <>
-                    {serviceParam === 'fs' ? (
+                    {serviceParam === "fs" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 주문서 샘플명과 접수 튜브명이 매칭되도록
+                          기재바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           2. 분석 결과는 EzBioCloud로 업로드됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. DNA는 요청 시에만 반송드리며,그 외 DNA및 샘플(cell pellet)은1개월 후 자동 폐기됩니다.
+                          3. DNA는 요청 시에만 반송드리며,그 외 DNA및 샘플(cell
+                          pellet)은1개월 후 자동 폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          4. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. 16S rRNA identification(Sanger) 진행 시, QC 기간이 1주일 연장됩니다.
+                          5. 16S rRNA identification(Sanger) 진행 시, QC 기간이
+                          1주일 연장됩니다.
                         </Typography>
                         <Typography variant="body2">
                           6. 분석결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'ao' ? (
+                    {serviceParam === "ao" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           1. 분석 결과는 EzBioCloud로 업로드됩니다.
                         </Typography>
                         <Typography variant="body2">
                           2. Raw data는 fastq 또는 fasta 파일로 전달바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. Strain name과 locus tag 미입력 시, 샘플명으로 대체합니다.
+                          3. Strain name과 locus tag 미입력 시, 샘플명으로
+                          대체합니다.
                         </Typography>
                         <Typography variant="body2">
                           4. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'so' ? (
+                    {serviceParam === "so" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
                           1. 분석결과는 EzBioCloud로 업로드 됩니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          2. 주문서 샘플명과 접수 튜브명이 매칭되도록
+                          기재바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. Index 사용하여 library 제작 진행시, index 정보는 필수기입사항 입니다.
+                          3. Index 사용하여 library 제작 진행시, index 정보는
+                          필수기입사항 입니다.
                         </Typography>
                         <Typography variant="body2">
                           4. 샘플은 결과발송 1개월 후 자동폐기 됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. Sequencing only 서비스는 sequencing raw data만 제공합니다.
+                          5. Sequencing only 서비스는 sequencing raw data만
+                          제공합니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          6. Sequencing raw data는 1년간만 보관 되오니, 만료전에 다운로드 받으시길 바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          6. Sequencing raw data는 1년간만 보관 되오니, 만료전에
+                          다운로드 받으시길 바랍니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
                   </>
-                ):('')}
+                ) : (
+                  ""
+                )}
 
-                {orderNm === 'rs' ? (
+                {orderNm === "rs" ? (
                   <>
-                    {serviceParam === 'fs' ? (
+                    {serviceParam === "fs" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각 샘플에 표기 바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 보내주시는 샘플에는 주문서의 샘플명과 매칭되도록 각
+                          샘플에 표기 바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석 결과는 EzBioCloud로 업로드됩니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          2. 분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                         </Typography>
                         <Typography variant="body2">
                           3. 그룹정보가 있을 경우,그룹명도 함께 기재 바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. Reference Taxonomy와 Accession No. 정보는 분석시에 사용되오니, 정확히 기입 부탁드립니다.
+                          4. Reference Taxonomy와 Accession No. 정보는 분석시에
+                          사용되오니, 정확히 기입 부탁드립니다.
                         </Typography>
                         <Typography variant="body2">
-                          &nbsp;&nbsp;&nbsp;&nbsp;CJ바이오사이언스에서 genome 분석한 균주가 reference인 경우, 비고란에 오더번호를 기입바랍니다.
+                          &nbsp;&nbsp;&nbsp;&nbsp;CJ바이오사이언스에서 genome
+                          분석한 균주가 reference인 경우, 비고란에 오더번호를
+                          기입바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동 폐기됩니다.
+                          5. RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동
+                          폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          6. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          6. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
                           7. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'ao' ? (
+                    {serviceParam === "ao" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 분석 결과는 EzBioCloud로 업로드됩니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 분석결과는 CLRNASeq 소프트웨어로 확인 가능합니다.
                         </Typography>
                         <Typography variant="body2">
                           2. 그룹정보가 있을 경우,그룹명도 함께 기재 바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. Reference Taxonomy와 Accession No. 정보는 분석시에 사용되오니, 정확히 기입 부탁드립니다.
+                          3. Reference Taxonomy와 Accession No. 정보는 분석시에
+                          사용되오니, 정확히 기입 부탁드립니다.
                         </Typography>
                         <Typography variant="body2">
-                          &nbsp;&nbsp;&nbsp;&nbsp;CJ바이오사이언스에서 genome 분석한 균주가 reference인 경우, 비고란에 오더번호를 기입바랍니다.
+                          &nbsp;&nbsp;&nbsp;&nbsp;CJ바이오사이언스에서 genome
+                          분석한 균주가 reference인 경우, 비고란에 오더번호를
+                          기입바랍니다.
                         </Typography>
                         <Typography variant="body2">
-                          4. RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동 폐기됩니다.
+                          4. RNA샘플은 반송이 불가하며,분석완료 후 1개월 후 자동
+                          폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에 데이터센터에서 다운로드 바랍니다.
+                          5. Sequencing raw data 보관기간은 1년이오니, 만료 전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
                           6. 분석 결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
 
-                    {serviceParam === 'so' ? (
+                    {serviceParam === "so" ? (
                       <Grid item xs={10}>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          1. 주문서 샘플명과 접수 튜브명이 매칭되도록 기재바랍니다.
+                        <Typography
+                          variant="body2"
+                          color={cjbsTheme.palette.error.main}
+                        >
+                          1. 주문서 샘플명과 접수 튜브명이 매칭되도록
+                          기재바랍니다.
                         </Typography>
-                        <Typography variant="body2" color={cjbsTheme.palette.error.main}>
-                          2. 분석결과는 EzBioCloud로 업로드 되오니, 위 해당칸에 EzBioCloud ID를 반드기 기재 바랍니다.
+                        {/*<Typography variant="body2" color={cjbsTheme.palette.error.main}>*/}
+                        {/*  2. 분석결과는 EzBioCloud로 업로드 되오니, 위 해당칸에 EzBioCloud ID를 반드기 기재 바랍니다.*/}
+                        {/*</Typography>*/}
+                        <Typography variant="body2">
+                          3. RNA샘플은 반송이 불가하며,서비스 완료 후 1개월 후
+                          자동폐기됩니다.
                         </Typography>
                         <Typography variant="body2">
-                          3. RNA샘플은 반송이 불가하며,서비스 완료 후 1개월 후 자동폐기됩니다.
-                        </Typography>
-                        <Typography variant="body2">
-                          4. Sequencing raw data 보관기간은1년이오니, 만료전에 데이터센터에서 다운로드 바랍니다.
+                          4. Sequencing raw data 보관기간은1년이오니, 만료전에
+                          데이터센터에서 다운로드 바랍니다.
                         </Typography>
                         <Typography variant="body2">
                           5. 분석결과는 연구용으로만 사용이 가능합니다.
                         </Typography>
                       </Grid>
-                    ) : ('')}
+                    ) : (
+                      ""
+                    )}
                   </>
-                ):('')}
-
+                ) : (
+                  ""
+                )}
               </Grid>
             </Box>
 

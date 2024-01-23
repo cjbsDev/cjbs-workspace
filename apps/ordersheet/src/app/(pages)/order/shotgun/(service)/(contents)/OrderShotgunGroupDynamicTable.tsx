@@ -196,17 +196,17 @@ const OrderShotgunGroupSampleDynamicTable = (props) => {
           <ul>
             <li>
               <Typography variant="body2">
-                위 샘플리스트에 작성된 그룹명을 이용하여 그룹 비교 분석의 조건을 작성해주세요
+                위 샘플리스트에 작성된 그룹명을 이용하여 그룹 비교 분석의 조건을 작성해주세요.
               </Typography>
             </li>
             <li>
               <Typography variant="body2">
-                하나의 비교 당 최대 5개까지 가능합니다
+                한 개 세트당 최대 5개 샘플까지 선택 가능합니다.
               </Typography>
             </li>
             <li>
               <Typography variant="body2">
-                샘플리스트의 그룹 수정 시 기존에 입력한 리스트는 초기화됩니다
+                샘플리스트의 그룹 수정 시 기존에 입력한 리스트는 초기화됩니다.
               </Typography>
             </li>
           </ul>

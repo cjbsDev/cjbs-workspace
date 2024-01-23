@@ -29,9 +29,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useRouter } from "next-nprogress-bar";
-import { NumericFormat, NumericFormatProps } from "react-number-format";
-import dynamic from "next/dynamic";
-import LoadingSvg from "public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "@components/LoadingWhiteSvg";
 import MyIcon from "icon/MyIcon";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -61,7 +59,7 @@ export default function Page(props: JSON) {
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string
+    newAlignment: string,
   ) => {
     if (newAlignment === null) return;
     setAlignment(newAlignment);
@@ -254,7 +252,12 @@ export default function Page(props: JSON) {
           inputName="isAgree"
           labelText={
             <Typography variant="body2">
-              <Box sx={{color: cjbsTheme.palette.primary.main}} component="span">개인정보 수집 및 활용</Box>
+              <Box
+                sx={{ color: cjbsTheme.palette.primary.main }}
+                component="span"
+              >
+                개인정보 수집 및 활용
+              </Box>
               에 동의합니다 (필수)
             </Typography>
           }
@@ -264,7 +267,12 @@ export default function Page(props: JSON) {
         />
       </Stack>
 
-      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mt: 4}}>
+      <Stack
+        direction="row"
+        spacing={0.5}
+        justifyContent="center"
+        sx={{ mt: 4 }}
+      >
         <OutlinedButton
           buttonName="이전"
           onClick={() => props.moveBackFocus()}
@@ -276,17 +284,21 @@ export default function Page(props: JSON) {
           buttonName="주문 요청"
           endIcon={
             isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
+              <LoadingWhiteSvg />
             ) : null
           }
         />
       </Stack>
-      <Stack direction="row" spacing={0.5} justifyContent="center" sx={{mt: 2}}>
+      <Stack
+        direction="row"
+        spacing={0.5}
+        justifyContent="center"
+        sx={{ mt: 2 }}
+      >
         <Typography variant="body2" color={cjbsTheme.palette.primary.main}>
           * 담당자 승인 전까지 [내 주문내역] 에서 주문서를 수정할 수 있습니다.
         </Typography>
       </Stack>
-
     </Form>
   );
 }

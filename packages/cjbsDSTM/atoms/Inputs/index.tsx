@@ -5,6 +5,7 @@ import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
 import { useFormContext, ValidationRule } from "react-hook-form";
 import debounce from "lodash.debounce";
+import { EA, Won } from "../../molecules/Adorment";
 
 type InputValidationProps = TextFieldProps & {
   required?: boolean;
@@ -18,6 +19,7 @@ type InputValidationProps = TextFieldProps & {
   maxLengthErrMsg?: string;
   minLengthErrMsg?: string;
   onBlur?: any;
+  onChange?: () => void | undefined;
 };
 export const InputValidation = ({
   required = false,
@@ -30,6 +32,7 @@ export const InputValidation = ({
   maxLengthErrMsg,
   minLengthErrMsg,
   onBlur,
+  onChange,
   ...props
 }: InputValidationProps) => {
   const methods = useFormContext();
@@ -51,6 +54,7 @@ export const InputValidation = ({
             //   debounce(() => {
             //     console.log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", e.target.value);
             //   }),
+            onChange: onChange,
             onBlur: onBlur,
             maxLength: maxLength && {
               value: maxLength ?? 0,
@@ -127,11 +131,72 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         variant="outlined"
         sx={{
           ...props.sx,
-          // ".MuiOutlinedInput-input": {
-          //   pt: "5px",
-          //   pb: "5px",
-          // },
         }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputPriceType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        fullWidth
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+        InputProps={{
+          endAdornment: <Won />,
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputEAType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+        InputProps={{
+          endAdornment: <EA />,
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputNumberType = ({ ...props }: TextFieldProps) => {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        fullWidth
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
       />
     </ThemeProvider>
   );

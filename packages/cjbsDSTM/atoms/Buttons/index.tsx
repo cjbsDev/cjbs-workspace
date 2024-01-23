@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import {
   Typography,
@@ -222,7 +224,6 @@ export const DeletedButton = ({ buttonName, ...props }: CustomButtonProps) => {
         sx={{
           ...props.sx,
         }}
-        startIcon={<MyIcon icon="trash" size={20} />}
       >
         {buttonName}
       </Button>

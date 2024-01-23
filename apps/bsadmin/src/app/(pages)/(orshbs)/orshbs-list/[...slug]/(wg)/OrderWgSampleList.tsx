@@ -29,7 +29,7 @@ import { cjbsTheme } from "cjbsDSTM";
 import OrderWgSampleDynamicTable from "./OrderWgSampleDynamicTable";
 import {useParams} from "next/navigation";
 import NoticeBox from "../../../orsh-order/in/mtp/(service)/(contents)/NoticeBox";
-import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import {useRouter} from "next-nprogress-bar";
 
 const LazyPrepSelectbox = dynamic(
@@ -170,7 +170,7 @@ export default function OrderWgSampleList(props: any) {
             buttonName="주문 수정"
             endIcon={
               isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
+                <LoadingWhiteSvg />
               ) : null
             }
           />
