@@ -27,7 +27,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -45,7 +45,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 // 영업 담당자 선택
@@ -54,7 +54,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 const TSRegView = () => {
@@ -290,15 +290,15 @@ const TSRegView = () => {
         </ErrorContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
+          <OutlinedButton
+            buttonName="목록"
+            onClick={() => router.push("/ledger-ts-list/")}
+          />
           <ContainedButton
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>

@@ -4,9 +4,18 @@ import { useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useFormContext } from "react-hook-form";
-import {Box, Chip, Grid, Stack, styled, Typography, TypographyProps} from "@mui/material";
 import {
-  cjbsTheme, ContainedButton,
+  Box,
+  Chip,
+  Grid,
+  Stack,
+  styled,
+  Typography,
+  TypographyProps,
+} from "@mui/material";
+import {
+  cjbsTheme,
+  ContainedButton,
   DataCountResultInfo,
   DataTableBase,
   DataTableFilter,
@@ -14,9 +23,6 @@ import {
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
-// import LoadingSvg from "*.svg";
-// import {log} from "util";
-
 
 const AnalysisListDataTable = (props: {
   selectSampleList: any;
@@ -25,8 +31,13 @@ const AnalysisListDataTable = (props: {
   // handleSelectedRowChange: any;
   handleAddSampleList: any;
 }) => {
-
-  const { selectSampleList, onClose, getOrderUkey, handleAddSampleList, viewType } = props;
+  const {
+    selectSampleList,
+    onClose,
+    getOrderUkey,
+    handleAddSampleList,
+    viewType,
+  } = props;
   const APIPATH = `/anls/itst/${getOrderUkey}/sample/list`;
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", getOrderUkey)
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", APIPATH)
@@ -65,8 +76,7 @@ const AnalysisListDataTable = (props: {
         name: "서비스 타입",
         sortable: false,
         center: true,
-        selector: (row) =>
-          row.srvcTypeVal === null ? "-" : row.srvcTypeVal,
+        selector: (row) => (row.srvcTypeVal === null ? "-" : row.srvcTypeVal),
       },
       {
         name: "접수",
@@ -325,9 +335,14 @@ const AnalysisListDataTable = (props: {
         width: "100px",
         sortable: false,
         center: true,
-        selector: (row) => (row.isAnlsItst === "N"
-          ? <Typography variant="body2" color={cjbsTheme.palette.primary.main }>등록가능</Typography>
-          : "-"),
+        selector: (row) =>
+          row.isAnlsItst === "N" ? (
+            <Typography variant="body2" color={cjbsTheme.palette.primary.main}>
+              등록가능
+            </Typography>
+          ) : (
+            "-"
+          ),
       },
     ],
     []
@@ -335,18 +350,32 @@ const AnalysisListDataTable = (props: {
 
   const rowSelectCritera = useCallback((row) => {
     //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", selectSampleList)
-    if(selectSampleList != undefined && selectSampleList.length > 0){
-      setSelectSampleIdArray(selectSampleList)
+    if (selectSampleList != undefined && selectSampleList.length > 0) {
+      setSelectSampleIdArray(selectSampleList);
       // console.log("!!selectSampleList : ", selectSampleList);
       // console.log("!!row data : ", row);
       // console.log("!!row.sampleId : ", row.sampleId);
       // console.log("!! : ", selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey)));
       // 배열안에 값이 row에 sampleId 와 같다면 true
       // if(selectSampleList.includes(row)) return true;
-      if(selectSampleList.find(list => Object.keys(list).includes('sampleUkeyList'))){
-        if(selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey))) return true;
+      if (
+        selectSampleList.find((list) =>
+          Object.keys(list).includes("sampleUkeyList")
+        )
+      ) {
+        if (
+          selectSampleList.find((list) =>
+            list.sampleUkeyList.includes(row.sampleUkey)
+          )
+        )
+          return true;
       } else {
-        if(selectSampleList.find(list => list.sampleUkey.includes(row.sampleUkey))) return true;
+        if (
+          selectSampleList.find((list) =>
+            list.sampleUkey.includes(row.sampleUkey)
+          )
+        )
+          return true;
       }
     }
   }, []);
@@ -355,32 +384,45 @@ const AnalysisListDataTable = (props: {
     // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
     // console.log("!!selectSampleList : ", selectSampleList);
     // 수정화면에선 기존에 선택했던 항목에 대해서도 재수정이 될수있기 때문에 disable처리 하지않는다.
-    if(viewType === "update") {
-      if(selectSampleList.find(list => Object.keys(list).includes('sampleUkeyList'))){
-        if(selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey))) return false;
+    if (viewType === "update") {
+      if (
+        selectSampleList.find((list) =>
+          Object.keys(list).includes("sampleUkeyList")
+        )
+      ) {
+        if (
+          selectSampleList.find((list) =>
+            list.sampleUkeyList.includes(row.sampleUkey)
+          )
+        )
+          return false;
       } else {
-        if(selectSampleList.find(list => list.sampleUkey.includes(row.sampleUkey))) return false;
+        if (
+          selectSampleList.find((list) =>
+            list.sampleUkey.includes(row.sampleUkey)
+          )
+        )
+          return false;
       }
-      if(row.isAnlsItst === "Y"){
+      if (row.isAnlsItst === "Y") {
         // console.log("!!row data : ", row);
         // row에 isAnlsItst 값이 Y면 true
         return true;
       }
     } else {
-      if(row.isAnlsItst === "Y"){
+      if (row.isAnlsItst === "Y") {
         // console.log("!!row data : ", row);
         // row에 isAnlsItst 값이 Y면 true
         return true;
       }
     }
-
   }, []);
 
   const handleSelectedRowChange1 = ({ selectedRows }: any) => {
     // const getSampleIdList = selectedRows.map((row) => row.sampleId);
     // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", getSampleIdList)
-    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", selectedRows)
-    setSelectSampleIdArray(selectedRows)
+    console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", selectedRows);
+    setSelectSampleIdArray(selectedRows);
   };
 
   const setSampleData = () => {
@@ -421,9 +463,8 @@ const AnalysisListDataTable = (props: {
         </Grid>
       </Grid>
     );
-  // }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
+    // }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
   }, [filterText, resetPaginationToggle]);
-
 
   return (
     <>
@@ -444,11 +485,7 @@ const AnalysisListDataTable = (props: {
         pagination={false}
       />
       <Stack direction="row" spacing={0.5} justifyContent="center" mt={5}>
-        <OutlinedButton
-          size="small"
-          buttonName="닫기"
-          onClick={onClose}
-        />
+        <OutlinedButton size="small" buttonName="닫기" onClick={onClose} />
 
         <ContainedButton
           size="small"
@@ -462,7 +499,6 @@ const AnalysisListDataTable = (props: {
 };
 
 export default AnalysisListDataTable;
-
 
 const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
   lineHeight: 1,

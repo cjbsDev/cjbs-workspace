@@ -21,19 +21,21 @@ import {
   TH,
   Title1,
   SingleDatePicker,
+  CheckboxGV,
   SelectBox,
 } from "cjbsDSTM";
 
 import * as React from "react";
-import { useCallback, useState } from "react";
-// import LoadingSvg from "public/svg/loading_wh.svg";
+import { useCallback, useState, useEffect } from "react";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import Image from "next/image";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { toast } from "react-toastify";
-import { useForm } from "react-hook-form";
+import { useFormContext, useForm } from "react-hook-form";
+
 import dayjs from "dayjs";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
 import DynamicTableQttn from "../../../components/DynamicTableQttn";
@@ -45,7 +47,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 // 영업 담당자 선택
@@ -54,22 +56,41 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
-const TSRegView = () => {
+const QTTNRegView = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const { mutate } = useSWRConfig();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { mutate } = useSWRConfig();
   const methods = useForm();
   const {
     getValues,
     getFieldState,
+    setValue,
     watch,
     formState: { errors, isDirty },
   } = methods;
+
+  // const { watch, getValues, setValue } = useFormContext();
+
+  const agncType = watch("agncTypeCc"); // agncTypeCc 필드의 값 감시
+  const qttnTypeCcSelect = watch("qttnTypeCc"); // agncTypeCc 필드의 값 감시
+  // console.log("qttnTypeCcSelect --", qttnTypeCcSelect);
+  // console.log("agncType --", agncType);
+
+  // agncType 값에 따라 agncUkey와 agncNm 초기화 및 거래처 검색 버튼 표시 여부 결정
+  // useEffect(() => {
+  //   if (agncType === "A") {
+  //     console.log("set agncType", agncType);
+  //     // 잠재고객 선택 시
+  //     setValue("agncUkey", "");
+  //     setValue("agncNm", "");
+  //   }
+  //   console.log("agncType", agncType);
+  //   console.log("qttnTypeCcSelect", qttnTypeCcSelect);
+  // }, [agncType, qttnTypeCcSelect, setValue]);
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
@@ -92,22 +113,31 @@ const TSRegView = () => {
     console.log("data", data);
 
     const bodyData = {
-      tdstTypeCc: data.tdstTypeCc, // 유형
+      qttnTypeCc: data.qttnTypeCc, // 유형
       agncUkey: data.agncUkey,
-      conm: data.conm,
-      nm: data.nm,
-      tel: data.tel,
-      memo: data.memo,
-      wdtDate: dayjs(data.wdtDate).format("YYYY-MM-DD"),
+      agncInstNm: data.agncNm,
+      qttnDate: dayjs(data.qttnDate).format("YYYY-MM-DD"),
       bsnsMngrUkey: data.bsnsMngrUkey,
 
-      productDetailList: data.productDetailList,
-      totalPrice: Number(data.totalPrice),
-      totalSupplyPrice: Number(data.totalSupplyPrice),
-      vat: Number(data.vat),
-    };
+      rcvInstNm: data.rcvInstNm,
+      rcvNm: data.rcvNm,
+      rcvTel: data.rcvTel,
+      validPerd: data.validPerd,
 
-    const apiUrl: string = `/tdst`;
+      productDetailList: data.productDetailList,
+
+      pymtTypeCc: data.pymtTypeCc,
+      pymtMemo: data.pymtMemo,
+      memo: data.memo,
+
+      totalPrice: data.totalPrice,
+      totalSupplyPrice: data.totalSupplyPrice,
+      vat: data.vat,
+    };
+    // 기존 고객 거래처 검색 -> 해당 거래처 담당자가 세팅
+    // 잠재 고객 -> 견적 담당
+    console.log("bodyData", bodyData);
+    const apiUrl: string = `/qttn`;
     await POST(apiUrl, bodyData)
       .then((response) => {
         console.log("POST request successful:", response);
@@ -115,7 +145,7 @@ const TSRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/ledger-ts-list");
+          router.push("/qttn-list");
         } else {
           toast(response.message);
         }
@@ -136,7 +166,7 @@ const TSRegView = () => {
 
   const agncTypeCcData = [
     { value: "A", optionName: "잠재고객" },
-    { value: "B", optionName: "신규고객" },
+    { value: "B", optionName: "기존고객" },
   ];
 
   const validPerdData = [
@@ -150,9 +180,22 @@ const TSRegView = () => {
     },
   ];
 
+  const pymtTypeCcData = [
+    { value: "BS_1300002", optionName: "카드결제" },
+    { value: "BS_1300001", optionName: "계좌이체" },
+  ];
+
+  const defaultValues = {
+    qttnTypeCc: "BS_2400001",
+    agncTypeCc: "B",
+    qttnDate: new Date(), // 기본 오늘 날짜 선택
+    pymtTypeCc: ["BS_1300002", "BS_1300001"],
+    pymtMemo: "분석완료 통보 후 1주일 내",
+  };
+
   return (
     <>
-      <Form onSubmit={onSubmit}>
+      <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
           <Title1 titleName={"견적서 등록"} />
         </Box>
@@ -184,9 +227,6 @@ const TSRegView = () => {
                       inputName="agncNm"
                       sx={{ width: 600 }}
                       required={true}
-                      InputProps={{
-                        readOnly: true,
-                      }}
                     />
 
                     <InputValidation
@@ -207,11 +247,11 @@ const TSRegView = () => {
                 </TD>
               </TableRow>
               <TableRow>
-                <TH sx={{ width: "15%" }}>작성일</TH>
+                <TH sx={{ width: "15%" }}>견적일</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Box sx={{ width: "670px" }}>
                     <SingleDatePicker
-                      inputName="wdtDate"
+                      inputName="qttnDate"
                       required={true}
                       width="600px"
                     />
@@ -220,7 +260,7 @@ const TSRegView = () => {
               </TableRow>
 
               <TableRow>
-                <TH sx={{ width: "15%" }}>영업 담당자</TH>
+                <TH sx={{ width: "15%" }}>견적담당</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazySalesManagerSelctbox />
@@ -242,7 +282,7 @@ const TSRegView = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
-                      inputName="conm"
+                      inputName="rcvInstNm"
                       required={true}
                       errorMessage="필수 값입니다."
                       maxLength={20}
@@ -257,7 +297,7 @@ const TSRegView = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
-                      inputName="nm"
+                      inputName="rcvNm"
                       required={true}
                       errorMessage="필수 값입니다."
                       maxLength={20}
@@ -272,7 +312,7 @@ const TSRegView = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
-                      inputName="tel"
+                      inputName="rcvTel"
                       required={false}
                       maxLength={30}
                       maxLengthErrMsg="30자 이내로 입력해주세요."
@@ -314,13 +354,10 @@ const TSRegView = () => {
                 <TH sx={{ width: "15%" }}>지불조건</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="conm"
-                      required={true}
-                      errorMessage="필수 값입니다."
-                      maxLength={20}
-                      maxLengthErrMsg="20자 이내로 입력해주세요."
-                      sx={{ width: 600 }}
+                    <CheckboxGV
+                      data={pymtTypeCcData}
+                      inputName="pymtTypeCc"
+                      required={false}
                     />
                   </Stack>
                 </TD>
@@ -330,9 +367,8 @@ const TSRegView = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
-                      inputName="nm"
-                      required={true}
-                      errorMessage="필수 값입니다."
+                      inputName="pymtMemo"
+                      required={false}
                       maxLength={20}
                       maxLengthErrMsg="20자 이내로 입력해주세요."
                       sx={{ width: 600 }}
@@ -370,21 +406,15 @@ const TSRegView = () => {
         </ErrorContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
+          <OutlinedButton
+            buttonName="목록"
+            onClick={() => router.push("/qttn-list/")}
+          />
           <ContainedButton
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                // <LoadingSvg stroke="white" width={20} height={20} />
-                <Image
-                  alt="Loading..."
-                  src="/public/svg/loading_wh.svg"
-                  width={20}
-                  height={20}
-                />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>
@@ -392,4 +422,4 @@ const TSRegView = () => {
   );
 };
 
-export default TSRegView;
+export default QTTNRegView;

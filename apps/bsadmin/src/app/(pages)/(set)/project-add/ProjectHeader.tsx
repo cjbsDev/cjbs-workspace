@@ -20,7 +20,7 @@ import {
   Stack,
   Grid,
 } from "@mui/material";
-import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../components/SkeletonLoading";
 import { PUT, POST } from "api";
@@ -179,11 +179,7 @@ const ProjectHeader = () => {
           <ContainedButton
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
 

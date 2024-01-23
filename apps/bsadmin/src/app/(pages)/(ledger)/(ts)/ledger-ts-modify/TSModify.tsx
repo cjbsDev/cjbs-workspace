@@ -25,7 +25,6 @@ import {
   SingleDatePicker,
 } from "cjbsDSTM";
 import { useCallback, useState, useRef, useEffect } from "react";
-import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, PUT } from "api";
 import { useParams, useSearchParams } from "next/navigation";
@@ -34,6 +33,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useRecoilState } from "recoil";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 import TypeSelectRadio from "../../../../components/TypeSelectRadio";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
@@ -46,7 +46,7 @@ const LazyAgncSearchModal = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 // 영업 담당자 선택
@@ -55,7 +55,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 const TSRegView = () => {
@@ -322,121 +322,6 @@ const TSRegView = () => {
         <DynamicTable />
         <DynamicSumTable />
 
-        {/* 분석내역표 */}
-        {/*         
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAnalysisSampleDynamicTable
-            setSelectSampleListData={setSelectSampleListData}
-            selectSampleList={selectSampleList}
-          />
-        </ErrorContainer>
-
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>총 공급가액</TH>
-                <TD sx={{ width: "35%" }}>
-                  <InputValidation
-                    inputName="totalSupplyPriceVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="totalSupplyPrice"
-                    required={true}
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-                <TH sx={{ width: "15%" }}>부가세</TH>
-                <TD sx={{ width: "35%" }}>
-                  <InputValidation
-                    inputName="vatVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="vat"
-                    required={true}
-                    // errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>합계금액</TH>
-                <TD sx={{ width: "85%" }} colSpan={3}>
-                  <InputValidation
-                    inputName="totalPriceVal"
-                    required={true}
-                    sx={{
-                      width: "100%",
-                      ".MuiOutlinedInput-input": {
-                        textAlign: "end",
-                      },
-                      "&.MuiTextField-root": {
-                        backgroundColor: "#F1F3F5",
-                      },
-                    }}
-                    InputProps={{
-                      readOnly: true,
-                      endAdornment: (
-                        <InputAdornment position="end">
-                          <Typography variant="body2" sx={{ color: "black" }}>
-                            원
-                          </Typography>
-                        </InputAdornment>
-                      ),
-                    }}
-                  />
-                  <InputValidation
-                    inputName="totalPrice"
-                    required={true}
-                    // errorMessage="아이디(이메일) 입력해 주세요."
-                    sx={{ width: "100%", display: "none" }}
-                  />
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer> */}
-
         {/* 거래처 검색 모달*/}
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAgncSearchModal
@@ -456,11 +341,7 @@ const TSRegView = () => {
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>

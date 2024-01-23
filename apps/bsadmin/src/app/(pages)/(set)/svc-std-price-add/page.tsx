@@ -3,7 +3,7 @@ import { ContainedButton, Form, OutlinedButton, Title1 } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import * as React from "react";
 import BasicInfo from "./BasicInfo";
-import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 
@@ -59,11 +59,7 @@ export default function Page() {
         <ContainedButton
           type="submit"
           buttonName="등록"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+          endIcon={isLoading ? <LoadingWhiteSvg /> : null}
         />
       </Stack>
     </Form>

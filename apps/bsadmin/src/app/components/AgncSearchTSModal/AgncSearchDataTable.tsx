@@ -46,8 +46,11 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
           agncUkey: string;
           agncNm: string;
           instNm: string;
+          bsnsMngrUkey: string;
+          bsnsMngrNm: string;
         }) => {
-          const { agncId, agncUkey, agncNm, instNm } = row;
+          const { agncId, agncUkey, agncNm, instNm, bsnsMngrUkey, bsnsMngrNm } =
+            row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
 
           return (
@@ -57,10 +60,14 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
               onClick={() => {
                 setValue("agncNm", agncInstNm);
                 setValue("agncUkey", agncUkey);
+                setValue("bsnsMngrUkey", bsnsMngrUkey);
+                // setValue("bsnsMngrNm", bsnsMngrNm);
 
                 onClose();
                 clearErrors("agncNm");
                 clearErrors("agncUkey");
+                clearErrors("bsnsMngrUkey");
+                clearErrors("bsnsMngrNm");
                 resetField("checkTest7");
               }}
             />
@@ -71,9 +78,9 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
     [clearErrors, onClose, resetField, setValue, type]
   );
 
-  //console.log("data.custList", data.custList);
   const filteredData = data.agncList;
-
+  // console.log("거래처 검색 모달", filteredData);
+  //bsnsMngrNm
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
