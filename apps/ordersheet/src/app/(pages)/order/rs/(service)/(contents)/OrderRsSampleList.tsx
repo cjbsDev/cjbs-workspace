@@ -26,7 +26,7 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "@components/LoadingWhiteSvg";
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import ExcelUploadModal from "@app/(pages)/order/mtp/(service)/(contents)/ExcelUploadModal";
@@ -165,7 +165,7 @@ export default function OrderRsSampleList(props: any) {
           buttonName="다음"
           endIcon={
             isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
+              <LoadingWhiteSvg />
             ) : null
           }
         />

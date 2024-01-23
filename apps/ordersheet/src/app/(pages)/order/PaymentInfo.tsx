@@ -29,7 +29,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useRouter } from "next-nprogress-bar";
-import LoadingSvg from "../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "@components/LoadingWhiteSvg";
 import MyIcon from "icon/MyIcon";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
@@ -284,7 +284,7 @@ export default function Page(props: JSON) {
           buttonName="주문 요청"
           endIcon={
             isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
+              <LoadingWhiteSvg />
             ) : null
           }
         />

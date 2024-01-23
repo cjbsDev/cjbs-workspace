@@ -28,7 +28,7 @@ import {
   TH,
   Title1,
 } from "cjbsDSTM";
-import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import { POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -756,7 +756,7 @@ const AnalysisRegView = () => {
                   buttonName="저장"
                   endIcon={
                     isLoading ? (
-                      <LoadingSvg stroke="white" width={20} height={20} />
+                      <LoadingWhiteSvg />
                     ) : null
                   }
                 />
