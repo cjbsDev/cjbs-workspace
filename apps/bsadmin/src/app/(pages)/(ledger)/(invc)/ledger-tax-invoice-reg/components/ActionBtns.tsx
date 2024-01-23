@@ -1,10 +1,10 @@
 import React from "react";
 import Link from "next/link";
 import { ContainedButton, OutlinedButton } from "cjbsDSTM";
-import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import { Stack } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
+import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 
 interface ActionBtnsProps {
   isLoading: boolean;
@@ -35,11 +35,7 @@ const ActionBtns = ({ isLoading, isDisabled }: ActionBtnsProps) => {
           size="small"
           type="submit"
           buttonName={isTypeBtnName}
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+          endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           disabled={isDisabled}
         />
       )}

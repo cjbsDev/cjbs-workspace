@@ -26,7 +26,7 @@ import {
 
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "public/svg/loading_wh.svg";
+// import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import Image from "next/image";
 import { fetcher, POST } from "api";
@@ -377,7 +377,12 @@ const TSRegView = () => {
             endIcon={
               isLoading ? (
                 // <LoadingSvg stroke="white" width={20} height={20} />
-                <Image alt="" src={LoadingSvg} />
+                <Image
+                  alt="Loading..."
+                  src="/public/svg/loading_wh.svg"
+                  width={20}
+                  height={20}
+                />
               ) : null
             }
           />
