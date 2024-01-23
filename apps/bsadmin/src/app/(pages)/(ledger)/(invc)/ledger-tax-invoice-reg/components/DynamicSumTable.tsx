@@ -18,11 +18,11 @@ const DynamicSumTable = () => {
     control,
   });
 
-  console.log("Product Sum Vaule ==>>", productValue);
+  // console.log("Product Sum Vaule ==>>", productValue);
 
   const totalSupplyPrice = productValue.reduce(
     (sum, item) => sum + item.supplyPrice,
-    0,
+    0
   );
   const vatValue = totalSupplyPrice * 0.1;
   const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;

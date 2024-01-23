@@ -19,7 +19,7 @@ const DynamicSumTable = () => {
       control,
     }) || []; // productValue가 undefined일 경우 빈 배열을 기본값으로 사용
 
-  console.log("Product Sum Vaule ==>>", productValue);
+  // console.log("Product Sum Vaule ==>>", productValue);
 
   const totalSupplyPrice = productValue.reduce(
     (sum, item) => sum + (item.supplyPrice || 0), // item.supplyPrice가 undefined일 경우 0을 기본값으로 사용
