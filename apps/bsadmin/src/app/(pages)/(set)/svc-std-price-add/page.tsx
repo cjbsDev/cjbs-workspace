@@ -25,15 +25,16 @@ export default function Page() {
       srvcTypeMc: data.srvcTypeMc,
     };
 
-    console.log("==saveObj", saveObj);
+    console.log("!!!==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice`; // Replace with your API URL
+    const apiUrl = `/mngr/stndPrice`; // Replace with your API URL
 
     await POST(apiUrl, saveObj)
       .then((response) => {
-        console.log("request successful:", response.data);
-        if (response.data.success) {
+        console.log("request successful:", response);
+        // console.log("request successful:", response.data);
+        if (response.success) {
           router.push("/svc-std-price-list");
           setIsLoading(false);
         }
