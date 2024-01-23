@@ -225,7 +225,8 @@ const ListRun = () => {
     if(srvcCtgrVal === "Analysis") {
       router.push("/ledger-analysis-report-list/" + path);
     } else if (srvcCtgrVal === "License") {
-      router.push("/ledger-license-report-list/" + path);
+      alert('준비중...')
+      // router.push("/ledger-license-report-list/" + path);
     }
   };
 

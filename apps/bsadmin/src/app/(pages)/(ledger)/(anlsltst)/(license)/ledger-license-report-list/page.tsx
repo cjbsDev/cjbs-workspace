@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 
-const LazyAnalysisRegView = dynamic(() => import("./AnalysisRegView"), {
+const LazyDataList = dynamic(() => import("./ListRun"), {
   ssr: false,
   loading: () => <SkeletonTableModalLoading />,
 });
@@ -11,7 +11,7 @@ const LazyAnalysisRegView = dynamic(() => import("./AnalysisRegView"), {
 export default function Page() {
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyAnalysisRegView />
+      <LazyDataList />
     </ErrorContainer>
   );
 };
