@@ -3,10 +3,7 @@
 import dynamic from "next/dynamic";
 import {
   Box,
-  BoxProps,
-  InputAdornment,
   Stack,
-  styled,
   Table,
   TableBody,
   TableContainer,
@@ -29,8 +26,9 @@ import {
 
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "../../../../../public/svg/loading_wh.svg";
+// import LoadingSvg from "public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
+import Image from "next/image";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
@@ -378,7 +376,13 @@ const TSRegView = () => {
             buttonName="저장"
             endIcon={
               isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
+                // <LoadingSvg stroke="white" width={20} height={20} />
+                <Image
+                  alt="Loading..."
+                  src="/public/svg/loading_wh.svg"
+                  width={20}
+                  height={20}
+                />
               ) : null
             }
           />
