@@ -42,7 +42,7 @@ const FileUploadModal = (props) => {
     setIsDis(true);
   };
 
-  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/order/${orderUkey}/file`;
+  const apiUrl = `/order/${orderUkey}/file`;
   const onSubmit = async (data: any) => {
     console.log("SUMMIT FORM DATA ==>>", data);
     setIsLoading(true);
@@ -58,7 +58,7 @@ const FileUploadModal = (props) => {
     const formData = new FormData();
     formData.append(
       "user-data",
-      new Blob([JSON.stringify(bodyData)], { type: "application/json" })
+      new Blob([JSON.stringify(bodyData)], { type: "application/json" }),
     );
 
     console.log("BODYDATAFORM ==>>", formData);
