@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -12,28 +12,22 @@ import {
   Form,
   PostCodeBtn,
   CheckboxSV,
-  SelectBox,
 } from "cjbsDSTM";
 import {
   Typography,
-  Container,
   Box,
   Stack,
   Table,
   TableRow,
   TableBody,
-  FormControlLabel,
-  MenuItem,
   TableContainer,
 } from "@mui/material";
-import { fetcher, POST } from "api";
+import { POST } from "api";
 import { useForm, FormProvider, useWatch } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
-
-import axios from "axios";
-import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
@@ -417,11 +411,7 @@ const AgncAdd = () => {
         <ContainedButton
           type="submit"
           buttonName="저장"
-          endIcon={
-            isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
-            ) : null
-          }
+          endIcon={isLoading ? <LoadingWhiteSvg /> : null}
         />
       </Stack>
     </Form>

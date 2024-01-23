@@ -21,6 +21,7 @@
     "@mui/styled-engine-sc": "6.0.0-alpha.12",
     "@svgr/webpack": "^8.0.1",
     "@types/react-lines-ellipsis": "^0.15.5",
+    "@types/styled-components": "^5.1.28",
     "api": "workspace:*",
     "chart.js": "^4.4.0",
     "chartjs-plugin-datalabels": "^2.2.0",

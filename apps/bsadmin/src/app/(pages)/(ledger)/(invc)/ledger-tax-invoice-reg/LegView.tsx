@@ -14,6 +14,8 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 
 const LegView = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
   const router = useRouter();
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
@@ -34,8 +36,7 @@ const LegView = () => {
     return null;
   }, [data]);
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
 
   const defaultValues = {
     pymtInfoCc: "BS_1914001",
@@ -76,26 +77,30 @@ const LegView = () => {
       delete bodyData.pyrNm;
     }
 
-    console.log("BODY DATA ==>>", bodyData);
+    console.log("세금계산서 BODY DATA ==>>", bodyData);
 
     try {
       // 요청 타입에 따른 API 호출
       const apiCall = type === "modify" ? PUT : POST;
       const res = await apiCall(`/invc`, bodyData);
 
+      console.log("RES", res);
+
       if (res.success) {
         type === "modify"
           ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
           : router.push("/ledger-tax-invoice-list");
+        setIsDisabled(true);
       } else {
         toast.error(res.message);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error submitting form", error);
       toast.error("폼 제출 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
-      setIsDisabled(true);
+      // setIsDisabled(true);
     }
   };
 

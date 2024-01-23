@@ -29,7 +29,6 @@ import axios from "axios";
 import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
-import LoadingSvg from "../../../../../../../public/svg/loading_wh.svg";
 import { useRecoilState } from "recoil";
 import { groupUseStatusAtom } from "../../../../../recoil/atoms/groupUseStatusAtom";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";

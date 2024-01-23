@@ -70,10 +70,12 @@ const TaxInvoiceInfo = () => {
   console.log("INVOICE INIT DATA", data);
   const {
     agncId,
+    agncInstNm,
     agncNm,
     agncUkey,
     brno,
     bsnsMngrUkey,
+    bsnsMngrNm,
     bsnsMngrVal,
     dpstDttm,
     dpstPrice,
@@ -141,7 +143,7 @@ const TaxInvoiceInfo = () => {
                   >
                     <Stack direction="row" spacing={1}>
                       <Typography variant="body2">
-                        [{agncUkey}]{agncNm}({instNm})
+                        [{agncUkey}]{agncNm}({agncInstNm})
                       </Typography>
                       {isSpecialMng === "Y" && (
                         <MyIcon
@@ -157,7 +159,7 @@ const TaxInvoiceInfo = () => {
                   </Stack>
                 </TD>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                <TD sx={{ width: "35%" }}>{bsnsMngrVal}</TD>
+                <TD sx={{ width: "35%" }}>{bsnsMngrNm}</TD>
               </TableRow>
             </TableBody>
           </Table>
@@ -481,7 +483,7 @@ const TaxInvoiceInfo = () => {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "15%" }}>상태</TH>
-                <TD sx={{ width: pymtInfoCc === "BS_1914002" ? "35%" : null }}>
+                <TD sx={{ width: pymtInfoCc === "BS_1914002" ? "15%" : null }}>
                   <Chip
                     label={statusVal}
                     size="small"
@@ -570,6 +572,7 @@ const TaxInvoiceInfo = () => {
 
       {/* 계산서 발행 모달 */}
       <AccountStatementModal
+        pymtInfoCc={pymtInfoCc}
         onClose={handleAccountStatementModalClose}
         open={accountStatementModalOpen}
         modalWidth={440}

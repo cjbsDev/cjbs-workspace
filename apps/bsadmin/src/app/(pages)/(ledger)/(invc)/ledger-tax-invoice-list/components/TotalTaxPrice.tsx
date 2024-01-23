@@ -9,33 +9,76 @@ const TotalTaxPrice = () => {
     suspense: true,
   });
 
-  const totalReqPrice = data.totalReqPrice;
-  const totalIssuPrice = data.totalIssuPrice;
+  const { totalSupplyPrice, totalVat, totalPrice } = data;
+  console.log(data);
 
   return (
     <Stack
       direction="row"
       alignItems="center"
-      spacing={2}
+      justifyContent="flex-end"
+      spacing={3}
       sx={{
-        backgroundColor: cjbsTheme.palette.grey["100"],
-        p: 2,
+        // backgroundColor: cjbsTheme.palette.grey["100"],
+        p: 1.5,
+        pt: 2,
         mb: 1,
-        borderRadius: 2,
+        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
       }}
     >
-      <Box component="dl" sx={{ display: "flex" }}>
-        <Box component="dt" sx={{ mr: 1, fontWeight: 600 }}>
-          총 요청 금액:
+      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          component="dt"
+          sx={{
+            mr: 1,
+            fontWeight: 600,
+            // py: 2,
+            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+          }}
+        >
+          총 공급금액:
         </Box>
-        <Box component="dd">{formatNumberWithCommas(totalReqPrice)}</Box>
+        <Box
+          component="dd"
+          sx={
+            {
+              // py: 2,
+              // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+            }
+          }
+        >
+          {formatNumberWithCommas(totalSupplyPrice)}원
+        </Box>
       </Box>
 
-      <Box component="dl" sx={{ display: "flex" }}>
-        <Box component="dt" sx={{ mr: 1, fontWeight: 600 }}>
-          총 발행 금액:
+      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          component="dt"
+          sx={{
+            mr: 1,
+            fontWeight: 600,
+            // py: 2,
+            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+          }}
+        >
+          총 부가세:
         </Box>
-        <Box component="dd">{formatNumberWithCommas(totalIssuPrice)}</Box>
+        <Box component="dd">{formatNumberWithCommas(totalVat)}원</Box>
+      </Box>
+
+      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
+        <Box
+          component="dt"
+          sx={{
+            mr: 1,
+            fontWeight: 600,
+            // py: 2,
+            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+          }}
+        >
+          총 합계금액:
+        </Box>
+        <Box component="dd">{formatNumberWithCommas(totalPrice)}원</Box>
       </Box>
     </Stack>
   );

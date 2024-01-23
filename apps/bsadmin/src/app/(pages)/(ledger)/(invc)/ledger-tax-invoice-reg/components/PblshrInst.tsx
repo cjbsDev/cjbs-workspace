@@ -46,7 +46,7 @@ const PblshrInst = () => {
                     // }}
                   />
                   <InputValidation
-                    // sx={{ display: "none" }}
+                    sx={{ display: "none" }}
                     inputName="instUkey"
                     required={true}
                     errorMessage="키값 입력하세요."

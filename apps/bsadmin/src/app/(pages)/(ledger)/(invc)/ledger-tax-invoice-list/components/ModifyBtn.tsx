@@ -17,15 +17,19 @@ const ModifyBtn = ({ invcUkey, agncUkey, issuDttm }: ModifyBtnProps) => {
     // const isAfter = date1.isAfter(date2);
     // console.log("date1이 date2보다 이후인가?", isAfter);
 
-    const currentMonth = dayjs().format("YYYY-MM");
-    const issuMonth = dayjs(issuDttm).format("YYYY-MM");
-    if (currentMonth !== issuMonth) {
-      toast("당월에만 등록 및 수정이 가능합니다.");
-    } else {
-      router.push(
-        `/tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
-      );
-    }
+    // const currentMonth = dayjs().format("YYYY-MM");
+    // const issuMonth = dayjs(issuDttm).format("YYYY-MM");
+    // if (currentMonth !== issuMonth) {
+    //   toast("당월에만 등록 및 수정이 가능합니다.");
+    // } else {
+    //   router.push(
+    //     `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
+    //   );
+    // }
+
+    router.push(
+      `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
+    );
   };
 
   return (

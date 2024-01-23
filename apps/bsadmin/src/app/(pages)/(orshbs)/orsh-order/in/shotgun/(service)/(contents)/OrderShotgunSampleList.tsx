@@ -21,7 +21,7 @@ import {
 } from "cjbsDSTM";
 import React, { useState, useRef } from "react";
 import dynamic from "next/dynamic";
-import LoadingSvg from "../../../../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../../../../components/LoadingWhiteSvg";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
 import OrderSelectbox from "@components/OrderSelectbox";
@@ -168,7 +168,7 @@ export default function OrderShotgunSampleList(props: any) {
           buttonName="등록"
           endIcon={
             isLoading ? (
-              <LoadingSvg stroke="white" width={20} height={20} />
+              <LoadingWhiteSvg />
             ) : null
           }
         />
