@@ -12,7 +12,7 @@ const InvcReqFilterBtn = () => {
 
   useEffect(() => {
     if (selected) {
-      router.push(`${pathname}?page=1&size=15&keyword=요청`);
+      router.push(`${pathname}?page=1&size=15&isBillAndRequest=true`);
     } else {
       router.push(`${pathname}`);
     }
