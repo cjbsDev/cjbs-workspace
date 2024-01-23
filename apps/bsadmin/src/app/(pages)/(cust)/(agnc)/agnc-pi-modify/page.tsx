@@ -17,7 +17,7 @@
 import * as React from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
-import { useSearchParams, usePathname } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   Box,
   Container,
@@ -34,7 +34,6 @@ import {
   Fallback,
   InputValidation,
   OutlinedButton,
-  SelectBox,
   CheckboxSV,
   TD,
   TH,
@@ -43,7 +42,6 @@ import {
 } from "cjbsDSTM";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { useForm, FormProvider } from "react-hook-form";
-import axios from "axios";
 import { PUT } from "api";
 import { toast } from "react-toastify";
 
@@ -52,7 +50,7 @@ const LazyAgncModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 const LazyMemberTable = dynamic(
@@ -60,7 +58,7 @@ const LazyMemberTable = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={270} />,
-  }
+  },
 );
 
 // 고객 검색
@@ -68,7 +66,7 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 // 영업 담당자
@@ -77,7 +75,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 interface FormData {
