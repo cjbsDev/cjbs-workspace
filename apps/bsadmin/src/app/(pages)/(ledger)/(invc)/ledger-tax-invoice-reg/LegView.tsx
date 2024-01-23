@@ -88,6 +88,7 @@ const LegView = () => {
         type === "modify"
           ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
           : router.push("/ledger-tax-invoice-list");
+        setIsDisabled(true);
       } else {
         toast.error(res.message);
       }
@@ -96,7 +97,7 @@ const LegView = () => {
       toast.error("폼 제출 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
-      setIsDisabled(true);
+      // setIsDisabled(true);
     }
   };
 
