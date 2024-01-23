@@ -21,6 +21,7 @@ interface SingleDatePickerProps {
   required?: boolean;
   width?: string; // 새로운 prop 추가
   textAlign?: "end" | "start";
+  includeDateIntervals?: (() => void) | undefined;
 }
 
 export const SingleDatePicker = (props: SingleDatePickerProps) => {
@@ -29,6 +30,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
     required = false,
     errorMessage = "날짜를 선택해 주세요.",
     textAlign = "start",
+    includeDateIntervals,
     ...other
   } = props;
   const { control, formState, register } = useFormContext();
@@ -68,31 +70,6 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
   ));
 
   return (
-    // <>
-    //   <DatePicker
-    //     name={inputName}
-    //     ref={register(inputName, { required: "날짜를 선택하세요." })}
-    //     dateFormat="yyyy-MM-dd"
-    //   />
-    //   {formState.errors[inputName] && (
-    //     <p style={{ color: "red" }}>{formState.errors[inputName].message}</p>
-    //   )}
-    // </>
-
-    // <DatePicker
-    //   {...other}
-    //   placeholderText="날짜를 선택해 주세요."
-    //   className={styles.dateInput}
-    //   dateFormat="yyyy-MM-dd"
-    //   locale={ko}
-    //   onChange={(e) => field.onChange(e)}
-    //   selected={field.value}
-    //   showPopperArrow={false}
-    //   customInput={<CustomInput />}
-    //   isClearable
-    //   required={required}
-    // />
-
     <>
       <Controller
         control={control}
@@ -112,6 +89,7 @@ export const SingleDatePicker = (props: SingleDatePickerProps) => {
               customInput={<CustomInput />}
               isClearable
               required={required}
+              includeDateIntervals={includeDateIntervals}
             />
           );
         }}

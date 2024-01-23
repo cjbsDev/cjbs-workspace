@@ -1,38 +1,26 @@
 import React from "react";
 import {
   Box,
-  Stack,
   Table,
   TableBody,
   TableContainer,
   TableRow,
   Typography,
 } from "@mui/material";
-import {
-  InputValidation,
-  OutlinedButton,
-  SingleDatePicker,
-  TD,
-  TH,
-} from "cjbsDSTM";
-import RepresentName from "./RepresentName";
-import BusinessRegNo from "./BusinessRegNo";
-import { useSetRecoilState } from "recoil";
-import { instModalShowAtom } from "../atom";
+import { SingleDatePicker, TD, TH } from "cjbsDSTM";
+import { standDate } from "../../../../../func/standDate";
 import { useFormContext } from "react-hook-form";
+import { useSearchParams } from "next/navigation";
 
 const PublicationInfo = () => {
-  // const { watch, getValues } = useFormContext();
-  // const paymentInfoValue = watch("pymtInfoCc");
-  // const setShowInstSearchModal = useSetRecoilState(instModalShowAtom);
-  // const handleInstSearchModalOpen = () => {
-  //   setShowInstSearchModal(true);
-  // };
-  //
-  // if (paymentInfoValue === "BS_1914004") {
-  //   return null;
-  // }
+  const searchParams = useSearchParams();
+  const type = searchParams.get("type");
 
+  console.log("TYPE", type);
+
+  const { getValues } = useFormContext();
+  console.log("getStandDate", getValues("issuDttm"));
+  const getStandDate = getValues("issuDttm");
   return (
     <>
       <Typography variant="subtitle1">발행 정보</Typography>
@@ -43,10 +31,12 @@ const PublicationInfo = () => {
               <TH sx={{ width: "15%" }}>발행일</TH>
               <TD>
                 <Box sx={{ width: 200 }}>
+                  {/* 현재 달 기준으로 앞, 뒤로 5일까지만 등록 가능 */}
                   <SingleDatePicker
                     inputName="issuDttm"
                     required={true}
                     errorMessage="발행일을 입력하세요"
+                    includeDateIntervals={standDate(getStandDate)}
                   />
                 </Box>
               </TD>
