@@ -626,23 +626,23 @@ const LicenseInfo = () => {
                               <TableRow sx={{textAlign: "center"}}>
                                 { anlsItstCostLcnsDetailList.map((item, index) => {
                                   const {
-                                    // anlsItstCostLcnsUkey,
+                                    anlsItstCostLcnsUkey,
                                     month,
                                     year,
                                   } = item;
                                   return (
-                                    <TH sx={{ width: "7%" }} align="center">{year}.{month}</TH>
+                                    <TH key={anlsItstCostLcnsUkey} sx={{ width: "7%" }} align="center">{year}.{month}</TH>
                                   );
                                 })}
                               </TableRow>
                               <TableRow>
                                 { anlsItstCostLcnsDetailList.map((item, index) => {
                                   const {
-                                    // anlsItstCostLcnsUkey,
+                                    anlsItstCostLcnsUkey,
                                     price,
                                   } = item;
                                   return (
-                                    <TD sx={{ width: "7%" }} align="center">{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TD>
+                                    <TD key={anlsItstCostLcnsUkey} sx={{ width: "7%" }} align="center">{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</TD>
                                   );
                                 })}
                               </TableRow>
