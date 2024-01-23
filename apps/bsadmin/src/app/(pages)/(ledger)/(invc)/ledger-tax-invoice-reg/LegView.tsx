@@ -84,6 +84,8 @@ const LegView = () => {
       const apiCall = type === "modify" ? PUT : POST;
       const res = await apiCall(`/invc`, bodyData);
 
+      console.log("RES", res);
+
       if (res.success) {
         type === "modify"
           ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
@@ -91,6 +93,7 @@ const LegView = () => {
         setIsDisabled(true);
       } else {
         toast.error(res.message);
+        setIsLoading(false);
       }
     } catch (error) {
       console.error("Error submitting form", error);

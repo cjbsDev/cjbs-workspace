@@ -70,10 +70,12 @@ const TaxInvoiceInfo = () => {
   console.log("INVOICE INIT DATA", data);
   const {
     agncId,
+    agncInstNm,
     agncNm,
     agncUkey,
     brno,
     bsnsMngrUkey,
+    bsnsMngrNm,
     bsnsMngrVal,
     dpstDttm,
     dpstPrice,
@@ -141,7 +143,7 @@ const TaxInvoiceInfo = () => {
                   >
                     <Stack direction="row" spacing={1}>
                       <Typography variant="body2">
-                        [{agncUkey}]{agncNm}({instNm})
+                        [{agncUkey}]{agncNm}({agncInstNm})
                       </Typography>
                       {isSpecialMng === "Y" && (
                         <MyIcon
@@ -157,7 +159,7 @@ const TaxInvoiceInfo = () => {
                   </Stack>
                 </TD>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                <TD sx={{ width: "35%" }}>{bsnsMngrVal}</TD>
+                <TD sx={{ width: "35%" }}>{bsnsMngrNm}</TD>
               </TableRow>
             </TableBody>
           </Table>

@@ -5,13 +5,12 @@ import { Typography } from "@mui/material";
 const AgncAndInstName = () => {
   const { getValues } = useFormContext();
   const getAgncNm = getValues("agncNm");
-  // console.log("GetAgncNm", getAgncNm);
-  const getIsntFakeNm = getValues("instFakeNm");
+  const getAgncInstNm = getValues("agncInstNm");
 
-  const isEmpty = !getAgncNm || !getIsntFakeNm;
+  const isEmpty = !getAgncNm || !getAgncInstNm;
   const displayText = isEmpty
     ? "거래처 검색을 해주세요."
-    : `${getAgncNm} (${getIsntFakeNm})`;
+    : `${getAgncNm} (${getAgncInstNm})`;
 
   return (
     <Typography

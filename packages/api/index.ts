@@ -23,7 +23,7 @@ export const FETCHER_GET_BLOB: GET_BOLB_API = async (
   url,
   body,
   option,
-  headers
+  headers,
 ) => {
   return await requestBLOB(url, "GET", body, option, headers);
 };
@@ -32,7 +32,7 @@ export const FETCHER_POST_BLOB: POST_BOLB_API = async (
   url,
   body,
   option,
-  headers
+  headers,
 ) => {
   return await requestBLOB(url, "POST", body, option, headers);
 };
@@ -55,7 +55,7 @@ export const GET: GET_API = async (url, option, headers) => {
     "GET",
     null,
     option,
-    headers
+    headers,
   );
 };
 
@@ -64,7 +64,7 @@ export const GET_BLOB: GET_BOLB_API = async (url, option, headers) => {
     `${process.env.NEXT_PUBLIC_API_URL}${url}`,
     "GET",
     option,
-    headers
+    headers,
   );
 };
 
@@ -74,7 +74,7 @@ export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
     "POST",
     body,
     option,
-    headers
+    headers,
   );
 };
 
@@ -84,7 +84,7 @@ export const POST: POST_API = async (url, body, option, headers) => {
     "POST",
     body,
     option,
-    headers
+    headers,
   );
 };
 
@@ -93,7 +93,7 @@ export const POST_MULTIPART: POST_MULTIPART_API = async (
   url,
   body,
   option,
-  headers
+  headers,
 ) => {
   return await request_multipart(url, "POST", body, option, headers);
 };
@@ -104,7 +104,7 @@ export const PUT: PUT_API = async (url, body, option, headers) => {
     "PUT",
     body,
     option,
-    headers
+    headers,
   );
 };
 
@@ -112,7 +112,7 @@ export const PUT_MULTIPART: PUT_MULTIPART_API = async (
   url,
   body,
   option,
-  headers
+  headers,
 ) => {
   return await request_multipart(url, "PUT", body, option, headers);
 };
@@ -121,7 +121,7 @@ export const DELETE: DELETE_API = async (url, body) => {
   return await request(
     `${process.env.NEXT_PUBLIC_API_URL}${url}`,
     "DELETE",
-    body
+    body,
   );
 };
 
@@ -176,11 +176,11 @@ const request: REQUEST_API = async (url, method, body, option) => {
         toast("권한이 없습니다.(A103-1)");
         console.log(`API call failed with status code ${response.status}`);
       } else {
-        toast("A network problem has occurred.(A102-1)");
+        toast("네트워크 문제가 발생했습니다.(A102-1)");
         console.log(`API call failed with status code ${response.status}`);
       }
     } catch (error) {
-      toast("A network problem has occurred.(A101)");
+      toast("네트워크 문제가 발생했습니다.(A101)");
       console.log("error >", error);
     }
   });
@@ -351,7 +351,7 @@ const requestBLOB: REQUEST_BLOB_API = async (url, method, body, option) => {
 
 export const fetcher = (url: string) =>
   FETCHER_GET(`${process.env.NEXT_PUBLIC_API_URL}${url}`).then(
-    (res) => res.data
+    (res) => res.data,
   );
 
 export const metaFetcher = (url: string) =>
