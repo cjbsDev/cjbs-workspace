@@ -27,7 +27,7 @@ import {
 } from "cjbsDSTM";
 import * as React from "react";
 import { useCallback, useState } from "react";
-import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
@@ -298,11 +298,7 @@ const TSRegView = () => {
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>

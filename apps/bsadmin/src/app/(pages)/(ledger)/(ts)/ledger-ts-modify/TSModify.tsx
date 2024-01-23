@@ -25,7 +25,6 @@ import {
   SingleDatePicker,
 } from "cjbsDSTM";
 import { useCallback, useState, useRef, useEffect } from "react";
-import LoadingSvg from "../../../../../../public/svg/loading_wh.svg";
 import { useRouter } from "next-nprogress-bar";
 import { fetcher, PUT } from "api";
 import { useParams, useSearchParams } from "next/navigation";
@@ -34,6 +33,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useRecoilState } from "recoil";
+import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 import TypeSelectRadio from "../../../../components/TypeSelectRadio";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
@@ -341,11 +341,7 @@ const TSRegView = () => {
             size="small"
             type="submit"
             buttonName="저장"
-            endIcon={
-              isLoading ? (
-                <LoadingSvg stroke="white" width={20} height={20} />
-              ) : null
-            }
+            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
       </Form>
