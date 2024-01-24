@@ -29,6 +29,7 @@ import {
   TD,
   TH,
   Title1,
+  transformedNullToHyphon,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
@@ -42,6 +43,7 @@ import PublishCancelBtn from "../components/PublishCancelBtn";
 import ModifyBtn from "../components/ModifyBtn";
 import DeleteBtn from "../components/DeleteBtn";
 import AgncDetailInfo from "../../../../../components/AgncDetailInfo";
+import NoDataView from "../../../../../components/NoDataView";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
@@ -108,7 +110,7 @@ const TaxInvoiceInfo = () => {
     totalPrice,
     totalSupplyPrice,
     vat,
-  } = data;
+  } = transformedNullToHyphon(data);
 
   const isManager = statusCc === "BS_1902003" && pymtInfoCc === "BS_1914002";
 
@@ -285,15 +287,67 @@ const TaxInvoiceInfo = () => {
                         <TableHead>
                           <TableRow>
                             <TableCell>No</TableCell>
-                            <TableCell align="center">상태</TableCell>
-                            <TableCell align="center">거래처명</TableCell>
+                            <TableCell>상태</TableCell>
+                            <TableCell>거래처명</TableCell>
                             <TableCell align="right">이관 전 금액</TableCell>
                             <TableCell align="right">처리금액</TableCell>
                             <TableCell align="right">이관 후 금액</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          <TableRow></TableRow>
+                          {tnsfPrcsListDetailList.map((item, index) => {
+                            const {
+                              agncNm,
+                              instNm,
+                              invcId,
+                              invcUkey,
+                              postTnsfPrice,
+                              prcsPrice,
+                              preTnsfPrice,
+                              tnsfTypeCc,
+                              tnsfTypeVal,
+                            } = item;
+                            return (
+                              <TableRow>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell>
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      color:
+                                        tnsfTypeCc === "BS_2600001"
+                                          ? "red"
+                                          : "blue",
+                                    }}
+                                  >
+                                    {tnsfTypeVal}[{invcId}]
+                                  </Typography>
+                                </TableCell>
+                                <TableCell>
+                                  {agncNm}({instNm})
+                                </TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(preTnsfPrice)}원
+                                </TableCell>
+                                <TableCell align="right">
+                                  <Typography
+                                    variant="body2"
+                                    sx={{
+                                      color:
+                                        Math.sign(prcsPrice) === -1
+                                          ? "red"
+                                          : "black",
+                                    }}
+                                  >
+                                    {formatNumberWithCommas(prcsPrice)}원
+                                  </Typography>
+                                </TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(postTnsfPrice)}원
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
                         </TableBody>
                       </Table>
                     </TableContainer>
@@ -323,6 +377,35 @@ const TaxInvoiceInfo = () => {
                           </TableRow>
                         </TableHead>
                         <TableBody>
+                          {prcsListDetailList.map((item, index) => {
+                            const {
+                              anlsDttm,
+                              anlsItstUkey,
+                              anlsPrice,
+                              prcs,
+                              rmnPrice,
+                              srvcCtgrMc,
+                              srvcCtgrMcVal,
+                            } = item;
+                            return (
+                              <TableRow key={anlsItstUkey}>
+                                <TableCell>{index + 1}</TableCell>
+                                <TableCell align="center">
+                                  {srvcCtgrMcVal}
+                                </TableCell>
+                                <TableCell align="center">
+                                  {anlsItstUkey}
+                                </TableCell>
+                                <TableCell align="right">{anlsDttm}</TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(anlsPrice)}원
+                                </TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(rmnPrice)}원
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
                           <TableRow></TableRow>
                         </TableBody>
                       </Table>
@@ -357,6 +440,18 @@ const TaxInvoiceInfo = () => {
               </TableRow>
             </TableHead>
             <TableBody>
+              {productDetailList.length === 0 && (
+                <TableRow>
+                  <TableCell colSpan={5}>
+                    <Stack direction="row" justifyContent="center">
+                      <MyIcon icon="nodata" size={20} />
+                      <Typography variant="body2">
+                        데이터가 존재하지 않습니다.
+                      </Typography>
+                    </Stack>
+                  </TableCell>
+                </TableRow>
+              )}
               {productDetailList.map(
                 (
                   item: {
@@ -449,29 +544,33 @@ const TaxInvoiceInfo = () => {
           </Table>
         </TableContainer>
 
-        <Typography variant="subtitle1">발행처 정보</Typography>
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>기관명(상호)</TH>
-                <TD colSpan={3}>{instNm}</TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>대표자명</TH>
-                <TD sx={{ width: "35%" }}>{rprsNm}</TD>
-                <TH sx={{ width: "15%" }}>사업자등록번호</TH>
-                <TD align="right">{formatBusinessRegNo(brno)}</TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>결제 담당</TH>
-                <TD>{pymtMngrNm}</TD>
-                <TH sx={{ width: "15%" }}>이메일</TH>
-                <TD>{rcvEmail}</TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {pymtInfoCc !== "BS_1914004" && (
+          <>
+            <Typography variant="subtitle1">발행처 정보</Typography>
+            <TableContainer sx={{ mb: 5 }}>
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>기관명(상호)</TH>
+                    <TD colSpan={3}>{instNm}</TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>대표자명</TH>
+                    <TD sx={{ width: "35%" }}>{rprsNm}</TD>
+                    <TH sx={{ width: "15%" }}>사업자등록번호</TH>
+                    <TD align="right">{formatBusinessRegNo(brno)}</TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>결제 담당</TH>
+                    <TD>{pymtMngrNm}</TD>
+                    <TH sx={{ width: "15%" }}>이메일</TH>
+                    <TD>{rcvEmail}</TD>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
 
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="subtitle1">발행 정보</Typography>
