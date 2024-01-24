@@ -34,7 +34,7 @@ const LazyMemberTable = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={270} />,
-  },
+  }
 );
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
@@ -46,7 +46,7 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  },
+  }
 );
 
 // 영업 담당자
@@ -55,7 +55,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
+  }
 );
 
 /**
@@ -122,33 +122,6 @@ const AgncAdd = () => {
     console.log("getInstNm", getValues("instNm"));
     console.log("getAgncNm", getValues("agncNm"));
   };
-
-  /*
-  // [ 거래처 ] 중복 확인
-  const getAgncDuplicate = async () => {
-    let getAgncNm = getValues("agncNm");
-    console.log("getAgncNm", getAgncNm);
-    if (getAgncNm) {
-      const apiUrl =
-        `${process.env.NEXT_PUBLIC_API_URL}/agnc/duplicate/` +
-        getAgncNm; // Replace with your API URL
-
-      try {
-        const getAgncDuplicateData = await axios.get(apiUrl);
-        console.log(getAgncDuplicateData.data);
-      } catch (error) {
-        console.info("거래처 중복확인 Error", error);
-      }
-      // 문제 없다는 리턴 혹은 메세지 해줘야 하고, check set true 필요
-      // 혹은 이미 같은 이름으로 저장된 거래처 명이 있다는 것을 알려줘야 하고, check set false 필요
-      return true;
-    } else {
-      // 중복 체크할 거래처명이 없다는 것을 리턴해야함.
-      console.info("거래처명을 입력해주세요.");
-      return false;
-    }
-  };
-  */
 
   // Common
   // [ 등록 ]
