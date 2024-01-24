@@ -82,7 +82,8 @@ const TaxInvoiceInfo = () => {
     instNm,
     instUkey,
     invcNum,
-    invcProductDetailList,
+    productDetailList,
+    prcsListDetailList,
     invcUkey,
     isSpecialMng,
     issuDttm,
@@ -97,6 +98,7 @@ const TaxInvoiceInfo = () => {
     rprsNm,
     statusCc,
     statusVal,
+    tnsfPrcsListDetailList,
     tnsfPsbyPymtPrice,
     tnsfTargetAgncId,
     tnsfTargetAgncNm,
@@ -333,7 +335,7 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Typography variant="subtitle1">
-          요청금액(총 {invcProductDetailList.length}건)
+          요청금액(총 {productDetailList.length}건)
         </Typography>
         <TableContainer sx={{ mb: 3 }}>
           <Table>
@@ -355,7 +357,7 @@ const TaxInvoiceInfo = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {invcProductDetailList.map(
+              {productDetailList.map(
                 (
                   item: {
                     anlsTypeMc: string;
