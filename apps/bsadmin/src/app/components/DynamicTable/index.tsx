@@ -37,7 +37,7 @@ const LazyServiceCategorySelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
 const LazyAnlsTypeSelectbox = dynamic(
@@ -49,7 +49,7 @@ const LazyAnlsTypeSelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
 const LazyProductName = dynamic(() => import("./ProductName"), {
@@ -165,7 +165,7 @@ const DynamicTable = () => {
               return (
                 <TableRow key={field.id || index}>
                   {paymentInfoValue !== "BS_1914004" && (
-                    <TD>
+                    <TD align="center">
                       <Checkbox
                         size="small"
                         checked={selectedRows.includes(index)}

@@ -21,11 +21,25 @@ const ModifyBtn = ({ invcUkey, agncUkey, issuDttm }: ModifyBtnProps) => {
     // const issuMonth = dayjs(issuDttm).format("YYYY-MM");
     // if (currentMonth !== issuMonth) {
     //   toast("당월에만 등록 및 수정이 가능합니다.");
+    // } else if (issuMonth === undefined) {
+    //   router.push(
+    //     `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
+    //   );
     // } else {
     //   router.push(
     //     `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,
     //   );
     // }
+
+    const currentMonth = dayjs().format("YYYY-MM");
+    const issuMonth = dayjs(issuDttm).isValid()
+      ? dayjs(issuDttm).format("YYYY-MM")
+      : null;
+
+    if (issuMonth && currentMonth !== issuMonth) {
+      toast("당월에만 등록 및 수정이 가능합니다.");
+      return;
+    }
 
     router.push(
       `/ledger-tax-invoice-reg?type=modify&invcUkey=${invcUkey}&agncUkey=${agncUkey}`,

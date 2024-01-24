@@ -12,6 +12,8 @@ import ActionBtns from "./components/ActionBtns";
 import DynamicViews from "./components/DynamicViews";
 import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
+import { formatDataForSubmission } from "./func/formatDataForSubmission";
+import { defaultValues } from "./func/defaultValues";
 
 const LegView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -20,94 +22,126 @@ const LegView = () => {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
   const invcUkey = searchParams.get("invcUkey");
+  const anlsItstUkey = searchParams.get("anlsItstUkey");
 
-  const { data } = useSWR(type !== null ? `/invc/${invcUkey}` : null, fetcher, {
-    suspense: true,
-  });
-
-  const modifyDefaultValues = useMemo(() => {
-    if (data) {
-      return {
-        ...data,
-        issuDttm: new Date(data.issuDttm),
-        dpstDttm: new Date(data.dpstDttm),
-      };
+  const getSWRUrl = () => {
+    if (type === "modify") {
+      return `/invc/${invcUkey}`;
+    }
+    if (type === "anlsItst") {
+      return `/invc/anlsItst/${anlsItstUkey}`;
     }
     return null;
-  }, [data]);
-
-  console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
-
-  const defaultValues = {
-    pymtInfoCc: "BS_1914001",
-    productDetailList: [
-      {
-        srvcTypeMc: "BS_0100005001",
-        anlsTypeMc: "",
-        products: "",
-        sampleSize: 0,
-        unitPrice: 0,
-        supplyPrice: 0,
-      },
-    ],
   };
 
-  const onSubmit = async (data: any) => {
-    console.log("SUBMIT CLICK!");
+  const { data } = useSWR(getSWRUrl(), fetcher, { suspense: true });
+
+  // const { data } = useSWR(
+  //   type === "modify"
+  //     ? `/invc/${invcUkey}`
+  //     : type === "anlsItst"
+  //       ? `/invc/anlsItst/${anlsItstUkey}`
+  //       : null,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   },
+  // );
+
+  const modifyDefaultValues = data
+    ? {
+        ...data,
+        issuDttm: dayjs(data.issuDttm).toDate(),
+        dpstDttm: dayjs(data.dpstDttm).toDate(),
+      }
+    : null;
+
+  // const modifyDefaultValues = useMemo(() => {
+  //   if (data) {
+  //     return {
+  //       ...data,
+  //       issuDttm: new Date(data.issuDttm),
+  //       dpstDttm: new Date(data.dpstDttm),
+  //     };
+  //   }
+  //   return null;
+  // }, [data]);
+
+  // console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
+
+  const onSubmit = async (formData: any) => {
+    // console.log("SUBMIT CLICK!");
     setIsLoading(true);
     // 요청 바디 구성
-    const bodyData = {
-      ...data,
-      // 날짜 포맷 변경
-      dpstDttm: dayjs(data.dpstDttm).format("YYYY-MM-DD"),
-      issuDttm: dayjs(data.issuDttm).format("YYYY-MM-DD"),
-    };
-
-    if (bodyData.pymtInfoCc === "BS_1914001") {
-      delete bodyData.productDetailList;
-      delete bodyData.dpstPrice;
-      delete bodyData.dpstDttm;
-      delete bodyData.pyrNm;
-    } else if (bodyData.pymtInfoCc === "BS_1914003") {
-      delete bodyData.productDetailList;
-    } else if (bodyData.pymtInfoCc === "BS_1914004") {
-      delete bodyData.productDetailList;
-      delete bodyData.dpstPrice;
-      delete bodyData.dpstDttm;
-      delete bodyData.pyrNm;
-    }
-
-    console.log("세금계산서 BODY DATA ==>>", bodyData);
+    // const bodyData = {
+    //   ...data,
+    //   // 날짜 포맷 변경
+    //   dpstDttm: dayjs(data.dpstDttm).format("YYYY-MM-DD"),
+    //   issuDttm: dayjs(data.issuDttm).format("YYYY-MM-DD"),
+    // };
+    //
+    // if (bodyData.pymtInfoCc === "BS_1914001") {
+    //   delete bodyData.productDetailList;
+    //   delete bodyData.dpstPrice;
+    //   delete bodyData.dpstDttm;
+    //   delete bodyData.pyrNm;
+    // } else if (bodyData.pymtInfoCc === "BS_1914003") {
+    //   delete bodyData.productDetailList;
+    // } else if (bodyData.pymtInfoCc === "BS_1914004") {
+    //   delete bodyData.productDetailList;
+    //   delete bodyData.dpstPrice;
+    //   delete bodyData.dpstDttm;
+    //   delete bodyData.pyrNm;
+    // }
+    //
+    // console.log("세금계산서 BODY DATA ==>>", bodyData);
 
     try {
       // 요청 타입에 따른 API 호출
-      const apiCall = type === "modify" ? PUT : POST;
-      const res = await apiCall(`/invc`, bodyData);
+      // const apiCall = type === "modify" ? PUT : POST;
+      // const res = await apiCall(`/invc`, bodyData);
+      //
+      // console.log("RES", res);
 
-      console.log("RES", res);
+      const formattedData = formatDataForSubmission(formData, type);
+      const response = await (type === "modify" ? PUT : POST)(
+        `/invc`,
+        formattedData,
+      );
 
-      if (res.success) {
-        type === "modify"
-          ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
-          : router.push("/ledger-tax-invoice-list");
+      if (response.success) {
+        router.push(
+          type === "modify"
+            ? `/ledger-tax-invoice-list/${invcUkey}`
+            : "/ledger-tax-invoice-list",
+        );
         setIsDisabled(true);
       } else {
-        toast.error(res.message);
+        toast.error(response.message);
         setIsLoading(false);
       }
+
+      // if (response.success) {
+      //   type === "modify"
+      //     ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
+      //     : router.push("/ledger-tax-invoice-list");
+      //   setIsDisabled(true);
+      // } else {
+      //   toast.error(response.message);
+      //   setIsLoading(false);
+      // }
     } catch (error) {
       console.error("Error submitting form", error);
-      toast.error("폼 제출 중 오류가 발생했습니다.");
+      toast.error("세금계산서 등록 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
-      // setIsDisabled(true);
     }
   };
 
   return (
     <Form
       onSubmit={onSubmit}
-      defaultValues={type === null ? defaultValues : modifyDefaultValues}
+      defaultValues={type ? modifyDefaultValues : defaultValues}
     >
       <Box sx={{ mb: 4 }}>
         <Title1
