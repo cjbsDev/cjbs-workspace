@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "a": "turbo run dev",
-    "build": "dotenv -e ../../.env next build",
+    "build": "next build",
     "start": "next start",
-    "dev": "dotenv -e ../../.env next dev",
-    "lint": "turbo run lint",
+    "dev": "next dev",
+    "lint": "eslint . --max-warnings 0",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "dependencies": {
