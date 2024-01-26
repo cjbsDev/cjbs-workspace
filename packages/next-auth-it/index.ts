@@ -124,10 +124,10 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
               password,
             }),
           })
-            .then((res) => {
-              // console.log(res)
-              return res.json();
-            })
+            // .then((res) => {
+            //   // console.log(res)
+            //   return res.json();
+            // })
             .then((res) => {
               console.log(res);
               return res;
