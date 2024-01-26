@@ -107,11 +107,12 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
             return null;
           }
           let defaultUrl = "";
-          if (serviceType && serviceType === "orsh") {
-            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/user/authenticate`;
-          } else {
-            defaultUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`;
-          }
+          // if (serviceType && serviceType === "orsh") {
+          //   defaultUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/user/authenticate`;
+          // } else {
+          //   defaultUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`;
+          // }
+          defaultUrl = `${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`;
 
           const response = await fetch(defaultUrl, {
             method: "POST",
@@ -133,7 +134,8 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
               return res;
             });
 
-          // console.log('&&&&&&&&&&&&&', response)
+          console.log("&&&&&&&&&&&&&", response);
+
           if (response.success) {
             return { ...response.data, serviceType };
           } else {
