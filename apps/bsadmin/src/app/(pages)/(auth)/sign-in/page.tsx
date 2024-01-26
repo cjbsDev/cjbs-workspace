@@ -31,7 +31,7 @@ export default function Page() {
   };
 
   const onSubmit = (data: any) => {
-    // console.log(data);
+    console.log(data);
     let email = data.email;
     let password = data.password;
     signIn("credentials", { email, password, redirect: false }).then((res) => {

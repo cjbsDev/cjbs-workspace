@@ -5,6 +5,7 @@ import JeJuProvider from "./jejuProvider";
 import DrawerProvider from "./DrawerProvider";
 import { NextProgressBar } from "./NextProgressBar";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
+import { RecoilRoot } from "recoil";
 // import { Inter } from "next/font/google";
 // const inter = Inter({
 //   weight: ["400", "600", "700"],
