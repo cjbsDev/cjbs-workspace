@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+// import * as React from "react";
 import { Grid } from "@mui/material";
 // import KeywordSearch from "../../components/KeywordSearch";
 // import SectionHeader from "../../../components/SectionHeader";
@@ -28,7 +28,6 @@ import DashboardHeader from "./components/Dashboard/components/DashboardHeader";
 export default function Page() {
   return (
     <>
-      {/*<RecoilRoot override={false}>*/}
       <Grid container sx={{ mb: 2 }}>
         <Grid item xs={6}>
           <DashboardHeader />
@@ -69,7 +68,6 @@ export default function Page() {
           <Idle />
         </Grid>
       </Grid>
-      {/*</RecoilRoot>*/}
     </>
   );
 }
