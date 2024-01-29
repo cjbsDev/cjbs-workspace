@@ -11,9 +11,5 @@ interface ContextProps {
 }
 
 export default function JeJuProvider({ children }: ContextProps) {
-  return (
-    <ThemeProvider theme={cjbsTheme}>
-      <RecoilRoot>{children}</RecoilRoot>
-    </ThemeProvider>
-  );
+  return <ThemeProvider theme={cjbsTheme}>{children}</ThemeProvider>;
 }

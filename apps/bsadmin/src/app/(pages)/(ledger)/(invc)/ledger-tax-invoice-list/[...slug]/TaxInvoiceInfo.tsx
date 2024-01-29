@@ -308,7 +308,7 @@ const TaxInvoiceInfo = () => {
                               tnsfTypeVal,
                             } = item;
                             return (
-                              <TableRow>
+                              <TableRow key={index}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>
                                   <Typography
@@ -386,9 +386,10 @@ const TaxInvoiceInfo = () => {
                               rmnPrice,
                               srvcCtgrMc,
                               srvcCtgrMcVal,
+                              productDetailUkey,
                             } = item;
                             return (
-                              <TableRow key={anlsItstUkey}>
+                              <TableRow key={productDetailUkey}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell align="center">
                                   {srvcCtgrMcVal}
@@ -477,7 +478,7 @@ const TaxInvoiceInfo = () => {
                     unitPrice,
                   } = item;
                   return (
-                    <TableRow>
+                    <TableRow key={index}>
                       <TD align="center">{index + 1}</TD>
                       <TD>{products}</TD>
                       <TD align="right">
