@@ -1,5 +1,4 @@
 "use client";
-
 import dynamic from "next/dynamic";
 import {
   Box,
@@ -34,7 +33,7 @@ import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { toast } from "react-toastify";
-import { useFormContext, useForm } from "react-hook-form";
+import { useFormContext, useForm, FormProvider } from "react-hook-form";
 
 import dayjs from "dayjs";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
@@ -64,7 +63,20 @@ const QTTNRegView = () => {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { mutate } = useSWRConfig();
+
   const methods = useForm();
+  // const methods = useForm({
+  //   defaultValues: async () => {
+  //     return {
+  //       qttnTypeCc: "BS_2400001",
+  //       agncTypeCc: "B",
+  //       qttnDate: new Date(), // 기본 오늘 날짜 선택
+  //       pymtTypeCc: ["BS_1300002", "BS_1300001"],
+  //       pymtMemo: "분석완료 통보 후 1주일 내",
+  //     };
+  //   },
+  // });
+
   const {
     getValues,
     getFieldState,
@@ -74,23 +86,8 @@ const QTTNRegView = () => {
   } = methods;
 
   // const { watch, getValues, setValue } = useFormContext();
-
   const agncType = watch("agncTypeCc"); // agncTypeCc 필드의 값 감시
   const qttnTypeCcSelect = watch("qttnTypeCc"); // agncTypeCc 필드의 값 감시
-  // console.log("qttnTypeCcSelect --", qttnTypeCcSelect);
-  // console.log("agncType --", agncType);
-
-  // agncType 값에 따라 agncUkey와 agncNm 초기화 및 거래처 검색 버튼 표시 여부 결정
-  // useEffect(() => {
-  //   if (agncType === "A") {
-  //     console.log("set agncType", agncType);
-  //     // 잠재고객 선택 시
-  //     setValue("agncUkey", "");
-  //     setValue("agncNm", "");
-  //   }
-  //   console.log("agncType", agncType);
-  //   console.log("qttnTypeCcSelect", qttnTypeCcSelect);
-  // }, [agncType, qttnTypeCcSelect, setValue]);
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
@@ -110,7 +107,8 @@ const QTTNRegView = () => {
 
   // Submit
   const onSubmit = async (data: any) => {
-    console.log("data", data);
+    console.log("onSubmit data", data);
+    return;
 
     const bodyData = {
       qttnTypeCc: data.qttnTypeCc, // 유형
@@ -125,7 +123,7 @@ const QTTNRegView = () => {
       validPerd: data.validPerd,
 
       productDetailList: data.productDetailList,
-
+      // productDetailList: [],
       pymtTypeCc: data.pymtTypeCc,
       pymtMemo: data.pymtMemo,
       memo: data.memo,
@@ -136,7 +134,8 @@ const QTTNRegView = () => {
     };
     // 기존 고객 거래처 검색 -> 해당 거래처 담당자가 세팅
     // 잠재 고객 -> 견적 담당
-    console.log("bodyData", bodyData);
+    console.log("bodyData", JSON.stringify(bodyData));
+
     const apiUrl: string = `/qttn`;
     await POST(apiUrl, bodyData)
       .then((response) => {
@@ -195,6 +194,7 @@ const QTTNRegView = () => {
 
   return (
     <>
+      {/* <FormProvider {...methods}> */}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
           <Title1 titleName={"견적서 등록"} />
@@ -340,7 +340,6 @@ const QTTNRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
         <DynamicTableQttn />
         <DynamicSumTable />
 

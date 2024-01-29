@@ -14,6 +14,7 @@ import {
 import {
   cjbsTheme,
   ContainedButton,
+  DeletedButton,
   ErrorContainer,
   Fallback,
   InputEAType,
@@ -74,6 +75,7 @@ interface ProductDetailListProps {
 
 const DynamicTable = () => {
   const [selectedRows, setSelectedRows] = useState([]);
+
   const {
     control,
     watch,
@@ -82,14 +84,13 @@ const DynamicTable = () => {
     formState: { errors },
   } = useFormContext<{
     productDetailList: ProductDetailListProps[];
-    pymtInfoCc: string;
   }>();
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "productDetailList",
   });
   const [disCountChk, setDisCountChk] = useState<boolean>(false);
-  const paymentInfoValue = watch("pymtInfoCc");
   const watchFieldArray = watch("productDetailList");
   const controlledFields = fields.map((field, index) => {
     return {
@@ -139,7 +140,6 @@ const DynamicTable = () => {
       {
         anlsTypeMc: getValues(`productDetailList.[${index}].anlsTypeMc`),
         depthMc: getValues("depthMc"),
-        // pltfMc: getValues("pltfMc"),
         pltfMc: getValues(`productDetailList.[${index}].pltfMc`),
         sampleSize: getValues(`productDetailList.[${index}].sampleSize`),
         srvcCtgrMc: getValues("srvcCtgrMc"),
@@ -202,27 +202,25 @@ const DynamicTable = () => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {paymentInfoValue !== "BS_1914004" && (
-                <TH sx={{ width: 50 }} align="center">
-                  <Checkbox
-                    size="small"
-                    checked={
-                      fields.length > 0 && selectedRows.length === fields.length
-                    }
-                    onChange={(e) => toggleSelectAll(e.target.checked)}
-                  />
-                </TH>
-              )}
-              <TH sx={{ width: 150 }}>서비스 분류</TH>
-              <TH sx={{ width: 200 }}>분석 종류</TH>
-              <TH>플랫폼</TH>
+              <TH sx={{ width: 50 }} align="center">
+                <Checkbox
+                  size="small"
+                  checked={
+                    fields.length > 0 && selectedRows.length === fields.length
+                  }
+                  onChange={(e) => toggleSelectAll(e.target.checked)}
+                />
+              </TH>
+              <TH sx={{ width: 250 }}>서비스 분류</TH>
+              <TH sx={{ width: 250 }}>분석 종류</TH>
+              <TH sx={{ width: 250 }}>플랫폼</TH>
               <TH sx={{ width: 150 }} align="right">
                 생산량
               </TH>
               <TH sx={{ width: 150 }} align="right">
                 수량
               </TH>
-              <TH sx={{ width: 150 }} align="right">
+              <TH sx={{ width: 200 }} align="right">
                 단가
               </TH>
               <TH sx={{ width: 200 }} align="right">
@@ -240,19 +238,16 @@ const DynamicTable = () => {
             {controlledFields.map((field, index) => {
               return (
                 <TableRow key={field.id || index}>
-                  {/* 선택 */}
-                  {paymentInfoValue !== "BS_1914004" && (
-                    <TD>
-                      <Checkbox
-                        size="small"
-                        checked={selectedRows.includes(index)}
-                        onChange={(e) =>
-                          toggleRowSelection(index, e.target.checked)
-                        }
-                      />
-                    </TD>
-                  )}
                   {/* 서비스 분류 */}
+                  <TD>
+                    <Checkbox
+                      size="small"
+                      checked={selectedRows.includes(index)}
+                      onChange={(e) =>
+                        toggleRowSelection(index, e.target.checked)
+                      }
+                    />
+                  </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
@@ -269,7 +264,7 @@ const DynamicTable = () => {
                       </Typography>
                     )}
                   </TD>
-                  {/* 분석 분류 */}
+                  {/* 분석 종류 */}
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyAnlsTypeSelectbox
@@ -306,23 +301,7 @@ const DynamicTable = () => {
                     )}
                   </TD>
                   {/* 생산량 */}
-                  <TD>
-                    {/* <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyServiceCategorySelectbox
-                        inputName={`productDetailList[${index}].srvcTypeMc`}
-                        index={index}
-                      />
-                    </ErrorContainer>
-                    {errors.productDetailList?.[index]?.srvcTypeMc && (
-                      <Typography
-                        variant="body2"
-                        color={cjbsTheme.palette.warning.main}
-                      >
-                        서비스 분류를 선택해 주세요
-                      </Typography>
-                    )} */}
-                  </TD>
-
+                  <TD align="right">생산량</TD>
                   {/* 수량 */}
                   <TD>
                     <Controller
@@ -337,7 +316,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onBlur={handleOnBlur(index)}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
@@ -369,7 +347,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -394,8 +371,9 @@ const DynamicTable = () => {
                       inputName={`productDetailList[${index}].supplyPrice`}
                     />
                   </TD>
+                  {/* 할인율 */}
                   <TD sx={{ width: "150px", paddingY: 1 }}>
-                    <InputValidation
+                    {/* <InputValidation
                       inputName={`productDetailList[${index}].stndDscntPctg`}
                       required={true}
                       sx={{ width: "100%", display: "none" }}
@@ -431,9 +409,8 @@ const DynamicTable = () => {
                           </InputAdornment>
                         ),
                       }}
-                    />
+                    /> */}
                   </TD>
-
                   <TD align="right">확인</TD>
                 </TableRow>
               );
@@ -442,39 +419,30 @@ const DynamicTable = () => {
         </Table>
       </TableContainer>
 
-      {paymentInfoValue !== "BS_1914004" && (
-        <Stack
-          direction="row"
-          spacing={1}
-          justifyContent="center"
-          sx={{ mb: 3 }}
-        >
-          <ContainedButton
-            size="small"
-            buttonName="품명 추가"
-            onClick={handleAppend}
-            startIcon={<MyIcon icon="plus" size={18} color="white" />}
-          />
-          <OutlinedButton
-            size="small"
-            color="error"
-            buttonName="삭제"
-            onClick={handleDeleteSelected}
-            startIcon={
-              <MyIcon
-                icon="trash"
-                size={18}
-                color={
-                  isDeleteDisabled
-                    ? cjbsTheme.palette.grey["400"]
-                    : cjbsTheme.palette.error.main
-                }
-              />
-            }
-            disabled={isDeleteDisabled}
-          />
-        </Stack>
-      )}
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
+        <ContainedButton
+          size="small"
+          buttonName="품명 추가"
+          onClick={handleAppend}
+          startIcon={<MyIcon icon="plus" size={18} color="white" />}
+        />
+        <DeletedButton
+          buttonName="삭제"
+          disabled={isDeleteDisabled}
+          onClick={handleDeleteSelected}
+          startIcon={
+            <MyIcon
+              icon="trash"
+              size={18}
+              color={
+                isDeleteDisabled
+                  ? cjbsTheme.palette.grey["400"]
+                  : cjbsTheme.palette.error.main
+              }
+            />
+          }
+        />
+      </Stack>
     </>
   );
 };

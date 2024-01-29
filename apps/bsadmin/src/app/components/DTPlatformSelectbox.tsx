@@ -38,7 +38,8 @@ const DTPlatformSelectbox = ({
 
   return (
     <SelectBox
-      inputName="platformMc"
+      // inputName="platformMc"
+      inputName={inputName}
       options={data}
       required={true}
       errorMessage="플랫폼을 선택해 주세요."
