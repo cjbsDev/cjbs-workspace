@@ -146,12 +146,12 @@ const DynamicTable = () => {
         srvcTypeMc: getValues(`productDetailList.[${index}].srvcTypeMc`),
       },
     ];
-    // console.log("************", bodyData);
+    console.log("************", bodyData);
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;
-      // console.log("PRICE response.data", resData);
+      console.log("PRICE response.data", resData);
       if (response.success) {
         // console.log("성공");
         // 기준가, 기준할인율,
@@ -168,7 +168,7 @@ const DynamicTable = () => {
           );
           setValue(`productDetailList.[${index}].dscntPctg`, 0);
         }
-        setValue(`productDetailList.[${index}].stndCode`, resData[0].stndCode);
+        // setValue(`productDetailList.[${index}].stndCode`, resData[0].stndCode);
         setValue(
           `productDetailList.[${index}].stndDscntPctg`,
           resData[0].stndDscntPctg
@@ -304,6 +304,34 @@ const DynamicTable = () => {
                   <TD align="right">생산량</TD>
                   {/* 수량 */}
                   <TD>
+                    {/* <Controller
+                      name={`productDetailList[${index}].sampleSize`}
+                      control={control}
+                      rules={{ required: "수량을 입력해야 합니다." }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <NumericFormat
+                          defaultValue={0}
+                          value={value}
+                          thousandSeparator={true}
+                          // onBlur={handleOnBlur(index)}
+                          onValueChange={(values) => {
+                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
+                          }}
+                          customInput={InputEAType}
+                        />
+                      )}
+                    />
+                    {errors.productDetailList?.[index]?.sampleSize && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        수량을 입력 해주세요
+                      </Typography>
+                    )} */}
                     <Controller
                       name={`productDetailList[${index}].sampleSize`}
                       control={control}
@@ -316,7 +344,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          onBlur={handleOnBlur(index)}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
                           }}
@@ -373,30 +400,29 @@ const DynamicTable = () => {
                   </TD>
                   {/* 할인율 */}
                   <TD sx={{ width: "150px", paddingY: 1 }}>
-                    {/* <InputValidation
+                    <InputValidation
                       inputName={`productDetailList[${index}].stndDscntPctg`}
-                      required={true}
+                      required={false}
                       sx={{ width: "100%", display: "none" }}
                     />
                     <InputValidation
                       inputName={`productDetailList[${index}].isExc`}
                       required={true}
-                      sx={{ width: "100%", display: "none" }}
+                      sx={{ width: "100%" }}
+                      // sx={{ width: "100%", display: "none" }}
                     />
                     <InputValidation
                       inputName={`productDetailList[${index}].dscntPctg`}
                       required={true}
+                      // required={false}
                       fullWidth={true}
                       sx={{
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
+                        // width: 150,
                         "&.MuiTextField-root": {
                           backgroundColor: "#F1F3F5",
                         },
-                        ".MuiOutlinedInput-input:read-only": {
-                          textFillColor:
-                            disCountChk === true ? "#f10505" : "#000000",
+                        ".MuiOutlinedInput-input": {
+                          textAlign: "end",
                         },
                       }}
                       InputProps={{
@@ -409,7 +435,7 @@ const DynamicTable = () => {
                           </InputAdornment>
                         ),
                       }}
-                    /> */}
+                    />
                   </TD>
                   <TD align="right">확인</TD>
                 </TableRow>
