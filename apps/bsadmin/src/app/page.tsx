@@ -1,6 +1,6 @@
 "use client";
 
-import * as React from "react";
+// import * as React from "react";
 import { Grid } from "@mui/material";
 // import KeywordSearch from "../../components/KeywordSearch";
 // import SectionHeader from "../../../components/SectionHeader";
@@ -27,7 +27,7 @@ import DashboardHeader from "./components/Dashboard/components/DashboardHeader";
 
 export default function Page() {
   return (
-    <RecoilRoot override={false}>
+    <>
       <Grid container sx={{ mb: 2 }}>
         <Grid item xs={6}>
           <DashboardHeader />
@@ -39,7 +39,6 @@ export default function Page() {
           {/*</Stack>*/}
         </Grid>
       </Grid>
-
       <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
         <Grid item xs={7}>
           <Total />
@@ -48,7 +47,6 @@ export default function Page() {
           <SrvcSales />
         </Grid>
       </Grid>
-
       <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
         <Grid item xs={6}>
           <SalesByItem />
@@ -57,7 +55,6 @@ export default function Page() {
           <SalesByItem2 />
         </Grid>
       </Grid>
-
       <Grid container spacing={2.5} sx={{ mb: 2.5 }} alignItems="stretch">
         <Grid item xs={6}>
           <InstTop />
@@ -66,12 +63,11 @@ export default function Page() {
           <AgncTop />
         </Grid>
       </Grid>
-
       <Grid container spacing={2.5}>
         <Grid item xs={12}>
           <Idle />
         </Grid>
       </Grid>
-    </RecoilRoot>
+    </>
   );
 }

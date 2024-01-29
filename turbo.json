@@ -7,6 +7,7 @@
   "globalDotEnv": [".env.local", ".env"],
   "pipeline": {
     "build": {
+      "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"],
       "env": ["NEXT_PUBLIC_API_URL", "NEXTAUTH_URL", "NEXTAUTH_SECRET", "NEXT_PUBLIC_API_URL_ORSH"]
     },

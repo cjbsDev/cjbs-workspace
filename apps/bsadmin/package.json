@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "a": "turbo run dev",
     "build": "dotenv -e ../../.env next build",
     "start": "next start",
     "dev": "dotenv -e ../../.env next dev",
