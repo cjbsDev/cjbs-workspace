@@ -71,7 +71,7 @@ const ListCust = () => {
       },
       {
         name: "유형",
-        selector: (row: { tdstTypeCcVal: string }) => row.tdstTypeCcVal,
+        selector: (row: { tdstTypeVal: string }) => row.tdstTypeVal,
         width: "100px",
       },
       {
