@@ -8,6 +8,8 @@ import {useEffect, useState} from "react";
 import {POST} from "api";
 import {toast} from "react-toastify";
 import {color} from "@mui/system";
+import { monthlyViewAtom } from "../../../../../recoil/atoms/monthlyViewAtom";
+import {useRecoilState} from "recoil";
 
 
 const LazyPrepSelectbox = dynamic(
@@ -42,7 +44,9 @@ const TableNewRows = (props:any) => {
   const [disCountChk, setDisCountChk] = useState<boolean>(false);
   const [stndSupplyPrice, setStndSupplyPrice] = useState<number>(0);
   const [sampleSizeState, setSampleSizeState] = useState<number>(0);
-  const watchAddType = watch(`sample.[${index}].addType`)
+  // 월비용 노출/미노출
+  const [isMonthly, setIsMonthly] = useRecoilState(monthlyViewAtom);
+  const watchAddType = watch(`sample.[${index}].addType`);
   // console.log(addType);
 
   useEffect(() => {
@@ -101,6 +105,9 @@ const TableNewRows = (props:any) => {
     } catch (error) {
       console.error("request failed:", error);
       toast("문제가 발생했습니다. 02");
+    } finally {
+      // 합계금액이 달라졌을경우 월비용에 대한 값이 초기화 된다.
+      setIsMonthly(false);
     }
   }
 
@@ -181,6 +188,8 @@ const TableNewRows = (props:any) => {
     }
     // 모든계산이 끝나면 단가에 콤마추가
     setValue(`sample.[${index}].unitPrice`, unitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    // 합계금액이 달라졌을경우 월비용에 대한 값이 초기화 된다.
+    setIsMonthly(false);
   }
 
   // 공급가액 포커스 아웃시 이벤트
@@ -206,6 +215,8 @@ const TableNewRows = (props:any) => {
       );
       setValue(`sample.[${index}].supplyPrice`, stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
+    // 합계금액이 달라졌을경우 월비용에 대한 값이 초기화 된다.
+    setIsMonthly(false);
   }
 
   return (

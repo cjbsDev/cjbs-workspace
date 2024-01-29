@@ -10,7 +10,9 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "env": ["NEXT_PUBLIC_API_URL", "NEXTAUTH_URL", "NEXTAUTH_SECRET", "NEXT_PUBLIC_API_URL_ORSH"]
     },
-    "lint": {},
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
     "dev": {
       "cache": false,
       "persistent": true
