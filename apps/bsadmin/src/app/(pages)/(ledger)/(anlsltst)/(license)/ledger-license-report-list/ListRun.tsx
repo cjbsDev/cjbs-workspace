@@ -206,7 +206,7 @@ const ListRun = () => {
               <ContainedButton
                 buttonName="발행 요청"
                 size="small"
-                onClick={() => goDetailPage(row)}
+                onClick={() => goTaxInvoicePage(row)}
               />
             ) : ('완료')
           );
@@ -228,6 +228,15 @@ const ListRun = () => {
       alert('준비중...')
       // router.push("/ledger-license-report-list/" + path);
     }
+  };
+
+  // 발행요청
+  const goTaxInvoicePage = (row: any) => {
+    const anlsItstUkey = row.anlsItstUkey;
+    const agncUkey = row.agncUkey;
+    console.log("anlsItstUkey", anlsItstUkey);
+    console.log("agncUkey", agncUkey);
+    // router.push(`/ledger-tax-invoice-reg?type=anlsltst&anlsItstUkey${anlsItstUkey}=agncUkey=${agncUkey}`);
   };
 
   const subHeaderComponentMemo = useMemo(() => {

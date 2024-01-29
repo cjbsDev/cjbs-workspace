@@ -42,6 +42,7 @@ import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
+import {addDays, subDays} from "date-fns";
 
 const LazyOrderSearchModal = dynamic(
   () => import("../../../../../components/OrderSearchModal"),
@@ -203,6 +204,19 @@ const AnalysisRegView = () => {
     } else {
       setIsSampleSelected(false);
     }
+  };
+
+  const standDate = () => {
+    const now = new Date("2024-03-04");
+    // const now = new Date();
+    const nowMonth: number = now.getMonth() + 1;
+    const nowDate: number = now.getDate();
+    return [
+      {
+        start: subDays(now.setDate(1), 1),
+        end: addDays(new Date(now.setMonth(+nowMonth)).setDate(5), 0),
+      },
+    ];
   };
 
   return (
@@ -463,9 +477,14 @@ const AnalysisRegView = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>분석일</TH>
                       <TD sx={{ width: "35%" }}>
+                        {/*<SingleDatePicker*/}
+                        {/*  inputName="anlsDttm"*/}
+                        {/*  required={true}*/}
+                        {/*/>*/}
                         <SingleDatePicker
                           inputName="anlsDttm"
                           required={true}
+                          includeDateIntervals={standDate()}
                         />
                       </TD>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
