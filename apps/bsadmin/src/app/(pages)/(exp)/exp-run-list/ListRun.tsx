@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
 import { Box } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
@@ -66,16 +66,19 @@ const ListRun = () => {
     setShowRunAddModal(false);
   };
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = useCallback((page: number) => {
     console.log("Page", page);
     setPage(page);
-  };
+  }, []);
 
-  const handlePerRowsChange = (newPerPage: number, page: number) => {
-    console.log("Row change.....", newPerPage, page);
-    setPage(page);
-    setSize(newPerPage);
-  };
+  const handlePerRowsChange = useCallback(
+    (newPerPage: number, page: number) => {
+      console.log("Row change.....", newPerPage, page);
+      setPage(page);
+      setSize(newPerPage);
+    },
+    [],
+  );
 
   return (
     <>
