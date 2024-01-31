@@ -1,52 +1,72 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ToggleButton from "@mui/material/ToggleButton";
 import { ToggleButtonGroup } from "@mui/material";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useStatusTypeList from "../../../../../hooks/useStatusTypeList";
 import { styled } from "@mui/material/styles";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 interface StatusType {
   value: string;
   optionName: string;
 }
+interface ResultObject {
+  orderStatusCc: string | null;
+}
 
 const ToggleBtnGrp = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const router = useRouter();
-  const [alignment, setAlignment] = useState<string | null>(null);
+  const [status, setStatus] = useState<string | null>(null);
+  const [resultObject] = useResultObject() as [ResultObject, unknown];
+  console.log("Status resultObject", resultObject);
+  const { orderStatusCc } = resultObject;
+
+  useEffect(() => {
+    setStatus(orderStatusCc);
+  }, []);
+
   const { data } = useStatusTypeList("order", "status");
-  // const { data } = useSWR(
-  //   `/code/list/shortly/value?topValue=order&midValue=status`,
-  //   fetcher,
-  //   {
-  //     suspense: true,
-  //   },
-  // );
-  // console.log("TYTTTYTYTT", data);
+  console.log(">>>>>>>>>>>>>", data);
+
+  const valuesToDelete = ["BS_0802001"];
+
+  const filteredStatusTypeListData = data.filter(
+    (item) => !valuesToDelete.includes(item.value),
+  );
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    newStatus: string | null,
   ) => {
-    if (newAlignment !== null) {
-      router.push(`${pathname}?page=1&size=15&orderStatusCc=${newAlignment}`);
-      setAlignment(newAlignment);
+    const params = new URLSearchParams(searchParams.toString());
+    // console.log("PARAMS", params);
+
+    if (newStatus !== null) {
+      params.append("orderStatusCc", newStatus);
+      // router.push(`${pathname}?page=1&size=15&orderStatusCc=${newStatus}`);
+      router.push(`${pathname}?${params.toString()}`);
+      setStatus(newStatus);
     } else {
-      router.push(pathname); // `newAlignment`이 `null`일 때의 경로 처리
-      setAlignment(null);
+      params.delete("orderStatusCc");
+      // router.push(pathname); // `newStatus`이 `null`일 때의 경로 처리
+      router.push(`${pathname}?${params.toString()}`);
+      setStatus(null);
     }
+    console.log("Append QueryString ==>>", params.toString());
   };
 
   return (
     <StyledToggleButtonGroup
       color="primary"
-      value={alignment}
+      value={status}
       exclusive
       onChange={handleChange}
       aria-label="Platform"
     >
-      {data.map((item: StatusType) => {
+      {filteredStatusTypeListData.map((item: StatusType) => {
         const { value, optionName } = item;
         return (
           <ToggleButton key={value} value={value}>

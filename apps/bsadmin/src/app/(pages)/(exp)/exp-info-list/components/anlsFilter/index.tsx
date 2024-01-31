@@ -10,15 +10,12 @@ const LazyAnlsSelectbox = dynamic(() => import("./alnsSelectbox"), {
 });
 
 const Index = () => {
-  const [resultObject, result] = useResultObject();
-
-  console.log("RRRRRRRRRR", resultObject);
-
-  const { anlsTypeMc } = resultObject;
+  // const [resultObject, result] = useResultObject();
+  // const { anlsTypeMc } = resultObject;
 
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyAnlsSelectbox defaultValue={anlsTypeMc} />
+      <LazyAnlsSelectbox />
     </ErrorContainer>
   );
 };
