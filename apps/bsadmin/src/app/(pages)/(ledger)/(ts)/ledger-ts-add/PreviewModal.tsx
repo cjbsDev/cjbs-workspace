@@ -23,7 +23,7 @@ const PreviewModal = (props: any) => {
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>미리보기</ModalTitle>
-      <DialogContent>
+      <DialogContent sx={{backgroundColor: '#4f4f4f'}}>
         <Stack spacing={1} alignItems="center" justifyContent="center" mb={2}>
           {/*<ReactToPrint*/}
           {/*  trigger={() => <OutlinedButton buttonName="인쇄" />}*/}

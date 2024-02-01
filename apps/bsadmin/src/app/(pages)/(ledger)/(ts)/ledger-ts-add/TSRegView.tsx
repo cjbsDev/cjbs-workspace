@@ -333,7 +333,7 @@ const TSRegView = () => {
           <LazyPreviewModal
             open={showPreviewModal}
             onClose={preveiwModalClose}
-            modalWidth={842}
+            modalWidth={695}
             viewType={'preview'}
             onSubmit={onSubmit}
           />

@@ -1,12 +1,13 @@
 import React, { forwardRef } from "react";
 import {
+  formatNumberWithCommas,
   OutlinedButton,
   TH,
   TD,
 } from "cjbsDSTM";
 import {
   Box,
-  BoxProps,
+  BoxProps, Chip,
   Grid,
   Stack,
   styled,
@@ -17,10 +18,27 @@ import {
 } from "@mui/material";
 import Image from 'next/image';
 import CJLogo from '../../../../../../public/svg/cj_bk.svg';
+import {useFormContext, useWatch} from "react-hook-form";
+import dayjs from "dayjs";
+import {geKoreanNumber} from "cjbsDSTM/commonFunc/geKoreanNumber";
 
 const TSPreview = forwardRef((props, ref) => {
   // const { open, onClose, modalWidth } = props;
+  const { getValues, control, watch } = useFormContext();
+  const productValue = useWatch({
+    name: "productDetailList",
+    control,
+  }) || []; // productValue가 undefined일 경우 빈 배열을 기본값으로 사용
 
+  const wdtDate = dayjs(getValues("wdtDate")).format("YYYY년 MM월 DD일");
+  const conm = getValues("conm");
+  const nm = getValues("nm");
+  const tel = getValues("tel");
+  const memo = getValues("memo");
+  const totalSupplyPrice = formatNumberWithCommas(getValues("totalSupplyPrice"));
+  const vat = formatNumberWithCommas(getValues("vat"));
+  const totalPrice = formatNumberWithCommas(getValues("totalPrice"));
+  const totalPriceKr = geKoreanNumber(getValues("totalPrice"));
 
   return (
 
@@ -29,10 +47,10 @@ const TSPreview = forwardRef((props, ref) => {
       alignItems="center"
       justifyContent="start"
       sx={{
-        // bgcolor: '#b7b7b7',
+        bgcolor: '#ffffff',
         width: '595px',
         height: '842px',
-        border: '1px solid #000000',
+        // border: '1px solid #000000',
         position: "relative",
       }}
       className="printArea"
@@ -51,7 +69,8 @@ const TSPreview = forwardRef((props, ref) => {
           <CJFontTitleBox sx={{fontSize:22}} >거 래 명 세 서</CJFontTitleBox>
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
-          <CJFontBodyBox sx={{fontSize:10}} >Date. 2024년 1월 30일</CJFontBodyBox>
+          <CJFontBodyBox sx={{fontSize:10}} >Date.&nbsp;</CJFontBodyBox>
+          <CJFontBodyBox sx={{fontSize:10}} >{wdtDate}</CJFontBodyBox>
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }} mb={1}>
           <TableContainer sx={{ mt: 0.5 }}>
@@ -88,7 +107,7 @@ const TSPreview = forwardRef((props, ref) => {
                   <TD sx={{ width: "40%", height: "20px", p:0, paddingX: 1 }} colSpan={1} align="center">
                     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0}>
                       <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                        <CJFontTdBox sx={{fontSize:10}} >연세의료원 산하협력단</CJFontTdBox>
+                        <CJFontTdBox sx={{fontSize:10}} >{conm}</CJFontTdBox>
                       </Stack>
                       <CJFontTdBox sx={{fontSize:10}} >귀중</CJFontTdBox>
                     </Stack>
@@ -123,7 +142,7 @@ const TSPreview = forwardRef((props, ref) => {
                   <TD sx={{ width: "40%", height: "20px", p:0, paddingX: 1 }} align="center">
                     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0}>
                       <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                        <CJFontTdBox sx={{fontSize:10}} >천종식</CJFontTdBox>
+                        <CJFontTdBox sx={{fontSize:10}} >{nm}</CJFontTdBox>
                       </Stack>
                       <CJFontTdBox sx={{fontSize:10}} > 님</CJFontTdBox>
                     </Stack>
@@ -132,7 +151,7 @@ const TSPreview = forwardRef((props, ref) => {
                 <TableRow>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox >주 소</CJFont500TdBox>
+                      <CJFont500TdBox>주 소</CJFont500TdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={3} align="center">
@@ -142,19 +161,19 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox >전 화</CJFont500TdBox>
+                      <CJFont500TdBox>전 화</CJFont500TdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={1} align="center">
-                    <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} ></CJFontTdBox>
+                    <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0}>
+                      <CJFontTdBox sx={{fontSize:10, pl:1}} >{tel}</CJFontTdBox>
                     </Stack>
                   </TD>
                 </TableRow>
                 <TableRow>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox >전 화</CJFont500TdBox>
+                      <CJFont500TdBox>전 화</CJFont500TdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={3} align="center">
@@ -172,12 +191,12 @@ const TSPreview = forwardRef((props, ref) => {
                   {/*</TD>*/}
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox >비 고</CJFont500TdBox>
+                      <CJFont500TdBox>비 고</CJFont500TdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={1} align="center">
-                    <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox ></CJFont500TdBox>
+                    <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0}>
+                      <CJFont500TdBox sx={{pl:1}}>{memo}</CJFont500TdBox>
                     </Stack>
                   </TD>
                 </TableRow>
@@ -201,9 +220,9 @@ const TSPreview = forwardRef((props, ref) => {
           >
             <CJFontHeaderBox >합계금액 (공급가액 + 부가세) : </CJFontHeaderBox>
             <CJFont500TdBox >일 금</CJFont500TdBox>
-            <CJFontHeaderBox >칠백칠십이만이천</CJFontHeaderBox>
+            <CJFontHeaderBox >{totalPriceKr}</CJFontHeaderBox>
             <CJFont500TdBox >원 정</CJFont500TdBox>
-            <CJFontHeaderBox >₩ 7,722,000</CJFontHeaderBox>
+            <CJFontHeaderBox >₩ {totalPrice}</CJFontHeaderBox>
           </Stack>
         </Grid>
         <Grid item xs={12}>
@@ -241,39 +260,55 @@ const TSPreview = forwardRef((props, ref) => {
                   <TD sx={{ width: "50%", borderBottom: 0 }}>
                     <Box sx={{ minHeight: "430px", maxHeight: "430px", pt: 0.5 }}>
                       <Stack spacing={1} alignItems="flex-start" justifyContent="flex-start">
-                        <CJFontTdBox>[MTP] Microbiome Taxonomix Profiling</CJFontTdBox>
-                        <CJFontTdBox>[MTP] Microbiome Taxonomix Profiling</CJFontTdBox>
-                        <CJFontTdBox>[MTP] Microbiome Taxonomix Profiling</CJFontTdBox>
-                        <CJFontTdBox>[MTP] Microbiome Taxonomix Profiling</CJFontTdBox>
-                        <CJFontTdBox>[MTP] Microbiome Taxonomix Profiling</CJFontTdBox>
+                        {productValue.map((item: any) => {
+                          return (
+                            <CJFontTdBox>{item.products}</CJFontTdBox>
+                          );
+                        })}
                       </Stack>
                     </Box>
                   </TD>
                   <TD sx={{ width: "10%", borderBottom: 0 }}>
                     <Box sx={{ minHeight: "430px", maxHeight: "430px", pt: 0.5 }}>
                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
-                        <CJFontTdBox>24</CJFontTdBox>
+                        {productValue.map((item: any) => {
+                          return (
+                            <CJFontTdBox>{item.sampleSize}</CJFontTdBox>
+                          );
+                        })}
                       </Stack>
                     </Box>
                   </TD>
                   <TD sx={{ width: "10%", borderBottom: 0 }}>
                     <Box sx={{ minHeight: "430px", maxHeight: "430px", pt: 0.5 }}>
                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
-                        <CJFontTdBox>24</CJFontTdBox>
+                        {productValue.map((item: any) => {
+                          return (
+                            <CJFontTdBox>ea</CJFontTdBox>
+                          );
+                        })}
                       </Stack>
                     </Box>
                   </TD>
                   <TD sx={{ width: "10%", borderBottom: 0 }}>
                     <Box sx={{ minHeight: "430px", maxHeight: "430px", pt: 0.5 }}>
                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
-                        <CJFontTdBox>270,000</CJFontTdBox>
+                        {productValue.map((item: any) => {
+                          return (
+                            <CJFontTdBox>{formatNumberWithCommas(item.unitPrice)}</CJFontTdBox>
+                          );
+                        })}
                       </Stack>
                     </Box>
                   </TD>
                   <TD sx={{ width: "20%", borderBottom: 0 }}>
                     <Box sx={{ minHeight: "430px", maxHeight: "430px", pt: 0.5 }}>
                       <Stack spacing={1} alignItems="end" justifyContent="flex-start">
-                        <CJFontTdBox>7,020,000</CJFontTdBox>
+                        {productValue.map((item: any) => {
+                          return (
+                            <CJFontTdBox>{formatNumberWithCommas(item.supplyPrice)}</CJFontTdBox>
+                          );
+                        })}
                       </Stack>
                     </Box>
                   </TD>
@@ -294,7 +329,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TH>
                   <TH sx={{ width: "20%", height: "20px", p:0 }} align="center">
                     <Stack spacing={1} alignItems="end" justifyContent="flex-start" sx={{paddingRight:1}}>
-                      <CJFontTdBox >7,020,000</CJFontTdBox>
+                      <CJFontTdBox >{totalSupplyPrice}</CJFontTdBox>
                     </Stack>
                   </TH>
                 </TableRow>
@@ -306,7 +341,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TH>
                   <TH sx={{ width: "20%", height: "20px", p:0 }} align="center">
                     <Stack spacing={1} alignItems="end" justifyContent="flex-start" sx={{paddingRight:1}}>
-                      <CJFontTdBox >702,000</CJFontTdBox>
+                      <CJFontTdBox >{vat}</CJFontTdBox>
                     </Stack>
                   </TH>
                 </TableRow>
@@ -318,7 +353,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TH>
                   <TH sx={{ width: "20%", height: "20px", p:0 }} align="center">
                     <Stack spacing={1} alignItems="end" justifyContent="flex-start" sx={{paddingRight:1}}>
-                      <CJFontTdBox >7,722,000</CJFontTdBox>
+                      <CJFontTdBox >{totalPrice}</CJFontTdBox>
                     </Stack>
                   </TH>
                 </TableRow>
