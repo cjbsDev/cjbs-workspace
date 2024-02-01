@@ -21,6 +21,8 @@ import CJLogo from '../../../../../../public/svg/cj_bk.svg';
 import {useFormContext, useWatch} from "react-hook-form";
 import dayjs from "dayjs";
 import {geKoreanNumber} from "cjbsDSTM/commonFunc/geKoreanNumber";
+import useSWR from "swr";
+import {fetcher} from "api";
 
 const TSPreview = forwardRef((props, ref) => {
   // const { open, onClose, modalWidth } = props;
@@ -39,6 +41,14 @@ const TSPreview = forwardRef((props, ref) => {
   const vat = formatNumberWithCommas(getValues("vat"));
   const totalPrice = formatNumberWithCommas(getValues("totalPrice"));
   const totalPriceKr = geKoreanNumber(getValues("totalPrice"));
+
+  const { data, error, isValidating } = useSWR(
+    `/tdst/sprAndDpstInfo`,
+    fetcher,
+  );
+  const {dpstInfo, sprInfo} = data;
+  console.log(dpstInfo)
+  console.log(sprInfo)
 
   return (
 
@@ -96,7 +106,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={3} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} >119-86-23145</CJFontTdBox>
+                      <CJFontTdBox sx={{fontSize:10}} >{sprInfo.sprAcsn}</CJFontTdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
@@ -121,7 +131,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "15%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} >119-86-23145</CJFontTdBox>
+                      <CJFontTdBox sx={{fontSize:10}} >{sprInfo.sprConm}</CJFontTdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
@@ -131,7 +141,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "15%", height: "20px", p:0 }} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} >천종식</CJFontTdBox>
+                      <CJFontTdBox sx={{fontSize:10}} >{sprInfo.sprNm}</CJFontTdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
@@ -156,7 +166,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={3} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} >서울특별시 중구 세종대로14 그랜드센트럴 B동 7층</CJFontTdBox>
+                      <CJFontTdBox sx={{fontSize:10}} >{sprInfo.sprAddr}</CJFontTdBox>
                     </Stack>
                   </TD>
                   <TD sx={{ width: "10%", height: "20px", p:0 }} align="center">
@@ -178,7 +188,7 @@ const TSPreview = forwardRef((props, ref) => {
                   </TD>
                   <TD sx={{ width: "40%", height: "20px", p:0 }} colSpan={3} align="center">
                     <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{fontSize:10}} >02-6078-3456</CJFontTdBox>
+                      <CJFontTdBox sx={{fontSize:10}} >{sprInfo.sprTel}</CJFontTdBox>
                     </Stack>
                   </TD>
                   {/*<TD sx={{ width: "10%" }} align="center">*/}
@@ -372,7 +382,11 @@ const TSPreview = forwardRef((props, ref) => {
               height: 30,
             }}
           >
-            <CJFontBodyBox>계좌 : 신한은행 100-000-00000    예금주 : 씨제이바이오사이언스 주식회사</CJFontBodyBox>
+            <CJFontBodyBox>계좌 :&nbsp;</CJFontBodyBox>
+            <CJFontBodyBox>{dpstInfo.dpstBank}</CJFontBodyBox>
+            <CJFontBodyBox>{dpstInfo.dpstAcno}&nbsp;&nbsp;&nbsp;&nbsp;</CJFontBodyBox>
+            <CJFontBodyBox>예금주 : </CJFontBodyBox>
+            <CJFontBodyBox>{dpstInfo.dpstDpsr}</CJFontBodyBox>
           </Stack>
         </Grid>
         <Grid item xs={12} sx={{ position: 'absolute', bottom:0, width:'100%', p: 2 }}>
