@@ -231,9 +231,27 @@ const SearchForm = ({ onClose }) => {
     onClose();
   };
 
-  const handleKeywordClear = () => {
-    router.push(pathname);
-    onClose();
+  const handleReset = () => {
+    const strArr = Object.keys(resultObject);
+
+    const keysToDelete = ["anlsTypeMc"];
+
+    const filteredstrArrData = strArr.filter(
+      (item) => !keysToDelete.includes(item),
+    );
+
+    console.log("#########BBBBBBBBBBBBBBBBB", filteredstrArrData);
+
+    console.log("strArr", strArr);
+    const params = new URLSearchParams(searchParams.toString());
+    // console.log("@@@@@@@@@@@PARAMS&&&&&CLEAR", params);
+    // console.log("@@@@@@@@@@@PARAMS&&&&&CLEAR", params.toString());
+
+    filteredstrArrData.map((item) => params.delete(`${item}`));
+    // params.delete("keyword");
+    console.log("???????????????", params.toString());
+    router.push(`${pathname}?${params.toString()}`);
+    // onClose();
   };
 
   return (
@@ -288,7 +306,7 @@ const SearchForm = ({ onClose }) => {
             spacing={1}
           >
             <OutlinedButton
-              onClick={handleKeywordClear}
+              onClick={handleReset}
               buttonName="초기화"
               size="small"
             />
