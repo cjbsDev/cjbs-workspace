@@ -38,10 +38,20 @@ import dayjs from "dayjs";
 import TypeSelectRadio from "../../../../components/TypeSelectRadio";
 import DynamicTable from "../../../../components/DynamicTable";
 import DynamicSumTable from "../../../../components/DynamicSumTable";
+import PreviewModal from "./PreviewModal";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
   () => import("../../../../components/AgncSearchTSModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
+// 미리보기
+const LazyPreviewModal = dynamic(
+  () => import("./PreviewModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -72,8 +82,10 @@ const TSRegView = () => {
   } = methods;
 
   // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
+  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
+
+  // [미리 보기] 모달
+  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -85,6 +97,16 @@ const TSRegView = () => {
     setShowAgncSearchModal(false);
     console.log("getInstNm", getValues("instNm"));
     console.log("getAgncNm", getValues("agncNm"));
+  };
+
+  // [ 기관 검색 ] 모달 오픈
+  const preveiwModalOpen = () => {
+    setShowPreviewModal(true);
+  };
+
+  // [ 기관 검색 ] 모달 닫기
+  const preveiwModalClose = () => {
+    setShowPreviewModal(false);
   };
 
   // Submit
@@ -294,6 +316,11 @@ const TSRegView = () => {
             buttonName="목록"
             onClick={() => router.push("/ledger-ts-list/")}
           />
+          <OutlinedButton
+            size="small"
+            buttonName="미리보기"
+            onClick={preveiwModalOpen}
+          />
           <ContainedButton
             size="small"
             type="submit"
@@ -301,6 +328,17 @@ const TSRegView = () => {
             endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
+        {/* 미리보기 모달*/}
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyPreviewModal
+            open={showPreviewModal}
+            onClose={preveiwModalClose}
+            modalWidth={842}
+            viewType={'preview'}
+            onSubmit={onSubmit}
+          />
+        </ErrorContainer>
+
       </Form>
     </>
   );

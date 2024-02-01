@@ -14,8 +14,8 @@ const LicenseSupplyPrice = (props:any) => {
     control,
   });
 
-  const chkSupplyPrice = watch(`sample[${index}].unitPrice`) * watch(`sample[${index}].sampleSize`);
-  const supplyPrice = watch(`sample[${index}].supplyPrice`);
+  const chkSupplyPrice = watch(`sample.[${index}].unitPrice`) * watch(`sample.[${index}].sampleSize`);
+  const supplyPrice = watch(`sample.[${index}].supplyPrice`);
 
   const handleOnFocus =  (event: any) => {
     event.target.select();
