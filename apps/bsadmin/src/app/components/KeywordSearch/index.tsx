@@ -48,11 +48,21 @@ const KeywordSearch = () => {
   const defaultValues = resultObject;
   const onSubmit = (data: { keyword: string }) => {
     // console.log("Keyword ==>>", data.keyword);
+    const params = new URLSearchParams(searchParams.toString());
+    console.log("@@@@@@@@@@@PARAMS", params.toString());
+
+    params.delete("keyword");
 
     const result = "?" + new URLSearchParams(data).toString();
+    console.log("CANDY ==>>", result);
     // console.log("RESULT", result);
     setToggleClearRows(!toggledClearRows);
-    router.push(`${pathname}${result}`);
+
+    if (params.toString() === "") {
+      router.push(`${pathname}${result}`);
+    } else {
+      router.push(`${pathname}${result}&${params.toString()}`);
+    }
 
     // localstorage에 검색에 저장되는 부분 시작
     // 공백제거.

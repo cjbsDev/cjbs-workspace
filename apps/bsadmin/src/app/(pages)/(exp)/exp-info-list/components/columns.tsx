@@ -39,6 +39,10 @@ export const Columns = () => [
     selector: (row) => formatValue(row.srvcTypeVal),
   },
   {
+    name: "분석타입",
+    selector: (row) => formatValue(row.anlsTypeVal),
+  },
+  {
     name: "거래처(PI)",
     width: "120px",
     right: true,

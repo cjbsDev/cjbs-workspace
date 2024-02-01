@@ -21,12 +21,12 @@ const ToggleBtnGrp = () => {
   const router = useRouter();
   const [status, setStatus] = useState<string | null>(null);
   const [resultObject] = useResultObject() as [ResultObject, unknown];
-  console.log("Status resultObject", resultObject);
+  // console.log("Status resultObject", resultObject);
   const { orderStatusCc } = resultObject;
 
   useEffect(() => {
     setStatus(orderStatusCc);
-  }, []);
+  }, [orderStatusCc]);
 
   const { data } = useStatusTypeList("order", "status");
   console.log(">>>>>>>>>>>>>", data);

@@ -26,6 +26,7 @@ import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../../data/inputDataLists";
+import { toast } from "react-toastify";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
@@ -75,62 +76,100 @@ const SearchForm = ({ onClose }) => {
   }
 
   if (resultObject.dateTypeCc !== undefined) {
+    console.log("<MMMMMMMMMMMMM", resultObject);
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
+    console.log("@@@@@@@@@", typeof endDttm);
+
+    if (startDttm == undefined) {
+      delete resultObject.startDttm;
+    } else {
+      resultObject.startDttm = new Date(startDttm);
+    }
+
+    if (endDttm == undefined) {
+      delete resultObject.endDttm;
+    } else {
+      resultObject.endDttm = new Date(endDttm);
+    }
 
     // 날짜 문자열을 Date 객체로 변환
-    resultObject.startDttm = new Date(startDttm);
-    resultObject.endDttm = new Date(endDttm);
+    // resultObject.startDttm = new Date(startDttm);
+    // resultObject.endDttm = new Date(endDttm);
   }
 
   console.log("SEARCH FORM DEFAULTVALUES", resultObject);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   console.log("currentQueryString", currentQueryString);
-  const keywordQueryString = currentQueryString.split("&", 1);
-  console.log("OnlyKeyword ==>>", keywordQueryString);
+  // const keywordQueryString = currentQueryString.split("&", 1);
+  // console.log("OnlyKeyword ==>>", keywordQueryString);
+
+  const newkeywordQueryString = currentQueryString.indexOf("keyword");
+  console.log("NewkeywordQueryString", newkeywordQueryString);
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
     let result;
-    //
-    // if (data.dateRange !== undefined) {
-    //   const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
-    //     dayjs(dateStr).format("YYYY-MM-DD")
-    //   );
-    //   data.startDttm = startDttm;
-    //   data.endDttm = endDttm;
-    //   data.dateRange = undefined;
-    // }
-    //
-    // console.log("DATA>>>>>", data);
 
     // 날짜
     if (
       data.dateTypeCc === "" &&
-      data.startDttm !== null &&
-      data.endDttm !== null
+      (data.startDttm != null || data.endDttm != null)
     ) {
       console.log("날짜 타입을 선택해 주세요");
+      toast("날짜 타입을 선택해 주세요");
       return;
     } else if (
       data.dateTypeCc !== "" &&
-      data.startDttm === null &&
-      data.endDttm === null
+      data.startDttm == null &&
+      data.endDttm == null
     ) {
-      console.log("날짜 선택해 주세요");
+      console.log("날짜를 선택해 주세요");
+      toast("날짜를 선택해 주세요");
       return;
     } else {
-      // console.log("날짜 타입을 선택해 주세요");
-      // return;
-
       // 변환할 날짜 문자열 가져오기
       const { startDttm, endDttm } = data;
 
-      // 날짜 문자열을 Date 객체로 변환
-      data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
-      data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
+      // 날짜 문자열을 Date 객체로 변환하고 포맷 변경
+      if (startDttm && endDttm) {
+        // startDttm과 endDttm이 유효한 경우에만 변환을 진행합니다.
+        data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
+        data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
+      }
     }
+
+    console.log("TTTTTT&&&&&&^TTTTTT", data);
+
+    // if (
+    //   data.dateTypeCc === "" &&
+    //   data.startDttm !== undefined &&
+    //   data.endDttm !== undefined
+    // ) {
+    //   console.log("날짜 타입을 선택해 주세요");
+    //   toast("날짜 타입을 선택해 주세요");
+    //   return;
+    // } else if (
+    //   data.dateTypeCc !== "" &&
+    //   data.startDttm === undefined &&
+    //   data.endDttm === undefined
+    // ) {
+    //   console.log("날짜 선택해 주세요");
+    //   return;
+    // } else if (
+    //   data.dateTypeCc === "" &&
+    //   data.startDttm == undefined &&
+    //   data.endDttm == undefined
+    // ) {
+    // } else {
+    //   // 변환할 날짜 문자열 가져오기
+    //   const { startDttm, endDttm } = data;
+    //
+    //   // 날짜 문자열을 Date 객체로 변환
+    //   data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
+    //   data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
+    // }
 
     const filteredObject = {};
 
@@ -138,6 +177,7 @@ const SearchForm = ({ onClose }) => {
       if (
         value !== "" &&
         value !== undefined &&
+        value !== null &&
         value !== false &&
         !(Array.isArray(value) && value.length === 0)
       ) {
@@ -149,12 +189,28 @@ const SearchForm = ({ onClose }) => {
       }
     }
 
-    // delete filteredObject.Keyword;
+    // startDttm
+    if (filteredObject.startDttm == undefined) {
+      delete filteredObject.startDttm;
+    } else {
+      filteredObject.startDttm = dayjs(filteredObject.startDttm).format(
+        "YYYY-MM-DD",
+      );
+    }
+
+    // endDttm
+    if (filteredObject.endDttm == undefined) {
+      delete filteredObject.endDttm;
+    } else {
+      filteredObject.endDttm = dayjs(filteredObject.endDttm).format(
+        "YYYY-MM-DD",
+      );
+    }
 
     console.log("filteredObject", filteredObject);
 
     if (JSON.stringify(resultObject) === "{}") {
-      console.log("키워드 미포함 검색!");
+      console.log("키워드 포함 검색!");
       if (JSON.stringify(filteredObject) === "{}") {
         return onClose();
       } else {
@@ -162,9 +218,10 @@ const SearchForm = ({ onClose }) => {
         router.push(`${pathname}${result}`);
       }
     } else {
-      console.log("키워트 포함 검색!");
+      console.log("키워트 미포함 검색!");
       result = new URLSearchParams(filteredObject).toString();
       console.log("HERE RESULT", result);
+
       if (result === "&") {
         router.push(`${pathname}?${keywordQueryString}`);
       }
@@ -175,8 +232,7 @@ const SearchForm = ({ onClose }) => {
   };
 
   const handleKeywordClear = () => {
-    // resetField("Keyword");
-    router.push(`/order-list`);
+    router.push(pathname);
     onClose();
   };
 
@@ -184,108 +240,38 @@ const SearchForm = ({ onClose }) => {
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ width: 539, p: 3.5, pb: 1 }}>
         <Section>
-          <SectionLabel variant="subtitle2">진행사항</SectionLabel>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyStatusTypeSelctbox />
-          </ErrorContainer>
-        </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">담당자</SectionLabel>
-          <Grid container>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">영업</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="bsnsMngrList" fullWidth />
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">실험</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="expMngrList" fullWidth />
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">분석</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="anlsMngrList" fullWidth />
-            </Grid>
-          </Grid>
-        </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">거래처 / 기관</SectionLabel>
-          <Grid container>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">거래처</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="agncNmList" fullWidth />
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">기관</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="instNmList" fullWidth />
-            </Grid>
-          </Grid>
-        </Section>
-        <Section>
           <SectionLabel variant="subtitle2">날짜</SectionLabel>
 
           <Stack direction="row" spacing={1}>
-            {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-            {/*  <LazyDateTypeSelctbox />*/}
-            {/*</ErrorContainer>*/}
-            {/*<DateRangePicker inputName="dateRange" />*/}
-            <SelectBox
-              inputName="dateTypeCc"
-              options={dateTypeCcData}
-              sx={{ width: 250 }}
-            />
+            <Stack>
+              <SelectBox
+                inputName="dateTypeCc"
+                options={dateTypeCcData}
+                sx={{ width: 130 }}
+              />
+            </Stack>
 
             <SingleDatePicker inputName="startDttm" />
             <SingleDatePicker inputName="endDttm" />
           </Stack>
         </Section>
-        {/*<Section>*/}
-        {/*  <SectionLabel variant="subtitle2">오더타입</SectionLabel>*/}
-        {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
-        {/*    <LazyOrderTypeChck />*/}
-        {/*  </ErrorContainer>*/}
-        {/*</Section>*/}
+
+        <Section>
+          <SectionLabel variant="subtitle2">진행사항</SectionLabel>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyStatusTypeSelctbox />
+          </ErrorContainer>
+        </Section>
+
+        <Section>
+          <SectionLabel variant="subtitle2">오더번호</SectionLabel>
+          <InputValidation inputName="orderId" />
+        </Section>
+
+        <Section>
+          <SectionLabel variant="subtitle2">키워드</SectionLabel>
+          <InputValidation inputName="keyword" />
+        </Section>
       </Box>
       <Box
         sx={{
@@ -295,11 +281,6 @@ const SearchForm = ({ onClose }) => {
         }}
       >
         <Stack spacing={2} justifyContent="center" alignItems="center">
-          <CheckboxSV
-            inputName="isExcludeResult"
-            labelText="위 검색 조건 목록에서 제외 합니다."
-            value="Y"
-          />
           <Stack
             direction="row"
             justifyContent="center"

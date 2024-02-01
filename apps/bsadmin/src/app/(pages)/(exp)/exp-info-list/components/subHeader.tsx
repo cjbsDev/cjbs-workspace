@@ -19,12 +19,12 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
           <Stack direction="row" spacing={1.5} alignItems="center">
             <DataCountResultInfo totalCount={totalElements} />
             <AnlsFilter />
-            <StatusFilter />
+            {/*<StatusFilter />*/}
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
             <Link href="/order-reg">
-              <ContainedButton buttonName="오더 등록" size="small" />
+              <ContainedButton buttonName="샘플 단계 등록" size="small" />
             </Link>
             <FileDownloadBtn
               exportUrl={`/order/list/download${result}`}

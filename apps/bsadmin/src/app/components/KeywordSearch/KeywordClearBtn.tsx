@@ -32,10 +32,15 @@ const KeywordClearBtn = () => {
     resetField("keyword");
     setValue("keyword", undefined);
     setToggleClearRows(!toggledClearRows);
+    const params = new URLSearchParams(searchParams.toString());
+    console.log("@@@@@@@@@@@PARAMS CLEAR", params.toString());
+    params.delete("keyword");
+
+    // params.delete("keyword");
     router.push(
       resultObject.uKey !== undefined
         ? `${pathname}?uKey=${resultObject.uKey}`
-        : pathname,
+        : `${pathname}?${params.toString()}`,
     );
   };
 

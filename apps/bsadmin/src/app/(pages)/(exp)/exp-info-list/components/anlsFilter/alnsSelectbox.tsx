@@ -15,7 +15,7 @@ const AlnsSelectbox = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [resultObject] = useResultObject() as [ResultObject, unknown];
-  console.log("Anls resultObject", resultObject);
+  // console.log("Anls resultObject", resultObject);
   const { anlsTypeMc } = resultObject;
 
   // const params = new URLSearchParams(searchParams.toString());
@@ -47,10 +47,20 @@ const AlnsSelectbox = () => {
 
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
+    const params = new URLSearchParams(searchParams.toString());
+    console.log("PARAMS", params.toString());
+    // params.delete("page");
+    // params.delete("size");
+    params.delete("anlsTypeMc");
+
+    params.append("anlsTypeMc", value);
+
+    // router.push(`${pathname}?page=1&size=15&${params.toString()}`);
+
     if (value === DEFAULT_ANALYSIS_TYPE) {
-      router.push(pathname);
+      router.push(`${pathname}`);
     } else {
-      router.push(`${pathname}?page=1&size=15&anlsTypeMc=${value}`);
+      router.push(`${pathname}?${params.toString()}`);
     }
   };
 
