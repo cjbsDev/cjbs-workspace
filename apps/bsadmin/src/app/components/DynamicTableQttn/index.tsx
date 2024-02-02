@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { useFormContext, useFieldArray, Controller } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import {
+  useFormContext,
+  useFieldArray,
+  Controller,
+  useWatch,
+} from "react-hook-form";
 import {
   Checkbox,
   Stack,
@@ -133,12 +138,14 @@ const DynamicTable = () => {
     name: "productDetailList",
   });
   const watchFieldArray = watch("productDetailList");
-
   const [modifiedMemo, setModifiedMemo] = useState({}); // index를 key로 하여 수정된 inclMemo 값을 저장
 
   const handleMemoSave = (index: number, memo: string) => {
+    setDisabledIndexes({ ...disabledIndexes, [index]: true });
     setModifiedMemo({ ...modifiedMemo, [index]: memo });
   };
+
+  const [disabledIndexes, setDisabledIndexes] = useState({});
 
   const controlledFields = fields.map((field, index) => {
     return {
@@ -151,7 +158,7 @@ const DynamicTable = () => {
   const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState<DataItem>();
 
-  // [ 마스터 코드 ] 모달 오픈
+  // [ 품명 포함 사항 ]  각 컬럼에 분석 종류를 판단하여 모달 오픈
   const mcItemModifyModalOpen = (index: number) => {
     const anlsTypeMc = getValues(`productDetailList.[${index}].anlsTypeMc`);
     if (!anlsTypeMc) {
@@ -167,7 +174,7 @@ const DynamicTable = () => {
     }
   };
 
-  // [ 마스터 코드 ] 모달 닫기
+  // [ 품명 포함 사항 ] 모달 닫기
   const mcItemModifyModalClose = () => {
     setMcCodeModifyModal(false);
   };
@@ -350,6 +357,7 @@ const DynamicTable = () => {
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyAnlsTypeSelectbox
                         inputName={`productDetailList[${index}].anlsTypeMc`}
+                        disabled={disabledIndexes[index]}
                       />
                     </ErrorContainer>
                     {errors.productDetailList?.[index]?.anlsTypeMc && (
