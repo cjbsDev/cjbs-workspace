@@ -8,14 +8,14 @@ interface InputNameProps {
   inputName: string;
   index: number;
 }
-// 서비스 분류
-const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
+// 서비스 타입
+const DTServiceTypeSelectbox = ({ inputName, index }: InputNameProps) => {
   const {
     formState: { errors },
   } = useFormContext();
 
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=Service Classification&midValue=`,
+    `/code/list/shortly/value?topValue=Service Type&midValue=none`,
     fetcher,
     {
       suspense: true,
@@ -27,11 +27,10 @@ const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
       inputName={inputName}
       options={data}
       required={true}
-      errorMessage="서비스 분류를 선택해 주세요"
+      errorMessage="서비스 타입을 선택해 주세요"
       sx={{ width: "100%" }}
-      defaultValue={"BS_0100005001"}
     />
   );
 };
 
-export default ServiceCategorySelectbox;
+export default DTServiceTypeSelectbox;
