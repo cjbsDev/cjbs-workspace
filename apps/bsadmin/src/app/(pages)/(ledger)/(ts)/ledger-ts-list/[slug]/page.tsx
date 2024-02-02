@@ -42,12 +42,23 @@ const LazyListProd = dynamic(() => import("./ProdList"), {
   loading: () => <SkeletonLoading />,
 });
 
+// 미리보기
+const LazyPreviewModal = dynamic(
+  () => import("./PreviewModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
 export default function AgncPage() {
   // init
   const params = useParams();
   const { slug } = params;
   const router = useRouter();
   const [agncInfoModalOpen, setAgncInfoModalOpen] = useState<boolean>(false);
+  // [미리 보기] 모달
+  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   // load
   const {
@@ -70,6 +81,16 @@ export default function AgncPage() {
   };
   const formatNumber = (number) => {
     return number.toLocaleString();
+  };
+
+  // [ 미리보기 ] 모달 오픈
+  const preveiwModalOpen = () => {
+    setShowPreviewModal(true);
+  };
+
+  // [ 미리보기 ] 모달 닫기
+  const preveiwModalClose = () => {
+    setShowPreviewModal(false);
   };
 
   return (
@@ -251,6 +272,12 @@ export default function AgncPage() {
           buttonName="목록"
           onClick={() => router.push("/ledger-ts-list/")}
         />
+        <ContainedButton
+          color={"success"}
+          size="small"
+          buttonName="거래명세서 발송"
+          onClick={preveiwModalOpen}
+        />
         <Link
           href={{
             pathname: "/ledger-ts-modify",
@@ -260,6 +287,15 @@ export default function AgncPage() {
           <ContainedButton buttonName="수정" />
         </Link>
       </Stack>
+
+      {/* 미리보기 & 발송 모달*/}
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyPreviewModal
+          open={showPreviewModal}
+          onClose={preveiwModalClose}
+          modalWidth={995}
+        />
+      </ErrorContainer>
 
       {/* 기관 정보 모달
       {agncInfoModalOpen && (

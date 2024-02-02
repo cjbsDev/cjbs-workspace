@@ -38,7 +38,6 @@ import dayjs from "dayjs";
 import TypeSelectRadio from "../../../../components/TypeSelectRadio";
 import DynamicTable from "../../../../components/DynamicTable";
 import DynamicSumTable from "../../../../components/DynamicSumTable";
-import PreviewModal from "./PreviewModal";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -50,13 +49,13 @@ const LazyAgncSearchModal = dynamic(
 );
 
 // 미리보기
-const LazyPreviewModal = dynamic(
-  () => import("./PreviewModal"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+// const LazyPreviewModal = dynamic(
+//   () => import("./PreviewModal"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   }
+// );
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
@@ -85,7 +84,7 @@ const TSRegView = () => {
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
 
   // [미리 보기] 모달
-  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
+  // const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -99,15 +98,15 @@ const TSRegView = () => {
     console.log("getAgncNm", getValues("agncNm"));
   };
 
-  // [ 기관 검색 ] 모달 오픈
-  const preveiwModalOpen = () => {
-    setShowPreviewModal(true);
-  };
-
-  // [ 기관 검색 ] 모달 닫기
-  const preveiwModalClose = () => {
-    setShowPreviewModal(false);
-  };
+  // [ 미리보기 ] 모달 오픈
+  // const preveiwModalOpen = () => {
+  //   setShowPreviewModal(true);
+  // };
+  //
+  // [ 미리보기 ] 모달 닫기
+  // const preveiwModalClose = () => {
+  //   setShowPreviewModal(false);
+  // };
 
   // Submit
   const onSubmit = async (data: any) => {
@@ -316,11 +315,11 @@ const TSRegView = () => {
             buttonName="목록"
             onClick={() => router.push("/ledger-ts-list/")}
           />
-          <OutlinedButton
-            size="small"
-            buttonName="미리보기"
-            onClick={preveiwModalOpen}
-          />
+          {/*<OutlinedButton*/}
+          {/*  size="small"*/}
+          {/*  buttonName="미리보기"*/}
+          {/*  onClick={preveiwModalOpen}*/}
+          {/*/>*/}
           <ContainedButton
             size="small"
             type="submit"
@@ -329,15 +328,14 @@ const TSRegView = () => {
           />
         </Stack>
         {/* 미리보기 모달*/}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyPreviewModal
-            open={showPreviewModal}
-            onClose={preveiwModalClose}
-            modalWidth={695}
-            viewType={'preview'}
-            onSubmit={onSubmit}
-          />
-        </ErrorContainer>
+        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*  <LazyPreviewModal*/}
+        {/*    open={showPreviewModal}*/}
+        {/*    onClose={preveiwModalClose}*/}
+        {/*    modalWidth={695}*/}
+        {/*    viewType={'preview'}*/}
+        {/*  />*/}
+        {/*</ErrorContainer>*/}
 
       </Form>
     </>

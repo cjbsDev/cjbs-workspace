@@ -10,12 +10,12 @@ import {
 import {
   DialogContent, Stack,
 } from "@mui/material";
-import TSPreview from "./TSPreview";
+import TSPreview from "../components/TSPreview";
 import ReactToPrint from "react-to-print";
 import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
 
 const PreviewModal = (props: any) => {
-  const { open, onClose, modalWidth, viewType, onSubmit } = props;
+  const { open, onClose, modalWidth, viewType } = props;
   const ref = useRef();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
