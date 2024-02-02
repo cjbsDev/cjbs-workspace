@@ -28,12 +28,10 @@ import * as React from "react";
 import { useCallback, useState, useEffect } from "react";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import Image from "next/image";
-import { fetcher, POST } from "api";
-import { useSearchParams } from "next/navigation";
-import useSWR, { useSWRConfig } from "swr";
+import { POST } from "api";
+import { useSWRConfig } from "swr";
 import { toast } from "react-toastify";
-import { useFormContext, useForm, FormProvider } from "react-hook-form";
+import { useForm } from "react-hook-form";
 
 import dayjs from "dayjs";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
@@ -74,8 +72,8 @@ const QTTNRegView = () => {
   } = methods;
 
   // const { watch, getValues, setValue } = useFormContext();
-  const agncType = watch("agncTypeCc"); // agncTypeCc 필드의 값 감시
-  const qttnTypeCcSelect = watch("qttnTypeCc"); // agncTypeCc 필드의 값 감시
+  // const agncType = watch("agncTypeCc"); // agncTypeCc 필드의 값 감시
+  // const qttnTypeCcSelect = watch("qttnTypeCc"); // agncTypeCc 필드의 값 감시
 
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] =
@@ -96,14 +94,32 @@ const QTTNRegView = () => {
     console.log("onSubmit data", data);
     // return;
 
+    // productDetailList를 순회하며 inclMemo 값이 없는 항목을 찾습니다.
+    const updatedProductDetailList = await Promise.all(
+      data.productDetailList.map(async (item) => {
+        if (!item.inclMemo && item.anlsTypeMc && item.inclMemo != "") {
+          try {
+            const response = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/mngr/esPrMng/anlsType/${item.anlsTypeMc}`
+            );
+            const data = await response.json();
+            return { ...item, inclMemo: data.data.inclInfo }; // inclMemo에 inclInfo 값을 할당
+          } catch (error) {
+            console.error("Error fetching inclInfo:", error);
+            return item; // 에러 발생 시 원래 항목을 반환
+          }
+        } else {
+          return item; // inclMemo 값이 이미 있는 경우 원래 항목을 반환
+        }
+      })
+    );
+
     const bodyData = {
       agncInstNm: data.agncNm,
       agncUkey: data.agncUkey,
       bsnsMngrUkey: data.bsnsMngrUkey,
       memo: data.memo,
-
-      productDetailList: data.productDetailList,
-
+      productDetailList: updatedProductDetailList,
       pymtMemo: data.pymtMemo,
       pymtTypeCc: data.pymtTypeCc,
       qttnDate: dayjs(data.qttnDate).format("YYYY-MM-DD"),
@@ -324,6 +340,8 @@ const QTTNRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/* 품명 관리 */}
         <DynamicTableQttn />
         <DynamicSumTable />
 

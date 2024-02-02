@@ -5,9 +5,10 @@ import { SelectBox } from "cjbsDSTM";
 
 interface InputNameProps {
   inputName: string;
+  disabled: boolean;
 }
 
-const AnlsTypeSelectbox = ({ inputName }: InputNameProps) => {
+const AnlsTypeSelectbox = ({ inputName, disabled }: InputNameProps) => {
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=Analaysis Type&midValue=`,
     fetcher,
@@ -23,6 +24,7 @@ const AnlsTypeSelectbox = ({ inputName }: InputNameProps) => {
       required={true}
       errorMessage="Ssssss"
       sx={{ width: "100%" }}
+      disabled={disabled}
     />
   );
 };

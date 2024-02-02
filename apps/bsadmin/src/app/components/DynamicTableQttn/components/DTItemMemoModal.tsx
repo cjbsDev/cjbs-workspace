@@ -127,7 +127,6 @@ const DTItemModifyModal = ({
           <Stack direction="row" spacing={0.5} justifyContent="center">
             <OutlinedButton buttonName="취소" onClick={handleCancel} />
             <ContainedButton buttonName="저장" onClick={handleSave} />
-            {/* <ContainedButton buttonName="저장" onClick={onClose} /> */}
           </Stack>
         </DialogContent>
       </ModalContainer>
