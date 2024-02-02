@@ -58,6 +58,8 @@ const KeywordSearch = () => {
     // console.log("RESULT", result);
     setToggleClearRows(!toggledClearRows);
 
+    router.push(`${pathname}${result}`);
+
     if (params.toString() === "") {
       router.push(`${pathname}${result}`);
     } else {

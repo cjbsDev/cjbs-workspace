@@ -1,21 +1,17 @@
 import React from "react";
 import {
-  CheckboxSV,
   cjbsTheme,
   ContainedButton,
   ErrorContainer,
   Fallback,
   Form,
   InputValidation,
-  OutlinedButton,
-  DateRangePicker,
   SingleDatePicker,
   SelectBox,
 } from "cjbsDSTM";
 import {
   Box,
   BoxProps,
-  Grid,
   Stack,
   styled,
   Typography,
@@ -27,10 +23,11 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
+import ResetBtn from "./resetBtn";
 
-const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
-  ssr: false,
-});
+// const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
+//   ssr: false,
+// });
 
 // const LazyDateTypeSelctbox = dynamic(
 //   () => import("../../../../components/DateTypeSelectbox"),
@@ -48,7 +45,11 @@ const LazyStatusTypeSelctbox = dynamic(
   },
 );
 
-const SearchForm = ({ onClose }) => {
+interface SearchFormProps {
+  onClose: () => void;
+}
+
+const SearchForm = ({ onClose }: SearchFormProps) => {
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
@@ -79,7 +80,7 @@ const SearchForm = ({ onClose }) => {
     console.log("<MMMMMMMMMMMMM", resultObject);
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
-    console.log("@@@@@@@@@", typeof endDttm);
+    // console.log("@@@@@@@@@", typeof endDttm);
 
     if (startDttm == undefined) {
       delete resultObject.startDttm;
@@ -98,15 +99,15 @@ const SearchForm = ({ onClose }) => {
     // resultObject.endDttm = new Date(endDttm);
   }
 
-  console.log("SEARCH FORM DEFAULTVALUES", resultObject);
+  // console.log("SEARCH FORM DEFAULTVALUES", resultObject);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
-  console.log("currentQueryString", currentQueryString);
-  // const keywordQueryString = currentQueryString.split("&", 1);
+  // console.log("currentQueryString", currentQueryString);
+  const keywordQueryString = currentQueryString.split("&", 1);
   // console.log("OnlyKeyword ==>>", keywordQueryString);
 
   const newkeywordQueryString = currentQueryString.indexOf("keyword");
-  console.log("NewkeywordQueryString", newkeywordQueryString);
+  // console.log("NewkeywordQueryString", newkeywordQueryString);
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
@@ -139,37 +140,6 @@ const SearchForm = ({ onClose }) => {
         data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
       }
     }
-
-    console.log("TTTTTT&&&&&&^TTTTTT", data);
-
-    // if (
-    //   data.dateTypeCc === "" &&
-    //   data.startDttm !== undefined &&
-    //   data.endDttm !== undefined
-    // ) {
-    //   console.log("날짜 타입을 선택해 주세요");
-    //   toast("날짜 타입을 선택해 주세요");
-    //   return;
-    // } else if (
-    //   data.dateTypeCc !== "" &&
-    //   data.startDttm === undefined &&
-    //   data.endDttm === undefined
-    // ) {
-    //   console.log("날짜 선택해 주세요");
-    //   return;
-    // } else if (
-    //   data.dateTypeCc === "" &&
-    //   data.startDttm == undefined &&
-    //   data.endDttm == undefined
-    // ) {
-    // } else {
-    //   // 변환할 날짜 문자열 가져오기
-    //   const { startDttm, endDttm } = data;
-    //
-    //   // 날짜 문자열을 Date 객체로 변환
-    //   data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
-    //   data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
-    // }
 
     const filteredObject = {};
 
@@ -210,7 +180,7 @@ const SearchForm = ({ onClose }) => {
     console.log("filteredObject", filteredObject);
 
     if (JSON.stringify(resultObject) === "{}") {
-      console.log("키워드 포함 검색!");
+      // console.log("키워드 포함 검색!");
       if (JSON.stringify(filteredObject) === "{}") {
         return onClose();
       } else {
@@ -218,7 +188,7 @@ const SearchForm = ({ onClose }) => {
         router.push(`${pathname}${result}`);
       }
     } else {
-      console.log("키워트 미포함 검색!");
+      // console.log("키워트 미포함 검색!");
       result = new URLSearchParams(filteredObject).toString();
       console.log("HERE RESULT", result);
 
@@ -229,29 +199,6 @@ const SearchForm = ({ onClose }) => {
     }
 
     onClose();
-  };
-
-  const handleReset = () => {
-    const strArr = Object.keys(resultObject);
-
-    const keysToDelete = ["anlsTypeMc"];
-
-    const filteredstrArrData = strArr.filter(
-      (item) => !keysToDelete.includes(item),
-    );
-
-    console.log("#########BBBBBBBBBBBBBBBBB", filteredstrArrData);
-
-    console.log("strArr", strArr);
-    const params = new URLSearchParams(searchParams.toString());
-    // console.log("@@@@@@@@@@@PARAMS&&&&&CLEAR", params);
-    // console.log("@@@@@@@@@@@PARAMS&&&&&CLEAR", params.toString());
-
-    filteredstrArrData.map((item) => params.delete(`${item}`));
-    // params.delete("keyword");
-    console.log("???????????????", params.toString());
-    router.push(`${pathname}?${params.toString()}`);
-    // onClose();
   };
 
   return (
@@ -305,11 +252,8 @@ const SearchForm = ({ onClose }) => {
             alignItems="center"
             spacing={1}
           >
-            <OutlinedButton
-              onClick={handleReset}
-              buttonName="초기화"
-              size="small"
-            />
+            <ResetBtn onClose={onClose} />
+
             <ContainedButton buttonName="검색" type="submit" size="small" />
           </Stack>
         </Stack>

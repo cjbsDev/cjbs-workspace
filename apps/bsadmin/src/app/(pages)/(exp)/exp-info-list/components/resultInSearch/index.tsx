@@ -1,15 +1,19 @@
 import React from "react";
 import { OutlinedButton } from "cjbsDSTM";
 import { Box, Popover } from "@mui/material";
-import { bindTrigger, usePopupState } from "material-ui-popup-state/hooks";
-import { bindPopover } from "material-ui-popup-state";
+import {
+  bindTrigger,
+  usePopupState,
+  bindPopover,
+} from "material-ui-popup-state/hooks";
+// import { bindPopover } from "material-ui-popup-state";
 import SearchForm from "./SearchForm";
 import MyIcon from "icon/MyIcon";
 
 const ResultInSearch = () => {
   const popupState = usePopupState({
     variant: "popover",
-    popupId: "demoPopover",
+    popupId: "detailSearchPopover",
   });
 
   return (

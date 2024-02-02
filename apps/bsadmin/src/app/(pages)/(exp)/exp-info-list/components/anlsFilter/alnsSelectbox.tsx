@@ -48,18 +48,18 @@ const AlnsSelectbox = () => {
   const handleChange = (event: SelectChangeEvent) => {
     const value = event.target.value as string;
     const params = new URLSearchParams(searchParams.toString());
-    console.log("PARAMS", params.toString());
+    console.log("@@@@@@@@@PARAMS", params.toString());
     // params.delete("page");
     // params.delete("size");
-    params.delete("anlsTypeMc");
-
-    params.append("anlsTypeMc", value);
 
     // router.push(`${pathname}?page=1&size=15&${params.toString()}`);
 
     if (value === DEFAULT_ANALYSIS_TYPE) {
-      router.push(`${pathname}`);
+      params.delete("anlsTypeMc");
+      router.push(`${pathname}?${params.toString()}`);
     } else {
+      params.delete("anlsTypeMc");
+      params.append("anlsTypeMc", value);
       router.push(`${pathname}?${params.toString()}`);
     }
   };
