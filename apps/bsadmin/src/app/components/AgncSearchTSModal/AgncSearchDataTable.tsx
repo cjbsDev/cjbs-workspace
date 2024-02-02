@@ -17,9 +17,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
   const { type, onClose } = props;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR(APIPATH, fetcher, {
-    suspense: true,
-  });
+
   const { setValue, clearErrors, resetField } = useFormContext();
 
   const columns = useMemo(
@@ -78,9 +76,14 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
     [clearErrors, onClose, resetField, setValue, type]
   );
 
+  const { data } = useSWR(APIPATH, fetcher, {
+    suspense: true,
+  });
+
   const filteredData = data.agncList;
   // console.log("거래처 검색 모달", filteredData);
   //bsnsMngrNm
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
