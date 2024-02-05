@@ -89,6 +89,7 @@ export function SelectBox2({ options, ...props }) {
           pr: 1,
         }}
       >
+        <option value="ALL">전체</option>
         {options.map((item) => {
           return (
             <option key={item.value} value={item.value}>

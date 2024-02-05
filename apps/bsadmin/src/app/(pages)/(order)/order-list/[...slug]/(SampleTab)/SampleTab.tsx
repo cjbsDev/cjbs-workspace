@@ -145,7 +145,7 @@ const SampleTab = () => {
 
     return (
       <SubHeader
-        exportUrl={`/order/list/download`}
+        exportUrl={`/order/${orderUkey}/sample/list/download`}
         totalCount={filteredItems.length}
         handleSampleAddModalOpen={handleSampleAddModalOpen}
         handleAnalDtlModalOpen={handleAnalDtlModalOpen}
