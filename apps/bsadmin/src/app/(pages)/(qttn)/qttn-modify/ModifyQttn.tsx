@@ -33,16 +33,16 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import dayjs from "dayjs";
 import { useRecoilState } from "recoil";
-import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
-import TypeSelectRadio from "../../../../components/TypeSelectRadio";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
-import { groupListDataAtom } from "../../../../recoil/atoms/groupListDataAtom";
-import DynamicTable from "../../../../components/DynamicTable";
-import DynamicSumTable from "../../../../components/DynamicSumTable";
+import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
+import TypeSelectRadio from "../../../components/TypeSelectRadio";
+import SkeletonLoading from "../../../components/SkeletonLoading";
+import { groupListDataAtom } from "../../../recoil/atoms/groupListDataAtom";
+import DynamicTable from "../../../components/DynamicTable";
+import DynamicSumTable from "../../../components/DynamicSumTable";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
-  () => import("../../../../components/AgncSearchTSModal"),
+  () => import("../../../components/AgncSearchTSModal"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -51,7 +51,7 @@ const LazyAgncSearchModal = dynamic(
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
-  () => import("../../../../components/SalesManagerSelectbox"),
+  () => import("../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
