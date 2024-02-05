@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Grid, Link, Stack } from "@mui/material";
 import {
   ContainedButton,
@@ -12,6 +12,12 @@ import StatusFilter from "./statusFilter";
 import AnlsFilter from "./anlsFilter";
 
 const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const handleModalOpen = () => {
+    console.log("Click!!!");
+    setIsOpen(true);
+  };
+
   return (
     <Grid container>
       <Grid item xs={12} sx={{ pt: 0 }}>
@@ -23,9 +29,11 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
           </Stack>
 
           <Stack direction="row" spacing={1} alignItems="center">
-            <Link href="/order-reg">
-              <ContainedButton buttonName="샘플 단계 등록" size="small" />
-            </Link>
+            <ContainedButton
+              buttonName="샘플 단계 등록"
+              size="small"
+              onClick={handleModalOpen}
+            />
             <FileDownloadBtn
               exportUrl={`/order/list/download${result}`}
               iconName="xls3"
