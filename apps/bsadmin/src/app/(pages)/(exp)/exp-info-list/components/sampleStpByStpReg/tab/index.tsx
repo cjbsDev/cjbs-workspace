@@ -4,24 +4,21 @@ import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { TabPanelProps } from "@mui/lab";
+import FileUploadView from "./fileUploadView";
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
-    <div
+    <Box
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
+      {value === index && <Box>{children}</Box>}
+    </Box>
   );
 }
 
@@ -52,7 +49,7 @@ const Index = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        파일 업로드
+        <FileUploadView />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Data List

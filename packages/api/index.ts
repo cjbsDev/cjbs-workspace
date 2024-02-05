@@ -95,7 +95,13 @@ export const POST_MULTIPART: POST_MULTIPART_API = async (
   option,
   headers,
 ) => {
-  return await request_multipart(url, "POST", body, option, headers);
+  return await request_multipart(
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "POST",
+    body,
+    option,
+    headers,
+  );
 };
 
 export const PUT: PUT_API = async (url, body, option, headers) => {

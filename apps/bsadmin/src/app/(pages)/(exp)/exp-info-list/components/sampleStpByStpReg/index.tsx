@@ -21,7 +21,7 @@ const Index = () => {
         onClick={handleModalOpen}
       />
 
-      <RegModal open={isOpen} onClose={handleClose} modalWidth={800} />
+      <RegModal open={isOpen} onClose={handleClose} modalWidth={1000} />
     </>
   );
 };
