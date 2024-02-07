@@ -19,7 +19,6 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({ productDetailList }) => {
     if (isNaN(num)) {
       return number; // 숫자로 변환할 수 없는 경우
     }
-
     return num.toLocaleString();
   };
 
@@ -32,7 +31,8 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({ productDetailList }) => {
       },
       {
         name: "품명",
-        selector: (row: { products: string }) => row.products,
+        selector: (row: { product: string }) => row.product,
+        cell: (row) => row.product,
       },
       {
         name: "수량",
@@ -61,13 +61,16 @@ const ProdDetailList: React.FC<ProdDetailProps> = ({ productDetailList }) => {
         selector: (row: { dscntPctg: number }) => row.dscntPctg,
         width: "100px",
         right: true,
-        cell: (row) => row.dscntPctg + "%",
+        cell: (row) => row.dscntPctg ?? "%",
       },
       {
         name: "포함사항",
-        selector: (row: { inclMemo: number }) => row.inclMemo,
-        right: true,
-        cell: (row) => row.inclMemo,
+        selector: (row: { inclMemo: string }) => row.inclMemo,
+        cell: (row) => (
+          <Typography style={{ whiteSpace: "pre-line" }}>
+            {row.inclMemo}
+          </Typography>
+        ),
       },
     ],
     []

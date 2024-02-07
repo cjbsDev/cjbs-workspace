@@ -15,6 +15,7 @@ interface SelectBoxProps extends NativeSelectProps {
   defaultOption?: boolean;
   defaultMsg?: string;
   errorMessage?: string;
+  disabled?: boolean;
 }
 export function SelectBox({
   options,
@@ -24,6 +25,7 @@ export function SelectBox({
   errorMessage = "필수 값입니다.",
   defaultOption = true,
   defaultMsg = "선택",
+  disabled = false,
   ...props
 }: SelectBoxProps) {
   const methods = useFormContext();
@@ -34,6 +36,7 @@ export function SelectBox({
           required: required,
           onChange: () => methods.resetField(resetFiledName),
         })}
+        disabled={disabled}
         {...props}
         color="secondary"
         disableUnderline={true}
@@ -86,6 +89,7 @@ export function SelectBox2({ options, ...props }) {
           pr: 1,
         }}
       >
+        <option value="ALL">전체</option>
         {options.map((item) => {
           return (
             <option key={item.value} value={item.value}>

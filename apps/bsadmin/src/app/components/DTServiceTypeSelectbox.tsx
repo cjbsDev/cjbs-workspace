@@ -1,16 +1,21 @@
 import React, { useEffect } from "react";
+
 import { fetcher } from "api";
 import useSWR from "swr";
 import { SelectBox } from "cjbsDSTM";
-
+import { useFormContext } from "react-hook-form";
 interface InputNameProps {
   inputName: string;
-  disabled: boolean;
+  index: number;
 }
+// 서비스 타입
+const DTServiceTypeSelectbox = ({ inputName, index }: InputNameProps) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
 
-const AnlsTypeSelectbox = ({ inputName, disabled }: InputNameProps) => {
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=Analaysis Type&midValue=`,
+    `/code/list/shortly/value?topValue=Service Type&midValue=none`,
     fetcher,
     {
       suspense: true,
@@ -22,11 +27,10 @@ const AnlsTypeSelectbox = ({ inputName, disabled }: InputNameProps) => {
       inputName={inputName}
       options={data}
       required={true}
-      errorMessage="Ssssss"
+      errorMessage="서비스 타입을 선택해 주세요"
       sx={{ width: "100%" }}
-      disabled={disabled}
     />
   );
 };
 
-export default AnlsTypeSelectbox;
+export default DTServiceTypeSelectbox;

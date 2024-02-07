@@ -8,7 +8,7 @@ interface InputNameProps {
   inputName: string;
   index: number;
 }
-
+// 서비스 분류
 const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
   const {
     formState: { errors },
@@ -31,12 +31,6 @@ const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
       sx={{ width: "100%" }}
       defaultValue={"BS_0100005001"}
     />
-    // <RadioGV
-    //   data={serviceCategoryTypeData}
-    //   inputName="srvcCtgrMc"
-    //   required={true}
-    //   errorMessage="서비스 분류 타입을 선택해 주세요."
-    // />
   );
 };
 

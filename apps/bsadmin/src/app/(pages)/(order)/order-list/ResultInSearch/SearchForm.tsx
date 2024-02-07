@@ -38,7 +38,7 @@ const LazyDateTypeSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazyStatusTypeSelctbox = dynamic(
@@ -46,7 +46,7 @@ const LazyStatusTypeSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const SearchForm = ({ onClose }) => {
@@ -177,8 +177,7 @@ const SearchForm = ({ onClose }) => {
   };
 
   const handleKeywordClear = () => {
-    // resetField("Keyword");
-    router.push(`/order-list`);
+    router.push(pathname);
     onClose();
   };
 
