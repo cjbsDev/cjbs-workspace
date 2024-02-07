@@ -31,11 +31,13 @@ const ProductName = ({
     fetcher,
   );
 
+  console.log(data)
+
   useEffect(() => {
     if (anlsTypeMc === "BS_0100006015") {
       resetField(inputName);
     } else if (data) {
-      setValue(inputName, data);
+      setValue(inputName, data.prNm);
     }
   }, [anlsTypeMc, data, inputName, resetField, setValue]);
 
@@ -55,7 +57,7 @@ const ProductName = ({
           errorMessage="품명을 입력하세요."
         />
       ) : (
-        <Typography variant="body2">{data}</Typography>
+        <Typography variant="body2">{data.prNm}</Typography>
       )}
     </>
   );

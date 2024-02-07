@@ -30,7 +30,7 @@ import {
 } from "cjbsDSTM";
 import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import { POST } from "api";
+import {GET, POST} from "api";
 import { useSearchParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import Link from "next/link";
@@ -42,6 +42,8 @@ import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
+import {useFormContext} from "react-hook-form";
+import MonthlyList from "./MonthlyList";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -73,6 +75,7 @@ const LicenseRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutate } = useSWRConfig();
+  // const { getValues, setValue} = useFormContext();
 
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
     useState<boolean>(false);
@@ -80,16 +83,16 @@ const LicenseRegView = () => {
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [platformSelectChk, setPlatformSelectChk] = useState<boolean>(false);
-  const [ukeyValue, setUkeyValue] = useState<string>(null);
+  // const [ukeyValue, setUkeyValue] = useState<string>(null);
 
-  const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
+  // const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
   const [settlement, setSettlement] = useState<boolean>(false);
-  const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
-  const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
+  // const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
+  // const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
-
   // [기관 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
+
 
   // defaultValues 세팅
   // const defaultValues = getDefaultValues(orshType, orshExtrData);
@@ -606,92 +609,7 @@ const LicenseRegView = () => {
                 </Table>
               </TableContainer>
 
-              <TableContainer sx={{ mb: 5 }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>사용 기간</TH>
-                      <TD sx={{ width: "85%" }}>
-                        {" "}2023-04-10 ~ 2023-04-09
-                      </TD>
-                    </TableRow>
-                    {/*{settlement === true && (*/}
-                      <TableRow>
-                        <TH sx={{ width: "15%" }}>월비용</TH>
-                        <TD sx={{ width: "85%" }}>
-                          <TableContainer sx={{ marginY: 1 }}>
-                            <Table>
-                              <TableBody>
-                                <TableRow sx={{textAlign: "center"}}>
-                                  <TH sx={{ width: "7%" }} align="center">23.04</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.05</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.06</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.07</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.08</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.09</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.10</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.11</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.12</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.01</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.02</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.03</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.04</TH>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                          <TableContainer sx={{ display: "none" }}>
-                            <Table>
-                              <TableBody>
-                                <TableRow>
-                                  <TH sx={{ width: "25%" }}>정산방법</TH>
-                                  <TH sx={{ width: "25%" }}>구분</TH>
-                                  <TH sx={{ width: "25%" }}>정산비용</TH>
-                                  <TH sx={{ width: "25%" }}>비고</TH>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "25%" }}>선결제</TD>
-                                  <TD sx={{ width: "25%" }}>자동 정산</TD>
-                                  <TD sx={{ width: "25%" }}>-1,000,000</TD>
-                                  <TD sx={{ width: "25%" }}>
-                                    <ContainedButton
-                                      size="small"
-                                      // type="submit"
-                                      color="secondary"
-                                      buttonName="정산내역"
-                                    />
-                                  </TD>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "25%" }}>세금계산서</TD>
-                                  <TD sx={{ width: "25%" }}>카드</TD>
-                                  <TD sx={{ width: "25%" }}>-50,000</TD>
-                                  <TD sx={{ width: "25%" }}>123445</TD>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </TD>
-                      </TableRow>
-                    {/*)}*/}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <MonthlyList />
 
               <Typography variant="subtitle1">정산</Typography>
               <TableContainer sx={{ mb: 5 }}>

@@ -4,7 +4,7 @@ import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 // import AnalysisInfo from "./AnalysisInfo";
 
-const LazyAnalysisInfo = dynamic(() => import("./AnalysisInfo"), {
+const LazyAnalysisInfo = dynamic(() => import("./LicenseModifiInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });

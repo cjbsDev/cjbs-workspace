@@ -92,7 +92,7 @@ export default function AgncPage() {
             <TableRow>
               <TH sx={{ width: "15%" }}>번호</TH>
               <TD colSpan={5} sx={{ width: "85%" }}>
-                {getDataObj.tdstUkey ?? "-"}
+                {getDataObj.tdstNo ?? "-"}
               </TD>
             </TableRow>
 

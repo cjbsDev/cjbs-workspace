@@ -64,6 +64,12 @@ const LicenseInfo = () => {
   // [선결제 정산내역] 모달
   const [showPrePayListModal, setShowPrePayListModal] = useState<boolean>(false);
 
+  // string으로 가져온 stndPrice에 NA 값이 아니면 콤마 추가
+  const convertedData = data.anlsItstCostInfo.anlsItstCostList.map((dataItem: any) => ({
+    ...dataItem,
+    stndPrice: dataItem.stndPrice !== "N/A" ? dataItem.stndPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "N/A",
+  }));
+
   const defaultValues = {
     srvcCtgrMc: data.anlsItstInfo.srvcCtgrMc,
     agncUkey: data.anlsItstCustInfo.agncUkey,
@@ -80,7 +86,7 @@ const LicenseInfo = () => {
     rmnPrePymtPrice: data.anlsItstCustInfo.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     memo: data.memo,
     anlsDttm: data.anlsItstCostInfo.anlsDttm,
-    sample: data.anlsItstCostInfo.anlsItstCostList,
+    sample: convertedData,
     totalCnt: data.anlsItstCostInfo.totalCnt,
     totalSupplyPriceVal: data.anlsItstCostInfo.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalSupplyPrice: data.anlsItstCostInfo.totalSupplyPrice,
@@ -102,12 +108,13 @@ const LicenseInfo = () => {
   }, [data]);
 
   const goModifyPage = () => {
-    router.push("/ledger-analysis-report-modify/" + anlsItstUkey);
+    router.push("/ledger-license-report-modify/" + anlsItstUkey);
   };
 
   const { agncInfoDetail, agncLeaderInfoDetail } = data.anlsItstCustInfo;
   const { payList } = data.anlsItstCalculationInfo;
-  const { anlsItstCostLcnsDetailList } = data.anlsItstCostLcnsInfo;
+  const { anlsItstCostLcnsDetailList, startDttm, endDttm } = data.anlsItstCostLcnsInfo;
+
 
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
@@ -139,7 +146,7 @@ const LicenseInfo = () => {
                 <TableRow>
                   <TH sx={{width: "15%"}}>서비스 분류</TH>
                   <TD sx={{width: "35%", textAlign: "left"}}>
-                    <Typography variant="body2" sx={{pl: '14px'}}>Analysis</Typography>
+                    <Typography variant="body2" sx={{pl: '14px'}}>License</Typography>
                     <InputValidation
                       sx={{display: "none"}}
                       inputName="srvcCtgrMc"
@@ -613,7 +620,7 @@ const LicenseInfo = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>사용 기간</TH>
                       <TD sx={{ width: "85%" }}>
-                        {" "}2023-04-10 ~ 2023-04-09
+                        {" "}{startDttm} ~ {endDttm}
                       </TD>
                     </TableRow>
                     {/*{settlement === true && (*/}
@@ -782,7 +789,7 @@ const LicenseInfo = () => {
                                             세금계산서
                                             <LinkButton
                                               buttonName={ "("+invcId+")" }
-                                              onClick={() => router.push("/tax-invoice-list/"+invcUkey)}
+                                              onClick={() => router.push("/ledger-tax-invoice-list/"+invcUkey)}
                                             />
                                           </Stack>
                                         )}

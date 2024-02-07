@@ -48,7 +48,7 @@ const ListCust = () => {
       {
         name: "번호",
         center: true,
-        cell: (row: { tdstId: number; tdstUkey: string }) => (
+        cell: (row: { tdstId: number; tdstNo: string }) => (
           <Stack
             direction="row"
             spacing={0.5}
@@ -56,8 +56,8 @@ const ListCust = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
-            <Box data-tag="allowRowEvents">{row.tdstId} </Box>
-            {row.tdstUkey == null && (
+            <Box data-tag="allowRowEvents">{row.tdstNo} </Box>
+            {row.tdstNo == null && (
               <MyIcon
                 data-tag="allowRowEvents"
                 icon="exclamation-triangle-fill"
@@ -67,11 +67,11 @@ const ListCust = () => {
             )}
           </Stack>
         ),
-        width: "100px",
+        width: "150px",
       },
       {
         name: "유형",
-        selector: (row: { tdstTypeCcVal: string }) => row.tdstTypeCcVal,
+        selector: (row: { tdstTypeVal: string }) => row.tdstTypeVal,
         width: "100px",
       },
       {
@@ -132,7 +132,7 @@ const ListCust = () => {
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
-    [],
+    []
   );
 
   const goDetailPage = (row: { tdstUkey: string }) => {
