@@ -12,12 +12,6 @@ import { LoadingButton } from "@mui/lab";
 import Tab from "./tab";
 
 const RegModal = ({ onClose, open, modalWidth }: ModalContainerProps) => {
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const onSubmit = async (data: object) => {
-  //   setIsLoading(true);
-  //   console.log("File Upload ResData", data);
-  // };
-
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>샘플 단계 등록</ModalTitle>

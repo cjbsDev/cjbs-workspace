@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { TabPanelProps } from "@mui/lab";
 import FileUploadView from "./fileUploadView";
+import UploadFileList from "./uploadFileList";
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -38,7 +39,7 @@ const Index = () => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider", mb: 1 }}>
         <Tabs
           value={value}
           onChange={handleChange}
@@ -52,7 +53,7 @@ const Index = () => {
         <FileUploadView />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Data List
+        <UploadFileList />
       </CustomTabPanel>
     </Box>
   );
