@@ -2,12 +2,14 @@
 import { getSession, signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import {
-  DELETE_API,
+
   GET_API,
   POST_API,
-  POST_BOLB_API,
-  GET_BOLB_API,
   PUT_API,
+  DELETE_API,
+  GET_BOLB_API,
+  POST_BOLB_API,
+  PUT_BOLB_API,
   REQUEST_API,
   POST_MULTIPART_API,
   PUT_MULTIPART_API,
@@ -75,6 +77,16 @@ export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
     body,
     option,
     headers,
+  );
+};
+
+export const PUT_BLOB: PUT_BOLB_API = async (url, body, option, headers) => {
+  return await requestBLOB(
+      `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+      "PUT",
+      body,
+      option,
+      headers,
   );
 };
 

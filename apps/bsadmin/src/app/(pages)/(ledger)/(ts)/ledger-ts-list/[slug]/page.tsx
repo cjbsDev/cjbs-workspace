@@ -42,12 +42,24 @@ const LazyListProd = dynamic(() => import("./ProdList"), {
   loading: () => <SkeletonLoading />,
 });
 
+// 미리보기
+const LazyPreviewModal = dynamic(
+  () => import("./PreviewModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  }
+);
+
 export default function AgncPage() {
   // init
   const params = useParams();
   const { slug } = params;
   const router = useRouter();
   const [agncInfoModalOpen, setAgncInfoModalOpen] = useState<boolean>(false);
+  // [미리 보기] 모달
+  const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
+  const [resendType, setResendType] = useState<String>("N");
 
   // load
   const {
@@ -70,6 +82,17 @@ export default function AgncPage() {
   };
   const formatNumber = (number) => {
     return number.toLocaleString();
+  };
+
+  // [ 미리보기 ] 모달 오픈
+  const preveiwModalOpen = (resendType: string) => {
+    setResendType(resendType)
+    setShowPreviewModal(true);
+  };
+
+  // [ 미리보기 ] 모달 닫기
+  const preveiwModalClose = () => {
+    setShowPreviewModal(false);
   };
 
   return (
@@ -251,15 +274,48 @@ export default function AgncPage() {
           buttonName="목록"
           onClick={() => router.push("/ledger-ts-list/")}
         />
-        <Link
-          href={{
-            pathname: "/ledger-ts-modify",
-            query: { tdstUkey: getDataObj.tdstUkey },
-          }}
-        >
-          <ContainedButton buttonName="수정" />
-        </Link>
+        {getDataObj.sendStatusCc === 'BS_2302001' ? (
+          <ContainedButton
+            color={"success"}
+            size="small"
+            buttonName="거래명세서 발송"
+            onClick={() => preveiwModalOpen("N")}
+          />
+        ) : (
+          <ContainedButton
+              color={"success"}
+              size="small"
+              buttonName="거래명세서 재발송"
+              onClick={() => preveiwModalOpen("Y")}
+          />
+        )}
+        {getDataObj.sendStatusCc === 'BS_2302001' && (
+          <Link
+              href={{
+                pathname: "/ledger-ts-modify",
+                query: { tdstUkey: getDataObj.tdstUkey },
+              }}
+          >
+            <ContainedButton buttonName="수정" />
+          </Link>
+        )}
+
       </Stack>
+
+      {/* 미리보기 & 발송 모달*/}
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyPreviewModal
+          open={showPreviewModal}
+          onClose={preveiwModalClose}
+          // modalWidth={995}
+          modalWidth={1173}
+          wdtDate={getDataObj.wdtDate}
+          conm={getDataObj.conm}
+          nm={getDataObj.nm}
+          sendStatusCc={getDataObj.sendStatusCc}
+          resendType={resendType}
+        />
+      </ErrorContainer>
 
       {/* 기관 정보 모달
       {agncInfoModalOpen && (

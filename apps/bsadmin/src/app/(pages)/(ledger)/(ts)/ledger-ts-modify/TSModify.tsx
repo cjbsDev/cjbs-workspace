@@ -131,10 +131,10 @@ const TSRegView = () => {
       .then((response) => {
         console.log("PUT request successful:", response);
         if (response.success) {
-          toast("등록 되었습니다.");
+          toast("수정 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/ledger-ts-list");
+          router.push(`/ledger-ts-list/${data.tdstUkey}`);
         } else {
           toast(response.message);
         }
