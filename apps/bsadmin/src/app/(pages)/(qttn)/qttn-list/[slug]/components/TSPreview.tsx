@@ -3,7 +3,7 @@ import {
   formatNumberWithCommas,
   OutlinedButton,
   TH,
-  TD, SkeletonLoading,
+  TD, SkeletonLoading, cjbsTheme,
 } from "cjbsDSTM";
 import {
   Box,
@@ -17,13 +17,15 @@ import {
   TableRow,
 } from "@mui/material";
 import Image from 'next/image';
-import CJLogo from '../../../../../../../../public/svg/cj_bk.svg';
+import CJLogo from '../../../../../../../public/svg/cj_bk.svg';
 import {useFormContext, useWatch} from "react-hook-form";
 import {geKoreanNumber} from "cjbsDSTM/commonFunc/geKoreanNumber";
 import {fetcher} from "api";
 import {useParams} from "next/navigation";
 import useSWR from "swr";
 import "./print.css";
+import {toast} from "react-toastify";
+import success = toast.success;
 
 const TSPreview = forwardRef((props, ref) => {
   // const { getValues, control, watch } = useFormContext();
@@ -31,13 +33,15 @@ const TSPreview = forwardRef((props, ref) => {
   const { slug } = params;
 
   // data load
-  const { data: tdstData } = useSWR(`/tdst/${slug}`, fetcher);
-  // console.log("tdstData", tdstData);
-  const totalSupplyPrice = formatNumberWithCommas(tdstData.totalSupplyPrice);
-  const vat = formatNumberWithCommas(tdstData.vat);
-  const totalPrice = formatNumberWithCommas(tdstData.totalPrice);
-  const totalPriceKr = geKoreanNumber(tdstData.totalPrice);
-  const productValue = tdstData.productDetailList;
+  const { data: qttnData } = useSWR(`/qttn/${slug}`, fetcher);
+  console.log("qttnData", qttnData);
+  const totalSupplyPrice = formatNumberWithCommas(qttnData.productInfo.totalSupplyPrice);
+  const vat = formatNumberWithCommas(qttnData.productInfo.vat);
+  const totalPrice = formatNumberWithCommas(qttnData.productInfo.totalPrice);
+  const totalPriceKr = geKoreanNumber(qttnData.productInfo.totalPrice);
+  const productValue = qttnData.qttnProdutsDetailRes;
+  const pymtInfo = qttnData.pymtInfo;
+  const basicInfo = qttnData.basicInfo;
 
   // data load 공급자정보
   const { data:sprAndDpstInfo, error, isLoading, } = useSWR(`/tdst/sprAndDpstInfo`, fetcher);
@@ -75,11 +79,11 @@ const TSPreview = forwardRef((props, ref) => {
           <Image src={CJLogo} alt='CJ바이오사이언스' quality={100} style={{maxWidth: '130px', height: '40px'}} />
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mb:2 }}>
-          <CJFontTitleBox>거 래 명 세 서</CJFontTitleBox>
+          <CJFontTitleBox>견 적 서</CJFontTitleBox>
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "end" }}>
           <CJFontBodyBox>Date.&nbsp;</CJFontBodyBox>
-          <CJFontBodyBox>{tdstData.wdtDate}</CJFontBodyBox>
+          <CJFontBodyBox>{basicInfo.qttnDate}</CJFontBodyBox>
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }} mb={1}>
           <TableContainer sx={{ mt: 0.5 }}>
@@ -116,7 +120,7 @@ const TSPreview = forwardRef((props, ref) => {
                   <TD sx={{ width: "40%", height: "28px", p:0, paddingX: 1 }} colSpan={1} align="center">
                     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0}>
                       <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                        <CJFontTdBox>{tdstData.conm}</CJFontTdBox>
+                        <CJFontTdBox>{qttnData.rcvInfo.rcvInstNm}</CJFontTdBox>
                       </Stack>
                       <CJFontTdBox>귀중</CJFontTdBox>
                     </Stack>
@@ -151,7 +155,7 @@ const TSPreview = forwardRef((props, ref) => {
                   <TD sx={{ width: "40%", height: "28px", p:0, paddingX: 1 }} align="center">
                     <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={0}>
                       <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                        <CJFontTdBox>{tdstData.nm}</CJFontTdBox>
+                        <CJFontTdBox>{qttnData.rcvInfo.rcvNm}</CJFontTdBox>
                       </Stack>
                       <CJFontTdBox> 님</CJFontTdBox>
                     </Stack>
@@ -174,8 +178,8 @@ const TSPreview = forwardRef((props, ref) => {
                     </Stack>
                   </TD>
                   <TD sx={{ width: "40%", height: "28px", p:0 }} colSpan={1} align="center">
-                    <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0}>
-                      <CJFontTdBox sx={{pl:1}} >{tdstData.tel}</CJFontTdBox>
+                    <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+                      <CJFontTdBox>{qttnData.rcvInfo.rcvTel}</CJFontTdBox>
                     </Stack>
                   </TD>
                 </TableRow>
@@ -190,22 +194,12 @@ const TSPreview = forwardRef((props, ref) => {
                       <CJFontTdBox>{sprInfo.sprTel}</CJFontTdBox>
                     </Stack>
                   </TD>
-                  {/*<TD sx={{ width: "10%" }} align="center">*/}
-                  {/*  <CJFont500TdBox>유효기간</CJFont500TdBox>*/}
-                  {/*</TD>*/}
-                  {/*<TD sx={{ width: "40%" }} colSpan={1} align="center">*/}
-                  {/*  <CJFontTdBox>견적일로 부터 </CJFontTdBox>*/}
-                  {/*  <CJFontTdBox>30</CJFontTdBox>*/}
-                  {/*  <CJFontTdBox> 일</CJFontTdBox>*/}
-                  {/*</TD>*/}
-                  <TD sx={{ width: "10%", height: "28px", p:0 }} align="center">
-                    <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
-                      <CJFont500TdBox>비 고</CJFont500TdBox>
-                    </Stack>
+                  <TD sx={{ width: "10%", height: "28px", p:0  }} align="center">
+                    <CJFont500TdBox>유효기간</CJFont500TdBox>
                   </TD>
-                  <TD sx={{ width: "40%", height: "28px", p:0 }} colSpan={1} align="center">
-                    <Stack direction="row" justifyContent="flex-start" alignItems="center" spacing={0}>
-                      <CJFont500TdBox sx={{pl:1}}>{tdstData.memo}</CJFont500TdBox>
+                  <TD sx={{ width: "10%", height: "28px", p:0  }} colSpan={1} align="center">
+                    <Stack direction="row" justifyContent="center" alignItems="center" spacing={0}>
+                      <CJFontTdBox>견적일로 부터 </CJFontTdBox><CJFontTdBox>{qttnData.rcvInfo.validPerd}</CJFontTdBox><CJFontTdBox> 일</CJFontTdBox>
                     </Stack>
                   </TD>
                 </TableRow>
@@ -267,42 +261,45 @@ const TSPreview = forwardRef((props, ref) => {
                 </TableRow>
                 <TableRow>
                   <TD sx={{ width: "100%", borderBottom: 0, p:0 }} colSpan={5}>
-                    <Box sx={{ minHeight: "580px", maxHeight: "580px" }}>
+                    <Box sx={{ minHeight: "420px", maxHeight: "420px" }}>
                       <TableContainer>
                         <Table>
                           <TableBody>
                             {productValue.map((item: any) => {
                               return (
                                 <TableRow key={item.productDetailUkey}>
-                                  <TD sx={{ width: "50%", border: 0, p:0, height:'28px' }}>
-                                    <Box>
+                                  <TD sx={{ width: "50%", border: 0, p:0, minHeight:'28px', mt:10 }}>
+                                    <Box sx={{mt:2}}>
                                       <Stack spacing={1} alignItems="flex-start" justifyContent="flex-start" sx={{pl:1}}>
-                                        <CJFontTdBox>{item.products}</CJFontTdBox>
+                                        <CJFontTdBox>{item.product}</CJFontTdBox>
+                                        <Box sx={{padding: "0px 10px 10px 12px"}}>
+                                          <CJFontTdBox sx={{whiteSpace:'break-spaces', lineHeight: "19px", }}>{item.inclMemo}</CJFontTdBox>
+                                        </Box>
                                       </Stack>
                                     </Box>
                                   </TD>
-                                  <TD sx={{ width: "10%", border: 0, p:0, height:'28px' }}>
+                                  <TD sx={{ width: "10%", border: 0, p:0, minHeight:'28px' }}>
                                     <Box>
                                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
                                         <CJFontTdBox>{item.sampleSize}</CJFontTdBox>
                                       </Stack>
                                     </Box>
                                   </TD>
-                                  <TD sx={{ width: "10%", border: 0, p:0, height:'28px' }}>
+                                  <TD sx={{ width: "10%", border: 0, p:0, minHeight:'28px' }}>
                                     <Box>
                                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
                                         <CJFontTdBox>ea</CJFontTdBox>
                                       </Stack>
                                     </Box>
                                   </TD>
-                                  <TD sx={{ width: "10%", border: 0, p:0, height:'28px' }}>
+                                  <TD sx={{ width: "10%", border: 0, p:0, minHeight:'28px' }}>
                                     <Box>
                                       <Stack spacing={1} alignItems="center" justifyContent="flex-start">
                                         <CJFontTdBox>{formatNumberWithCommas(item.unitPrice)}</CJFontTdBox>
                                       </Stack>
                                     </Box>
                                   </TD>
-                                  <TD sx={{ width: "20%", border: 0, p:0, height:'28px' }}>
+                                  <TD sx={{ width: "20%", border: 0, p:0, minHeight:'28px' }}>
                                     <Box>
                                       <Stack spacing={1} alignItems="end" justifyContent="flex-start" sx={{pr:1}}>
                                         <CJFontTdBox>{formatNumberWithCommas(item.supplyPrice)}</CJFontTdBox>
@@ -322,7 +319,8 @@ const TSPreview = forwardRef((props, ref) => {
             </Table>
           </TableContainer>
         </Grid>
-        <Grid item xs={12} mb={1}>
+
+        <Grid item xs={12} mb={2}>
           <TableContainer>
             <Table>
               <TableBody>
@@ -366,22 +364,98 @@ const TSPreview = forwardRef((props, ref) => {
             </Table>
           </TableContainer>
         </Grid>
+
+        <Grid item xs={12}>
+          <CJFontHeaderBox sx={{mb:1}}>특이사항</CJFontHeaderBox>
+          <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="start"
+              justifyContent="start"
+              sx={{
+                border: "0.5px solid var(--gray-Gray-700, #495056)",
+                height: 100,
+                p: 2
+              }}
+          >
+            <CJFontBodyBox sx={{whiteSpace:'break-spaces', lineHeight: "19px", }}>{pymtInfo.memo}</CJFontBodyBox>
+          </Stack>
+        </Grid>
+
         <Grid item xs={12}>
           <Stack
             direction="row"
             spacing={0.5}
             alignItems="center"
-            justifyContent="end"
+            justifyContent="space-between"
+            // space-between
             sx={{
               borderBottom: "1px solid var(--gray-Gray-700, #495056)",
               height: 30,
             }}
           >
-            <CJFontBodyBox>계좌 :&nbsp;</CJFontBodyBox>
-            <CJFontBodyBox>{dpstInfo.dpstBank}</CJFontBodyBox>
-            <CJFontBodyBox>{dpstInfo.dpstAcno}&nbsp;&nbsp;&nbsp;&nbsp;</CJFontBodyBox>
-            <CJFontBodyBox>예금주 : </CJFontBodyBox>
-            <CJFontBodyBox>{dpstInfo.dpstDpsr}</CJFontBodyBox>
+            <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="center"
+              justifyContent="start"
+            >
+              <CJFontBodyBox>지불조건 :&nbsp;</CJFontBodyBox>
+              <CJFontBodyBox>{pymtInfo.pymtTypeVal}&nbsp;&nbsp;&nbsp;&nbsp;</CJFontBodyBox>
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="center"
+              justifyContent="end"
+              sx={{
+                borderBottom: "1px solid var(--gray-Gray-700, #495056)",
+                height: 30,
+              }}
+            >
+              <CJFontBodyBox>계좌 :&nbsp;</CJFontBodyBox>
+              <CJFontBodyBox>{dpstInfo.dpstBank}</CJFontBodyBox>
+              <CJFontBodyBox>{dpstInfo.dpstAcno}&nbsp;&nbsp;&nbsp;&nbsp;</CJFontBodyBox>
+              <CJFontBodyBox>예금주 : </CJFontBodyBox>
+              <CJFontBodyBox>{dpstInfo.dpstDpsr}</CJFontBodyBox>
+            </Stack>
+          </Stack>
+        </Grid>
+        <Grid item xs={12}>
+          <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="center"
+              justifyContent="space-between"
+              // space-between
+              sx={{
+                borderBottom: "1px solid var(--gray-Gray-700, #495056)",
+                height: 30,
+              }}
+          >
+            <Stack
+                direction="row"
+                spacing={0.5}
+                alignItems="center"
+                justifyContent="start"
+            >
+              <CJFontBodyBox>견적 담당 :&nbsp;</CJFontBodyBox>
+              <CJFontBodyBox>{basicInfo.bsnsMngrNm}</CJFontBodyBox>
+              <CJFontBodyBox>({basicInfo.bsnsMngrTel})</CJFontBodyBox>
+            </Stack>
+            <Stack
+                direction="row"
+                spacing={0.5}
+                alignItems="center"
+                justifyContent="end"
+                sx={{
+                  borderBottom: "1px solid var(--gray-Gray-700, #495056)",
+                  height: 30,
+                }}
+            >
+              <CJFontBodyBox sx={{color: cjbsTheme.palette.error.main }}>결제조건 :&nbsp;</CJFontBodyBox>
+              <CJFontBodyBox sx={{color: cjbsTheme.palette.error.main }}>{pymtInfo.pymtMemo}</CJFontBodyBox>
+            </Stack>
           </Stack>
         </Grid>
         <Grid item xs={12} sx={{ position: 'absolute', bottom:0, width:'100%', p: 2 }}>
