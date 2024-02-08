@@ -80,6 +80,10 @@ export interface PUT_MULTIPART_API {
   ): Promise<ApiResponse>;
 }
 
+export interface PUT_BOLB_API {
+  (url: string, body?: object, option?: any, headers?: any): Promise<any>;
+}
+
 export interface POST_BOLB_API {
   (url: string, body?: object, option?: any, headers?: any): Promise<any>;
 }

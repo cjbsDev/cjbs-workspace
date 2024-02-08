@@ -20,5 +20,6 @@ module.exports = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    domains: ['bsa-common-dev.s3.ap-northeast-2.amazonaws.com'],
   },
 };

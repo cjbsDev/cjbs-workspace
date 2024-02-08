@@ -28,8 +28,8 @@ export const ConfirmModal = ({
       <ModalNoneTextTitle onClose={onClose} />
       <DialogContent sx={{ textAlign: "center" }}>
         <MyIcon icon="info-circle" size={35} style={{ marginBottom: "16px" }} />
-        <Typography variant="subtitle1">{mainMessage}</Typography>
-        <Typography variant="subtitle1">{subMessage}</Typography>
+        <Typography variant="body1">{mainMessage}</Typography>
+        <Typography variant="body2" sx={{mt:1}}>{subMessage}</Typography>
       </DialogContent>
       <ModalAction>
         <Stack direction="row" spacing={1}>

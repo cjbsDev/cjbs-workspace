@@ -59,6 +59,7 @@ export default function AgncPage() {
   const [agncInfoModalOpen, setAgncInfoModalOpen] = useState<boolean>(false);
   // [미리 보기] 모달
   const [showPreviewModal, setShowPreviewModal] = useState<boolean>(false);
+  const [resendType, setResendType] = useState<String>("N");
 
   // load
   const {
@@ -84,7 +85,8 @@ export default function AgncPage() {
   };
 
   // [ 미리보기 ] 모달 오픈
-  const preveiwModalOpen = () => {
+  const preveiwModalOpen = (resendType: string) => {
+    setResendType(resendType)
     setShowPreviewModal(true);
   };
 
@@ -272,20 +274,32 @@ export default function AgncPage() {
           buttonName="목록"
           onClick={() => router.push("/ledger-ts-list/")}
         />
-        <ContainedButton
-          color={"success"}
-          size="small"
-          buttonName="거래명세서 발송"
-          onClick={preveiwModalOpen}
-        />
-        <Link
-          href={{
-            pathname: "/ledger-ts-modify",
-            query: { tdstUkey: getDataObj.tdstUkey },
-          }}
-        >
-          <ContainedButton buttonName="수정" />
-        </Link>
+        {getDataObj.sendStatusCc === 'BS_2302001' ? (
+          <ContainedButton
+            color={"success"}
+            size="small"
+            buttonName="거래명세서 발송"
+            onClick={() => preveiwModalOpen("N")}
+          />
+        ) : (
+          <ContainedButton
+              color={"success"}
+              size="small"
+              buttonName="거래명세서 재발송"
+              onClick={() => preveiwModalOpen("Y")}
+          />
+        )}
+        {getDataObj.sendStatusCc === 'BS_2302001' && (
+          <Link
+              href={{
+                pathname: "/ledger-ts-modify",
+                query: { tdstUkey: getDataObj.tdstUkey },
+              }}
+          >
+            <ContainedButton buttonName="수정" />
+          </Link>
+        )}
+
       </Stack>
 
       {/* 미리보기 & 발송 모달*/}
@@ -293,7 +307,13 @@ export default function AgncPage() {
         <LazyPreviewModal
           open={showPreviewModal}
           onClose={preveiwModalClose}
-          modalWidth={995}
+          // modalWidth={995}
+          modalWidth={1173}
+          wdtDate={getDataObj.wdtDate}
+          conm={getDataObj.conm}
+          nm={getDataObj.nm}
+          sendStatusCc={getDataObj.sendStatusCc}
+          resendType={resendType}
         />
       </ErrorContainer>
 
