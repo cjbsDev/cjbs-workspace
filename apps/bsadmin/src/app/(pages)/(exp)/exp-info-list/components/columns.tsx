@@ -8,7 +8,21 @@ import {
   sampleUkeyAtom,
 } from "./resultHistory/atom";
 
-const formatValue = (value) => (value === null ? "-" : value);
+const useSampleCell = (sampleUkey: string) => {
+  const [isOpen, setIsOpen] = useRecoilState(
+    resultHistoryModalOpenAtom(sampleUkey),
+  );
+  const setSampleUkey = useSetRecoilState(sampleUkeyAtom);
+
+  const handleModalOpen = () => {
+    setIsOpen(true);
+    setSampleUkey(sampleUkey);
+  };
+
+  return { handleModalOpen, isOpen };
+};
+
+const formatValue = (value: string) => (value === null ? "-" : value);
 
 export const Columns = () => [
   {
@@ -22,39 +36,28 @@ export const Columns = () => [
     name: "Run No",
     width: "80px",
     // sortable: true,
-    selector: (row) => row.runId,
+    selector: (row) => formatValue(row.runId),
   },
   {
     name: "No",
     width: "80px",
     // sortable: true,
     // center: true,
-    selector: (row, index) => index + 1,
+    selector: (row) => formatValue(row.turnId),
   },
   {
     name: "샘플번호",
     // sortable: true,
-    selector: (row) => row.sampleId,
+    // selector: (row: { sampleId: number }) => row.sampleId,
     cell: (row: { sampleId: number; sampleUkey: string }) => {
       const { sampleId, sampleUkey } = row;
-      const [isOpen, setIsOpen] = useRecoilState(
-        resultHistoryModalOpenAtom(sampleUkey),
-      );
-      const setSampleUkey = useSetRecoilState(sampleUkeyAtom);
-      const handleModalOpen = (sampleUkey: string) => {
-        console.log("click sampleUkey", sampleUkey);
-        setIsOpen(true);
-        setSampleUkey(sampleUkey);
-      };
+      const { handleModalOpen } = useSampleCell(sampleUkey);
 
       return (
         <>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="body2">{sampleId}</Typography>
-            <IconButton
-              size="small"
-              onClick={() => handleModalOpen(sampleUkey)}
-            >
+            <IconButton size="small" onClick={handleModalOpen}>
               <MyIcon icon="arrow-clockwise" size={18} />
             </IconButton>
           </Stack>
