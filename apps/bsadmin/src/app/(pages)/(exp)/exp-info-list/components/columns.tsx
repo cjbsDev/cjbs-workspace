@@ -1,6 +1,12 @@
 import React from "react";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/MyIcon";
+import ResultHistory from "./resultHistory";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import {
+  resultHistoryModalOpenAtom,
+  sampleUkeyAtom,
+} from "./resultHistory/atom";
 
 const formatValue = (value) => (value === null ? "-" : value);
 
@@ -29,6 +35,33 @@ export const Columns = () => [
     name: "샘플번호",
     // sortable: true,
     selector: (row) => row.sampleId,
+    cell: (row: { sampleId: number; sampleUkey: string }) => {
+      const { sampleId, sampleUkey } = row;
+      const [isOpen, setIsOpen] = useRecoilState(
+        resultHistoryModalOpenAtom(sampleUkey),
+      );
+      const setSampleUkey = useSetRecoilState(sampleUkeyAtom);
+      const handleModalOpen = (sampleUkey: string) => {
+        console.log("click sampleUkey", sampleUkey);
+        setIsOpen(true);
+        setSampleUkey(sampleUkey);
+      };
+
+      return (
+        <>
+          <Stack direction="row" alignItems="center" spacing={1}>
+            <Typography variant="body2">{sampleId}</Typography>
+            <IconButton
+              size="small"
+              onClick={() => handleModalOpen(sampleUkey)}
+            >
+              <MyIcon icon="arrow-clockwise" size={18} />
+            </IconButton>
+          </Stack>
+          <ResultHistory sampleUkey={sampleUkey} />
+        </>
+      );
+    },
   },
   {
     name: "상태",
@@ -108,22 +141,4 @@ export const Columns = () => [
     right: true,
     selector: (row) => (row.rcptDttm === null ? "-" : row.rcptDttm),
   },
-  // {
-  //   name: "메모",
-  //   center: true,
-  //   width: "80px",
-  //   cell: (row: { memo: string }) => {
-  //     const { memo } = row;
-  //     return (
-  //       memo !== null &&
-  //       memo !== "" && (
-  //         <Tooltip title={memo} arrow>
-  //           <IconButton size="small">
-  //             <MyIcon icon="memo" size={24} />
-  //           </IconButton>
-  //         </Tooltip>
-  //       )
-  //     );
-  //   },
-  // },
 ];
