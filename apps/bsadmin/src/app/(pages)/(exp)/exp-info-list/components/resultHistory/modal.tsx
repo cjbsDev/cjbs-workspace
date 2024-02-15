@@ -7,12 +7,10 @@ import { sampleUkeyAtom } from "./atom";
 import Tab from "./tab";
 
 const Modal = ({ onClose, open, modalWidth }: ModalContainerProps) => {
-  const getSampleUkey = useRecoilValue(sampleUkeyAtom);
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>결과 업로드 이력</ModalTitle>
       <DialogContent sx={{ minHeight: 244 }}>
-        {getSampleUkey}
         <Tab />
       </DialogContent>
     </ModalContainer>

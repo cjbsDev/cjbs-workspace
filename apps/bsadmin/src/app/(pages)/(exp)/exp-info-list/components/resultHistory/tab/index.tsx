@@ -1,11 +1,10 @@
 import React from "react";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { TabPanelProps } from "@mui/lab";
-// import FileUploadView from "./fileUploadView";
-// import UploadFileList from "./uploadFileList";
+import PrepList from "./prepList";
+import LibList from "./libList";
 
 function CustomTabPanel(props: TabPanelProps) {
   const { children, value, index, ...other } = props;
@@ -50,10 +49,10 @@ const Index = () => {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Prep
+        <PrepList />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Lib
+        <LibList />
       </CustomTabPanel>
     </Box>
   );

@@ -1,8 +1,7 @@
 import React from "react";
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonLoading } from "cjbsDSTM";
-
-const LazyFileList = dynamic(() => import("./fileList"), {
+const LazyDataTable = dynamic(() => import("./dataTable"), {
   ssr: false,
   loading: () => <SkeletonLoading height={400} />,
 });
@@ -10,7 +9,7 @@ const LazyFileList = dynamic(() => import("./fileList"), {
 const Index = () => {
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyFileList />
+      <LazyDataTable />
     </ErrorContainer>
   );
 };
