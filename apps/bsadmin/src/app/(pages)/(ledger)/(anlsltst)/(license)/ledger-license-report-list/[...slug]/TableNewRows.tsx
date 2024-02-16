@@ -5,7 +5,6 @@ import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import {useFieldArray, useFormContext} from "react-hook-form";
 import {useEffect, useState} from "react";
-import {maxWidth} from "@mui/system";
 
 
 const LazyPrepSelectbox = dynamic(

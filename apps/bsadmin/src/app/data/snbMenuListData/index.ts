@@ -108,18 +108,14 @@ export const snbMenuListData = [
     menuPath: {
       name: "/ledger",
       nestedPath: [
-        // {
-        //   menuLabel: '고객별 결제 현황',
-        //   menuPath: '/cust-pay-list'
-        // },
+        {
+          menuLabel: '고객별 결제 현황',
+          menuPath: '/ledger-cust-pay-list'
+        },
         {
           menuLabel: "분석 내역서 관리",
           menuPath: "/ledger-analysis-report-list",
         },
-        // {
-        //   menuLabel: '세금 계산서 관리',
-        //   menuPath: '/tax-invoice-list'
-        // },
         {
           menuLabel: "거래 명세서 관리",
           menuPath: "/ledger-ts-list",
@@ -156,7 +152,7 @@ export const snbMenuListData = [
     menuLabel: "고객",
     menuIcon: "customer",
     menuPath: {
-      name: "/cust",
+      name: "/customer",
       nestedPath: [
         {
           menuLabel: "고객 관리",
