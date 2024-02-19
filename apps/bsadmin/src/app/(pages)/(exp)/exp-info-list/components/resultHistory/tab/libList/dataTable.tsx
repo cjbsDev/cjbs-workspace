@@ -1,17 +1,28 @@
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { sampleUkeyAtom } from "../../atom";
-import useSWR from "swr";
-import { fetcher } from "api";
+import React, { useMemo } from "react";
+import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataView from "../../../../../../../components/NoDataView";
+import { DataTableBase } from "cjbsDSTM";
+import { Columns } from "./columns";
 
-const DataTable = () => {
-  const sampleUkey = useRecoilValue(sampleUkeyAtom);
-  const { data } = useSWR(`/expt/info/${sampleUkey}/lib`, fetcher, {
-    suspense: true,
-  });
+const DataTable = ({ data }) => {
+  const columns = useMemo(() => Columns(), []);
 
-  console.log("LIB DATA ==>>", data);
-  return <div>{sampleUkey}</div>;
+  return (
+    <>
+      <DataTableBase
+        data={data}
+        columns={columns}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        selectableRows={false}
+        pagination
+        noDataComponent={<NoDataView />}
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[10, 15, 20]}
+      />
+    </>
+  );
 };
 
 export default DataTable;
