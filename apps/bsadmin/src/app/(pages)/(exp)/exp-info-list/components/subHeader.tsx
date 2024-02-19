@@ -40,7 +40,7 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
               {/*/>*/}
               <SampleStpByStpReg />
               <FileDownloadBtn
-                exportUrl={`/order/list/download${result}`}
+                exportUrl={`/expt/info/list/download${result}`}
                 iconName="xls3"
               />
               <KeywordSearch />
