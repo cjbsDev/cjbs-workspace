@@ -8,23 +8,36 @@ import {
   TableRow,
 } from "@mui/material";
 import FileDropzone from "./FileDropzone";
-import {
-  CheckboxSV,
-  Form,
-  InputValidation,
-  OutlinedButton,
-  SelectBox,
-  TD,
-  TH,
-} from "cjbsDSTM";
+import { Form, InputValidation, OutlinedButton, TD, TH } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
-import { POST_MULTIPART } from "api";
+import { GET, POST_MULTIPART } from "api";
 import { toast } from "react-toastify";
 import { useSetRecoilState } from "recoil";
 import { modalOpenAtom } from "../../atom";
 import { useSWRConfig } from "swr";
+import FileSaver from "file-saver";
+import axios from "axios";
 
 const apiUrl = `/expt/info/file`;
+
+const formDownloadData = [
+  {
+    btnName: "DNA/RNA QC",
+    alias: "qcForm",
+  },
+  {
+    btnName: "Lib",
+    alias: "libForm",
+  },
+  {
+    btnName: "Seq",
+    alias: "seqForm",
+  },
+  {
+    btnName: "아웃소싱",
+    alias: "outsourcingForm",
+  },
+];
 const Index = () => {
   const { mutate } = useSWRConfig();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -80,6 +93,30 @@ const Index = () => {
       setIsLoading(false);
     }
   };
+
+  const handleDownload = async (alias: string) => {
+    const ali = "wgfssamplet";
+    try {
+      const res = await GET(`/file/bs/url?alias=${alias}`);
+
+      const { presignedUrl, fileOriginNm } = res.data;
+
+      // console.log("res.data", presignedUrl, fileOriginNm);
+
+      await axios({
+        url: presignedUrl,
+        method: "get",
+        responseType: "blob",
+      }).then((response) => {
+        console.log("*********", response);
+        FileSaver.saveAs(presignedUrl, fileOriginNm);
+      });
+    } catch (e: any) {
+      console.log(e.message);
+    } finally {
+    }
+  };
+
   return (
     <Form onSubmit={onSubmit}>
       <Box sx={{ mb: 2 }}>
@@ -108,10 +145,17 @@ const Index = () => {
               <TH sx={{ width: "20%" }}>Form 다운로드</TH>
               <TD>
                 <Stack direction="row" spacing={1}>
-                  <OutlinedButton buttonName="DNA/RNA QC" size="small" />
-                  <OutlinedButton buttonName="Lib" size="small" />
-                  <OutlinedButton buttonName="Seq" size="small" />
-                  <OutlinedButton buttonName="아웃소싱" size="small" />
+                  {formDownloadData.map((item, index) => {
+                    const { btnName, alias } = item;
+                    return (
+                      <OutlinedButton
+                        key={alias + index.toString()}
+                        buttonName={btnName}
+                        size="small"
+                        onClick={() => handleDownload(alias)}
+                      />
+                    );
+                  })}
                 </Stack>
               </TD>
             </TableRow>
