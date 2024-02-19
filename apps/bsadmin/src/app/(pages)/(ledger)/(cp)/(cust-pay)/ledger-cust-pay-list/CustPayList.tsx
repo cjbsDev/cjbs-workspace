@@ -4,8 +4,6 @@ import { useMemo } from "react";
 import {
     DataCountResultInfo,
     DataTableBase,
-    Title1,
-    ContainedButton,
     cjbsTheme,
     FileDownloadBtn, green, red, grey, TH, TD,
 } from "cjbsDSTM";
@@ -17,8 +15,7 @@ import {
     Stack,
     Grid,
     Typography,
-    Collapse,
-    TableContainer, Table, TableBody, TableCell, TableRow, Chip,
+    TableContainer, Table, TableBody, TableRow, Chip,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -29,12 +26,9 @@ import { fetcher } from "api";
 import { useSearchParams } from "next/navigation";
 import KeywordSearch from "../../../../../components/KeywordSearch";
 import NoDataView from "../../../../../components/NoDataView";
-import dynamic from "next/dynamic";
-import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
-import CategorySelectModal from "./CategorySelectModal";
 
-const ListRun = () => {
+const CustPayList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
@@ -77,14 +71,14 @@ const ListRun = () => {
         width: "140px",
         center: true,
         // sortable: true,
-        selector: (row, index) => row.agncId,
+        selector: (row:any, index:number) => row.agncId,
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
         // width: "400px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
-        cell: (row) => {
+        cell: (row:any) => {
           const { instNm, agncNm } = row;
           return (
             <Stack data-tag="allowRowEvents">
@@ -106,31 +100,31 @@ const ListRun = () => {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구 책임자</Typography></Stack>,
         width: "200px",
         // sortable: true,
-        selector: (row) => row.rhpiNm,
+        selector: (row:any) => row.rhpiNm,
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">영업 담당자</Typography></Stack>,
         width: "200px",
         // sortable: true,
-        selector: (row) => row.bsnsMngrNm,
+        selector: (row:any) => row.bsnsMngrNm,
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">결제 총계</Typography></Stack>,
         width: "200px",
         right: true,
-        selector: (row) => row.totalPymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row:any) => row.totalPymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">분석 총계</Typography></Stack>,
         width: "200px",
         right: true,
-        selector: (row) => row.totalAnlsPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row:any) => row.totalAnlsPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">남은금액</Typography></Stack>,
         width: "200px",
         right: true,
-        selector: (row) => row.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row:any) => row.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "결제 상태",
@@ -202,7 +196,7 @@ const ListRun = () => {
                 iconName="xls3"
               />
               <KeywordSearch />
-              <ResultInSearch/>
+              {/*<ResultInSearch/>*/}
             </Stack>
           </Stack>
 
@@ -245,11 +239,11 @@ const ListRun = () => {
   return (
     <>
       <DataTableBase
-        title={
-          <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
-            <Title1 titleName="고객별 결제 현황" />
-          </Stack>
-        }
+        // title={
+        //   <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
+        //     <Title1 titleName="고객별 결제 현황" />
+        //   </Stack>
+        // }
         data={agncPymtList}
         columns={columns}
         onRowClicked={goDetailPage}
@@ -272,4 +266,4 @@ const ListRun = () => {
   );
 };
 
-export default ListRun;
+export default CustPayList;

@@ -179,47 +179,28 @@ const ListPymtPrice = (props: any) => {
           <Table aria-label="simple table" size="small">
             <TableBody>
               {data.prePymtPrcsHstrList.map((item:any, index:number) => (
-                index === 0 ? (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      // '&:last-child td, &:last-child th': { border: 0 },
-                      // '&:nth-of-type(even)': { backgroundColor: cjbsTheme.palette.action.hover, },
-                      border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-                      backgroundColor: blue["50"],
-                    }}
-                  >
-                    <TableCell sx={{minWidth:'48px'}} rowSpan={10}>
-                    </TableCell>
-                    <TableCell width={'40%'} align="right">
-                      <Typography variant="body2">{item.prcsTypeVal}</Typography>
-                    </TableCell>
-                    <TableCell width={'20%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.prcsDate}</Typography>
-                    </TableCell>
-                    <TableCell width={'20%'} align="center">
-                      <Typography variant="body2">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
-                    </TableCell>
-                    <TableCell width={'20%'} align="center">
-                      <Typography variant="body2">{item.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
-                    </TableCell>
-                  </TableRow>
-                ):(
-                  <TableRow
-                    key={index}
-                    sx={{
-                      backgroundColor: blue["50"],
-                      border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-                    }}
-                  >
-                    <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.srvcTypeVal}</Typography>
-                    </TableCell>
-                    <TableCell width={'150px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      {/*<Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>*/}
-                    </TableCell>
-                  </TableRow>
-                )
+                <TableRow
+                  key={index}
+                  sx={{
+                    border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                    backgroundColor: blue["50"],
+                  }}
+                >
+                  <TableCell sx={{minWidth:'48px'}}>
+                  </TableCell>
+                  <TableCell width={'40%'} align="right">
+                    <Typography variant="body2">{item.prcsTypeVal}</Typography>
+                  </TableCell>
+                  <TableCell width={'20%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <Typography variant="body2">{item.prcsDate}</Typography>
+                  </TableCell>
+                  <TableCell width={'20%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <Typography variant="body2">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                  </TableCell>
+                  <TableCell width={'20%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <Typography variant="body2">{item.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                  </TableCell>
+                </TableRow>
               ))}
             </TableBody>
           </Table>

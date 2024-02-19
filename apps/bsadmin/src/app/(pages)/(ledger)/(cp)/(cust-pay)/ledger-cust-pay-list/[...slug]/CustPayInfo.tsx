@@ -34,7 +34,7 @@ import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 import AgncDetailInfo from "../../../../../../components/AgncDetailInfo";
 import RearchDetailInfo from "../../../../../../components/RearchDetailInfo";
-import ListRun from "../ListRun";
+import ListRun from "../CustPayList";
 import ListPymtPrice from "../components/ListPymtPrice";
 
 const LazyPrePayListModal = dynamic(() => import("./PrePayListModal"), {
