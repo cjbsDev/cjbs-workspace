@@ -3,7 +3,7 @@
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 
-const LazyDataList = dynamic(() => import("./ListRun"), {
+const LazyCustPayTab = dynamic(() => import("./CustPayTab"), {
   ssr: false,
   loading: () => <SkeletonTableModalLoading />,
 });
@@ -11,7 +11,7 @@ const LazyDataList = dynamic(() => import("./ListRun"), {
 export default function Page() {
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyDataList />
+      <LazyCustPayTab />
     </ErrorContainer>
   );
 };
