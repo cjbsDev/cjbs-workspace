@@ -79,6 +79,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
       sx={{
         zIndex: 1000,
         display:
+          currentPathname === "/custListPopup" ||
           currentPathname === "/sampleListPopup" ||
           currentPathname === "/sign-in"
             ? "none"

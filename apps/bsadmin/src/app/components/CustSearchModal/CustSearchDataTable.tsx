@@ -10,13 +10,17 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataView from "../NoDataView";
+import KeywordSearch from "../KeywordSearch";
 
 const APIPATH = "/cust/list";
 const CustSearchDataTable = (props: { type: any; onClose: any }) => {
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
   const { type, onClose } = props;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR(APIPATH, fetcher, {
+  const { data } = useSWR(`${APIPATH}?page=${page}&size=${size}`, fetcher, {
     suspense: true,
   });
   const { setValue, clearErrors, resetField } = useFormContext();
@@ -126,11 +130,12 @@ const CustSearchDataTable = (props: { type: any; onClose: any }) => {
         },
       },
     ],
-    [clearErrors, onClose, resetField, setValue, type]
+    [clearErrors, onClose, resetField, setValue, type],
   );
 
   //console.log("data.custList", data.custList);
   const filteredData = data.custList;
+  const totalElements = data.pageInfo.totalElements;
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -154,18 +159,30 @@ const CustSearchDataTable = (props: { type: any; onClose: any }) => {
             sx={{ mb: 1.5 }}
             alignItems="center"
           >
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
+            <KeywordSearch />
+            {/*<DataTableFilter*/}
+            {/*  onFilter={(e: {*/}
+            {/*    target: { value: React.SetStateAction<string> };*/}
+            {/*  }) => setFilterText(e.target.value)}*/}
+            {/*  onClear={handleClear}*/}
+            {/*  filterText={filterText}*/}
+            {/*/>*/}
           </Stack>
         </Grid>
       </Grid>
     );
   }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
+
+  const handlePageChange = (page: number) => {
+    console.log("Page", page);
+    setPage(page);
+  };
+
+  const handlePerRowsChange = (newPerPage: number, page: number) => {
+    console.log("Row change.....", newPerPage, page);
+    setPage(page);
+    setSize(newPerPage);
+  };
 
   return (
     <DataTableBase
@@ -178,12 +195,12 @@ const CustSearchDataTable = (props: { type: any; onClose: any }) => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
-      // paginationServer
-      // paginationTotalRows={5}
-      // onChangePage={(page, totalRows) => console.log(page, totalRows)}
-      // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-      //   console.log(currentRowsPerPage, currentPage)
-      // }
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
+      noDataComponent={<NoDataView />}
       paginationPerPage={10}
       paginationRowsPerPageOptions={[5, 10, 15]}
     />

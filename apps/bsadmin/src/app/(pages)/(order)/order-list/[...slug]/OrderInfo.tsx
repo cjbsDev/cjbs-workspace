@@ -35,7 +35,7 @@ const LazyOrderInfoModifyModal = dynamic(
   () => import("./OrderInfoModifyModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 // 샘플탭
@@ -144,14 +144,13 @@ export default function OrderInfo() {
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <TabBox tabValue={tabValue} handleTabChange={handleTabChange} />
         <CustomTabPanel value={tabValue} index={0}>
-          {/* 오더 */}
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrderTab />
+            <LazySampleTab />
           </ErrorContainer>
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={1}>
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazySampleTab />
+            <LazyOrderTab />
           </ErrorContainer>
         </CustomTabPanel>
         <CustomTabPanel value={tabValue} index={2}>

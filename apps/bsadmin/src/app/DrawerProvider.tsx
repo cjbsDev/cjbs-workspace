@@ -129,7 +129,8 @@ export default function DrawerProvider({ children }: ContextProps) {
         sx={{
           display:
             currentPathname === "/sign-in" ||
-            currentPathname === "/sampleListPopup"
+            currentPathname === "/sampleListPopup" ||
+            currentPathname === "/custListPopup"
               ? "none"
               : "block",
           zIndex: 1000,
@@ -274,6 +275,7 @@ export default function DrawerProvider({ children }: ContextProps) {
         <DrawerHeader
           sx={{
             display:
+              currentPathname === "/custListPopup" ||
               currentPathname === "/sampleListPopup" ||
               currentPathname === "/sign-in"
                 ? "none"

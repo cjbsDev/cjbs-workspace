@@ -405,7 +405,7 @@ const SampleDataTable = (props) => {
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
         selectableRowsVisibleOnly={true}
-        pagination={false}
+        pagination
       />
     </Box>
   );
