@@ -31,7 +31,7 @@ import { custUkeyAtom } from "../../recoil/atoms/custUkeyAtom";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(5);
+  const [size, setSize] = useState<number>(10);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
