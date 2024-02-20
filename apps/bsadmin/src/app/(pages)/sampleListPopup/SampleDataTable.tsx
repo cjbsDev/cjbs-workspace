@@ -420,7 +420,7 @@ const SampleDataTable = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="샘플 검색" />}
         data={sampleListData}
@@ -445,7 +445,7 @@ const SampleDataTable = () => {
         paginationRowsPerPageOptions={[5, 10, 15]}
       />
       <SampleActionBtns />
-    </>
+    </Box>
   );
 };
 

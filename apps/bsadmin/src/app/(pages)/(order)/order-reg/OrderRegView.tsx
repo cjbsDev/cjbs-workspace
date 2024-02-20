@@ -30,7 +30,7 @@ import {
   Taxon,
 } from "cjbsDSTM";
 import * as React from "react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "./SampleTotal";
@@ -41,7 +41,7 @@ import {
   taxonListData,
 } from "../../../data/inputDataLists";
 import { fetcher, POST } from "api";
-import { useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
@@ -50,16 +50,17 @@ import Research from "./Research";
 import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
+import ResearcherMngInfo from "./researcherMngInfo";
 
 const apiUrl: string = `/order/extr`;
 
-const LazyCustSearchModal = dynamic(
-  () => import("../../../components/CustSearchModal"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
-);
+// const LazyCustSearchModal = dynamic(
+//   () => import("../../../components/CustSearchModal"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   },
+// );
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -110,7 +111,6 @@ const OrderRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutate } = useSWRConfig();
-
   const [showAgncSearchModal, setShowAgncSearchModal] =
     useState<boolean>(false);
   // [고객 검색] 모달
@@ -249,13 +249,13 @@ const OrderRegView = () => {
   };
 
   // [ 고객 검색 ] 모달 오픈
-  const handleCustSearchModalOpen = () => {
-    setCustSearchModalOpen(true);
-  };
-  // [ 고객 검색 ] 모달 닫기
-  const handleCustSearchModalClose = useCallback(() => {
-    setCustSearchModalOpen(false);
-  }, []);
+  // const handleCustSearchModalOpen = () => {
+  //   setCustSearchModalOpen(true);
+  // };
+  // // [ 고객 검색 ] 모달 닫기
+  // const handleCustSearchModalClose = useCallback(() => {
+  //   setCustSearchModalOpen(false);
+  // }, []);
 
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -284,104 +284,21 @@ const OrderRegView = () => {
           />
         </Box>
 
-        <Typography variant="subtitle1">연구책임자 정보</Typography>
-        <TableContainer sx={{ mb: 5 }}>
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>아이디(이메일)</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.2} alignItems="flex-start">
-                    <InputValidation
-                      inputName="ebcEmail"
-                      required={true}
-                      errorMessage="아이디(이메일) 입력해 주세요."
-                      sx={{ width: 600 }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    <InputValidation
-                      sx={{ display: "none" }}
-                      inputName="custUkey"
-                      required={true}
-                      // errorMessage="키값 입력하세요."
-                      InputProps={{
-                        readOnly: true,
-                        hidden: true,
-                      }}
-                    />
-                    <InputValidation
-                      sx={{ display: "none" }}
-                      inputName="agncUkey"
-                      required={true}
-                      // errorMessage="키값 입력하세요."
-                      InputProps={{
-                        readOnly: true,
-                        hidden: true,
-                      }}
-                    />
-                    <InputValidation
-                      sx={{ display: "none" }}
-                      inputName="telList"
-                      required={true}
-                      // errorMessage="전화번호 입력하세요."
-                      InputProps={{
-                        readOnly: true,
-                        hidden: true,
-                      }}
-                    />
-                    <OutlinedButton
-                      sx={{
-                        display:
-                          orshType === "extr"
-                            ? "none"
-                            : orshType === "intn"
-                              ? "none"
-                              : "block",
-                      }}
-                      size="small"
-                      buttonName="아이디 검색"
-                      onClick={handleCustSearchModalOpen}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>이름</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="custNm"
-                      required={true}
-                      errorMessage="이름을 입력해 주세요."
-                      sx={{ width: 600 }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>소속 거래처(PI)</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="agncNm"
-                      required={true}
-                      errorMessage="소속 거래처(PI)를 입력해 주세요."
-                      sx={{ width: 600 }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {/*/orsh-list/OljXsG/ao/N/sg*/}
+
+        {/*{orshUK !== null && (*/}
+        {/*  <OutlinedButton*/}
+        {/*    buttonName="주문서 보기"*/}
+        {/*    size="small"*/}
+        {/*    color="secondary"*/}
+        {/*    sx={{ color: "black" }}*/}
+        {/*    endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
+        {/*    onClick={() => router.push("/orsh-list/OljXsG/ao/N/sg")}*/}
+        {/*  />*/}
+        {/*)}*/}
+
+        {/* 연구책임자 정보 */}
+        <ResearcherMngInfo />
 
         <Stack
           direction="row"
@@ -429,8 +346,8 @@ const OrderRegView = () => {
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <InputValidation
                       inputName="ordrAplcTel"
-                      required={true}
-                      errorMessage="연락처 입력해 주세요."
+                      // required={true}
+                      // errorMessage="연락처 입력해 주세요."
                       sx={{ width: 600 }}
                       InputProps={{
                         type: "tel",
@@ -542,18 +459,18 @@ const OrderRegView = () => {
               {/* // intn */}
 
               <TableRow>
-                <TH sx={{ width: "15%" }}>서비스 타입</TH>
-                <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyServiceTypeSelctbox />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow>
                 <TH sx={{ width: "15%" }}>분석종류</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyAnalysisTypeSelctbox />
+                  </ErrorContainer>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>서비스 타입</TH>
+                <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyServiceTypeSelctbox />
                   </ErrorContainer>
                 </TD>
               </TableRow>
@@ -753,14 +670,14 @@ const OrderRegView = () => {
         </TableContainer>
 
         {/* 고객 검색 모달*/}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyCustSearchModal
-            onClose={handleCustSearchModalClose}
-            open={custSearchModalOpen}
-            modalWidth={800}
-            type="order"
-          />
-        </ErrorContainer>
+        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*  <LazyCustSearchModal*/}
+        {/*    onClose={handleCustSearchModalClose}*/}
+        {/*    open={custSearchModalOpen}*/}
+        {/*    modalWidth={800}*/}
+        {/*    type="order"*/}
+        {/*  />*/}
+        {/*</ErrorContainer>*/}
 
         {/* 프로젝트 검색 모달*/}
         <LazyProjectSearchModal

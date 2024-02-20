@@ -34,6 +34,8 @@ const SubHeader = (props: SubHeaderProps) => {
     onFilter,
   } = props;
 
+  console.log("exportUrl", exportUrl);
+
   return (
     <Grid container>
       <Grid item xs={5} sx={{ pt: 0 }}>
