@@ -30,6 +30,7 @@ import MyIcon from "icon/MyIcon";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
 import { fetcher } from "api";
+import AgncDetailInfo from "../../../../components/AgncDetailInfo";
 
 const LazyListProd = dynamic(() => import("./ProdList"), {
   ssr: false,
@@ -44,6 +45,10 @@ const LazyPreviewModal = dynamic(
       loading: () => <Typography variant="body2">Loading...</Typography>,
     }
 );
+
+const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
+  ssr: false,
+});
 
 export default function QttnPage() {
   // init
@@ -64,7 +69,9 @@ export default function QttnPage() {
   if (isLoading) {
     return <SkeletonLoading />;
   }
-  console.log("getDataObj", getDataObj);
+  console.log("getDataObjInfo", getDataObj);
+  const { basicInfo } = getDataObj;
+
   //setSelectedMembers(getDataObj.custDetail);
 
   const handleAgncInfoModalOpen = () => {
@@ -128,14 +135,17 @@ export default function QttnPage() {
 
               <TH sx={{ width: "15%" }}>거래처(PI)</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                {/*<Box sx={{ display: "flex", justifyContent: "space-between" }}>*/}
+                  <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="space-between">
                     {getDataObj.basicInfo.agncInstNm ?? "-"}
-                    <IconButton size="small" onClick={handleAgncInfoModalOpen}>
-                      <MyIcon icon="memo" size={20} />
-                    </IconButton>
+                    {/*<IconButton size="small" onClick={handleAgncInfoModalOpen}>*/}
+                    {/*  <MyIcon icon="memo" size={20} />*/}
+                    {/*</IconButton>*/}
+                    {basicInfo.isExist === 'Y' && (
+                      <AgncDetailInfo agncUkey={basicInfo.agncUkey} />
+                    )}
                   </Stack>
-                </Box>
+                {/*</Box>*/}
               </TD>
             </TableRow>
 
@@ -282,7 +292,7 @@ export default function QttnPage() {
           <Link
             href={{
               pathname: "/qttn-modify",
-              query: { tdstUkey: getDataObj.tdstUkey },
+              query: { qttnUkey: slug },
             }}
           >
             <ContainedButton buttonName="수정" />
@@ -303,6 +313,14 @@ export default function QttnPage() {
             resendType={resendType}
         />
       </ErrorContainer>
+      {/* 기관 정보 모달 */}
+      {agncInfoModalOpen && (
+        <LazyAgncInfoModal
+          open={agncInfoModalOpen}
+          onClose={handleAgncInfoModalClose}
+          modalWidth={800}
+        />
+      )}
     </Container>
   );
 }
