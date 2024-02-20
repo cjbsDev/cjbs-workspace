@@ -37,6 +37,7 @@ import dayjs from "dayjs";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
 import DynamicTableQttn from "../../../components/DynamicTableQttn";
 import DynamicSumTable from "../../../components/DynamicSumTable";
+import AgncModifyComponent from "../qttn-modify/AgncModifyComponent";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -76,8 +77,7 @@ const QTTNRegView = () => {
   // const qttnTypeCcSelect = watch("qttnTypeCc"); // agncTypeCc 필드의 값 감시
 
   // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
+  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -186,7 +186,7 @@ const QTTNRegView = () => {
 
   const defaultValues = {
     qttnTypeCc: "BS_2400001",
-    agncTypeCc: "B",
+    agncTypeCc: "Y",
     qttnDate: new Date(), // 기본 오늘 날짜 선택
     pymtTypeCc: ["BS_1300002", "BS_1300001"],
     pymtMemo: "분석완료 통보 후 1주일 내",
@@ -218,32 +218,33 @@ const QTTNRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>거래처(PI)</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  <TypeSelectRadio
-                    data={agncTypeCcData}
-                    inputName="agncTypeCc"
-                  />
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="agncNm"
-                      sx={{ width: 600 }}
-                      required={true}
-                    />
+                  {/*<TypeSelectRadio*/}
+                  {/*  data={agncTypeCcData}*/}
+                  {/*  inputName="agncTypeCc"*/}
+                  {/*/>*/}
+                  {/*<Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
+                  {/*  <InputValidation*/}
+                  {/*    inputName="agncNm"*/}
+                  {/*    sx={{ width: 600 }}*/}
+                  {/*    required={true}*/}
+                  {/*  />*/}
 
-                    <InputValidation
-                      disabled={true}
-                      sx={{ display: "none" }}
-                      inputName="agncUkey"
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
+                  {/*  <InputValidation*/}
+                  {/*    disabled={true}*/}
+                  {/*    sx={{ display: "none" }}*/}
+                  {/*    inputName="agncUkey"*/}
+                  {/*    InputProps={{*/}
+                  {/*      readOnly: true,*/}
+                  {/*    }}*/}
+                  {/*  />*/}
 
-                    <OutlinedButton
-                      size="small"
-                      buttonName="거래처 검색"
-                      onClick={agncSearchModalOpen}
-                    />
-                  </Stack>
+                  {/*  <OutlinedButton*/}
+                  {/*    size="small"*/}
+                  {/*    buttonName="거래처 검색"*/}
+                  {/*    onClick={agncSearchModalOpen}*/}
+                  {/*  />*/}
+                  {/*</Stack>*/}
+                  <AgncModifyComponent inputName='agncTypeCc' />
                 </TD>
               </TableRow>
               <TableRow>
