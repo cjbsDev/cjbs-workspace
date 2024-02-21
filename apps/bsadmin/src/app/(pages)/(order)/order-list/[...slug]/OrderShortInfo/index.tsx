@@ -38,7 +38,7 @@ const OrderShortInfo = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("ORDER Detail DATA", data);
 
@@ -72,10 +72,12 @@ const OrderShortInfo = () => {
   const { preOrderUkey, postOrderUkey } = getOrderPrevPost;
 
   const prevOrderInfo = () => {
+    console.log("PREV$%$%$%$%$%$$%", result);
     router.push("/order-list/" + preOrderUkey + result);
   };
 
   const postOrderInfo = () => {
+    console.log("POST$%$%$%$%$%$$%", result);
     router.push("/order-list/" + postOrderUkey + result);
   };
 

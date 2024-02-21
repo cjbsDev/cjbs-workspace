@@ -49,7 +49,9 @@ const ListOrder = () => {
   );
 
   const goDetailPage = useCallback((row: any) => {
+    console.log("Go To Detail ===>>>>", result);
     const path = row.orderUkey;
+    console.log("/order-list/" + path + result);
     router.push("/order-list/" + path + result);
   }, []);
 
