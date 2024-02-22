@@ -242,9 +242,15 @@ export default function ListOrshbs() {
 
   const goLinkOrderPage = (row: {
     orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+    anlsTypeAbb: string;
   }) => {
     const orshUkey = row.orshUkey;
-    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list`);
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
