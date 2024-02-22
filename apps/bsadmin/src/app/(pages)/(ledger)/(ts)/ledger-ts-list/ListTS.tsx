@@ -58,16 +58,17 @@ const ListCust = () => {
           >
             <Box data-tag="allowRowEvents">{row.tdstNo} </Box>
             {row.tdstNo == null && (
-              <MyIcon
-                data-tag="allowRowEvents"
-                icon="exclamation-triangle-fill"
-                size={20}
-                color="#FFAB33"
-              />
+              // <MyIcon
+              //   data-tag="allowRowEvents"
+              //   icon="exclamation-triangle-fill"
+              //   size={20}
+              //   color="#FFAB33"
+              // />
+              "-"
             )}
           </Stack>
         ),
-        width: "150px",
+        width: "200px",
       },
       {
         name: "유형",
@@ -98,35 +99,36 @@ const ListCust = () => {
       {
         name: "거래금액",
         selector: (row: { tdPrice: string }) => row.tdPrice,
-        width: "250px",
+        width: "200px",
         right: true,
         cell: (row) => formatNumber(row.tdPrice),
       },
       {
         name: "작성일",
-        width: "150px",
-        right: true,
+        width: "120px",
+        center: true,
         selector: (row: { wdtDate: any }) =>
           row.wdtDate && Dayjs(row.wdtDate).format("YYYY-MM-DD"),
       },
       {
         name: "영업담당",
+        center: true,
         selector: (row: { bsnsMngrNm: string }) => row.bsnsMngrNm,
-        width: "150px",
+        width: "130px",
       },
       {
         name: "작성자",
         selector: (row: { wdtNm: string }) => row.wdtNm,
-        width: "150px",
+        width: "130px",
       },
       {
         name: "발송",
         selector: (row: { sendStatusVal: string }) => row.sendStatusVal,
-        width: "100px",
+        width: "130px",
       },
       {
         name: "발송일자",
-        width: "150px",
+        width: "120px",
         center: true,
         selector: (row: { sendDttm: any }) =>
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",

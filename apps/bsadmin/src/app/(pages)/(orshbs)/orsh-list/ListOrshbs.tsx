@@ -230,14 +230,21 @@ export default function ListOrshbs() {
     const srvcTypeAbb = row.srvcTypeAbb;
     const isOrderStatus = row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
-    router.push("/orsh-list/" + path + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
+    router.push(  `/orsh-list/${path}/${srvcTypeAbb}/${isOrderStatus}/${anlsTypeAbb}`);
   };
 
   const goLinkOrderPage = (row: {
     orshUkey: string;
+    srvcTypeAbb: string;
+    isOrderStatus: string;
+    anlsTypeAbb: string;
   }) => {
+    // /3i0fvg/ao/N/mtp
     const orshUkey = row.orshUkey;
-    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=extr&from=/orsh-list`);
+    const srvcTypeAbb = row.srvcTypeAbb;
+    const isOrderStatus = row.isOrderStatus;
+    const anlsTypeAbb = row.anlsTypeAbb;
+    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=extr&from=/orsh-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
