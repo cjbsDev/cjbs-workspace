@@ -15,7 +15,7 @@ export default function PlatformSelectbox() {
 
   const { data, isLoading, error } = useSWR(
     `/code/order/pltf/list?type=${initValue}`,
-    fetcher
+    fetcher,
   );
 
   if (error) return <div>분석종류를 선택하세요!</div>;
@@ -27,8 +27,8 @@ export default function PlatformSelectbox() {
     <SelectBox
       inputName="platformMc"
       options={data}
-      required={true}
-      errorMessage="플랫폼을 선택해 주세요."
+      // required={true}
+      // errorMessage="플랫폼을 선택해 주세요."
     />
   );
 }

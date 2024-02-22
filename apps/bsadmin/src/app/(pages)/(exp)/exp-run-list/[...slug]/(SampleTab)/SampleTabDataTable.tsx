@@ -445,7 +445,7 @@ const SampleTabDataTable = (props) => {
 
   const handleDelete = async () => {
     console.log("RRRRRRRRRRR", sampleUkeyList);
-    if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+    if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
 
     const body = {
       sampleUkeyList: sampleUkeyList,
@@ -485,7 +485,7 @@ const SampleTabDataTable = (props) => {
     const handleExPrgrsPhsOpen = () => {
       // if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
       if (sampleUkeyList.length !== 0) handleExPrgsChngModalOpen();
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       // setIsClear(false);
       setToggleClearRows(!toggledClearRows);
     };

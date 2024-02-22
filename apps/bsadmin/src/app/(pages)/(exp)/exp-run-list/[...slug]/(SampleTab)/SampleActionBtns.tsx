@@ -23,7 +23,7 @@ const SampleActionBtns = (props: SampleModalActionProps) => {
   const sampleAdd = async () => {
     console.log(getSampleUkeyList);
 
-    if (getSampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+    if (getSampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
 
     // const transformedObject = {
     //   sampleList: getSampleUkeyList.map((item) => ({
@@ -53,7 +53,7 @@ const SampleActionBtns = (props: SampleModalActionProps) => {
     } catch (error: any) {
       console.error(
         "샘플 추가 오류>>>>",
-        error.response?.data?.data || error.message
+        error.response?.data?.data || error.message,
       );
     } finally {
       // setIsLoading(false);

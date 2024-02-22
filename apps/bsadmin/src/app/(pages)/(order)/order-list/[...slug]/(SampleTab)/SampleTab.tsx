@@ -128,18 +128,18 @@ const SampleTab = () => {
 
     const handleAnalDtlModalOpen = () => {
       if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       setIsClear(false);
     };
     const handleExPrgrsPhsOpen = () => {
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       setIsClear(false);
     };
 
     const handleSampleBatchModalOpen = () => {
       if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       setIsClear(false);
     };
 
