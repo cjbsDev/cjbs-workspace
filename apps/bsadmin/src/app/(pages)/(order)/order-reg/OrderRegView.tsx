@@ -298,7 +298,7 @@ const OrderRegView = () => {
                   ? " (내부)"
                   : orshType === "extr"
                     ? " (고객)"
-                    : orshType
+                    : ""
               }`
             }
           />
@@ -453,8 +453,8 @@ const OrderRegView = () => {
                     <InputValidation
                       placeholder="example@gmail.com"
                       inputName="rstFileRcpnEmail"
-                      required={orshType === "intn"}
-                      errorMessage="이메일을 입력해 주세요."
+                      // required={orshType === "intn"}
+                      // errorMessage="이메일을 입력해 주세요."
                       sx={{ width: 600 }}
                       InputProps={{
                         type: "email",
