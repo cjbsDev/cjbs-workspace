@@ -7,10 +7,11 @@ const AgncAndInstName = () => {
   const getAgncNm = getValues("agncNm");
   const getAgncInstNm = getValues("agncInstNm");
 
+  console.log("getAgncNm", getAgncNm);
+  console.log("getAgncInstNm", getAgncInstNm);
+
   const isEmpty = !getAgncNm || !getAgncInstNm;
-  const displayText = isEmpty
-    ? "거래처 검색을 해주세요."
-    : `${getAgncNm} (${getAgncInstNm})`;
+  const displayText = isEmpty ? "거래처 검색을 해주세요." : `${getAgncInstNm}`;
 
   return (
     <Typography
