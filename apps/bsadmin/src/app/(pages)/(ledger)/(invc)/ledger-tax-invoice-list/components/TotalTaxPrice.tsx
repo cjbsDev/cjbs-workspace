@@ -1,8 +1,15 @@
 import React from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { Box, Stack, Typography } from "@mui/material";
-import { cjbsTheme, formatNumberWithCommas } from "cjbsDSTM";
+import {
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+} from "@mui/material";
+import { cjbsTheme, TD, TH, formatNumberWithCommas } from "cjbsDSTM";
 
 const TotalTaxPrice = () => {
   const { data } = useSWR("/invc/total/price", fetcher, {
@@ -13,74 +20,20 @@ const TotalTaxPrice = () => {
   console.log(data);
 
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      justifyContent="flex-end"
-      spacing={3}
-      sx={{
-        // backgroundColor: cjbsTheme.palette.grey["100"],
-        p: 1.5,
-        pt: 2,
-        mb: 1,
-        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-      }}
-    >
-      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
-        <Box
-          component="dt"
-          sx={{
-            mr: 1,
-            fontWeight: 600,
-            // py: 2,
-            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-          }}
-        >
-          총 공급금액:
-        </Box>
-        <Box
-          component="dd"
-          sx={
-            {
-              // py: 2,
-              // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-            }
-          }
-        >
-          {formatNumberWithCommas(totalSupplyPrice)}원
-        </Box>
-      </Box>
-
-      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
-        <Box
-          component="dt"
-          sx={{
-            mr: 1,
-            fontWeight: 600,
-            // py: 2,
-            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-          }}
-        >
-          총 부가세:
-        </Box>
-        <Box component="dd">{formatNumberWithCommas(totalVat)}원</Box>
-      </Box>
-
-      <Box component="dl" sx={{ display: "flex", alignItems: "center" }}>
-        <Box
-          component="dt"
-          sx={{
-            mr: 1,
-            fontWeight: 600,
-            // py: 2,
-            // borderRight: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-          }}
-        >
-          총 합계금액:
-        </Box>
-        <Box component="dd">{formatNumberWithCommas(totalPrice)}원</Box>
-      </Box>
-    </Stack>
+    <TableContainer sx={{ my: 1 }}>
+      <Table>
+        <TableBody>
+          <TableRow>
+            <TH>총 공급금액</TH>
+            <TD align="right">{formatNumberWithCommas(totalSupplyPrice)}원</TD>
+            <TH>총 부가세</TH>
+            <TD align="right">{formatNumberWithCommas(totalVat)}원</TD>
+            <TH>총 합계금액</TH>
+            <TD align="right">{formatNumberWithCommas(totalPrice)}원</TD>
+          </TableRow>
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 };
 
