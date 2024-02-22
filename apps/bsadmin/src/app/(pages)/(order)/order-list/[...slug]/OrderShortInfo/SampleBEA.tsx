@@ -14,7 +14,7 @@ const SampleBEA = (props) => {
   const { bcount, ecount, acount } = props;
   return (
     <Box>
-      <Typography variant="subtitle1">
+      <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
         샘플 {bcount + ecount + acount}개
       </Typography>
 
@@ -23,7 +23,7 @@ const SampleBEA = (props) => {
           <SampleTitle variant="h4" className="SampleTitleB">
             B
           </SampleTitle>
-          <Typography variant="h3">
+          <Typography variant="h3" sx={{ fontSize: 22 }}>
             {bcount}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
@@ -33,7 +33,7 @@ const SampleBEA = (props) => {
           <SampleTitle variant="h4" className="SampleTitleE">
             E
           </SampleTitle>
-          <Typography variant="h3">
+          <Typography variant="h3" sx={{ fontSize: 22 }}>
             {ecount}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
@@ -43,7 +43,7 @@ const SampleBEA = (props) => {
           <SampleTitle variant="h4" className="SampleTitleA">
             A
           </SampleTitle>
-          <Typography variant="h3">
+          <Typography variant="h3" sx={{ fontSize: 22 }}>
             {acount}
             <small style={{ fontSize: 14, paddingLeft: 4 }}>개</small>
           </Typography>
@@ -56,17 +56,17 @@ const SampleBEA = (props) => {
 export default SampleBEA;
 
 const SampleBox = styled(Box)<BoxProps>(({ className, theme }) => ({
-  padding: "10px 20px",
+  padding: "10px 10px",
   border: `1px solid ${
     className === "SampleBoxA"
       ? cjbsTheme.palette.tertiary.light
       : className === "SampleBoxB"
-      ? cjbsTheme.palette.primary.light
-      : cjbsTheme.palette.success.light
+        ? cjbsTheme.palette.primary.light
+        : cjbsTheme.palette.success.light
   }`,
   borderRadius: 8,
   textAlign: "center",
-  minWidth: 120,
+  minWidth: 90,
 }));
 
 const SampleTitle = styled(Typography)<TypographyProps>(
@@ -75,7 +75,7 @@ const SampleTitle = styled(Typography)<TypographyProps>(
       className === "SampleTitleA"
         ? cjbsTheme.palette.tertiary.main
         : className === "SampleTitleB"
-        ? cjbsTheme.palette.primary.main
-        : cjbsTheme.palette.success.main,
-  })
+          ? cjbsTheme.palette.primary.main
+          : cjbsTheme.palette.success.main,
+  }),
 );
