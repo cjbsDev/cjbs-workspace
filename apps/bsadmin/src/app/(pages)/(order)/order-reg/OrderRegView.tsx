@@ -106,6 +106,14 @@ const LazyNGSManagerSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
+interface SearchResultObjectProps {
+  anlsTypeAbb?: string;
+  from?: string;
+  isOrderStatus?: string;
+  orshType?: string;
+  orshUkey?: string;
+  srvcTypeAbb?: string;
+}
 
 const OrderRegView = () => {
   const router = useRouter();
@@ -121,16 +129,18 @@ const OrderRegView = () => {
 
   // 주문서에서 오더 등록 할때
   const from: string | null = searchParams.get("from");
-  console.log("from", typeof from);
-  const orshUK = searchParams.get("orshUkey");
-  console.log("orshUkey", orshUK);
+  const orshUkey = searchParams.get("orshUkey");
   const orshType = searchParams.get("orshType");
-  console.log("orshType", orshType);
+  const srvcTypeAbb = searchParams.get("srvcTypeAbb");
+  const isOrderStatus = searchParams.get("isOrderStatus");
+  const anlsTypeAbb = searchParams.get("anlsTypeAbb");
 
-  const orshAPIPath: string = `/orsh/bs/${orshType}/${orshUK}`;
+  const orshViewURL = `${from}/${orshUkey}/${srvcTypeAbb}/${isOrderStatus}/${anlsTypeAbb}`;
+
+  const orshAPIPath: string = `/orsh/bs/${orshType}/${orshUkey}`;
 
   const { data: orshExtrData } = useSWR(
-    () => (orshUK !== null ? orshAPIPath : apiUrl),
+    () => (orshType !== null ? orshAPIPath : apiUrl),
     fetcher,
     {
       suspense: true,
@@ -188,7 +198,7 @@ const OrderRegView = () => {
 
     // 외부 오더 등록 BODY DATA
     const extrKeyValues = {
-      orshUkey: orshUK,
+      orshUkey: orshUkey,
     };
 
     const extrBodyData = {
@@ -199,7 +209,7 @@ const OrderRegView = () => {
     // 내부 오더 등록 BODY DATA
     // !내부 오더 등록에는 price키 가 필요 없음.
     const intnKeyValues = {
-      orshUkey: orshUK,
+      orshUkey: orshUkey,
       prjtCodeMc: data.prjtCodeMc,
       prjtDetailCodeMc: data.prjtDetailCodeMc,
       rstFileRcpnEmail: data.rstFileRcpnEmail,
@@ -218,7 +228,7 @@ const OrderRegView = () => {
     console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
 
     await POST(
-      orshUK !== null ? orshAPIPath : apiUrl,
+      orshUkey !== null ? orshAPIPath : apiUrl,
       orshType === "extr"
         ? extrBodyData
         : orshType === "intn"
@@ -229,7 +239,7 @@ const OrderRegView = () => {
         console.log("POST request successful:", response);
         if (response.success) {
           // setIsLoading(false);
-          if (orshUK !== null) {
+          if (orshUkey !== null) {
             router.push(`${from}`);
             mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
           } else {
@@ -268,6 +278,16 @@ const OrderRegView = () => {
 
   return (
     <>
+      {orshType !== null && (
+        <OutlinedButton
+          buttonName="주문서 보기"
+          size="small"
+          color="secondary"
+          sx={{ color: "black", position: "absolute", top: 150, right: 20 }}
+          // endIcon={<MyIcon icon="cheveron-right" size={18} />}
+          onClick={() => router.push(orshViewURL)}
+        />
+      )}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
           <Title1
@@ -278,24 +298,11 @@ const OrderRegView = () => {
                   ? " (내부)"
                   : orshType === "extr"
                     ? " (고객)"
-                    : ""
+                    : orshType
               }`
             }
           />
         </Box>
-
-        {/*/orsh-list/OljXsG/ao/N/sg*/}
-
-        {/*{orshUK !== null && (*/}
-        {/*  <OutlinedButton*/}
-        {/*    buttonName="주문서 보기"*/}
-        {/*    size="small"*/}
-        {/*    color="secondary"*/}
-        {/*    sx={{ color: "black" }}*/}
-        {/*    endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
-        {/*    onClick={() => router.push("/orsh-list/OljXsG/ao/N/sg")}*/}
-        {/*  />*/}
-        {/*)}*/}
 
         {/* 연구책임자 정보 */}
         <ResearcherMngInfo />
