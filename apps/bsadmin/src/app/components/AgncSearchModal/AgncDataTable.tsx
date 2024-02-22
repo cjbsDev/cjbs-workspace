@@ -80,6 +80,8 @@ const AgncDataTable = ({ handleClose }) => {
             rprsNm,
           } = row;
 
+          const agncInstNm = `${agncNm}(${instNm})`;
+
           const selected = useCallback(() => {
             if (paymentInfoValue === "BS_1914004") {
               setValue("tnsfTargetAgncNm", agncNm);
@@ -91,6 +93,7 @@ const AgncDataTable = ({ handleClose }) => {
               setValue("instFakeNm", instNm);
               setValue("rmnPrePymtPrice", rmnPrePymtPrice);
               setValue("rmnPrice", rmnPrice);
+              setValue("agncInstNm", agncInstNm);
               // setValue("brno", brno);
               // setValue("rprsNm", rprsNm);
             }

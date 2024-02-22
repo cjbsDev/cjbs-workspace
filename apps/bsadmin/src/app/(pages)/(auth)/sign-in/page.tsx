@@ -13,14 +13,18 @@ import {
   Grid,
   IconButton,
   Stack,
+  Button,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import { Form, InputValidation, XlargeButton } from "cjbsDSTM";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
+import { useState } from "react";
 
 const theme = createTheme();
 export default function Page() {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -32,19 +36,24 @@ export default function Page() {
 
   const onSubmit = (data: any) => {
     console.log(data);
+    setIsLoading(true);
     let email = data.email;
     let password = data.password;
-    signIn("credentials", { email, password, redirect: false }).then((res) => {
-      //const isError = res && res.error ? res.error : null
-      console.log("!!!!res=", res);
-      if (res?.error) {
-        const errorMessage = res.error.split("Error:")[1];
-        toast(errorMessage, { type: "info" });
-      } else {
-        //로그인성공
-        router.push("/");
-      }
-    });
+    signIn("credentials", { email, password, redirect: false })
+      .then((res) => {
+        //const isError = res && res.error ? res.error : null
+        console.log("!!!!res=", res);
+        if (res?.error) {
+          const errorMessage = res.error.split("Error:")[1];
+          toast(errorMessage, { type: "info" });
+        } else {
+          //로그인성공
+          router.push("/");
+        }
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -144,13 +153,25 @@ export default function Page() {
                 ),
               }}
             />
-            <XlargeButton
-              buttonName="로그인"
-              type="submit"
+
+            <LoadingButton
+              loading={isLoading}
               variant="contained"
+              type="submit"
               fullWidth
+              size="large"
               style={{ marginTop: 10, marginBottom: 10 }}
-            />
+            >
+              로그인
+            </LoadingButton>
+
+            {/*<XlargeButton*/}
+            {/*  buttonName="로그인"*/}
+            {/*  type="submit"*/}
+            {/*  variant="contained"*/}
+            {/*  fullWidth*/}
+            {/*  style={{ marginTop: 10, marginBottom: 10 }}*/}
+            {/*/>*/}
             <Grid container>
               <Grid item xs>
                 {/*<Link*/}
@@ -163,9 +184,12 @@ export default function Page() {
                 {/*</Link>*/}
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2" underline="none">
+                <Button disabled>
                   비밀번호 찾기
-                </Link>
+                  {/*<Link href="#" variant="body2">*/}
+                  {/*  비밀번호 찾기*/}
+                  {/*</Link>*/}
+                </Button>
               </Grid>
             </Grid>
           </Form>
