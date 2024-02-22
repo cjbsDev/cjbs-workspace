@@ -277,14 +277,14 @@ export default function QttnPage() {
           <ContainedButton
             color={"success"}
             size="small"
-            buttonName="거래명세서 발송"
+            buttonName="견적서 발송"
             onClick={() => preveiwModalOpen("N")}
           />
         ) : (
           <ContainedButton
             color={"success"}
             size="small"
-            buttonName="거래명세서 재발송"
+            buttonName="견적서 재발송"
             onClick={() => preveiwModalOpen("Y")}
           />
         )}

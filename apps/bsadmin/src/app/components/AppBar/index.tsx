@@ -34,6 +34,7 @@ import { useSession } from "next-auth/react";
 import { cjbsTheme, LinkButton } from "cjbsDSTM";
 import Skeleton from "@mui/material/Skeleton";
 import { usePathname } from "next/navigation";
+import {useRouter} from "next-nprogress-bar";
 
 const drawerWidth = 228;
 
@@ -65,6 +66,7 @@ const AppBar = styled(MuiAppBar, {
   margin: 0,
 }));
 const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
+  const router = useRouter();
   const currentPathname = usePathname();
   const { data: session, status } = useSession();
   const popupState = usePopupState({
@@ -143,10 +145,24 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
+                      router.push('/my-info');
+                    }}
+                  >
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <MyIcon icon="pencil-alt" size={20} />
+                      <Typography variant="body2">내 정보관리</Typography>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      popupState.close();
                       signOut({ callbackUrl: "/sign-in" });
                     }}
                   >
-                    Sign Out
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <MyIcon icon="logout" size={20} />
+                      <Typography variant="body2">Sign Out</Typography>
+                    </Stack>
                   </MenuItem>
                 </Menu>
               </Box>
