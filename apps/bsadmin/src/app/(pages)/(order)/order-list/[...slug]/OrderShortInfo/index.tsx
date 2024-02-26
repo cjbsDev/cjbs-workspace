@@ -194,7 +194,7 @@ const OrderShortInfo = () => {
                     {/*</Typography>*/}
                     <Stack direction="row" spacing={0.5}>
                       <Box>{prepMngrNm === null ? "-" : prepMngrNm}(Prep),</Box>
-                      <Box>{libMngrNm === null ? "-" : libMngrNm}(Lip),</Box>
+                      <Box>{libMngrNm === null ? "-" : libMngrNm}(Lib),</Box>
                       <Box>{seqMngrNm === null ? "-" : seqMngrNm}(Seq)</Box>
                     </Stack>
                   </Grid>
