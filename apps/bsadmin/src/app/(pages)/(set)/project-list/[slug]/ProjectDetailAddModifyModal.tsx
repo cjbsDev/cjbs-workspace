@@ -72,7 +72,7 @@ const ProjectDetailAddModifyModal = ({
 
     let apiUrl = "";
     if (selectItem.detailUniqueCode) {
-      apiUrl = `/mngr/prjcDetail/` + selectItem.detailUniqueCode;
+      apiUrl = `/mngr/prjtDetail/` + selectItem.detailUniqueCode;
 
       try {
         const response = await PUT(apiUrl, saveObj); // API 요청
@@ -90,7 +90,7 @@ const ProjectDetailAddModifyModal = ({
       }
     } else {
       console.log("추가 -01");
-      apiUrl = `/mngr/prjcDetail/` + prjcUkey;
+      apiUrl = `/mngr/prjtDetail/` + prjcUkey;
 
       try {
         const response = await POST(apiUrl, saveObj); // API 요청
