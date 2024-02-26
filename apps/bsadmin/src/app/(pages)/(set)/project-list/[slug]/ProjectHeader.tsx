@@ -27,7 +27,7 @@ const LazyProjectAddModifyModal = dynamic(
   () => import("./ProjectModifyModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 interface DataItem {
@@ -49,13 +49,13 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
     data: projectData,
     error,
     isLoading,
-  } = useSWR(`/mngr/prjc/${slug}`, fetcher);
+  } = useSWR(`/mngr/prjt/${slug}`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
 
   const renderList = () => {
-    mutate(`/mngr/prjc/${slug}`);
+    mutate(`/mngr/prjt/${slug}`);
   };
 
   const defaultValues = {

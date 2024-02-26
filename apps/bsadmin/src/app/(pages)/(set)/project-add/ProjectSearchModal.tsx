@@ -32,11 +32,11 @@ const ProjectSearchModal = ({
   const [perPage, setPerPage] = useState(50);
   const [pageIndex, setPageIndex] = useState(0);
   const { data } = useSWR(
-    `/mngr/prjc/list/unRgst?page.page=${pageIndex}&page.size=${perPage}`,
+    `/mngr/prjt/list/unRgst?page.page=${pageIndex}&page.size=${perPage}`,
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   const { setValue, clearErrors } = useFormContext();
   // useMemo will only be created once
@@ -78,7 +78,7 @@ const ProjectSearchModal = ({
         width: "100px",
       },
     ],
-    [setValue, clearErrors, handleClose]
+    [setValue, clearErrors, handleClose],
   );
 
   const filteredData = data.instList;

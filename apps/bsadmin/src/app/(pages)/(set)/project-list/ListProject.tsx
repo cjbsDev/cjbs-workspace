@@ -11,7 +11,7 @@ import SubHeader from "./SubHeader";
 
 const ListProject = () => {
   const router = useRouter();
-  const tempUrl = `/mngr/prjc/list`;
+  const tempUrl = `/mngr/prjt/list`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });

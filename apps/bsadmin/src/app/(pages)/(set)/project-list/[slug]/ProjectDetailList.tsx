@@ -36,7 +36,7 @@ const LazyProjectDetailAddModifyModal = dynamic(
   () => import("./ProjectDetailAddModifyModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 interface ProjectDetailListProps {
@@ -61,7 +61,7 @@ const ProjectDetailList: React.FC<ProjectDetailListProps> = ({ slug }) => {
     data: projectDetailTempData,
     error,
     isLoading,
-  } = useSWR(`/mngr/prjc/${slug}/list`, fetcher);
+  } = useSWR(`/mngr/prjt/${slug}/list`, fetcher);
   if (isLoading) {
     return <SkeletonLoading />;
   }
@@ -75,7 +75,7 @@ const ProjectDetailList: React.FC<ProjectDetailListProps> = ({ slug }) => {
   const projectDetail = masterCodeDetailList;
 
   const renderList = () => {
-    mutate(`/mngr/prjc/${slug}/list`);
+    mutate(`/mngr/prjt/${slug}/list`);
   };
 
   // [ 연구 추가 ] 모달 오픈
