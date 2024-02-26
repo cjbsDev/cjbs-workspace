@@ -145,7 +145,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
-                      router.push('/my-info');
+                      router.push('/my-pwchk');
                     }}
                   >
                     <Stack direction="row" spacing={1} alignItems="center">
