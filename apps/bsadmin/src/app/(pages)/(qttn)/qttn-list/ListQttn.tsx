@@ -6,10 +6,10 @@ import {
   DataTableBase,
   DataTableFilter,
   ContainedButton,
-  Title1,
+  Title1, FileDownloadBtn,
 } from "cjbsDSTM";
 
-import { Box, Stack, Grid, Link, Chip } from "@mui/material";
+import {Box, Stack, Grid, Link, Chip, FormControlLabel} from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
@@ -17,24 +17,58 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { toast } from "react-toastify";
+import useSWR, {mutate} from "swr";
+import {DELETE, fetcher} from "api";
+import {useSearchParams} from "next/navigation";
+import Checkbox from "@mui/material/Checkbox";
+import KeywordSearch from "../../../components/KeywordSearch";
+import { useSession } from "next-auth/react";
 
-const ListCust = () => {
-  const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
+const ListQttn = () => {
+  const { data: session, status } = useSession();
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(20);
+  const [checked, setChecked] = useState(false);
+  const searchParams = useSearchParams();
+  const resultObject: any = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
   // ListAPI Call
-  const { data } = useList("qttn", page, perPage);
+  // const { data } = useList("qttn", page, perPage);
+  const { data } = useSWR(
+    JSON.stringify(resultObject) !== "{}"
+      ? `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`
+      : `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("RUN LIST DATA", data);
+
   const router = useRouter();
+  const [selectedRows, setSelectedRows] = useState<string[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const filteredData = data.qttnList;
-
   const totalElements = data.pageInfo.totalElements;
+
+  // useEffect(() => {
+  //   console.log(selectedRows);
+  // }, [selectedRows]);
+
   const handleRowSelected = (rows: any) => {
-    //console.log("rows", rows);
+    console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
-    //setSelectedRows(rows.map((row) => row.id));
+    const getSampleUkeyList = rows.selectedRows.map((row) => row.qttnUkey);
+    console.log("getSampleUkeyList", getSampleUkeyList);
+    setSelectedRows(getSampleUkeyList);
   };
   const formatNumber = (number) => {
     return number.toLocaleString();
@@ -169,17 +203,52 @@ const ListCust = () => {
   };
 
   const handlePageChange = (page: number) => {
-    // console.log("Page", page);
+    console.log("Page", page);
     setPage(page);
   };
 
   const handlePerRowsChange = (newPerPage: number, page: number) => {
-    // console.log("Row change.....", newPerPage, page);
+    console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
+    setSize(newPerPage);
   };
 
-  const subHeaderComponentMemo = React.useMemo(() => {
+  const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log("123123123123"+ event.target.checked);
+    setChecked(event.target.checked);
+  };
+
+  const rowDisabled = (row: { isDel: string }) => row.isDel !== "Y";
+
+  const handleDelete = async () => {
+    console.log("RRRRRRRRRRR", selectedRows);
+    if (selectedRows.length === 0) toast("견적서를 선택해 주세요.");
+
+    // const body = {
+    //   qttnUkeyList: selectedRows,
+    // };
+    try {
+      const res = await DELETE(`/qttn?qttnUkeyList=${selectedRows}`);
+      console.log("Delete 성공 여부", res.success);
+
+      if (res.success) {
+        mutate(`/qttn-list/`);
+        toast("삭제 되었습니다.");
+        setSelectedRows([]);
+      } else {
+        toast(res.message);
+      }
+    } catch (error: any) {
+      console.error(
+        "샘플 삭제 오류>>>>",
+        error.response?.data?.data || error.message,
+      );
+    } finally {
+      // setToggleClearRows(!toggledClearRows);
+    }
+  };
+
+  const subHeaderComponentMemo = useMemo(() => {
     const handleClear = () => {
       if (filterText) {
         setResetPaginationToggle(!resetPaginationToggle);
@@ -189,53 +258,81 @@ const ListCust = () => {
 
     return (
       <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
-            <DataCountResultInfo
-              totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
-            />
-
-            <Link href="/qttn-add">
-              <ContainedButton buttonName="견적서 등록" size="small" />
-            </Link>
-          </Stack>
-        </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
+        <Grid item xs={12} sx={{ pt: 0 }}>
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            spacing={1}
+            sx={{ mb: 0.5 }}
+            alignItems="center"
+          >
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+            >
+              <DataCountResultInfo totalCount={totalElements} />
+              <Link href="/qttn-add">
+                <ContainedButton buttonName="견적서 등록" size="small" />
+              </Link>
+              <ContainedButton
+                buttonName="삭제"
+                size="small"
+                color="error"
+                onClick={handleDelete}
+                startIcon={<MyIcon icon="trash" size={18} />}
+              />
+              <FormControlLabel
+                label="나와 관련된 견적서만 보기"
+                control={
+                  <Checkbox onChange={handleChange1}
+                  />
+                }
+              />
+            </Stack>
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+            >
+              <FileDownloadBtn
+                exportUrl={`/agnc/prePymt/list/download${result}&chkAll=${checked}`}
+                iconName="xls3"
+              />
+              <KeywordSearch />
+              {/*<ResultInSearch/>*/}
+            </Stack>
           </Stack>
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, totalElements]);
+  }, [filterText, resetPaginationToggle, totalElements, selectedRows]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="견적서 관리" />}
-      data={filteredData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-    />
+    <>
+      <DataTableBase
+        title={<Title1 titleName="견적서 관리" />}
+        data={filteredData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        selectableRows
+        selectableRowDisabled={rowDisabled}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+      />
+    </>
+
   );
 };
 
-export default ListCust;
+export default ListQttn;

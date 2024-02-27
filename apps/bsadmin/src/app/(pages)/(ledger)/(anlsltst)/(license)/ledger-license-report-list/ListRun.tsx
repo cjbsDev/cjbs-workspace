@@ -115,7 +115,7 @@ const ListRun = () => {
         },
       },
       {
-        name: "거래처 번호",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처 번호</Typography></Stack>,
         width: "100px",
         center: true,
         // sortable: true,

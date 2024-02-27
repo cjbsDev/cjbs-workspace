@@ -113,7 +113,7 @@ export default function LicenseSampleDynamicTable(props: any) {
   const handleAddFields = () => {
     append({ //
       addType: "button",
-      srvcTypeMc: "",
+      srvcTypeMc: "BS_0100007001",
       sampleSize: 0,
       unitPrice: '0',
       supplyPrice: '0',
