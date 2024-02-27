@@ -45,7 +45,7 @@ const LazyPrepSelctbox = dynamic(() => import("./PrepSelectbox"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
-const LazyLipSelctbox = dynamic(() => import("./LipSelectbox"), {
+const LazyLibSelctbox = dynamic(() => import("./LibSelectbox"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
@@ -58,7 +58,7 @@ const LazyOrderType = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const dataRadioGVTest = [
@@ -148,7 +148,7 @@ ModalContainerProps) => {
     } catch (error) {
       console.error(
         "오더 정보 변경Error",
-        error.response?.data?.data || error.message
+        error.response?.data?.data || error.message,
       );
     } finally {
       setIsLoading(false);
@@ -231,11 +231,11 @@ ModalContainerProps) => {
                 </TableRow>
                 <TableRow>
                   <TH sx={{ width: "35%" }}>
-                    Lip 담당<NotRequired>[선택]</NotRequired>
+                    Lib 담당<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyLipSelctbox />
+                      <LazyLibSelctbox />
                     </ErrorContainer>
                   </TD>
                 </TableRow>
