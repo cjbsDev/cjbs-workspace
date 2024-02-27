@@ -34,7 +34,7 @@ import { useSession } from "next-auth/react";
 import { cjbsTheme, LinkButton } from "cjbsDSTM";
 import Skeleton from "@mui/material/Skeleton";
 import { usePathname } from "next/navigation";
-import {useRouter} from "next-nprogress-bar";
+import { useRouter } from "next-nprogress-bar";
 
 const drawerWidth = 228;
 
@@ -83,6 +83,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
         display:
           currentPathname === "/custListPopup" ||
           currentPathname === "/sampleListPopup" ||
+          currentPathname === "/agncListPopup" ||
           currentPathname === "/sign-in"
             ? "none"
             : "block",
@@ -145,7 +146,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
-                      router.push('/my-pwchk');
+                      router.push("/my-pwchk");
                     }}
                   >
                     <Stack direction="row" spacing={1} alignItems="center">

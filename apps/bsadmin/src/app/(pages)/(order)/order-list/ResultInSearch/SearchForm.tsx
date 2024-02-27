@@ -28,6 +28,7 @@ import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../data/inputDataLists";
+import { toast } from "react-toastify";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
@@ -95,40 +96,34 @@ const SearchForm = ({ onClose }) => {
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
     let result;
-    //
-    // if (data.dateRange !== undefined) {
-    //   const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
-    //     dayjs(dateStr).format("YYYY-MM-DD")
-    //   );
-    //   data.startDttm = startDttm;
-    //   data.endDttm = endDttm;
-    //   data.dateRange = undefined;
-    // }
-    //
-    // console.log("DATA>>>>>", data);
 
     // 날짜
     if (
       data.dateTypeCc === "" &&
-      data.startDttm !== null &&
-      data.endDttm !== null
+      data.startDttm !== "" &&
+      data.endDttm !== ""
     ) {
       console.log("날짜 타입을 선택해 주세요");
+      toast("날짜 타입을 선택해 주세요");
       return;
     } else if (
       data.dateTypeCc !== "" &&
-      data.startDttm === null &&
-      data.endDttm === null
+      data.startDttm === undefined &&
+      data.endDttm === undefined
     ) {
       console.log("날짜 선택해 주세요");
+      toast("날짜 선택해 주세요");
       return;
+    } else if (
+      data.dateTypeCc === "" &&
+      data.startDttm === undefined &&
+      data.endDttm === undefined
+    ) {
+      data.dateTypeCc = "";
+      data.startDttm = undefined;
+      data.endDttm = undefined;
     } else {
-      // console.log("날짜 타입을 선택해 주세요");
-      // return;
-
-      // 변환할 날짜 문자열 가져오기
       const { startDttm, endDttm } = data;
-
       // 날짜 문자열을 Date 객체로 변환
       data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
       data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
