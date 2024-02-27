@@ -237,7 +237,7 @@ const CustPayList = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         // title={
         //   <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
@@ -262,7 +262,7 @@ const CustPayList = () => {
         noDataComponent={<NoDataView />}
         // expandOnRowDoubleClicked={true}
       />
-    </>
+    </Box>
   );
 };
 

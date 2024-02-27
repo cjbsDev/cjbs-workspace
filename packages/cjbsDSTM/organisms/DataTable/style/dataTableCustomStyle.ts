@@ -15,6 +15,7 @@ export const dataTableCustomStyles = {
   head: {
     style: {
       color: "white",
+      fontFamily: 'NotoSansKR',
       fontWeight: "600",
       fontSize: 14,
       // backgroundColor: cjbsTheme.palette.grey["50"],
@@ -75,6 +76,7 @@ export const dataTableCustomStyles = {
   },
   cells: {
     style: {
+      fontFamily: 'NotoSansKR',
       fontSize: 14,
       "&:nth-of-type(1)": {
         // paddingLeft: 40,
@@ -126,6 +128,7 @@ export const dataTableCustomStyles2 = {
       color: cjbsTheme.palette.common.black,
       fontWeight: "600",
       fontSize: 14,
+      fontFamily: 'NotoSansKR',
       backgroundColor: cjbsTheme.palette.grey["100"],
       borderCollapse: "collapse",
     },
@@ -169,6 +172,7 @@ export const dataTableCustomStyles2 = {
   cells: {
     style: {
       fontSize: 14,
+      fontFamily: 'NotoSansKR',
       borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       "&:nth-of-type(1)": {
         // paddingLeft: 40,
@@ -210,6 +214,7 @@ export const dataTableCustomStyles3 = {
       color: "white",
       fontWeight: "600",
       fontSize: 14,
+      fontFamily: 'NotoSansKR',
       backgroundColor: cjbsTheme.palette.grey["50"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
@@ -251,6 +256,7 @@ export const dataTableCustomStyles3 = {
       borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       // borderRight: "1px solid red",
       // minHeight: 50,
+      fontFamily: 'NotoSansKR',
       paddingTop: 5,
       paddingBottom: 5,
       fontSize: 14,

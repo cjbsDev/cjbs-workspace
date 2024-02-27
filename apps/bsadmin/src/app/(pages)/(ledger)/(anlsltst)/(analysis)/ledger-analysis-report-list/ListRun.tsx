@@ -85,7 +85,7 @@ const ListRun = () => {
   const columns = useMemo(
     () => [
       {
-        name: "No",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">No</Typography></Stack>,
         width: "80px",
         center: true,
         // sortable: true,
@@ -115,7 +115,7 @@ const ListRun = () => {
         },
       },
       {
-        name: "거래처 번호",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처 번호</Typography></Stack>,
         width: "100px",
         center: true,
         // sortable: true,
@@ -147,12 +147,12 @@ const ListRun = () => {
         selector: (row) => row.bsnsMngrNm,
       },
       {
-        name: "분류",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">분류</Typography></Stack>,
         center: true,
         selector: (row) => row.srvcCtgrVal,
       },
       {
-        name: "분석종류",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">분석종류</Typography></Stack>,
         center: true,
         selector: (row) => row.anlsTypeVal,
       },
@@ -162,7 +162,7 @@ const ListRun = () => {
         selector: (row) => row.pltfVal,
       },
       {
-        name: "분석일",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">분석일</Typography></Stack>,
         width: "120px",
         center: true,
         selector: (row) => row.anlsDttm,
@@ -173,7 +173,7 @@ const ListRun = () => {
       //   selector: (row) => (row.kitVal === null ? "-" : row.kitVal),
       // },
       {
-        name: "수량",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">수량</Typography></Stack>,
         width: "80px",
         center: true,
         selector: (row) => row.totalCnt,
@@ -197,7 +197,7 @@ const ListRun = () => {
         selector: (row) => row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: "정산",
+        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">정산</Typography></Stack>,
         center: true,
         cell: (row: { isSettled: string }) => {
           const { isSettled } = row;
@@ -395,7 +395,7 @@ const ListRun = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={
           <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
@@ -429,7 +429,7 @@ const ListRun = () => {
         onClose={handleServiceSelectModalClose}
         modalWidth={500}
       />
-    </>
+    </Box>
   );
 };
 

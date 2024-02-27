@@ -206,7 +206,7 @@ const PrePymtList = () => {
               alignItems="center"
             >
               <FileDownloadBtn
-                exportUrl={`/agnc/prePymt/list/download${result}`}
+                exportUrl={`/agnc/prePymt/list/download${result}&chkAll=${checked}`}
                 iconName="xls3"
               />
               <KeywordSearch />
@@ -319,7 +319,7 @@ const PrePymtList = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         // title={
         //   <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
@@ -329,7 +329,7 @@ const PrePymtList = () => {
         data={prePymtStatusList}
         columns={columns}
         // onRowClicked={goDetailPage}
-        pointerOnHover
+        // pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles3}
         subHeader
@@ -347,7 +347,7 @@ const PrePymtList = () => {
         expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
         // expandOnRowDoubleClicked={true}
       />
-    </>
+    </Box>
   );
 };
 

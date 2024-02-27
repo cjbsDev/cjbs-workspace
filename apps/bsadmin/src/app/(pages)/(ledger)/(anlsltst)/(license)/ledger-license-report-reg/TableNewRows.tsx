@@ -79,7 +79,7 @@ const TableNewRows = (props:any) => {
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
-      console.log("************", response.data);
+      // console.log("************", response.data);
       const resData = response.data;
       if (response.success) {
         // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", index)
@@ -139,10 +139,10 @@ const TableNewRows = (props:any) => {
     const sampleSize = getValues(`sample.[${index}].sampleSize`);
     const stndPrice = Number(getValues(`sample.[${index}].stndPrice`).replaceAll(",", ""));
     const stndDscntPctg = Number(getValues(`sample.[${index}].stndDscntPctg`));
-    console.log("unitPrice", unitPrice);
-    console.log("sampleSize", sampleSize);
-    console.log("stndPrice", stndPrice);
-    console.log("stndPricestndDscntPctg", stndDscntPctg);
+    // console.log("unitPrice", unitPrice);
+    // console.log("sampleSize", sampleSize);
+    // console.log("stndPrice", stndPrice);
+    // console.log("stndPricestndDscntPctg", stndDscntPctg);
     if(sampleSize > 0) {
       setValue(`sample.[${index}].supplyPrice`, (unitPrice * sampleSize).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       setValue(`sample.[${index}].vat`, ((unitPrice * sampleSize) * 0.1).toFixed(0).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
@@ -195,8 +195,8 @@ const TableNewRows = (props:any) => {
   const handleOnBlurSupplyPrice =  () => {
     const supplyPrice = Number(getValues(`sample.[${index}].supplyPrice`).replaceAll(",", ""));
 
-    console.log("supplyPrice", supplyPrice);
-    console.log("stndSupplyPrice", stndSupplyPrice);
+    // console.log("supplyPrice", supplyPrice);
+    // console.log("stndSupplyPrice", stndSupplyPrice);
     if((supplyPrice - stndSupplyPrice) > 10) {
       toast(
         <>
@@ -230,18 +230,14 @@ const TableNewRows = (props:any) => {
             required={false}
             sx={{ display: 'none' }}
           />
-          <InputValidation
-            inputName={`sample.[${index}].srvcTypeVal`}
-            required={false}
-            fullWidth={true}
-            sx={{
-              // width: 200,
-              display: watchAddType === "button" ? 'none' : 'block',
-            }}
-            InputProps={{
-              readOnly: true,
-            }}
-          />
+          {/*<InputValidation*/}
+          {/*  inputName={`sample.[${index}].srvcTypeVal`}*/}
+          {/*  required={false}*/}
+          {/*  fullWidth={true}*/}
+          {/*  InputProps={{*/}
+          {/*    readOnly: true,*/}
+          {/*  }}*/}
+          {/*/>*/}
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyPrepSelectbox
               url={"/code/list/shortly/value?topValue=Service Type&midValue=none"}
@@ -251,10 +247,21 @@ const TableNewRows = (props:any) => {
               sx={{
                 // width: 200,
                 display: watchAddType === "button" ? 'block' : 'none',
+                ".Mui-disabled ": {
+                  border: '0px',
+                  textFillColor: "#000000 !important",
+                  pr: '0px !important',
+                  cursor: "no-drop",
+                },
+                "&.Mui-disabled" : {
+                  backgroundColor : "#F1F3F5",
+                },
               }}
+              disabled={true}
             />
           </ErrorContainer>
           {errors.sample?.[index]?.srvcTypeMc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
+
         </TableCell>
         <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
           <InputValidation

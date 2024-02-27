@@ -136,7 +136,7 @@ const QTTNRegView = () => {
     // 잠재 고객 -> 견적 담당
     console.log("bodyData", JSON.stringify(bodyData));
 
-    const apiUrl: string = `/qttn/`;
+    const apiUrl: string = `/qttn`;
     await POST(apiUrl, bodyData)
       .then((response) => {
         console.log("POST request successful:", response);

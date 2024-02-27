@@ -130,18 +130,10 @@ const LicenseRegView = () => {
           sampleList[index]["sampleUkey"] = [];
         }
         // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] = Number(
-          sampleList[index]["stndPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["supplyPrice"] = Number(
-          sampleList[index]["supplyPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["unitPrice"] = Number(
-          sampleList[index]["unitPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["vat"] = Number(
-          sampleList[index]["vat"].replaceAll(",", ""),
-        );
+        sampleList[index]["stndPrice"] = typeof sampleList[index]["stndPrice"] === "string" ? sampleList[index]["stndPrice"] : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+        sampleList[index]["supplyPrice"] = Number(sampleList[index]["supplyPrice"].replaceAll(",", ""));
+        sampleList[index]["unitPrice"] = Number(sampleList[index]["unitPrice"].replaceAll(",", ""));
+        sampleList[index]["vat"] = Number(sampleList[index]["vat"].replaceAll(",", ""));
       });
       return sampleList;
     };

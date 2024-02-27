@@ -327,7 +327,7 @@ const DynamicTable = () => {
               return (
                 <TableRow key={field.id || index}>
                   {/* 서비스 분류 */}
-                  <TD>
+                  <TD align="center">
                     <Checkbox
                       size="small"
                       checked={selectedRows.includes(index)}
