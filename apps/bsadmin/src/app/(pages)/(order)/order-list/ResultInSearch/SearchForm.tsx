@@ -95,33 +95,40 @@ const SearchForm = ({ onClose }) => {
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
+
+    // data.startDttm = dayjs(data.startDttm).format("YYYY-MM-DD");
+    // data.endDttm = dayjs(data.endDttm).format("YYYY-MM-DD");
+
     let result;
 
     // 날짜
     if (
       data.dateTypeCc === "" &&
-      data.startDttm !== "" &&
-      data.endDttm !== ""
-    ) {
-      console.log("날짜 타입을 선택해 주세요");
-      toast("날짜 타입을 선택해 주세요");
-      return;
-    } else if (
-      data.dateTypeCc !== "" &&
-      data.startDttm === undefined &&
-      data.endDttm === undefined
-    ) {
-      console.log("날짜 선택해 주세요");
-      toast("날짜 선택해 주세요");
-      return;
-    } else if (
-      data.dateTypeCc === "" &&
-      data.startDttm === undefined &&
-      data.endDttm === undefined
+      (data.startDttm === undefined || data.startDttm === null) &&
+      (data.endDttm === undefined || data.endDttm === null)
     ) {
       data.dateTypeCc = "";
       data.startDttm = undefined;
       data.endDttm = undefined;
+    } else if (
+      (data.dateTypeCc !== "" &&
+        (data.startDttm === undefined || data.startDttm === null)) ||
+      data.endDttm === undefined ||
+      data.endDttm === null
+    ) {
+      console.log("날짜 선택해 주세요");
+      toast("날짜 선택해 주세요");
+      // data.startDttm = undefined;
+      // data.endDttm = undefined;
+      return;
+    } else if (
+      data.dateTypeCc === "" &&
+      data.startDttm !== "" &&
+      data.endDttm !== ""
+    ) {
+      console.log("날짜 타입을 선택해 주세요");
+      toast("날짜 타입을  선택해 주세요");
+      return;
     } else {
       const { startDttm, endDttm } = data;
       // 날짜 문자열을 Date 객체로 변환
