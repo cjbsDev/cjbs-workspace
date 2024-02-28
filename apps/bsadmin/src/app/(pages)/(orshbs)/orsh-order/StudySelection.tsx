@@ -68,7 +68,7 @@ export default function StudySelection() {
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    inputName="prjcUniqueCode"
+                    inputName="prjtUniqueCode"
                     disabled={true}
                     required={true}
                     errorMessage="과제를 검색 & 선택해주세요."
@@ -76,7 +76,7 @@ export default function StudySelection() {
                     sx={{ width: 200 }}
                   />
                   <InputValidation
-                    inputName="prjcNm"
+                    inputName="prjtNm"
                     disabled={true}
                     required={true}
                     errorMessage="과제를 검색 & 선택해주세요."
@@ -98,7 +98,7 @@ export default function StudySelection() {
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
                       url={`/code/orsh/prjtDetail/list?type=${prjcCode}`}
-                      inputName={`prjcDetailCode`}
+                      inputName={`prjtDetailCode`}
                     />
                   </ErrorContainer>
                 </Stack>

@@ -17,6 +17,7 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
 import { toast } from "react-toastify";
+import NoDataView from "../../../../components/NoDataView";
 
 const ListCust = () => {
   const [page, setPage] = useState<number>(0);
@@ -196,24 +197,27 @@ const ListCust = () => {
   };
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="거래명세서 관리" />}
-      data={filteredData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="거래명세서 관리" />}
+        data={filteredData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
+      />
+    </Box>
   );
 };
 

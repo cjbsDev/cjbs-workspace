@@ -16,6 +16,7 @@ import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { fetcher } from "api";
 import { formatBusinessRegNo } from "cjbsDSTM/commonFunc";
+import NoDataView from "../../../../components/NoDataView";
 
 interface InstData {
   instId?: any;
@@ -223,6 +224,7 @@ const ListInst = () => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
+      noDataComponent={<NoDataView />}
     />
   );
 };

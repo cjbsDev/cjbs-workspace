@@ -9,6 +9,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import NoDataView from "../../../components/NoDataView";
 
 const ListEstProduct = () => {
   const router = useRouter();
@@ -51,6 +52,7 @@ const ListEstProduct = () => {
         subHeader
         subHeaderComponent={subHeader}
         selectableRows={false}
+        noDataComponent={<NoDataView />}
       />
     </Box>
   );

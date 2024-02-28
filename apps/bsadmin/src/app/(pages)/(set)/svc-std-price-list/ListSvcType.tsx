@@ -9,6 +9,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import NoDataView from "../../../components/NoDataView";
 
 const LazySvcStdPrice = () => {
   const router = useRouter();
@@ -52,6 +53,7 @@ const LazySvcStdPrice = () => {
       subHeader
       subHeaderComponent={subHeader}
       selectableRows={false}
+      noDataComponent={<NoDataView />}
     />
   );
 };

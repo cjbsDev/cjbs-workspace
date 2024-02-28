@@ -73,10 +73,10 @@ const ProjectSearchModal = ({
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("prjcUniqueCode", row.value);
-                setValue("prjcNm", row.optionName);
+                setValue("prjtUniqueCode", row.value);
+                setValue("prjtNm", row.optionName);
                 onClose();
-                clearErrors("prjcNm");
+                clearErrors("prjtNm");
                 setCodeDataChange(row.value);
               }}
               disabled={ row.isPrjtSelect === 'N' ? true : false }

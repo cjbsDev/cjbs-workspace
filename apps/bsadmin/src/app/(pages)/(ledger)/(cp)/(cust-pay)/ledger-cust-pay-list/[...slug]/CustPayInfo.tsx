@@ -36,6 +36,7 @@ import AgncDetailInfo from "../../../../../../components/AgncDetailInfo";
 import RearchDetailInfo from "../../../../../../components/RearchDetailInfo";
 import ListRun from "../CustPayList";
 import ListPymtPrice from "../components/ListPymtPrice";
+import YearSelectBox from "./YearSelectBox";
 
 const LazyPrePayListModal = dynamic(() => import("./PrePayListModal"), {
   ssr: false,
@@ -65,6 +66,8 @@ const CustPayInfo = () => {
   // [선결제 정산내역] 모달
   const [showPrePayListModal, setShowPrePayListModal] = useState<boolean>(false);
 
+  const [year, setYear] = useState<string>("2024");
+
   // useEffect(() => {
   // }, []);
 
@@ -90,7 +93,10 @@ const CustPayInfo = () => {
   //   setShowPrePayListModal(false);
   // };
 
-
+  const changeYear = (yearValue) => {
+    console.log(yearValue)
+    setYear(yearValue);
+  };
 
   return (
     <>
@@ -152,6 +158,7 @@ const CustPayInfo = () => {
       </TableContainer>
 
       <Typography variant="subtitle1">결제 현황</Typography>
+      <YearSelectBox changeYear={changeYear} />
       <TableContainer sx={{mb: 5}}>
         <Table>
           <TableBody>
