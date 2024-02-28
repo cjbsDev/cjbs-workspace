@@ -23,18 +23,23 @@ const LegView = () => {
   const type = searchParams.get("type");
   const invcUkey = searchParams.get("invcUkey");
   const anlsItstUkey = searchParams.get("anlsItstUkey");
+  console.log("anlsItstUkey&&&&&&&&", anlsItstUkey);
+
+  console.log("$%$%$%$%$%$%$%", type);
 
   const getSWRUrl = () => {
     if (type === "modify") {
       return `/invc/${invcUkey}`;
     }
-    if (type === "anlsItst") {
+    if (type === "anlsltst") {
       return `/invc/anlsItst/${anlsItstUkey}`;
     }
     return null;
   };
 
   const { data } = useSWR(getSWRUrl(), fetcher, { suspense: true });
+
+  console.log("???????????????", data);
 
   // const { data } = useSWR(
   //   type === "modify"
@@ -47,6 +52,14 @@ const LegView = () => {
   //     suspense: true,
   //   },
   // );
+
+  const anlsltstDefaultValues = data
+    ? {
+        ...data,
+        // issuDttm: dayjs(data.issuDttm).toDate(),
+        // dpstDttm: dayjs(data.dpstDttm).toDate(),
+      }
+    : null;
 
   const modifyDefaultValues = data
     ? {
@@ -141,7 +154,13 @@ const LegView = () => {
   return (
     <Form
       onSubmit={onSubmit}
-      defaultValues={type ? modifyDefaultValues : defaultValues}
+      defaultValues={
+        type === "modify"
+          ? modifyDefaultValues
+          : type === "anlsltst"
+            ? anlsltstDefaultValues
+            : defaultValues
+      }
     >
       <Box sx={{ mb: 4 }}>
         <Title1

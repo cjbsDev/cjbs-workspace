@@ -42,6 +42,11 @@ export const vrfcData = [
   { value: "NA", optionName: "N/A" },
 ];
 
+export const isSendEmailData = [
+  { value: "Y", optionName: "Y" },
+  { value: "N", optionName: "N" },
+];
+
 export const dateTypeCcData = [
   { value: "BS_0811001", optionName: "오더 생성일" },
   { value: "BS_0811002", optionName: "샘플 접수일" },
