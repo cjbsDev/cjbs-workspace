@@ -75,7 +75,7 @@ const CustPayList = () => {
       },
       {
         name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
-        // width: "400px",
+        width: "300px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
         cell: (row:any) => {

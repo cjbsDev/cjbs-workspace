@@ -27,6 +27,7 @@ import MyIcon from "icon/MyIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import IconDescBar from "../../../../components/IconDescBar";
 import { fetcher } from "api";
+import NoDataView from "../../../../components/NoDataView";
 
 const tempUrl = `/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
@@ -204,6 +205,7 @@ const ListAgnc = () => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
+      noDataComponent={<NoDataView />}
     />
   );
 };

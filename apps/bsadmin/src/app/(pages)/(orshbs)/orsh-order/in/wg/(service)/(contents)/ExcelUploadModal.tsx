@@ -41,7 +41,7 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         formData.append("file", file);
 
         const response = await POST_MULTIPART(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/bs/intn/wg/${serviceType}/sample`,
+          `/orsh/bs/intn/wg/${serviceType}/sample`,
           formData
         ); // API 요청
 

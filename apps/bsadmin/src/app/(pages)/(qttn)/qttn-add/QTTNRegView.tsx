@@ -117,7 +117,7 @@ const QTTNRegView = () => {
     const bodyData = {
       agncInstNm: data.agncNm,
       agncUkey: data.agncUkey,
-      bsnsMngrUkey: data.bsnsMngrUkey,
+      bsnsMngrUkey: data.agncTypeCc === 'N' ? '' : data.bsnsMngrUkey,  // 잠재고객일때는 견적당장자를 지정하지 않는다.
       memo: data.memo,
       productDetailList: updatedProductDetailList,
       pymtMemo: data.pymtMemo,
@@ -134,7 +134,8 @@ const QTTNRegView = () => {
     };
     // 기존 고객 거래처 검색 -> 해당 거래처 담당자가 세팅
     // 잠재 고객 -> 견적 담당
-    console.log("bodyData", JSON.stringify(bodyData));
+    //console.log("bodyData", JSON.stringify(bodyData));
+    console.log("bodyData", bodyData);
 
     const apiUrl: string = `/qttn`;
     await POST(apiUrl, bodyData)
@@ -163,10 +164,10 @@ const QTTNRegView = () => {
     { value: "BS_2400002", optionName: "견적용" },
   ];
 
-  const agncTypeCcData = [
-    { value: "A", optionName: "잠재고객" },
-    { value: "B", optionName: "기존고객" },
-  ];
+  // const agncTypeCcData = [
+  //   { value: "A", optionName: "잠재고객" },
+  //   { value: "B", optionName: "기존고객" },
+  // ];
 
   const validPerdData = [
     {

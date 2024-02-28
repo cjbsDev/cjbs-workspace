@@ -18,6 +18,7 @@ export const DataTableFilter = ({
   filterText,
   onFilter,
   onClear,
+  ...props
 }: FilterProps) => {
   return (
     <InputDefaultType
@@ -40,6 +41,7 @@ export const DataTableFilter = ({
           </InputAdornment>
         ),
       }}
+      {...props}
     />
   );
 };

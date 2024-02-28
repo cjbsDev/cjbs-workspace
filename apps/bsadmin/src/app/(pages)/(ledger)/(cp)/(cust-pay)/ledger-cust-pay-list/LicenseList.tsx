@@ -190,6 +190,7 @@ const LicenseList = () => {
                 direction="row"
                 justifyContent="space-between"
                 spacing={1}
+
                 sx={{ mb: 0.5 }}
                 alignItems="center"
               >

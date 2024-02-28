@@ -44,8 +44,8 @@ export default function MtpFullService() {
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
-        prjcCode : data.prjcUniqueCode,
-        prjcDetailCode : data.prjcDetailCode,
+        prjtCode : data.prjtUniqueCode,
+        prjtDetailCode : data.prjtDetailCode,
         rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       samples : data.sample,
@@ -55,22 +55,22 @@ export default function MtpFullService() {
 
     const apiUrl = `/orsh/bs/intn/mtp/fs`;
 
-    try {
-      const response = await POST(apiUrl, bodyData); // API 요청
-      console.log("response", response);
-      if (response.success) {
-        toast("등록 되었습니다.")
-        router.push("/orshbs-list");
-
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
-
-      } else {
-        toast("문제가 발생했습니다. 01");
-      }
-    } catch (error) {
-      console.error("request failed:", error);
-    }
+    // try {
+    //   const response = await POST(apiUrl, bodyData); // API 요청
+    //   console.log("response", response);
+    //   if (response.success) {
+    //     toast("등록 되었습니다.")
+    //     router.push("/orshbs-list");
+    //
+    //   } else if (response.code == "INVALID_ETC_EMAIL") {
+    //     toast(response.message);
+    //
+    //   } else {
+    //     toast("문제가 발생했습니다. 01");
+    //   }
+    // } catch (error) {
+    //   console.error("request failed:", error);
+    // }
   };
 
   return (

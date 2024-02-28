@@ -23,6 +23,7 @@ import {useSearchParams} from "next/navigation";
 import Checkbox from "@mui/material/Checkbox";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { useSession } from "next-auth/react";
+import NoDataView from "../../../components/NoDataView";
 
 const ListQttn = () => {
   const { data: session, status } = useSession();
@@ -309,7 +310,7 @@ const ListQttn = () => {
   }, [filterText, resetPaginationToggle, totalElements, selectedRows]);
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="견적서 관리" />}
         data={filteredData}
@@ -329,8 +330,9 @@ const ListQttn = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
       />
-    </>
+    </Box>
 
   );
 };

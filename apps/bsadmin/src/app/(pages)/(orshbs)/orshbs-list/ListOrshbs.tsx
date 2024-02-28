@@ -40,6 +40,7 @@ import KeywordSearch from "../../../components/KeywordSearch";
 import {useSearchParams} from "next/navigation";
 import {fetcher} from "api";
 import {styled} from "@mui/material/styles";
+import NoDataView from "../../../components/NoDataView";
 
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -311,7 +312,7 @@ export default function ListOrshbs() {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={
           <Stack direction="row" spacing={1.5}>
@@ -334,12 +335,14 @@ export default function ListOrshbs() {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
       />
+
       <ServiceSelectModal
         open={serviceSelectModalOpen}
         onClose={handleServiceSelectModalClose}
         modalWidth={500}
       />
-    </>
+    </Box>
   );
 }

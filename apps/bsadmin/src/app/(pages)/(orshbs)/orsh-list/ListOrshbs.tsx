@@ -42,6 +42,7 @@ import ResultInSearch from "../../(order)/order-list/ResultInSearch";
 import {useSearchParams} from "next/navigation";
 import {fetcher} from "api";
 import Link from "next/link";
+import NoDataView from "../../../components/NoDataView";
 
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -292,24 +293,27 @@ export default function ListOrshbs() {
   };
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="고객 주문서 관리" />}
-      data={data.orshList}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      // onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      selectableRows={false}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="고객 주문서 관리" />}
+        data={data.orshList}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        // onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        selectableRows={false}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
+      />
+    </Box>
   );
 }
