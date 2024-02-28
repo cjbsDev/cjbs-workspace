@@ -5,9 +5,12 @@ import { Typography } from "@mui/material";
 const AgncAndInstName = ({}) => {
   const { getValues } = useFormContext();
   const getAgncNm = getValues("agncNm");
+  const getInstNm = getValues("instNm");
   const getAgncInstNm = getValues("agncInstNm");
+  // const getAgncInstNm = `${getAgncNm}(${getInstNm})`;
 
   console.log("getAgncNm", getAgncNm);
+  console.log("getInstNm", getInstNm);
   console.log("getAgncInstNm", getAgncInstNm);
 
   const isEmpty = !getAgncNm || !getAgncInstNm;
