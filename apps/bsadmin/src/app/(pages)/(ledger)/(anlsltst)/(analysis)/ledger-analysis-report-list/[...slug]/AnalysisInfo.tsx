@@ -702,7 +702,7 @@ const AnalysisInfo = () => {
                                             세금계산서
                                             <LinkButton
                                               buttonName={ "("+invcId+")" }
-                                              onClick={() => router.push("/tax-invoice-list/"+invcUkey)}
+                                              onClick={() => router.push("/ledger-tax-invoice-list/"+invcUkey)}
                                             />
                                           </Stack>
                                         )}

@@ -207,14 +207,34 @@ const AnalysisRegView = () => {
   };
 
   const standDate = () => {
-    const now = new Date("2024-03-04");
-    // const now = new Date();
-    const nowMonth: number = now.getMonth() + 1;
+    // const now = new Date("2024-03-01");
+    const now = new Date();
     const nowDate: number = now.getDate();
+    let startDate;
+    let endDate;
+    // const nowDate= 5;
+    console.log('nowDate : ', nowDate)
+    let startMonth: number = 0;
+    let endMonth: number = 0;
+    if(nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth()-1));
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endMonth = endDate.getMonth();
+
+    } else {
+      startDate = new Date(now);
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endMonth = endDate.getMonth();
+    }
+    console.log('startMonth : ', startMonth);
+    console.log('endMonth : ', endMonth);
+
     return [
       {
-        start: subDays(now.setDate(1), 1),
-        end: addDays(new Date(now.setMonth(+nowMonth)).setDate(5), 0),
+        start: subDays(new Date(startDate.setDate(1)), 1),
+        end: addDays(new Date(endDate.setDate(5)), 0),
       },
     ];
   };
@@ -477,10 +497,6 @@ const AnalysisRegView = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>분석일</TH>
                       <TD sx={{ width: "35%" }}>
-                        {/*<SingleDatePicker*/}
-                        {/*  inputName="anlsDttm"*/}
-                        {/*  required={true}*/}
-                        {/*/>*/}
                         <SingleDatePicker
                           inputName="anlsDttm"
                           required={true}

@@ -61,8 +61,8 @@ const SampleDataTable = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) === "{}"
-      ? `/agnc/list?isRmnPrePymtPriceExist=true&page=${page}&size=${size}`
-      : `/agnc/list${result}&isRmnPrePymtPriceExist=true&page=${page}&size=${size}`,
+      ? `/agnc/list?isRmnPrePymtPriceExist=false&page=${page}&size=${size}`
+      : `/agnc/list${result}&isRmnPrePymtPriceExist=false&page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,

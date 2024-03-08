@@ -48,13 +48,6 @@ const CustPayInfo = () => {
   const params = useParams();
   const anlsItstUkey = params.slug;
 
-  const { data } = useSWR(`/agnc/${anlsItstUkey}/pymt/detail?year=2024`, fetcher, {
-    suspense: true,
-  });
-  console.log("response", data);
-  const { pymtStatusList } = data;
-  const { agncUkey, agncNm, bsnsMngrNm, instNm, pymtStatusVal, rhpiNm, rmnPrice, totalAnlsPrice, totalPymtPrice } = data.agncPymtInfo;
-
   const [settlement, setSettlement] = useState<boolean>(true);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
   const [isEdit, setIsEdit] = useState<string>('Y');
@@ -65,15 +58,21 @@ const CustPayInfo = () => {
   const [showRearchInfoModal, setShowRearchInfoModal] = useState<boolean>(false);
   // [선결제 정산내역] 모달
   const [showPrePayListModal, setShowPrePayListModal] = useState<boolean>(false);
-
   const [year, setYear] = useState<string>("2024");
+
+  const { data } = useSWR(`/agnc/${anlsItstUkey}/pymt/detail?year=${year}`, fetcher, {
+    suspense: true,
+  });
+  console.log("response", data);
+  const { pymtStatusList } = data;
+  const { agncUkey, agncNm, bsnsMngrNm, instNm, pymtStatusVal, rhpiNm, rmnPrice, totalAnlsPrice, totalPymtPrice } = data.agncPymtInfo;
 
   // useEffect(() => {
   // }, []);
 
-  const goModifyPage = () => {
-    router.push("/ledger-analysis-report-modify/" + anlsItstUkey);
-  };
+  // const goModifyPage = () => {
+  //   router.push("/ledger-analysis-report-modify/" + anlsItstUkey);
+  // };
 
   // const { payList } = data.anlsItstCalculationInfo;
 
@@ -157,8 +156,11 @@ const CustPayInfo = () => {
         </Table>
       </TableContainer>
 
-      <Typography variant="subtitle1">결제 현황</Typography>
-      <YearSelectBox changeYear={changeYear} />
+      <Stack direction="row" spacing={1} justifyContent="space-between" sx={{mb: 1}}>
+        <Typography variant="subtitle1">결제 현황</Typography>
+        <YearSelectBox changeYear={changeYear} />
+      </Stack>
+
       <TableContainer sx={{mb: 5}}>
         <Table>
           <TableBody>

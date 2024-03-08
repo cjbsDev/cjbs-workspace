@@ -44,6 +44,7 @@ import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-
 import dayjs from "dayjs";
 import {useFormContext} from "react-hook-form";
 import MonthlyList from "./MonthlyList";
+import {addDays, subDays} from "date-fns";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -203,6 +204,39 @@ const LicenseRegView = () => {
     // setUkeyValue(orderUkey);
     // setSelectSampleList({});
     // setClearRowsAtom(true);
+  };
+
+  const standDate = () => {
+    // const now = new Date("2024-03-01");
+    const now = new Date();
+    const nowDate: number = now.getDate();
+    let startDate;
+    let endDate;
+    // const nowDate= 5;
+    console.log('nowDate : ', nowDate)
+    let startMonth: number = 0;
+    let endMonth: number = 0;
+    if(nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth()-1));
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endMonth = endDate.getMonth();
+
+    } else {
+      startDate = new Date(now);
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endMonth = endDate.getMonth();
+    }
+    console.log('startMonth : ', startMonth);
+    console.log('endMonth : ', endMonth);
+
+    return [
+      {
+        start: subDays(new Date(startDate.setDate(1)), 1),
+        end: addDays(new Date(endDate.setDate(5)), 0),
+      },
+    ];
   };
 
   return (
@@ -465,10 +499,15 @@ const LicenseRegView = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>분석일</TH>
                       <TD sx={{ width: "35%" }}>
+                        {/*<SingleDatePicker*/}
+                        {/*  inputName="anlsDttm"*/}
+                        {/*  required={true}*/}
+                        {/*/>*/}
                         <SingleDatePicker
-                          inputName="anlsDttm"
-                          required={true}
-                        />
+                        inputName="anlsDttm"
+                        required={true}
+                        includeDateIntervals={standDate()}
+                      />
                       </TD>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
                       <TD sx={{ width: "35%" }}>

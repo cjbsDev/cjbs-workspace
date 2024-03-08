@@ -137,7 +137,7 @@ const LicenseModifiInfo = () => {
           sampleList[index]["sampleUkey"] = [];
         }
         // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] = Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+        sampleList[index]["stndPrice"] = typeof sampleList[index]["stndPrice"] === "string" ? sampleList[index]["stndPrice"] : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
         sampleList[index]["supplyPrice"] = sampleList[index]["supplyPrice"];
         sampleList[index]["unitPrice"] = sampleList[index]["unitPrice"];
         sampleList[index]["vat"] = sampleList[index]["vat"];

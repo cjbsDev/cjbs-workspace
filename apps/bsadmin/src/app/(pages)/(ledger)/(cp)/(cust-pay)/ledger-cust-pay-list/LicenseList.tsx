@@ -33,8 +33,8 @@ import YearMonthSelectBox from "./components/YearMonthSelectBox";
 const LicenseList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
-  const [year, setYear] = useState<string>("2024");
-  const [month, setMonth] = useState<string>("01");
+  const [year, setYear] = useState<string>("2023");
+  const [month, setMonth] = useState<string>("11");
   const searchParams = useSearchParams();
 
   const resultObject: any = {};

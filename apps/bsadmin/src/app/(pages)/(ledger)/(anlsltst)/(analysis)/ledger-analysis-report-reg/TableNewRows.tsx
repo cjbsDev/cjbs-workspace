@@ -264,7 +264,7 @@ const TableNewRows = (props: any) => {
         {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
         {/*  <Typography variant="body2">{index + 1}</Typography>*/}
         {/*</TableCell>*/}
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].addType`}
             required={false}
@@ -302,7 +302,7 @@ const TableNewRows = (props: any) => {
             </Typography>
           )}
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].stndPrice`}
             required={true}
@@ -338,7 +338,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].sampleSize`}
             required={true}
@@ -358,7 +358,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].unitPrice`}
             required={true}
@@ -382,7 +382,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].supplyPrice`}
             required={true}
@@ -406,7 +406,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].vat`}
             required={true}
@@ -435,7 +435,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].stndDscntPctg`}
             required={true}
@@ -474,7 +474,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <Stack
             direction="row"
             alignItems="center"
@@ -510,7 +510,7 @@ const TableNewRows = (props: any) => {
             )}
           </Stack>
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           {watchAddType === "button" && (
             <IconButton aria-label="delete" onClick={() => remove(index)}>
               <MyIcon icon="trash" size={20} />

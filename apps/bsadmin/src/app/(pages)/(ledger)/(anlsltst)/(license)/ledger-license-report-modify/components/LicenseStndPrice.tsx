@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import { cjbsTheme, formatNumberWithCommas, InputValidation } from "cjbsDSTM";
 import {InputAdornment, Stack, Typography} from "@mui/material";
@@ -7,6 +7,7 @@ import {toast} from "react-toastify";
 
 const LicenseStndPrice = (props:any) => {
   const { index } = props;
+  const [isFirst, setIsFirst] = useState<boolean>(true);
   const { getValues, setValue, control, watch } = useFormContext();
   const sampleValue = useWatch({
     name: "sample",
@@ -20,14 +21,20 @@ const LicenseStndPrice = (props:any) => {
   const chkStndPrice = watch(`sample[${index}].chkStndPrice`);
   // console.log("srvcTypeMcVal", srvcTypeMcVal);
   // console.log("sampleSizeVal", sampleSizeVal);
+  // console.log("chkStndPrice", chkStndPrice);
 
   useEffect(() => {
-    if(sampleSizeVal !== undefined && sampleSizeVal > 0) {
-      callStndPrice();
+    if(isFirst) {
+      setIsFirst(false);
     } else {
-      setValue(`sample.[${index}].sampleSize`, 0);
-      setValue(`sample.[${index}].stndPrice`, 0);
+      if(sampleSizeVal !== undefined && sampleSizeVal > 0) {
+        callStndPrice();
+      } else {
+        setValue(`sample.[${index}].sampleSize`, 0);
+        setValue(`sample.[${index}].stndPrice`, 0);
+      }
     }
+
   }, [srvcTypeMcVal, sampleSizeVal]);
 
   // 기준가 조회하기
@@ -46,10 +53,10 @@ const LicenseStndPrice = (props:any) => {
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
-      // console.log("************", response.data);
+      console.log("************", response.data);
       const resData = response.data;
       if (response.success) {
-        if(chkStndPrice !== resData[0].stndPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")){
+        // if(chkStndPrice !== resData[0].stndPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")){
           if(resData[0].stndPrice === 'N/A'){
             setValue(`sample.[${index}].stndPrice`, 'N/A');
             setValue(`sample.[${index}].dscntPctg`, 'N/A');
@@ -64,7 +71,7 @@ const LicenseStndPrice = (props:any) => {
           setValue(`sample.[${index}].unitPrice`, 0);
           setValue(`sample.[${index}].supplyPrice`, 0);
           setValue(`sample.[${index}].vat`, 0);
-        }
+        // }
 
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);

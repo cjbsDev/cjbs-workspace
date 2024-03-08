@@ -235,25 +235,36 @@ const AnalysisInfo = () => {
   };
 
   const standDate = () => {
-    const nowDate: number = new Date().getDate();
-    console.log("%%%%%", data.anlsItstCostInfo.anlsDttm)
-    const anlsDttm = new Date(data.anlsItstCostInfo.anlsDttm);
-    const anlsDttmDate: number = anlsDttm.getDate();
-    if (anlsDttmDate <= 5) {
-      return [
-        {
-          start: subDays(anlsDttm.setMonth(-1), +anlsDttmDate),
-          end: addDays(new Date().setDate(5), 0),
-        },
-      ];
+    // const now = new Date("2024-03-01");
+    const now = new Date();
+    const nowDate: number = now.getDate();
+    let startDate;
+    let endDate;
+    // const nowDate= 5;
+    console.log('nowDate : ', nowDate)
+    let startMonth: number = 0;
+    let endMonth: number = 0;
+    if(nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth()-1));
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endMonth = endDate.getMonth();
+
     } else {
-      return [
-        {
-          start: subDays(anlsDttm.setDate(1), 1),
-          end: addDays(new Date(anlsDttm.setMonth(+1)).setDate(5), 0),
-        },
-      ];
+      startDate = new Date(now);
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endMonth = endDate.getMonth();
     }
+    console.log('startMonth : ', startMonth);
+    console.log('endMonth : ', endMonth);
+
+    return [
+      {
+        start: subDays(new Date(startDate.setDate(1)), 1),
+        end: addDays(new Date(endDate.setDate(5)), 0),
+      },
+    ];
   };
 
   const changeUpdatePage = () => {
