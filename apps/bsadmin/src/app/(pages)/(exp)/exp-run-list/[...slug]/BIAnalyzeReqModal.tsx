@@ -40,58 +40,50 @@ const RunAddModal = (props: ModalContainerProps) => {
   const router = useRouter();
   const params = useParams();
   const uKey = params.slug;
-  const apiUrl = "/run/add";
+  const apiUrl = "/run/add/";
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { mutate } = useSWRConfig();
+
+  console.log("RunUkey Value ==>>", uKey.toString());
 
   const { data } = useSWR(`/run/${uKey}/bi`, fetcher, {
     suspense: true,
   });
 
-  console.log("BI", data);
+  console.log("BI 분석 요청 ==>>", data);
+  const totalSampleCnt = data.reduce((acc, order) => acc + order.sampleCnt, 0);
+  const orderUkeyArray = data.map((item) => item.orderUkey);
 
   const handleClose = () => {
     setIsLoading(false);
     onClose();
   };
 
-  const handleReq = async () => {};
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    // console.log("onSubmit DATA ==>", data);
 
-  // const onSubmit = async (data: any) => {
-  //   setIsLoading(true);
-  //   console.log("onSubmit DATA ==>", data);
-  //
-  //   if (data.rcptDttm === undefined) {
-  //     setIsLoading(false);
-  //   }
-  //
-  //   const convertedDate = dayjs(data.rcptDttm).format("YYYY-MM-DD");
-  //
-  //   const bodyData = {
-  //     kitMc: data.kitMc,
-  //     machineMc: data.mcNmCc,
-  //     memo: data.memo,
-  //     runDttm: convertedDate,
-  //     runMngrUkey: data.runMngrUkey,
-  //     runType: data.runType,
-  //     seqAgncMc: data.prgrAgncNmCc,
-  //   };
-  //
-  //   console.log("BODYDATA ==>", bodyData);
-  //
-  //   await POST(apiUrl, bodyData)
-  //     .then((response) => {
-  //       console.log("POST request successful:", response);
-  //       if (response.success) {
-  //         // mutate(`/order/${orderUkey}`);
-  //         mutate(`/run/list?page=1&size=20`);
-  //         handleClose();
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("POST request failed:", error);
-  //     });
-  // };
+    const bodyData = {
+      sampleUkeyList: orderUkeyArray,
+    };
+
+    console.log("BODYDATA ==>", bodyData);
+
+    await POST(apiUrl + `${uKey}`, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response);
+        if (response.success) {
+          mutate(`/run/list?page=1&size=20`);
+          handleClose();
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
@@ -118,32 +110,35 @@ const RunAddModal = (props: ModalContainerProps) => {
           <Table sx={{}}>
             <TableHead>
               <TableRow>
-                <TH>오더 번호</TH>
-                <TH>샘플수</TH>
+                <TH align="center" width="50%">
+                  오더 번호
+                </TH>
+                <TH align="center">샘플수</TH>
               </TableRow>
             </TableHead>
+
             <TableBody>
-              <TableRow>
-                <TD>234234</TD>
-                <TD>150</TD>
-              </TableRow>
-              <TableRow>
-                <TD>234234</TD>
-                <TD>150</TD>
-              </TableRow>
-              <TableRow>
-                <TD>234234</TD>
-                <TD>150</TD>
-              </TableRow>
-              <TableRow>
-                <TD>234234</TD>
-                <TD>150</TD>
-              </TableRow>
+              {data.map(
+                (item: {
+                  orderId: number;
+                  orderUkey: string;
+                  sampleCnt: number;
+                }) => {
+                  const { orderId, orderUkey, sampleCnt } = item;
+                  return (
+                    <TableRow key={orderUkey}>
+                      <TD align="center">{orderId}</TD>
+                      <TD align="center">{sampleCnt}</TD>
+                    </TableRow>
+                  );
+                },
+              )}
             </TableBody>
+
             <TableFooter>
               <TableRow>
-                <TH>합계</TH>
-                <TD>200</TD>
+                <TH align="center">합계</TH>
+                <TD align="center">{totalSampleCnt}</TD>
               </TableRow>
             </TableFooter>
           </Table>
@@ -159,6 +154,7 @@ const RunAddModal = (props: ModalContainerProps) => {
         <LoadingButton
           loading={isLoading}
           variant="contained"
+          onClick={handleSubmit}
           // type="submit"
           // form="runAddForm"
         >

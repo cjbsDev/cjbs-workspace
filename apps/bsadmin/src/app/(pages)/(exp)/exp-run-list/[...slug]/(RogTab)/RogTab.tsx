@@ -79,29 +79,37 @@ const RogTab = () => {
     setShowModal(false);
   };
 
+  const handleTest = (runUpdateHstrUkey: string) => {
+    console.log("TTTTTTTT", runUpdateHstrUkey);
+    handleOpen();
+  };
+
   const goDetailModal = useCallback(
-    () => async (row) => {
-      console.log("runUpdateHstrUkey ==>>>", row.runUpdateHstrUkey);
-      const runUpdateHstrUkey = row.runUpdateHstrUkey;
-      try {
-        const response = await GET(`/run/sample/log/${runUpdateHstrUkey}`);
-        if (response.success) {
-          console.log("************", response.data);
-          setUpdateSampleLogList(response.data);
-          handleOpen();
-          // onClose();
-          // renderList();
-        } else if (response.code == "INVALID_AUTHORITY") {
-          toast("권한이 없습니다.");
-        } else {
-          toast("문제가 발생했습니다. 01");
-        }
-      } catch (error) {
-        console.error("request failed:", error);
-        toast("문제가 발생했습니다. 02");
-      }
+    (runUpdateHstrUkey: string) => async () => {
+      // console.log("runUpdateHstrUkey ==>>>", row.runUpdateHstrUkey);
+      // const runUpdateHstrUkey = row.runUpdateHstrUkey;
+
+      console.log("Click!!!!", runUpdateHstrUkey);
+
+      // try {
+      //   const response = await GET(`/run/sample/log/${runUpdateHstrUkey}`);
+      //   if (response.success) {
+      //     console.log("************", response.data);
+      //     setUpdateSampleLogList(response.data);
+      //     handleOpen();
+      //     // onClose();
+      //     // renderList();
+      //   } else if (response.code == "INVALID_AUTHORITY") {
+      //     toast("권한이 없습니다.");
+      //   } else {
+      //     toast("문제가 발생했습니다. 01");
+      //   }
+      // } catch (error) {
+      //   console.error("request failed:", error);
+      //   toast("문제가 발생했습니다. 02");
+      // }
     },
-    [setUpdateSampleLogList]
+    [setUpdateSampleLogList],
   );
 
   // const goDetailModal = async (row) => {
@@ -153,10 +161,13 @@ const RogTab = () => {
               <Box>
                 <p>{row.targetColVal}</p>
               </Box>
-              {row.targetColNm === "BS_1704008" ||
-                row.targetColNm === "BS_1704009"}
+              {/*{row.targetColNm === "BS_1704008" ||*/}
+              {/*  row.targetColNm === "BS_1704009"}*/}
               <Box>
-                <IconButton onClick={() => goDetailModal(row)}>
+                <IconButton
+                  // onClick={() => goDetailModal(row.runUpdateHstrUkey)}
+                  onClick={() => handleTest(row.runUpdateHstrUkey)}
+                >
                   <MyIcon icon="memo" size={18} />
                 </IconButton>
               </Box>
@@ -173,7 +184,7 @@ const RogTab = () => {
         selector: (row) => row.postUpdateValue,
       },
     ],
-    [goDetailModal]
+    [],
   );
 
   return (

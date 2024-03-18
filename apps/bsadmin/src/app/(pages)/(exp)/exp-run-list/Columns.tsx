@@ -12,20 +12,28 @@ export const getColumns = () => [
   },
   {
     name: "RUN 타입",
+    // width: "160px",
+    allowOverflow: true,
     sortable: true,
     selector: (row) => row.runTypeVal,
   },
   {
     name: "진행업체",
+    // width: "160px",
+    allowOverflow: true,
     sortable: true,
     selector: (row) => row.seqAgncVal,
   },
   {
     name: "장비",
+    // width: "160px",
+    allowOverflow: true,
     selector: (row) => row.machineVal,
   },
   {
     name: "Kit",
+    width: "160px",
+    allowOverflow: true,
     selector: (row) => (row.kitVal === null ? "-" : row.kitVal),
   },
   {
@@ -42,7 +50,7 @@ export const getColumns = () => [
   },
   {
     name: "BI 분석 요청",
-    width: "100px",
+    width: "120px",
     center: true,
     selector: (row) => row.isBiRqst,
   },
