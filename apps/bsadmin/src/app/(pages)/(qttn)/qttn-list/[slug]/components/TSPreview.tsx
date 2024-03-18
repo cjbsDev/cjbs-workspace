@@ -17,7 +17,7 @@ import {
   TableRow,
 } from "@mui/material";
 import Image from 'next/image';
-import CJLogo from '../../../../../../../public/svg/cj_bk.svg';
+import CJLogo from '../../../../../../../public/svg/cj_bk_1.svg';
 import {useFormContext, useWatch} from "react-hook-form";
 import {geKoreanNumber} from "cjbsDSTM/commonFunc/geKoreanNumber";
 import {fetcher} from "api";
@@ -59,8 +59,6 @@ const TSPreview = forwardRef((props, ref) => {
       justifyContent="start"
       sx={{
         bgcolor: '#ffffff',
-        // width: '595px',
-        // height: '842px',
         width: '773px',
         height: '1094px',
         // border: '1px solid #000000',
@@ -76,7 +74,18 @@ const TSPreview = forwardRef((props, ref) => {
         alignItems="center"
       >
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
-          <Image src={CJLogo} alt='CJ바이오사이언스' quality={100} style={{maxWidth: '130px', height: '40px'}} />
+          {/*<Box sx={{width: 130, height: 40}}>*/}
+          {/*  /!*<Image className="imgLogo" src={CJLogo} alt='CJ바이오사이언스' quality={100} height={100} width={40}/>*!/*/}
+          {/*  <img src="../../../../../../../public/img/logo/CJ_Bioscience_logo.png" alt="CJ바이오사이언스"/>*/}
+          {/*</Box>*/}
+          <Box sx={{
+            width: 132,
+            height: 40,
+            backgroundImage: `url(/svg/cj_bk_1.svg)`,
+            // backgroundPosition: "top left, top right, bottom left 130px",
+            backgroundSize: "130px, 40px",
+            backgroundRepeat: "no-repeat",
+          }} />
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mb:2 }}>
           <CJFontTitleBox>견 적 서</CJFontTitleBox>

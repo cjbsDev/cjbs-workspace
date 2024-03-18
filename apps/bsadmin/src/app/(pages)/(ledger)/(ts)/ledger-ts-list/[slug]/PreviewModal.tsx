@@ -128,7 +128,11 @@ const PreviewModal = (props: any) => {
     // 재발송일때는 이미지를 보내지 않는다.
     if(resendType === 'N') {
       // image capture 부분
-      const canvas = await html2canvas(ref.current);
+      const canvas = await html2canvas(ref.current, {
+        scale: 1,
+        width: 773,
+        height: 1094
+      });
       // Convert the canvas to a data URL
       const dataURL = canvas.toDataURL();
       // Create a Blob from the data URL

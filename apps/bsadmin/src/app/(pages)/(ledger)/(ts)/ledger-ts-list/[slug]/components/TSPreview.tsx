@@ -72,7 +72,15 @@ const TSPreview = forwardRef((props, ref) => {
         alignItems="center"
       >
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "start" }}>
-          <Image src={CJLogo} alt='CJ바이오사이언스' quality={100} style={{maxWidth: '130px', height: '40px'}} />
+          {/*<Image src={CJLogo} alt='CJ바이오사이언스' quality={100} style={{maxWidth: '130px', height: '40px'}} />*/}
+          <Box sx={{
+            width: 132,
+            height: 40,
+            backgroundImage: `url(/svg/cj_bk_1.svg)`,
+            // backgroundPosition: "top left, top right, bottom left 130px",
+            backgroundSize: "130px, 40px",
+            backgroundRepeat: "no-repeat",
+          }} />
         </Grid>
         <Grid item xs={12} sx={{ display: "flex", justifyContent: "center", mb:2 }}>
           <CJFontTitleBox>거 래 명 세 서</CJFontTitleBox>
