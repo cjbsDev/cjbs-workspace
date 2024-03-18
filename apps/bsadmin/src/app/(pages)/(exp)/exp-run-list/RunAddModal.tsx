@@ -181,7 +181,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH>실험 당당자</TH>
+                  <TH>실험 담당자</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyExpMngSelctbox

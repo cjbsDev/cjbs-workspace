@@ -18,18 +18,20 @@ export const getColumns = () => [
     name: "샘플번호",
     width: "90px",
     center: true,
+    allowOverflow: true,
     selector: (row) => row.sampleId,
   },
   {
     name: "Order번호",
     width: "100px",
     center: true,
-    center: true,
+    allowOverflow: true,
     selector: (row) => row.orderId,
   },
   {
     name: "거래처(기관)",
-    width: "240px",
+    width: "200px",
+    allowOverflow: true,
     cell: (row) => {
       const { instNm, agncNm } = row;
       return (
@@ -50,12 +52,15 @@ export const getColumns = () => [
   },
   {
     name: "샘플명",
-    center: true,
+    width: "200px",
+    allowOverflow: true,
     // sortable: true,
     selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
   },
   {
     name: "대체명",
+    width: "200px",
+    allowOverflow: true,
     // sortable: true,
     selector: (row) => (row.altrNm === null ? "-" : row.altrNm),
   },
@@ -66,7 +71,9 @@ export const getColumns = () => [
   },
   {
     name: "샘플출처",
-    width: "200px",
+    width: "160px",
+    center: true,
+    allowOverflow: true,
     selector: (row) => row.source,
   },
   {
@@ -339,12 +346,13 @@ export const getColumns = () => [
     name: "RUN",
     // width: "120px",
     sortable: false,
-    right: true,
-    wrap: true,
+    // right: true,
+    allowOverflow: true,
     selector: (row) => (row.runList === null ? "-" : row.runList.join(", ")),
   },
   {
     name: "Project uid",
+    width: "160px",
     right: true,
     selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
     cell: (row) => {
