@@ -46,7 +46,7 @@ interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
   modalWidth: number;
-  // selectedMembers: Member[];
+  selectedMembers: Member[];
   // onMemberSelection: (memeberData: Member[]) => void; // 새로 추가 0627
 }
 
@@ -57,7 +57,6 @@ const MngSrchModal = ({
   open,
   modalWidth,
   selectedMembers,
-  onMemberSelection,
 }: ModalContainerProps) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -75,7 +74,7 @@ const MngSrchModal = ({
   //console.log("모달 selectedMembers", selectedMembers);
   // [멤버] 정보 세팅
   const [memeberData, setMemberData] = useState<Member[]>(
-    selectedMembers ?? initialData
+    selectedMembers ?? initialData,
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
   const { data } = useSWR(APIPATH, fetcher, {
@@ -124,10 +123,15 @@ const MngSrchModal = ({
         ),
       },
     ],
-    []
+    [],
   );
 
   const filteredData = data;
+
+  const filteredItems = filteredData.filter(
+    (item) =>
+      item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase()),
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -146,7 +150,7 @@ const MngSrchModal = ({
       selectedRows.selectedRows.forEach((row: any) => {
         // 기존 멤버 확인 후 있다면 추가를 무시함
         const existingMember = memeberData.find(
-          (member) => member.ukey === row.ukey
+          (member) => member.ukey === row.ukey,
         );
         if (existingMember) {
           return;
@@ -209,14 +213,14 @@ const MngSrchModal = ({
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     //custUkey: any
-    row: any
+    row: any,
   ) => {
     if (event.target.checked) {
       console.log("custUkey", row);
       setSelectedMemberRows([...selectedMemberRows, row.ukey]);
     } else {
       setSelectedMemberRows(
-        selectedMemberRows.filter((rowId) => rowId !== row.ukey)
+        selectedMemberRows.filter((rowId) => rowId !== row.ukey),
       );
     }
   };
@@ -224,7 +228,7 @@ const MngSrchModal = ({
   // [멤버 관리] - 선택된 멤버 row 삭제
   const handleDeleteRows = () => {
     const newData = memeberData.filter(
-      (row) => !selectedMemberRows.includes(row.ukey)
+      (row) => !selectedMemberRows.includes(row.ukey),
     );
     setMemberData(newData);
     setSelectedMemberRows([]);
@@ -237,7 +241,7 @@ const MngSrchModal = ({
     // onMemberSelection(memeberData);
 
     setValue("rcpnEmailList", memeberData);
-    setResEmailList(memeberData);
+    setResEmailList((prevData) => [...prevData, ...memeberData]);
     onClose();
   };
 
@@ -260,7 +264,7 @@ const MngSrchModal = ({
         <Grid container spacing={2}>
           <Grid item xs={7}>
             <DataTableBase
-              data={filteredData}
+              data={filteredItems}
               columns={columns}
               pointerOnHover
               highlightOnHover
@@ -354,7 +358,7 @@ const MngSrchModal = ({
           <OutlinedButton buttonName="취소" onClick={onClose} />
           <ContainedButton
             buttonName="확인"
-            disabled={memeberData.length > 0 ? false : true}
+            disabled={memeberData.length <= 0}
             onClick={handleMembersInfo}
           />
         </Stack>
