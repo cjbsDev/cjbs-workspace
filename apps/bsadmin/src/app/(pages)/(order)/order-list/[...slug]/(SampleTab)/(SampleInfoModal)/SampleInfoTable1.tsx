@@ -77,7 +77,7 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
     sampleStatusRes,
   }: any = transformedData;
 
-  console.log("rrrrr", sampleNm, runList);
+  console.log("rrrrr", runList);
 
   return (
     <TableContainer sx={{ mb: 5 }}>
@@ -88,7 +88,7 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
             <TD sx={{ width: "35%" }}>{sampleId}</TD>
             <TH sx={{ width: "15%" }}>RUN</TH>
             <TD sx={{ width: "35%" }}>
-              {runList !== null ? runList.join(", ") : "-"}
+              {runList.length !== 0 ? runList.join(", ") : "-"}
             </TD>
           </TableRow>
           <TableRow>
