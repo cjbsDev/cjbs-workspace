@@ -23,6 +23,8 @@ import useSWR from "swr";
 import {useRecoilState} from "recoil";
 import {prjtCodeAtom} from "../../../../recoil/atoms/fileIdValueAtom";
 import {useParams} from "next/navigation";
+import useCenteredPopup from "../../../../hooks/useCenteredPopup";
+import {useFormContext} from "react-hook-form";
 
 
 const LazyProjectSearchModal = dynamic(() => import("../../orsh-order/ProjectSearchModal"), {
@@ -38,6 +40,9 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function StudySelection(props: any) {
+  const methods = useFormContext();
+  const { setValue, getValues, clearErrors } = methods;
+
   const params = useParams();
   const updataYn = params.slug[2];
   const prjtCode = props.prjtCode;
@@ -63,7 +68,33 @@ export default function StudySelection(props: any) {
   useEffect(() => {
     // console.log("{{{{{{{{{{{{{{", props.prjtCode);
     setNewPrjtCode(prjtCode)
-  }, [prjtCode])
+  }, [prjtCode]);
+
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/projectListPopup?type=order`,
+    "과제 검색",
+    1100,
+    700,
+  );
+
+  useEffect(() => {
+    window.addEventListener("projectData", function (e) {
+      console.log("Received data:", e.detail);
+
+      const {
+        value,
+        optionName,
+        prjtDetailCnt,
+        isPrjtSelect,
+      } = e.detail;
+
+      setValue("prjtUniqueCode", value);
+      setValue("prjtNm", optionName);
+      clearErrors("prjtNm");
+      setCodeDataChange(value);
+
+    });
+  }, []);
 
   return (
     <>
@@ -93,11 +124,18 @@ export default function StudySelection(props: any) {
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
+                  {/*{updataYn === 'N' && (*/}
+                  {/*  <OutlinedButton*/}
+                  {/*    size="small"*/}
+                  {/*    buttonName="과제 검색"*/}
+                  {/*    onClick={agncSearchModalOpen}*/}
+                  {/*  />*/}
+                  {/*)}*/}
                   {updataYn === 'N' && (
                     <OutlinedButton
                       size="small"
                       buttonName="과제 검색"
-                      onClick={agncSearchModalOpen}
+                      onClick={openPopup}
                     />
                   )}
 

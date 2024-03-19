@@ -49,12 +49,12 @@ const ProjectSearchModal = ({
     () => [
       {
         name: "코드",
-        selector: (row: { prjcUniqueCodeMc: string }) => row.prjcUniqueCodeMc,
+        selector: (row: { prjtUniqueCodeMc: string }) => row.prjtUniqueCodeMc,
         width: "200px",
       },
       {
         name: "과제명",
-        selector: (row: { prjcNm: string }) => row.prjcNm,
+        selector: (row: { prjtNm: string }) => row.prjtNm,
         width: "450px",
       },
 
@@ -66,11 +66,11 @@ const ProjectSearchModal = ({
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("prjcUniqueCode", row.prjcUniqueCodeMc);
-                setValue("prjcNm", row.prjcNm);
+                setValue("prjtUniqueCode", row.prjtUniqueCodeMc);
+                setValue("prjtNm", row.prjtNm);
                 // onClose();
                 handleClose();
-                clearErrors("prjcNm");
+                clearErrors("prjtNm");
               }}
             />
           );

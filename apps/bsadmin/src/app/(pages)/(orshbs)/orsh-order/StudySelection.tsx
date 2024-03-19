@@ -10,23 +10,22 @@ import {
     Typography,
 } from "@mui/material";
 import {
-  CheckboxGV, cjbsTheme, ErrorContainer, Fallback,
+  CheckboxGV, cjbsTheme, ContainedButton, ErrorContainer, Fallback,
   InputValidation,
   OutlinedButton,
   PostCodeBtn, RadioGV,
   TD,
   TH,
 } from "cjbsDSTM";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-
-
+import useCenteredPopup from "../../../hooks/useCenteredPopup";
+import {useFormContext} from "react-hook-form";
 
 const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
   ssr: false,
 });
-
 
 const LazyPrepSelectbox = dynamic(
   () => import("../../../components/OrderSelectbox"),
@@ -37,11 +36,14 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function StudySelection() {
+
+  const methods = useFormContext();
+  const { setValue, getValues, clearErrors } = methods;
   // // [프로젝트 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
   const [prjcCode, setPrjcCode] = useState<string>('');
 
-  // [ 프로젝트 검색 ] 모달 오픈
+    // [ 프로젝트 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
   };
@@ -54,6 +56,32 @@ export default function StudySelection() {
   const setCodeDataChange = (code: string) => {
     setPrjcCode(code);
   };
+
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/projectListPopup?type=order`,
+    "과제 검색",
+    1100,
+    700,
+  );
+
+  useEffect(() => {
+    window.addEventListener("projectData", function (e) {
+      console.log("Received data:", e.detail);
+
+      const {
+        value,
+        optionName,
+        prjtDetailCnt,
+        isPrjtSelect,
+      } = e.detail;
+
+      setValue("prjtUniqueCode", value);
+      setValue("prjtNm", optionName);
+      clearErrors("prjtNm");
+      setCodeDataChange(value);
+
+    });
+  }, []);
 
   return (
     <>
@@ -88,6 +116,11 @@ export default function StudySelection() {
                     buttonName="과제 검색"
                     onClick={agncSearchModalOpen}
                   />
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="과제 검색"*/}
+                  {/*  onClick={openPopup}*/}
+                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>

@@ -84,6 +84,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
           currentPathname === "/custListPopup" ||
           currentPathname === "/sampleListPopup" ||
           currentPathname === "/agncListPopup" ||
+          currentPathname === "/projectListPopup" ||
           currentPathname === "/sign-in"
             ? "none"
             : "block",

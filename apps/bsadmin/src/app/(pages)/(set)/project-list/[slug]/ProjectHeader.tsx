@@ -33,11 +33,11 @@ const LazyProjectAddModifyModal = dynamic(
 interface DataItem {
   departCodeMc: string;
   departCodeMcVal: string;
-  prjcMngrNm: string;
-  prjcMngrUkey: string;
-  prjcNm: string;
-  prjcUkey: string;
-  prjcUniqueCode: string;
+  prjtMngrNm: string;
+  prjtMngrUkey: string;
+  prjtNm: string;
+  prjtUkey: string;
+  prjtUniqueCode: string;
 }
 
 const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
@@ -59,13 +59,13 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
   };
 
   const defaultValues = {
-    prjcUniqueCode: projectData.prjcUniqueCode,
-    prjcUkey: projectData.prjcUkey,
-    prjcNm: projectData.prjcNm,
+    prjtUniqueCode: projectData.prjtUniqueCode,
+    prjtUkey: projectData.prjtUkey,
+    prjtNm: projectData.prjtNm,
     departCodeMc: projectData.departCodeMc,
     departCodeMcVal: projectData.departCodeMcVal,
-    prjcMngrUkey: projectData.prjcMngrUkey,
-    prjcMngrNm: projectData.prjcMngrNm,
+    prjtMngrUkey: projectData.prjtMngrUkey,
+    prjtMngrNm: projectData.prjtMngrNm,
   };
 
   // [ 프로젝트 수정 ] 모달 오픈
@@ -100,7 +100,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
               <TH sx={{ width: "15%" }}>과제</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                  {projectData.prjcNm ?? ""}
+                  {projectData.prjtNm ?? ""}
                 </Stack>
               </TD>
             </TableRow>
@@ -117,7 +117,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
               <TH sx={{ width: "15%" }}>과제 담당자</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  {projectData.prjcMngrNm ?? ""}
+                  {projectData.prjtMngrNm ?? ""}
                 </Stack>
               </TD>
             </TableRow>
@@ -132,7 +132,7 @@ const ProjectHeader: React.FC<ProjectHeaderProps> = ({ slug }) => {
           open={projectModifyModal}
           modalWidth={800}
           selectItem={selectItem}
-          prjcUkey={slug}
+          prjtUkey={slug}
           renderList={renderList}
         />
       )}

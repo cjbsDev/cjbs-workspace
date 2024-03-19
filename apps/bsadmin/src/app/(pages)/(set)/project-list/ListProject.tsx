@@ -16,11 +16,11 @@ const ListProject = () => {
     suspense: true,
   });
 
-  const totalElements = data.prjcListResDetailList.length;
+  const totalElements = data.prjtListResDetailList.length;
 
   const goDetailPage = useCallback(
-    (prjcUkey: string) => {
-      router.push("/project-list/" + prjcUkey);
+    (prjtUkey: string) => {
+      router.push("/project-list/" + prjtUkey);
     },
     [router],
   );
@@ -34,7 +34,7 @@ const ListProject = () => {
   return (
     <DataTableBase
       title={<Title1 titleName="과제 관리" />}
-      data={data.prjcListResDetailList}
+      data={data.prjtListResDetailList}
       columns={columns}
       highlightOnHover
       customStyles={dataTableCustomStyles}
