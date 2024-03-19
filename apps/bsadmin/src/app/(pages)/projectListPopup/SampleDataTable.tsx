@@ -60,8 +60,8 @@ const SampleDataTable = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) === "{}"
-      ? `/cust/list?page=${page}&size=${size}`
-      : `/cust/list${result}&page=${page}&size=${size}`,
+      ? `/code/orsh/prjt/list?page=${page}&size=${size}`
+      : `/code/orsh/prjt/list${result}&page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,
@@ -69,7 +69,7 @@ const SampleDataTable = () => {
     },
   );
 
-  const sampleListData = data.custList;
+  const sampleListData = data.codeList;
   const totalElements = data.pageInfo.totalElements;
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -112,74 +112,36 @@ const SampleDataTable = () => {
   const columns = useMemo(
     () => [
       {
-        name: "고객 번호",
-        selector: (row: { ebcUid: number }) => row.ebcUid,
+        name: "코드",
+        selector: (row: { value: string }) => row.value,
+        width: "150px",
+      },
+      {
+        name: "과제명",
+        selector: (row: { optionName: string }) => row.optionName,
+        width: "500px",
+      },
+      {
+        name: "연구갯수",
+        selector: (row: { prjtDetailCnt: string }) => row.prjtDetailCnt,
         width: "100px",
-      },
-      {
-        name: "아이디",
-        selector: (row: { ebcEmail: string }) => row.ebcEmail,
-        width: "300px",
-      },
-      {
-        name: "이름",
-        selector: (row: { custNm: string }) => row.custNm,
-        width: "200px",
-      },
-
-      {
-        name: "소속 거래처(PI)",
-        cell: (row: { agncNm: any; instNm: any }) => (
-          <>
-            <Stack
-              direction="row"
-              spacing={0.4}
-              alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
-              <Box>{row.agncNm ?? "-"}</Box>
-              {row.instNm && <Box>({row.instNm})</Box>}
-            </Stack>
-          </>
-        ),
-        minWidth: "340px",
+        center: true
       },
       {
         name: "선택",
+        center: true,
         cell: (row: {
-          custUkey: string;
-          custNm: string;
-          ebcEmail: string;
-          telList: string;
-          agncUkey: string;
-          agncNm: string;
-          instNm: string;
-          isAgncIncl: string;
-          rhpiNm: string;
-          rhpiTel: string;
+          value: string;
+          optionName: string;
+          prjtDetailCnt: number;
+          isPrjtSelect: string;
         }) => {
           const {
-            agncUkey,
-            custUkey,
-            custNm,
-            ebcEmail,
-            telList,
-            instNm,
-            agncNm,
-            isAgncIncl,
-            rhpiNm,
-            rhpiTel,
+            value,
+            optionName,
+            prjtDetailCnt,
+            isPrjtSelect,
           } = row;
-          const agncInstNm = `${row.agncNm}(${row.instNm})`;
-
-          if (agncUkey && type === "agnc") {
-            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
-          }
-
-          if (isAgncIncl === "N" && type === "agnc-order") {
-            return null; // 거래처가 있는 고객은 선택 버튼 있으면 안됨.
-          }
 
           return (
             <OutlinedButton
@@ -187,24 +149,18 @@ const SampleDataTable = () => {
               buttonName="선택"
               onClick={() => {
                 const data = {
-                  custUkey: custUkey,
-                  custNm: custNm,
-                  ebcEmail: ebcEmail,
-                  telList: telList,
-                  agncNm: agncNm,
-                  agncUkey: agncUkey,
-                  rhpiNm: rhpiNm,
-                  rhpiTel: rhpiTel,
-                  instNm: instNm,
-                  agncInstNm: agncInstNm,
-                  type: "order",
+                  value: value,
+                  optionName: optionName,
+                  prjtDetailCnt: prjtDetailCnt,
+                  isPrjtSelect: isPrjtSelect,
                 };
-                const event = new CustomEvent("myCustData", {
+                const event = new CustomEvent("projectData", {
                   detail: data,
                 });
                 window.opener.dispatchEvent(event);
                 window.close();
               }}
+              disabled={ row.isPrjtSelect === 'N' ? true : false }
             />
           );
         },
@@ -228,7 +184,7 @@ const SampleDataTable = () => {
     // <Box sx={{ display: "grid", width: 750 }}>
     <Box sx={{ display: "grid", width: 1060 }}>
       <DataTableBase
-        title={<Title1 titleName="고객 검색" />}
+        title={<Title1 titleName="과제 검색" />}
         data={sampleListData}
         columns={columns}
         pointerOnHover

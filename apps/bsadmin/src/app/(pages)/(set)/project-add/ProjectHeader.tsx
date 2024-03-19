@@ -31,11 +31,11 @@ import dynamic from "next/dynamic";
 interface DataItem {
   departCodeMc: string;
   departCodeMcVal: string;
-  prjcMngrNm: string;
-  prjcMngrUkey: string;
-  prjcNm: string;
-  prjcUkey: string;
-  prjcUniqueCode: string;
+  prjtMngrNm: string;
+  prjtMngrUkey: string;
+  prjtNm: string;
+  prjtUkey: string;
+  prjtUniqueCode: string;
 }
 
 const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
@@ -64,11 +64,11 @@ const ProjectHeader = () => {
 
     let saveObj = {
       departCodeMc: data.departCodeMc,
-      isPrjcDetailUse: "Y",
-      prjcMngrUkey: data.prjcMngrUkey,
-      prjcUniqueCode: data.prjcUniqueCode,
+      isPrjtDetailUse: "Y",
+      prjtMngrUkey: data.prjtMngrUkey,
+      prjtUniqueCode: data.prjtUniqueCode,
     };
-    // console.log("==saveObj", saveObj);
+    console.log("==saveObj", saveObj);
     // console.log("saveObj stringify", JSON.stringify(saveObj));
     const apiUrl = `/mngr/prjt/`; // Replace with your API URL
 
@@ -126,7 +126,7 @@ const ProjectHeader = () => {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="flex-start">
                     <InputValidation
-                      inputName="prjcUniqueCode"
+                      inputName="prjtUniqueCode"
                       disabled={true}
                       required={true}
                       errorMessage="과제를 검색 & 선택해주세요."
@@ -134,7 +134,7 @@ const ProjectHeader = () => {
                       sx={{ width: 200 }}
                     />
                     <InputValidation
-                      inputName="prjcNm"
+                      inputName="prjtNm"
                       disabled={true}
                       required={true}
                       errorMessage="과제를 검색 & 선택해주세요."
