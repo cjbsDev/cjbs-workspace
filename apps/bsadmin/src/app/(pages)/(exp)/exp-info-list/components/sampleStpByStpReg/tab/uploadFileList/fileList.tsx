@@ -6,6 +6,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import NoDataView from "../../../../../../../components/NoDataView";
 import { Columns } from "./columns";
 import DataTable from "./dataTable";
+import { Box } from "@mui/material";
 
 const FileList = () => {
   const [page, setPage] = useState<number>(1);
@@ -33,12 +34,14 @@ const FileList = () => {
   };
 
   return (
-    <DataTable
-      listData={exptInfoDetailList}
-      totalElements={totalElements}
-      handlePageChange={handlePageChange}
-      handlePerRowsChange={handlePerRowsChange}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTable
+        listData={exptInfoDetailList}
+        totalElements={totalElements}
+        handlePageChange={handlePageChange}
+        handlePerRowsChange={handlePerRowsChange}
+      />
+    </Box>
   );
 };
 

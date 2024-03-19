@@ -82,7 +82,9 @@ const Index = () => {
         // onClose();
         handleClose();
         mutate(`/expt/info/file/list`);
-      } else if (response.data.code === "INVALID_ETC_EMAIL") {
+      } else if (response.data.code === "CANNOT_READ_EXCEL") {
+        toast(response.data.message);
+      } else if (response.data.code === "FILE_ENCRYPTED") {
         toast(response.data.message);
       } else {
         toast("문제가 발생했습니다.");

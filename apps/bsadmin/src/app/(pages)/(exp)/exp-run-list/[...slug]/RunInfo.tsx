@@ -131,7 +131,7 @@ const RunInfo = () => {
           <LazyBIAnalyzeReqModal
             onClose={handleBIReqModalClose}
             open={showBIReqModal}
-            modalWidth={800}
+            modalWidth={600}
           />
         </ErrorContainer>
       )}
