@@ -62,7 +62,7 @@ export const Columns = () => [
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="body2">{sampleId}</Typography>
             <IconButton size="small" onClick={handleModalOpen}>
-              <MyIcon icon="arrow-clockwise" size={18} />
+              <MyIcon icon="history" size={18} />
             </IconButton>
           </Stack>
           <ResultHistory sampleUkey={sampleUkey} />

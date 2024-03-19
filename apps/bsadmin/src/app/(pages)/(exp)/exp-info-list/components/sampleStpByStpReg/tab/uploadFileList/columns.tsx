@@ -15,15 +15,19 @@ export const Columns = () => [
     width: "80px",
     // sortable: true,
     // center: true,
-    selector: (row, index) => index + 1,
+    selector: (row, index) => row.exptInfoFileDetailId,
   },
   {
     name: "파일명",
     // sortable: true,
+    width: "250px",
+    wrap: true,
+    allowOverflow: true,
     selector: (row) => row.fileOriginNm,
   },
   {
     name: "다운로드",
+    width: "90px",
     center: true,
     cell: (row) => {
       const { exptInfoFileDetailUkey, fileOriginNm } = row;
@@ -61,14 +65,31 @@ export const Columns = () => [
   },
   {
     name: "메모",
-    selector: (row) => row.fileMemo,
+    width: "80px",
+    center: true,
+    selector: (row) => formatValue(row.fileMemo),
+    cell: (row: { fileMemo: string }) => {
+      const { fileMemo } = row;
+      return (
+        fileMemo !== null &&
+        fileMemo !== "" && (
+          <Tooltip title={fileMemo} arrow>
+            <IconButton size="small">
+              <MyIcon icon="memo" size={24} />
+            </IconButton>
+          </Tooltip>
+        )
+      );
+    },
   },
   {
     name: "샘플개수",
+    right: true,
     selector: (row) => formatValue(row.sampleCnt),
   },
   {
     name: "업로더",
+    center: true,
     selector: (row) => row.userNm,
   },
   {

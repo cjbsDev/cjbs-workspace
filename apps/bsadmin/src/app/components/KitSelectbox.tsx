@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 import useSWR from "swr";
 import { fetcher } from "api";
 
-// Kit
+// Kit /code/mngr/list?enumMngrCode=MCHN_KIT&topUniqueCode=${topUniqueCode}&midUniqueCode=none
 // * 장비 topUniqueCode 값이 필요함 *
 export default function KitSelectbox(props) {
   const { watch } = useFormContext();
@@ -11,12 +11,12 @@ export default function KitSelectbox(props) {
   console.log("장비UniqueCode", topUniqueCode);
   const { data: kitData } = useSWR(
     topUniqueCode !== undefined
-      ? `/code/mngr/list?enumMngrCode=MCHN_KIT&topUniqueCode=${topUniqueCode}&midUniqueCode=none`
+      ? `/code/run/mchn/list?type=${topUniqueCode}`
       : null,
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   console.log("Kit List ==>>", kitData);
