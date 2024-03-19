@@ -88,8 +88,7 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
             <TD sx={{ width: "35%" }}>{sampleId}</TD>
             <TH sx={{ width: "15%" }}>RUN</TH>
             <TD sx={{ width: "35%" }}>
-              {runList}
-              {/*{runList !== null ? runList.join(", ") : "-"}*/}
+              {runList !== null ? runList.join(", ") : "-"}
             </TD>
           </TableRow>
           <TableRow>
