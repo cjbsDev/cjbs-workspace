@@ -21,7 +21,10 @@ const TableContent = () => {
   const analysisPhaseMc = watch("analysisPhaseMc");
   const statusCc = watch("statusCc");
 
-  console.log(analysisPhaseMc, statusCc);
+  console.log("단계", analysisPhaseMc);
+  // BS_0100004001, BS_0100004007
+  console.log("상태", statusCc);
+  // BS_0902005
 
   return (
     <TableBody>
@@ -52,12 +55,17 @@ const TableContent = () => {
           </TD>
         </TableRow>
       )}
-      <TableRow>
-        <TH>메일전송여부</TH>
-        <TD>
-          <EmailSendType />
-        </TD>
-      </TableRow>
+
+      {(analysisPhaseMc === "BS_0100004001" ||
+        analysisPhaseMc === "BS_0100004007") &&
+        statusCc === "BS_0902005" && (
+          <TableRow>
+            <TH>메일전송여부</TH>
+            <TD>
+              <EmailSendType />
+            </TD>
+          </TableRow>
+        )}
     </TableBody>
   );
 };

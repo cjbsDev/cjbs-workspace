@@ -8,9 +8,6 @@ import {
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  SingleDatePicker,
-  TD,
-  TH,
 } from "cjbsDSTM";
 import {
   Alert,
@@ -18,29 +15,16 @@ import {
   DialogContent,
   Snackbar,
   Table,
-  TableBody,
   TableContainer,
-  TableRow,
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { ModalContainerProps } from "../../../../../../types/modal-container-props";
-import dynamic from "next/dynamic";
 import dayjs from "dayjs";
 import { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
 import { PUT } from "api";
 import TableContent from "./TableContent";
-
-// const LazyPhaseSelectbox = dynamic(() => import("./PhaseSelectbox"), {
-//   ssr: false,
-//   loading: () => <Typography variant="body2">Loading...</Typography>,
-// });
-//
-// const LazyConditionSelectbox = dynamic(() => import("./ConditionSelectbox"), {
-//   ssr: false,
-//   loading: () => <Typography variant="body2">Loading...</Typography>,
-// });
 
 interface ExperimentProgressChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -90,11 +74,12 @@ const ExperimentProgressChangeModal = (
     const convertedDate = dayjs(data.compDttm).format("YYYY-MM-DD");
 
     const bodyData = {
-      analysisPhaseMc: data.analysisPhaseMc,
+      ...data,
       compDttm: convertedDate,
       sampleUkeyList: sampleUkeyList,
-      statusCc: data.statusCc,
-      isSendEmail: data.isSendEmail,
+      // analysisPhaseMc: data.analysisPhaseMc,
+      // statusCc: data.statusCc,
+      // isSendEmail: data.isSendEmail,
     };
 
     console.log("BODYDATA ==>", bodyData);
@@ -147,35 +132,12 @@ const ExperimentProgressChangeModal = (
           >
             <TableContainer>
               <Table>
-                <TableContent />
-                {/*<TableBody>*/}
-                {/*  <TableRow>*/}
-                {/*    <TH sx={{ width: "20%" }}>단계</TH>*/}
-                {/*    <TD colSpan={3}>*/}
-                {/*      <ErrorContainer FallbackComponent={Fallback}>*/}
-                {/*        <LazyPhaseSelectbox />*/}
-                {/*      </ErrorContainer>*/}
-                {/*    </TD>*/}
-                {/*  </TableRow>*/}
-                {/*  <TableRow>*/}
-                {/*    <TH sx={{ width: "20%" }}>상태</TH>*/}
-                {/*    <TD colSpan={3}>*/}
-                {/*      <ErrorContainer FallbackComponent={Fallback}>*/}
-                {/*        <LazyConditionSelectbox />*/}
-                {/*      </ErrorContainer>*/}
-                {/*    </TD>*/}
-                {/*  </TableRow>*/}
-                {/*  <TableRow>*/}
-                {/*    <TH sx={{ width: "20%" }}>완료일</TH>*/}
-                {/*    <TD colSpan={3}>*/}
-                {/*      <SingleDatePicker inputName="compDttm" />*/}
-                {/*    </TD>*/}
-                {/*  </TableRow>*/}
-                {/*</TableBody>*/}
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <TableContent />
+                </ErrorContainer>
               </Table>
             </TableContainer>
           </Form>
-          <ErrorContainer FallbackComponent={Fallback}></ErrorContainer>
         </DialogContent>
         <ModalAction>
           <OutlinedButton
