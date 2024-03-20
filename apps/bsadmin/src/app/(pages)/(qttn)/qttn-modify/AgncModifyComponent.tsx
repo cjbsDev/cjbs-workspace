@@ -14,6 +14,7 @@ import {
 import {useEffect, useState,} from "react";
 import { useFormContext } from "react-hook-form";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
+import useCenteredPopup from "../../../hooks/useCenteredPopup";
 
 // 영업 담당자 선택
 const LazySalesManagerSelctbox = dynamic(
@@ -35,7 +36,7 @@ const LazyAgncSearchModal = dynamic(
 
 const AgncModifyComponent = (props: any) => {
   const inputName = props.inputName;
-  const { watch, getValues, setValue } = useFormContext();
+  const { watch, getValues, setValue, clearErrors } = useFormContext();
   // 최초에는 거래처명이 삭제 되지않기 위한 조건
   const [firstRender, setFirstRender] = useState<boolean>(false);
   // console.log(watch('agncTypeCc'));
@@ -69,6 +70,38 @@ const AgncModifyComponent = (props: any) => {
     console.log("getAgncNm", getValues("agncNm"));
   };
 
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/agncListPopup?type=order`,
+    "과제 검색",
+    800,
+    700,
+  );
+
+  useEffect(() => {
+    window.addEventListener("myAgncData", function (e) {
+      console.log("Received data:", e.detail);
+
+      const {
+        agncUkey,
+        agncNm,
+        instFakeNm,
+        bsnsMngrUkey,
+        bsnsMngrNm,
+      } = e.detail;
+
+      const agncInstNm = `${agncNm}(${instFakeNm})`;
+      setValue("agncNm", agncInstNm);
+      setValue("agncUkey", agncUkey);
+      setValue("bsnsMngrUkey", bsnsMngrUkey);
+      // setValue("bsnsMngrNm", bsnsMngrNm);
+      clearErrors("agncNm");
+      clearErrors("agncUkey");
+      clearErrors("bsnsMngrUkey");
+      clearErrors("bsnsMngrNm");
+
+    });
+  }, []);
+
   return (
     <>
       <TypeSelectRadio
@@ -99,6 +132,13 @@ const AgncModifyComponent = (props: any) => {
             size="small"
             buttonName="거래처 검색"
             onClick={agncSearchModalOpen}
+          />
+        )}
+        {agncTypeVal === "Y" && (
+          <OutlinedButton
+            size="small"
+            buttonName="거래처 검색"
+            onClick={openPopup}
           />
         )}
 
