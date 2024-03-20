@@ -186,7 +186,7 @@ const ModifyQttn = () => {
           toast("수정 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push(`/qttn-list/${uKey}`);
+          router.push(`/orsh-qttn-list/${uKey}`);
         } else {
           toast(response.message);
         }
@@ -380,7 +380,7 @@ const ModifyQttn = () => {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push(`/qttn-list/`)}
+            onClick={() => router.push(`/orsh-qttn-list/`)}
           />
           <ContainedButton
             size="small"

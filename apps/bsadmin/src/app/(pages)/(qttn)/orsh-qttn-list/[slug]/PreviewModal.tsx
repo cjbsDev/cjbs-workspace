@@ -150,8 +150,8 @@ const PreviewModal = (props: any) => {
         const response = await PUT_MULTIPART(apiUrl, formData); // API 요청
         console.log("response", response);
         if (response.data.success) {
-          mutate(`/qttn-list/${slug}`);
-          router.push(`/qttn-list`);
+          mutate(`/orsh-qttn-list/${slug}`);
+          router.push(`/orsh-qttn-list`);
           onClose();
           toast("발송 되었습니다.");
         } else if (response.data.code === "TRADING_STATEMENT_NOT_EXIST" || response.data.code === "TRADING_STATEMENT_PDF_NOT_EXIST") {
@@ -172,8 +172,8 @@ const PreviewModal = (props: any) => {
           );
           console.log("resFileName", resFileName);
           FileSaver.saveAs(response.data, resFileName);
-          mutate(`/qttn-list/${slug}`);
-          router.push(`/qttn-list`);
+          mutate(`/orsh-qttn-list/${slug}`);
+          router.push(`/orsh-qttn-list`);
           onClose();
 
         } else {

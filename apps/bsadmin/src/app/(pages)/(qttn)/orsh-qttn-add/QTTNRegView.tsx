@@ -37,7 +37,7 @@ import dayjs from "dayjs";
 import TypeSelectRadio from "../../../components/TypeSelectRadio";
 import DynamicTableQttn from "../../../components/DynamicTableQttn";
 import DynamicSumTable from "../../../components/DynamicSumTable";
-import AgncModifyComponent from "../qttn-modify/AgncModifyComponent";
+import AgncModifyComponent from "../orsh-qttn-modify/AgncModifyComponent";
 
 // 거래처 검색
 const LazyAgncSearchModal = dynamic(
@@ -145,7 +145,7 @@ const QTTNRegView = () => {
           toast("등록 되었습니다.");
           setIsLoading(false);
           mutate(apiUrl);
-          router.push("/qttn-list");
+          router.push("/orsh-qttn-list");
         } else {
           toast(response.message);
         }
@@ -411,7 +411,7 @@ const QTTNRegView = () => {
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <OutlinedButton
             buttonName="목록"
-            onClick={() => router.push("/qttn-list/")}
+            onClick={() => router.push("/orsh-qttn-list/")}
           />
           <ContainedButton
             size="small"

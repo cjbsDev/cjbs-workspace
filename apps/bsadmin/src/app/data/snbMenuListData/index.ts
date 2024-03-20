@@ -54,7 +54,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "견적서 관리",
-          menuPath: "/qttn-list",
+          menuPath: "/orsh-qttn-list",
         },
       ],
     },
