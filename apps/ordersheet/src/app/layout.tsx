@@ -7,6 +7,7 @@ import './globals.css'
 import {cjbsTheme} from "cjbsDSTM";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import * as React from "react";
+import RecoilRootProvider from "./recoilRootProvider";
 import {useEffect} from "react";
 import {Logger} from "sass";
 
@@ -59,15 +60,17 @@ export default function RootLayout({
       <link rel="icon" href="/favicon.ico" />
       <body>
         <JeJuProvider>
-          <Provider>
-              {children}
-              <ProgressBar
+          <RecoilRootProvider>
+            <Provider>
+                {children}
+                <ProgressBar
                   height="6px"
                   color={cjbsTheme.palette.primary.main}
                   options={{ showSpinner: false }}
                   shallowRouting
-              />
-          </Provider>
+                />
+            </Provider>
+          </RecoilRootProvider>
         </JeJuProvider>
       </body>
     </html>
