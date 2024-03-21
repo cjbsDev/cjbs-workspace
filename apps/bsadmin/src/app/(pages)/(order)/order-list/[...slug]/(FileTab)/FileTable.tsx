@@ -6,7 +6,7 @@ import { useParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { DELETE, fetcher, GET } from "api";
 import MyIcon from "icon/MyIcon";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import SubHeader from "./SubHeader";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -86,8 +86,9 @@ const FileTable = () => {
   const columns = useMemo(
     () => [
       {
-        name: "",
-        width: "3%",
+        name: "No",
+        width: "60px",
+        center: true,
         selector: (row, index) => index + 1,
       },
       {
@@ -106,24 +107,28 @@ const FileTable = () => {
         name: "QC메일",
         width: "100px",
         sortable: true,
+        center: true,
         selector: (row) => row.isSendQCEmail,
       },
       {
         name: "부서",
         width: "120px",
         sortable: true,
+        center: true,
         selector: (row) => row.departVal,
       },
       {
         name: "등록자",
         width: "90px",
         sortable: true,
+        center: true,
         selector: (row) => row.userNm,
       },
       {
         name: "등록일",
-        width: "120px",
+        width: "110px",
         sortable: true,
+        right: true,
         selector: (row) => row.createdDttm,
       },
       {
@@ -147,7 +152,7 @@ const FileTable = () => {
       },
       {
         name: "삭제",
-        width: "80px",
+        width: "60px",
         button: true,
         selector: (row) => row.createdDttm,
         cell: (row) => {
@@ -203,19 +208,21 @@ const FileTable = () => {
   }, [filterText, filteredItems.length, resetPaginationToggle]);
 
   return (
-    <DataTableBase
-      data={filteredItems}
-      columns={columns}
-      // pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles3}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination={false}
-      selectableRows={false}
-      noDataComponent={<NoDataView />}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        data={filteredItems}
+        columns={columns}
+        // pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles3}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination={false}
+        selectableRows={false}
+        noDataComponent={<NoDataView />}
+      />
+    </Box>
   );
 };
 
