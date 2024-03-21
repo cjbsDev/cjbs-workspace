@@ -28,9 +28,8 @@ const FileTable = () => {
   });
   const fileList = Array.from(data);
 
-  console.log("UseInfo", session);
-
-  console.log("$%$%$%$%$%$%$%$%$%$%$%$%", fileList);
+  // console.log("UseInfo", session);
+  // console.log("$%$%$%$%$%$%$%$%$%$%$%$%", fileList);
 
   const filteredItems = fileList.filter((item) => {
     const filterPattern = new RegExp(
