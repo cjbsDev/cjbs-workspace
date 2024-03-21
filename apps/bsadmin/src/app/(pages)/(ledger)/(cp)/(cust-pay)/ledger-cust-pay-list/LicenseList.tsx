@@ -29,14 +29,16 @@ import NoDataView from "../../../../../components/NoDataView";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
 import YearMonthSelectBox from "./components/YearMonthSelectBox";
+import {useFormContext} from "react-hook-form";
+import TotalPriceBox from "./components/TotalPriceBox";
 
 const LicenseList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
-  const [year, setYear] = useState<string>("2023");
-  const [month, setMonth] = useState<string>("11");
-  const searchParams = useSearchParams();
+  const [year, setYear] = useState<string>("2024");
+  const [month, setMonth] = useState<string>("03");
 
+  const searchParams = useSearchParams();
   const resultObject: any = {};
 
   for (const [key, value] of searchParams.entries()) {
@@ -151,19 +153,11 @@ const LicenseList = () => {
     []
   );
 
-  // const handleChangeYear = (event: SelectChangeEvent) => {
-  //   setYear(event.target.value as string);
-  // };
-  // const handleChangeMonth = (event: SelectChangeEvent) => {
-  //   console.log(event.target.value)
-  //   setMonth(event.target.value as string);
-  // };
-
-  const changeYear = (yearValue) => {
-    console.log(monthValue)
+  const changeYear = (yearValue: string) => {
+    console.log(yearValue)
     setYear(yearValue);
   };
-  const changeMonth = (monthValue) => {
+  const changeMonth = (monthValue: string) => {
     console.log(monthValue)
     setMonth(monthValue);
   };
@@ -190,11 +184,10 @@ const LicenseList = () => {
                 direction="row"
                 justifyContent="space-between"
                 spacing={1}
-
                 sx={{ mb: 0.5 }}
                 alignItems="center"
               >
-                <YearMonthSelectBox changeYear={changeYear} changeMonth={changeMonth}/>
+                <YearMonthSelectBox year={year} month={month} changeYear={changeYear} changeMonth={changeMonth}/>
               </Stack>
 
             </Stack>
@@ -212,30 +205,32 @@ const LicenseList = () => {
             </Stack>
           </Stack>
 
-          <TableContainer sx={{ mb: 1, mt:1 }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "20%" }}>
-                    <Box component="span" sx={{color: cjbsTheme.palette.primary.main}}>{month}월</Box> 사용금액 총계
-                  </TH>
-                  <TD sx={{ width: "30%", textAlign: "left" }}>
-                    {monthTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  </TD>
-                  <TH sx={{ width: "20%" }}>
-                    <Box component="span" sx={{color: cjbsTheme.palette.primary.main}}>{year}년</Box> 사용금액 총계
-                  </TH>
-                  <TD sx={{ width: "30%", textAlign: "left" }}>
-                    {yearTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                  </TD>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <TotalPriceBox year={year} month={month} monthTotalPrice={monthTotalPrice} yearTotalPrice={yearTotalPrice} />
+
+          {/*<TableContainer sx={{ mb: 1, mt:1 }}>*/}
+          {/*  <Table>*/}
+          {/*    <TableBody>*/}
+          {/*      <TableRow>*/}
+          {/*        <TH sx={{ width: "20%" }}>*/}
+          {/*          <Box component="span" sx={{color: cjbsTheme.palette.primary.main}}>{month}월</Box> 사용금액 총계*/}
+          {/*        </TH>*/}
+          {/*        <TD sx={{ width: "30%", textAlign: "left" }}>*/}
+          {/*          {monthTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}*/}
+          {/*        </TD>*/}
+          {/*        <TH sx={{ width: "20%" }}>*/}
+          {/*          <Box component="span" sx={{color: cjbsTheme.palette.primary.main}}>{year}년</Box> 사용금액 총계*/}
+          {/*        </TH>*/}
+          {/*        <TD sx={{ width: "30%", textAlign: "left" }}>*/}
+          {/*          {yearTotalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}*/}
+          {/*        </TD>*/}
+          {/*      </TableRow>*/}
+          {/*    </TableBody>*/}
+          {/*  </Table>*/}
+          {/*</TableContainer>*/}
         </Grid>
       </Grid>
     );
-  }, [totalElements, result]);
+  }, [totalElements, result, year, month]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
@@ -300,14 +295,8 @@ const LicenseList = () => {
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
-        // title={
-        //   <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
-        //     <Title1 titleName="고객별 결제 현황" />
-        //   </Stack>
-        // }
         data={licenseStatusList}
         columns={columns}
-        // onRowClicked={goDetailPage}
         // pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles3}

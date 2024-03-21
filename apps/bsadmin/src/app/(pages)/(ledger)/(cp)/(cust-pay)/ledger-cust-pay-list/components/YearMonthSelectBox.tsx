@@ -1,54 +1,24 @@
 "use client";
 import * as React from "react";
-import { useMemo } from "react";
 import {
-    DataCountResultInfo,
-    DataTableBase,
-    Title1,
-    ContainedButton,
-    cjbsTheme,
-    FileDownloadBtn, green, red, grey, TH, TD,
-} from "cjbsDSTM";
-import {
-  blue,
-} from "cjbsDSTM/themes/color";
-import {
-  Box,
-  Stack,
-  Grid,
-  Typography,
-  Collapse,
-  TableContainer, Table, TableBody, TableCell, TableRow, Chip, FormControl, Select, MenuItem,
+  FormControl, Select, MenuItem,
 } from "@mui/material";
-import { useRouter } from "next-nprogress-bar";
-import { useState } from "react";
-import MyIcon from "icon/MyIcon";
-import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import useSWR from "swr";
-import { fetcher } from "api";
-import { useSearchParams } from "next/navigation";
-import KeywordSearch from "../../../../../../components/KeywordSearch";
-import NoDataView from "../../../../../../components/NoDataView";
-import dynamic from "next/dynamic";
-import { ExpanderComponentProps } from "react-data-table-component";
+import { SelectChangeEvent } from "@mui/material";
 
 const YearMonthSelectBox = (props: any) => {
-  const {changeYear, changeMonth} = props;
-  const [year, setYear] = useState<string>("2024");
-  const [month, setMonth] = useState<string>("01");
+  const {year, month, changeYear, changeMonth} = props;
+  // const [year, setYear] = useState<string>("2024");
+  // const [month, setMonth] = useState<string>("01");
 
   const handleChangeYear = (event: SelectChangeEvent) => {
-    setYear(event.target.value as string);
-    setTimeout(() => {
+    console.log('^^^^^^^^^^^^^^^^^', event.target.value);
+    // setYear(event.target.value as string);
       changeYear(event.target.value as string);
-    }, 500);
   };
   const handleChangeMonth = (event: SelectChangeEvent) => {
     // console.log(event.target.value)
-    setMonth(event.target.value as string);
-    setTimeout(() => {
+    // setMonth(event.target.value as string);
       changeMonth(event.target.value as string);
-    }, 500);
   };
 
   return (
@@ -68,6 +38,9 @@ const YearMonthSelectBox = (props: any) => {
             },
           }}
         >
+          <MenuItem value="2021">2021년</MenuItem>
+          <MenuItem value="2022">2022년</MenuItem>
+          <MenuItem value="2023">2023년</MenuItem>
           <MenuItem value="2024">2024년</MenuItem>
         </Select>
       </FormControl>

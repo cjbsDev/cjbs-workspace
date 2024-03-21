@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import dynamic from "next/dynamic";
 import {TabContext, TabList, TabPanel} from "@mui/lab";
+import {useRouter} from "next/navigation";
 
 const LazyCustPayList = dynamic(() => import("./CustPayList"), {
   ssr: false,
@@ -24,8 +25,12 @@ const LazyLicenseList = dynamic(() => import("./LicenseList"), {
 const CustPayTab = () => {
 
   const [value, setValue] = React.useState('1');
+  const router = useRouter();
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+    // 페이지 경로 유지하며 URL 수정: 특정 경로에 머무르면서 URL을 수정
+    router.replace('/ledger-cust-pay-list', undefined, { shallow: true });
   };
 
   return (
