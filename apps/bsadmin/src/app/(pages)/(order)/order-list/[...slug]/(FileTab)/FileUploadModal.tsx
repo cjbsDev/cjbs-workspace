@@ -28,6 +28,8 @@ import { useDropzone } from "react-dropzone";
 import FileDropzone from "./FileDropzone";
 import { useRecoilState } from "recoil";
 import { isDisabledAtom } from "../../../../../recoil/atoms/modalAtom";
+import { getValue } from "@mui/system";
+import FileUploadAddInfo from "./FileUploadAddInfo";
 
 const FileUploadModal = (props) => {
   const { onClose, open, modalWidth, formId } = props;
@@ -49,7 +51,7 @@ const FileUploadModal = (props) => {
 
     const bodyData = {
       fileDesc: data.fileDesc,
-      isSendQCEmail: data.isSendQCEmail === false ? "N" : "Y",
+      isSendQCEmail: data.isSendQCEmail === true ? "Y" : "N",
       qcEmailTemplateCc: data.qcEmailTemplateCc,
     };
 
@@ -104,46 +106,7 @@ const FileUploadModal = (props) => {
             <Box sx={{ mb: 2 }}>
               <FileDropzone />
             </Box>
-            <TableContainer>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>파일 설명</TH>
-                    <TD colSpan={3}>
-                      <InputValidation
-                        inputName="fileDesc"
-                        required={true}
-                        errorMessage="파일 설명을 입력해주세요."
-                      />
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>QC 메일 발송</TH>
-                    <TD colSpan={3}>
-                      <CheckboxSV
-                        inputName="isSendQCEmail"
-                        labelText="파일 업로드와 함께 고객에게 OC 메일을 발송합니다"
-                        value="Y"
-                      />
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>QC 메일 양식</TH>
-                    <TD colSpan={3}>
-                      <SelectBox
-                        required={true}
-                        errorMessage="QC 메일 양식을 선택해주세요."
-                        inputName="qcEmailTemplateCc"
-                        options={[
-                          { value: "BS_0810001", optionName: "한글" },
-                          { value: "BS_0810002", optionName: "영문" },
-                        ]}
-                      />
-                    </TD>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <FileUploadAddInfo />
           </Form>
         </DialogContent>
         <ModalAction>
