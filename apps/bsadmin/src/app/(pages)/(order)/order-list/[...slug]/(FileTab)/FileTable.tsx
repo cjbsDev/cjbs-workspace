@@ -6,15 +6,17 @@ import { useParams } from "next/navigation";
 import useSWR, { useSWRConfig } from "swr";
 import { DELETE, fetcher, GET } from "api";
 import MyIcon from "icon/MyIcon";
-import { IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import SubHeader from "./SubHeader";
 import { toast } from "react-toastify";
 import axios from "axios";
 import FileSaver from "file-saver";
 import { useSetRecoilState } from "recoil";
 import { fileModalAtom } from "./fileModalAtom";
+import { useSession } from "next-auth/react";
 
 const FileTable = () => {
+  const { data: session, status } = useSession();
   const setIsFileUploadModal = useSetRecoilState(fileModalAtom);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -25,6 +27,9 @@ const FileTable = () => {
     suspense: true,
   });
   const fileList = Array.from(data);
+
+  // console.log("UseInfo", session);
+  // console.log("$%$%$%$%$%$%$%$%$%$%$%$%", fileList);
 
   const filteredItems = fileList.filter((item) => {
     const filterPattern = new RegExp(
@@ -57,24 +62,6 @@ const FileTable = () => {
     }
   };
 
-  // const rowDelete = useCallback(
-  //   async (orderFileUkey: string) => {
-  //     console.log("orderFileUkey ==>>", orderFileUkey);
-  //     try {
-  //       const res = await DELETE(`/order/${orderUkey}/file/${orderFileUkey}`);
-  //       if (res.success) {
-  //         console.log("Delete", res);
-  //         toast("삭제되었습니다.");
-  //         mutate(`/order/${orderUkey}/file/list`);
-  //       }
-  //     } catch (e: any) {
-  //       console.log(e.message);
-  //     } finally {
-  //     }
-  //   },
-  //   [mutate, orderUkey],
-  // );
-
   const handleDownload = async (
     orderFileUkey: string,
     fileOriginNm: string,
@@ -96,32 +83,12 @@ const FileTable = () => {
     }
   };
 
-  // const handleDownload = useCallback(
-  //   async (orderFileUkey: string, fileOriginNm: string) => {
-  //     try {
-  //       const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
-  //
-  //       await axios({
-  //         url: res.data,
-  //         method: "get",
-  //         responseType: "blob",
-  //       }).then((response) => {
-  //         FileSaver.saveAs(response.data, fileOriginNm);
-  //         // console.log(">>>>>>>>>>", response);
-  //       });
-  //     } catch (e: any) {
-  //       console.log(e.message);
-  //     } finally {
-  //     }
-  //   },
-  //   [orderUkey],
-  // );
-
   const columns = useMemo(
     () => [
       {
-        name: "",
-        width: "3%",
+        name: "No",
+        width: "60px",
+        center: true,
         selector: (row, index) => index + 1,
       },
       {
@@ -140,24 +107,28 @@ const FileTable = () => {
         name: "QC메일",
         width: "100px",
         sortable: true,
+        center: true,
         selector: (row) => row.isSendQCEmail,
       },
       {
         name: "부서",
         width: "120px",
         sortable: true,
+        center: true,
         selector: (row) => row.departVal,
       },
       {
         name: "등록자",
         width: "90px",
         sortable: true,
+        center: true,
         selector: (row) => row.userNm,
       },
       {
         name: "등록일",
-        width: "120px",
+        width: "110px",
         sortable: true,
+        right: true,
         selector: (row) => row.createdDttm,
       },
       {
@@ -181,13 +152,21 @@ const FileTable = () => {
       },
       {
         name: "삭제",
-        width: "80px",
+        width: "60px",
         button: true,
         selector: (row) => row.createdDttm,
         cell: (row) => {
           const { orderFileUkey } = row;
           return (
-            <IconButton onClick={() => rowDelete(orderFileUkey)}>
+            <IconButton
+              onClick={() => rowDelete(orderFileUkey)}
+              disabled={row.userEmail !== session.user.email}
+              color="warning"
+              sx={{
+                cursor:
+                  row.userEmail !== session.user.email ? "default" : "pointer",
+              }}
+            >
               <MyIcon icon="trash" size={20} />
             </IconButton>
           );
@@ -229,19 +208,21 @@ const FileTable = () => {
   }, [filterText, filteredItems.length, resetPaginationToggle]);
 
   return (
-    <DataTableBase
-      data={filteredItems}
-      columns={columns}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles3}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination={false}
-      selectableRows={false}
-      noDataComponent={<NoDataView />}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        data={filteredItems}
+        columns={columns}
+        // pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles3}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination={false}
+        selectableRows={false}
+        noDataComponent={<NoDataView />}
+      />
+    </Box>
   );
 };
 
