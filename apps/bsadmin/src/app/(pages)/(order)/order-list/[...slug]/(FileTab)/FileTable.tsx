@@ -13,8 +13,10 @@ import axios from "axios";
 import FileSaver from "file-saver";
 import { useSetRecoilState } from "recoil";
 import { fileModalAtom } from "./fileModalAtom";
+import { useSession } from "next-auth/react";
 
 const FileTable = () => {
+  const { data: session, status } = useSession();
   const setIsFileUploadModal = useSetRecoilState(fileModalAtom);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -25,6 +27,10 @@ const FileTable = () => {
     suspense: true,
   });
   const fileList = Array.from(data);
+
+  console.log("UseInfo", session);
+
+  console.log("$%$%$%$%$%$%$%$%$%$%$%$%", fileList);
 
   const filteredItems = fileList.filter((item) => {
     const filterPattern = new RegExp(
@@ -57,24 +63,6 @@ const FileTable = () => {
     }
   };
 
-  // const rowDelete = useCallback(
-  //   async (orderFileUkey: string) => {
-  //     console.log("orderFileUkey ==>>", orderFileUkey);
-  //     try {
-  //       const res = await DELETE(`/order/${orderUkey}/file/${orderFileUkey}`);
-  //       if (res.success) {
-  //         console.log("Delete", res);
-  //         toast("삭제되었습니다.");
-  //         mutate(`/order/${orderUkey}/file/list`);
-  //       }
-  //     } catch (e: any) {
-  //       console.log(e.message);
-  //     } finally {
-  //     }
-  //   },
-  //   [mutate, orderUkey],
-  // );
-
   const handleDownload = async (
     orderFileUkey: string,
     fileOriginNm: string,
@@ -95,27 +83,6 @@ const FileTable = () => {
     } finally {
     }
   };
-
-  // const handleDownload = useCallback(
-  //   async (orderFileUkey: string, fileOriginNm: string) => {
-  //     try {
-  //       const res = await GET(`/order/${orderUkey}/file/${orderFileUkey}`);
-  //
-  //       await axios({
-  //         url: res.data,
-  //         method: "get",
-  //         responseType: "blob",
-  //       }).then((response) => {
-  //         FileSaver.saveAs(response.data, fileOriginNm);
-  //         // console.log(">>>>>>>>>>", response);
-  //       });
-  //     } catch (e: any) {
-  //       console.log(e.message);
-  //     } finally {
-  //     }
-  //   },
-  //   [orderUkey],
-  // );
 
   const columns = useMemo(
     () => [
@@ -187,7 +154,15 @@ const FileTable = () => {
         cell: (row) => {
           const { orderFileUkey } = row;
           return (
-            <IconButton onClick={() => rowDelete(orderFileUkey)}>
+            <IconButton
+              onClick={() => rowDelete(orderFileUkey)}
+              disabled={row.userEmail !== session.user.email}
+              color="warning"
+              sx={{
+                cursor:
+                  row.userEmail !== session.user.email ? "default" : "pointer",
+              }}
+            >
               <MyIcon icon="trash" size={20} />
             </IconButton>
           );
@@ -232,7 +207,7 @@ const FileTable = () => {
     <DataTableBase
       data={filteredItems}
       columns={columns}
-      pointerOnHover
+      // pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles3}
       subHeader
