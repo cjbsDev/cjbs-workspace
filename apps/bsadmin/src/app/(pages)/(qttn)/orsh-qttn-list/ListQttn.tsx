@@ -42,7 +42,7 @@ const ListQttn = () => {
   // const { data } = useList("qttn", page, perPage);
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
-      ? `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`
+      ? `/qttn/list${result}&page=${page}&size=${size}&isOwn=${checked}`
       : `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`,
     fetcher,
     {
@@ -199,7 +199,7 @@ const ListQttn = () => {
     if (!row.qttnUkey) {
       toast("잘못된 접근입니다.");
     } else {
-      router.push("/qttn-list/" + path);
+      router.push("/orsh-qttn-list/" + path);
     }
   };
 
@@ -223,7 +223,10 @@ const ListQttn = () => {
 
   const handleDelete = async () => {
     console.log("RRRRRRRRRRR", selectedRows);
-    if (selectedRows.length === 0) toast("견적서를 선택해 주세요.");
+    if (selectedRows.length === 0) {
+      toast("선택된 견적서가 없습니다. 견적서를 선택해 주세요.");
+      return;
+    }
 
     // const body = {
     //   qttnUkeyList: selectedRows,
@@ -233,7 +236,7 @@ const ListQttn = () => {
       console.log("Delete 성공 여부", res.success);
 
       if (res.success) {
-        mutate(`/qttn-list/`);
+        mutate(`/orsh-qttn-list/`);
         toast("삭제 되었습니다.");
         setSelectedRows([]);
       } else {
@@ -273,7 +276,7 @@ const ListQttn = () => {
               spacing={1}
             >
               <DataCountResultInfo totalCount={totalElements} />
-              <Link href="/qttn-add">
+              <Link href="/orsh-qttn-add">
                 <ContainedButton buttonName="견적서 등록" size="small" />
               </Link>
               <ContainedButton
@@ -297,7 +300,7 @@ const ListQttn = () => {
               alignItems="center"
             >
               <FileDownloadBtn
-                exportUrl={`/agnc/prePymt/list/download${result}&chkAll=${checked}`}
+                exportUrl={`/qttn/list/download${result}&isOwn=${checked}`}
                 iconName="xls3"
               />
               <KeywordSearch />

@@ -271,7 +271,7 @@ export default function QttnPage() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
-          onClick={() => router.push("/qttn-list/")}
+          onClick={() => router.push("/orsh-qttn-list/")}
         />
         {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' ? (
           <ContainedButton
@@ -288,10 +288,10 @@ export default function QttnPage() {
             onClick={() => preveiwModalOpen("Y")}
           />
         )}
-        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' && (
+        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' && getDataObj.isUpdated === 'Y' && (
           <Link
             href={{
-              pathname: "/qttn-modify",
+              pathname: "/orsh-qttn-modify",
               query: { qttnUkey: slug },
             }}
           >

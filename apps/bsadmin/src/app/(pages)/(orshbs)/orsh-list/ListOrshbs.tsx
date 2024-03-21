@@ -131,10 +131,11 @@ export default function ListOrshbs() {
           <Stack>
             <Stack direction="row" spacing={0.5} alignItems="center">
               <Box>{row.agncNm}</Box>
-            </Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center">
               <Box>({row.instNm})</Box>
             </Stack>
+            {/*<Stack direction="row" spacing={0.5} alignItems="center">*/}
+            {/*  <Box>({row.instNm})</Box>*/}
+            {/*</Stack>*/}
           </Stack>
         ),
         width: "340px",
@@ -146,10 +147,11 @@ export default function ListOrshbs() {
             <Stack>
               <Stack direction="row" spacing={0.5} alignItems="center">
                 <Box>{row.rhpiNm}</Box>
-              </Stack>
-              <Stack direction="row" spacing={0.5} alignItems="center">
                 <Box>({row.rhpiEbcEmail})</Box>
               </Stack>
+              {/*<Stack direction="row" spacing={0.5} alignItems="center">*/}
+              {/*  <Box>({row.rhpiEbcEmail})</Box>*/}
+              {/*</Stack>*/}
             </Stack>
             {row.isMastered == "N" ? (
               <>

@@ -127,13 +127,13 @@ const AgncModifyComponent = (props: any) => {
           }}
         />
 
-        {agncTypeVal === "Y" && (
-          <OutlinedButton
-            size="small"
-            buttonName="거래처 검색"
-            onClick={agncSearchModalOpen}
-          />
-        )}
+        {/*{agncTypeVal === "Y" && (*/}
+        {/*  <OutlinedButton*/}
+        {/*    size="small"*/}
+        {/*    buttonName="거래처 검색"*/}
+        {/*    onClick={agncSearchModalOpen}*/}
+        {/*  />*/}
+        {/*)}*/}
         {agncTypeVal === "Y" && (
           <OutlinedButton
             size="small"
