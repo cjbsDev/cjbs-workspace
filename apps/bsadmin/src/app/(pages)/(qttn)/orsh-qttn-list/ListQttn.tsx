@@ -42,8 +42,8 @@ const ListQttn = () => {
   // const { data } = useList("qttn", page, perPage);
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
-      ? `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`
-      : `/qttn/list${result}&page=${page}&size=${size}&isOwn=${checked}`,
+      ? `/qttn/list${result}&page=${page}&size=${size}&isOwn=${checked}`
+      : `/qttn/list?page=${page}&size=${size}&isOwn=${checked}`,
     fetcher,
     {
       suspense: true,

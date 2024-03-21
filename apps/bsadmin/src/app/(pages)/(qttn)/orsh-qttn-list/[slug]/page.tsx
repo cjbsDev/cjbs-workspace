@@ -288,7 +288,7 @@ export default function QttnPage() {
             onClick={() => preveiwModalOpen("Y")}
           />
         )}
-        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' && (
+        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' && getDataObj.isUpdated === 'Y' && (
           <Link
             href={{
               pathname: "/orsh-qttn-modify",
