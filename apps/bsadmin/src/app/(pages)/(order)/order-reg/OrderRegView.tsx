@@ -191,6 +191,8 @@ const OrderRegView = () => {
       taxonECnt: typeNumbertaxonECnt,
     };
 
+    // console.log("bodyData ==>>", bodyData);
+
     // 외부 오더 등록 BODY DATA
     const extrKeyValues = {
       orshUkey: orshUkey,
@@ -357,54 +359,112 @@ const OrderRegView = () => {
         </TableContainer>
 
         {/* intn */}
-        <Typography
-          variant="subtitle1"
-          sx={{ display: orshType === "intn" ? "" : "none" }}
-        >
-          과제 및 연구
-        </Typography>
-        <TableContainer
-          sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
-        >
-          <Table>
-            <TableBody>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>과제</TH>
-                <TD sx={{ width: "85%" }} colSpan={3}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="prjtCodeMc"
-                      disabled={true}
-                      required={orshType === "intn"}
-                      errorMessage="과제를 검색 & 선택해주세요."
-                      placeholder="과제 코드"
-                      sx={{ width: 200 }}
-                    />
-                    <InputValidation
-                      inputName="prjcNm"
-                      disabled={true}
-                      required={orshType === "intn"}
-                      errorMessage="과제를 검색 & 선택해주세요."
-                      placeholder="과제를 선택해주세요"
-                      sx={{ width: 600 }}
-                    />
-                    <OutlinedButton
-                      size="small"
-                      buttonName="과제 검색"
-                      onClick={agncSearchModalOpen}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
-              <TableRow>
-                <TH sx={{ width: "15%" }}>연구</TH>
-                <TD sx={{ width: "85%" }} colSpan={3}>
-                  <Research required={orshType === "intn"} />
-                </TD>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        {orshType === "intn" && (
+          <>
+            <Typography
+              variant="subtitle1"
+              // sx={{ display: orshType === "intn" ? "" : "none" }}
+            >
+              과제 및 연구
+            </Typography>
+            <TableContainer
+              sx={{ mb: 5 }}
+              // sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
+            >
+              <Table>
+                <TableBody>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>과제</TH>
+                    <TD sx={{ width: "85%" }} colSpan={3}>
+                      <Stack
+                        direction="row"
+                        spacing={0.5}
+                        alignItems="flex-start"
+                      >
+                        <InputValidation
+                          inputName="prjtCodeMc"
+                          disabled={true}
+                          required={orshType === "intn"}
+                          errorMessage="과제를 검색 & 선택해주세요."
+                          placeholder="과제 코드"
+                          sx={{ width: 200 }}
+                        />
+                        <InputValidation
+                          inputName="prjcNm"
+                          disabled={true}
+                          required={orshType === "intn"}
+                          errorMessage="과제를 검색 & 선택해주세요."
+                          placeholder="과제를 선택해주세요"
+                          sx={{ width: 600 }}
+                        />
+                        <OutlinedButton
+                          size="small"
+                          buttonName="과제 검색"
+                          onClick={agncSearchModalOpen}
+                        />
+                      </Stack>
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>연구</TH>
+                    <TD sx={{ width: "85%" }} colSpan={3}>
+                      <Research required={orshType === "intn"} />
+                    </TD>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )}
+
+        {/*<Typography*/}
+        {/*  variant="subtitle1"*/}
+        {/*  sx={{ display: orshType === "intn" ? "" : "none" }}*/}
+        {/*>*/}
+        {/*  과제 및 연구*/}
+        {/*</Typography>*/}
+        {/*<TableContainer*/}
+        {/*  sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}*/}
+        {/*>*/}
+        {/*  <Table>*/}
+        {/*    <TableBody>*/}
+        {/*      <TableRow>*/}
+        {/*        <TH sx={{ width: "15%" }}>과제</TH>*/}
+        {/*        <TD sx={{ width: "85%" }} colSpan={3}>*/}
+        {/*          <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
+        {/*            <InputValidation*/}
+        {/*              inputName="prjtCodeMc"*/}
+        {/*              disabled={true}*/}
+        {/*              required={orshType === "intn"}*/}
+        {/*              errorMessage="과제를 검색 & 선택해주세요."*/}
+        {/*              placeholder="과제 코드"*/}
+        {/*              sx={{ width: 200 }}*/}
+        {/*            />*/}
+        {/*            <InputValidation*/}
+        {/*              inputName="prjcNm"*/}
+        {/*              disabled={true}*/}
+        {/*              required={orshType === "intn"}*/}
+        {/*              errorMessage="과제를 검색 & 선택해주세요."*/}
+        {/*              placeholder="과제를 선택해주세요"*/}
+        {/*              sx={{ width: 600 }}*/}
+        {/*            />*/}
+        {/*            <OutlinedButton*/}
+        {/*              size="small"*/}
+        {/*              buttonName="과제 검색"*/}
+        {/*              onClick={agncSearchModalOpen}*/}
+        {/*            />*/}
+        {/*          </Stack>*/}
+        {/*        </TD>*/}
+        {/*      </TableRow>*/}
+        {/*      <TableRow>*/}
+        {/*        <TH sx={{ width: "15%" }}>연구</TH>*/}
+        {/*        <TD sx={{ width: "85%" }} colSpan={3}>*/}
+        {/*          <Research required={orshType === "intn"} />*/}
+        {/*        </TD>*/}
+        {/*      </TableRow>*/}
+        {/*    </TableBody>*/}
+        {/*  </Table>*/}
+        {/*</TableContainer>*/}
         {/* // intn */}
 
         <Typography variant="subtitle1">주문 정보</Typography>
@@ -564,35 +624,38 @@ const OrderRegView = () => {
                   <SixteenCheck />
                 </TD>
               </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "none" : "" }}>
-                <TH sx={{ width: "15%" }}>오더 금액</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="price"
-                      required={orshType !== "intn"}
-                      errorMessage="오더 금액을 입력해 주세요."
-                      sx={{
-                        width: 160,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"price"}
-                            priceValue={defaultValues.price}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <Won />,
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
+              {orshType !== "intn" && (
+                <TableRow sx={{ display: orshType === "intn" ? "none" : "" }}>
+                  <TH sx={{ width: "15%" }}>오더 금액</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="price"
+                        required={orshType !== "intn"}
+                        errorMessage="오더 금액을 입력해 주세요."
+                        sx={{
+                          width: 160,
+                          ".MuiOutlinedInput-input": {
+                            textAlign: "end",
+                          },
+                        }}
+                        inputMode="numeric"
+                        InputProps={{
+                          inputComponent: (props) => (
+                            <AmountFormat
+                              name={"price"}
+                              priceValue={defaultValues.price}
+                              {...props}
+                            />
+                          ),
+                          endAdornment: <Won />,
+                        }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+              )}
+
               <TableRow>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
@@ -603,48 +666,52 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Fast Track<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <CheckboxSV
-                    inputName="isFastTrack"
-                    labelText="Fast Track으로 진행합니다"
-                    value="Y"
-                  />
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Prep 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Lib 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="libMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Seq 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
+              {orshType === "intn" && (
+                <>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Fast Track<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                      <CheckboxSV
+                        inputName="isFastTrack"
+                        labelText="Fast Track으로 진행합니다"
+                        value="Y"
+                      />
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Prep 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Lib 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="libMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Seq 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                </>
+              )}
               {/* // intn */}
 
               <TableRow>
