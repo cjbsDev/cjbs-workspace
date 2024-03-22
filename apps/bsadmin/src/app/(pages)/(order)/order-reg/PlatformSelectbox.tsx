@@ -25,7 +25,7 @@ export default function PlatformSelectbox() {
 
   return (
     <SelectBox
-      inputName="platformMc"
+      inputName="pltfMc"
       options={data}
       // required={true}
       // errorMessage="플랫폼을 선택해 주세요."

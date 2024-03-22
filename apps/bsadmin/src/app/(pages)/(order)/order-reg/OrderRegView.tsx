@@ -54,8 +54,6 @@ import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
 import MyIcon from "icon/MyIcon";
 
-const apiUrl: string = `/order/extr`;
-
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -101,14 +99,16 @@ const LazyNGSManagerSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-interface SearchResultObjectProps {
-  anlsTypeAbb?: string;
-  from?: string;
-  isOrderStatus?: string;
-  orshType?: string;
-  orshUkey?: string;
-  srvcTypeAbb?: string;
-}
+// interface SearchResultObjectProps {
+//   anlsTypeAbb?: string;
+//   from?: string;
+//   isOrderStatus?: string;
+//   orshType?: string;
+//   orshUkey?: string;
+//   srvcTypeAbb?: string;
+// }
+
+const apiUrl: string = `/order/extr`;
 
 const OrderRegView = () => {
   const router = useRouter();
@@ -141,7 +141,7 @@ const OrderRegView = () => {
       suspense: true,
     },
   );
-  console.log("orshExtrData", orshExtrData);
+  console.log("orshData", orshExtrData);
 
   // defaultValues 세팅
   const defaultValues = getDefaultValues(orshType, orshExtrData);
@@ -158,34 +158,28 @@ const OrderRegView = () => {
       setAddEmailChck(false);
     }
 
-    let typeNumberPrice;
-    if (JSON.stringify(data.price).includes(",")) {
-      typeNumberPrice = Number(data.price.replace(",", ""));
-    } else {
-      typeNumberPrice = Number(data.price);
-    }
-
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
 
     const bodyData = {
-      addEmailList: data.addEmailList,
-      agncUkey: data.agncUkey,
-      anlsTypeMc: data.anlsTypeMc,
-      bsnsMngrUkey: data.bsnsMngrUkey,
-      custUkey: data.custUkey,
-      isCheck16s: data.isCheck16s,
-      mailRcpnList: data.mailRcpnList,
-      memo: data.memo,
-      orderTypeCc: data.orderTypeCc,
-      ordrAplcEmail: data.ordrAplcEmail,
-      ordrAplcNm: data.ordrAplcNm,
-      ordrAplcTel: data.ordrAplcTel,
-      pltfMc: data.platformMc,
-      price: typeNumberPrice,
-      reqReturnList: data.reqReturnList,
-      srvcTypeMc: data.srvcTypeMc,
+      ...data,
+      // addEmailList: data.addEmailList,
+      // agncUkey: data.agncUkey,
+      // anlsTypeMc: data.anlsTypeMc,
+      // bsnsMngrUkey: data.bsnsMngrUkey,
+      // custUkey: data.custUkey,
+      // isCheck16s: data.isCheck16s,
+      // mailRcpnList: data.mailRcpnList,
+      // memo: data.memo,
+      // orderTypeCc: data.orderTypeCc,
+      // ordrAplcEmail: data.ordrAplcEmail,
+      // ordrAplcNm: data.ordrAplcNm,
+      // ordrAplcTel: data.ordrAplcTel,
+      // pltfMc: data.pltfMc,
+      // // price: typeNumberPrice,
+      // reqReturnList: data.reqReturnList,
+      // srvcTypeMc: data.srvcTypeMc,
       taxonACnt: typeNumbertaxonACnt,
       taxonBCnt: typeNumbertaxonBCnt,
       taxonECnt: typeNumbertaxonECnt,
@@ -193,66 +187,119 @@ const OrderRegView = () => {
 
     // console.log("bodyData ==>>", bodyData);
 
-    // 외부 오더 등록 BODY DATA
-    const extrKeyValues = {
-      orshUkey: orshUkey,
-    };
+    let finalBodyData;
 
-    const extrBodyData = {
-      ...bodyData,
-      ...extrKeyValues,
-    };
+    if (orshType === "extr") {
+      let typeNumberPrice;
 
-    // 내부 오더 등록 BODY DATA
-    // !내부 오더 등록에는 price키 가 필요 없음.
-    const intnKeyValues = {
-      orshUkey: orshUkey,
-      prjtCodeMc: data.prjtCodeMc,
-      prjtDetailCodeMc: data.prjtDetailCodeMc,
-      rstFileRcpnEmail: data.rstFileRcpnEmail,
-      isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
-      prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
-      libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
-      seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
-    };
-    const intnBodyData = {
-      ...bodyData,
-      ...intnKeyValues,
-    };
-    const { price, ...rest } = intnBodyData;
-    const withOutPriceIntnBodyData = { ...rest };
+      if (JSON.stringify(data.price).includes(",")) {
+        typeNumberPrice = Number(data.price.replace(",", ""));
+      } else {
+        typeNumberPrice = Number(data.price);
+      }
 
-    console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
+      // 외부 오더 등록 BODY DATA
+      const extrKeyValues = {
+        orshUkey: orshUkey,
+        price: typeNumberPrice,
+      };
 
-    await POST(
-      orshUkey !== null ? "/order/intn" : "/order/extr",
-      orshType === "extr"
-        ? extrBodyData
-        : orshType === "intn"
-          ? withOutPriceIntnBodyData
-          : bodyData,
-    )
-      .then((response) => {
-        console.log("POST request successful:", response);
-        if (response.success) {
-          // setIsLoading(false);
-          if (orshUkey !== null) {
-            router.push(`${from}`);
-            mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
-          } else {
-            router.push("/order-list");
-          }
+      const extrBodyData = {
+        ...bodyData,
+        ...extrKeyValues,
+      };
+
+      finalBodyData = extrBodyData;
+
+      console.log("extrBodyData", extrBodyData);
+    }
+
+    if (orshType === "intn") {
+      // 내부 오더 등록 BODY DATA
+      // !내부 오더 등록에는 price키 가 필요 없음.
+      const intnKeyValues = {
+        orshUkey: orshUkey,
+        prjtCodeMc: data.prjtCodeMc,
+        prjtDetailCodeMc: data.prjtDetailCodeMc,
+        rstFileRcpnEmail: data.rstFileRcpnEmail,
+        isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
+        prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
+        libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
+        seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
+      };
+      const intnBodyData = {
+        ...bodyData,
+        ...intnKeyValues,
+      };
+      const { price, ...rest } = intnBodyData;
+      const withOutPriceIntnBodyData = { ...rest };
+
+      console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
+
+      finalBodyData = withOutPriceIntnBodyData;
+    }
+
+    console.log("finalBodyData", finalBodyData);
+
+    try {
+      const response = await POST(
+        orshUkey === "intn" ? "/order/intn" : "/order/extr",
+        finalBodyData,
+      );
+
+      console.log("POST request successful:", response);
+      if (response.success) {
+        // setIsLoading(false);
+        if (orshUkey !== null) {
+          router.push(`${from}`);
+          mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
         } else {
-          toast(response.message);
+          router.push("/order-list");
         }
-      })
-      .catch((error) => {
-        console.error("POST request failed:", error);
-        // toast(error.)
-      })
-      .finally(() => {
+      } else {
+        toast(response.message);
         setIsLoading(false);
-      });
+      }
+    } catch (error: any) {
+      console.error("66666666666", error.response?.data?.data || error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+
+    // await POST(
+    //   orshUkey === "intn" ? "/order/intn" : "/order/extr",
+    //   finalBodyData,
+    //   // orshType === "extr"
+    //   //   ? extrBodyData
+    //   //   : orshType === "intn"
+    //   //     ? withOutPriceIntnBodyData
+    //   //     : bodyData,
+    // )
+    //   .then((response) => {
+    //     console.log("POST request successful:", response);
+    //     console.log(response.status);
+    //     if (response.success) {
+    //       // setIsLoading(false);
+    //       if (orshUkey !== null) {
+    //         router.push(`${from}`);
+    //         mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
+    //       } else {
+    //         router.push("/order-list");
+    //       }
+    //     } else {
+    //       toast(response.message);
+    //       setIsLoading(false);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("POST request failed:", error);
+    //     // toast(error.)
+    //     setIsLoading(false);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
   };
 
   const agncSearchModalOpen = () => {
@@ -357,65 +404,57 @@ const OrderRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
         {/* intn */}
-        {orshType === "intn" && (
-          <>
-            <Typography
-              variant="subtitle1"
-              // sx={{ display: orshType === "intn" ? "" : "none" }}
-            >
-              과제 및 연구
-            </Typography>
-            <TableContainer
-              sx={{ mb: 5 }}
-              // sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
-            >
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>과제</TH>
-                    <TD sx={{ width: "85%" }} colSpan={3}>
-                      <Stack
-                        direction="row"
-                        spacing={0.5}
-                        alignItems="flex-start"
-                      >
-                        <InputValidation
-                          inputName="prjtCodeMc"
-                          disabled={true}
-                          required={orshType === "intn"}
-                          errorMessage="과제를 검색 & 선택해주세요."
-                          placeholder="과제 코드"
-                          sx={{ width: 200 }}
-                        />
-                        <InputValidation
-                          inputName="prjcNm"
-                          disabled={true}
-                          required={orshType === "intn"}
-                          errorMessage="과제를 검색 & 선택해주세요."
-                          placeholder="과제를 선택해주세요"
-                          sx={{ width: 600 }}
-                        />
-                        <OutlinedButton
-                          size="small"
-                          buttonName="과제 검색"
-                          onClick={agncSearchModalOpen}
-                        />
-                      </Stack>
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>연구</TH>
-                    <TD sx={{ width: "85%" }} colSpan={3}>
-                      <Research required={orshType === "intn"} />
-                    </TD>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )}
+
+        <Typography
+          variant="subtitle1"
+          sx={{ display: orshType === "intn" ? "" : "none" }}
+        >
+          과제 및 연구
+        </Typography>
+
+        <TableContainer
+          sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
+        >
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>과제</TH>
+                <TD sx={{ width: "85%" }} colSpan={3}>
+                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                    <InputValidation
+                      inputName="prjtCodeMc"
+                      disabled={true}
+                      required={orshType === "intn"}
+                      errorMessage="과제를 검색 & 선택해주세요."
+                      placeholder="과제 코드"
+                      sx={{ width: 200 }}
+                    />
+                    <InputValidation
+                      inputName="prjcNm"
+                      disabled={true}
+                      required={orshType === "intn"}
+                      errorMessage="과제를 검색 & 선택해주세요."
+                      placeholder="과제를 선택해주세요"
+                      sx={{ width: 600 }}
+                    />
+                    <OutlinedButton
+                      size="small"
+                      buttonName="과제 검색"
+                      onClick={agncSearchModalOpen}
+                    />
+                  </Stack>
+                </TD>
+              </TableRow>
+              <TableRow>
+                <TH sx={{ width: "15%" }}>연구</TH>
+                <TD sx={{ width: "85%" }} colSpan={3}>
+                  <Research required={orshType === "intn"} />
+                </TD>
+              </TableRow>
+            </TableBody>
+          </Table>
+        </TableContainer>
 
         {/*<Typography*/}
         {/*  variant="subtitle1"*/}
@@ -495,7 +534,7 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              {orshType === "intn" && (
+              {orshType !== null && orshType === "intn" && (
                 <TableRow>
                   <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
@@ -625,7 +664,9 @@ const OrderRegView = () => {
                 </TD>
               </TableRow>
               {orshType !== "intn" && (
-                <TableRow sx={{ display: orshType === "intn" ? "none" : "" }}>
+                <TableRow
+                // sx={{ display: orshType === "intn" ? "none" : "" }}
+                >
                   <TH sx={{ width: "15%" }}>오더 금액</TH>
                   <TD sx={{ width: "85%" }} colSpan={5}>
                     <Stack direction="row" spacing={0.5} alignItems="center">
@@ -666,7 +707,7 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              {orshType === "intn" && (
+              {orshType !== null && orshType === "intn" && (
                 <>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>
