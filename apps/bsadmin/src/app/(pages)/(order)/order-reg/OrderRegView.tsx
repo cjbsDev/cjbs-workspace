@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {
   Box,
   BoxProps,
+  Button,
   Stack,
   styled,
   Table,
@@ -51,6 +52,7 @@ import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
+import MyIcon from "icon/MyIcon";
 
 const apiUrl: string = `/order/extr`;
 
@@ -228,7 +230,7 @@ const OrderRegView = () => {
     console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
 
     await POST(
-      orshUkey !== null ? orshAPIPath : apiUrl,
+      orshUkey !== null ? "/order/intn" : apiUrl,
       orshType === "extr"
         ? extrBodyData
         : orshType === "intn"
@@ -279,14 +281,26 @@ const OrderRegView = () => {
   return (
     <>
       {orshType !== null && (
-        <OutlinedButton
-          buttonName="주문서 보기"
-          size="small"
-          color="secondary"
-          sx={{ color: "black", position: "absolute", top: 150, right: 20 }}
-          // endIcon={<MyIcon icon="cheveron-right" size={18} />}
-          onClick={() => router.push(orshViewURL)}
-        />
+        <>
+          {/*<OutlinedButton*/}
+          {/*  buttonName="주문서 보기"*/}
+          {/*  size="small"*/}
+          {/*  color="secondary"*/}
+          {/*  sx={{ color: "black", position: "absolute", top: 150, right: 20 }}*/}
+          {/*  // endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
+          {/*  onClick={() => router.push(orshViewURL)}*/}
+          {/*/>*/}
+
+          <Button
+            endIcon={<MyIcon icon="external-link" size={14} />}
+            size="small"
+            sx={{ position: "absolute", top: 150, right: 20 }}
+          >
+            <Link href={orshViewURL} target="_blank">
+              주문서 보기
+            </Link>
+          </Button>
+        </>
       )}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
@@ -446,23 +460,25 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      placeholder="example@gmail.com"
-                      inputName="rstFileRcpnEmail"
-                      // required={orshType === "intn"}
-                      // errorMessage="이메일을 입력해 주세요."
-                      sx={{ width: 600 }}
-                      InputProps={{
-                        type: "email",
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
+              {orshType === "intn" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        placeholder="example@gmail.com"
+                        inputName="rstFileRcpnEmail"
+                        // required={orshType === "intn"}
+                        // errorMessage="이메일을 입력해 주세요."
+                        sx={{ width: 600 }}
+                        InputProps={{
+                          type: "email",
+                        }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+              )}
               {/* // intn */}
 
               <TableRow>

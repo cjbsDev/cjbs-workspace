@@ -115,20 +115,24 @@ const SampleDataTable = () => {
         name: "고객 번호",
         selector: (row: { ebcUid: number }) => row.ebcUid,
         width: "100px",
+        center: true,
       },
       {
         name: "아이디",
         selector: (row: { ebcEmail: string }) => row.ebcEmail,
-        width: "300px",
+        allowOverflow: true,
       },
       {
         name: "이름",
         selector: (row: { custNm: string }) => row.custNm,
-        width: "200px",
+        width: "100px",
+        center: true,
+        allowOverflow: true,
       },
 
       {
         name: "소속 거래처(PI)",
+        allowOverflow: true,
         cell: (row: { agncNm: any; instNm: any }) => (
           <>
             <Stack
@@ -143,10 +147,10 @@ const SampleDataTable = () => {
             </Stack>
           </>
         ),
-        minWidth: "340px",
       },
       {
         name: "선택",
+        width: "80px",
         cell: (row: {
           custUkey: string;
           custNm: string;
