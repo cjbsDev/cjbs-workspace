@@ -56,13 +56,6 @@ import MyIcon from "icon/MyIcon";
 
 const apiUrl: string = `/order/extr`;
 
-// const LazyCustSearchModal = dynamic(
-//   () => import("../../../components/CustSearchModal"),
-//   {
-//     ssr: false,
-//     loading: () => <Typography variant="body2">Loading...</Typography>,
-//   },
-// );
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -230,7 +223,7 @@ const OrderRegView = () => {
     console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
 
     await POST(
-      orshUkey !== null ? "/order/intn" : apiUrl,
+      orshUkey !== null ? "/order/intn" : "/order/extr",
       orshType === "extr"
         ? extrBodyData
         : orshType === "intn"
@@ -260,15 +253,6 @@ const OrderRegView = () => {
       });
   };
 
-  // [ 고객 검색 ] 모달 오픈
-  // const handleCustSearchModalOpen = () => {
-  //   setCustSearchModalOpen(true);
-  // };
-  // // [ 고객 검색 ] 모달 닫기
-  // const handleCustSearchModalClose = useCallback(() => {
-  //   setCustSearchModalOpen(false);
-  // }, []);
-
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
   };
@@ -282,15 +266,6 @@ const OrderRegView = () => {
     <>
       {orshType !== null && (
         <>
-          {/*<OutlinedButton*/}
-          {/*  buttonName="주문서 보기"*/}
-          {/*  size="small"*/}
-          {/*  color="secondary"*/}
-          {/*  sx={{ color: "black", position: "absolute", top: 150, right: 20 }}*/}
-          {/*  // endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
-          {/*  onClick={() => router.push(orshViewURL)}*/}
-          {/*/>*/}
-
           <Button
             endIcon={<MyIcon icon="external-link" size={14} />}
             size="small"
@@ -691,16 +666,6 @@ const OrderRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* 고객 검색 모달*/}
-        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-        {/*  <LazyCustSearchModal*/}
-        {/*    onClose={handleCustSearchModalClose}*/}
-        {/*    open={custSearchModalOpen}*/}
-        {/*    modalWidth={800}*/}
-        {/*    type="order"*/}
-        {/*  />*/}
-        {/*</ErrorContainer>*/}
 
         {/* 프로젝트 검색 모달*/}
         <LazyProjectSearchModal

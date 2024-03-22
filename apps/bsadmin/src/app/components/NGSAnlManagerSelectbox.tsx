@@ -3,7 +3,7 @@ import useSWR from "swr";
 import { fetcher } from "api";
 
 export default function NGSAnlManagerSelectbox({ inputName }) {
-  const { data } = useSWR(`/code/user/BS_0100003013/list`, fetcher, {
+  const { data } = useSWR(`/code/user/BS_0100003011/list`, fetcher, {
     suspense: true,
   });
 
