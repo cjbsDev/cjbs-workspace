@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import {
   Box,
   BoxProps,
+  Button,
   Stack,
   styled,
   Table,
@@ -51,16 +52,8 @@ import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
+import MyIcon from "icon/MyIcon";
 
-const apiUrl: string = `/order/extr`;
-
-// const LazyCustSearchModal = dynamic(
-//   () => import("../../../components/CustSearchModal"),
-//   {
-//     ssr: false,
-//     loading: () => <Typography variant="body2">Loading...</Typography>,
-//   },
-// );
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -106,14 +99,16 @@ const LazyNGSManagerSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-interface SearchResultObjectProps {
-  anlsTypeAbb?: string;
-  from?: string;
-  isOrderStatus?: string;
-  orshType?: string;
-  orshUkey?: string;
-  srvcTypeAbb?: string;
-}
+// interface SearchResultObjectProps {
+//   anlsTypeAbb?: string;
+//   from?: string;
+//   isOrderStatus?: string;
+//   orshType?: string;
+//   orshUkey?: string;
+//   srvcTypeAbb?: string;
+// }
+
+const apiUrl: string = `/order/extr`;
 
 const OrderRegView = () => {
   const router = useRouter();
@@ -146,7 +141,7 @@ const OrderRegView = () => {
       suspense: true,
     },
   );
-  console.log("orshExtrData", orshExtrData);
+  console.log("orshData", orshExtrData);
 
   // defaultValues 세팅
   const defaultValues = getDefaultValues(orshType, orshExtrData);
@@ -163,109 +158,149 @@ const OrderRegView = () => {
       setAddEmailChck(false);
     }
 
-    let typeNumberPrice;
-    if (JSON.stringify(data.price).includes(",")) {
-      typeNumberPrice = Number(data.price.replace(",", ""));
-    } else {
-      typeNumberPrice = Number(data.price);
-    }
-
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
 
     const bodyData = {
-      addEmailList: data.addEmailList,
-      agncUkey: data.agncUkey,
-      anlsTypeMc: data.anlsTypeMc,
-      bsnsMngrUkey: data.bsnsMngrUkey,
-      custUkey: data.custUkey,
-      isCheck16s: data.isCheck16s,
-      mailRcpnList: data.mailRcpnList,
-      memo: data.memo,
-      orderTypeCc: data.orderTypeCc,
-      ordrAplcEmail: data.ordrAplcEmail,
-      ordrAplcNm: data.ordrAplcNm,
-      ordrAplcTel: data.ordrAplcTel,
-      pltfMc: data.platformMc,
-      price: typeNumberPrice,
-      reqReturnList: data.reqReturnList,
-      srvcTypeMc: data.srvcTypeMc,
+      ...data,
+      // addEmailList: data.addEmailList,
+      // agncUkey: data.agncUkey,
+      // anlsTypeMc: data.anlsTypeMc,
+      // bsnsMngrUkey: data.bsnsMngrUkey,
+      // custUkey: data.custUkey,
+      // isCheck16s: data.isCheck16s,
+      // mailRcpnList: data.mailRcpnList,
+      // memo: data.memo,
+      // orderTypeCc: data.orderTypeCc,
+      // ordrAplcEmail: data.ordrAplcEmail,
+      // ordrAplcNm: data.ordrAplcNm,
+      // ordrAplcTel: data.ordrAplcTel,
+      // pltfMc: data.pltfMc,
+      // // price: typeNumberPrice,
+      // reqReturnList: data.reqReturnList,
+      // srvcTypeMc: data.srvcTypeMc,
       taxonACnt: typeNumbertaxonACnt,
       taxonBCnt: typeNumbertaxonBCnt,
       taxonECnt: typeNumbertaxonECnt,
     };
 
-    // 외부 오더 등록 BODY DATA
-    const extrKeyValues = {
-      orshUkey: orshUkey,
-    };
+    // console.log("bodyData ==>>", bodyData);
 
-    const extrBodyData = {
-      ...bodyData,
-      ...extrKeyValues,
-    };
+    let finalBodyData;
 
-    // 내부 오더 등록 BODY DATA
-    // !내부 오더 등록에는 price키 가 필요 없음.
-    const intnKeyValues = {
-      orshUkey: orshUkey,
-      prjtCodeMc: data.prjtCodeMc,
-      prjtDetailCodeMc: data.prjtDetailCodeMc,
-      rstFileRcpnEmail: data.rstFileRcpnEmail,
-      isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
-      prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
-      libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
-      seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
-    };
-    const intnBodyData = {
-      ...bodyData,
-      ...intnKeyValues,
-    };
-    const { price, ...rest } = intnBodyData;
-    const withOutPriceIntnBodyData = { ...rest };
+    if (orshType === "extr") {
+      let typeNumberPrice;
 
-    console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
+      if (JSON.stringify(data.price).includes(",")) {
+        typeNumberPrice = Number(data.price.replace(",", ""));
+      } else {
+        typeNumberPrice = Number(data.price);
+      }
 
-    await POST(
-      orshUkey !== null ? orshAPIPath : apiUrl,
-      orshType === "extr"
-        ? extrBodyData
-        : orshType === "intn"
-          ? withOutPriceIntnBodyData
-          : bodyData,
-    )
-      .then((response) => {
-        console.log("POST request successful:", response);
-        if (response.success) {
-          // setIsLoading(false);
-          if (orshUkey !== null) {
-            router.push(`${from}`);
-            mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
-          } else {
-            router.push("/order-list");
-          }
+      // 외부 오더 등록 BODY DATA
+      const extrKeyValues = {
+        orshUkey: orshUkey,
+        price: typeNumberPrice,
+      };
+
+      const extrBodyData = {
+        ...bodyData,
+        ...extrKeyValues,
+      };
+
+      finalBodyData = extrBodyData;
+
+      console.log("extrBodyData", extrBodyData);
+    }
+
+    if (orshType === "intn") {
+      // 내부 오더 등록 BODY DATA
+      // !내부 오더 등록에는 price키 가 필요 없음.
+      const intnKeyValues = {
+        orshUkey: orshUkey,
+        prjtCodeMc: data.prjtCodeMc,
+        prjtDetailCodeMc: data.prjtDetailCodeMc,
+        rstFileRcpnEmail: data.rstFileRcpnEmail,
+        isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
+        prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
+        libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
+        seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
+      };
+      const intnBodyData = {
+        ...bodyData,
+        ...intnKeyValues,
+      };
+      const { price, ...rest } = intnBodyData;
+      const withOutPriceIntnBodyData = { ...rest };
+
+      console.log("withOutPriceIntnBodyData", withOutPriceIntnBodyData);
+
+      finalBodyData = withOutPriceIntnBodyData;
+    }
+
+    console.log("finalBodyData", finalBodyData);
+
+    try {
+      const response = await POST(
+        orshUkey === "intn" ? "/order/intn" : "/order/extr",
+        finalBodyData,
+      );
+
+      console.log("POST request successful:", response);
+      if (response.success) {
+        // setIsLoading(false);
+        if (orshUkey !== null) {
+          router.push(`${from}`);
+          mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
         } else {
-          toast(response.message);
+          router.push("/order-list");
         }
-      })
-      .catch((error) => {
-        console.error("POST request failed:", error);
-        // toast(error.)
-      })
-      .finally(() => {
+      } else {
+        toast(response.message);
         setIsLoading(false);
-      });
-  };
+      }
+    } catch (error: any) {
+      console.error("66666666666", error.response?.data?.data || error.message);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
 
-  // [ 고객 검색 ] 모달 오픈
-  // const handleCustSearchModalOpen = () => {
-  //   setCustSearchModalOpen(true);
-  // };
-  // // [ 고객 검색 ] 모달 닫기
-  // const handleCustSearchModalClose = useCallback(() => {
-  //   setCustSearchModalOpen(false);
-  // }, []);
+    // await POST(
+    //   orshUkey === "intn" ? "/order/intn" : "/order/extr",
+    //   finalBodyData,
+    //   // orshType === "extr"
+    //   //   ? extrBodyData
+    //   //   : orshType === "intn"
+    //   //     ? withOutPriceIntnBodyData
+    //   //     : bodyData,
+    // )
+    //   .then((response) => {
+    //     console.log("POST request successful:", response);
+    //     console.log(response.status);
+    //     if (response.success) {
+    //       // setIsLoading(false);
+    //       if (orshUkey !== null) {
+    //         router.push(`${from}`);
+    //         mutate(`/orsh/bs/${orshType}/list?page=1&size=20`);
+    //       } else {
+    //         router.push("/order-list");
+    //       }
+    //     } else {
+    //       toast(response.message);
+    //       setIsLoading(false);
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error("POST request failed:", error);
+    //     // toast(error.)
+    //     setIsLoading(false);
+    //   })
+    //   .finally(() => {
+    //     setIsLoading(false);
+    //   });
+  };
 
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
@@ -279,14 +314,17 @@ const OrderRegView = () => {
   return (
     <>
       {orshType !== null && (
-        <OutlinedButton
-          buttonName="주문서 보기"
-          size="small"
-          color="secondary"
-          sx={{ color: "black", position: "absolute", top: 150, right: 20 }}
-          // endIcon={<MyIcon icon="cheveron-right" size={18} />}
-          onClick={() => router.push(orshViewURL)}
-        />
+        <>
+          <Button
+            endIcon={<MyIcon icon="external-link" size={14} />}
+            size="small"
+            sx={{ position: "absolute", top: 150, right: 20 }}
+          >
+            <Link href={orshViewURL} target="_blank">
+              주문서 보기
+            </Link>
+          </Button>
+        </>
       )}
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
@@ -366,14 +404,15 @@ const OrderRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
         {/* intn */}
+
         <Typography
           variant="subtitle1"
           sx={{ display: orshType === "intn" ? "" : "none" }}
         >
           과제 및 연구
         </Typography>
+
         <TableContainer
           sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}
         >
@@ -416,6 +455,55 @@ const OrderRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
+
+        {/*<Typography*/}
+        {/*  variant="subtitle1"*/}
+        {/*  sx={{ display: orshType === "intn" ? "" : "none" }}*/}
+        {/*>*/}
+        {/*  과제 및 연구*/}
+        {/*</Typography>*/}
+        {/*<TableContainer*/}
+        {/*  sx={{ mb: 5, display: orshType === "intn" ? "" : "none" }}*/}
+        {/*>*/}
+        {/*  <Table>*/}
+        {/*    <TableBody>*/}
+        {/*      <TableRow>*/}
+        {/*        <TH sx={{ width: "15%" }}>과제</TH>*/}
+        {/*        <TD sx={{ width: "85%" }} colSpan={3}>*/}
+        {/*          <Stack direction="row" spacing={0.5} alignItems="flex-start">*/}
+        {/*            <InputValidation*/}
+        {/*              inputName="prjtCodeMc"*/}
+        {/*              disabled={true}*/}
+        {/*              required={orshType === "intn"}*/}
+        {/*              errorMessage="과제를 검색 & 선택해주세요."*/}
+        {/*              placeholder="과제 코드"*/}
+        {/*              sx={{ width: 200 }}*/}
+        {/*            />*/}
+        {/*            <InputValidation*/}
+        {/*              inputName="prjcNm"*/}
+        {/*              disabled={true}*/}
+        {/*              required={orshType === "intn"}*/}
+        {/*              errorMessage="과제를 검색 & 선택해주세요."*/}
+        {/*              placeholder="과제를 선택해주세요"*/}
+        {/*              sx={{ width: 600 }}*/}
+        {/*            />*/}
+        {/*            <OutlinedButton*/}
+        {/*              size="small"*/}
+        {/*              buttonName="과제 검색"*/}
+        {/*              onClick={agncSearchModalOpen}*/}
+        {/*            />*/}
+        {/*          </Stack>*/}
+        {/*        </TD>*/}
+        {/*      </TableRow>*/}
+        {/*      <TableRow>*/}
+        {/*        <TH sx={{ width: "15%" }}>연구</TH>*/}
+        {/*        <TD sx={{ width: "85%" }} colSpan={3}>*/}
+        {/*          <Research required={orshType === "intn"} />*/}
+        {/*        </TD>*/}
+        {/*      </TableRow>*/}
+        {/*    </TableBody>*/}
+        {/*  </Table>*/}
+        {/*</TableContainer>*/}
         {/* // intn */}
 
         <Typography variant="subtitle1">주문 정보</Typography>
@@ -446,23 +534,25 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      placeholder="example@gmail.com"
-                      inputName="rstFileRcpnEmail"
-                      // required={orshType === "intn"}
-                      // errorMessage="이메일을 입력해 주세요."
-                      sx={{ width: 600 }}
-                      InputProps={{
-                        type: "email",
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
+              {orshType !== null && orshType === "intn" && (
+                <TableRow>
+                  <TH sx={{ width: "15%" }}>결과파일 수신 계정 변경</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        placeholder="example@gmail.com"
+                        inputName="rstFileRcpnEmail"
+                        // required={orshType === "intn"}
+                        // errorMessage="이메일을 입력해 주세요."
+                        sx={{ width: 600 }}
+                        InputProps={{
+                          type: "email",
+                        }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+              )}
               {/* // intn */}
 
               <TableRow>
@@ -573,35 +663,40 @@ const OrderRegView = () => {
                   <SixteenCheck />
                 </TD>
               </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "none" : "" }}>
-                <TH sx={{ width: "15%" }}>오더 금액</TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="price"
-                      required={orshType !== "intn"}
-                      errorMessage="오더 금액을 입력해 주세요."
-                      sx={{
-                        width: 160,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"price"}
-                            priceValue={defaultValues.price}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <Won />,
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
+              {orshType !== "intn" && (
+                <TableRow
+                // sx={{ display: orshType === "intn" ? "none" : "" }}
+                >
+                  <TH sx={{ width: "15%" }}>오더 금액</TH>
+                  <TD sx={{ width: "85%" }} colSpan={5}>
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                      <InputValidation
+                        inputName="price"
+                        required={orshType !== "intn"}
+                        errorMessage="오더 금액을 입력해 주세요."
+                        sx={{
+                          width: 160,
+                          ".MuiOutlinedInput-input": {
+                            textAlign: "end",
+                          },
+                        }}
+                        inputMode="numeric"
+                        InputProps={{
+                          inputComponent: (props) => (
+                            <AmountFormat
+                              name={"price"}
+                              priceValue={defaultValues.price}
+                              {...props}
+                            />
+                          ),
+                          endAdornment: <Won />,
+                        }}
+                      />
+                    </Stack>
+                  </TD>
+                </TableRow>
+              )}
+
               <TableRow>
                 <TH sx={{ width: "15%" }}>영업 담당자</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
@@ -612,48 +707,52 @@ const OrderRegView = () => {
               </TableRow>
 
               {/* intn */}
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Fast Track<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
-                  <CheckboxSV
-                    inputName="isFastTrack"
-                    labelText="Fast Track으로 진행합니다"
-                    value="Y"
-                  />
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Prep 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Lib 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="libMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
-              <TableRow sx={{ display: orshType === "intn" ? "" : "none" }}>
-                <TH sx={{ width: "15%" }}>
-                  Seq 담당자<NotRequired>[선택]</NotRequired>
-                </TH>
-                <TD sx={{ width: "85%" }} colSpan={5}>
-                  <ErrorContainer FallbackComponent={Fallback}>
-                    <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
-                  </ErrorContainer>
-                </TD>
-              </TableRow>
+              {orshType !== null && orshType === "intn" && (
+                <>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Fast Track<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%", textAlign: "left" }} colSpan={5}>
+                      <CheckboxSV
+                        inputName="isFastTrack"
+                        labelText="Fast Track으로 진행합니다"
+                        value="Y"
+                      />
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Prep 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Lib 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="libMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                  <TableRow>
+                    <TH sx={{ width: "15%" }}>
+                      Seq 담당자<NotRequired>[선택]</NotRequired>
+                    </TH>
+                    <TD sx={{ width: "85%" }} colSpan={5}>
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazyNGSManagerSelctbox inputName="seqMngrUkey" />
+                      </ErrorContainer>
+                    </TD>
+                  </TableRow>
+                </>
+              )}
               {/* // intn */}
 
               <TableRow>
@@ -675,16 +774,6 @@ const OrderRegView = () => {
             </TableBody>
           </Table>
         </TableContainer>
-
-        {/* 고객 검색 모달*/}
-        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-        {/*  <LazyCustSearchModal*/}
-        {/*    onClose={handleCustSearchModalClose}*/}
-        {/*    open={custSearchModalOpen}*/}
-        {/*    modalWidth={800}*/}
-        {/*    type="order"*/}
-        {/*  />*/}
-        {/*</ErrorContainer>*/}
 
         {/* 프로젝트 검색 모달*/}
         <LazyProjectSearchModal

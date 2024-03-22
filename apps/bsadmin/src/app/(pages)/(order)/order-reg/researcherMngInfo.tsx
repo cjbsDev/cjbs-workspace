@@ -20,7 +20,7 @@ const ResearcherMngInfo = () => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/custListPopup?type=order`,
     "고객 검색",
-    800,
+    1100,
     670,
   );
 
@@ -131,7 +131,7 @@ const ResearcherMngInfo = () => {
                             : "block",
                     }}
                     size="small"
-                    buttonName="아이디 검색"
+                    buttonName="고객 검색"
                     // onClick={handleCustSearchModalOpen}
                     onClick={openPopup}
                   />
