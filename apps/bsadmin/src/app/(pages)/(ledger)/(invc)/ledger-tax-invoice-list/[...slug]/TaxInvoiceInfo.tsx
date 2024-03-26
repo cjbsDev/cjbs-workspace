@@ -308,7 +308,7 @@ const TaxInvoiceInfo = () => {
                               tnsfTypeVal,
                             } = item;
                             return (
-                              <TableRow key={index}>
+                              <TableRow key={invcUkey + index.toString()}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>
                                   <Typography
@@ -389,7 +389,9 @@ const TaxInvoiceInfo = () => {
                               productDetailUkey,
                             } = item;
                             return (
-                              <TableRow key={productDetailUkey}>
+                              <TableRow
+                                key={productDetailUkey + index.toString()}
+                              >
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell align="center">
                                   {srvcCtgrMcVal}
@@ -478,7 +480,7 @@ const TaxInvoiceInfo = () => {
                     unitPrice,
                   } = item;
                   return (
-                    <TableRow key={index}>
+                    <TableRow key={products + index.toString()}>
                       <TD align="center">{index + 1}</TD>
                       <TD>{products}</TD>
                       <TD align="right">
@@ -576,7 +578,7 @@ const TaxInvoiceInfo = () => {
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="subtitle1">발행 정보</Typography>
 
-          {/* 부서 관리자만 가능 권한 로직 추가 */}
+          {/* !!!부서 관리자만 가능 권한 로직 추가!!! */}
           {isManager && <AdminPublishInfoModify />}
         </Stack>
 
