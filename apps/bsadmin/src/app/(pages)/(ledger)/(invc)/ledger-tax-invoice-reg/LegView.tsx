@@ -38,7 +38,7 @@ const LegView = () => {
   };
 
   const { data } = useSWR(getSWRUrl(), fetcher, { suspense: true });
-  console.log("세금계산서 ==>>", data.issuDttm);
+  console.log("세금계산서 ==>>", data);
 
   const anlsltstDefaultValues = data
     ? {
