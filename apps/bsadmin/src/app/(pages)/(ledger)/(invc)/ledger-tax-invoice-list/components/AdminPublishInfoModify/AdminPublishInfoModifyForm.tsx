@@ -58,10 +58,10 @@ const AdminPublishInfoModifyForm = ({
           </TableBody>
         </Table>
       </TableContainer>
-      <Alert severity="error">
-        세금계산서 발행 후에는 요청 내용을 수정할 수 없습니다. 발행 전에 다시
-        한번 확인해 주세요.
-      </Alert>
+      {/*<Alert severity="error">*/}
+      {/*  세금계산서 발행 후에는 요청 내용을 수정할 수 없습니다. 발행 전에 다시*/}
+      {/*  한번 확인해 주세요.*/}
+      {/*</Alert>*/}
     </Form>
   );
 };
