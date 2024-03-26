@@ -223,10 +223,10 @@ export const authOptions = (req: NextApiRequest): NextAuthOptions => ({
       return session;
     },
   },
-  // pages: {
-  //   signIn: "/sign-in",
-  //   signOut: "/signout",
-  // },
+  pages: {
+    signIn: "/sign-in",
+    signOut: "/signout",
+  },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
