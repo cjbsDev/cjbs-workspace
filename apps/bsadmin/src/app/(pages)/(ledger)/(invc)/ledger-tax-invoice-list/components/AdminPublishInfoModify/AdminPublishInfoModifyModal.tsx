@@ -29,26 +29,35 @@ const LazyAdminPublishInfoModifyForm = dynamic(
   },
 );
 
+const formatDate = (
+  date: string | number | Date | dayjs.Dayjs | null | undefined,
+) => dayjs(date).format("YYYY-MM-DD");
+
 const AdminPublishInfoModifyModal = ({
   onClose,
   open,
   modalWidth,
 }: ModalContainerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const params = useParams();
-  const invcUkey = params.slug;
+  const { slug: invcUkey } = useParams();
+  // const params = useParams();
+  // const invcUkey = params.slug;
   const { mutate } = useSWRConfig();
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: {
+    issuDttm: string | number | Date | dayjs.Dayjs | null | undefined;
+  }) => {
     setIsLoading(true);
+    console.log("ssssssss", data);
 
+    const formattedIssuDttm = formatDate(data.issuDttm);
     const bodyData = {
       ...data,
-      issuDttm: dayjs(data.issuDttm).format("YYYY-MM-DD"),
+      issuDttm: formattedIssuDttm,
       invcUkey: invcUkey?.toString(),
     };
 
-    console.log("PUT BODYDATA ==>>", bodyData);
+    // console.log("PUT BODYDATA ==>>", bodyData);
 
     try {
       const res = await PUT(`/invc/issuedInfo`, bodyData);
@@ -58,11 +67,11 @@ const AdminPublishInfoModifyModal = ({
         mutate(`/invc/${invcUkey}`);
         onClose();
       } else {
-        toast.error(res.message);
+        toast.error(res.message || "알 수 없는 오류가 발생했습니다.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error submitting form", error);
-      toast.error("폼 제출 중 오류가 발생했습니다.");
+      toast.error(error.message || "폼 제출 중 오류가 발생했습니다.");
     } finally {
       setIsLoading(false);
     }
