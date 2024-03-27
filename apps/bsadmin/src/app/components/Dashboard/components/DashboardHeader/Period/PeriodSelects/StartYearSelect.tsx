@@ -6,7 +6,7 @@ import { endYearAtom, startYearAtom } from "../../../../recoil/dashboardAtom";
 import { toast } from "react-toastify";
 
 const StartYearSelect = () => {
-  const [year, setYear] = useRecoilState(startYearAtom);
+  const [startYear, setStartYear] = useRecoilState(startYearAtom);
   const getEndYear = useRecoilValue(endYearAtom);
   const handleYear = (event: { target: { value: any } }) => {
     const getYear = event.target.value;
@@ -15,13 +15,13 @@ const StartYearSelect = () => {
         position: "top-center",
       });
     } else {
-      setYear(getYear);
+      setStartYear(getYear);
     }
   };
   return (
     <SelectBox2
       options={dashboardYearData}
-      value={year}
+      value={startYear}
       onChange={handleYear}
     />
   );
