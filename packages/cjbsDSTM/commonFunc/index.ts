@@ -1,5 +1,7 @@
-export const formatNumberWithCommas = (number: number) => {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+export const formatNumberWithCommas = (number: number | null) => {
+  // return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const validNumber = number === null ? 0 : number;
+  return validNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 
 export const formatBusinessRegNo = (businessRegNo: string) => {
