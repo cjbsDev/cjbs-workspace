@@ -280,7 +280,7 @@ const TaxInvoiceInfo = () => {
                     <TableContainer
                       sx={{
                         border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-                        mt: 2,
+                        my: 1,
                       }}
                     >
                       <Table size="small">
@@ -651,7 +651,7 @@ const TaxInvoiceInfo = () => {
           </Link>
 
           <Stack direction="row" spacing={0.5}>
-            {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902002" && (
+            {statusCc === "BS_1902002" && (
               <ModifyBtn
                 invcUkey={invcUkey}
                 agncUkey={agncUkey}

@@ -146,8 +146,10 @@ export const getColumns = (totalElements: number) => [
     width: "110px",
     // sortable: true,
     // sortField: "rcptDttm",
-    selector: (row: { issuDttm: null | string }) =>
-      row.issuDttm === null ? "-" : row.issuDttm,
+    selector: (row: { issuDttm: null | string; invcStatusVal: string }) =>
+      row.invcStatusVal === "발행" && row.issuDttm !== null
+        ? row.issuDttm
+        : "-",
   },
   {
     name: "메모",

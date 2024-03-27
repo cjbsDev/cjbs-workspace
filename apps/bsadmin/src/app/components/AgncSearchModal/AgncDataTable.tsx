@@ -16,7 +16,7 @@ const AgncDataTable = ({ handleClose }) => {
   const { setValue, clearErrors, watch } = useFormContext();
   const paymentInfoValue = watch("pymtInfoCc");
   const { data } = useSWR(
-    `/agnc/list?isRmnPrePymtPriceExist=true&page=${page}&size=${size}`,
+    `/agnc/list?isRmnPrePymtPriceExist=false&page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,
