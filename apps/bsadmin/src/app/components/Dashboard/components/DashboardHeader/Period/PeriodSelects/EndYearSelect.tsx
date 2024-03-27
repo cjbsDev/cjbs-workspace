@@ -14,8 +14,7 @@ const EndYearSelect = () => {
   const handleYear = (event: { target: { value: any } }) => {
     const getYear = event.target.value;
     if (getStartYear > getYear) {
-      // console.log("다시 선택해 주세요.!");
-      toast("시작 년 보다 작을 수 없습니다!", {
+      toast("시작 연도 보다 작을 수 없습니다!", {
         position: "top-center",
       });
     } else {
