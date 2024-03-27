@@ -32,16 +32,16 @@ export default function RootLayout({
         {/*/>*/}
       </head>
       <body>
-        <Provider>
-          <AppRouterCacheProvider>
-            <JeJuProvider>
-              <RecoilRootProvider>
+        <AppRouterCacheProvider>
+          <JeJuProvider>
+            <RecoilRootProvider>
+              <Provider>
                 <DrawerProvider>{children}</DrawerProvider>
                 <NextProgressBar />
-              </RecoilRootProvider>
-            </JeJuProvider>
-          </AppRouterCacheProvider>
-        </Provider>
+              </Provider>
+            </RecoilRootProvider>
+          </JeJuProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
