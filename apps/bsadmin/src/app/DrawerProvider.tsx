@@ -122,7 +122,6 @@ export default function DrawerProvider({ children }: ContextProps) {
         handleDrawerOpen={handleDrawerOpen}
         handleDrawerClose={handleDrawerClose}
       />
-
       <Drawer
         variant="permanent"
         open={open}

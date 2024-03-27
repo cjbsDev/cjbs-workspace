@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Menu,
@@ -6,22 +8,12 @@ import {
   Typography,
   IconButton,
   Box,
-  Badge,
   Stack,
-  Link,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import { signOut } from "next-auth/react";
-
 import {
   usePopupState,
   bindTrigger,
@@ -44,7 +36,7 @@ interface AppBarProps extends MuiAppBarProps {
   handleDrawerClose: () => void;
 }
 
-const AppBar = styled(MuiAppBar, {
+const AppBarNew = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -65,7 +57,7 @@ const AppBar = styled(MuiAppBar, {
   padding: 0,
   margin: 0,
 }));
-const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
+const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
   const router = useRouter();
   const currentPathname = usePathname();
   const { data: session, status } = useSession();
@@ -74,7 +66,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
     popupId: "useInfoMenu",
   });
   return (
-    <AppBar
+    <AppBarNew
       position="fixed"
       open={open}
       color="inherit"
@@ -179,8 +171,8 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
           )}
         </Box>
       </Toolbar>
-    </AppBar>
+    </AppBarNew>
   );
 };
 
-export default Header;
+export default AppBar;
