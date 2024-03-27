@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>BS-Admin</title>
-        <link rel="icon" href="/favicon.ico" />
+        {/*<link rel="icon" href="/favicon.ico" />*/}
         {/*<link*/}
         {/*  rel="preload"*/}
         {/*  href="/api/data"*/}
@@ -32,16 +32,16 @@ export default function RootLayout({
         {/*/>*/}
       </head>
       <body>
-        <AppRouterCacheProvider>
-          <JeJuProvider>
-            <RecoilRootProvider>
-              <Provider>
+        <Provider>
+          <AppRouterCacheProvider>
+            <JeJuProvider>
+              <RecoilRootProvider>
                 <DrawerProvider>{children}</DrawerProvider>
                 <NextProgressBar />
-              </Provider>
-            </RecoilRootProvider>
-          </JeJuProvider>
-        </AppRouterCacheProvider>
+              </RecoilRootProvider>
+            </JeJuProvider>
+          </AppRouterCacheProvider>
+        </Provider>
       </body>
     </html>
   );

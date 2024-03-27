@@ -62,7 +62,7 @@ const DynamicViews = () => {
       <PblshrInst />
 
       {/* 발행 정보 */}
-      <PublicationInfo />
+      {/*<PublicationInfo />*/}
 
       {/* 기타 정보 */}
       <EtcInfo />

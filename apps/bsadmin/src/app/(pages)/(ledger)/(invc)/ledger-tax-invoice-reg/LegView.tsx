@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Form, Title1 } from "cjbsDSTM";
 import { Box } from "@mui/material";
 import { fetcher, POST, PUT } from "api";
@@ -38,52 +38,23 @@ const LegView = () => {
   };
 
   const { data } = useSWR(getSWRUrl(), fetcher, { suspense: true });
-
-  console.log("???????????????", data);
-
-  // const { data } = useSWR(
-  //   type === "modify"
-  //     ? `/invc/${invcUkey}`
-  //     : type === "anlsItst"
-  //       ? `/invc/anlsItst/${anlsItstUkey}`
-  //       : null,
-  //   fetcher,
-  //   {
-  //     suspense: true,
-  //   },
-  // );
+  console.log("세금계산서 ==>>", data);
 
   const anlsltstDefaultValues = data
     ? {
         ...data,
-        // issuDttm: dayjs(data.issuDttm).toDate(),
-        // dpstDttm: dayjs(data.dpstDttm).toDate(),
       }
     : null;
 
   const modifyDefaultValues = data
     ? {
         ...data,
-        issuDttm: dayjs(data.issuDttm).toDate(),
-        dpstDttm: dayjs(data.dpstDttm).toDate(),
+        issuDttm: data.issuDttm !== null ? dayjs(data.issuDttm).toDate() : "",
+        dpstDttm: data.dpstDttm !== null ? dayjs(data.dpstDttm).toDate() : "",
       }
     : null;
 
-  // const modifyDefaultValues = useMemo(() => {
-  //   if (data) {
-  //     return {
-  //       ...data,
-  //       issuDttm: new Date(data.issuDttm),
-  //       dpstDttm: new Date(data.dpstDttm),
-  //     };
-  //   }
-  //   return null;
-  // }, [data]);
-
-  // console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
-
   const onSubmit = async (formData: any) => {
-    // console.log("SUBMIT CLICK!");
     setIsLoading(true);
     // 요청 바디 구성
     // const bodyData = {
@@ -106,8 +77,6 @@ const LegView = () => {
     //   delete bodyData.dpstDttm;
     //   delete bodyData.pyrNm;
     // }
-    //
-    // console.log("세금계산서 BODY DATA ==>>", bodyData);
 
     try {
       // 요청 타입에 따른 API 호출
@@ -133,16 +102,6 @@ const LegView = () => {
         toast.error(response.message);
         setIsLoading(false);
       }
-
-      // if (response.success) {
-      //   type === "modify"
-      //     ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
-      //     : router.push("/ledger-tax-invoice-list");
-      //   setIsDisabled(true);
-      // } else {
-      //   toast.error(response.message);
-      //   setIsLoading(false);
-      // }
     } catch (error) {
       console.error("Error submitting form", error);
       toast.error("세금계산서 등록 중 오류가 발생했습니다.");

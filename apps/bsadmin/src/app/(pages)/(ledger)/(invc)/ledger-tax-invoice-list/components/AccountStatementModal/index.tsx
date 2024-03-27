@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import {
+  ErrorContainer,
+  Fallback,
   Form,
   ModalAction,
   ModalContainer,
@@ -11,13 +13,15 @@ import {
 } from "cjbsDSTM";
 import {
   Alert,
+  CircularProgress,
   DialogContent,
+  Stack,
   Table,
   TableBody,
   TableContainer,
   TableRow,
 } from "@mui/material";
-import { ModalContainerProps } from "../../../../../types/modal-container-props";
+import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import { LoadingButton } from "@mui/lab";
 import AccountStatementInput from "./AccountStatementInput";
 import { useParams } from "next/navigation";
@@ -25,12 +29,26 @@ import dayjs from "dayjs";
 import { POST, PUT } from "api";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
+// import AccountStatementForm from "./AccountStatementForm";
+import dynamic from "next/dynamic";
+
+const LazyAccountStatementForm = dynamic(
+  () => import("./AccountStatementForm"),
+  {
+    ssr: false,
+    loading: () => (
+      <Stack direction="row" justifyContent="center" spacing={1}>
+        <CircularProgress size={20} />
+      </Stack>
+    ),
+  },
+);
 
 interface AccountStatementModalProps extends ModalContainerProps {
   pymtInfoCc: string;
 }
 
-const AccountStatementModal = ({
+const Index = ({
   onClose,
   open,
   modalWidth,
@@ -83,40 +101,43 @@ const AccountStatementModal = ({
     >
       <ModalTitle onClose={onClose}>발행</ModalTitle>
       <DialogContent>
-        <Form
-          onSubmit={onSubmit}
-          defaultValues={undefined}
-          id="accountStatementForm"
-        >
-          <TableContainer sx={{ mb: 1 }}>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "35%" }}>발행일</TH>
-                  <TD>
-                    <SingleDatePicker
-                      inputName="issuDttm"
-                      required={true}
-                      textAlign="end"
-                    />
-                  </TD>
-                </TableRow>
-                {pymtInfoCc === "BS_1914002" && (
-                  <TableRow>
-                    <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
-                    <TD>
-                      <AccountStatementInput />
-                    </TD>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Alert severity="error">
-            세금계산서 발행 후에는 요청 내용을 수정할 수 없습니다. 발행 전에
-            다시 한번 확인해 주세요.
-          </Alert>
-        </Form>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyAccountStatementForm onSubmit={onSubmit} />
+        </ErrorContainer>
+        {/*<Form*/}
+        {/*  onSubmit={onSubmit}*/}
+        {/*  defaultValues={undefined}*/}
+        {/*  id="accountStatementForm"*/}
+        {/*>*/}
+        {/*  <TableContainer sx={{ mb: 1 }}>*/}
+        {/*    <Table>*/}
+        {/*      <TableBody>*/}
+        {/*        <TableRow>*/}
+        {/*          <TH sx={{ width: "35%" }}>발행일</TH>*/}
+        {/*          <TD>*/}
+        {/*            <SingleDatePicker*/}
+        {/*              inputName="issuDttm"*/}
+        {/*              required={true}*/}
+        {/*              textAlign="end"*/}
+        {/*            />*/}
+        {/*          </TD>*/}
+        {/*        </TableRow>*/}
+        {/*        {pymtInfoCc === "BS_1914002" && (*/}
+        {/*          <TableRow>*/}
+        {/*            <TH sx={{ width: "35%" }}>세금계산서 번호</TH>*/}
+        {/*            <TD>*/}
+        {/*              <AccountStatementInput />*/}
+        {/*            </TD>*/}
+        {/*          </TableRow>*/}
+        {/*        )}*/}
+        {/*      </TableBody>*/}
+        {/*    </Table>*/}
+        {/*  </TableContainer>*/}
+        {/*  <Alert severity="error">*/}
+        {/*    세금계산서 발행 후에는 요청 내용을 수정할 수 없습니다. 발행 전에*/}
+        {/*    다시 한번 확인해 주세요.*/}
+        {/*  </Alert>*/}
+        {/*</Form>*/}
       </DialogContent>
       <ModalAction>
         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />
@@ -133,4 +154,4 @@ const AccountStatementModal = ({
   );
 };
 
-export default AccountStatementModal;
+export default Index;
