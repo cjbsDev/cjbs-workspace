@@ -117,11 +117,11 @@ export default function DrawerProvider({ children }: ContextProps) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <AppBar
-        open={open}
-        handleDrawerOpen={handleDrawerOpen}
-        handleDrawerClose={handleDrawerClose}
-      />
+      {/*<AppBar*/}
+      {/*  open={open}*/}
+      {/*  handleDrawerOpen={handleDrawerOpen}*/}
+      {/*  handleDrawerClose={handleDrawerClose}*/}
+      {/*/>*/}
       <Drawer
         variant="permanent"
         open={open}
