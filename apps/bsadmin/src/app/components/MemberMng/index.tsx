@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import {
-  DataTableBase,
-  LeaderCip,
-  OutlinedButton,
-  XsmallButton,
-} from "cjbsDSTM";
+import { DataTableBase, OutlinedButton } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useSetRecoilState } from "recoil";
 import { memberManagementModalAtom } from "../../recoil/atoms/modalAtom";
-import { useRecoilState, useRecoilValue } from "recoil";
-import SkeletonLoading from "../SkeletonLoading";
+import { useRecoilValue } from "recoil";
 import dynamic from "next/dynamic";
 import NoDataView from "../NoDataView";
 
@@ -37,12 +31,12 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
   memberSearchModalFlag,
 }) => {
   const setMemberManagementModalOpen = useSetRecoilState(
-    memberManagementModalAtom
+    memberManagementModalAtom,
   );
 
   //useRecoilState(memberManagementModalAtom);
   const getMemberManagementModalOpen = useRecoilValue(
-    memberManagementModalAtom
+    memberManagementModalAtom,
   );
 
   // [멤버 관리] 멤버 저장
@@ -74,7 +68,7 @@ const MemberDataTable: React.FC<MemberDataProps> = ({
         width: "200px",
       },
     ],
-    []
+    [],
   );
 
   const handleModalOpen = () => {

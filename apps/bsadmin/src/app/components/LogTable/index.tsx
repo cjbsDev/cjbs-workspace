@@ -58,30 +58,31 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
     {
       name: "변경일",
       selector: (row: { modifiedAt: any }) => row.modifiedAt,
-      width: "170px",
+      width: "180px",
       right: true,
     },
     {
       name: "변경자",
-      width: "170px",
+      width: "220px",
+      center: true,
       cell: (row: { updatedByNm: any; updatedByEmail: any }) => (
         <>
           <Stack
-            direction="row"
-            spacing={0.4}
-            alignItems="center"
+            // direction="row"
+            // spacing={0.4}
+            // alignItems="center"
             useFlexGap
             flexWrap="wrap"
           >
             <Box>{row.updatedByNm}</Box>
-            <Box>( {row.updatedByEmail} )</Box>
+            <Box>({row.updatedByEmail})</Box>
           </Stack>
         </>
       ),
     },
     {
       name: "컬럼",
-      width: "100px",
+      width: "180px",
       center: true,
       selector: (row: { targetColVal: any }) => row.targetColVal,
     },
