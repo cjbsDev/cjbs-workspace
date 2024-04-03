@@ -54,7 +54,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].refTxmy`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 240 }}
               />
               {errors.sample?.[index]?.refTxmy?.type === "required" && (
                 <Typography
@@ -69,7 +69,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 240 }}
               />
               {errors.sample?.[index]?.asmbAcsnNo?.type === "required" && (
                 <Typography
@@ -85,7 +85,7 @@ const TableNewRows = (props:any) => {
                 // inputName={`samples.${index}.memo`}
                 inputName={`sample.[${index}].memo`}
                 required={false}
-                sx={{ width: 117 }}
+                sx={{ width: 200 }}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -134,7 +134,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].refTxmy`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 240 }}
               />
               {errors.sample?.[index]?.refTxmy?.type === "required" && (
                 <Typography
@@ -149,7 +149,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].asmbAcsnNo`}
                 required={true}
-                sx={{ width: 200 }}
+                sx={{ width: 240 }}
               />
               {errors.sample?.[index]?.asmbAcsnNo?.type === "required" && (
                 <Typography
@@ -165,7 +165,7 @@ const TableNewRows = (props:any) => {
                 // inputName={`samples.${index}.memo`}
                 inputName={`sample.[${index}].memo`}
                 required={false}
-                sx={{ width: 117 }}
+                sx={{ width: 200 }}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
@@ -191,7 +191,7 @@ const TableNewRows = (props:any) => {
                 required={true}
                 defaultValue={field.sampleNm}
                 pattern={/^[A-Za-z0-9-]*$/}
-                sx={{ width: 200 }}
+                sx={{ width: 190 }}
               />
               {errors.sample?.[index]?.sampleNm?.type === "required" && (
                 <Typography
@@ -214,7 +214,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].idx1nm`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
+                errorMessage="필수값을 입력해 주세요."
                 sx={{ width: 140 }}
               />
               {errors.sample?.[index]?.idx1nm && <Typography variant="body2" color={cjbsTheme.palette.error.main}>필수값을 입력해 주세요.</Typography>}
@@ -223,7 +223,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].idx1frwr`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
+                errorMessage="필수값을 입력해 주세요."
                 sx={{ width: 140 }}
               />
               {errors.sample?.[index]?.idx1frwr && <Typography variant="body2" color={cjbsTheme.palette.error.main}>필수값을 입력해 주세요.</Typography>}
@@ -232,7 +232,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].idx2nm`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
+                errorMessage="필수값을 입력해 주세요."
                 sx={{ width: 140 }}
               />
               {errors.sample?.[index]?.idx2nm && <Typography variant="body2" color={cjbsTheme.palette.error.main}>필수값을 입력해 주세요.</Typography>}
@@ -241,7 +241,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].idx2rvrs`}
                 required={true}
-                errorMessage="샘플출처를 입력해 주세요."
+                errorMessage="필수값을 입력해 주세요."
                 sx={{ width: 140 }}
               />
               {errors.sample?.[index]?.idx2rvrs && <Typography variant="body2" color={cjbsTheme.palette.error.main}>필수값을 입력해 주세요.</Typography>}
@@ -250,7 +250,7 @@ const TableNewRows = (props:any) => {
               <InputValidation
                 inputName={`sample.[${index}].memo`}
                 required={false}
-                sx={{ width: 117 }}
+                sx={{ width: 110 }}
               />
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>

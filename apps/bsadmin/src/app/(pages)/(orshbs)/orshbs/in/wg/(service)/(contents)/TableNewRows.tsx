@@ -56,7 +56,7 @@ const TableNewRows = (props:any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
                 // inputName={`samples.${index}.memo`}
-                inputName={`sample.[${index}].taxonomy`}
+                inputName={`sample.[${index}].txmy`}
                 required={false}
                 sx={{ width: 200 }}
               />
@@ -64,7 +64,7 @@ const TableNewRows = (props:any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
                 // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].locusTagPrefix`}
+                inputName={`sample.[${index}].locusTagPrfx`}
                 required={false}
                 sx={{ width: 200 }}
               />
@@ -74,7 +74,7 @@ const TableNewRows = (props:any) => {
                 <LazyPrepSelectbox
                   url={"/code/list/shortly/value?topValue=sample&midValue=category"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
-                  sx={{ width: 100 }}
+                  sx={{ width: 120 }}
                 />
               </ErrorContainer>
               {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}
@@ -146,7 +146,7 @@ const TableNewRows = (props:any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
                 // inputName={`samples.${index}.memo`}
-                inputName={`sample.[${index}].taxonomy`}
+                inputName={`sample.[${index}].txmy`}
                 required={false}
                 sx={{ width: 200 }}
               />
@@ -154,7 +154,7 @@ const TableNewRows = (props:any) => {
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
                 // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].locusTagPrefix`}
+                inputName={`sample.[${index}].locusTagPrfx`}
                 required={false}
                 sx={{ width: 200 }}
               />
@@ -164,7 +164,7 @@ const TableNewRows = (props:any) => {
                 <LazyPrepSelectbox
                   url={"/code/list/shortly/value?topValue=sample&midValue=category"}
                   inputName={`sample.[${index}].sampleCategoryCc`}
-                  sx={{ width: 100 }}
+                  sx={{ width: 120 }}
                 />
               </ErrorContainer>
               {errors.sample?.[index]?.sampleCategoryCc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}

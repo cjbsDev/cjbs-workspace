@@ -20,38 +20,16 @@ import {
 } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
-import axios from "axios";
 import ExRow from "./ExRow";
 import TableHeader from "./TableHeader";
 import TableNewRows from "./TableNewRows";
 import ExcelUploadModal from "./ExcelUploadModal";
 
-// function getUserAccount() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=category`
-//   );
-// }
-//
-// function getUserPermissions() {
-//   return axios.get(
-//     `${process.env.NEXT_PUBLIC_API_URL}/code/list/shortly/value?topValue=sample&midValue=genome`
-//   );
-// }
-//
-// let acct: any;
-// let perm: any;
-// Promise.all([getUserAccount(), getUserPermissions()]) // Promise, then 사용
-//   .then(function (results) {
-//     // 응답 결과를 results 배열로 받아서
-//     acct = results[0].data.data; // 각각의 결과를 acct와 perm에 저장
-//     perm = results[1].data.data;
-//   });
-
 const OrderMTPSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
 
-  const { watch, control, getValues, formState,setValue } = useFormContext();
+  const { reset, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -66,9 +44,6 @@ const OrderMTPSampleDynamicTable = (props: any) => {
   useEffect(() => {
     handleAddFields(1)
   }, [])
-
-
-  // setValue('count', 1);
 
   const handleAddFields = (count:any) => {
     console.log("Count~!~!", count);
@@ -107,7 +82,20 @@ const OrderMTPSampleDynamicTable = (props: any) => {
         });
       }
     }
+  };
 
+  // 모든 필드를 삭제하는 함수
+  const deleteAllFields = () => {
+    reset({
+      ...getValues(),
+      sample: []
+    });
+  };
+
+  // 필드 초기화 및 기본 1개 생성 함수
+  const deleteAndOneRowFields = () => {
+    deleteAllFields()
+    handleAddFields(1);
   };
 
   return (
@@ -130,13 +118,23 @@ const OrderMTPSampleDynamicTable = (props: any) => {
             modalWidth={800}
             append={append}
             serviceType={serviceType}
+            deleteAllFields={deleteAllFields}
           />
-          <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
+          {/*<InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />*/}
           <ContainedButton
-            buttonName="행 추가"
+            buttonName="초기화"
+            startIcon={<MyIcon icon="trash" size={18} />}
             size="small"
             color={"secondary"}
-            onClick={() => handleAddFields(getValues("count"))}
+            onClick={deleteAndOneRowFields}
+          />
+          <ContainedButton
+            buttonName="행 추가"
+            startIcon={<MyIcon icon="plus" size={18} />}
+            size="small"
+            color={"primary"}
+            // onClick={() => handleAddFields(getValues("count"))}
+            onClick={() => handleAddFields(1)}
           />
         </Stack>
       </Stack>

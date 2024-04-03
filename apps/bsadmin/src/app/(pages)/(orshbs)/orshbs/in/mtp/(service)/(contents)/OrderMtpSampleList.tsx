@@ -24,7 +24,6 @@ import dynamic from "next/dynamic";
 import LoadingWhiteSvg from "../../../../../../../components/LoadingWhiteSvg";
 import OrderMTPSampleDynamicTable from "./OrderMTPSampleDynamicTable";
 import NoticeBox from "./NoticeBox";
-import OrderSelectbox from "@components/OrderSelectbox";
 
 const LazyPrepSelectbox = dynamic(
   () => import("../../../../../../../components/OrderSelectbox"),
