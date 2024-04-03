@@ -22,10 +22,13 @@ const AccountStatementForm = ({ onSubmit }: AccountStatementFormProps) => {
   const { data } = useSWR(`/invc/${invcUkey}`, fetcher, {
     suspense: true,
   });
+
+  console.log("YUYUYUYU", data);
+
   const { issuDttm, pymtInfoCc } = data;
 
   const defaultValues = {
-    issuDttm: new Date(issuDttm),
+    issuDttm: issuDttm === null ? new Date() : new Date(issuDttm),
   };
 
   return (
