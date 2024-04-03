@@ -22,7 +22,7 @@ const ServiceSelectModal = (props: any) => {
         <Stack spacing={1} alignItems="center" justifyContent="center">
           <Link
             href={{
-              pathname: '/orsh-order/in/mtp',
+              pathname: '/orshbs/in/mtp',
             }}
             style={{width:'100%'}}
           >
@@ -30,7 +30,7 @@ const ServiceSelectModal = (props: any) => {
           </Link>
           <Link
             href={{
-              pathname: '/orsh-order/in/shotgun',
+              pathname: '/orshbs/in/shotgun',
             }}
             style={{width:'100%'}}
           >
@@ -38,7 +38,7 @@ const ServiceSelectModal = (props: any) => {
           </Link>
           <Link
             href={{
-              pathname: '/orsh-order/in/wg',
+              pathname: '/orshbs/in/wg',
             }}
             style={{width:'100%'}}
           >
@@ -46,7 +46,7 @@ const ServiceSelectModal = (props: any) => {
           </Link>
           <Link
             href={{
-              pathname: '/orsh-order/in/rs',
+              pathname: '/orshbs/in/rs',
             }}
             style={{width:'100%'}}
           >

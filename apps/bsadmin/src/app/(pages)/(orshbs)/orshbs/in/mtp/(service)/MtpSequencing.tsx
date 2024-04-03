@@ -1,10 +1,13 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
+import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderMtpSampleList from "./(contents)/OrderRsSampleList";
+import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
 import dynamic from "next/dynamic";
-import { POST } from "api";
+import { useRecoilState } from "recoil";
+import axios from "axios";
+import {POST, POST_MULTIPART, PUT} from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
@@ -15,17 +18,19 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function RsFullService() {
-  const router = useRouter();
-  
+export default function MtpSequencing() {
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
     isRtrnRasn : 'N',
   };
+  const router = useRouter();
 
+  // 등록 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
+
+    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
 
     const bodyData = {
       addRqstMemo : {
@@ -36,7 +41,9 @@ export default function RsFullService() {
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
+        // isRdnaIdnt16S: data.isRdnaIdnt16S,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -53,7 +60,8 @@ export default function RsFullService() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/rs/fs`;
+    const apiUrl = `/orsh/bs/intn/mtp/so`;
+    // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/so`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -137,7 +145,7 @@ export default function RsFullService() {
 
         <Box sx={{ p: 2 }}>
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrdererInfo serviceType={"fs"}/>
+            <LazyOrdererInfo />
           </ErrorContainer>
         </Box>
 
@@ -168,7 +176,7 @@ export default function RsFullService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"fs"}/>
+          <OrderMtpSampleList serviceType={"so"}/>
         </Box>
 
       </Form>

@@ -1,13 +1,10 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
-import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
+import OrderWgSampleList from "./(contents)/OrderWgSampleList";
 import dynamic from "next/dynamic";
-import { useRecoilState } from "recoil";
-import axios from "axios";
-import {POST, POST_MULTIPART, PUT} from "api";
+import { POST } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
@@ -18,14 +15,15 @@ const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function MtpSequencing() {
+export default function WgFullService() {
+  const router = useRouter();
+  
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
+    // isRdnaIdnt16S: 'N',
     isRtrnRasn : 'N',
   };
-  const router = useRouter();
 
-  // 등록 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
@@ -36,13 +34,14 @@ export default function MtpSequencing() {
       addRqstMemo : {
         memo : data.memo,
       },
+      commonInput: {pltfMc : data.pltfMc === undefined ? null : data.pltfMc},
       custAgnc : {
         addEmailList : data.addEmailList,
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
-        // isRdnaIdnt16S: data.isRdnaIdnt16S,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -59,8 +58,7 @@ export default function MtpSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/mtp/so`;
-    // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/orsh/bs/mtp/so`;
+    const apiUrl = `/orsh/bs/intn/wg/fs`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -144,7 +142,7 @@ export default function MtpSequencing() {
 
         <Box sx={{ p: 2 }}>
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrdererInfo />
+            <LazyOrdererInfo serviceType={"fs"}/>
           </ErrorContainer>
         </Box>
 
@@ -175,7 +173,7 @@ export default function MtpSequencing() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"so"}/>
+          <OrderWgSampleList serviceType={"fs"}/>
         </Box>
 
       </Form>

@@ -85,10 +85,10 @@ export default function StudySelection() {
 
   return (
     <>
-      <Typography variant="subtitle1">
-        주문자 정보
-      </Typography>
-      <TableContainer sx={{ mb: 5 }}>
+      {/*<Typography variant="subtitle1">*/}
+      {/*  주문자 정보*/}
+      {/*</Typography>*/}
+      <TableContainer sx={{ mb: 1 }}>
         <Table>
           <TableBody>
             <TableRow>
@@ -111,16 +111,16 @@ export default function StudySelection() {
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
-                  <OutlinedButton
-                    size="small"
-                    buttonName="과제 검색"
-                    onClick={agncSearchModalOpen}
-                  />
                   {/*<OutlinedButton*/}
                   {/*  size="small"*/}
                   {/*  buttonName="과제 검색"*/}
-                  {/*  onClick={openPopup}*/}
+                  {/*  onClick={agncSearchModalOpen}*/}
                   {/*/>*/}
+                  <OutlinedButton
+                    size="small"
+                    buttonName="과제 검색"
+                    onClick={openPopup}
+                  />
                 </Stack>
               </TD>
             </TableRow>
@@ -134,6 +134,20 @@ export default function StudySelection() {
                       inputName={`prjtDetailCode`}
                     />
                   </ErrorContainer>
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>품의번호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="loaNum"
+                    required={true}
+                    errorMessage="품의번호를 입력해주세요."
+                    placeholder="품의번호를 입력해주세요."
+                    sx={{ width: 600 }}
+                  />
                 </Stack>
               </TD>
             </TableRow>

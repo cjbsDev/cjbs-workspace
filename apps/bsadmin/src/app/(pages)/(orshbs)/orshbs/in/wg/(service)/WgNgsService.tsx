@@ -43,6 +43,7 @@ export default function WgNgsService() {
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,

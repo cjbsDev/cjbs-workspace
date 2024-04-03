@@ -16,10 +16,10 @@ import {
 } from "cjbsDSTM";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import MyIcon from "icon/MyIcon";
-import ExRow from "../../../orsh-order/in/wg/(service)/(contents)/ExRow";
-import TableHeader from "../../../orsh-order/in/wg/(service)/(contents)/TableHeader";
+import ExRow from "../../../orshbs/in/wg/(service)/(contents)/ExRow";
+import TableHeader from "../../../orshbs/in/wg/(service)/(contents)/TableHeader";
 import TableNewRows from "./TableNewRows";
-import ExcelUploadModal from "../../../orsh-order/in/wg/(service)/(contents)/ExcelUploadModal";
+import ExcelUploadModal from "../../../orshbs/in/wg/(service)/(contents)/ExcelUploadModal";
 import { useParams } from "next/navigation";
 import { useRecoilState } from "recoil";
 import {depthCcValueAtom, fileIdValueAtom} from "../../../../../recoil/atoms/fileIdValueAtom";

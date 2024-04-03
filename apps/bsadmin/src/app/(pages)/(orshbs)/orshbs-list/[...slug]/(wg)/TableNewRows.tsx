@@ -73,8 +73,7 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].taxonomy`}
+                inputName={`sample.[${index}].txmy`}
                 required={true}
                 errorMessage="샘플출처를 입력해 주세요."
                 sx={{
@@ -96,8 +95,7 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].locusTagPrefix`}
+                inputName={`sample.[${index}].locusTagPrfx`}
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {
@@ -221,8 +219,7 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].taxonomy`}
+                inputName={`sample.[${index}].txmy`}
                 required={true}
                 errorMessage="샘플출처를 입력해 주세요."
                 sx={{
@@ -244,8 +241,7 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
-                // inputName={`samples.${index}.source`}
-                inputName={`sample.[${index}].locusTagPrefix`}
+                inputName={`sample.[${index}].locusTagPrfx`}
                 sx={{
                   width: 200,
                   "& .MuiOutlinedInput-root": {

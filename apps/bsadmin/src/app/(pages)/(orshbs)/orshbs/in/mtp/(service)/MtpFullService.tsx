@@ -1,30 +1,28 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
-import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
 import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
-import StudySelection from "../../../StudySelection";
 import dynamic from "next/dynamic";
 import { POST } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
+import StudySelection from "../../../StudySelection";
 
 const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function MtpNgsService() {
+export default function MtpFullService() {
   const router = useRouter();
-
+  
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
     isRtrnRasn : 'N',
   };
 
-  // 등록 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
@@ -39,6 +37,7 @@ export default function MtpNgsService() {
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -55,30 +54,28 @@ export default function MtpNgsService() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/mtp/ngs`;
+    const apiUrl = `/orsh/bs/intn/mtp/fs`;
 
-    try {
-      const response = await POST(apiUrl, bodyData); // API 요청
-      console.log("response", response);
-      if (response.success) {
-        toast("등록 되었습니다.")
-        router.push("/orshbs-list");
-
-      } else if (response.code == "INVALID_ETC_EMAIL") {
-        toast(response.message);
-
-      } else {
-        toast("문제가 발생했습니다. 01");
-      }
-    } catch (error) {
-      console.error("request failed:", error);
-    }
-
+    // try {
+    //   const response = await POST(apiUrl, bodyData); // API 요청
+    //   console.log("response", response);
+    //   if (response.success) {
+    //     toast("등록 되었습니다.")
+    //     router.push("/orshbs-list");
+    //
+    //   } else if (response.code == "INVALID_ETC_EMAIL") {
+    //     toast(response.message);
+    //
+    //   } else {
+    //     toast("문제가 발생했습니다. 01");
+    //   }
+    // } catch (error) {
+    //   console.error("request failed:", error);
+    // }
   };
 
   return (
     <Container disableGutters={true} sx={{ pt: "55px" }}>
-
       <Form onSubmit={onSubmit} defaultValues={defaultValues} >
 
         <Stack
@@ -172,7 +169,7 @@ export default function MtpNgsService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"ngs"}/>
+          <OrderMtpSampleList serviceType={"fs"}/>
         </Box>
 
       </Form>

@@ -1,28 +1,30 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
+import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderShotgunSampleList from "./(contents)/OrderShotgunSampleList";
+import OrderMtpSampleList from "./(contents)/OrderMtpSampleList";
+import StudySelection from "../../../StudySelection";
 import dynamic from "next/dynamic";
 import { POST } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
-import StudySelection from "../../../StudySelection";
 
 const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function ShotgunFullService() {
+export default function MtpNgsService() {
   const router = useRouter();
-  
+
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
     isRtrnRasn : 'N',
   };
 
+  // 등록 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
@@ -31,13 +33,13 @@ export default function ShotgunFullService() {
       addRqstMemo : {
         memo : data.memo,
       },
-      commonInput: {depthCc : data.depthCc === undefined ? null : data.depthCc},
       custAgnc : {
         addEmailList : data.addEmailList,
         agncNm : data.agncNm,
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -54,7 +56,7 @@ export default function ShotgunFullService() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/sg/fs`;
+    const apiUrl = `/orsh/bs/intn/mtp/ngs`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -72,10 +74,12 @@ export default function ShotgunFullService() {
     } catch (error) {
       console.error("request failed:", error);
     }
+
   };
 
   return (
     <Container disableGutters={true} sx={{ pt: "55px" }}>
+
       <Form onSubmit={onSubmit} defaultValues={defaultValues} >
 
         <Stack
@@ -169,7 +173,7 @@ export default function ShotgunFullService() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderShotgunSampleList serviceType={"fs"}/>
+          <OrderMtpSampleList serviceType={"ngs"}/>
         </Box>
 
       </Form>

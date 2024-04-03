@@ -27,7 +27,7 @@ import useCenteredPopup from "../../../../hooks/useCenteredPopup";
 import {useFormContext} from "react-hook-form";
 
 
-const LazyProjectSearchModal = dynamic(() => import("../../orsh-order/ProjectSearchModal"), {
+const LazyProjectSearchModal = dynamic(() => import("../../orshbs/ProjectSearchModal"), {
   ssr: false,
 });
 
@@ -98,9 +98,9 @@ export default function StudySelection(props: any) {
 
   return (
     <>
-      <Typography variant="subtitle1">
-        주문자 정보
-      </Typography>
+      {/*<Typography variant="subtitle1">*/}
+      {/*  주문자 정보*/}
+      {/*</Typography>*/}
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
@@ -153,6 +153,20 @@ export default function StudySelection(props: any) {
                       disabled={updataYn === 'N' ? false : true}
                     />
                   </ErrorContainer>
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>품의번호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="loaNum"
+                    required={true}
+                    errorMessage="품의번호를 입력해주세요."
+                    placeholder="품의번호를 입력해주세요."
+                    sx={{ width: 600 }}
+                  />
                 </Stack>
               </TD>
             </TableRow>

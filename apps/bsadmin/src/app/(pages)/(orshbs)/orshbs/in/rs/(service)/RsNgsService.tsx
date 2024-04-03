@@ -3,41 +3,35 @@ import React, { useState, useEffect } from "react";
 import { Box, Container, Stack, Typography, styled } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import {cjbsTheme, ErrorContainer, Fallback, Form} from "cjbsDSTM";
-import OrderMtpSampleList from "./(contents)/OrderRsSampleList";
+import OrderRsSampleList from "./(contents)/OrderRsSampleList";
+import StudySelection from "../../../StudySelection";
 import dynamic from "next/dynamic";
-import { useRecoilState } from "recoil";
-import axios from "axios";
-import {POST, POST_MULTIPART, PUT} from "api";
+import { POST } from "api";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../../../components/SkeletonLoading";
 import { toast } from "react-toastify";
-import StudySelection from "../../../StudySelection";
 
 const LazyOrdererInfo = dynamic(() => import("../../../OrdererInfo"), {
   ssr: false,
   loading: () => <SkeletonLoading height={800} />,
 });
 
-export default function RsSequencing() {
+export default function RsNgsService() {
+  const router = useRouter();
+
   const defaultValues = {
     mailRcpnList : ["agncLeaderRcpn", "ordrAplcRcpn"],
     isRtrnRasn : 'N',
   };
-  const router = useRouter();
 
   // 등록 호출
   const onSubmit = async (data: any) => {
     console.log("**************************************");
     console.log("Submit Data ==>>", data);
 
-    // selfQcFileNm : res.data.qcFile.selfQcFileNm,
-
     const bodyData = {
       addRqstMemo : {
         memo : data.memo,
-      },
-      commonInput: {
-        pltfMc : data.pltfMc === undefined ? null : data.pltfMc,
       },
       custAgnc : {
         addEmailList : data.addEmailList,
@@ -45,6 +39,7 @@ export default function RsSequencing() {
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -61,7 +56,7 @@ export default function RsSequencing() {
 
     console.log("call body data", bodyData);
 
-    const apiUrl = `/orsh/bs/intn/rs/so`;
+    const apiUrl = `/orsh/bs/intn/rs/ngs`;
 
     try {
       const response = await POST(apiUrl, bodyData); // API 요청
@@ -79,10 +74,12 @@ export default function RsSequencing() {
     } catch (error) {
       console.error("request failed:", error);
     }
+
   };
 
   return (
     <Container disableGutters={true} sx={{ pt: "55px" }}>
+
       <Form onSubmit={onSubmit} defaultValues={defaultValues} >
 
         <Stack
@@ -145,7 +142,7 @@ export default function RsSequencing() {
 
         <Box sx={{ p: 2 }}>
           <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrdererInfo serviceType={"so"} />
+            <LazyOrdererInfo serviceType={"ngs"}/>
           </ErrorContainer>
         </Box>
 
@@ -176,7 +173,7 @@ export default function RsSequencing() {
           </Box>
         </Stack>
         <Box sx={{ p: 2 }}>
-          <OrderMtpSampleList serviceType={"so"}/>
+          <OrderRsSampleList serviceType={"ngs"}/>
         </Box>
 
       </Form>

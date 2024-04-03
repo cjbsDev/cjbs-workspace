@@ -109,27 +109,29 @@ export default function ListOrshbs() {
       {
         name: "주문번호",
         selector: (row: { orshNo: string }) => row.orshNo,
-        width: "180px",
+        width: "160px",
       },
-      {
-        name: "orshUkey",
-        selector: (row: { orshUkey: string }) => row.orshUkey,
-        width: "0px",
-      },
+      // {
+      //   name: "orshUkey",
+      //   selector: (row: { orshUkey: string }) => row.orshUkey,
+      //   // width: "0px",
+      // },
       {
         name: "분석 종류",
         selector: (row: { anlsTypeVal: string }) => row.anlsTypeVal,
         width: "100px",
+        center: true,
       },
       {
         name: "서비스 타입",
         selector: (row: { srvcTypeVal: string }) => row.srvcTypeVal,
-        width: "150px",
+        width: "120px",
       },
       {
         name: "샘플수량",
         selector: (row: { sampleCount: string }) => row.sampleCount,
         width: "90px",
+        center: true,
       },
 
       {
@@ -145,7 +147,7 @@ export default function ListOrshbs() {
             {/*</Stack>*/}
           </Stack>
         ),
-        width: "340px",
+        width: "400px",
       },
       {
         name: "주문자(ID)",
@@ -178,7 +180,7 @@ export default function ListOrshbs() {
           ):('')}
           </Stack>
         ),
-        minWidth: "340px",
+        minWidth: "460px",
       },
       {
         name: "주문상태",
