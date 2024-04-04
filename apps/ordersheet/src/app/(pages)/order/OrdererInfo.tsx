@@ -34,6 +34,7 @@ import { AddressDeleteButton } from "@components/AddressDeleteButton";
 import { useFormContext } from "react-hook-form";
 import Tooltip, { tooltipClasses, TooltipProps } from "@mui/material/Tooltip";
 import MyIcon from "icon/MyIcon";
+import AddEmailInput from "@app/(pages)/order/AddEmailInput";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -82,6 +83,8 @@ const DeleteComponent = () => {
 };
 
 export default function OrdererInfo(props: JSON) {
+
+  // const {watch} = useFormContext();
   const defaultValues = {
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
   };
@@ -381,18 +384,26 @@ export default function OrdererInfo(props: JSON) {
                       // inputName="agncZip"
                       inputName="zip"
                       placeholder="우편번호"
+                      required={true}
+                      errorMessage="우편번호를 입력해 주세요."
                       defaultValue={custData.custAgnc.agncZip ?? ""}
                       InputProps={{
                         readOnly: true,
                       }}
                     />
-                    <PostCodeBtn />
-                    <AddressDeleteButton />
+                    <Box>
+                      <PostCodeBtn />
+                    </Box>
+                    <Box>
+                      <AddressDeleteButton />
+                    </Box>
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
                     <InputValidation
                       // inputName="agncAddr"
                       inputName="addr"
+                      required={true}
+                      errorMessage="주소를 입력해 주세요."
                       sx={{ width: 600 }}
                       defaultValue={custData.custAgnc.agncAddr ?? ""}
                       InputProps={{
@@ -404,6 +415,8 @@ export default function OrdererInfo(props: JSON) {
                     <InputValidation
                       // inputName="agncAddrDetail"
                       inputName="addrDetail"
+                      required={true}
+                      errorMessage="상세주소를 입력해 주세요."
                       maxLength={50}
                       maxLengthErrMsg="50자 이내로 입력해주세요."
                       placeholder="상세주소"
@@ -430,15 +443,16 @@ export default function OrdererInfo(props: JSON) {
                     required={true}
                     errorMessage="진행사항 메일 수신 설정 항목은 필수 입니다."
                   />
-                  <InputValidation
-                    inputName="addEmailList"
-                    placeholder="example@gmail.com, example2@gmail.com"
-                    pattern={
-                      /^[\w\.-]+@[\w\.-]+\.\w+(,\s*[\w\.-]+@[\w\.-]+\.\w+)*$/
-                    }
-                    patternErrMsg="이메일 형식이 아닙니다."
-                    sx={{ width: 550 }}
-                  />
+                  <AddEmailInput />
+                  {/*<InputValidation*/}
+                  {/*  inputName="addEmailList"*/}
+                  {/*  placeholder="example@gmail.com, example2@gmail.com"*/}
+                  {/*  pattern={*/}
+                  {/*    /^[\w\.-]+@[\w\.-]+\.\w+(,\s*[\w\.-]+@[\w\.-]+\.\w+)*$/*/}
+                  {/*  }*/}
+                  {/*  patternErrMsg="이메일 형식이 아닙니다."*/}
+                  {/*  sx={{ width: 550 }}*/}
+                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>
