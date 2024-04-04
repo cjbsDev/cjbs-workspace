@@ -54,7 +54,7 @@ const FooterInfo = (props: FooterInfoProps) => {
                     </Grid>
                 </Grid>
             </Box>
-            <Box sx={{display: 'flex', justifyContent: 'space-between', width:'210px', pt:3}}>
+            <Box sx={{display: 'flex', justifyContent: 'space-between', width:'240px', pt:3}}>
                 <Link href="https://www.facebook.com/chunlab" target="_blank">
                     <Image src={fbIcon} alt='fbIcon' width={20} style={{marginTop:'6px'}}/>
                 </Link>
@@ -66,9 +66,10 @@ const FooterInfo = (props: FooterInfoProps) => {
                 </Link>
                 <PopupState variant="popover" popupId="demo-popup-menu">
                     {(popupState) => (
-                        <React.Fragment>
+                        <>
                             <OutlinedButton
-                                sx={{ width: "100px", color:'#FFFFFF', height: '30px', borderColor: '#FFFFFF', ml:1 }}
+                                sx={{ width: "150px", color:'#FFFFFF', height: '30px', borderColor: '#FFFFFF', ml:1 }}
+                                style={{ backgroundColor: '#212121'}}
                                 buttonName='Family Site'
                                 endIcon={<MyIcon icon="cheveron-down" size={18} />}
                                 size="medium"
@@ -91,7 +92,7 @@ const FooterInfo = (props: FooterInfoProps) => {
                                     </Link>
                                 </MenuItem>
                             </Menu>
-                        </React.Fragment>
+                        </>
                     )}
                 </PopupState>
             </Box>
