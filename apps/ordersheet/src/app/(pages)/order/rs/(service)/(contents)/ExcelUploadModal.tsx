@@ -21,9 +21,11 @@ interface ModalContainerProps {
   open: boolean;
   modalWidth: number;
   append: any;
+  serviceType: string;
+  deleteAllFields: () => void;
 }
 
-const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) => {
+const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, deleteAllFields }:ModalContainerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleClose = () => {
@@ -50,12 +52,16 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType }) =>
         //   }
         // );
 
+        // `${process.env.NEXT_PUBLIC_API_URL_ORSH}/rs/${serviceType}/sample/excel`,
         const response = await POST_MULTIPART(
-          `${process.env.NEXT_PUBLIC_API_URL_ORSH}/rs/${serviceType}/sample/excel`,
+          `/orsh/rs/${serviceType}/sample/excel`,
           formData
         );
 
         if (response.data.success) {
+          // 필드 초기화
+          deleteAllFields();
+
           const data = response.data.data;
           console.log("RES VALUE ==>>", data);
           console.log("RES VALUE Length ==>>", data.length);

@@ -33,7 +33,7 @@ const OrderWgSampleDynamicTable = (props: any) => {
   // console.log("$$$$$$$$$$", props.serviceType);
   const serviceType = props.serviceType;
 
-  const { watch, control, getValues, formState,setValue } = useFormContext();
+  const { reset, control, getValues, formState,setValue } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name: "sample", // 이름은 폼 데이터에 저장될 필드 이름입니다.
@@ -105,7 +105,20 @@ const OrderWgSampleDynamicTable = (props: any) => {
         });
       }
     }
+  };
 
+  // 모든 필드를 삭제하는 함수
+  const deleteAllFields = () => {
+    reset({
+      ...getValues(),
+      sample: []
+    });
+  };
+
+  // 필드 초기화 및 기본 1개 생성 함수
+  const deleteAndOneRowFields = () => {
+    deleteAllFields()
+    handleAddFields(1);
   };
 
   return (
@@ -128,13 +141,23 @@ const OrderWgSampleDynamicTable = (props: any) => {
             modalWidth={800}
             append={append}
             serviceType={serviceType}
+            deleteAllFields={deleteAllFields}
           />
-          <InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />
+          {/*<InputValidation inputName="count" type="number" sx={{width: "72px"}} placeholder="0" />*/}
           <ContainedButton
-            buttonName="행 추가"
+            buttonName="초기화"
+            startIcon={<MyIcon icon="trash" size={18} />}
             size="small"
             color={"secondary"}
-            onClick={() => handleAddFields(getValues("count"))}
+            onClick={deleteAndOneRowFields}
+          />
+          <ContainedButton
+            buttonName="행 추가"
+            startIcon={<MyIcon icon="plus" size={18} />}
+            size="small"
+            color={"primary"}
+            // onClick={() => handleAddFields(getValues("count"))}
+            onClick={() => handleAddFields(1)}
           />
         </Stack>
       </Stack>

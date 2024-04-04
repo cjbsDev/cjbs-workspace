@@ -130,7 +130,8 @@ export default function MtpFullService(){
             formData.append("file-data", null);
         }
 
-        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
+        // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/mtp/fs`;
+        const apiUrl = `/orsh/mtp/fs`;
 
         try {
             const response = await POST_MULTIPART(apiUrl, formData); // API 요청

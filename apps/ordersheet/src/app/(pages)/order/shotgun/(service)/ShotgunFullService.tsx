@@ -130,7 +130,8 @@ export default function ShotgunFullService() {
       formData.append("file-data", null);
     }
 
-    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/fs`;
+    // const apiUrl = `${process.env.NEXT_PUBLIC_API_URL_ORSH}/sg/fs`;
+    const apiUrl = `/orsh/sg/fs`;
 
     try {
       const response = await POST_MULTIPART(apiUrl, formData); // API 요청
