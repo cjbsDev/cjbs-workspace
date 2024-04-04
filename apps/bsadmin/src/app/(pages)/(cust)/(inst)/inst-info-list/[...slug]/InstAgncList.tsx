@@ -8,6 +8,7 @@ import { useSetRecoilState } from "recoil";
 import dynamic from "next/dynamic";
 import axios from "axios";
 import { fetcher } from "api";
+import NoDataView from "../../../../../components/NoDataView";
 
 interface AgncInfoDataProps {
   instUkey: string;
@@ -51,7 +52,7 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
         selector: (row: { bsnsMngrNm: string }) => row.bsnsMngrNm,
       },
     ],
-    []
+    [],
   );
 
   const { data } = useSWR(getInstAgncUrl, fetcher, {
@@ -79,6 +80,7 @@ const InstAgncList: React.FC<AgncInfoDataProps> = ({ instUkey }) => {
         customStyles={dataTableCustomStyles}
         pagination={false}
         selectableRows={false}
+        noDataComponent={<NoDataView />}
       />
     </Box>
   );
