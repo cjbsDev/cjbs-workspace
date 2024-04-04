@@ -1,16 +1,18 @@
-import dynamic from "next/dynamic";
-import SkeletonLoading from "../../../../../components/SkeletonLoading";
-import React from "react";
+"use client";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
+import dynamic from "next/dynamic";
+import * as React from "react";
+import SkeletonLoading from "../../../../../components/SkeletonLoading";
 
-const LazyAgncInfo = dynamic(() => import("./AgncInfo"), {
+const LazyModifyTable = dynamic(() => import("./ModifyTable"), {
   ssr: false,
   loading: () => <SkeletonLoading height={270} />,
 });
-export default function AgncPage() {
+
+export default function CustModifyPage() {
   return (
     <ErrorContainer FallbackComponent={Fallback}>
-      <LazyAgncInfo />
+      <LazyModifyTable />
     </ErrorContainer>
   );
 }

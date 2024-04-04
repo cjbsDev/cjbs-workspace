@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   cjbsTheme,
   ContainedButton,
@@ -48,6 +48,7 @@ interface ModalContainerProps {
 }
 
 import { fetcher } from "api";
+import MemberMngDataTable from "./MemberMngDataTable";
 
 const MemberMngtNewModal = ({
   onClose,
@@ -58,33 +59,24 @@ const MemberMngtNewModal = ({
 }: ModalContainerProps) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  /**
-   * 고객 ( 왼쪽 테이블 )
-   * 멤버 거래처의 구성원 ( 오른쪽 테이블 )
-   *
-   */
-
   // [고객] row 세팅
   const [selectedRows, setSelectedRows] = useState<any>([]);
   const [key, setKey] = useState<number>(0); // 특정 조건에서 checkbox 해제 할 때 필요
 
-  //console.log("모달 selectedMembers", selectedMembers);
   // [멤버] 정보 세팅
   const [memeberData, setMemberData] = useState<Member[]>(
-    selectedMembers ?? initialData
+    selectedMembers ?? initialData,
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
-
-  const [perPage, setPerPage] = useState(50);
-  const [pageIndex, setPageIndex] = useState(0);
-  const { data } = useSWR(
-    `/cust/list?page=${pageIndex}&size=${perPage}`,
-    fetcher,
-    {
-      suspense: true,
-    }
-  );
+  // const [page, setPage] = useState<number>(1);
+  // const [size, setSize] = useState<number>(15);
+  const { data } = useSWR(`/cust/list`, fetcher, {
+    suspense: true,
+  });
+  const { custList } = data;
+  // const filteredData = data.custList;
+  // console.log("소속연구원 검색 리스트", custList);
+  // const totalElements = data.pageInfo.totalElements;
 
   // [고객] 컬럼세팅
   const columns = useMemo(
@@ -126,10 +118,16 @@ const MemberMngtNewModal = ({
         minWidth: "150px",
       },
     ],
-    []
+    [],
   );
 
-  const filteredData = data.custList;
+  const filteredItems = custList.filter(
+    (item) =>
+      (item.custNm &&
+        item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.agncNm &&
+        item.agncNm.toLowerCase().includes(filterText.toLowerCase())),
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -148,7 +146,7 @@ const MemberMngtNewModal = ({
       selectedRows.selectedRows.forEach((row: any) => {
         // 기존 멤버 확인 후 있다면 추가를 무시함
         const existingMember = memeberData.find(
-          (member) => member.custUkey === row.custUkey
+          (member) => member.custUkey === row.custUkey,
         );
         if (existingMember) {
           return;
@@ -212,14 +210,14 @@ const MemberMngtNewModal = ({
   const handleCheckboxChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     //custUkey: any
-    row: any
+    row: any,
   ) => {
     if (event.target.checked) {
       console.log("custUkey", row);
       setSelectedMemberRows([...selectedMemberRows, row.custUkey]);
     } else {
       setSelectedMemberRows(
-        selectedMemberRows.filter((rowId) => rowId !== row.custUkey)
+        selectedMemberRows.filter((rowId) => rowId !== row.custUkey),
       );
     }
   };
@@ -227,7 +225,7 @@ const MemberMngtNewModal = ({
   // [멤버 관리] - 선택된 멤버 row 삭제
   const handleDeleteRows = () => {
     const newData = memeberData.filter(
-      (row) => !selectedMemberRows.includes(row.custUkey)
+      (row) => !selectedMemberRows.includes(row.custUkey),
     );
     setMemberData(newData);
     setSelectedMemberRows([]);
@@ -254,12 +252,13 @@ const MemberMngtNewModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>고객 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>소속 연구원 검색</ModalTitle>
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={7}>
+            {/*<MemberMngDataTable selectedMembers={selectedMembers} />*/}
             <DataTableBase
-              data={filteredData}
+              data={filteredItems}
               columns={columns}
               pointerOnHover
               highlightOnHover
@@ -269,16 +268,14 @@ const MemberMngtNewModal = ({
               subHeaderComponent={subHeaderComponentMemo}
               paginationResetDefaultPage={resetPaginationToggle}
               selectableRows={true}
-              paginationServer
-              paginationTotalRows={5}
-              onChangePage={(page, totalRows) => console.log(page, totalRows)}
-              onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-                console.log(currentRowsPerPage, currentPage)
-              }
               paginationPerPage={10}
-              paginationRowsPerPageOptions={[5, 10, 15]}
+              paginationRowsPerPageOptions={[10, 20, 30]}
               keyField="uniqueKey"
               key={key}
+              // paginationServer
+              // paginationTotalRows={totalElements}
+              // onChangeRowsPerPage={handlePerRowsChange}
+              // onChangePage={handlePageChange}
             />
           </Grid>
 
