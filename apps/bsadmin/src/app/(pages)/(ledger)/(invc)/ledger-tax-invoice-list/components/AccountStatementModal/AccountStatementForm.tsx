@@ -11,6 +11,7 @@ import AccountStatementInput from "./AccountStatementInput";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
+import TaxInvoiceNumber from "../../../../../../components/NumberFormat/TaxInvoiceNumber";
 
 interface AccountStatementFormProps {
   onSubmit: (data: any) => Promise<void>;
@@ -54,7 +55,8 @@ const AccountStatementForm = ({ onSubmit }: AccountStatementFormProps) => {
               <TableRow>
                 <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
                 <TD>
-                  <AccountStatementInput />
+                  {/*<AccountStatementInput />*/}
+                  <TaxInvoiceNumber />
                 </TD>
               </TableRow>
             )}

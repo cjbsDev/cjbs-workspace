@@ -27,8 +27,8 @@ import {
 import { useForm, useFormContext, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-
 import axios from "axios";
+import BusinessNumber from "../../../../components/NumberFormat/BusinessNumber";
 
 // 거래처에서 기관 모달과 다름
 const LazyInstAddSearchModal = dynamic(() => import("../InstAddSearchModal"), {
@@ -40,7 +40,7 @@ const LazyRegion1 = dynamic(
   {
     ssr: false,
     loading: () => <p>Loading...</p>,
-  }
+  },
 );
 
 /**
@@ -181,15 +181,18 @@ const InstAdd = () => {
               <TH sx={{ width: "15%" }}>사업자 등록번호</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack direction="row" spacing={0.5} alignItems="center">
-                  <InputValidation
-                    inputName="brno"
-                    required={true}
-                    errorMessage="사업자 등록번호 숫자 10자리를 입력해 주세요."
-                    pattern={/^\d{10}$/}
-                    patternErrMsg="사업자 등록번호 숫자 10자리를 입력해 주세요."
-                    placeholder="사업자 등록번호 숫자 10자리를 입력해 주세요."
-                    sx={{ width: 600 }}
-                  />
+                  <Box sx={{ width: 113 }}>
+                    <BusinessNumber />
+                  </Box>
+                  {/*<InputValidation*/}
+                  {/*  inputName="brno"*/}
+                  {/*  required={true}*/}
+                  {/*  errorMessage="사업자 등록번호 숫자 10자리를 입력해 주세요."*/}
+                  {/*  pattern={/^\d{10}$/}*/}
+                  {/*  patternErrMsg="사업자 등록번호 숫자 10자리를 입력해 주세요."*/}
+                  {/*  placeholder="사업자 등록번호 숫자 10자리를 입력해 주세요."*/}
+                  {/*  sx={{ width: 600 }}*/}
+                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>
