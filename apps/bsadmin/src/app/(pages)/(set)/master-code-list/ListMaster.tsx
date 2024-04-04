@@ -40,6 +40,7 @@ const ListMaster = () => {
       subHeader
       subHeaderComponent={subHeader}
       selectableRows={false}
+      pagination={false}
     />
   );
 };

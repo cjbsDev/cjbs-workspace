@@ -58,7 +58,7 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     isLoading,
   } = useSWR(
     `/mngr/masterCode/detail/${slug}`,
-    fetcher
+    fetcher,
     //{ revalidateOnFocus: true }
   );
   if (isLoading) {
@@ -69,6 +69,8 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
     return;
   }
   const msCodeDetail = msCodeDetailTempData?.masterCodeDetailList || [];
+
+  console.log("hhhhh", msCodeDetailTempData);
 
   const renderList = () => {
     mutate(`/mngr/masterCode/detail/${slug}`);
@@ -125,8 +127,8 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
               <TH sx={{ width: "15" }}>상세코드 ID</TH>
               <TH sx={{ width: "22.5%" }}>상세코드명(국문)</TH>
               <TH sx={{ width: "22.5%" }}>상세코드명(영문)</TH>
-              <TH sx={{ width: "10%" }}>주문서 노출</TH>
-              <TH sx={{ width: "10%" }}>사용여부</TH>
+              {/*<TH sx={{ width: "10%" }}>주문서 노출</TH>*/}
+              {/*<TH sx={{ width: "10%" }}>사용여부</TH>*/}
               <TH sx={{ width: "10%" }}>수정</TH>
             </TableRow>
           </TableHead>
@@ -147,8 +149,8 @@ const MCDetailList: React.FC<MCDetailListProps> = ({ slug }) => {
                   <TD>{dataItem.douzoneCode}</TD>
                   <TD>{dataItem.codeNm}</TD>
                   <TD>{dataItem.codeValue}</TD>
-                  <TD>{dataItem.isExpsOrsh}</TD>
-                  <TD>{dataItem.isRls}</TD>
+                  {/*<TD>{dataItem.isExpsOrsh}</TD>*/}
+                  {/*<TD>{dataItem.isRls}</TD>*/}
                   <TD>
                     <OutlinedButton
                       buttonName="수정"

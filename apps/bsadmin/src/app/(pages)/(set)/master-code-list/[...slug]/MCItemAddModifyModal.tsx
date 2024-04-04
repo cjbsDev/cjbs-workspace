@@ -101,6 +101,7 @@ const MCItemModifyModal = ({
       try {
         const response = await POST(apiUrl, saveObj); // API 요청
         if (response.success) {
+          console.log("ADD ==>>", response);
           onClose(); // 모달 닫기
           renderList();
         } else if (response.code == "INVALID_AUTHORITY") {
