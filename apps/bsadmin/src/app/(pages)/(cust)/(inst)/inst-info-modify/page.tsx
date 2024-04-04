@@ -14,6 +14,7 @@ import {
   SelectBox,
   RadioSV,
   Form,
+  RadioGV,
 } from "cjbsDSTM";
 import {
   Typography,
@@ -25,16 +26,12 @@ import {
   TableContainer,
   Container,
 } from "@mui/material";
-import { useForm, FormProvider } from "react-hook-form";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { fetcher, PUT } from "api";
 import { toast } from "react-toastify";
-
-import axios from "axios";
 import useSWR from "swr";
-import { de } from "date-fns/locale";
 
 const LazyRegion1 = dynamic(
   () => import("../../../../components/Region/Region1"),
@@ -65,7 +62,6 @@ const dataRadioGVstatusCodeCc = [
 
 // 기관 수정
 export default function InstModifyPage() {
-  // init
   const searchParams = useSearchParams();
   const params = searchParams.get("instUkey");
   const uKey = params;
@@ -84,80 +80,46 @@ export default function InstModifyPage() {
     suspense: true,
   });
 
+  console.log("OOOOOOOOOOOO", data);
+
   const defaultValues = {
-    addr: data.addr,
-    addrDetail: data.addrDetail,
-    brno: data.brno,
-    ftr: data.ftr,
-    instNm: data.instNm,
-    instTypeCc: data.instTypeCc,
-    instUkey: data.instUkey,
-    instUniqueCodeMc: data.instUniqueCodeMc,
-    itbsns: data.itbsns,
-    lctnTypeCc: data.lctnTypeCc,
-    region1Gc: data.region1Gc,
-    region2Gc: data.region2Gc,
-    rprsNm: data.rprsNm,
-    statusCodeCc: data.statusCodeCc,
-    tpbsns: data.tpbsns,
-    zip: data.zip,
+    ...data,
+    // addr: data.addr,
+    // addrDetail: data.addrDetail,
+    // brno: data.brno,
+    // ftr: data.ftr,
+    // instNm: data.instNm,
+    // instTypeCc: data.instTypeCc,
+    // instUkey: data.instUkey,
+    // instUniqueCodeMc: data.instUniqueCodeMc,
+    // itbsns: data.itbsns,
+    // lctnTypeCc: data.lctnTypeCc,
+    // region1Gc: data.region1Gc,
+    // region2Gc: data.region2Gc,
+    // rprsNm: data.rprsNm,
+    // statusCodeCc: data.statusCodeCc,
+    // tpbsns: data.tpbsns,
+    // zip: data.zip,
   };
 
-  // const methods = useForm<FormData>({
-  //   defaultValues: () => {
-  //     return fetch(`${process.env.NEXT_PUBLIC_API_URL}/inst/${uKey}`)
-  //       .then((res) => res.json())
-  //       .then((getData) => {
-  //         const data = getData.data;
-  //         console.log("자세히 보기 data", data);
-  //
-  //         return {
-  //           addr: data.addr,
-  //           addrDetail: data.addrDetail,
-  //           brno: data.brno,
-  //           ftr: data.ftr,
-  //           instNm: data.instNm,
-  //           instTypeCc: data.instTypeCc,
-  //           instUkey: data.instUkey,
-  //           instUniqueCodeMc: data.instUniqueCodeMc,
-  //           itbsns: data.itbsns,
-  //           lctnTypeCc: data.lctnTypeCc,
-  //           region1Gc: data.region1Gc,
-  //           region2Gc: data.region2Gc,
-  //           rprsNm: data.rprsNm,
-  //           statusCodeCc: data.statusCodeCc,
-  //           tpbsns: data.tpbsns,
-  //           zip: data.zip,
-  //         };
-  //       });
-  //   },
-  // });
-  // const {
-  //   register,
-  //   formState: { errors },
-  //   getValues,
-  //   setValue,
-  //   handleSubmit,
-  // } = methods;
-
-  // Common
-  // [ 수정 ]
   const onSubmit = async (data: any) => {
     const saveObj = {
+      ...data,
       addr: data.addr ?? "",
       addrDetail: data.addrDetail ?? "",
       zip: data.zip ?? "",
       itbsns: data.itbsns ?? "",
       tpbsns: data.tpbsns ?? "",
-      brno: data.brno,
-      ftr: data.ftr,
-      instTypeCc: data.inst_type_cc,
-      instUkey: data.instUkey,
       lctnTypeCc: "BS_0200002", // 국내 고정
-      region1Gc: data.region1Gc,
-      region2Gc: data.region2Gc,
-      rprsNm: data.rprsNm,
-      statusCodeCc: data.statusCodeCc,
+      // brno: data.brno,
+      // ftr: data.ftr,
+      // instTypeCc: data.inst_type_cc,
+      // instUkey: data.instUkey,
+
+      // region1Gc: data.region1Gc,
+      // region2Gc: data.region2Gc,
+      // rprsNm: data.rprsNm,
+      // statusCodeCc: data.statusCodeCc,
     };
 
     console.log("==saveObj", saveObj);
@@ -168,10 +130,8 @@ export default function InstModifyPage() {
       const response = await PUT(apiUrl, saveObj); // API 요청
       if (response.success) {
         router.push("/inst-info-list");
-      } else if (response.code == "INVALID_AUTHORITY") {
-        toast("권한이 없습니다.");
       } else {
-        toast("문제가 발생했습니다. 01");
+        toast(response.message);
       }
     } catch (error) {
       console.error("request failed:", error);
@@ -318,7 +278,7 @@ export default function InstModifyPage() {
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
                     <SelectBox
-                      inputName="inst_type_cc"
+                      inputName="instTypeCc"
                       options={[
                         { value: "BS_0600004", optionName: "기관" },
                         { value: "BS_0600001", optionName: "학교" },
@@ -351,26 +311,24 @@ export default function InstModifyPage() {
               <TableRow>
                 <TH sx={{ width: "15%" }}>상태</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  {/*
-                    <RadioGV
-                      data={dataRadioGVstatusCodeCc}
-                      inputName="statusCodeCc"
-                      required={true}
-                      errorMessage="필수 선택입니다."
-                    />
-                     */}
-                  <Stack direction="row">
-                    <RadioSV
-                      inputName="statusCodeCc"
-                      labelText="운영"
-                      value="BS_0602001"
-                    />
-                    <RadioSV
-                      inputName="statusCodeCc"
-                      labelText="폐업"
-                      value="BS_0602002"
-                    />
-                  </Stack>
+                  <RadioGV
+                    data={dataRadioGVstatusCodeCc}
+                    inputName="statusCodeCc"
+                    required={true}
+                    errorMessage="필수 선택입니다."
+                  />
+                  {/*<Stack direction="row">*/}
+                  {/*  <RadioSV*/}
+                  {/*    inputName="statusCodeCc"*/}
+                  {/*    labelText="운영"*/}
+                  {/*    value="BS_0602001"*/}
+                  {/*  />*/}
+                  {/*  <RadioSV*/}
+                  {/*    inputName="statusCodeCc"*/}
+                  {/*    labelText="폐업"*/}
+                  {/*    value="BS_0602002"*/}
+                  {/*  />*/}
+                  {/*</Stack>*/}
                 </TD>
               </TableRow>
             </TableBody>

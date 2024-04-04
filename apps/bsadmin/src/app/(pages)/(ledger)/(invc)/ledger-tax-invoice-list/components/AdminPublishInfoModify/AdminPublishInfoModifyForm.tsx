@@ -10,7 +10,8 @@ import {
   TableRow,
 } from "@mui/material";
 import { Form, SingleDatePicker, TD, TH } from "cjbsDSTM";
-import AccountStatementInput from "../AccountStatementModal/AccountStatementInput";
+// import AccountStatementInput from "../AccountStatementModal/AccountStatementInput";
+import TaxInvoiceNumber from "../../../../../../components/NumberFormat/TaxInvoiceNumber";
 
 interface AdminPublishInfoModifyFormProps {
   onSubmit: (data: any) => Promise<void>;
@@ -52,7 +53,8 @@ const AdminPublishInfoModifyForm = ({
             <TableRow>
               <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
               <TD>
-                <AccountStatementInput />
+                {/*<AccountStatementInput />*/}
+                <TaxInvoiceNumber />
               </TD>
             </TableRow>
           </TableBody>
