@@ -126,16 +126,16 @@ const PaymentDynamicInfo = () => {
                 <TD>
                   <SingleDatePicker
                     inputName="dpstDttm"
-                    required={true}
-                    errorMessage="날짜를 입력하세요"
+                    // required={true}
+                    // errorMessage="날짜를 입력하세요"
                   />
                 </TD>
                 <TH sx={{ width: "15%" }}>입금자명</TH>
                 <TD>
                   <InputValidation
                     inputName="pyrNm"
-                    required={true}
-                    errorMessage="입금자명을 입력하세요."
+                    // required={true}
+                    // errorMessage="입금자명을 입력하세요."
                   />
                 </TD>
               </TableRow>

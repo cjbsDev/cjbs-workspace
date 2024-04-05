@@ -31,6 +31,7 @@ import { fetcher, PUT } from "api";
 import { toast } from "react-toastify";
 import useSWR from "swr";
 import RsrchDirector from "./RsrchDirector";
+import { useState } from "react";
 
 const LazyAgncModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
@@ -89,7 +90,7 @@ const AgncPiModify = () => {
   const params = searchParams.get("agncUkey");
   const uKey = params;
   const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const { data } = useSWR(`/agnc/${uKey}`, fetcher, {
     suspense: true,
@@ -138,7 +139,6 @@ const AgncPiModify = () => {
     setCustSearchModalOpen(false);
   };
 
-  // [ 수정 ]
   const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
 
@@ -148,24 +148,21 @@ const AgncPiModify = () => {
         custUkey,
       }));
 
-    // let isSpecialMngFlag = getValues("isSpecialMngFlag");
-    // let bsnsMngrUkey = getValues("bsnsMngrUkey");
-
     const saveObj = {
+      ...data,
       addr: data.addr ?? "",
       addrDetail: data.addrDetail ?? "",
-      zip: data.zip ?? "",
-      agncNm: data.agncNm,
-      agncUkey: data.agncUkey, // 수정에서 생김
-      bsnsMngrUkey: data.bsnsMngrUkey,
       custDetailList: saveMemberList,
       isSpecialMng: data.isSpecialMng ? "Y" : "N",
-      memo: data.memo,
-      custUkey: data.custUkey,
-      // isSpecialMng: isSpecialMngFlag == true ? "Y" : "N",
+      zip: data.zip ?? "",
+      // agncNm: data.agncNm,
+      // agncUkey: data.agncUkey,
+      // bsnsMngrUkey: data.bsnsMngrUkey,
+      // memo: data.memo,
+      // custUkey: data.custUkey,
     };
-    console.log("==modify", saveObj);
-    console.log("modify stringify", JSON.stringify(saveObj));
+    // console.log("==modify", saveObj);
+    // console.log("modify stringify", JSON.stringify(saveObj));
 
     const apiUrl = `/agnc`; // Replace with your API URL
 
@@ -186,6 +183,7 @@ const AgncPiModify = () => {
     } finally {
     }
   };
+
   return (
     <Container maxWidth={false} sx={{ width: "100%" }}>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
