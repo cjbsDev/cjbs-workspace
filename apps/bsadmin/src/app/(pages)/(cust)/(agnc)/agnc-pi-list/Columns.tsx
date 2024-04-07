@@ -12,6 +12,7 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
   },
   {
     name: "거래처(PI)",
+    width: "350px",
     allowOverflow: true,
     cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
       <Stack
@@ -21,16 +22,16 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
         // useFlexGap
         // flexWrap="wrap"
       >
-        <Box data-tag="allowRowEvents">{row.agncNm} </Box>
-        <Box data-tag="allowRowEvents">({row.instNm})</Box>
         {row.isSpecialMng === "Y" && (
           <MyIcon
             data-tag="allowRowEvents"
             icon="vip-fill"
-            size={20}
+            size={18}
             color="#FFAB33"
           />
         )}
+        <Box data-tag="allowRowEvents">{row.agncNm} </Box>
+        <Box data-tag="allowRowEvents">({row.instNm})</Box>
       </Stack>
     ),
   },
