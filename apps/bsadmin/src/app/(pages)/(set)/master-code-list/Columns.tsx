@@ -1,19 +1,32 @@
 import { OutlinedButton } from "cjbsDSTM";
 import React from "react";
+import { Box, Typography } from "@mui/material";
 
-export const getColumns = (goDetailPage: (uniqueCode: string) => void) => [
+export const getColumns = () => [
   {
     name: "코드 ID",
     width: "120px",
-    selector: (row: { uniqueCode: string }) => row.uniqueCode,
+    ignoreRowClick: true,
+    // selector: (row: { uniqueCode: string }) => row.uniqueCode,
+    cell: (row: { uniqueCode: string }) => {
+      return <Typography variant="body2">{row.uniqueCode}</Typography>;
+    },
   },
   {
     name: "코드명(국문)",
-    selector: (row: { codeNm: string }) => row.codeNm,
+    ignoreRowClick: true,
+    // selector: (row: { codeNm: string }) => row.codeNm,
+    cell: (row: { codeNm: string }) => {
+      return <Typography variant="body2">{row.codeNm}</Typography>;
+    },
   },
   {
     name: "코드명(영문)",
-    selector: (row: { codeValue: string }) => row.codeValue,
+    ignoreRowClick: true,
+    // selector: (row: { codeValue: string }) => row.codeValue,
+    cell: (row: { codeValue: string }) => {
+      return <Typography variant="body2">{row.codeValue}</Typography>;
+    },
   },
 
   {
@@ -26,9 +39,9 @@ export const getColumns = (goDetailPage: (uniqueCode: string) => void) => [
       return (
         isRls == "Y" && (
           <OutlinedButton
+            data-tag="allowRowEvents"
             buttonName="관리"
             size="small"
-            onClick={() => goDetailPage(uniqueCode)}
           />
         )
       );

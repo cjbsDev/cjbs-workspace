@@ -17,14 +17,20 @@ const ListMaster = () => {
   });
   const totalElements = data.length;
 
-  const goDetailPage = useCallback(
-    (uniqueCode: string) => {
-      return router.push("/master-code-list/" + uniqueCode);
-    },
-    [router],
-  );
+  // const goDetailPage = useCallback(
+  //   (uniqueCode: string) => {
+  //     return router.push("/master-code-list/" + uniqueCode);
+  //   },
+  //   [router],
+  // );
 
-  const columns = useMemo(() => getColumns(goDetailPage), [goDetailPage]);
+  const handleOnRowClicked = (row) => {
+    console.log("@#@#$@#@#@@#", row);
+    const { uniqueCode } = row;
+    router.push("/master-code-list/" + uniqueCode);
+  };
+
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeader = useMemo(() => {
     return <SubHeader totalElements={totalElements} />;
@@ -35,6 +41,7 @@ const ListMaster = () => {
       title={<Title1 titleName="마스터 코드" />}
       data={data}
       columns={columns}
+      onRowClicked={handleOnRowClicked}
       highlightOnHover
       customStyles={dataTableCustomStyles}
       subHeader

@@ -1,14 +1,7 @@
 "use client";
 
 import React from "react";
-import {
-  ContainedButton,
-  OutlinedButton,
-  Title1,
-  Form,
-  ErrorContainer,
-  Fallback,
-} from "cjbsDSTM";
+import { OutlinedButton, Title1, ErrorContainer, Fallback } from "cjbsDSTM";
 import { useRouter } from "next/navigation";
 import { Box, Container, Stack } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
@@ -34,7 +27,7 @@ const LazyCommontModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 export default function MasterCodePage({ params }: CustViewProps) {
