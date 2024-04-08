@@ -3,30 +3,16 @@
 import React from "react";
 import { TH, TD } from "cjbsDSTM";
 import useSWR from "swr";
-import axios from "axios";
-import {
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-  Container,
-} from "@mui/material";
-import SkeletonLoading from "../../../../components/SkeletonLoading";
+import { Table, TableBody, TableContainer, TableRow } from "@mui/material";
 import { fetcher } from "api";
-interface MCHeaderProps {
-  slug: string;
-}
+import { useParams } from "next/navigation";
 
-const MCHeader: React.FC<MCHeaderProps> = ({ slug }) => {
-  // load
-  const {
-    data: msCodeData,
-    error,
-    isLoading,
-  } = useSWR(`/mngr/masterCode/${slug}`, fetcher);
-  if (isLoading) {
-    return <SkeletonLoading />;
-  }
+const MCHeader = () => {
+  const params = useParams();
+  const { slug } = params;
+  const { data: msCodeData } = useSWR(`/mngr/masterCode/${slug}`, fetcher, {
+    suspense: true,
+  });
 
   return (
     <>

@@ -19,10 +19,10 @@ import {
   TableBody,
   TableContainer,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { PUT, POST } from "api";
 import { toast } from "react-toastify";
+import { mutate } from "swr";
 
 interface DataItem {
   detailUniqueCode: string;
@@ -34,14 +34,10 @@ interface DataItem {
 }
 
 interface MCItemModifyModalProps {
-  // children?: React.ReactNode;
   onClose: () => void;
   open: boolean;
   modalWidth: number;
-  selectItem: DataItem;
-  uniqueCode: string;
-  renderList: () => void;
-  //renderList: (saveObj: DataItem) => void;
+  selectItem?: DataItem | undefined;
 }
 
 const MCItemModifyModal = ({
@@ -49,46 +45,46 @@ const MCItemModifyModal = ({
   open,
   modalWidth,
   selectItem,
-  uniqueCode,
-  renderList,
 }: MCItemModifyModalProps) => {
   const router = useRouter();
-
+  const params = useParams();
+  const { slug } = params;
+  const searchParams = useSearchParams();
+  const search = searchParams.get("type");
+  console.log("TYPE", search);
   //console.log("yes selectItem", selectItem);
+
+  const defaultValues =
+    search === "add"
+      ? undefined
+      : {
+          ...selectItem,
+          isExpsOrsh: selectItem?.isExpsOrsh ? selectItem.isExpsOrsh : "Y",
+          isRls: selectItem?.isRls ? selectItem.isRls : "Y",
+        };
 
   // [ 추가 & 수정 ]
   const onSubmit = async (data: any) => {
     console.log("in onSubmit", data);
-
     const saveObj: DataItem = {
-      codeNm: data.codeNm,
-      codeValue: data.codeValue,
-      detailUniqueCode: data.detailUniqueCode,
-      douzoneCode: data.douzoneCode,
-      isExpsOrsh: data.isExpsOrsh,
-      isRls: data.isRls,
+      ...data,
     };
     console.log("==saveObj", saveObj);
-    console.log(uniqueCode + "saveObj stringify", JSON.stringify(saveObj));
-
-    //let apiUrl = ${process.env.NEXT_PUBLIC_API_URL}
-    //const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/${uniqueCode}`;
+    console.log(slug + "saveObj stringify", JSON.stringify(saveObj));
 
     let apiUrl = "";
-    if (selectItem.detailUniqueCode) {
-      //apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/mngr/` + uniqueCode;
-      // ~ /mngr/{uniqueCode} -> ~/mngr/masterCode/{uniqueCode}
-      apiUrl = `/mngr/masterCode/` + uniqueCode;
+    if (selectItem?.detailUniqueCode) {
+      apiUrl = `/mngr/masterCode/` + slug;
 
       try {
         const response = await PUT(apiUrl, saveObj); // API 요청
         if (response.success) {
           onClose(); // 모달 닫기
-          renderList();
+          mutate(`/mngr/masterCode/detail/${slug}?page=1&size=50`);
         } else if (response.code == "INVALID_AUTHORITY") {
           toast("권한이 없습니다.");
         } else {
-          toast("코드 수정 오류. 01");
+          toast(response.message);
         }
       } catch (error) {
         console.error("request failed:", error);
@@ -96,17 +92,18 @@ const MCItemModifyModal = ({
       }
     } else {
       console.log("추가 -01");
-      apiUrl = `/mngr/masterCode/` + uniqueCode;
+      apiUrl = `/mngr/masterCode/` + slug;
 
       try {
         const response = await POST(apiUrl, saveObj); // API 요청
         if (response.success) {
+          console.log("ADD ==>>", response);
           onClose(); // 모달 닫기
-          renderList();
+          mutate(`/mngr/masterCode/detail/${slug}?page=1&size=50`);
         } else if (response.code == "INVALID_AUTHORITY") {
           toast("권한이 없습니다.");
         } else {
-          toast("코드 수정 오류. 01");
+          toast(response.message);
         }
       } catch (error) {
         console.error("request failed:", error);
@@ -115,22 +112,10 @@ const MCItemModifyModal = ({
     }
   };
 
-  const defaultValues = {
-    detailUniqueCode: selectItem.detailUniqueCode,
-    douzoneCode: selectItem.douzoneCode,
-    codeNm: selectItem.codeNm,
-    codeValue: selectItem.codeValue,
-    isExpsOrsh: selectItem.isExpsOrsh ? selectItem.isExpsOrsh : "Y",
-    isRls: selectItem.isRls ? selectItem.isRls : "Y",
-  };
-
-  //const defaultValues = {};
-  //console.log("selectItem", selectItem);
-
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>
-        코드 {selectItem.detailUniqueCode ? "수정" : "추가"}
+        코드 {selectItem?.detailUniqueCode ? "수정" : "추가"}
       </ModalTitle>
       <DialogContent>
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -163,8 +148,8 @@ const MCItemModifyModal = ({
                         inputName="codeNm"
                         required={true}
                         errorMessage={"상세코드명(국문)을 입력해주세요."}
-                        //pattern={/^[가-힣]*$/}
-                        //patternErrMsg="한국어만 입력가능합니다."
+                        pattern={/^[\u3131-\u314E\u314F-\u3163가-힣]*$/}
+                        patternErrMsg="한국어만 입력가능합니다."
                         maxLength={100}
                         maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
@@ -178,8 +163,8 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeValue"
-                        //pattern={/^[A-Za-z]*$/}
-                        //patternErrMsg="영어만 입력가능합니다."
+                        pattern={/^[A-Za-z]*$/}
+                        patternErrMsg="영어만 입력가능합니다."
                         maxLength={100}
                         maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
                         sx={{ width: 400 }}
