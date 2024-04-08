@@ -25,7 +25,7 @@ export const getColumns = (
   },
 
   {
-    name: "분석 단계",
+    name: "플랫폼",
     wrap: true,
     cell: (row: { btmValueList: any }) => {
       return row.btmValueList.length > 0 ? (
