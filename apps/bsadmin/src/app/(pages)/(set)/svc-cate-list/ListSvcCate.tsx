@@ -15,25 +15,34 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import { usePathname } from "next/navigation";
 
 const ListSvcCate = () => {
   const router = useRouter();
+  const currentUrl = usePathname();
   const enumMngrCode = "SRVC_CTGR";
   let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
 
+  console.log(data);
+
   const totalElements = data.length;
 
-  const goDetailPage = useCallback(
-    (topCodeMc: string, midCodeMc: string) => {
-      router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
-    },
-    [router],
-  );
+  const goDetailPage = useCallback(() => {
+    console.log("tytytytymnbnmbmnnn");
 
-  const columns = useMemo(() => getColumns(goDetailPage), [goDetailPage]);
+    // router.push("/svc-cate-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
+  }, [router]);
+
+  const handleOnRowClicked = (row) => {
+    console.log("CCLCLLCLCLC");
+    const { topCodeMc, midCodeMc } = row;
+    router.push(`${currentUrl}/${topCodeMc}?midCodeMc=${midCodeMc}`);
+  };
+
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeader = useMemo(() => {
     return <SubHeader totalElements={totalElements} />;
@@ -50,6 +59,7 @@ const ListSvcCate = () => {
         subHeader
         subHeaderComponent={subHeader}
         selectableRows={false}
+        onRowClicked={handleOnRowClicked}
       />
     </Box>
   );
