@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Box, Container, Stack } from "@mui/material";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import dynamic from "next/dynamic";
+import { Fascinate } from "next/dist/compiled/@next/font/dist/google";
 
 interface CustViewProps {
   params: {
@@ -19,20 +20,19 @@ const LazyMCHeader = dynamic(() => import("./MCHeader"), {
 });
 const LazyMCDetailList = dynamic(() => import("./MCDetailList"), {
   ssr: false,
-  loading: () => <SkeletonLoading height={82} />,
+  loading: () => <SkeletonLoading height={370} />,
 });
 
 const LazyCommontModifyLog = dynamic(
   () => import("../../../../components/LogTable"),
   {
     ssr: false,
-    loading: () => <SkeletonLoading height={272} />,
+    loading: () => <SkeletonLoading height={172} />,
   },
 );
 
-export default function MasterCodePage({ params }: CustViewProps) {
+export default function MasterCodePage() {
   // init
-  const { slug } = params;
   const router = useRouter();
 
   return (
@@ -41,8 +41,13 @@ export default function MasterCodePage({ params }: CustViewProps) {
         <Title1 titleName="상세코드" />
       </Box>
 
-      <LazyMCHeader slug={slug} />
-      <LazyMCDetailList slug={slug} />
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyMCHeader />
+      </ErrorContainer>
+
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyMCDetailList />
+      </ErrorContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
@@ -55,7 +60,7 @@ export default function MasterCodePage({ params }: CustViewProps) {
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyCommontModifyLog
             apiName="masterCode"
-            uKey={slug}
+            // uKey={slug}
             logTitle=""
             type="mngr"
           />

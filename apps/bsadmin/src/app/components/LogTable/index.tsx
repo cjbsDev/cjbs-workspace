@@ -5,7 +5,8 @@ import { DataTableBase } from "cjbsDSTM";
 import { Typography, Box, Stack } from "@mui/material";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../NoDataView";
-import { useUnifiedLogList } from "./useUnifiedLogList"; // 새로운 hook을 import
+import { useUnifiedLogList } from "./useUnifiedLogList";
+import { useParams } from "next/navigation"; // 새로운 hook을 import
 
 interface LogProps {
   uKey: string;
@@ -115,11 +116,13 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
 const LogDataComponent: React.FC<LogDataComponentProps> = ({
   type,
   apiName,
-  uKey,
+  // uKey,
   subUkey,
   logTitle,
 }) => {
-  const logDataProps = useUnifiedLogList(type, apiName, uKey, subUkey);
+  const params = useParams();
+  const { slug } = params;
+  const logDataProps = useUnifiedLogList(type, apiName, slug, subUkey);
 
   return (
     <LogDisplayComponent logData={logDataProps.logData} logTitle={logTitle} />
@@ -134,7 +137,7 @@ const LogTable = (props: LogProps) => {
       <LogDataComponent
         type={type}
         apiName={apiName}
-        uKey={uKey}
+        // uKey={uKey}
         subUkey={subUkey}
         logTitle={logTitle}
       />
