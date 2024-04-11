@@ -430,6 +430,26 @@ const TableNewRows = (props: any) => {
             </TableCell>
             <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
               <InputValidation
+                inputName={`sample.[${index}].adapter`}
+                required={false}
+                sx={{
+                  width: 117,
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
+                  },
+                  ".MuiOutlinedInput-input:read-only": {
+                    backgroundColor: "white",
+                    cursor: "pointer",
+                    textFillColor: "#000000"
+                  },
+                }}
+                InputProps={{
+                  readOnly: updataYn === 'N' ? false : true
+                }}
+              />
+            </TableCell>
+            <TableCell sx={{ paddingX: 2, paddingY: 1 }}>
+              <InputValidation
                 inputName={`sample.[${index}].memo`}
                 required={false}
                 sx={{

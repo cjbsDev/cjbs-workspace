@@ -144,6 +144,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=sgfssamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           {serviceType === 'ao' ? (
@@ -159,6 +163,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=sgaosamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           {serviceType === 'so' ? (
@@ -174,6 +182,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=sgsosamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           <Typography variant="body2">

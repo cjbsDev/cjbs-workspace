@@ -6,7 +6,7 @@ import {
   Form,
   InputValidation,
   ContainedButton,
-  cjbsTheme,
+  cjbsTheme, FileDownloadBtn,
 } from "cjbsDSTM";
 import { DialogContent, Stack, styled, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -190,6 +190,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=mtpfssamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           {serviceType === 'ao' ? (
@@ -205,6 +209,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=mtpaosamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           {serviceType === 'so' ? (
@@ -220,6 +228,10 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
                 sx={{ marginLeft: "20spx !important" }}
               />
             </Link>
+            // <FileDownloadBtn
+            //   exportUrl={`/file/orsh/url?alias=mtpsosamplet`}
+            //   iconName="xls3"
+            // />
           ) : ('')}
 
           <Typography variant="body2">
