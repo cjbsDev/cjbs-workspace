@@ -34,6 +34,10 @@ export const yieldData = [
     value: "BS_0100010005",
     optionName: "20G",
   },
+  {
+    value: "BS_0100010007",
+    optionName: "50000",
+  },
 ];
 
 export const vrfcData = [

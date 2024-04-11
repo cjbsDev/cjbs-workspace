@@ -59,23 +59,27 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
   const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState<DataItem>();
 
-  const {
-    data: tempData,
-    error,
-    isLoading,
-  } = useSWR(
+  const { data } = useSWR(
     `/mngr/stndPrice/${slug}/list`,
-    fetcher
+    fetcher,
+    {
+      suspense: true,
+    },
     //{ revalidateOnFocus: true }
   );
-  if (isLoading) {
-    return <SkeletonLoading />;
-  }
-  if (error) {
-    console.log("api err", error);
-    return;
-  }
-  const getDataList = tempData?.stndPriceDetailList || [];
+  // if (isLoading) {
+  //   return <SkeletonLoading />;
+  // }
+  // if (error) {
+  //   console.log("api err", error);
+  //   return;
+  // }
+
+  console.log("$$$$$$", data);
+
+  const { stndPriceDetailList } = data;
+
+  // const getDataList = tempData?.stndPriceDetailList || [];
 
   const renderList = () => {
     mutate(`/mngr/stndPrice/${slug}/list`);
@@ -121,7 +125,7 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
       <Grid container>
         <Grid item xs={7} sx={{ display: "flex" }}>
           <Typography variant="subtitle1">
-            세부 기준가 ( 총 {getDataList.length} 건 )
+            세부 기준가 ( 총 {stndPriceDetailList.length} 건 )
           </Typography>
         </Grid>
         <Grid item xs={5} sx={{ pt: 0, textAlign: "right", mb: 1 }}>
@@ -138,21 +142,41 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
         <Table>
           <TableHead>
             <TableRow>
-              <TH sx={{ width: "10%" }}>기준가 코드</TH>
-              <TH sx={{ width: "10%" }}>수량</TH>
-              <TH sx={{ width: "14%" }}>기준 할인율(%)</TH>
-              <TH sx={{ width: "10%" }}>Prep</TH>
-              <TH sx={{ width: "10%" }}>QC</TH>
-              <TH sx={{ width: "10%" }}>Lib</TH>
-              <TH sx={{ width: "10%" }}>Seq</TH>
-              <TH sx={{ width: "10%" }}>BI</TH>
-              <TH sx={{ width: "8%" }}>사용여부</TH>
-              <TH sx={{ width: "8%" }}>수정</TH>
+              <TH sx={{ width: "10%" }} align="center">
+                기준가 코드
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                수량
+              </TH>
+              <TH sx={{ width: "14%" }} align="center">
+                기준 할인율(%)
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                Prep
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                QC
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                Lib
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                Seq
+              </TH>
+              <TH sx={{ width: "10%" }} align="center">
+                BI
+              </TH>
+              <TH sx={{ width: "8%" }} align="center">
+                사용여부
+              </TH>
+              <TH sx={{ width: "8%" }} align="center">
+                수정
+              </TH>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {getDataList.length === 0 ? (
+            {stndPriceDetailList.length === 0 ? (
               <TableRow>
                 <TD colSpan={10}>
                   <Box sx={{ textAlign: "center" }}>
@@ -161,20 +185,20 @@ const StndPriceDetailList: React.FC<StndPriceDetailListProps> = ({ slug }) => {
                 </TD>
               </TableRow>
             ) : (
-              getDataList.map((dataItem: DataItem, index: number) => (
+              stndPriceDetailList.map((dataItem: DataItem, index: number) => (
                 <TableRow key={dataItem.stndPriceDetailUkey}>
-                  <TD>{dataItem.stndPriceDetailId}</TD>
-                  <TD>
+                  <TD align="center">{dataItem.stndPriceDetailId}</TD>
+                  <TD align="center">
                     {dataItem.sampleSizeStart} ~ {dataItem.sampleSizeEnd}
                   </TD>
-                  <TD>{dataItem.stndDscntPctg}</TD>
-                  <TD>{dataItem.prep}</TD>
-                  <TD>{dataItem.qc}</TD>
-                  <TD>{dataItem.lib}</TD>
-                  <TD>{dataItem.seq}</TD>
-                  <TD>{dataItem.bi}</TD>
-                  <TD>{dataItem.isUse}</TD>
-                  <TD>
+                  <TD align="center">{dataItem.stndDscntPctg}</TD>
+                  <TD align="center">{dataItem.prep}</TD>
+                  <TD align="center">{dataItem.qc}</TD>
+                  <TD align="center">{dataItem.lib}</TD>
+                  <TD align="center">{dataItem.seq}</TD>
+                  <TD align="center">{dataItem.bi}</TD>
+                  <TD align="center">{dataItem.isUse}</TD>
+                  <TD align="center">
                     <OutlinedButton
                       buttonName="수정"
                       size="small"
