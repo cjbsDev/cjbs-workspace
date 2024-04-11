@@ -15,61 +15,61 @@ import {
   Typography,
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import axios from "axios";
 import { grey } from "cjbsDSTM/themes/color";
 import { cjbsTheme } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
-import { toast } from "react-toastify";
 
 const apiUrl = `/mngr/stndPrice/srvcType/null/null`;
 const StndPriceSrvcType = () => {
   const [selectedIndex, setSelectedIndex] = useState<number>();
-
+  const [breadcrumbsData, setBreadcrumbsData] = useState<Array<string>>([]);
   const [selectValue01, setSelectValue01] = useState<string>("");
   const [selectValue02, setSelectValue02] = useState<number>();
   const [selectValue03, setSelectValue03] = useState<number>();
-
   const [selectLoading02, setSelectLoading02] = useState<boolean>(false);
   const [selectLoading03, setSelectLoading03] = useState<boolean>(false);
-
   const [srvcTypeList02, setSrvcTypeList02] = useState([]);
   const [srvcTypeList03, setSrvcTypeList03] = useState([]);
+  const { setValue } = useFormContext();
 
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
   });
   const srvcTypeList01 = data;
 
-  const { setValue, clearErrors } = useFormContext();
+  const updateBreadcrumbs = (level, value) => {
+    let newBreadcrumbs = [...breadcrumbsData];
+    newBreadcrumbs = newBreadcrumbs.slice(0, level);
+    newBreadcrumbs.push(value);
+    setBreadcrumbsData(newBreadcrumbs);
+  };
 
   const handleListItemClick = async (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     index: number,
     value: string,
+    optionName: string,
   ) => {
     setSelectLoading02(true);
     setSelectedIndex(index);
+    updateBreadcrumbs(0, optionName);
 
-    console.log("value", value);
-
-    await GET(`/mngr/stndPrice/srvcType/${value}/null`)
-      .then((res) => {
-        console.log("res", res);
-        if (res.success) {
-          const srvcTypeList02Temp = res.data;
-          //console.log("SecondSrvcType List DATA ==>>", srvcTypeList02Temp);
-          setSrvcTypeList02(srvcTypeList02Temp);
-          setSrvcTypeList03([]);
-          setSelectValue01(value);
-          //setValue("selectValue01", value);
-          setSelectLoading02(false);
-        } else {
-          console.log("SUCCESS FALSE!!...");
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    try {
+      const res = await GET(`/mngr/stndPrice/srvcType/${value}/null`);
+      if (res.success) {
+        setSrvcTypeList02(res.data);
+        setSrvcTypeList03([]);
+        setSelectValue01(value);
+        setValue("srvcTypeMc", value);
+        setValue("srvcTypeMcVal", optionName);
+      } else {
+        console.log("SUCCESS FALSE!!...");
+      }
+    } catch (err) {
+      console.error(err.message);
+    } finally {
+      setSelectLoading02(false);
+    }
   };
 
   const handleListScndItemClick = async (
@@ -77,45 +77,39 @@ const StndPriceSrvcType = () => {
     index: number,
     value: string,
     selectValue01: string,
+    optionName: string,
   ) => {
     setSelectLoading03(true);
     setSelectValue02(index);
+    updateBreadcrumbs(1, optionName);
 
     try {
       const res = await GET(
         `/mngr/stndPrice/srvcType/${selectValue01}/${value}`,
       );
-
       if (res.success) {
-        const srvcTypeList03s = res.data;
-        //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
-        setSrvcTypeList03(srvcTypeList03s);
-        setSelectLoading03(false);
+        setSrvcTypeList03(res.data);
+        setValue("anlsTypeMc", value);
+        setValue("anlsTypeMcVal", optionName);
       } else {
         console.log("SUCCESS FALSE!!...");
       }
     } catch (error) {
       console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
+    } finally {
+      setSelectLoading03(false);
     }
+  };
 
-    // await axios
-    //   .get(
-    //     `${process.env.NEXT_PUBLIC_API_URL}/mngr/stndPrice/srvcType/${selectValue01}/${value}`,
-    //   )
-    //   .then((res) => {
-    //     if (res.data.success) {
-    //       const srvcTypeList03s = res.data.data;
-    //       //console.log("ThirdSrvcType List DATA ==>>", srvcTypeList03s);
-    //       setSrvcTypeList03(srvcTypeList03s);
-    //       setSelectLoading03(false);
-    //     } else {
-    //       console.log("SUCCESS FALSE!!...");
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.message);
-    //   });
+  const handleListThrdItemClick = (
+    index: number,
+    value: string,
+    optionName: string,
+  ) => {
+    setSelectValue03(index);
+    updateBreadcrumbs(2, optionName);
+    setValue("anlsMtMc", value);
+    setValue("anlsMtMcVal", optionName);
   };
 
   return (
@@ -130,9 +124,17 @@ const StndPriceSrvcType = () => {
         }}
         separator=">"
       >
-        <Typography variant="subtitle2">Breadcrumbs</Typography>
-        <Typography variant="subtitle2">Breadcrumbs</Typography>
-        <Typography variant="subtitle2">Breadcrumbs</Typography>
+        {breadcrumbsData.length === 0 ? (
+          <Typography variant="subtitle2" color="secondary">
+            No Selected.
+          </Typography>
+        ) : (
+          breadcrumbsData.map((text, index) => (
+            <Typography key={index} variant="subtitle2">
+              {text}
+            </Typography>
+          ))
+        )}
       </Breadcrumbs>
       <Grid container>
         <Stack
@@ -159,9 +161,7 @@ const StndPriceSrvcType = () => {
                     selected={selectedIndex === index}
                     onClick={(event) => {
                       console.log("1 : " + optionName + " / " + value);
-                      setValue("srvcTypeMc", value);
-                      setValue("srvcTypeMcVal", optionName);
-                      handleListItemClick(event, index, value);
+                      handleListItemClick(event, index, value, optionName);
                     }}
                   >
                     <ListItemText primary={optionName} />
@@ -210,14 +210,12 @@ const StndPriceSrvcType = () => {
                           selected={selectValue02 === index}
                           onClick={(event) => {
                             console.log("2 : " + optionName + " / " + value);
-                            setValue("anlsTypeMc", value);
-                            setValue("anlsTypeMcVal", optionName);
-
                             handleListScndItemClick(
                               event,
                               index,
                               value,
                               selectValue01,
+                              optionName,
                             );
                           }}
                         >
@@ -269,10 +267,7 @@ const StndPriceSrvcType = () => {
                           selected={selectValue03 === index}
                           onClick={() => {
                             console.log("3 : " + optionName + " / " + value);
-                            setValue("anlsMtMc", value);
-                            setValue("anlsMtMcVal", optionName);
-
-                            setSelectValue03(index);
+                            handleListThrdItemClick(index, value, optionName);
                           }}
                         >
                           <ListItemText primary={optionName} />

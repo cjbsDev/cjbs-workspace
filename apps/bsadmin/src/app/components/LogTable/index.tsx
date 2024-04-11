@@ -14,7 +14,7 @@ interface LogProps {
   logTitle: string;
   ebcShow?: boolean;
   subUkey?: string;
-  type?: string;
+  type?: string | undefined;
 }
 
 interface LogUpdateTitleProps {
@@ -42,9 +42,9 @@ interface LogDisplayComponentProps {
 }
 
 interface LogDataComponentProps {
-  type: string;
+  type: string | undefined;
   apiName: string;
-  uKey: string;
+  uKey?: string;
   subUkey?: string;
   logTitle: string;
 }
@@ -89,10 +89,12 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
     },
     {
       name: "변경 전",
+      wrap: true,
       selector: (row: { preUpdateValue: any }) => row.preUpdateValue,
     },
     {
       name: "변경 후",
+      wrap: true,
       selector: (row: { postUpdateValue: any }) => row.postUpdateValue,
     },
   ];
@@ -116,13 +118,14 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
 const LogDataComponent: React.FC<LogDataComponentProps> = ({
   type,
   apiName,
-  // uKey,
+  uKey,
   subUkey,
   logTitle,
 }) => {
-  const params = useParams();
-  const { slug } = params;
-  const logDataProps = useUnifiedLogList(type, apiName, slug, subUkey);
+  // const params = useParams();
+  // const { slug } = params;
+  console.log("!!!!!!!!!!!!", uKey);
+  const logDataProps = useUnifiedLogList(type, apiName, uKey, subUkey);
 
   return (
     <LogDisplayComponent logData={logDataProps.logData} logTitle={logTitle} />
@@ -130,14 +133,16 @@ const LogDataComponent: React.FC<LogDataComponentProps> = ({
 };
 
 const LogTable = (props: LogProps) => {
-  const { uKey, apiName, logTitle, ebcShow, type, subUkey } = props;
+  // const params = useParams();
+  // const { slug } = params;
+  const { apiName, logTitle, ebcShow, type, uKey, subUkey } = props;
 
   return (
     <>
       <LogDataComponent
         type={type}
         apiName={apiName}
-        // uKey={uKey}
+        uKey={uKey}
         subUkey={subUkey}
         logTitle={logTitle}
       />

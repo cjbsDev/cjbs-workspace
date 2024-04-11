@@ -44,7 +44,7 @@ const LazyCommontModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 export default function SvcStdPricePage({ params }: ViewProps) {
@@ -120,7 +120,10 @@ export default function SvcStdPricePage({ params }: ViewProps) {
         </Table>
       </TableContainer>
 
-      <LazyStndPriceDetailList slug={slug} />
+      {/* 세부 기준가 */}
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyStndPriceDetailList slug={slug} />
+      </ErrorContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton

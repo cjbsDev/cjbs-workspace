@@ -50,7 +50,7 @@ export const getColumns = (goDetailPage: () => void) => [
   {
     name: "상태",
     center: true,
-    width: "80px",
+    width: "100px",
     selector: (row: { statusVal: string }) => row.statusVal,
   },
 ];
