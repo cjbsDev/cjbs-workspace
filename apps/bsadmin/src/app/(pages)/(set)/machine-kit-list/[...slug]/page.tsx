@@ -64,6 +64,8 @@ export default function MachineKitPage({ params }: ViewProps) {
   const topCodeMc = slug;
   const router = useRouter();
 
+  console.log("TOPCONDE", topCodeMc.toString());
+
   // load
   const {
     data: codeData,
@@ -82,9 +84,9 @@ export default function MachineKitPage({ params }: ViewProps) {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
-      btmCodeMcList: selectCodeList,
       midCodeMc,
-      topCodeMc,
+      btmCodeMcList: selectCodeList,
+      topCodeMc: topCodeMc.toString(),
     };
     //console.log("saveObj", saveObj);
     //console.log("modify stringify", JSON.stringify(saveObj));
