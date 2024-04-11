@@ -2,13 +2,12 @@ import { Box, Chip, Typography } from "@mui/material";
 import { OutlinedButton } from "cjbsDSTM";
 import React from "react";
 
-export const getColumns = (
-  goDetailPage: (topCodeMc: string, midCodeMc: string) => void,
-) => [
+export const getColumns = () => [
   {
     name: "No",
     width: "80px",
     center: true,
+    ignoreRowClick: true,
     cell: (row: any, index: number) => {
       return index + 1;
     },
@@ -16,17 +15,20 @@ export const getColumns = (
   {
     name: "분류",
     width: "100px",
+    ignoreRowClick: true,
     selector: (row: { topValue: string }) => row.topValue,
   },
   {
     name: "분석종류",
     width: "150px",
+    ignoreRowClick: true,
     selector: (row: { midValue: string }) => row.midValue,
   },
 
   {
-    name: "분석 단계",
+    name: "플랫폼",
     wrap: true,
+    ignoreRowClick: true,
     cell: (row: { btmValueList: any }) => {
       return row.btmValueList.length > 0 ? (
         <Box sx={{ mb: -1 }}>
@@ -58,9 +60,10 @@ export const getColumns = (
     cell: (row: { topCodeMc: string; midCodeMc: string }) => {
       return (
         <OutlinedButton
+          data-tag="allowRowEvents"
           buttonName="관리"
           size="small"
-          onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
+          // onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
         />
       );
     },

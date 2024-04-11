@@ -9,9 +9,11 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import SubHeader from "./SubHeader";
 import { getColumns } from "./Columns";
+import { usePathname } from "next/navigation";
 
 const ListMachine = () => {
   const router = useRouter();
+  const currentURL = usePathname();
   const enumMngrCode = "MCHN_KIT";
   let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
   const { data } = useSWR(apiUrl, fetcher, {
@@ -21,13 +23,14 @@ const ListMachine = () => {
   const totalElements = data.length;
 
   const goDetailPage = useCallback(
-    (topCodeMc: string, midCodeMc: string) => {
-      router.push("/machine-kit-list/" + topCodeMc + "?midCodeMc=" + midCodeMc);
+    (row) => {
+      const { topCodeMc, midCodeMc } = row;
+      router.push(`${currentURL}/${topCodeMc}?midCodeMc=${midCodeMc}`);
     },
     [router],
   );
 
-  const columns = useMemo(() => getColumns(goDetailPage), [goDetailPage]);
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeader = useMemo(() => {
     return <SubHeader totalElements={totalElements} />;
@@ -39,6 +42,7 @@ const ListMachine = () => {
         title={<Title1 titleName="장비 Kit 분류 관리" />}
         data={data}
         columns={columns}
+        onRowClicked={goDetailPage}
         highlightOnHover
         customStyles={dataTableCustomStyles}
         subHeader

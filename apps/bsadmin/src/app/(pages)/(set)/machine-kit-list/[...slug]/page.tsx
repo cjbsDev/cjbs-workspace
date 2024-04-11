@@ -37,7 +37,7 @@ const LazyCheckboxList = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={82} />,
-  }
+  },
 );
 
 const LazyCommontModifyLog = dynamic(
@@ -45,7 +45,7 @@ const LazyCommontModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 interface ViewProps {
@@ -64,6 +64,8 @@ export default function MachineKitPage({ params }: ViewProps) {
   const topCodeMc = slug;
   const router = useRouter();
 
+  console.log("TOPCONDE", topCodeMc.toString());
+
   // load
   const {
     data: codeData,
@@ -72,7 +74,7 @@ export default function MachineKitPage({ params }: ViewProps) {
   } = useSWR(
     `/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
     fetcher,
-    { revalidateOnFocus: true }
+    { revalidateOnFocus: true },
   );
   if (isLoading) {
     return <SkeletonLoading />;
@@ -82,9 +84,9 @@ export default function MachineKitPage({ params }: ViewProps) {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
-      btmCodeMcList: selectCodeList,
       midCodeMc,
-      topCodeMc,
+      btmCodeMcList: selectCodeList,
+      topCodeMc: topCodeMc.toString(),
     };
     //console.log("saveObj", saveObj);
     //console.log("modify stringify", JSON.stringify(saveObj));
@@ -154,12 +156,12 @@ export default function MachineKitPage({ params }: ViewProps) {
           <Table>
             <TableBody>
               <TableRow>
-                <TH sx={{ width: "252px" }}>분류</TH>
+                <TH sx={{ width: "252px" }}>장비</TH>
                 <TD>{codeData.topValue}</TD>
               </TableRow>
 
               <TableRow>
-                <TH sx={{ width: "252px" }}>분석 방법</TH>
+                <TH sx={{ width: "252px" }}>kit</TH>
                 <TD>
                   <Stack direction="column">
                     <LazyCheckboxList

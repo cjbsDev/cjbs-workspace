@@ -2,9 +2,7 @@ import { OutlinedButton } from "cjbsDSTM";
 import React from "react";
 import { Box, Chip, Typography } from "@mui/material";
 
-export const getColumns = (
-  goDetailPage: (topCodeMc: string, midCodeMc: string) => void,
-) => [
+export const getColumns = () => [
   {
     name: "No",
     cell: (row: any, index: number) => {
@@ -39,7 +37,7 @@ export const getColumns = (
           ))}
         </Box>
       ) : (
-        <Typography variant="body2">등록된 분석 단계가 없습니다.</Typography>
+        <Typography variant="body2">등록된 데이터가 없습니다.</Typography>
       );
     },
     // width: "65%",
@@ -50,9 +48,9 @@ export const getColumns = (
     cell: (row: { topCodeMc: string; midCodeMc: string }) => {
       return (
         <OutlinedButton
+          data-tag="allowRowEvents"
           buttonName="관리"
           size="small"
-          onClick={() => goDetailPage(row.topCodeMc, row.midCodeMc)}
         />
       );
     },
