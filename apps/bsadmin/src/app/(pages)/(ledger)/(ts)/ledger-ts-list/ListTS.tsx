@@ -6,7 +6,7 @@ import {
   DataTableBase,
   DataTableFilter,
   ContainedButton,
-  Title1,
+  Title1, FileDownloadBtn,
 } from "cjbsDSTM";
 
 import { Box, Stack, Grid, Tooltip, IconButton, Link } from "@mui/material";
@@ -18,12 +18,18 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { useList } from "../../../../hooks/useList";
 import { toast } from "react-toastify";
 import NoDataView from "../../../../components/NoDataView";
+import {useSearchParams} from "next/navigation";
+import useSWR from "swr";
+import {fetcher} from "api";
+import KeywordSearch from "../../../../components/KeywordSearch";
 
 const ListCust = () => {
+  // const [page, setPage] = useState<number>(0);
+  // const [perPage, setPerPage] = useState<number>(20);
   const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
+  const [size, setSize] = useState<number>(20);
   // ListAPI Call
-  const { data } = useList("tdst", page, perPage);
+  // const { data } = useList("tdst", page, perPage);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
@@ -31,9 +37,32 @@ const ListCust = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+
+
+  const searchParams = useSearchParams();
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) !== "{}"
+      ? `/tdst/list${result}&page=${page}&size=${size}`
+      : `/tdst/list?page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    }
+  );
+  console.log("고객주문서 LIST DATA", data);
+  const totalElements = data.pageInfo.totalElements;
   const filteredData = data.tdstList;
 
-  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     //console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
@@ -158,29 +187,39 @@ const ListCust = () => {
 
     return (
       <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
-            <DataCountResultInfo
-              totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
-            />
-
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5}>
+            <DataCountResultInfo totalCount={totalElements} />
             <Link href="/ledger-ts-add">
               <ContainedButton buttonName="거래명세서 등록" size="small" />
             </Link>
           </Stack>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/tdst/list/download${result}`}
+              iconName="xls3"
             />
+            <KeywordSearch />
           </Stack>
         </Grid>
+        {/*<Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>*/}
+        {/*  <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>*/}
+        {/*    <DataTableFilter*/}
+        {/*      onFilter={(e: {*/}
+        {/*        target: { value: React.SetStateAction<string> };*/}
+        {/*      }) => setFilterText(e.target.value)}*/}
+        {/*      onClear={handleClear}*/}
+        {/*      filterText={filterText}*/}
+        {/*    />*/}
+        {/*  </Stack>*/}
+        {/*</Grid>*/}
       </Grid>
     );
   }, [filterText, resetPaginationToggle, totalElements]);
@@ -193,7 +232,8 @@ const ListCust = () => {
   const handlePerRowsChange = (newPerPage: number, page: number) => {
     // console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
+    // setPerPage(newPerPage);
+    setSize(newPerPage)
   };
 
   return (
