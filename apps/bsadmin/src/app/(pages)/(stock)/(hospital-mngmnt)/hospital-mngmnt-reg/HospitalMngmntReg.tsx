@@ -83,12 +83,14 @@ const HospitalMngmntReg = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>병원명</TH>
               <TD sx={{ width: "85%" }}>
-                <Stack direction="row" spacing={0.5}>
+                <Stack direction="row" alignItems="center" spacing={0.5}>
                   <InputValidation
-                    inputName="hsptCode"
+                    inputName="hsptUniqueCodeMc"
                     InputProps={{
                       readOnly: true,
                     }}
+                    required={true}
+                    errorMessage="병원을 검색해 주세요."
                   />
                   <ContainedButton buttonName="병원 검색" size="small" />
                 </Stack>
@@ -100,13 +102,15 @@ const HospitalMngmntReg = () => {
                 <InputValidation
                   sx={{ width: 255 }}
                   inputName="hsptCode"
-                  maxLength={50}
-                  maxLengthErrMsg="50자 이내로 입력해주세요."
+                  required={true}
+                  errorMessage="병원코드를 입력해 주세요."
+                  maxLength={20}
+                  maxLengthErrMsg="20자 이내로 입력해주세요."
                 />
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>주소 [선택]</TH>
+              <TH sx={{ width: "15%" }}>주소</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
                 <Stack spacing={1}>
                   <Stack direction="row" spacing={0.5}>
@@ -117,6 +121,8 @@ const HospitalMngmntReg = () => {
                       InputProps={{
                         readOnly: true,
                       }}
+                      required={true}
+                      errorMessage="우편번호 추가해 주세요"
                     />
                     <PostCodeBtn />
                   </Stack>
@@ -127,6 +133,8 @@ const HospitalMngmntReg = () => {
                       InputProps={{
                         readOnly: true,
                       }}
+                      required={true}
+                      errorMessage="주소 입력해 주세요"
                     />
                   </Stack>
                   <Stack direction="row" spacing={0.5}>
@@ -136,6 +144,8 @@ const HospitalMngmntReg = () => {
                       maxLength={50}
                       maxLengthErrMsg="50자 이내로 입력해주세요."
                       placeholder="상세주소"
+                      required={true}
+                      errorMessage="상세 주소 입력해 주세요"
                     />
                   </Stack>
                 </Stack>
@@ -170,7 +180,7 @@ const HospitalMngmntReg = () => {
       </TableContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
-        <Link href="/">
+        <Link href="/hospital-mngmnt-list">
           <OutlinedButton size="small" buttonName="목록" />
         </Link>
 
@@ -182,13 +192,6 @@ const HospitalMngmntReg = () => {
         >
           저장
         </LoadingButton>
-
-        {/*<ContainedButton*/}
-        {/*  size="small"*/}
-        {/*  type="submit"*/}
-        {/*  buttonName="저장"*/}
-        {/*  // endIcon={isLoading ? <LoadingWhiteSvg /> : null}*/}
-        {/*/>*/}
       </Stack>
     </Form>
   );

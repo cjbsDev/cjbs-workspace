@@ -183,6 +183,10 @@ export const InputEAType = ({ ...props }: TextFieldProps) => {
 };
 
 export const InputNumberType = ({ ...props }: TextFieldProps) => {
+  const {
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <ThemeProvider theme={cjbsTheme}>
       <TextField
@@ -197,6 +201,7 @@ export const InputNumberType = ({ ...props }: TextFieldProps) => {
           },
         }}
         inputMode="numeric"
+        error={!!errors.tel}
       />
     </ThemeProvider>
   );

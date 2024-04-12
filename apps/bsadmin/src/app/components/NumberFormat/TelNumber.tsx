@@ -14,7 +14,7 @@ const TelNumber = () => {
       <Controller
         name="tel"
         control={control}
-        rules={{ required: "전화 번호를 다시 한번 확인해 주세요." }}
+        rules={{ required: true }}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <PatternFormat
             format="### - #### - ####"
@@ -30,13 +30,13 @@ const TelNumber = () => {
           />
         )}
       />
-      {errors.invcNum && (
+      {errors.tel && (
         <Typography
           variant="body2"
           color={cjbsTheme.palette.warning.main}
           sx={{ pl: 0.5 }}
         >
-          전화 번호를 다시 한번 확인해 주세요.
+          전화번호를 입력해 주세요.
         </Typography>
       )}
     </Stack>

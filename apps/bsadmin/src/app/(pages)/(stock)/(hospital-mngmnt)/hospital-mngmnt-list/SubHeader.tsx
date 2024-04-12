@@ -23,10 +23,10 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
 
         <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
           {/*<IconDescBar freeDisabled={true} reOrder={true} />*/}
-          {/*<FileDownloadBtn*/}
-          {/*  exportUrl={`/order/list/download${result}`}*/}
-          {/*  iconName="xls3"*/}
-          {/*/>*/}
+          <FileDownloadBtn
+            exportUrl={`/stock/hspt/list/download`}
+            iconName="xls3"
+          />
           <KeywordSearch />
           {/*<ResultInSearch />*/}
         </Stack>
