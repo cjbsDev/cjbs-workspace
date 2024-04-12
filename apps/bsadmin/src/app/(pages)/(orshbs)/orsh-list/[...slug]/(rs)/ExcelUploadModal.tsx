@@ -15,6 +15,7 @@ import MyIcon from "icon/MyIcon";
 import Link from "next/link";
 import {useParams} from "next/navigation";
 import {POST_MULTIPART} from "api";
+import {SampleTempleteExcelDownloadBtn} from "cjbsDSTM/molecules/SampleTempleteExcelDownloadBtn";
 
 interface ModalContainerProps {
   onClose: () => void;
@@ -122,48 +123,24 @@ const ExcelUploadModal = ({ onClose, open, modalWidth, append, serviceType, dele
             • 엑셀 양식을 다운로드한 후 데이터를 입력한 파일을 업로드해주세요.
           </Typography>
           {serviceType === 'fs' ? (
-            <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Full_service_template.xlsx"
-              target="_blank"
-            >
-              <ContainedButton
-                buttonName="엑셀 양식 다운로드"
-                startIcon={<MyIcon icon="download" size={16} />}
-                color={"secondary"}
-                size="small"
-                sx={{ marginLeft: "20spx !important" }}
-              />
-            </Link>
+            <SampleTempleteExcelDownloadBtn
+              exportUrl={`/file/orsh/url?alias=rsfssamplet`}
+              iconName="xls3"
+            />
           ) : ('')}
 
           {serviceType === 'ao' ? (
-            <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Analysis_only_template.xlsx"
-              target="_blank"
-            >
-              <ContainedButton
-                buttonName="엑셀 양식 다운로드"
-                startIcon={<MyIcon icon="download" size={16} />}
-                color={"secondary"}
-                size="small"
-                sx={{ marginLeft: "20spx !important" }}
-              />
-            </Link>
+            <SampleTempleteExcelDownloadBtn
+              exportUrl={`/file/orsh/url?alias=rsaosamplet`}
+              iconName="xls3"
+            />
           ) : ('')}
 
           {serviceType === 'so' ? (
-            <Link
-              href="https://bsa-public-resource.s3.ap-northeast-2.amazonaws.com/ordersheet/template/RS_Sequencing_only_template.xlsx"
-              target="_blank"
-            >
-              <ContainedButton
-                buttonName="엑셀 양식 다운로드"
-                startIcon={<MyIcon icon="download" size={16} />}
-                color={"secondary"}
-                size="small"
-                sx={{ marginLeft: "20spx !important" }}
-              />
-            </Link>
+            <SampleTempleteExcelDownloadBtn
+              exportUrl={`/file/orsh/url?alias=rssosamplet`}
+              iconName="xls3"
+            />
           ) : ('')}
 
           <Typography variant="body2">
