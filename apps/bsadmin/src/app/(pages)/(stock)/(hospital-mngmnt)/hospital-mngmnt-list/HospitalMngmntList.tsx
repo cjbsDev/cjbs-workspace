@@ -9,11 +9,13 @@ import { DataTableBase, Title1 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../../../components/NoDataView";
 import SubHeader from "./SubHeader";
+import { useRouter } from "next-nprogress-bar";
 
 const HospitalMngmntList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
   const [resultObject, result] = useResultObject();
+  const router = useRouter();
 
   const url = useMemo(() => {
     const base = "/stock/hspt/list";
@@ -49,13 +51,18 @@ const HospitalMngmntList = () => {
     [],
   );
 
+  const goDetailPage = (row: any) => {
+    const { stockHsptUkey } = row;
+    router.push(`/hospital-mngmnt-list/${stockHsptUkey}`);
+  };
+
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="병원 거래처 관리" />}
         data={stockHsptList}
         columns={columns}
-        // onRowClicked={goDetailPage}
+        onRowClicked={goDetailPage}
         pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles}

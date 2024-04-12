@@ -36,7 +36,6 @@ export const InputValidation = ({
   ...props
 }: InputValidationProps) => {
   const methods = useFormContext();
-
   return (
     <ThemeProvider theme={cjbsTheme}>
       <Stack>
@@ -44,16 +43,17 @@ export const InputValidation = ({
           {...props}
           error={methods.formState.errors[inputName] ? true : false}
           variant="outlined"
-          // size="small"
           sx={{
             ...props.sx,
           }}
+          InputProps={{
+            style: {
+              paddingTop: props.multiline ? 5 : undefined,
+              paddingBottom: props.multiline ? 5 : undefined,
+            },
+            ...props.InputProps,
+          }}
           {...methods.register(inputName, {
-            // onChange: (e) => console.log(e.target.value),
-            // onChange: (e) =>
-            //   debounce(() => {
-            //     console.log("ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ", e.target.value);
-            //   }),
             onChange: onChange,
             onBlur: onBlur,
             maxLength: maxLength && {
