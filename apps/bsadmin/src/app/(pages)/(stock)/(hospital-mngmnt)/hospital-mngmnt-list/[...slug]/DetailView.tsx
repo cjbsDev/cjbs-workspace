@@ -28,6 +28,7 @@ import TelNumber from "../../../../../components/NumberFormat/TelNumber";
 import Link from "next/link";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next-nprogress-bar";
+import { toast } from "react-toastify";
 
 interface FormDataProps {
   addr: "string";
@@ -70,7 +71,11 @@ const DetailView = () => {
       const response = await PUT(`/stock/hspt/${stockHsptUkey}`, reqBody);
       // API 응답을 기반으로 처리, 예: 성공 메시지 출력, 페이지 이동 등
       console.log("Form submitted successfully:", response);
-      router.push("/hospital-mngmnt-list");
+      if (response.success) {
+        router.push("/hospital-mngmnt-list");
+      } else {
+        toast(response.message);
+      }
     } catch (error) {
       // 오류 처리 로직, 예: 오류 메시지 출력
       console.error("Failed to submit the form:", error);
