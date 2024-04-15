@@ -120,6 +120,11 @@ export const groupListData = [
   { name: "거래처", value: "BS_2200002" },
 ];
 
+export const groupDepartMngrListData = [
+  { value: "BS_0100003011", optionName: "NGS분석팀" },
+  { value: "BS_0100003012", optionName: "NGS영업팀" },
+];
+
 export const taxonListData = [
   { taxonName: "taxonBCnt", taxonIconName: "B" },
   { taxonName: "taxonECnt", taxonIconName: "E" },

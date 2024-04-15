@@ -35,7 +35,7 @@ const LazyCheckboxList = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={82} />,
-  }
+  },
 );
 
 const LazyCommontModifyLog = dynamic(
@@ -43,7 +43,7 @@ const LazyCommontModifyLog = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonLoading height={272} />,
-  }
+  },
 );
 
 interface ViewProps {
@@ -68,7 +68,7 @@ export default function SvcTypePage({ params }: ViewProps) {
   } = useSWR(
     `/mngr/${topCodeMc}/${midCodeMc}?enumMngrCode=${enumMngrCode}`,
     fetcher,
-    { revalidateOnFocus: true }
+    { revalidateOnFocus: true },
   );
   if (isLoading) {
     return <SkeletonLoading />;
@@ -79,7 +79,7 @@ export default function SvcTypePage({ params }: ViewProps) {
     let saveObj = {
       btmCodeMcList: selectCodeList,
       midCodeMc: "none",
-      topCodeMc: slug,
+      topCodeMc: topCodeMc.toString(),
     };
     // console.log("saveObj", saveObj);
     // console.log("modify stringify", JSON.stringify(saveObj));

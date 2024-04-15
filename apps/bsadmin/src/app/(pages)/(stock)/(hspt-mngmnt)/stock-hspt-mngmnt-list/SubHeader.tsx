@@ -16,7 +16,7 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" spacing={1.5} alignItems="center">
           <DataCountResultInfo totalCount={totalElements} />
-          <Link href="/hospital-mngmnt-reg">
+          <Link href="/stock-hspt-mngmnt-reg">
             <ContainedButton buttonName="거래처 등록" size="small" />
           </Link>
         </Stack>
