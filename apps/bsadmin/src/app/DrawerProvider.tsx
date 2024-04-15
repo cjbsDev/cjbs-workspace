@@ -133,6 +133,7 @@ export default function DrawerProvider({ children }: ContextProps) {
             currentPathname === "/tnsfAgncListPopup" ||
             currentPathname === "/custListPopup" ||
             currentPathname === "/instListPopup" ||
+            currentPathname === "/hsptListPopup" ||
             currentPathname === "/projectListPopup"
               ? "none"
               : "block",
@@ -284,6 +285,7 @@ export default function DrawerProvider({ children }: ContextProps) {
               currentPathname === "/tnsfAgncListPopup" ||
               currentPathname === "/projectListPopup" ||
               currentPathname === "/instListPopup" ||
+              currentPathname === "/hsptListPopup" ||
               currentPathname === "/sign-in"
                 ? "none"
                 : "block",

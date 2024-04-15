@@ -79,6 +79,7 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
           currentPathname === "/tnsfAgncListPopup" ||
           currentPathname === "/projectListPopup" ||
           currentPathname === "/instListPopup" ||
+          currentPathname === "/hsptListPopup" ||
           currentPathname === "/sign-in"
             ? "none"
             : "block",

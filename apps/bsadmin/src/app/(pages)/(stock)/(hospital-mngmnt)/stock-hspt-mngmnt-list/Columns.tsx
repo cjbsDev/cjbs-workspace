@@ -1,6 +1,6 @@
-import { OutlinedButton } from "cjbsDSTM";
+import { formatPhoneNumber, OutlinedButton } from "cjbsDSTM";
 import React from "react";
-import { IconButton, Tooltip } from "@mui/material";
+import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 
 export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
@@ -20,11 +20,23 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   {
     name: "주소",
     selector: (row: { addr: string }) => (row.addr !== null ? row.addr : "-"),
-    center: true,
+    // center: true,
+    cell: (row) => {
+      const { addr, addrDetail, zip } = row;
+      return (
+        <Stack>
+          <Typography variant="body2">{zip}</Typography>
+          <Typography variant="body2">
+            {addr} {addrDetail}
+          </Typography>
+        </Stack>
+      );
+    },
   },
   {
     name: "전화번호",
-    selector: (row: { tel: string }) => (row.tel !== null ? row.tel : "-"),
+    selector: (row: { tel: string }) =>
+      row.tel !== null ? formatPhoneNumber(row.tel) : "-",
     width: "150px",
     center: true,
   },
