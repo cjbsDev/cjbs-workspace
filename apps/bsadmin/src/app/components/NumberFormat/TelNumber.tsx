@@ -4,7 +4,7 @@ import { PatternFormat } from "react-number-format";
 import { cjbsTheme, InputNumberType } from "cjbsDSTM";
 import { Stack, Typography } from "@mui/material";
 
-const TelNumber = () => {
+const TelNumber = ({ inputName }) => {
   const {
     control,
     formState: { errors },
@@ -12,7 +12,7 @@ const TelNumber = () => {
   return (
     <Stack spacing={0.5}>
       <Controller
-        name="tel"
+        name={inputName}
         control={control}
         rules={{ required: true }}
         render={({ field: { onChange, value }, fieldState: { error } }) => (

@@ -53,7 +53,7 @@ const HospitalMngmntList = () => {
 
   const goDetailPage = (row: any) => {
     const { stockHsptUkey } = row;
-    router.push(`/hospital-mngmnt-list/${stockHsptUkey}`);
+    router.push(`/stock-hspt-mngmnt-list/${stockHsptUkey}`);
   };
 
   return (
