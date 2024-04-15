@@ -1,5 +1,8 @@
 "use client";
 import React, { useState } from "react";
+import useSWR from "swr";
+import { fetcher, PUT } from "api";
+import { useParams, useSearchParams } from "next/navigation";
 import {
   ContainedButton,
   Form,
@@ -21,50 +24,66 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import TelNumber from "../../../../../components/NumberFormat/TelNumber";
 import Link from "next/link";
 import { LoadingButton } from "@mui/lab";
-import { POST } from "api";
-import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
-import { useSWRConfig } from "swr";
-import SixteenCheck from "../../../(order)/order-reg/SixteenCheck";
-import TelNumber from "../../../../components/NumberFormat/TelNumber";
+import { toast } from "react-toastify";
+import HsptCodeSrchRow from "../../stock-hspt-mngmnt-reg/HsptCodeSrchRow";
 
-const HospitalMngmntReg = () => {
+interface FormDataProps {
+  addr: "string";
+  addrDetail: "string";
+  hsptCode: "string";
+  memo: "string";
+  stockHsptUkey: "string";
+  tel: "string";
+  zip: "string";
+}
+
+const DetailView = () => {
   const router = useRouter();
-  const { mutate } = useSWRConfig();
+  const searchParams = useSearchParams();
+  const params = useParams();
+  const stockHsptUkey = params.slug;
+  // console.log(stockHsptUkey);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const defaultValues = {};
+  const { data } = useSWR(`/stock/hspt/${stockHsptUkey}`, fetcher, {
+    suspense: true,
+  });
 
-  const onSubmit = async (data: any) => {
-    console.log("Hospital Reg ==>>", data);
+  console.log("YUYUYUYUYUYU", data);
+
+  const defaultValues = {
+    ...data,
+  };
+
+  const onSubmit = async (data: FormDataProps) => {
     setIsLoading(true);
-
-    // {
-    //   "addr": "string",
-    //   "hsptCode": "string",
-    //   "hsptUniqueCodeMc": "string",
-    //   "memo": "string",
-    //   "tel": "string"
-    // }
-
-    const bodyData = {
+    const reqBody = {
       ...data,
+      stockHsptUkey: stockHsptUkey?.toString(),
     };
 
-    try {
-      const response = await POST("/stock/hspt", bodyData);
+    console.log("REQ BODY", reqBody);
 
-      console.log("POST request successful:", response);
+    try {
+      // API 호출
+      const response = await PUT(`/stock/hspt/${stockHsptUkey}`, reqBody);
+      // API 응답을 기반으로 처리, 예: 성공 메시지 출력, 페이지 이동 등
+      console.log("Form submitted successfully:", response);
       if (response.success) {
-        // setIsLoading(false);
         router.push("/hospital-mngmnt-list");
       } else {
         toast(response.message);
-        setIsLoading(false);
       }
-    } catch (error: any) {
-      console.log(error.response?.data?.data || error.message);
+    } catch (error) {
+      // 오류 처리 로직, 예: 오류 메시지 출력
+      console.error("Failed to submit the form:", error);
+      if (error.response) {
+        // 서버에서 응답한 에러 메시지가 있는 경우
+        console.error("Error response:", error.response.data);
+      }
     } finally {
       setIsLoading(false);
     }
@@ -73,26 +92,27 @@ const HospitalMngmntReg = () => {
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName={"병원 거래처 등록"} />
+        <Title1 titleName={"병원 거래처 상세"} />
       </Box>
 
       <Typography variant="subtitle1">기본 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
+            {/*<HsptCodeSrchRow />*/}
             <TableRow>
               <TH sx={{ width: "15%" }}>병원명</TH>
               <TD sx={{ width: "85%" }}>
                 <Stack direction="row" alignItems="center" spacing={0.5}>
                   <InputValidation
-                    inputName="hsptUniqueCodeMc"
+                    inputName="stockHsptNm"
                     InputProps={{
                       readOnly: true,
                     }}
                     required={true}
                     errorMessage="병원을 검색해 주세요."
                   />
-                  <ContainedButton buttonName="병원 검색" size="small" />
+                  {/*<ContainedButton buttonName="병원 검색" size="small" />*/}
                 </Stack>
               </TD>
             </TableRow>
@@ -102,6 +122,9 @@ const HospitalMngmntReg = () => {
                 <InputValidation
                   sx={{ width: 255 }}
                   inputName="hsptCode"
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   required={true}
                   errorMessage="병원코드를 입력해 주세요."
                   maxLength={20}
@@ -167,9 +190,10 @@ const HospitalMngmntReg = () => {
                 <InputValidation
                   fullWidth={true}
                   multiline
-                  rows={4}
+                  rows={3}
                   inputName="memo"
                   placeholder="메모"
+                  sx={{ py: 0.5 }}
                   maxLength={500}
                   maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                 />
@@ -190,14 +214,14 @@ const HospitalMngmntReg = () => {
           size="small"
           type="submit"
         >
-          저장
+          수정
         </LoadingButton>
       </Stack>
     </Form>
   );
 };
 
-export default HospitalMngmntReg;
+export default DetailView;
 
 const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
   color: "#666666",

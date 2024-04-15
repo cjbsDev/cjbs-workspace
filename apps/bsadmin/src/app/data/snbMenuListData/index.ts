@@ -37,7 +37,6 @@ export const snbMenuListData = [
   //     ]
   //   },
   // },
-
   {
     menuLabel: "주문서",
     menuIcon: "sheet",
@@ -59,7 +58,6 @@ export const snbMenuListData = [
       ],
     },
   },
-
   {
     menuLabel: "오더",
     menuIcon: "order",
@@ -109,8 +107,8 @@ export const snbMenuListData = [
       name: "/ledger",
       nestedPath: [
         {
-          menuLabel: '고객별 결제 현황',
-          menuPath: '/ledger-cust-pay-list'
+          menuLabel: "고객별 결제 현황",
+          menuPath: "/ledger-cust-pay-list",
         },
         {
           menuLabel: "분석 내역서 관리",
@@ -169,7 +167,6 @@ export const snbMenuListData = [
       ],
     },
   },
-
   {
     menuLabel: "관리",
     menuIcon: "manage",
@@ -211,52 +208,37 @@ export const snbMenuListData = [
       ],
     },
   },
-
-  // {
-  //   menuLabel: '기준가',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '서비스 기준가 관리',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: '서비스 타입 관리',
-  //         menuPath: ''
-  //       }
-  //     ]
-  //   }
-  // },
-  // {
-  //   menuLabel: '담당자',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '담당자 관리',
-  //         menuPath: ''
-  //       },
-  //     ]
-  //   }
-  // },
-  // {
-  //   menuLabel: '관리',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '마스터코드 관리',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: '프로젝트 관리',
-  //         menuPath: ''
-  //       },
-  //     ]
-  //   }
-  // },
+  {
+    menuLabel: "재고",
+    menuIcon: "stock",
+    menuPath: {
+      name: "/stock",
+      nestedPath: [
+        {
+          menuLabel: "재고 관리",
+          menuPath: "/stock-a",
+        },
+        {
+          menuLabel: "입출고 내역",
+          menuPath: "/stock-b",
+        },
+        {
+          menuLabel: "수불부",
+          menuPath: "/stock-c",
+        },
+        {
+          menuLabel: "아웃소싱 관리",
+          menuPath: "/stock-d",
+        },
+        {
+          menuLabel: "주문처 관리",
+          menuPath: "/stock-e",
+        },
+        {
+          menuLabel: "병원 거래처 관리",
+          menuPath: "/stock-hspt-mngmnt-list",
+        },
+      ],
+    },
+  },
 ];
