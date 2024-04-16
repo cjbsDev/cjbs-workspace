@@ -223,25 +223,24 @@ const DetailView = () => {
           <OutlinedButton size="small" buttonName="목록" />
         </Link>
 
-        <ContainedButton
-          buttonName="수정"
-          type="submit"
-          size="small"
-          onClick={() =>
-            router.push(`/stock-agnc-mngmnt-reg?modifyUkey=${ukey}`)
-          }
-        />
+        <Link
+          href={{
+            pathname: "/stock-agnc-mngmnt-reg",
+            query: { modifyUkey: ukey },
+          }}
+        >
+          <ContainedButton buttonName="수정" size="small" />
+        </Link>
 
-        {/*<LoadingButton*/}
-        {/*  loading={isLoading}*/}
-        {/*  variant="contained"*/}
-        {/*  size="small"*/}
+        {/*<ContainedButton*/}
+        {/*  buttonName="수정"*/}
         {/*  type="submit"*/}
-        {/*>*/}
-        {/*  수정*/}
-        {/*</LoadingButton>*/}
+        {/*  size="small"*/}
+        {/*  onClick={() =>*/}
+        {/*    router.push(`/stock-agnc-mngmnt-reg?modifyUkey=${ukey}`)*/}
+        {/*  }*/}
+        {/*/>*/}
       </Stack>
-      {/*</Form>*/}
     </Box>
   );
 };

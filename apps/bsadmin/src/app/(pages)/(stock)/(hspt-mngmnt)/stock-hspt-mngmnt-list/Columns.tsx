@@ -25,8 +25,10 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
       const { addr, addrDetail, zip } = row;
       return (
         <Stack>
-          <Typography variant="body2">{zip}</Typography>
-          <Typography variant="body2">
+          <Typography data-tag="allowRowEvents" variant="body2">
+            {zip}
+          </Typography>
+          <Typography data-tag="allowRowEvents" variant="body2">
             {addr} {addrDetail}
           </Typography>
         </Stack>

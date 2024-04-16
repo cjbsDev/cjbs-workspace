@@ -3,8 +3,12 @@ import { useFormContext } from "react-hook-form";
 import { Stack, TableRow } from "@mui/material";
 import { ContainedButton, InputValidation, TD, TH } from "cjbsDSTM";
 import useCenteredPopup from "../../../../hooks/useCenteredPopup";
+import { useSearchParams } from "next/navigation";
 
 const HsptCodeSrchRow = () => {
+  const searchParams = useSearchParams();
+  const ukey = searchParams.get("modifyUkey");
+  // console.log("modifyUkey", ukey);
   const { setValue, clearErrors } = useFormContext();
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/hsptListPopup`,
@@ -41,11 +45,13 @@ const HsptCodeSrchRow = () => {
               required={true}
               errorMessage="병원을 검색해 주세요."
             />
-            <ContainedButton
-              buttonName="병원 검색"
-              size="small"
-              onClick={openPopup}
-            />
+            {ukey === null && (
+              <ContainedButton
+                buttonName="병원 검색"
+                size="small"
+                onClick={openPopup}
+              />
+            )}
           </Stack>
         </TD>
       </TableRow>
@@ -64,16 +70,18 @@ const HsptCodeSrchRow = () => {
               // maxLength={20}
               // maxLengthErrMsg="20자 이내로 입력해주세요."
             />
-            <InputValidation
-              sx={{ width: 255, display: "none" }}
-              inputName="hsptUniqueCodeMc"
-              InputProps={{
-                readOnly: true,
-                hidden: true,
-              }}
-              required={true}
-              errorMessage="병원유니트코드를 입력해 주세요."
-            />
+            {ukey === null && (
+              <InputValidation
+                sx={{ width: 255, display: "none" }}
+                inputName="hsptUniqueCodeMc"
+                InputProps={{
+                  readOnly: true,
+                  hidden: true,
+                }}
+                required={true}
+                errorMessage="병원유니트코드를 입력해 주세요."
+              />
+            )}
           </Stack>
         </TD>
       </TableRow>

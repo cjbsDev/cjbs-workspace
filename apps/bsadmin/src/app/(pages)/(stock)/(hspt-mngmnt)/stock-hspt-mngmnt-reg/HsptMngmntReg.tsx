@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import {
-  ContainedButton,
   Form,
   InputValidation,
   OutlinedButton,
@@ -22,68 +21,73 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { LoadingButton } from "@mui/lab";
-import { POST } from "api";
+import { fetcher, POST, PUT } from "api";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import TelNumber from "../../../../components/NumberFormat/TelNumber";
-import useCenteredPopup from "../../../../hooks/useCenteredPopup";
 import HsptCodeSrchRow from "./HsptCodeSrchRow";
+import { useSearchParams } from "next/navigation";
+import SubmitBtn from "../../../../components/SubmitBtn";
 
-const HospitalMngmntReg = () => {
+const HsptMngmntReg = () => {
   const router = useRouter();
   const { mutate } = useSWRConfig();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  // const { isOpen, openPopup, closePopup } = useCenteredPopup(
-  //   `/hsptListPopup`,
-  //   "병원 거래 검색",
-  //   800,
-  //   620,
-  // );
+  const searchParams = useSearchParams();
+  const ukey = searchParams.get("modifyUkey");
+  // console.log("modifyUkey", ukey);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data } = useSWR(
+    ukey !== null ? `/stock/hspt/${ukey}` : null,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
 
-  const defaultValues = {};
+  // console.log("sssss", data);
+
+  const defaultValues = {
+    ...data,
+  };
 
   const onSubmit = async (data: any) => {
     console.log("Hospital Reg ==>>", data);
-    setIsLoading(true);
+    // setIsLoading(true);
 
-    // {
-    //   "addr": "서울시 중구",
-    //   "addrDetail": "세종대로 랄랄라",
-    //   "hsptCode": "string",
-    //   "hsptUniqueCodeMc": "string",
-    //   "memo": "string",
-    //   "tel": "string",
-    //   "zip": "12345"
-    // }
-
-    const bodyData = {
+    const reqBody = {
       ...data,
+      stockHsptUkey: ukey,
     };
 
+    // console.log("REQ BODY ==>>", reqBody);
+
     try {
-      const response = await POST("/stock/hspt", bodyData);
+      const response =
+        ukey === null
+          ? await POST(`/stock/hspt`, reqBody)
+          : await PUT(`/stock/hspt/${ukey}`, reqBody);
 
       console.log("POST request successful:", response);
       if (response.success) {
-        // setIsLoading(false);
-        router.push("/hospital-mngmnt-list");
+        router.push("/stock-hspt-mngmnt-list");
       } else {
         toast(response.message);
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     } catch (error: any) {
       console.log(error.response?.data?.data || error.message);
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName={"병원 거래처 등록"} />
+        <Title1
+          titleName={ukey === null ? "병원 거래처 등록" : "병원 거래처 수정"}
+        />
       </Box>
 
       <Typography variant="subtitle1">기본 정보</Typography>
@@ -91,39 +95,6 @@ const HospitalMngmntReg = () => {
         <Table>
           <TableBody>
             <HsptCodeSrchRow />
-            {/*<TableRow>*/}
-            {/*  <TH sx={{ width: "15%" }}>병원명</TH>*/}
-            {/*  <TD sx={{ width: "85%" }}>*/}
-            {/*    <Stack direction="row" alignItems="center" spacing={0.5}>*/}
-            {/*      <InputValidation*/}
-            {/*        inputName="hsptUniqueCodeMc"*/}
-            {/*        InputProps={{*/}
-            {/*          readOnly: true,*/}
-            {/*        }}*/}
-            {/*        required={true}*/}
-            {/*        errorMessage="병원을 검색해 주세요."*/}
-            {/*      />*/}
-            {/*      <ContainedButton*/}
-            {/*        buttonName="병원 검색"*/}
-            {/*        size="small"*/}
-            {/*        onClick={openPopup}*/}
-            {/*      />*/}
-            {/*    </Stack>*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
-            {/*<TableRow>*/}
-            {/*  <TH>병원코드</TH>*/}
-            {/*  <TD>*/}
-            {/*    <InputValidation*/}
-            {/*      sx={{ width: 255 }}*/}
-            {/*      inputName="hsptCode"*/}
-            {/*      required={true}*/}
-            {/*      errorMessage="병원코드를 입력해 주세요."*/}
-            {/*      maxLength={20}*/}
-            {/*      maxLengthErrMsg="20자 이내로 입력해주세요."*/}
-            {/*    />*/}
-            {/*  </TD>*/}
-            {/*</TableRow>*/}
             <TableRow>
               <TH sx={{ width: "15%" }}>주소</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
@@ -195,24 +166,17 @@ const HospitalMngmntReg = () => {
       </TableContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
-        <Link href="/hospital-mngmnt-list">
+        <Link href="/stock-hspt-mngmnt-list">
           <OutlinedButton size="small" buttonName="목록" />
         </Link>
 
-        <LoadingButton
-          loading={isLoading}
-          variant="contained"
-          size="small"
-          type="submit"
-        >
-          저장
-        </LoadingButton>
+        <SubmitBtn />
       </Stack>
     </Form>
   );
 };
 
-export default HospitalMngmntReg;
+export default HsptMngmntReg;
 
 const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
   color: "#666666",
