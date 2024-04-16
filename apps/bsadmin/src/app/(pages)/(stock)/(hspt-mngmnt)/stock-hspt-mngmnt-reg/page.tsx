@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 
-const LazyReg = dynamic(() => import("./HospitalMngmntReg"), {
+const LazyReg = dynamic(() => import("./HsptMngmntReg"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });

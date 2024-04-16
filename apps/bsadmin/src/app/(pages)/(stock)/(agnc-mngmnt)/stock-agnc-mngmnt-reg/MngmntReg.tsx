@@ -21,7 +21,6 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { LoadingButton } from "@mui/lab";
 import { fetcher, POST, PUT } from "api";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
@@ -29,6 +28,7 @@ import useSWR, { useSWRConfig } from "swr";
 import TelNumber from "../../../../components/NumberFormat/TelNumber";
 import { useSearchParams } from "next/navigation";
 import { groupDepartMngrListData } from "../../../../data/inputDataLists";
+import SubmitBtn from "../../../../components/SubmitBtn";
 
 interface FormDataProps {
   departMngrMc: string;
@@ -48,7 +48,7 @@ const MngmntReg = () => {
   const searchParams = useSearchParams();
   const ukey = searchParams.get("modifyUkey");
   console.log("modifyUkey", ukey);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // const [isLoading, setIsLoading] = useState<boolean>(false);
   const { data } = useSWR(
     ukey !== null ? `/stock/agnc/${ukey}` : null,
     fetcher,
@@ -64,7 +64,7 @@ const MngmntReg = () => {
   };
 
   const onSubmit = async (data: FormDataProps) => {
-    setIsLoading(true);
+    // setIsLoading(true);
     const reqBody = {
       ...data,
     };
@@ -89,7 +89,7 @@ const MngmntReg = () => {
         console.error("Error response:", error.response.data);
       }
     } finally {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
   };
 
@@ -179,14 +179,7 @@ const MngmntReg = () => {
           <OutlinedButton size="small" buttonName="목록" />
         </Link>
 
-        <LoadingButton
-          loading={isLoading}
-          variant="contained"
-          size="small"
-          type="submit"
-        >
-          {ukey === null ? "등록" : "수정"}
-        </LoadingButton>
+        <SubmitBtn />
       </Stack>
     </Form>
   );
