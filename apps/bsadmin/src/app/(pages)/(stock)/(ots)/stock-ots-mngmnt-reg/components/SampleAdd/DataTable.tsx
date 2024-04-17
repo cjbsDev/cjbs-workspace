@@ -18,7 +18,7 @@ import {
   transformedNullToHyphon,
 } from "cjbsDSTM";
 import useCenteredPopup from "../../../../../../hooks/useCenteredPopup";
-import { de } from "date-fns/locale";
+
 const DataTable = () => {
   const [sampleList, setSampleList] = useState([]);
   const [selected, setSelected] = useState<readonly number[]>([]);
@@ -96,9 +96,11 @@ const DataTable = () => {
 
   const isSelected = (sampleUkey) => selected.includes(sampleUkey);
 
+  const ssss = sampleList.length === 0 && srvcTypeWatch !== "BS_0100017006";
+
   return (
     <>
-      {srvcTypeWatch !== "BS_0100017006" && (
+      {ssss && (
         <Stack
           sx={{ backgroundColor: cjbsTheme.palette.grey["200"], py: 5, mb: 1 }}
           spacing={0.5}
@@ -116,73 +118,82 @@ const DataTable = () => {
         </Stack>
       )}
 
-      <Stack direction="row">
-        <Typography>{sampleList.length}</Typography>
-        <DeletedButton buttonName="삭제" onClick={handleDeleteSelected} />
-      </Stack>
+      {sampleList.length !== 0 && (
+        <>
+          <Stack direction="row" spacing={1}>
+            <Typography>{sampleList.length}</Typography>
+            <OutlinedButton
+              buttonName="샘플추가"
+              size="small"
+              onClick={openPopup}
+            />
+            <DeletedButton buttonName="삭제" onClick={handleDeleteSelected} />
+          </Stack>
 
-      <TableContainer>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TableCell align="center"></TableCell>
-              <TableCell align="center">샘플 번호</TableCell>
-              <TableCell align="center">샘플명</TableCell>
-              <TableCell align="center">샘플종류</TableCell>
-              <TableCell align="center">Source</TableCell>
-              <TableCell align="center">Depth(GB)</TableCell>
-              <TableCell align="center">Taxon</TableCell>
-              <TableCell align="center">오더 번호</TableCell>
-              <TableCell align="center">서비스 타입</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {sampleList.map((item, index) => {
-              const {
-                sampleUkey,
-                sampleNm,
-                sampleTypeVal,
-                source,
-                depthVal,
-                depthMc,
-                taxonVal,
-                taxonCc,
-                orderId,
-                orderUkey,
-                srvcTypeVal,
-                srvcTypeMc,
-              } = transformedNullToHyphon(item);
-              const labelId = `enhanced-table-checkbox-${index}`;
-              return (
-                <TableRow
-                  key={sampleUkey}
-                  onClick={(event) => handleClick(event, sampleUkey)}
-                  selected={isSelected(sampleUkey)}
-                  sx={{ cursor: "pointer" }}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isSelected(sampleUkey)}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell align="center">{sampleUkey}</TableCell>
-                  <TableCell align="center">{sampleNm}</TableCell>
-                  <TableCell align="center">{sampleTypeVal}</TableCell>
-                  <TableCell align="center">{source}</TableCell>
-                  <TableCell align="center">{depthVal}</TableCell>
-                  <TableCell align="center">{taxonVal}</TableCell>
-                  <TableCell align="center">{orderId}</TableCell>
-                  <TableCell align="center">{srvcTypeVal}</TableCell>
+          <TableContainer sx={{ mb: 1.5 }}>
+            <Table size="small">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="center"></TableCell>
+                  <TableCell align="center">샘플 번호</TableCell>
+                  <TableCell align="center">샘플명</TableCell>
+                  <TableCell align="center">샘플종류</TableCell>
+                  <TableCell align="center">Source</TableCell>
+                  <TableCell align="center">Depth(GB)</TableCell>
+                  <TableCell align="center">Taxon</TableCell>
+                  <TableCell align="center">오더 번호</TableCell>
+                  <TableCell align="center">서비스 타입</TableCell>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {sampleList.map((item, index) => {
+                  const {
+                    sampleUkey,
+                    sampleNm,
+                    sampleTypeVal,
+                    source,
+                    depthVal,
+                    depthMc,
+                    taxonVal,
+                    taxonCc,
+                    orderId,
+                    orderUkey,
+                    srvcTypeVal,
+                    srvcTypeMc,
+                  } = transformedNullToHyphon(item);
+                  const labelId = `enhanced-table-checkbox-${index}`;
+                  return (
+                    <TableRow
+                      key={sampleUkey}
+                      onClick={(event) => handleClick(event, sampleUkey)}
+                      selected={isSelected(sampleUkey)}
+                      sx={{ cursor: "pointer" }}
+                    >
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isSelected(sampleUkey)}
+                          inputProps={{
+                            "aria-labelledby": labelId,
+                          }}
+                        />
+                      </TableCell>
+                      <TableCell align="center">{sampleUkey}</TableCell>
+                      <TableCell align="center">{sampleNm}</TableCell>
+                      <TableCell align="center">{sampleTypeVal}</TableCell>
+                      <TableCell align="center">{source}</TableCell>
+                      <TableCell align="center">{depthVal}</TableCell>
+                      <TableCell align="center">{taxonVal}</TableCell>
+                      <TableCell align="center">{orderId}</TableCell>
+                      <TableCell align="center">{srvcTypeVal}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
     </>
   );
 };

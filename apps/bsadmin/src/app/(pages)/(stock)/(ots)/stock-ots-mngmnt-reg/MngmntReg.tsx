@@ -118,26 +118,28 @@ const MngmntReg = () => {
 
     console.log("REQ BODY", reqBody);
 
-    // try {
-    //   const response =
-    //     ukey === null
-    //       ? await POST(`/stock/agnc`, reqBody)
-    //       : await PUT(`/stock/agnc/${ukey}`, reqBody);
-    //   console.log("Form submitted successfully:", response);
-    //   if (response.success) {
-    //     mutate("/stock/agnc/list?page=1&size=15");
-    //     router.push("/stock-agnc-mngmnt-list");
-    //   } else {
-    //     toast(response.message);
-    //   }
-    // } catch (error) {
-    //   console.error("Failed to submit the form:", error);
-    //   if (error.response) {
-    //     console.error("Error response:", error.response.data);
-    //   }
-    // } finally {
-    //   // setIsLoading(false);
-    // }
+    try {
+      const response = await POST(`/ots`, reqBody);
+
+      // const response =
+      //   ukey === null
+      //     ? await POST(`/stock/agnc`, reqBody)
+      //     : await PUT(`/stock/agnc/${ukey}`, reqBody);
+      console.log("Form submitted successfully:", response);
+      if (response.success) {
+        // mutate("/stock/agnc/list?page=1&size=15");
+        router.push("/stock-ots-mngmnt-list");
+      } else {
+        toast(response.message);
+      }
+    } catch (error) {
+      console.error("Failed to submit the form:", error);
+      if (error.response) {
+        console.error("Error response:", error.response.data);
+      }
+    } finally {
+      // setIsLoading(false);
+    }
   };
 
   return (
@@ -288,20 +290,6 @@ const MngmntReg = () => {
       <Typography variant="subtitle1">샘플정보</Typography>
 
       <SampleAdd />
-
-      {/*<Stack*/}
-      {/*  sx={{ backgroundColor: cjbsTheme.palette.grey["200"], py: 5 }}*/}
-      {/*  spacing={0.5}*/}
-      {/*  useFlexGap*/}
-      {/*  flexWrap="wrap"*/}
-      {/*  justifyContent="center"*/}
-      {/*  alignItems="center"*/}
-      {/*>*/}
-      {/*  <Typography>버튼을 클릭하면 샘플을 추가 할 수 있습니다.</Typography>*/}
-      {/*  <OutlinedButton buttonName="샘플추가" size="small" />*/}
-      {/*</Stack>*/}
-
-      {/*<TableContainer sx={{ mb: 5 }}></TableContainer>*/}
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <Link href="/stock-agnc-mngmnt-list">
