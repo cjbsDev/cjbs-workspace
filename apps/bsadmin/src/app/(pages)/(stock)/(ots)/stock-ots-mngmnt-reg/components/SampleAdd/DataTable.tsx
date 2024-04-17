@@ -15,6 +15,8 @@ import {
   cjbsTheme,
   DeletedButton,
   OutlinedButton,
+  TD,
+  TH,
   transformedNullToHyphon,
 } from "cjbsDSTM";
 import useCenteredPopup from "../../../../../../hooks/useCenteredPopup";
@@ -134,15 +136,15 @@ const DataTable = () => {
             <Table size="small">
               <TableHead>
                 <TableRow>
-                  <TableCell align="center"></TableCell>
-                  <TableCell align="center">샘플 번호</TableCell>
-                  <TableCell align="center">샘플명</TableCell>
-                  <TableCell align="center">샘플종류</TableCell>
-                  <TableCell align="center">Source</TableCell>
-                  <TableCell align="center">Depth(GB)</TableCell>
-                  <TableCell align="center">Taxon</TableCell>
-                  <TableCell align="center">오더 번호</TableCell>
-                  <TableCell align="center">서비스 타입</TableCell>
+                  <TH align="center"></TH>
+                  <TH align="center">샘플 번호</TH>
+                  <TH align="center">샘플명</TH>
+                  <TH align="center">샘플종류</TH>
+                  <TH align="center">Source</TH>
+                  <TH align="center">Depth(GB)</TH>
+                  <TH align="center">Taxon</TH>
+                  <TH align="center">오더 번호</TH>
+                  <TH align="center">서비스 타입</TH>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -169,7 +171,7 @@ const DataTable = () => {
                       selected={isSelected(sampleUkey)}
                       sx={{ cursor: "pointer" }}
                     >
-                      <TableCell padding="checkbox">
+                      <TD padding="checkbox">
                         <Checkbox
                           color="primary"
                           checked={isSelected(sampleUkey)}
@@ -177,15 +179,15 @@ const DataTable = () => {
                             "aria-labelledby": labelId,
                           }}
                         />
-                      </TableCell>
-                      <TableCell align="center">{sampleUkey}</TableCell>
-                      <TableCell align="center">{sampleNm}</TableCell>
-                      <TableCell align="center">{sampleTypeVal}</TableCell>
-                      <TableCell align="center">{source}</TableCell>
-                      <TableCell align="center">{depthVal}</TableCell>
-                      <TableCell align="center">{taxonVal}</TableCell>
-                      <TableCell align="center">{orderId}</TableCell>
-                      <TableCell align="center">{srvcTypeVal}</TableCell>
+                      </TD>
+                      <TD align="center">{sampleUkey}</TD>
+                      <TD align="center">{sampleNm}</TD>
+                      <TD align="center">{sampleTypeVal}</TD>
+                      <TD align="center">{source}</TD>
+                      <TD align="center">{depthVal}</TD>
+                      <TD align="center">{taxonVal}</TD>
+                      <TD align="center">{orderId}</TD>
+                      <TD align="center">{srvcTypeVal}</TD>
                     </TableRow>
                   );
                 })}

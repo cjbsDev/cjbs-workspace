@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import {
-  cjbsTheme,
   ErrorContainer,
   Fallback,
   Form,
@@ -29,9 +28,7 @@ import { fetcher, POST, PUT } from "api";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
 import useSWR, { useSWRConfig } from "swr";
-import TelNumber from "../../../../components/NumberFormat/TelNumber";
 import { useSearchParams } from "next/navigation";
-import { groupDepartMngrListData } from "../../../../data/inputDataLists";
 import SubmitBtn from "../../../../components/SubmitBtn";
 import dynamic from "next/dynamic";
 import AmountFormat from "../../../../components/NumberFormat/AmountFormat";
@@ -55,6 +52,7 @@ interface FormDataProps {
   sampleUkeyList: [string];
   seqTypeCc: string;
   srvcTypeMc: string;
+  otsSampleDetailList: [];
 }
 
 const LazySeqTypeCc = dynamic(() => import("./components/SeqTypeCc"), {
@@ -92,43 +90,50 @@ const MngmntReg = () => {
   const searchParams = useSearchParams();
   const ukey = searchParams.get("modifyUkey");
   console.log("modifyUkey", ukey);
-  // const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { data } = useSWR(
-    ukey !== null ? `/stock/agnc/${ukey}` : null,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
+  const { data } = useSWR(ukey !== null ? `/ots/${ukey}` : null, fetcher, {
+    suspense: true,
+  });
 
   console.log("Stock ots detail view data ==>>", data);
 
   const defaultValues = {
     ...data,
+    otsDttm: new Date(data.otsDttm),
+    resultRcpnDttm: new Date(data.resultRcpnDttm),
   };
 
   const onSubmit = async (data: FormDataProps) => {
+    console.log(">>>>>>>>>>>", data);
+
+    const filteredSampleUkeyList = data.otsSampleDetailList.map(
+      (item: { sampleUkey: string }) => item.sampleUkey,
+    );
+    console.log("srterter", filteredSampleUkeyList);
+
     const reqBody = {
       ...data,
       otsDttm: dayjs(data.otsDttm).format("YYYY-MM-DD"),
       resultRcpnDttm: dayjs(data.resultRcpnDttm).format("YYYY-MM-DD"),
-      lastPrice: Number(data.lastPrice.replace(/,/g, "")),
-      qttnPrice: Number(data.qttnPrice.replace(/,/g, "")),
+      lastPrice: Number.isNaN(Number(data.lastPrice))
+        ? Number(data.lastPrice.replace(/,/g, ""))
+        : data.lastPrice,
+      qttnPrice: Number.isNaN(Number(data.qttnPrice))
+        ? Number(data.qttnPrice.replace(/,/g, ""))
+        : data.qttnPrice,
+      sampleUkeyList: filteredSampleUkeyList,
     };
 
     console.log("REQ BODY", reqBody);
 
     try {
-      const response = await POST(`/ots`, reqBody);
-
-      // const response =
-      //   ukey === null
-      //     ? await POST(`/stock/agnc`, reqBody)
-      //     : await PUT(`/stock/agnc/${ukey}`, reqBody);
+      const response =
+        ukey === null
+          ? await POST(`/ots`, reqBody)
+          : await PUT(`/ots/${ukey}`, reqBody);
       console.log("Form submitted successfully:", response);
       if (response.success) {
         // mutate("/stock/agnc/list?page=1&size=15");
-        router.push("/stock-ots-mngmnt-list");
+        router.push(`/stock-ots-mngmnt-list/${ukey}`);
       } else {
         toast(response.message);
       }
@@ -288,11 +293,16 @@ const MngmntReg = () => {
       </TableContainer>
 
       <Typography variant="subtitle1">샘플정보</Typography>
-
       <SampleAdd />
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
-        <Link href="/stock-agnc-mngmnt-list">
+        <Link
+          href={
+            ukey === null
+              ? "/stock-ots-mngmnt-list"
+              : `/stock-ots-mngmnt-list/${ukey}`
+          }
+        >
           <OutlinedButton size="small" buttonName="목록" />
         </Link>
 

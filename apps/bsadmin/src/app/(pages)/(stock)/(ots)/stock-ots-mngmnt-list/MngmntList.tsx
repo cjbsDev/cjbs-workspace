@@ -53,9 +53,8 @@ const MngmntList = () => {
   );
 
   const goDetailPage = useCallback((row: any) => {
-    const { stockAgncUkey } = row;
-    mutate(`/stock/agnc/${stockAgncUkey}`);
-    router.push(`/stock-agnc-mngmnt-list/${stockAgncUkey}`);
+    const { otsUkey } = row;
+    router.push(`/stock-ots-mngmnt-list/${otsUkey}`);
   }, []);
 
   return (

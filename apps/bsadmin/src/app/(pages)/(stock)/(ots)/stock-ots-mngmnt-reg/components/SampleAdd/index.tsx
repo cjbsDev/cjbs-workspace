@@ -1,75 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   BoxProps,
-  Stack,
   styled,
   Table,
   TableBody,
   TableContainer,
   TableRow,
-  Typography,
 } from "@mui/material";
-import {
-  cjbsTheme,
-  ErrorContainer,
-  Fallback,
-  InputValidation,
-  OutlinedButton,
-  SingleDatePicker,
-  TD,
-  TH,
-  Won,
-} from "cjbsDSTM";
-import { useFormContext } from "react-hook-form";
-import AmountFormat from "../../../../../../components/NumberFormat/AmountFormat";
-import useCenteredPopup from "../../../../../../hooks/useCenteredPopup";
-import { useSearchParams } from "next/navigation";
-import DataTable from "./DataTable";
+import { InputValidation, TD, TH } from "cjbsDSTM";
+import DataTable from "./NewDataTable";
 
 const Index = () => {
-  // const [sampleList, setSampleList] = useState([]);
-  const searchParams = useSearchParams();
-  const orshType = searchParams.get("orshType");
-  const { isOpen, openPopup, closePopup } = useCenteredPopup(
-    `/sampleSimpleListPopup`,
-    "샘플 검색",
-    1642,
-    557,
-  );
-  // const { watch, setValue } = useFormContext();
-  // const srvcTypeWatch = watch("srvcTypeMc");
-  // console.log("srvcTypeWatch", srvcTypeWatch);
-
-  // useEffect(() => {
-  //   window.addEventListener("mySampleSimpleData", function (e) {
-  //     console.log("mySampleSimpleData Received data:", e.detail);
-  //     setSampleList(e.detail);
-  //   });
-  // }, [sampleList]);
-
   return (
     <>
-      {/*{srvcTypeWatch !== "BS_0100017006" && (*/}
-      {/*  <Stack*/}
-      {/*    sx={{ backgroundColor: cjbsTheme.palette.grey["200"], py: 5, mb: 1 }}*/}
-      {/*    spacing={0.5}*/}
-      {/*    useFlexGap*/}
-      {/*    flexWrap="wrap"*/}
-      {/*    justifyContent="center"*/}
-      {/*    alignItems="center"*/}
-      {/*  >*/}
-      {/*    <Typography>버튼을 클릭하면 샘플을 추가 할 수 있습니다.</Typography>*/}
-      {/*    <OutlinedButton*/}
-      {/*      buttonName="샘플추가"*/}
-      {/*      size="small"*/}
-      {/*      onClick={openPopup}*/}
-      {/*    />*/}
-      {/*  </Stack>*/}
-      {/*)}*/}
-
-      {/*{JSON.stringify(sampleList)}*/}
-
       <DataTable />
 
       <TableContainer sx={{ mb: 5 }}>
