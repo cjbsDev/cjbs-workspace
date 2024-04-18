@@ -98,8 +98,10 @@ const MngmntReg = () => {
 
   const defaultValues = {
     ...data,
-    otsDttm: new Date(data.otsDttm),
-    resultRcpnDttm: new Date(data.resultRcpnDttm),
+    otsDttm: ukey === null ? null : new Date(data.otsDttm),
+    resultRcpnDttm: ukey === null ? null : new Date(data.resultRcpnDttm),
+    // otsDttm: new Date(data.otsDttm),
+    // resultRcpnDttm: new Date(data.resultRcpnDttm),
   };
 
   const onSubmit = async (data: FormDataProps) => {
