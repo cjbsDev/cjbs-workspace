@@ -11,7 +11,7 @@ const SubmitBtn = () => {
   } = useFormContext();
   return (
     <LoadingButton
-      disabled={!isDirty || !isValid || isSubmitting}
+      disabled={!isValid || isSubmitting}
       loading={isSubmitting}
       variant="contained"
       size="small"

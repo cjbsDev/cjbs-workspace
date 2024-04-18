@@ -49,12 +49,13 @@ const DataTable = () => {
       const { sampleLists, orderInfo, sampleInfo, sampleUkeyList } = e.detail;
 
       // Avoid adding duplicates
-      sampleLists.forEach((newItem) => {
-        if (!fields.some((item) => item.sampleUkey === newItem.sampleUkey)) {
-          append(newItem); // Use append method to add new items to the field array
-        }
-      });
+      // sampleLists.forEach((newItem) => {
+      //   if (!fields.some((item) => item.sampleUkey === newItem.sampleUkey)) {
+      //     append(newItem); // Use append method to add new items to the field array
+      //   }
+      // });
 
+      setValue("otsSampleDetailList", sampleLists);
       setValue("orderInfo", orderInfo);
       setValue("sampleInfo", sampleInfo);
       // setValue("sampleUkeyList", sampleUkeyList);
@@ -174,7 +175,7 @@ const DataTable = () => {
         >
           <Typography>버튼을 클릭하면 샘플을 추가 할 수 있습니다.</Typography>
           <OutlinedButton
-            buttonName="샘플추가"
+            buttonName="샘플 추가"
             size="small"
             onClick={openPopup}
           />
@@ -186,7 +187,7 @@ const DataTable = () => {
           <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
             <Typography>(총 {fields.length}건)</Typography>
             <OutlinedButton
-              buttonName="샘플추가"
+              buttonName="샘플 갱신"
               size="small"
               onClick={openPopup}
             />
