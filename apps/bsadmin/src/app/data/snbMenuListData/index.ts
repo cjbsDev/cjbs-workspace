@@ -220,7 +220,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "입출고 내역",
-          menuPath: "/stock-b",
+          menuPath: "/stock-inout-mngmnt-list",
         },
         {
           menuLabel: "수불부",
