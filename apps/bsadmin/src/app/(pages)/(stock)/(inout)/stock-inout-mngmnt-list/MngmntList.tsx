@@ -32,6 +32,8 @@ const MngmntList = () => {
   const { inOutDetailList, pageInfo } = data;
   const { totalElements } = pageInfo;
 
+  console.log("fgfgfg", inOutDetailList);
+
   const columns = useMemo(() => getColumns(totalElements), [totalElements]);
 
   const subHeaderComponentMemo = useMemo(

@@ -1,16 +1,10 @@
-import {
-  DeletedButton,
-  formatNumberWithCommas,
-  formatPhoneNumber,
-  OutlinedButton,
-} from "cjbsDSTM";
+import { formatNumberWithCommas } from "cjbsDSTM";
 import React from "react";
-import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Chip, IconButton, Tooltip } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import { DELETE } from "api";
-import { toast } from "react-toastify";
+import CancelBtn from "./CancelBtn";
 
-export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
+export const getColumns = () => [
   {
     name: "재고ID",
     width: "100px",
@@ -125,28 +119,13 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
       stockInOutUkey: string;
     }) => {
       const { isCancelButtonStatus, inOut, stockInOutUkey } = row;
-
-      const handleDelete = async () => {
-        try {
-          const res = await DELETE(`/stock/inout/${stockInOutUkey}/out`);
-          console.log("Delete 성공 여부", res.success);
-
-          if (res.success) {
-            // mutate(`/run/sample/${ukey}?page=1&size=20`);
-            toast("삭제 되었습니다.");
-          } else {
-            toast(res.message);
-          }
-        } catch (error: any) {
-          console.error(
-            "입출고 삭제 오류>>>>",
-            error.response?.data?.data || error.message,
-          );
-        } finally {
-        }
-      };
-
-      return <DeletedButton buttonName="취소" size="small" />;
+      return (
+        <CancelBtn
+          inOut={inOut}
+          isCancelButtonStatus={isCancelButtonStatus}
+          stockInOutUkey={stockInOutUkey}
+        />
+      );
     },
   },
 ];
