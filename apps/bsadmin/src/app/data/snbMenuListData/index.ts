@@ -224,7 +224,7 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "수불부",
-          menuPath: "/stock-c",
+          menuPath: "/stock-mtld-mngmnt-list",
         },
         {
           menuLabel: "아웃소싱 관리",

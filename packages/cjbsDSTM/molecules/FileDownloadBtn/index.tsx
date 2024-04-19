@@ -1,31 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import MyIcon from "icon/MyIcon";
 import { OutlinedButton } from "../../atoms/Buttons";
 import { CircularProgress } from "@mui/material";
 import { useFileDownload } from "./useFileDownload";
-import FileSaver from "file-saver";
-import { GET } from "api";
 import { toast } from "react-toastify";
 
 interface FileDownloadBtnProps {
   exportUrl: string;
   keyword?: string | undefined;
   iconName?: string;
+  buttonName?: string;
 }
 
 export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
-  const { exportUrl, keyword, iconName } = props;
+  const { buttonName = "Excel", exportUrl, keyword, iconName } = props;
   const { isLoading, fileName, saverFile } = useFileDownload(
     exportUrl,
     keyword,
   );
-
-  // const handldFileDown = async () => {
-  //   FileSaver.saveAs(
-  //     `${process.env.NEXT_PUBLIC_API_URL}${exportUrl}`,
-  //     "test.xlsx"
-  //   );
-  // };
 
   const handleSaveFile = () => {
     if (exportUrl !== "") {
@@ -38,7 +30,7 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
   return (
     <>
       <OutlinedButton
-        buttonName="Excel"
+        buttonName={buttonName}
         size="small"
         color="secondary"
         sx={{ color: "black" }}

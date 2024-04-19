@@ -101,3 +101,32 @@ export function SelectBox2({ options, ...props }) {
     </ThemeProvider>
   );
 }
+
+export function SelectBox3({ options, ...props }) {
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <NativeSelect
+        {...props}
+        defaultValue={props.defaultValue}
+        color="secondary"
+        disableUnderline={true}
+        sx={{
+          ...props.sx,
+          backgroundColor: "white",
+          border: `1px solid ${cjbsTheme.palette.grey["A400"]}`,
+          borderRadius: 1,
+          pl: 1,
+          pr: 1,
+        }}
+      >
+        {options.map((item) => {
+          return (
+            <option key={item.value} value={item.value}>
+              {item.optionName}
+            </option>
+          );
+        })}
+      </NativeSelect>
+    </ThemeProvider>
+  );
+}
