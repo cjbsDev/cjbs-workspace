@@ -173,7 +173,7 @@ const MngmntList = () => {
               sx={{ backgroundColor: cjbsTheme.palette.grey["100"] }}
             >
               <TableRow>
-                <TableCell colSpan={3} align="right" sx={{ pr: 4.5 }}>
+                <TableCell colSpan={3} align="center">
                   <Typography variant="body1">합계</Typography>
                 </TableCell>
                 <TableCell align="center">
