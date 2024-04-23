@@ -43,7 +43,7 @@ const SubHeader = ({
       <Stack direction="row" justifyContent="space-between">
         <Stack direction="row" spacing={1.5} alignItems="center">
           <DataCountResultInfo totalCount={totalElements} />
-          <Link href="/stock-ots-mngmnt-reg">
+          <Link href="/stock-mngmnt-reg">
             <ContainedButton buttonName="재고 등록" size="small" />
           </Link>
 

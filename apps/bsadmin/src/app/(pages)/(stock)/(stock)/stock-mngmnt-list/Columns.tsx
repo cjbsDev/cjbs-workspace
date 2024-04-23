@@ -1,7 +1,13 @@
-import { formatNumberWithCommas, formatPhoneNumber } from "cjbsDSTM";
+import {
+  ContainedButton,
+  formatNumberWithCommas,
+  formatPhoneNumber,
+} from "cjbsDSTM";
 import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import MyIcon from "icon/MyIcon";
+import StockIn from "./components/StockIn";
+import StockOut from "./components/StockOut";
 
 export const getColumns = () => [
   {
@@ -77,20 +83,24 @@ export const getColumns = () => [
     width: "150px",
     center: true,
   },
-  // {
-  //   name: "플랫폼",
-  //   selector: (row: { pltfVal: string }) =>
-  //     row.pltfVal !== null ? row.pltfVal : "-",
-  //   center: true,
-  //   width: "200px",
-  // },
-  // {
-  //   name: "주문처",
-  //   selector: (row: { qttnPrice: number }) =>
-  //     formatNumberWithCommas(row.qttnPrice),
-  //   // width: "150px",
-  //   center: true,
-  // },
+  {
+    name: "입고",
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+    cell: (row: { stockUkey: string }) => {
+      return <StockIn rowData={row} />;
+    },
+    center: true,
+  },
+  {
+    name: "출고",
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
+    cell: (row: { stockUkey: string }) => <StockOut rowData={row} />,
+    center: true,
+  },
   {
     name: "재고위치",
     selector: (row: { strgPlaceVal: string }) =>
