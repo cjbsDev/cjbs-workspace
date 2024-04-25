@@ -8,6 +8,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import { Box } from "@mui/material";
 
 const ListProject = () => {
   const router = useRouter();
@@ -32,16 +33,18 @@ const ListProject = () => {
   }, [totalElements]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="과제 관리" />}
-      data={data.prjtListResDetailList}
-      columns={columns}
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeader}
-      selectableRows={false}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="과제 관리" />}
+        data={data.prjtListResDetailList}
+        columns={columns}
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeader}
+        selectableRows={false}
+      />
+    </Box>
   );
 };
 

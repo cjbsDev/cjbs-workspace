@@ -10,6 +10,7 @@ import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import NoDataView from "../../../components/NoDataView";
+import { Box } from "@mui/material";
 
 const LazySvcStdPrice = () => {
   const router = useRouter();
@@ -44,17 +45,19 @@ const LazySvcStdPrice = () => {
   }, [totalElements]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="서비스 기준가 관리" />}
-      data={data}
-      columns={columns}
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeader}
-      selectableRows={false}
-      noDataComponent={<NoDataView />}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="서비스 기준가 관리" />}
+        data={data}
+        columns={columns}
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeader}
+        selectableRows={false}
+        noDataComponent={<NoDataView />}
+      />
+    </Box>
   );
 };
 

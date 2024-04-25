@@ -216,7 +216,7 @@ export const snbMenuListData = [
       nestedPath: [
         {
           menuLabel: "재고 관리",
-          menuPath: "/stock-ae",
+          menuPath: "/stock-mngmnt-list",
         },
         {
           menuLabel: "입출고 내역",
