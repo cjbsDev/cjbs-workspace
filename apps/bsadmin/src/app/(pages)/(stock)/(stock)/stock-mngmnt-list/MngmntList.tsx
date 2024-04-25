@@ -12,6 +12,9 @@ import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname } from "next/navigation";
+import StockCtgryRadio from "./components/StockCtgryRadio";
+import { useRecoilValue } from "recoil";
+import { stockCategoryAtom } from "./atom";
 
 const MngmntList = () => {
   const router = useRouter();
@@ -25,13 +28,16 @@ const MngmntList = () => {
   const [endYear, setEndYear] = useState(dayjs().year());
   const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
   const [resultObject, result] = useResultObject();
+  const getStockCategoryVal = useRecoilValue(stockCategoryAtom);
+
+  console.log("getStockCategoryVal", getStockCategoryVal);
 
   const url = useMemo(() => {
-    const base = "/stock/list";
+    const base = `/stock/list`;
     const params =
       JSON.stringify(resultObject) !== "{}"
-        ? `${result}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`
-        : `?page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`;
+        ? `${result}&stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`
+        : `?stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`;
     return `${base}${params}`;
   }, [
     resultObject,
@@ -42,6 +48,7 @@ const MngmntList = () => {
     startMonth,
     endYear,
     endMonth,
+    getStockCategoryVal,
   ]);
 
   const { data } = useSWR(url, fetcher, { suspense: true });
@@ -71,7 +78,10 @@ const MngmntList = () => {
     setEndMonth(value);
   };
 
-  const columns = useMemo(() => getColumns(), []);
+  const columns = useMemo(
+    () => getColumns(getStockCategoryVal),
+    [getStockCategoryVal],
+  );
 
   const subHeaderComponentMemo = useMemo(
     () => (
@@ -110,7 +120,7 @@ const MngmntList = () => {
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
-        title={<Title1 titleName="재고 관리" />}
+        title={<StockCtgryRadio />}
         data={stockList}
         columns={columns}
         onRowClicked={goDetailPage}

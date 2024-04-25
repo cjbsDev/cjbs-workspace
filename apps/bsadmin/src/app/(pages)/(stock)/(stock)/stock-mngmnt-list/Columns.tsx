@@ -9,7 +9,7 @@ import MyIcon from "icon/MyIcon";
 import StockIn from "./components/StockIn";
 import StockOut from "./components/StockOut";
 
-export const getColumns = () => [
+export const getColumns = (getStockCategoryVal: string) => [
   {
     name: "재고ID",
     center: true,
@@ -18,8 +18,14 @@ export const getColumns = () => [
   {
     name: "보조금",
     // width: "100px",
-    // center: true,
+    center: true,
     selector: (row: { isAstnPrice: string }) => row.isAstnPrice,
+  },
+  {
+    name: "GutInside",
+    // width: "100px",
+    center: true,
+    selector: (row: { isGutInside: string }) => row.isGutInside,
   },
   {
     name: "품명",
@@ -106,6 +112,7 @@ export const getColumns = () => [
     button: true,
     cell: (row) => <StockOut rowData={row} />,
     center: true,
+    omit: getStockCategoryVal === "BS_3005002" ? true : false,
   },
   {
     name: "재고위치",
