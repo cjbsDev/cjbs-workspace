@@ -43,6 +43,7 @@ interface FormDataProps {
 const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
   const searchParams = useSearchParams();
   const stockUkey = searchParams.get("stockUkey");
+  const isGutInside = searchParams.get("isGutInside");
   const [isLoading, setIsLoading] = useState(false);
 
   const defaultValues = {};
@@ -84,7 +85,9 @@ const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>출고 처리</ModalTitle>
+      <ModalTitle onClose={onClose}>
+        {isGutInside === "Y" ? "GutInside 출고 처리" : "출고 처리"}
+      </ModalTitle>
       <DialogContent>
         <Form
           onSubmit={onSubmit}
@@ -131,7 +134,9 @@ const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
                     />
                   </TD>
                 </TableRow>
-                <HsptOutRow />
+
+                {isGutInside === "Y" && <HsptOutRow />}
+
                 <TableRow>
                   <TH>
                     메모<NotRequired>[선택]</NotRequired>

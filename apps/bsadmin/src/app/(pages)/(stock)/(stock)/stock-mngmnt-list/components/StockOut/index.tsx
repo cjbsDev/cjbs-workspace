@@ -10,7 +10,7 @@ const Index = ({ rowData }) => {
   console.log("CCCCCCC", currentPathname);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const { stockUkey, unpr } = rowData;
+  const { stockUkey, isGutInside } = rowData;
 
   const handleClose = () => {
     setIsOpen(false);
@@ -19,7 +19,9 @@ const Index = ({ rowData }) => {
 
   const handleOpen = () => {
     setIsOpen(true);
-    router.push(`${currentPathname}?stockUkey=${stockUkey}`);
+    router.push(
+      `${currentPathname}?stockUkey=${stockUkey}&isGutInside=${isGutInside}`,
+    );
   };
 
   return (

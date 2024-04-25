@@ -69,13 +69,19 @@ export const getColumns = () => [
   //   width: "150px",
   //   center: true,
   // },
-  // {
-  //   name: "서비스종류",
-  //   selector: (row: { srvcTypeVal: string }) =>
-  //     row.srvcTypeVal !== null ? row.srvcTypeVal : "-",
-  //   width: "150px",
-  //   center: true,
-  // },
+  {
+    name: "규격",
+    selector: (row: { stnd: string }) => (row.stnd !== null ? row.stnd : "-"),
+    // width: "150px",
+    center: true,
+  },
+  {
+    name: "단위",
+    selector: (row: { unitVal: string }) =>
+      row.unitVal !== null ? row.unitVal : "-",
+    // width: "150px",
+    center: true,
+  },
   {
     name: "Cat.No",
     selector: (row: { catNo: string }) =>
@@ -98,7 +104,9 @@ export const getColumns = () => [
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
-    cell: (row: { stockUkey: string }) => <StockOut rowData={row} />,
+    cell: (row: { stockUkey: string; isGutInside: string }) => (
+      <StockOut rowData={row} />
+    ),
     center: true,
   },
   {
