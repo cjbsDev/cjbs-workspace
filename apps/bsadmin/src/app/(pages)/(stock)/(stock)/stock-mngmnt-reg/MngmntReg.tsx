@@ -96,10 +96,11 @@ const MngmntReg = () => {
 
     const reqBody = {
       ...data,
+      unpr: ukey !== null ? data.unpr : Number(data.unpr.replaceAll(",", "")),
       stockHsptUkey: ukey,
     };
 
-    // console.log("REQ BODY ==>>", reqBody);
+    console.log("REQ BODY ==>>", reqBody);
 
     try {
       const response =
@@ -109,7 +110,7 @@ const MngmntReg = () => {
 
       console.log("POST request successful:", response);
       if (response.success) {
-        router.push("/stock-hspt-mngmnt-list");
+        router.push("/stock-mngmnt-list");
       } else {
         toast(response.message);
         // setIsLoading(false);
@@ -146,6 +147,17 @@ const MngmntReg = () => {
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyStockCategory />
                 </ErrorContainer>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>것인사이드</TH>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <RadioGV
+                  data={dataRadioGVAstnPriceCodeCc}
+                  inputName="isGutinside"
+                  required={true}
+                  errorMessage="것인사이드 선택입니다."
+                />
               </TD>
             </TableRow>
             <TableRow>

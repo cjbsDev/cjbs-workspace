@@ -14,7 +14,7 @@ const StockCategory = () => {
   return (
     <RadioGV
       data={data}
-      inputName="isAstnPrice"
+      inputName="stockCtgrCc"
       required={true}
       errorMessage="필수 선택입니다."
     />
