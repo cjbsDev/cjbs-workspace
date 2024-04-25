@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 const Index = ({ rowData }) => {
   const router = useRouter();
   const currentPathname = usePathname();
-  console.log("CCCCCCC", currentPathname);
+  // console.log("IN", currentPathname);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { stockUkey, unpr } = rowData;

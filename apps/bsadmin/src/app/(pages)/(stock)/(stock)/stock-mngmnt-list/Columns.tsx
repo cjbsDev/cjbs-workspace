@@ -94,7 +94,7 @@ export const getColumns = () => [
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
-    cell: (row: { stockUkey: string }) => {
+    cell: (row) => {
       return <StockIn rowData={row} />;
     },
     center: true,
@@ -104,9 +104,7 @@ export const getColumns = () => [
     ignoreRowClick: true,
     allowOverflow: true,
     button: true,
-    cell: (row: { stockUkey: string; isGutInside: string }) => (
-      <StockOut rowData={row} />
-    ),
+    cell: (row) => <StockOut rowData={row} />,
     center: true,
   },
   {
