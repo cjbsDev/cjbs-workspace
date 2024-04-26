@@ -156,15 +156,31 @@ const MngmntList = () => {
                   <TableRow key={mtldDetailUkey}>
                     <TD2 align="center">{stockId}</TD2>
                     <TD2 align="center">{stockNm}</TD2>
-                    <TD2 align="center">{unpr}</TD2>
-                    <TD2 align="center">{openingStockCnt}</TD2>
-                    <TD2 align="center">{openingStockAmt}</TD2>
-                    <TD2 align="center">{stockInCnt}</TD2>
-                    <TD2 align="center">{stockInAmt}</TD2>
-                    <TD2 align="center">{stockOutCnt}</TD2>
-                    <TD2 align="center">{stockOutAmt}</TD2>
-                    <TD2 align="center">{closingStockCnt}</TD2>
-                    <TD2 align="center">{closingStockAmt}</TD2>
+                    <TD2 align="center">{formatNumberWithCommas(unpr)}</TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(openingStockCnt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(openingStockAmt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(stockInCnt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(stockInAmt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(stockOutCnt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(stockOutAmt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(closingStockCnt)}
+                    </TD2>
+                    <TD2 align="center">
+                      {formatNumberWithCommas(closingStockAmt)}
+                    </TD2>
                   </TableRow>
                 );
               })}

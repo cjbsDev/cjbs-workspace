@@ -98,6 +98,7 @@ export const getColumns = (getStockCategoryVal: string) => [
       row.catNo !== null ? row.catNo : "-",
     allowOverflow: true,
     center: true,
+    grow: 2,
   },
   {
     name: "입고",
@@ -108,6 +109,7 @@ export const getColumns = (getStockCategoryVal: string) => [
       return <StockIn rowData={row} />;
     },
     center: true,
+    width: "60px",
   },
   {
     name: "출고",
@@ -117,6 +119,7 @@ export const getColumns = (getStockCategoryVal: string) => [
     cell: (row) => <StockOut rowData={row} />,
     center: true,
     omit: getStockCategoryVal === "BS_3005002" ? true : false,
+    width: "60px",
   },
   {
     name: "재고위치",

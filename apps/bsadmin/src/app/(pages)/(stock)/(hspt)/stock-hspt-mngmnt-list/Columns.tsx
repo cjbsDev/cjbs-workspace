@@ -16,11 +16,13 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     selector: (row: { hsptNm: string }) =>
       row.hsptNm !== null ? row.hsptNm : "-",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "주소",
     selector: (row: { addr: string }) => (row.addr !== null ? row.addr : "-"),
     // center: true,
+    allowOverflow: true,
     cell: (row) => {
       const { addr, addrDetail, zip } = row;
       return (

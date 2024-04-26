@@ -13,6 +13,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     name: "구분",
     // width: "100px",
     // center: true,
+    allowOverflow: true,
     selector: (row: { seqTypeVal: string }) =>
       row.seqTypeVal !== null ? row.seqTypeVal : "-",
   },
@@ -28,6 +29,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     selector: (row: { agncVal: string }) =>
       row.agncVal !== null ? row.agncVal : "-",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "접수번호",
@@ -35,26 +37,27 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
       row.rcptNum !== null ? row.rcptNum : "-",
     width: "150px",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "오더정보",
     selector: (row: { orderInfo: string }) =>
       row.orderInfo !== null ? row.orderInfo : "-",
-    // width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {
     name: "샘플정보",
     selector: (row: { sampleInfo: string }) =>
       row.sampleInfo !== null ? row.sampleInfo : "-",
-    width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {
     name: "샘플종류",
     selector: (row: { sampleTypeVal: string }) =>
       row.sampleTypeVal !== null ? row.sampleTypeVal : "-",
-    // width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {
@@ -70,33 +73,35 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
       row.srvcTypeVal !== null ? row.srvcTypeVal : "-",
     width: "150px",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "분석종류",
     selector: (row: { anlsTypeVal: string }) =>
       row.anlsTypeVal !== null ? row.anlsTypeVal : "-",
-    width: "150px",
+    allowOverflow: true,
     center: true,
+    grow: 2,
   },
   {
     name: "플랫폼",
     selector: (row: { pltfVal: string }) =>
       row.pltfVal !== null ? row.pltfVal : "-",
     center: true,
-    width: "200px",
+    allowOverflow: true,
   },
   {
     name: "견적금액",
     selector: (row: { qttnPrice: number }) =>
       formatNumberWithCommas(row.qttnPrice),
-    // width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {
     name: "최종금액",
     selector: (row: { lastPrice: number }) =>
       formatNumberWithCommas(row.lastPrice),
-    // width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {
