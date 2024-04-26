@@ -36,7 +36,7 @@ import {
 } from "../../../../data/inputDataLists";
 const MngmntList = () => {
   const [year, setYear] = useState(dayjs().year());
-  const [month, setMonth] = useState(dayjs().month());
+  const [month, setMonth] = useState(dayjs().month() + 1);
   const { data } = useSWR(
     `/stock/mtld/list?year=${year}&month=${month}`,
     fetcher,
@@ -95,22 +95,22 @@ const MngmntList = () => {
               iconName="xls3"
             />
             <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=1`}
+              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q1`}
               iconName="xls3"
               buttonName="1분기"
             />
             <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=2`}
+              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q2`}
               iconName="xls3"
               buttonName="2분기"
             />
             <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=3`}
+              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q3`}
               iconName="xls3"
               buttonName="3분기"
             />
             <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=4`}
+              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q4`}
               iconName="xls3"
               buttonName="4분기"
             />
@@ -173,7 +173,11 @@ const MngmntList = () => {
               sx={{ backgroundColor: cjbsTheme.palette.grey["100"] }}
             >
               <TableRow>
-                <TableCell colSpan={3} align="center">
+                <TableCell
+                  colSpan={3}
+                  align="center"
+                  sx={{ backgroundColor: cjbsTheme.palette.grey["300"] }}
+                >
                   <Typography variant="body1">합계</Typography>
                 </TableCell>
                 <TableCell align="center">
