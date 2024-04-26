@@ -113,7 +113,7 @@ const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
                     <InputValidation
                       inputName="qnty"
                       required={true}
-                      errorMessage="단가를 입력해 주세요."
+                      errorMessage="수량를 입력해 주세요."
                       sx={{
                         width: 160,
                         ".MuiOutlinedInput-input": {

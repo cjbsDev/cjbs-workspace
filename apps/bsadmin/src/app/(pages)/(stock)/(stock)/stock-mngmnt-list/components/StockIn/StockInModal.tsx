@@ -57,17 +57,19 @@ const StockInModal = ({
   };
 
   const onSubmit = async (data: FormData) => {
-    // console.log("입고 전송폼 데이타 ==>>", data);
+    console.log("입고 전송폼 데이타 ==>>", data);
     setIsLoading(true);
     const reqBody = {
       ...data,
       stockUkey: stockUkey,
       inDttm: dayjs(data.inDttm).format("YYYY-MM-DD"),
-      unpr: Number(data.unpr.replaceAll(",", "")),
+      unpr: Number.isNaN(Number(data.unpr))
+        ? Number(data.unpr.replaceAll(",", ""))
+        : data.unpr,
       qnty: Number(data.qnty.replaceAll(",", "")),
     };
 
-    // console.log("REQ BODY", reqBody);
+    console.log("REQ BODY", reqBody);
 
     try {
       const res = await POST(`/stock/in`, reqBody);

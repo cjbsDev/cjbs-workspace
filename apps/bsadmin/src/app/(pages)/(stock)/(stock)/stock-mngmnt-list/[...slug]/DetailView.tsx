@@ -1,48 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
-import useSWR, { useSWRConfig } from "swr";
-import { fetcher, PUT } from "api";
-import { useParams, useSearchParams } from "next/navigation";
+import React from "react";
+import useSWR from "swr";
+import { fetcher } from "api";
+import { useParams } from "next/navigation";
 import {
   ContainedButton,
   ErrorContainer,
   Fallback,
-  Form,
   formatNumberWithCommas,
-  formatPhoneNumber,
-  InputValidation,
   OutlinedButton,
-  SelectBox,
-  SingleDatePicker,
   TD,
   TH,
   Title1,
   transformedNullToHyphon,
-  Won,
 } from "cjbsDSTM";
 import {
   Box,
-  BoxProps,
-  Checkbox,
-  Container,
   Stack,
-  styled,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
   TableRow,
   Typography,
 } from "@mui/material";
-import TelNumber from "../../../../../components/NumberFormat/TelNumber";
 import Link from "next/link";
-import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next-nprogress-bar";
-import { toast } from "react-toastify";
-import { groupDepartMngrListData } from "../../../../../data/inputDataLists";
-import AmountFormat from "../../../../../components/NumberFormat/AmountFormat";
 import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 
@@ -107,6 +90,12 @@ const DetailView = () => {
               <TD sx={{ width: "35%" }}>{isAstnPrice}</TD>
               <TH sx={{ width: "15%" }}>구분</TH>
               <TD sx={{ width: "35%" }}>{stockCtgrVal}</TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>것인사이드 여부</TH>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                {isGutinside}
+              </TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>주문처</TH>

@@ -60,8 +60,8 @@ const DataTable = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) === "{}"
-      ? `/stock/hspt/list/unRgst?page=${page}&size=${size}`
-      : `/stock/hspt/list/unRgst${result}&page=${page}&size=${size}`,
+      ? `/stock/hspt/list?page=${page}&size=${size}`
+      : `/stock/hspt/list${result}&page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,
