@@ -8,8 +8,8 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     name: "병원 코드",
     width: "100px",
     center: true,
-    selector: (row: { stockHsptUkey: string }) =>
-      row.stockHsptUkey !== null ? row.stockHsptUkey : "-",
+    selector: (row: { hsptCode: string }) =>
+      row.hsptCode !== null ? row.hsptCode : "-",
   },
   {
     name: "병원 이름",
