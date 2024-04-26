@@ -29,10 +29,14 @@ export const getColumns = (getStockCategoryVal: string) => [
   },
   {
     name: "품명",
-    width: "120px",
+    // width: "120px",
     selector: (row: { stockNm: string }) =>
       row.stockNm !== null ? row.stockNm : "-",
     center: true,
+    // wrap: true,
+    allowOverflow: true,
+    // grow: 10,
+    // cell: (row: { stockNm: string }) => row.stockNm,
   },
   {
     name: "제조사",
@@ -92,8 +96,9 @@ export const getColumns = (getStockCategoryVal: string) => [
     name: "Cat.No",
     selector: (row: { catNo: string }) =>
       row.catNo !== null ? row.catNo : "-",
-    width: "150px",
+    allowOverflow: true,
     center: true,
+    grow: 2,
   },
   {
     name: "입고",
@@ -104,6 +109,7 @@ export const getColumns = (getStockCategoryVal: string) => [
       return <StockIn rowData={row} />;
     },
     center: true,
+    width: "60px",
   },
   {
     name: "출고",
@@ -113,19 +119,22 @@ export const getColumns = (getStockCategoryVal: string) => [
     cell: (row) => <StockOut rowData={row} />,
     center: true,
     omit: getStockCategoryVal === "BS_3005002" ? true : false,
+    width: "60px",
   },
   {
     name: "재고위치",
     selector: (row: { strgPlaceVal: string }) =>
       row.strgPlaceVal !== null ? row.strgPlaceVal : "-",
-    // width: "150px",
     center: true,
+    // wrap: true,
+    allowOverflow: true,
+    // grow: 10,
   },
   {
     name: "서비스",
     selector: (row: { srvcVal: string }) =>
       row.srvcVal !== null ? row.srvcVal : "-",
-    // width: "150px",
+    allowOverflow: true,
     center: true,
   },
   {

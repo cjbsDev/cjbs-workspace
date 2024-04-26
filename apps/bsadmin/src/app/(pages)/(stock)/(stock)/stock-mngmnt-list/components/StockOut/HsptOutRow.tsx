@@ -39,7 +39,7 @@ const HsptOutRow = () => {
                 readOnly: true,
               }}
               required={true}
-              errorMessage="병원을 검색해 주세요."
+              errorMessage="코드 필요"
             />
           </Box>
 

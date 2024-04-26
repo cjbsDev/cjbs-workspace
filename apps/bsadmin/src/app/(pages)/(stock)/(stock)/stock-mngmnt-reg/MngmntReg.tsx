@@ -150,7 +150,7 @@ const MngmntReg = () => {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>것인사이드</TH>
+              <TH sx={{ width: "15%" }}>것인사이드 여부</TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <RadioGV
                   data={dataRadioGVAstnPriceCodeCc}

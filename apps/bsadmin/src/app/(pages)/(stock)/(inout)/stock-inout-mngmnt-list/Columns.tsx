@@ -7,7 +7,7 @@ import CancelBtn from "./CancelBtn";
 export const getColumns = () => [
   {
     name: "재고ID",
-    width: "100px",
+    width: "80px",
     center: true,
     selector: (row: { stockId: number }) => formatNumberWithCommas(row.stockId),
   },
@@ -16,12 +16,14 @@ export const getColumns = () => [
     selector: (row: { stockCtgrVal: string }) =>
       row.stockCtgrVal !== null ? row.stockCtgrVal : "-",
     center: true,
+    width: "100px",
   },
   {
     name: "구분",
     selector: (row: { inOut: string }) =>
       row.inOut !== null ? row.inOut : "-",
     center: true,
+    width: "80px",
     cell: (row: { inOut: string }) => {
       return (
         <Chip
@@ -50,12 +52,14 @@ export const getColumns = () => [
     name: "규격",
     selector: (row: { stnd: string }) => (row.stnd !== null ? row.stnd : "-"),
     center: true,
+    allowOverflow: true,
   },
   {
     name: "단위",
     selector: (row: { unitVal: string }) =>
       row.unitVal !== null ? row.unitVal : "-",
     center: true,
+    width: "80px",
   },
   {
     name: "Cat.No",
@@ -68,28 +72,26 @@ export const getColumns = () => [
     name: "입/출고 수량",
     selector: (row: { stockInOutCnt: number }) =>
       formatNumberWithCommas(row.stockInOutCnt),
-    width: "150px",
     center: true,
   },
   {
     name: "잔여 수량",
     selector: (row: { stockCnt: number }) =>
       formatNumberWithCommas(row.stockCnt),
-    width: "150px",
     center: true,
   },
   {
     name: "처리일",
     selector: (row: { inOutDttm: string }) =>
       row.inOutDttm !== null ? row.inOutDttm : "-",
-    width: "150px",
+    width: "120px",
     center: true,
   },
   {
     name: "관리자",
     selector: (row: { mngrNm: string }) =>
       row.mngrNm !== null ? row.mngrNm : "-",
-    width: "150px",
+    width: "100px",
     center: true,
   },
   {
@@ -113,6 +115,7 @@ export const getColumns = () => [
   {
     width: "80px",
     center: true,
+    button: true,
     cell: (row: {
       isCancelButtonStatus: string;
       inOut: string;

@@ -14,6 +14,8 @@ import {
   dashboardMonthData,
   dashboardYearData,
 } from "../../../../data/inputDataLists";
+import { useRecoilValue } from "recoil";
+import { stockCategoryAtom } from "./atom";
 
 interface ExtentSubHeaderProps extends SubHeaderProps {
   startYear: number;
@@ -37,53 +39,65 @@ const SubHeader = ({
   handleStartYear,
   handleEndMonth,
   handleEndYear,
-}: ExtentSubHeaderProps) => (
-  <Grid container>
-    <Grid item xs={12} sx={{ pt: 0 }}>
-      <Stack direction="row" justifyContent="space-between">
-        <Stack direction="row" spacing={1.5} alignItems="center">
-          <DataCountResultInfo totalCount={totalElements} />
-          <Link href="/stock-mngmnt-reg">
-            <ContainedButton buttonName="재고 등록" size="small" />
-          </Link>
+}: ExtentSubHeaderProps) => {
+  const getStockCategoryVal = useRecoilValue(stockCategoryAtom);
 
-          <Stack direction="row" spacing={1}>
-            <Stack direction="row" spacing={1}>
-              <SelectBox3
-                options={dashboardYearData}
-                value={startYear}
-                onChange={handleStartYear}
-              />
-              <SelectBox3
-                options={dashboardMonthData}
-                value={startMonth}
-                onChange={handleStartMonth}
-              />
-            </Stack>
+  return (
+    <Grid container>
+      <Grid item xs={12} sx={{ pt: 0 }}>
+        <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
+            <Link href="/stock-mngmnt-reg">
+              <ContainedButton buttonName="재고 등록" size="small" />
+            </Link>
 
             <Stack direction="row" spacing={1}>
-              <SelectBox3
-                options={dashboardYearData}
-                value={endYear}
-                onChange={handleEndYear}
-              />
-              <SelectBox3
-                options={dashboardMonthData}
-                value={endMonth}
-                onChange={handleEndMonth}
-              />
+              <Stack direction="row" spacing={1}>
+                <SelectBox3
+                  options={dashboardYearData}
+                  value={startYear}
+                  onChange={handleStartYear}
+                />
+                <SelectBox3
+                  options={dashboardMonthData}
+                  value={startMonth}
+                  onChange={handleStartMonth}
+                />
+              </Stack>
+
+              <Stack direction="row" spacing={1}>
+                <SelectBox3
+                  options={dashboardYearData}
+                  value={endYear}
+                  onChange={handleEndYear}
+                />
+                <SelectBox3
+                  options={dashboardMonthData}
+                  value={endMonth}
+                  onChange={handleEndMonth}
+                />
+              </Stack>
             </Stack>
           </Stack>
-        </Stack>
 
-        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
-          <FileDownloadBtn exportUrl={`/ots/list/download`} iconName="xls3" />
-          <KeywordSearch />
-          {/*<ResultInSearch />*/}
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/stock/list/download?stockCtgrCc=${getStockCategoryVal}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`}
+              iconName="xls3"
+            />
+            <KeywordSearch />
+            {/*<ResultInSearch />*/}
+          </Stack>
         </Stack>
-      </Stack>
+      </Grid>
     </Grid>
-  </Grid>
-);
+  );
+};
 
 export default SubHeader;

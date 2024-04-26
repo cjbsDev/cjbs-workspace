@@ -8,6 +8,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     name: "주문처",
     // width: "100px",
     // center: true,
+    allowOverflow: true,
     selector: (row: { stockAgncNm: string }) =>
       row.stockAgncNm !== null ? row.stockAgncNm : "-",
   },
@@ -16,6 +17,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     selector: (row: { email: string }) =>
       row.email !== null ? row.email : "-",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "담당자",
