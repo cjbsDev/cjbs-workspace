@@ -1,3 +1,4 @@
+"use client";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   cjbsTheme,
@@ -48,6 +49,9 @@ const SampleDataTable = () => {
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
 
   const searchParams = useSearchParams();
+  const samplePrevList = searchParams.get("samplePrevList");
+
+  console.log("++++++samplePrevList ==>>", samplePrevList?.split(",")[0]);
 
   const resultObject = {};
 
@@ -443,6 +447,11 @@ const SampleDataTable = () => {
     setSize(newPerPage);
   };
 
+  const rowSelectCritera = (row) => {
+    const sampleKeys = samplePrevList?.split(",") || [];
+    return sampleKeys.includes(row.sampleUkey);
+  };
+
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
@@ -457,11 +466,16 @@ const SampleDataTable = () => {
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows
+        selectableRowSelected={rowSelectCritera}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={toggledClearRows}
         pagination
         paginationServer
         paginationTotalRows={totalElements}
+        paginationServerOptions={{
+          persistSelectedOnPageChange: false,
+          persistSelectedOnSort: true,
+        }}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}

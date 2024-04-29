@@ -20,13 +20,14 @@ import {
   TH,
   transformedNullToHyphon,
 } from "cjbsDSTM";
-import useCenteredPopup from "../../../../../../hooks/useCenteredPopup";
+import useCenteredPopup from "../../../../../../hooks/useNewCenteredPopup";
 import MyIcon from "icon/MyIcon";
 
 const DataTable = () => {
   const [sampleList, setSampleList] = useState([]);
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [sampleKyList, setSampleKyList] = useState(null);
   const { control, watch, setValue } = useFormContext();
   const srvcTypeWatch = watch("srvcTypeMc");
   console.log("srvcTypeWatch", srvcTypeWatch);
@@ -37,27 +38,29 @@ const DataTable = () => {
 
   console.log("fields", fields);
 
-  const { isOpen, openPopup, closePopup } = useCenteredPopup(
-    `/sampleSimpleListPopup`,
-    "샘플 검색",
-    800,
-    457,
-  );
+  const { isOpen, openPopup, closePopup } = useCenteredPopup({
+    url: "/sampleSimpleListPopup",
+    windowName: "샘플 검색",
+    width: 800,
+    height: 457,
+    query: { samplePrevList: sampleKyList }, // 여기에 원하는 쿼리 파라미터를 추가
+  });
 
   useEffect(() => {
     const handleSampleData = (e) => {
       const { sampleLists, orderInfo, sampleInfo, sampleUkeyList } = e.detail;
 
       // Avoid adding duplicates
-      // sampleLists.forEach((newItem) => {
-      //   if (!fields.some((item) => item.sampleUkey === newItem.sampleUkey)) {
-      //     append(newItem); // Use append method to add new items to the field array
-      //   }
-      // });
+      sampleLists.forEach((newItem) => {
+        if (!fields.some((item) => item.sampleUkey === newItem.sampleUkey)) {
+          append(newItem); // Use append method to add new items to the field array
+        }
+      });
 
       setValue("otsSampleDetailList", sampleLists);
       setValue("orderInfo", orderInfo);
       setValue("sampleInfo", sampleInfo);
+      setSampleKyList(sampleUkeyList);
       // setValue("sampleUkeyList", sampleUkeyList);
     };
 
@@ -194,6 +197,8 @@ const DataTable = () => {
             <DeletedButton buttonName="삭제" onClick={handleDeleteSelected} />
           </Stack>
 
+          {sampleKyList.length}
+
           <TableContainer sx={{ mb: 1.5 }}>
             <Table size="small">
               <TableHead>
@@ -213,6 +218,7 @@ const DataTable = () => {
               <TableBody>
                 {fields.map((item, index) => {
                   const {
+                    sampleId,
                     sampleUkey,
                     sampleNm,
                     sampleTypeVal,
@@ -250,7 +256,7 @@ const DataTable = () => {
                         {/*  }}*/}
                         {/*/>*/}
                       </TD>
-                      <TD align="center">{sampleUkey}</TD>
+                      <TD align="center">{sampleId}</TD>
                       <TD align="center">{sampleNm}</TD>
                       <TD align="center">{sampleTypeVal}</TD>
                       <TD align="center">{source}</TD>

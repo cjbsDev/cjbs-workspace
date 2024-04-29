@@ -11,13 +11,14 @@ import { Box, Stack } from "@mui/material";
 
 const SampleActionBtns = () => {
   const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
-  // const params = useParams();
-  // const ukey = params.slug;
-
   const searchParams = useSearchParams();
-  const uKey = searchParams.get("uKey");
+  // const uKey = searchParams.get("uKey");
+  const samplePrevList = searchParams.get("samplePrevList");
+  const sampleKeys = samplePrevList?.split(",") || [];
 
-  const { mutate } = useSWRConfig();
+  console.log("%$%$%$%$%$%", sampleKeys.includes("null"));
+
+  // const { mutate } = useSWRConfig();
 
   const handleClose = () => {
     window.close();
@@ -28,9 +29,26 @@ const SampleActionBtns = () => {
 
     if (getSampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
 
-    const upDateSampleUkeyList = getSampleUkeyList
-      .map((row) => row.sampleUkey)
-      .toString();
+    // const upDateSampleUkeyList = getSampleUkeyList
+    //   .map((row) => row.sampleUkey)
+    //   .toString();
+
+    // const upDateSampleUkeyList =
+    //   sampleKeys.toString() === null
+    //     ? getSampleUkeyList.map((row) => row.sampleUkey).toString()
+    //     : [
+    //         ...getSampleUkeyList.map((row) => row.sampleUkey),
+    //         ...sampleKeys,
+    //       ].filter((value, index, self) => self.indexOf(value) === index);
+
+    const upDateSampleUkeyList = sampleKeys.includes("null")
+      ? getSampleUkeyList.map((row) => row.sampleUkey).toString()
+      : [
+          ...getSampleUkeyList.map((row) => row.sampleUkey),
+          ...sampleKeys.filter((key) => key !== null), // null 값을 제외하고 배열에 추가
+        ]
+          .filter((value, index, self) => self.indexOf(value) === index)
+          .toString(); // 중복 제거하고 문자열로 변환
 
     console.log("upDateSampleUkeyList", upDateSampleUkeyList);
 
@@ -51,40 +69,6 @@ const SampleActionBtns = () => {
       window.opener.dispatchEvent(event);
       window.close();
     } catch (error) {}
-
-    // const event = new CustomEvent("mySampleSimpleData", {
-    //   // detail: getSampleUkeyList,
-    //   detail: {
-    //     sampleLists: getSampleUkeyList,
-    //     orderInfo: "@@@@^^^^^",
-    //     sampleInfo: "",
-    //     sampleUkeyList: "",
-    //   },
-    // });
-    // window.opener.dispatchEvent(event);
-    // window.close();
-
-    // const body = {
-    //   sampleUkeyList: getSampleUkeyList,
-    // };
-    // try {
-    //   const res = await POST(`/run/add/${uKey}`, body);
-    //   console.log("RUN 샘플 추가 성공 여부>>>> ==>>", res.success);
-    //
-    //   if (res.success) {
-    //     mutate(`/run/sample/${uKey}?page=1&size=20`);
-    //     handleClose();
-    //   } else {
-    //     toast(res.message);
-    //   }
-    // } catch (error: any) {
-    //   console.error(
-    //     "샘플 추가 오류>>>>",
-    //     error.response?.data?.data || error.message,
-    //   );
-    // } finally {
-    //   // setIsLoading(false);
-    // }
   };
 
   return (
