@@ -10,8 +10,12 @@ import {
 } from "@mui/material";
 import { InputValidation, TD, TH } from "cjbsDSTM";
 import DataTable from "./NewDataTable";
+import { useFormContext } from "react-hook-form";
 
 const Index = () => {
+  const { watch, setValue } = useFormContext();
+  const srvcTypeWatch = watch("srvcTypeMc");
+  // BS_0100017006
   return (
     <>
       <DataTable />
@@ -27,6 +31,9 @@ const Index = () => {
                   inputName="orderInfo"
                   required={true}
                   errorMessage="오더 번호 입력해 주세요."
+                  InputProps={{
+                    readOnly: srvcTypeWatch !== "BS_0100017006",
+                  }}
                 />
               </TD>
               <TH sx={{ width: "15%" }}>샘플 정보</TH>
@@ -36,6 +43,9 @@ const Index = () => {
                   inputName="sampleInfo"
                   required={true}
                   errorMessage="샘플 번호를 입력해 주세요."
+                  InputProps={{
+                    readOnly: srvcTypeWatch !== "BS_0100017006",
+                  }}
                 />
               </TD>
             </TableRow>

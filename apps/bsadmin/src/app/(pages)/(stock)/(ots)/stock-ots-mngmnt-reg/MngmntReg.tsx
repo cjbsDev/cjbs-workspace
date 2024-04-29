@@ -115,7 +115,10 @@ const MngmntReg = () => {
     const reqBody = {
       ...data,
       otsDttm: dayjs(data.otsDttm).format("YYYY-MM-DD"),
-      resultRcpnDttm: dayjs(data.resultRcpnDttm).format("YYYY-MM-DD"),
+      resultRcpnDttm:
+        data.resultRcpnDttm !== null
+          ? dayjs(data.resultRcpnDttm).format("YYYY-MM-DD")
+          : data.resultRcpnDttm,
       lastPrice: Number.isNaN(Number(data.lastPrice))
         ? Number(data.lastPrice.replace(/,/g, ""))
         : data.lastPrice,
@@ -135,7 +138,10 @@ const MngmntReg = () => {
       console.log("Form submitted successfully:", response);
       if (response.success) {
         // mutate("/stock/agnc/list?page=1&size=15");
-        router.push(`/stock-ots-mngmnt-list/${ukey}`);
+        ukey === null
+          ? router.push("/stock-ots-mngmnt-list")
+          : router.push(`/stock-ots-mngmnt-list/${ukey}`);
+        // router.push(`/stock-ots-mngmnt-list/${ukey}`);
       } else {
         toast(response.message);
       }

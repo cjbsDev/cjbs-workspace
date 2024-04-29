@@ -31,8 +31,8 @@ const DataTable = () => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/sampleSimpleListPopup`,
     "샘플 검색",
-    1642,
-    557,
+    800,
+    457,
   );
 
   useEffect(() => {
