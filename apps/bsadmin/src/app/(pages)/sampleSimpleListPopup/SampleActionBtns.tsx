@@ -14,7 +14,7 @@ const SampleActionBtns = () => {
   const searchParams = useSearchParams();
   // const uKey = searchParams.get("uKey");
   const samplePrevList = searchParams.get("samplePrevList");
-  const sampleKeys = samplePrevList?.split(",") || [];
+  const sampleKeys = samplePrevList?.replace(/,\s*$/, "").split(",") || [];
 
   console.log("%$%$%$%$%$%", sampleKeys.includes("null"));
 
