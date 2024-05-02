@@ -21,7 +21,7 @@ const DataTable = () => {
     url: "/sampleSimpleListPopup",
     windowName: "샘플 검색",
     width: 800,
-    height: 457,
+    height: 600,
     query: { samplePrevList: sampleData }, // 여기에 원하는 쿼리 파라미터를 추가
   });
 

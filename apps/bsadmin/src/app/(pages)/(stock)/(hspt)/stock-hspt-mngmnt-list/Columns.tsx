@@ -13,9 +13,10 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   },
   {
     name: "병원 이름",
+    width: "300px",
     selector: (row: { hsptNm: string }) =>
       row.hsptNm !== null ? row.hsptNm : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
@@ -26,9 +27,9 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     cell: (row) => {
       const { addr, addrDetail, zip } = row;
       return (
-        <Stack>
+        <Stack direction="row" spacing={0.5}>
           <Typography data-tag="allowRowEvents" variant="body2">
-            {zip}
+            우편번호({zip})
           </Typography>
           <Typography data-tag="allowRowEvents" variant="body2">
             {addr} {addrDetail}
@@ -43,6 +44,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
       row.tel !== null ? formatPhoneNumber(row.tel) : "-",
     width: "150px",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "메모",

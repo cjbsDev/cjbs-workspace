@@ -30,7 +30,7 @@ import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(5);
+  const [size, setSize] = useState<number>(10);
   // const [filterText, setFilterText] = useState("");
   // const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -224,8 +224,8 @@ const SampleDataTable = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
-        paginationPerPage={5}
-        paginationRowsPerPageOptions={[5, 10, 15]}
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[10, 15, 20]}
       />
       <SampleActionBtns />
     </Box>

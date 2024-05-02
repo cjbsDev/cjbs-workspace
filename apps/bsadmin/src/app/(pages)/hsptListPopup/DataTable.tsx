@@ -1,33 +1,17 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  cjbsTheme,
-  DataCountResultInfo,
-  DataTableBase,
-  formatNumberWithCommas,
-  OutlinedButton,
-  Title1,
-} from "cjbsDSTM";
+import React, { useCallback, useMemo, useState } from "react";
+import { DataTableBase, Title1 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../components/NoDataView";
-import {
-  Box,
-  Chip,
-  Grid,
-  Stack,
-  styled,
-  Typography,
-  TypographyProps,
-} from "@mui/material";
-import KeywordSearch from "../../components/KeywordSearch";
+import { Box, styled, Typography, TypographyProps } from "@mui/material";
 import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import { fetcher } from "api";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
-import ActionBtns from "./ActionBtns";
 import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
-import { custUkeyAtom } from "../../recoil/atoms/custUkeyAtom";
+import { getColumns } from "./Columns";
+import SubHeader from "./SubHeader";
 
 const DataTable = () => {
   const [page, setPage] = useState<number>(1);
@@ -35,18 +19,10 @@ const DataTable = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
-  // useEffect(() => {
-  //   // isClear 상태 변경 이슈
-  //   setToggleClearRows(!toggledClearRows);
-  // }, [toggledClearRows]);
-
-  const router = useRouter();
-  const params = useParams();
-  const ukey = params.slug;
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
 
   const searchParams = useSearchParams();
-  const paymentInfoValue = searchParams.get("paymentInfoValue");
+  // const paymentInfoValue = searchParams.get("paymentInfoValue");
 
   const resultObject = {};
 
@@ -60,8 +36,8 @@ const DataTable = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) === "{}"
-      ? `/stock/hspt/list?page=${page}&size=${size}`
-      : `/stock/hspt/list${result}&page=${page}&size=${size}`,
+      ? `/stock/hspt/list/unRgst?page=${page}&size=${size}`
+      : `/stock/hspt/list/unRgst${result}&page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,
@@ -72,27 +48,12 @@ const DataTable = () => {
   const { stockHsptList, pageInfo } = data;
   const { totalElements } = pageInfo;
 
-  const subHeaderComponentMemo = React.useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <KeywordSearch />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [totalElements]);
+  const columns = getColumns();
+
+  const subHeaderComponentMemo = useMemo(
+    () => <SubHeader totalElements={totalElements} result={result} />,
+    [totalElements, result],
+  );
 
   const handleSelectedRowChange = useCallback(
     ({ selectedRows }: any) => {
@@ -103,41 +64,6 @@ const DataTable = () => {
       // console.log("selectedSampleIdList ==>>", getSampleIDList);
     },
     [setSampleUkeyList],
-  );
-
-  const columns = useMemo(
-    () => [
-      {
-        name: "병원코드",
-        selector: (row) => row.hsptCode,
-      },
-      {
-        name: "병원이름",
-        selector: (row) => row.hsptNm,
-      },
-      {
-        name: "선택",
-        cell: (row) => {
-          return (
-            <OutlinedButton
-              size="small"
-              buttonName="선택"
-              onClick={() => {
-                const data = {
-                  ...row,
-                };
-                const event = new CustomEvent("myHsptData", {
-                  detail: data,
-                });
-                window.opener.dispatchEvent(event);
-                window.close();
-              }}
-            />
-          );
-        },
-      },
-    ],
-    [],
   );
 
   const handlePageChange = (page: number) => {
