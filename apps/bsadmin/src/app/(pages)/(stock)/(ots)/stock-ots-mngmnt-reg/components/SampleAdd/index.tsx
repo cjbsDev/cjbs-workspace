@@ -10,11 +10,15 @@ import {
 } from "@mui/material";
 import { InputValidation, TD, TH } from "cjbsDSTM";
 import DataTable from "./NewDataTable";
+import { useFormContext } from "react-hook-form";
 
 const Index = () => {
+  const { watch, setValue } = useFormContext();
+  const srvcTypeWatch = watch("srvcTypeMc");
+  // BS_0100017006
   return (
     <>
-      <DataTable />
+      {srvcTypeWatch !== "BS_0100017006" && <DataTable />}
 
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -27,6 +31,9 @@ const Index = () => {
                   inputName="orderInfo"
                   required={true}
                   errorMessage="오더 번호 입력해 주세요."
+                  InputProps={{
+                    readOnly: srvcTypeWatch !== "BS_0100017006",
+                  }}
                 />
               </TD>
               <TH sx={{ width: "15%" }}>샘플 정보</TH>
@@ -36,30 +43,9 @@ const Index = () => {
                   inputName="sampleInfo"
                   required={true}
                   errorMessage="샘플 번호를 입력해 주세요."
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>
-                메모<NotRequired>[선택]</NotRequired>
-              </TH>
-              <TD>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={3}
-                  inputName="memo"
-                  placeholder="메모"
-                  sx={{ py: 0.5 }}
-                  maxLength={500}
-                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
+                  InputProps={{
+                    readOnly: srvcTypeWatch !== "BS_0100017006",
+                  }}
                 />
               </TD>
             </TableRow>

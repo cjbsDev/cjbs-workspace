@@ -129,6 +129,7 @@ export default function DrawerProvider({ children }: ContextProps) {
           display:
             currentPathname === "/sign-in" ||
             currentPathname === "/sampleListPopup" ||
+            currentPathname === "/sampleSimpleListPopup" ||
             currentPathname === "/agncListPopup" ||
             currentPathname === "/tnsfAgncListPopup" ||
             currentPathname === "/custListPopup" ||
@@ -281,6 +282,7 @@ export default function DrawerProvider({ children }: ContextProps) {
             display:
               currentPathname === "/custListPopup" ||
               currentPathname === "/sampleListPopup" ||
+              currentPathname === "/sampleSimpleListPopup" ||
               currentPathname === "/agncListPopup" ||
               currentPathname === "/tnsfAgncListPopup" ||
               currentPathname === "/projectListPopup" ||

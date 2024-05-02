@@ -1,13 +1,5 @@
-"use client";
-
-import SampleDataTable from "./SampleDataTable";
 import dynamic from "next/dynamic";
-import {
-  ErrorContainer,
-  Fallback,
-  SkeletonLoading,
-  SkeletonTableModalLoading,
-} from "cjbsDSTM";
+import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 import React from "react";
 const LazySampleDataTable = dynamic(() => import("./SampleDataTable"), {
   ssr: false,
