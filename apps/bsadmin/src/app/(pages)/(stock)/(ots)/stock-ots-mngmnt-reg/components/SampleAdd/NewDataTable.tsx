@@ -1,71 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import {
-  Checkbox,
-  IconButton,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import {
-  cjbsTheme,
-  DeletedButton,
-  ErrorContainer,
-  Fallback,
-  OutlinedButton,
-  TD,
-  TH,
-  transformedNullToHyphon,
-} from "cjbsDSTM";
+import { useFormContext } from "react-hook-form";
+import { Typography } from "@mui/material";
 import useCenteredPopup from "../../../../../../hooks/useNewCenteredPopup";
-import MyIcon from "icon/MyIcon";
-// import SampleAddList from "./SampleAddList";
 import dynamic from "next/dynamic";
 import { useRecoilState } from "recoil";
-import { sampleAddAtom } from "./sampleAddAtom";
+import { sampleAddAtom, sampleAddDataAtom } from "./sampleAddAtom";
 import SampleAddList from "./SampleAddList";
 
-const LazySampleAddList = dynamic(() => import("./SampleAddList"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+// const LazySampleAddList = dynamic(() => import("./SampleAddList"), {
+//   ssr: false,
+//   loading: () => <Typography variant="body2">Loading...</Typography>,
+// });
 
 const DataTable = () => {
-  const [sampleList, setSampleList] = useState([]);
-  const [selected, setSelected] = useState<readonly number[]>([]);
-  const [selectedRows, setSelectedRows] = useState([]);
   const [sampleKyList, setSampleKyList] = useState(null);
   const { getValues, control, watch, setValue } = useFormContext();
-  const [smpAdd, setSmpAdd] = useRecoilState(sampleAddAtom);
-
-  // const srvcTypeWatch = watch("srvcTypeMc");
-  // const sampleUkeyWatch = watch("sampleUkeyList");
-  // console.log("srvcTypeWatch", srvcTypeWatch);
-  // console.log("sampleUkeyList", sampleUkeyWatch);
-
-  // const { fields, append, remove } = useFieldArray({
-  //   control,
-  //   name: "otsSampleDetailList",
-  // });
-  //
-  // console.log("fields", fields);
+  const [sampleData, setSampleData] = useRecoilState(sampleAddDataAtom);
 
   const { isOpen, openPopup, closePopup } = useCenteredPopup({
     url: "/sampleSimpleListPopup",
     windowName: "샘플 검색",
     width: 800,
     height: 457,
-    query: { samplePrevList: smpAdd }, // 여기에 원하는 쿼리 파라미터를 추가
+    query: { samplePrevList: sampleData }, // 여기에 원하는 쿼리 파라미터를 추가
   });
 
   useEffect(() => {
     const handleSampleData = (e) => {
-      const { sampleLists, orderInfo, sampleInfo, sampleUkeyList } = e.detail;
+      const { sampleUkeyList } = e.detail;
 
       console.log("SampleUkeyList*******", sampleUkeyList);
 
@@ -80,6 +42,7 @@ const DataTable = () => {
       // setValue("orderInfo", orderInfo);
       // setValue("sampleInfo", sampleInfo);
       setValue("sampleUkeyList", sampleUkeyList);
+      setSampleData(sampleUkeyList);
       // setSmpAdd(sampleUkeyList);
       setSampleKyList(sampleUkeyList);
     };
@@ -89,209 +52,9 @@ const DataTable = () => {
       window.removeEventListener("mySampleSimpleData", handleSampleData);
   }, [setValue]);
 
-  // useEffect(() => {
-  //   const handleSampleData = (e) => {
-  //     const { sampleLists, orderInfo, sampleInfo, sampleUkeyList } = e.detail;
-  //     const newData = sampleLists;
-  //
-  //     console.log("##########", sampleLists);
-  //
-  //     // Avoid adding duplicates
-  //     const updatedList = [...fields];
-  //     newData.forEach((newItem) => {
-  //       if (!fields.some((item) => item.sampleUkey === newItem.sampleUkey)) {
-  //         updatedList.push(newItem);
-  //       }
-  //     });
-  //
-  //     console.log("updatedList ==>>", updatedList);
-  //
-  //     // const upDateSampleUkeyList = updatedList.map((row) => row.sampleUkey);
-  //     //
-  //     // console.log("upDateSampleUkeyList", upDateSampleUkeyList);
-  //
-  //     setSampleList(updatedList);
-  //     setValue("otsSampleDetailList", updatedList);
-  //     setValue("orderInfo", orderInfo);
-  //     setValue("sampleInfo", sampleInfo);
-  //     setValue("sampleUkeyList", sampleUkeyList);
-  //   };
-  //
-  //   window.addEventListener("mySampleSimpleData", handleSampleData);
-  //   return () =>
-  //     window.removeEventListener("mySampleSimpleData", handleSampleData);
-  // }, [sampleList]);
-
-  // const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
-  //   const selectedIndex = selected.indexOf(id);
-  //   let newSelected: readonly number[] = [];
-  //
-  //   if (selectedIndex === -1) {
-  //     newSelected = newSelected.concat(selected, id);
-  //   } else if (selectedIndex === 0) {
-  //     newSelected = newSelected.concat(selected.slice(1));
-  //   } else if (selectedIndex === selected.length - 1) {
-  //     newSelected = newSelected.concat(selected.slice(0, -1));
-  //   } else if (selectedIndex > 0) {
-  //     newSelected = newSelected.concat(
-  //       selected.slice(0, selectedIndex),
-  //       selected.slice(selectedIndex + 1),
-  //     );
-  //   }
-  //   setSelected(newSelected);
-  // };
-
-  const toggleRowSelection = (index: number, isChecked: boolean) => {
-    if (isChecked) {
-      setSelectedRows([...selectedRows, index]);
-    } else {
-      setSelectedRows(selectedRows.filter((i) => i !== index));
-    }
-  };
-
-  const handleDeleteSelected = () => {
-    const rowsToDelete = [...selectedRows].sort((a, b) => b - a);
-    // rowsToDelete.forEach((index) => remove(index));
-    setSelectedRows([]);
-  };
-
-  const isSelected = (sampleUkey) => selected.includes(sampleUkey);
-
-  // const ssss = fields.length === 0 && srvcTypeWatch !== "BS_0100017006";
-  // const ssss = srvcTypeWatch !== "BS_0100017006";
-
-  // console.log("%^&%^&%^&%^%^&%^&", sampleKyList.length);
-
-  // if (sampleUkeyWatch === undefined) {
-  //   return (
-  //     <Stack
-  //       sx={{ backgroundColor: cjbsTheme.palette.grey["200"], py: 5, mb: 1 }}
-  //       spacing={0.5}
-  //       useFlexGap
-  //       flexWrap="wrap"
-  //       justifyContent="center"
-  //       alignItems="center"
-  //     >
-  //       <Typography>버튼을 클릭하면 샘플을 추가 할 수 있습니다.</Typography>
-  //       <OutlinedButton
-  //         buttonName="샘플 추가"
-  //         size="small"
-  //         onClick={openPopup}
-  //       />
-  //     </Stack>
-  //   );
-  // }
-
   return (
     <>
-      {/*<Stack*/}
-      {/*  sx={{ backgroundColor: cjbsTheme.palette.grey["200"], py: 5, mb: 1 }}*/}
-      {/*  spacing={0.5}*/}
-      {/*  useFlexGap*/}
-      {/*  flexWrap="wrap"*/}
-      {/*  justifyContent="center"*/}
-      {/*  alignItems="center"*/}
-      {/*>*/}
-      {/*  <Typography>버튼을 클릭하면 샘플을 추가 할 수 있습니다.</Typography>*/}
-      {/*  <OutlinedButton*/}
-      {/*    buttonName="샘플 추가"*/}
-      {/*    size="small"*/}
-      {/*    onClick={openPopup}*/}
-      {/*  />*/}
-      {/*</Stack>*/}
-
       <SampleAddList openPopup={openPopup} />
-
-      {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-      {/*  <LazySampleAddList />*/}
-      {/*</ErrorContainer>*/}
-
-      {/*{fields.length !== 0 && (*/}
-      {/*  <>*/}
-      {/*    <Stack direction="row" spacing={1} sx={{ mb: 1 }}>*/}
-      {/*      <Typography>(총 {fields.length}건)</Typography>*/}
-      {/*      <OutlinedButton*/}
-      {/*        buttonName="샘플 갱신"*/}
-      {/*        size="small"*/}
-      {/*        onClick={openPopup}*/}
-      {/*      />*/}
-      {/*      <DeletedButton buttonName="삭제" onClick={handleDeleteSelected} />*/}
-      {/*    </Stack>*/}
-      {/*    <TableContainer sx={{ mb: 1.5 }}>*/}
-      {/*      <Table size="small">*/}
-      {/*        <TableHead>*/}
-      {/*          <TableRow>*/}
-      {/*            <TH align="center"></TH>*/}
-      {/*            <TH align="center">샘플 번호</TH>*/}
-      {/*            <TH align="center">샘플명</TH>*/}
-      {/*            <TH align="center">샘플종류</TH>*/}
-      {/*            <TH align="center">Source</TH>*/}
-      {/*            <TH align="center">Depth(GB)</TH>*/}
-      {/*            <TH align="center">Taxon</TH>*/}
-      {/*            <TH align="center">오더 번호</TH>*/}
-      {/*            <TH align="center">서비스 타입</TH>*/}
-      {/*            <TH align="center"></TH>*/}
-      {/*          </TableRow>*/}
-      {/*        </TableHead>*/}
-      {/*        <TableBody>*/}
-      {/*          {fields.map((item, index) => {*/}
-      {/*            const {*/}
-      {/*              sampleId,*/}
-      {/*              sampleUkey,*/}
-      {/*              sampleNm,*/}
-      {/*              sampleTypeVal,*/}
-      {/*              source,*/}
-      {/*              depthVal,*/}
-      {/*              depthMc,*/}
-      {/*              taxonVal,*/}
-      {/*              taxonCc,*/}
-      {/*              orderId,*/}
-      {/*              orderUkey,*/}
-      {/*              srvcTypeVal,*/}
-      {/*              srvcTypeMc,*/}
-      {/*            } = transformedNullToHyphon(item);*/}
-      {/*            // const labelId = `enhanced-table-checkbox-${index}`;*/}
-      {/*            return (*/}
-      {/*              <TableRow*/}
-      {/*                key={sampleUkey}*/}
-      {/*                // onClick={(event) => handleClick(event, sampleUkey)}*/}
-      {/*                // selected={isSelected(sampleUkey)}*/}
-      {/*                sx={{ cursor: "pointer" }}*/}
-      {/*              >*/}
-      {/*                <TD padding="checkbox">*/}
-      {/*                  <Checkbox*/}
-      {/*                    size="small"*/}
-      {/*                    checked={selectedRows.includes(index)}*/}
-      {/*                    onChange={(e) =>*/}
-      {/*                      toggleRowSelection(index, e.target.checked)*/}
-      {/*                    }*/}
-      {/*                  />*/}
-      {/*                </TD>*/}
-      {/*                <TD align="center">{sampleId}</TD>*/}
-      {/*                <TD align="center">{sampleNm}</TD>*/}
-      {/*                <TD align="center">{sampleTypeVal}</TD>*/}
-      {/*                <TD align="center">{source}</TD>*/}
-      {/*                <TD align="center">{depthVal}</TD>*/}
-      {/*                <TD align="center">{taxonVal}</TD>*/}
-      {/*                <TD align="center">{orderId}</TD>*/}
-      {/*                <TD align="center">{srvcTypeVal}</TD>*/}
-      {/*                <TD align="center">*/}
-      {/*                  <IconButton onClick={() => remove(index)}>*/}
-      {/*                    <MyIcon*/}
-      {/*                      icon="trash"*/}
-      {/*                      size={18}*/}
-      {/*                      color={cjbsTheme.palette.error.main}*/}
-      {/*                    />*/}
-      {/*                  </IconButton>*/}
-      {/*                </TD>*/}
-      {/*              </TableRow>*/}
-      {/*            );*/}
-      {/*          })}*/}
-      {/*        </TableBody>*/}
-      {/*      </Table>*/}
-      {/*    </TableContainer>*/}
-      {/*  </>*/}
-      {/*)}*/}
     </>
   );
 };

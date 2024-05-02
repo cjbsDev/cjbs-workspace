@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ErrorContainer,
   Fallback,
@@ -21,6 +21,7 @@ import {
   TableBody,
   TableContainer,
   TableRow,
+  TextField,
   Typography,
 } from "@mui/material";
 import Link from "next/link";
@@ -34,6 +35,9 @@ import dynamic from "next/dynamic";
 import AmountFormat from "../../../../components/NumberFormat/AmountFormat";
 import dayjs from "dayjs";
 import SampleAdd from "./components/SampleAdd";
+import { useRecoilState } from "recoil";
+import { sampleAddDataAtom } from "./components/SampleAdd/sampleAddAtom";
+import { NumericFormat } from "react-number-format";
 
 interface FormDataProps {
   agncCc: string;
@@ -85,6 +89,7 @@ const LazyClrUkey = dynamic(() => import("./components/ClrUkey"), {
 });
 
 const MngmntReg = () => {
+  const [sampleData, setSampleData] = useRecoilState(sampleAddDataAtom);
   const router = useRouter();
   const { mutate } = useSWRConfig();
   const searchParams = useSearchParams();
@@ -99,16 +104,25 @@ const MngmntReg = () => {
   const defaultValues = {
     ...data,
     otsDttm: ukey === null ? null : new Date(data.otsDttm),
-    resultRcpnDttm: ukey === null ? null : new Date(data.resultRcpnDttm),
-    // otsDttm: new Date(data.otsDttm),
-    // resultRcpnDttm: new Date(data.resultRcpnDttm),
+    resultRcpnDttm:
+      ukey === null
+        ? null
+        : data.resultRcpnDttm === null
+          ? null
+          : new Date(data.resultRcpnDttm),
   };
+
+  useEffect(() => {
+    if (ukey !== null) {
+      setSampleData(data.sampleUkeyList);
+    }
+  }, []);
 
   const onSubmit = async (data: FormDataProps) => {
     console.log(">>>>>>>>>>>", data);
 
-    const filteredSampleUkeyList = data.otsSampleDetailList.map(
-      (item: { sampleUkey: string }) => item.sampleUkey,
+    const filteredSampleUkeyList = data.sampleUkeyList.filter(
+      (item) => item !== "",
     );
     console.log("srterter", filteredSampleUkeyList);
 
@@ -153,6 +167,23 @@ const MngmntReg = () => {
     } finally {
       // setIsLoading(false);
     }
+  };
+
+  const InputEve = () => {
+    return (
+      <InputValidation
+        inputName="lastPrice"
+        // sx={{
+        //   width: 160,
+        //   ".MuiOutlinedInput-input": {
+        //     textAlign: "end",
+        //   },
+        // }}
+        InputProps={{
+          endAdornment: <Won />,
+        }}
+      />
+    );
   };
 
   return (
@@ -224,6 +255,16 @@ const MngmntReg = () => {
                 </ErrorContainer>
               </TD>
             </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Typography variant="subtitle1">샘플정보</Typography>
+      <SampleAdd />
+
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
             <TableRow>
               <TH>견적 금액</TH>
               <TD>
@@ -259,6 +300,8 @@ const MngmntReg = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="lastPrice"
+                    required={true}
+                    errorMessage="견적 금액을 입력해 주세요."
                     sx={{
                       width: 160,
                       ".MuiOutlinedInput-input": {
@@ -300,8 +343,29 @@ const MngmntReg = () => {
         </Table>
       </TableContainer>
 
-      <Typography variant="subtitle1">샘플정보</Typography>
-      <SampleAdd />
+      <TableContainer sx={{ mb: 5 }}>
+        <Table>
+          <TableBody>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>
+                메모<NotRequired>[선택]</NotRequired>
+              </TH>
+              <TD>
+                <InputValidation
+                  fullWidth={true}
+                  multiline
+                  rows={3}
+                  inputName="memo"
+                  placeholder="메모"
+                  sx={{ py: 0.5 }}
+                  maxLength={500}
+                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
+                />
+              </TD>
+            </TableRow>
+          </TableBody>
+        </Table>
+      </TableContainer>
 
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <Link

@@ -18,7 +18,7 @@ const Index = () => {
   // BS_0100017006
   return (
     <>
-      <DataTable />
+      {srvcTypeWatch !== "BS_0100017006" && <DataTable />}
 
       <TableContainer sx={{ mb: 5 }}>
         <Table>
@@ -46,30 +46,6 @@ const Index = () => {
                   InputProps={{
                     readOnly: srvcTypeWatch !== "BS_0100017006",
                   }}
-                />
-              </TD>
-            </TableRow>
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      <TableContainer sx={{ mb: 5 }}>
-        <Table>
-          <TableBody>
-            <TableRow>
-              <TH sx={{ width: "15%" }}>
-                메모<NotRequired>[선택]</NotRequired>
-              </TH>
-              <TD>
-                <InputValidation
-                  fullWidth={true}
-                  multiline
-                  rows={3}
-                  inputName="memo"
-                  placeholder="메모"
-                  sx={{ py: 0.5 }}
-                  maxLength={500}
-                  maxLengthErrMsg="500자리 이내로 입력해주세요. ( 만약 더 많은 글자 사용해야된다면 알려주세요.)"
                 />
               </TD>
             </TableRow>
