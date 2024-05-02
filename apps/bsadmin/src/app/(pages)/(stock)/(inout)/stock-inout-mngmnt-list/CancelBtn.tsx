@@ -1,5 +1,5 @@
-import React from "react";
-import { DeletedButton } from "cjbsDSTM";
+import React, { useCallback, useState } from "react";
+import { AlertModal, DeletedButton } from "cjbsDSTM";
 import { DELETE } from "api";
 import { toast } from "react-toastify";
 import { useSWRConfig } from "swr";
@@ -16,6 +16,8 @@ const CancelBtn = ({
   stockInOutUkey,
 }: CancelBtnProps) => {
   const { mutate } = useSWRConfig();
+  const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
+  const [subAlertMsg, setSubAlertMsg] = useState("");
   const deleteURL =
     inOut === "입고"
       ? `/stock/inout/${stockInOutUkey}/in`
@@ -38,15 +40,38 @@ const CancelBtn = ({
         error.response?.data?.data || error.message,
       );
     } finally {
+      handleAlertClose();
     }
   };
+
+  const handleAlertOpen = useCallback(() => {
+    setAlertModalOpen(true);
+  }, []);
+
+  const handleAlertClose = () => {
+    setAlertModalOpen(false);
+    setSubAlertMsg("");
+  };
+
   return (
-    <DeletedButton
-      buttonName="취소"
-      size="small"
-      onClick={handleDelete}
-      disabled={isCancelButtonStatus !== "Y"}
-    />
+    <>
+      <DeletedButton
+        buttonName="취소"
+        size="small"
+        // onClick={handleDelete}
+        onClick={handleAlertOpen}
+        disabled={isCancelButtonStatus !== "Y"}
+      />
+
+      <AlertModal
+        onClose={handleAlertClose}
+        alertMainFunc={() => handleDelete()}
+        open={alertModalOpen}
+        mainMessage="정말 취소하시겠습니까?"
+        subMessage={subAlertMsg}
+        alertBtnName="확인"
+      />
+    </>
   );
 };
 

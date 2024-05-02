@@ -123,11 +123,13 @@ export const getColumns = () => [
     }) => {
       const { isCancelButtonStatus, inOut, stockInOutUkey } = row;
       return (
-        <CancelBtn
-          inOut={inOut}
-          isCancelButtonStatus={isCancelButtonStatus}
-          stockInOutUkey={stockInOutUkey}
-        />
+        <>
+          <CancelBtn
+            inOut={inOut}
+            isCancelButtonStatus={isCancelButtonStatus}
+            stockInOutUkey={stockInOutUkey}
+          />
+        </>
       );
     },
   },

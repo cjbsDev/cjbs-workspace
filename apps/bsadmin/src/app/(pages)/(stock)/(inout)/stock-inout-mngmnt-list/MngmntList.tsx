@@ -71,6 +71,7 @@ const MngmntList = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
+        keyField={""}
       />
     </Box>
   );
