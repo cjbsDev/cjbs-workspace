@@ -75,6 +75,7 @@ const StockInModal = ({
       const res = await POST(`/stock/in`, reqBody);
       if (res.success) {
         console.log("SUCCESS", res);
+        toast("입고가 완료되었습니다.");
         onClose();
       } else {
         toast.error(res.message);

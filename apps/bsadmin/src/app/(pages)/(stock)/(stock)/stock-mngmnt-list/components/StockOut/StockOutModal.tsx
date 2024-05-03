@@ -71,6 +71,7 @@ const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
       const res = await POST(`/stock/out`, reqBody);
       if (res.success) {
         console.log("SUCCESS", res);
+        toast("출고가 완료되었습니다.");
         onClose();
       } else {
         toast.error(res.message);
