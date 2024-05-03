@@ -10,12 +10,14 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import NoDataView from "../../../../components/NoDataView";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
+import { usePathname } from "next/navigation";
 
 const HospitalMngmntList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
   const [resultObject, result] = useResultObject();
   const router = useRouter();
+  const currentPath = usePathname();
 
   const url = useMemo(() => {
     const base = "/stock/hspt/list";
@@ -74,7 +76,7 @@ const HospitalMngmntList = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView resetPath={"/order-list"} />}
+        noDataComponent={<NoDataView resetPath={currentPath} />}
         // defaultSortFieldId={1}
         // defaultSortAsc={false}
       />

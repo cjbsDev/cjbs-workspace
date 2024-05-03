@@ -38,47 +38,48 @@ export const getColumns = () => [
     name: "품명",
     selector: (row: { stockNm: string }) =>
       row.stockNm !== null ? row.stockNm : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
     name: "제조사",
     selector: (row: { mkrNm: string }) =>
       row.mkrNm !== null ? row.mkrNm : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
     name: "규격",
     selector: (row: { stnd: string }) => (row.stnd !== null ? row.stnd : "-"),
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
     name: "단위",
     selector: (row: { unitVal: string }) =>
       row.unitVal !== null ? row.unitVal : "-",
-    center: true,
-    width: "80px",
+    // center: true,
+    // width: "80px",
+    allowOverflow: true,
   },
   {
     name: "Cat.No",
     selector: (row: { catNo: string }) =>
       row.catNo !== null ? row.catNo : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
     name: "입/출고 수량",
     selector: (row: { stockInOutCnt: number }) =>
       formatNumberWithCommas(row.stockInOutCnt),
-    center: true,
+    right: true,
   },
   {
     name: "잔여 수량",
     selector: (row: { stockCnt: number }) =>
       formatNumberWithCommas(row.stockCnt),
-    center: true,
+    right: true,
   },
   {
     name: "처리일",

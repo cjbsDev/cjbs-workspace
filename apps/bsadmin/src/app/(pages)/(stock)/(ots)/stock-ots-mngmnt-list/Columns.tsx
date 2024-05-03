@@ -6,6 +6,8 @@ import MyIcon from "icon/MyIcon";
 export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   {
     name: "번호",
+    width: "80px",
+    // compact: true,
     center: true,
     selector: (row) => formatNumberWithCommas(row.otsId),
   },
@@ -19,60 +21,64 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   },
   {
     name: "날짜",
-    width: "120px",
+    // width: "120px",
     selector: (row: { otsDttm: string }) =>
       row.otsDttm !== null ? row.otsDttm : "-",
     center: true,
+    allowOverflow: true,
   },
   {
     name: "업체",
     selector: (row: { agncVal: string }) =>
       row.agncVal !== null ? row.agncVal : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
+    grow: 2,
   },
   {
     name: "접수번호",
     selector: (row: { rcptNum: string }) =>
       row.rcptNum !== null ? row.rcptNum : "-",
-    width: "150px",
-    center: true,
+    // width: "150px",
+    right: true,
     allowOverflow: true,
+    // grow: 2,
   },
   {
     name: "오더정보",
     selector: (row: { orderInfo: string }) =>
       row.orderInfo !== null ? row.orderInfo : "-",
     allowOverflow: true,
-    center: true,
+    // center: true,
   },
   {
     name: "샘플정보",
     selector: (row: { sampleInfo: string }) =>
       row.sampleInfo !== null ? row.sampleInfo : "-",
     allowOverflow: true,
-    center: true,
+    minWidth: "150px",
+    // center: true,
   },
   {
     name: "샘플종류",
     selector: (row: { sampleTypeVal: string }) =>
       row.sampleTypeVal !== null ? row.sampleTypeVal : "-",
     allowOverflow: true,
-    center: true,
+    // center: true,
   },
   {
     name: "샘플수(rxn/mer)",
     selector: (row: { sampleCnt: number }) =>
       formatNumberWithCommas(row.sampleCnt),
     width: "150px",
-    center: true,
+    right: true,
   },
   {
     name: "서비스종류",
     selector: (row: { srvcTypeVal: string }) =>
       row.srvcTypeVal !== null ? row.srvcTypeVal : "-",
-    width: "150px",
-    center: true,
+    minWidth: "150px",
+    // center: true,
     allowOverflow: true,
   },
   {
@@ -80,29 +86,34 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     selector: (row: { anlsTypeVal: string }) =>
       row.anlsTypeVal !== null ? row.anlsTypeVal : "-",
     allowOverflow: true,
-    center: true,
-    grow: 2,
+    wrap: true,
+    minWidth: "150px",
+    // center: true,
+    // grow: 3,
   },
   {
     name: "플랫폼",
     selector: (row: { pltfVal: string }) =>
       row.pltfVal !== null ? row.pltfVal : "-",
-    center: true,
+    // center: true,
+    minWidth: "150px",
     allowOverflow: true,
+    wrap: true,
+    // grow: 3,
   },
   {
     name: "견적금액",
     selector: (row: { qttnPrice: number }) =>
       formatNumberWithCommas(row.qttnPrice),
     allowOverflow: true,
-    center: true,
+    right: true,
   },
   {
     name: "최종금액",
     selector: (row: { lastPrice: number }) =>
       formatNumberWithCommas(row.lastPrice),
     allowOverflow: true,
-    center: true,
+    right: true,
   },
   {
     name: "발주자",
@@ -115,7 +126,8 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     name: "결과접수일",
     selector: (row: { resultRcpnDttm: string }) =>
       row.resultRcpnDttm !== null ? row.resultRcpnDttm : "-",
-    width: "120px",
+    // width: "120px",
+    allowOverflow: true,
     center: true,
   },
   {

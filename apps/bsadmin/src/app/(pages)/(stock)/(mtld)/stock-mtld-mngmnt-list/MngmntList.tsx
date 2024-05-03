@@ -44,7 +44,7 @@ const MngmntList = () => {
       suspense: true,
     },
   );
-  console.log("MTLD", data);
+  // console.log("MTLD", data);
 
   const {
     mtldDetailList,
@@ -123,17 +123,19 @@ const MngmntList = () => {
           <Table>
             <TableHead>
               <TableRow>
-                <TH2 align="center">재고 ID</TH2>
-                <TH2 align="center">품명</TH2>
-                <TH2 align="center">단가</TH2>
-                <TH2 align="center">기초재고 수량</TH2>
-                <TH2 align="center">기초재고 금액</TH2>
-                <TH2 align="center">입고 수량</TH2>
-                <TH2 align="center">입고 금액</TH2>
-                <TH2 align="center">출고 수량</TH2>
-                <TH2 align="center">출고 금액</TH2>
-                <TH2 align="center">기말재고 수량</TH2>
-                <TH2 align="center">기말재고 금액</TH2>
+                <TH2 width={80} align="center">
+                  재고 ID
+                </TH2>
+                <TH2>품명</TH2>
+                <TH2 align="right">단가</TH2>
+                <TH2 align="right">기초재고 수량</TH2>
+                <TH2 align="right">기초재고 금액</TH2>
+                <TH2 align="right">입고 수량</TH2>
+                <TH2 align="right">입고 금액</TH2>
+                <TH2 align="right">출고 수량</TH2>
+                <TH2 align="right">출고 금액</TH2>
+                <TH2 align="right">기말재고 수량</TH2>
+                <TH2 align="right">기말재고 금액</TH2>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -155,30 +157,30 @@ const MngmntList = () => {
                 return (
                   <TableRow key={mtldDetailUkey}>
                     <TD2 align="center">{stockId}</TD2>
-                    <TD2 align="center">{stockNm}</TD2>
-                    <TD2 align="center">{formatNumberWithCommas(unpr)}</TD2>
-                    <TD2 align="center">
+                    <TD2>{stockNm}</TD2>
+                    <TD2 align="right">{formatNumberWithCommas(unpr)}</TD2>
+                    <TD2 align="right">
                       {formatNumberWithCommas(openingStockCnt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(openingStockAmt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(stockInCnt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(stockInAmt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(stockOutCnt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(stockOutAmt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(closingStockCnt)}
                     </TD2>
-                    <TD2 align="center">
+                    <TD2 align="right">
                       {formatNumberWithCommas(closingStockAmt)}
                     </TD2>
                   </TableRow>
@@ -196,42 +198,42 @@ const MngmntList = () => {
                 >
                   <Typography variant="body1">합계</Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(closingStockTotalCnt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(closingStockTotalAmt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(stockInTotalCnt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(stockInTotalAmt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(stockOutTotalCnt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(stockOutTotalAmt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(openingStockTotalCnt)}
                   </Typography>
                 </TableCell>
-                <TableCell align="center">
+                <TableCell align="right">
                   <Typography>
                     {formatNumberWithCommas(openingStockTotalAmt)}
                   </Typography>

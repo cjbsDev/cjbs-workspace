@@ -4,15 +4,18 @@ import { cjbsTheme, OutlinedButton } from "cjbsDSTM";
 import { useRouter } from "next-nprogress-bar";
 import Link from "next/link";
 import React from "react";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface NoDataViewProps {
   resetPath?: string;
-  dataType? : string;
+  dataType?: string;
 }
 
-const NoDataView = (props: NoDataViewProps) => {
+const NoDataView = ({ resetPath, dataType = "" }: NoDataViewProps) => {
   const router = useRouter();
-  const { resetPath = "", dataType = "" } = props;
+  const currentPath = usePathname();
+  const searchParams = useSearchParams();
+  const keyword = searchParams.get("keyword");
 
   return (
     <Box
@@ -25,20 +28,25 @@ const NoDataView = (props: NoDataViewProps) => {
       }}
     >
       <Stack spacing={0.8} justifyContent="center">
-        <Stack direction="row" justifyContent="center">
-          <MyIcon icon="nodata" size={20} />
+        <Stack justifyContent="center" alignItems="center" spacing={0.5}>
+          <MyIcon icon="nodata" size={24} />
           {dataType !== "" ? (
             <Typography variant="body2">수정이력이 없습니다.</Typography>
           ) : (
-            <Typography variant="body2">데이터가 존재하지 않습니다.</Typography>
+            <Stack alignItems="center">
+              <Typography variant="body1">
+                <b>&ldquo;{keyword}&rdquo;</b>에대한 데이터가 존재하지 않습니다.
+              </Typography>
+              <Typography variant="body1">
+                <b>다른 검색어</b>로 검색해 주세요.
+              </Typography>
+            </Stack>
           )}
-
         </Stack>
         <Stack direction="row" justifyContent="center">
           {resetPath !== "" && (
             <Link href={resetPath}>
               <OutlinedButton buttonName="초기화" size="small" />
-              {/*<Typography variant="body2">초기화</Typography>*/}
             </Link>
           )}
         </Stack>

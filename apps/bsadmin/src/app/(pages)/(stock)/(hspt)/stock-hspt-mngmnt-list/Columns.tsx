@@ -6,8 +6,9 @@ import MyIcon from "icon/MyIcon";
 export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   {
     name: "병원 코드",
-    width: "100px",
-    center: true,
+    width: "120px",
+    allowOverflow: true,
+    // center: true,
     selector: (row: { hsptCode: string }) =>
       row.hsptCode !== null ? row.hsptCode : "-",
   },
@@ -21,7 +22,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   },
   {
     name: "주소",
-    selector: (row: { addr: string }) => (row.addr !== null ? row.addr : "-"),
+    // selector: (row: { addr: string }) => (row.addr !== null ? row.addr : "-"),
     // center: true,
     allowOverflow: true,
     cell: (row) => {
@@ -43,7 +44,7 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     selector: (row: { tel: string }) =>
       row.tel !== null ? formatPhoneNumber(row.tel) : "-",
     width: "150px",
-    center: true,
+    right: true,
     allowOverflow: true,
   },
   {

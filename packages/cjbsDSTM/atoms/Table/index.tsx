@@ -50,7 +50,7 @@ const THStyle = styled(TableCell)<TableCellProps>(({ theme }) => ({
 
 const TH2Style = styled(TableCell)<TableCellProps>(({ theme }) => ({
   color: theme.palette.common.white,
-  backgroundColor: "black",
+  backgroundColor: theme.palette.grey["800"],
   fontSize: 14,
   fontWeight: 400,
   letterSpacing: "-0.25px",
@@ -77,6 +77,6 @@ const TD2Style = styled(TableCell)<TableCellProps>(({ theme }) => ({
   fontWeight: 400,
   letterSpacing: "-0.25px",
   whiteSpace: "pre",
-  padding: "2px 6px",
+  padding: "2px 16px",
   height: "36px",
 }));

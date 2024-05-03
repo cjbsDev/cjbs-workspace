@@ -15,16 +15,15 @@ export const dataTableCustomStyles = {
   head: {
     style: {
       color: "white",
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       fontWeight: "600",
       fontSize: 14,
-      // backgroundColor: cjbsTheme.palette.grey["50"],
       backgroundColor: cjbsTheme.palette.grey["800"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       // paddingTop: 3,
       // paddingBottom: 3,
-      minHeight: '36px'
+      minHeight: "36px",
     },
   },
   subHeader: {
@@ -49,16 +48,6 @@ export const dataTableCustomStyles = {
       cursor: "move",
     },
   },
-  // headCells: {
-  //   style: {
-  //     "&:hover .rdt_SortIcon": {
-  //       opacity: 1, // 마우스 호버 상태와 관계없이 항상 표시
-  //     },
-  //     ".rdt_SortIcon": {
-  //       opacity: 1, // 정렬 아이콘 항상 표시
-  //     },
-  //   },
-  // },
   headRow: {
     style: {
       // backgroundColor: cjbsTheme.palette.grey["50"],
@@ -67,32 +56,32 @@ export const dataTableCustomStyles = {
       // borderTop: "1px solid #000",
       borderBottom: "none",
       "&:nth-of-type(1)": {
-        paddingLeft: 24,
+        paddingLeft: 0,
       },
       "&:nth-last-child(1)": {
-        paddingRight: 24,
+        paddingRight: 0,
       },
     },
   },
   cells: {
     style: {
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       fontSize: 14,
       "&:nth-of-type(1)": {
-        // paddingLeft: 40,
+        // paddingLeft: 0,
       },
       "&:nth-last-child(1)": {
-        // paddingRight: 40,
+        // paddingRight: 0,
       },
     },
   },
   rows: {
     style: {
       backgroundColor: "white",
-      paddingTop: 5,
-      paddingBottom: 5,
-      paddingLeft: 24,
-      paddingRight: 24,
+      // paddingTop: 5,
+      // paddingBottom: 5,
+      // paddingLeft: 15,
+      // paddingRight: 15,
     },
   },
   pagination: {
@@ -128,7 +117,7 @@ export const dataTableCustomStyles2 = {
       color: cjbsTheme.palette.common.black,
       fontWeight: "600",
       fontSize: 14,
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       backgroundColor: cjbsTheme.palette.grey["100"],
       borderCollapse: "collapse",
     },
@@ -172,7 +161,7 @@ export const dataTableCustomStyles2 = {
   cells: {
     style: {
       fontSize: 14,
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       "&:nth-of-type(1)": {
         // paddingLeft: 40,
@@ -214,7 +203,7 @@ export const dataTableCustomStyles3 = {
       color: "white",
       fontWeight: "600",
       fontSize: 14,
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       backgroundColor: cjbsTheme.palette.grey["50"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
@@ -256,7 +245,7 @@ export const dataTableCustomStyles3 = {
       borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       // borderRight: "1px solid red",
       // minHeight: 50,
-      fontFamily: 'NotoSansKR',
+      fontFamily: "NotoSansKR",
       paddingTop: 5,
       paddingBottom: 5,
       fontSize: 14,

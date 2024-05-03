@@ -1,8 +1,4 @@
-import {
-  ContainedButton,
-  formatNumberWithCommas,
-  formatPhoneNumber,
-} from "cjbsDSTM";
+import { formatNumberWithCommas } from "cjbsDSTM";
 import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import MyIcon from "icon/MyIcon";
@@ -13,6 +9,7 @@ export const getColumns = (getStockCategoryVal: string) => [
   {
     name: "재고ID",
     center: true,
+    width: "80px",
     selector: (row) => formatNumberWithCommas(row.stockId),
   },
   {
@@ -32,7 +29,7 @@ export const getColumns = (getStockCategoryVal: string) => [
     // width: "120px",
     selector: (row: { stockNm: string }) =>
       row.stockNm !== null ? row.stockNm : "-",
-    center: true,
+    // center: true,
     // wrap: true,
     allowOverflow: true,
     // grow: 10,
@@ -42,62 +39,27 @@ export const getColumns = (getStockCategoryVal: string) => [
     name: "제조사",
     selector: (row: { mkrNm: string }) =>
       row.mkrNm !== null ? row.mkrNm : "-",
-    center: true,
+    // center: true,
   },
-  // {
-  //   name: "접수번호",
-  //   selector: (row: { rcptNum: string }) =>
-  //     row.rcptNum !== null ? row.rcptNum : "-",
-  //   width: "150px",
-  //   center: true,
-  // },
-  // {
-  //   name: "오더정보",
-  //   selector: (row: { orderInfo: string }) =>
-  //     row.orderInfo !== null ? row.orderInfo : "-",
-  //   // width: "150px",
-  //   center: true,
-  // },
-  // {
-  //   name: "샘플정보",
-  //   selector: (row: { sampleInfo: string }) =>
-  //     row.sampleInfo !== null ? row.sampleInfo : "-",
-  //   width: "150px",
-  //   center: true,
-  // },
-  // {
-  //   name: "샘플종류",
-  //   selector: (row: { sampleTypeVal: string }) =>
-  //     row.sampleTypeVal !== null ? row.sampleTypeVal : "-",
-  //   // width: "150px",
-  //   center: true,
-  // },
-  // {
-  //   name: "샘플수(rxn/mer)",
-  //   selector: (row: { sampleCnt: number }) =>
-  //     formatNumberWithCommas(row.sampleCnt),
-  //   width: "150px",
-  //   center: true,
-  // },
   {
     name: "규격",
     selector: (row: { stnd: string }) => (row.stnd !== null ? row.stnd : "-"),
     // width: "150px",
-    center: true,
+    // center: true,
   },
   {
     name: "단위",
     selector: (row: { unitVal: string }) =>
       row.unitVal !== null ? row.unitVal : "-",
     // width: "150px",
-    center: true,
+    // center: true,
   },
   {
     name: "Cat.No",
     selector: (row: { catNo: string }) =>
       row.catNo !== null ? row.catNo : "-",
     allowOverflow: true,
-    center: true,
+    // center: true,
     grow: 2,
   },
   {
@@ -125,17 +87,15 @@ export const getColumns = (getStockCategoryVal: string) => [
     name: "재고위치",
     selector: (row: { strgPlaceVal: string }) =>
       row.strgPlaceVal !== null ? row.strgPlaceVal : "-",
-    center: true,
-    // wrap: true,
+    // center: true,
     allowOverflow: true,
-    // grow: 10,
   },
   {
     name: "서비스",
     selector: (row: { srvcVal: string }) =>
       row.srvcVal !== null ? row.srvcVal : "-",
     allowOverflow: true,
-    center: true,
+    // center: true,
   },
   {
     name: "등록일자",

@@ -16,28 +16,31 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
     name: "주문처 이메일",
     selector: (row: { email: string }) =>
       row.email !== null ? row.email : "-",
-    center: true,
+    // center: true,
     allowOverflow: true,
   },
   {
     name: "담당자",
     selector: (row: { mngrNm: string }) =>
       row.mngrNm !== null ? row.mngrNm : "-",
-    center: true,
-  },
-  {
-    name: "전화번호",
-    selector: (row: { mngrTel: string }) =>
-      row.mngrTel !== null ? formatPhoneNumber(row.mngrTel) : "-",
-    width: "150px",
-    center: true,
+    // center: true,
+    allowOverflow: true,
   },
   {
     name: "거래부서",
     selector: (row: { departMngrVal: string }) =>
       row.departMngrVal !== null ? row.departMngrVal : "-",
     // width: "150px",
-    center: true,
+    // center: true,
+    allowOverflow: true,
+  },
+  {
+    name: "전화번호",
+    selector: (row: { mngrTel: string }) =>
+      row.mngrTel !== null ? formatPhoneNumber(row.mngrTel) : "-",
+    width: "150px",
+    right: true,
+    allowOverflow: true,
   },
   {
     name: "메모",
