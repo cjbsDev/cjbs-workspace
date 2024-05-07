@@ -40,12 +40,12 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
     name: "연구책임자 아이디",
     allowOverflow: true,
     selector: (row: { ebcEmail: any }) => row.ebcEmail,
-    center: true,
+    // center: true,
   },
   {
     name: "연구책임자 이름",
     allowOverflow: true,
-    center: true,
+    // center: true,
     selector: (row: { custNm: any }) => row.custNm,
   },
 

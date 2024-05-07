@@ -37,7 +37,7 @@ const ListInst = () => {
   const router = useRouter();
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
-  const [sort, setSort] = useState<string>("orderId,DESC");
+  const [sort, setSort] = useState<string>("createdAt,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [resultObject, result] = useResultObject();

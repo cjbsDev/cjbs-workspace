@@ -154,12 +154,13 @@ const AgncInfo = () => {
 
 */}
 
-      <ErrorContainer FallbackComponent={Fallback} sx={{ mb: 10 }}>
+      <ErrorContainer FallbackComponent={Fallback}>
         <LazyMemberTable
           memberData={agncData.custDetail}
           memberSearchModalFlag={false}
         />
       </ErrorContainer>
+
       <Typography sx={{ mt: 5 }} variant="subtitle1">
         기타 운영 정보
       </Typography>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, {useCallback, useEffect, useMemo} from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   DataCountResultInfo,
   DataTableBase,
@@ -14,9 +14,9 @@ import MyIcon from "icon/MyIcon";
 import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { toast } from "react-toastify";
-import {useResultObject} from "../../../../components/KeywordSearch/useResultObject";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 import useSWR from "swr";
-import {fetcher} from "api";
+import { fetcher } from "api";
 import SubHeader from "./SubHeader";
 import { getColumns } from "./Columns";
 
@@ -25,7 +25,7 @@ const ListCust = () => {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
-  const [sort, setSort] = useState<string>("orderId,DESC");
+  const [sort, setSort] = useState<string>("custId,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resultObject, result] = useResultObject();
 
@@ -51,7 +51,7 @@ const ListCust = () => {
   // };
 
   const goDetailPage = (row: { custUkey: string; ebcUid: string }) => {
-    const {custUkey, ebcUid} = row;
+    const { custUkey, ebcUid } = row;
     if (!ebcUid) {
       toast("EzBioCloud 가입 정보가 없는 고객입니다.");
     } else {

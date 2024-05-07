@@ -126,7 +126,9 @@ const MemberMngtNewModal = ({
       (item.custNm &&
         item.custNm.toLowerCase().includes(filterText.toLowerCase())) ||
       (item.agncNm &&
-        item.agncNm.toLowerCase().includes(filterText.toLowerCase())),
+        item.agncNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.ebcEmail &&
+        item.ebcEmail.toLowerCase().includes(filterText.toLowerCase())),
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {

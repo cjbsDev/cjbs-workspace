@@ -5,13 +5,14 @@ import { useRouter } from "next-nprogress-bar";
 import Link from "next/link";
 import React from "react";
 import { usePathname, useSearchParams } from "next/navigation";
+import { UrlObject } from "node:url";
 
 interface NoDataViewProps {
   resetPath?: string;
   dataType?: string;
 }
 
-const NoDataView = ({ resetPath, dataType = "" }: NoDataViewProps) => {
+const NoDataView = ({ resetPath = "", dataType = "" }: NoDataViewProps) => {
   const router = useRouter();
   const currentPath = usePathname();
   const searchParams = useSearchParams();

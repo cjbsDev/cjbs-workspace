@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import NoDataView from "../NoDataView";
 
 interface MemberDataProps {
-  selectMemberCallbak: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
+  selectMemberCallbak?: (memberData: Member[]) => void; // Updated: Corrected typo in the parameter name
   memberData: Member[];
   memberSearchModalFlag: boolean;
 }
