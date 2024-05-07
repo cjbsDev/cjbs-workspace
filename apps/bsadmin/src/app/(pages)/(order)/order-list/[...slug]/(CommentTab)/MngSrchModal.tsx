@@ -91,12 +91,13 @@ const MngSrchModal = ({
     () => [
       {
         name: "담당자",
+        allowOverflow: true,
         cell: (row) => (
           <>
             <Stack
-              direction="row"
-              spacing={0.4}
-              alignItems="center"
+              // direction="row"
+              // spacing={0.4}
+              // alignItems="center"
               useFlexGap
               flexWrap="wrap"
             >
@@ -108,6 +109,7 @@ const MngSrchModal = ({
       },
       {
         name: "부서",
+        width: "150px",
         cell: (row) => (
           <>
             <Stack

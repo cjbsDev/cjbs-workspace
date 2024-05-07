@@ -282,9 +282,10 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
   {
     name: "PCR/Lib 완료일",
     right: true,
-    width: "140px",
+    width: "150px",
     sortable: true,
     sortField: "libCompDttm",
+    allowOverflow: true,
     selector: (row: { libCompDttm: null | string }) =>
       row.libCompDttm === null ? "-" : row.libCompDttm,
   },

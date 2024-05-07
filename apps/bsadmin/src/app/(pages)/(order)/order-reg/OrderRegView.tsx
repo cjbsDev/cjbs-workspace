@@ -164,22 +164,6 @@ const OrderRegView = () => {
 
     const bodyData = {
       ...data,
-      // addEmailList: data.addEmailList,
-      // agncUkey: data.agncUkey,
-      // anlsTypeMc: data.anlsTypeMc,
-      // bsnsMngrUkey: data.bsnsMngrUkey,
-      // custUkey: data.custUkey,
-      // isCheck16s: data.isCheck16s,
-      // mailRcpnList: data.mailRcpnList,
-      // memo: data.memo,
-      // orderTypeCc: data.orderTypeCc,
-      // ordrAplcEmail: data.ordrAplcEmail,
-      // ordrAplcNm: data.ordrAplcNm,
-      // ordrAplcTel: data.ordrAplcTel,
-      // pltfMc: data.pltfMc,
-      // // price: typeNumberPrice,
-      // reqReturnList: data.reqReturnList,
-      // srvcTypeMc: data.srvcTypeMc,
       taxonACnt: typeNumbertaxonACnt,
       taxonBCnt: typeNumbertaxonBCnt,
       taxonECnt: typeNumbertaxonECnt,
@@ -189,7 +173,7 @@ const OrderRegView = () => {
 
     let finalBodyData;
 
-    if (orshType === "extr") {
+    if (orshType === "extr" || orshType === null) {
       let typeNumberPrice;
 
       if (JSON.stringify(data.price).includes(",")) {
@@ -201,7 +185,11 @@ const OrderRegView = () => {
       // 외부 오더 등록 BODY DATA
       const extrKeyValues = {
         orshUkey: orshUkey,
-        price: typeNumberPrice,
+        // price: typeNumberPrice,
+        price: Number.isNaN(Number(data.price))
+          ? Number(data.price.replace(/,/g, ""))
+          : data.price,
+        reqReturnList: data.reqReturnList === false ? [""] : data.reqReturnList,
       };
 
       const extrBodyData = {
@@ -239,11 +227,11 @@ const OrderRegView = () => {
       finalBodyData = withOutPriceIntnBodyData;
     }
 
-    console.log("finalBodyData", finalBodyData);
+    console.log("finalBodyData", finalBodyData, orshType);
 
     try {
       const response = await POST(
-        orshUkey === "intn" ? "/order/intn" : "/order/extr",
+        orshType === "intn" ? "/order/intn" : "/order/extr",
         finalBodyData,
       );
 
@@ -428,7 +416,15 @@ const OrderRegView = () => {
                       required={orshType === "intn"}
                       errorMessage="과제를 검색 & 선택해주세요."
                       placeholder="과제 코드"
-                      sx={{ width: 200 }}
+                      sx={{
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                        zIndex: -1000,
+                      }}
+                      InputProps={{
+                        type: "hidden",
+                      }}
                     />
                     <InputValidation
                       inputName="prjcNm"
@@ -572,7 +568,9 @@ const OrderRegView = () => {
                 </TD>
               </TableRow>
               <TableRow>
-                <TH sx={{ width: "15%" }}>플랫폼</TH>
+                <TH sx={{ width: "15%" }}>
+                  플랫폼<NotRequired>[선택]</NotRequired>
+                </TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <PlatformSelectbox />
                 </TD>
