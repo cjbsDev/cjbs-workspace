@@ -131,7 +131,11 @@ const ProjectHeader = () => {
                       required={true}
                       errorMessage="과제를 검색 & 선택해주세요."
                       placeholder="과제 코드"
-                      sx={{ width: 200 }}
+                      sx={{ width: 200, display: "none" }}
+                      InputProps={{
+                        readOnly: true,
+                        hidden: true,
+                      }}
                     />
                     <InputValidation
                       inputName="prjtNm"
