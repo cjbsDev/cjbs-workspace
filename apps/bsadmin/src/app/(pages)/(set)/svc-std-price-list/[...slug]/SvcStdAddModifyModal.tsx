@@ -18,6 +18,7 @@ import {
   TableRow,
   TableBody,
   TableContainer,
+  Box,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import axios from "axios";
@@ -78,15 +79,18 @@ const SvcStdAddModifyModal = ({
     };
 
     console.log("==saveObj", saveObj);
-    console.log(
-      stndPriceMpngUkey + "saveObj stringify",
-      JSON.stringify(saveObj)
-    );
+    // console.log(
+    //   stndPriceMpngUkey + "saveObj stringify",
+    //   JSON.stringify(saveObj),
+    // );
+
+    if (saveObj.sampleSizeEnd <= 0 || saveObj.sampleSizeStart <= 0)
+      return toast("수량은 0보다 큰수를 입력해주세요!");
 
     let apiUrl = "";
     console.log(
       "selectItem.stndPriceDetailUkey",
-      selectItem.stndPriceDetailUkey
+      selectItem.stndPriceDetailUkey,
     );
     if (selectItem.stndPriceDetailUkey) {
       apiUrl = `/mngr/stndPrice/` + selectItem.stndPriceDetailUkey;
@@ -115,8 +119,10 @@ const SvcStdAddModifyModal = ({
         if (response.success) {
           onClose(); // 모달 닫기
           renderList();
-        } else if (response.code == "INVALID_AUTHORITY") {
+        } else if (response.code === "INVALID_AUTHORITY") {
           toast("권한이 없습니다.");
+        } else if (response.code === "INVALID_PARAM") {
+          toast("#$#$#$#$권한이 없습니다.");
         } else {
           toast("코드 추가 오류. 01 \n" + response.message);
         }
@@ -172,28 +178,36 @@ const SvcStdAddModifyModal = ({
                 <TableRow>
                   <TH sx={{ width: "25%" }}>수량</TH>
                   <TD sx={{ width: "75%" }} colSpan={5}>
-                    <Stack direction="row" spacing={0.5} alignItems="center">
-                      <InputValidation
-                        inputName="sampleSizeStart"
-                        disabled={selectItem.stndPriceDetailUkey ? true : false}
-                        required={true}
-                        pattern={/^[0-9]+$/}
-                        patternErrMsg="숫자만 입력해주세요."
-                        errorMessage="필수 입력값입니다."
-                        placeholder="최소 수량"
-                        sx={{ width: 100, mr: 1 }}
-                      />
-                      -
-                      <InputValidation
-                        inputName="sampleSizeEnd"
-                        disabled={selectItem.stndPriceDetailUkey ? true : false}
-                        required={true}
-                        pattern={/^[0-9]+$/}
-                        patternErrMsg="숫자만 입력해주세요."
-                        errorMessage="필수 입력값입니다."
-                        placeholder="최대 수량"
-                        sx={{ width: 100, ml: 1 }}
-                      />
+                    <Stack direction="row">
+                      <Box>
+                        <InputValidation
+                          inputName="sampleSizeStart"
+                          disabled={
+                            selectItem.stndPriceDetailUkey ? true : false
+                          }
+                          required={true}
+                          pattern={/^[0-9]+$/}
+                          patternErrMsg="숫자만 입력해주세요."
+                          errorMessage="숫자만 입력해주세요."
+                          placeholder="최소 수량"
+                          sx={{ width: 100, mr: 1 }}
+                        />
+                      </Box>
+                      <Box>&#8764;</Box>
+                      <Box>
+                        <InputValidation
+                          inputName="sampleSizeEnd"
+                          disabled={
+                            selectItem.stndPriceDetailUkey ? true : false
+                          }
+                          required={true}
+                          pattern={/^[0-9]+$/}
+                          patternErrMsg="숫자만 입력해주세요."
+                          errorMessage="필수 입력값입니다."
+                          placeholder="최대 수량"
+                          sx={{ width: 100, ml: 1 }}
+                        />
+                      </Box>
                     </Stack>
                   </TD>
                 </TableRow>
@@ -324,8 +338,8 @@ const SvcStdAddModifyModal = ({
           </TableContainer>
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
-            <OutlinedButton buttonName="취소" onClick={onClose} />
-            <ContainedButton type="submit" buttonName="저장" />
+            <OutlinedButton buttonName="취소" onClick={onClose} size="small" />
+            <ContainedButton type="submit" buttonName="저장" size="small" />
           </Stack>
         </Form>
       </DialogContent>

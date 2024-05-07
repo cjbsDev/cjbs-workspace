@@ -109,7 +109,7 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
         paginationPerPage={5}
         paginationRowsPerPageOptions={[5, 10, 20]}
         customStyles={dataTableCustomStyles2}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView dataType="Y" />}
       />
     </Box>
   );

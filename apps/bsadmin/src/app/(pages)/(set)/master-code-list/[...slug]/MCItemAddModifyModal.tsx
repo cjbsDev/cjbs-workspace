@@ -148,7 +148,7 @@ const MCItemModifyModal = ({
                         inputName="codeNm"
                         required={true}
                         errorMessage={"상세코드명(국문)을 입력해주세요."}
-                        pattern={/^[\u3131-\u314E\u314F-\u3163가-힣]*$/}
+                        // pattern={/^[\u3131-\u314E\u314F-\u3163가-힣]*$/}
                         patternErrMsg="한국어만 입력가능합니다."
                         maxLength={100}
                         maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."
@@ -163,7 +163,7 @@ const MCItemModifyModal = ({
                     <Stack direction="row" spacing={0.5} alignItems="center">
                       <InputValidation
                         inputName="codeValue"
-                        pattern={/^[A-Za-z]*$/}
+                        pattern={/^[^\uAC00-\uD7A3]+$/}
                         patternErrMsg="영어만 입력가능합니다."
                         maxLength={100}
                         maxLengthErrMsg="상세 코드명은 100자 이내로 입력해주세요."

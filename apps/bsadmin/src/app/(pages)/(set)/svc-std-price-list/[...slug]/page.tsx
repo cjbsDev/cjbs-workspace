@@ -129,6 +129,7 @@ export default function SvcStdPricePage({ params }: ViewProps) {
         <OutlinedButton
           buttonName="목록"
           onClick={() => router.push("/svc-std-price-list")}
+          size="small"
         />
       </Stack>
 

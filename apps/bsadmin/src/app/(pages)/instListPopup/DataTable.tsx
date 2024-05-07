@@ -70,6 +70,9 @@ const DataTable = () => {
   );
 
   const { instList, pageInfo } = data;
+
+  console.log("INSTLIST ==>>", instList);
+
   const { totalElements } = pageInfo;
 
   // const sListData = data.agncList;
