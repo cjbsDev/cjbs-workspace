@@ -2,20 +2,27 @@
 import * as React from "react";
 import { useMemo } from "react";
 import {
-    DataCountResultInfo,
-    DataTableBase,
-    cjbsTheme,
-    FileDownloadBtn, green, red, grey, TH, TD,
+  DataCountResultInfo,
+  DataTableBase,
+  cjbsTheme,
+  FileDownloadBtn,
+  green,
+  red,
+  grey,
+  TH,
+  TD,
 } from "cjbsDSTM";
+import { blue } from "cjbsDSTM/themes/color";
 import {
-  blue,
-} from "cjbsDSTM/themes/color";
-import {
-    Box,
-    Stack,
-    Grid,
-    Typography,
-    TableContainer, Table, TableBody, TableRow, Chip,
+  Box,
+  Stack,
+  Grid,
+  Typography,
+  TableContainer,
+  Table,
+  TableBody,
+  TableRow,
+  Chip,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -50,7 +57,7 @@ const CustPayList = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
   const agncPymtList = data.agncPymtList;
@@ -63,7 +70,6 @@ const CustPayList = () => {
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-
   const columns = useMemo(
     () => [
       {
@@ -71,14 +77,22 @@ const CustPayList = () => {
         width: "140px",
         center: true,
         // sortable: true,
-        selector: (row:any, index:number) => row.agncId,
+        selector: (row: any, index: number) => row.agncId,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">거래처(PI)</Typography>
+          </Stack>
+        ),
         width: "300px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
-        cell: (row:any) => {
+        cell: (row: any) => {
           const { instNm, agncNm } = row;
           return (
             <Stack data-tag="allowRowEvents">
@@ -97,34 +111,77 @@ const CustPayList = () => {
         },
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구 책임자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">연구 책임자</Typography>
+          </Stack>
+        ),
         width: "200px",
         // sortable: true,
-        selector: (row:any) => row.rhpiNm,
+        selector: (row: any) => row.rhpiNm,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">영업 담당자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">영업 담당자</Typography>
+          </Stack>
+        ),
         width: "200px",
         // sortable: true,
-        selector: (row:any) => row.bsnsMngrNm,
+        selector: (row: any) => row.bsnsMngrNm,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">결제 총계</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">결제 총계</Typography>
+          </Stack>
+        ),
         width: "200px",
         right: true,
-        selector: (row:any) => row.totalPymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row: any) =>
+          row.totalPymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">분석 총계</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">분석 총계</Typography>
+          </Stack>
+        ),
         width: "200px",
         right: true,
-        selector: (row:any) => row.totalAnlsPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row: any) =>
+          row.totalAnlsPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">남은금액</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">남은금액</Typography>
+          </Stack>
+        ),
         width: "200px",
         right: true,
-        selector: (row:any) => row.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row: any) =>
+          row.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
         name: "결제 상태",
@@ -132,35 +189,35 @@ const CustPayList = () => {
         cell: (row: { pymtStatusVal: string }) => {
           const { pymtStatusVal } = row;
           return (
-              <Chip
-                data-tag="allowRowEvents"
-                label={pymtStatusVal}
-                size="small"
-                sx={{
-                  backgroundColor:
-                      pymtStatusVal === "선결제"
-                      ? blue["50"]
-                      : pymtStatusVal === "완료"
-                        ? green["50"]
-                        : pymtStatusVal === "취소"
-                          ? red["50"]
-                          : grey["100"],
-                  color:
-                      pymtStatusVal === "선결제"
-                      ? cjbsTheme.palette.primary.main
-                      : pymtStatusVal === "완료"
-                        ? cjbsTheme.palette.success.main
-                        : pymtStatusVal === "취소"
-                          ? cjbsTheme.palette.error.main
-                          : cjbsTheme.palette.common.black,
-                }}
-              />
+            <Chip
+              data-tag="allowRowEvents"
+              label={pymtStatusVal}
+              size="small"
+              sx={{
+                backgroundColor:
+                  pymtStatusVal === "선결제"
+                    ? blue["50"]
+                    : pymtStatusVal === "완료"
+                      ? green["50"]
+                      : pymtStatusVal === "취소"
+                        ? red["50"]
+                        : grey["100"],
+                color:
+                  pymtStatusVal === "선결제"
+                    ? cjbsTheme.palette.primary.main
+                    : pymtStatusVal === "완료"
+                      ? cjbsTheme.palette.success.main
+                      : pymtStatusVal === "취소"
+                        ? cjbsTheme.palette.error.main
+                        : cjbsTheme.palette.common.black,
+              }}
+            />
           );
         },
         width: "140px",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: any) => {
@@ -171,7 +228,7 @@ const CustPayList = () => {
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <Grid container>
-        <Grid item xs={12} sx={{mt: 0}}>
+        <Grid item xs={12} sx={{ mt: 0 }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -179,18 +236,10 @@ const CustPayList = () => {
             sx={{ mb: 0.5 }}
             alignItems="center"
           >
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-            >
+            <Stack direction="row" alignItems="center" spacing={1}>
               <DataCountResultInfo totalCount={totalElements} />
             </Stack>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-            >
+            <Stack direction="row" spacing={1} alignItems="center">
               <FileDownloadBtn
                 exportUrl={`/agnc/pymt/list/download${result}`}
                 iconName="xls3"
@@ -200,19 +249,23 @@ const CustPayList = () => {
             </Stack>
           </Stack>
 
-          <TableContainer sx={{ mb: 1, mt:1 }}>
+          <TableContainer sx={{ mb: 1, mt: 1 }}>
             <Table>
               <TableBody>
                 <TableRow>
-                  <TH sx={{ width: "10%" }}>분석 누적 총계</TH>
+                  <TH>분석 누적 총계</TH>
                   <TD sx={{ width: "23%", textAlign: "left" }}>
-                    {totalAnlsPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {totalAnlsPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TD>
-                  <TH sx={{ width: "10%" }}>결제 누적 총계</TH>
+                  <TH>결제 누적 총계</TH>
                   <TD sx={{ width: "23%", textAlign: "left" }}>
-                    {totalPymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {totalPymtPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TD>
-                  <TH sx={{ width: "10%", color: "red" }}>결제대기 누적 금액</TH>
+                  <TH sx={{ color: "red" }}>결제대기 누적 금액</TH>
                   <TD sx={{ width: "23%", textAlign: "left", color: "red" }}>
                     {rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TD>

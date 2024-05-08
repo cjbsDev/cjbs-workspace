@@ -107,7 +107,7 @@ export const snbMenuListData = [
       name: "/ledger",
       nestedPath: [
         {
-          menuLabel: "고객별 결제 현황",
+          menuLabel: "거래처별 결제 현황",
           menuPath: "/ledger-cust-pay-list",
         },
         {

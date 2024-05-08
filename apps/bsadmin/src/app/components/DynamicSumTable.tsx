@@ -23,10 +23,10 @@ const DynamicSumTable = () => {
 
   const totalSupplyPrice = productValue.reduce(
     (sum, item) => sum + (item.supplyPrice || 0), // item.supplyPrice가 undefined일 경우 0을 기본값으로 사용
-    0
+    0,
   );
 
-  const vatValue = totalSupplyPrice * 0.1;
+  const vatValue = Math.round(totalSupplyPrice * 0.1);
   const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;
 
   useEffect(() => {
@@ -56,7 +56,7 @@ const DynamicSumTable = () => {
                   {/*{formatNumberWithCommas(vatValue)}*/}
                   <NumericFormat
                     value={vatValue}
-                    decimalScale={1}
+                    // decimalScale={1}
                     thousandSeparator
                     fixedDecimalScale
                     displayType="text"

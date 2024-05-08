@@ -30,7 +30,7 @@ import {
 } from "cjbsDSTM";
 import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import {GET, POST} from "api";
+import { GET, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import Link from "next/link";
@@ -42,9 +42,9 @@ import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import MonthlyList from "./MonthlyList";
-import {addDays, subDays} from "date-fns";
+import { addDays, subDays } from "date-fns";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -92,8 +92,8 @@ const LicenseRegView = () => {
   // const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
   // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
-
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
   // defaultValues 세팅
   // const defaultValues = getDefaultValues(orshType, orshExtrData);
@@ -131,10 +131,19 @@ const LicenseRegView = () => {
           sampleList[index]["sampleUkey"] = [];
         }
         // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] = typeof sampleList[index]["stndPrice"] === "string" ? sampleList[index]["stndPrice"] : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
-        sampleList[index]["supplyPrice"] = Number(sampleList[index]["supplyPrice"].replaceAll(",", ""));
-        sampleList[index]["unitPrice"] = Number(sampleList[index]["unitPrice"].replaceAll(",", ""));
-        sampleList[index]["vat"] = Number(sampleList[index]["vat"].replaceAll(",", ""));
+        sampleList[index]["stndPrice"] =
+          typeof sampleList[index]["stndPrice"] === "string"
+            ? sampleList[index]["stndPrice"]
+            : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+        sampleList[index]["supplyPrice"] = Number(
+          sampleList[index]["supplyPrice"].replaceAll(",", ""),
+        );
+        sampleList[index]["unitPrice"] = Number(
+          sampleList[index]["unitPrice"].replaceAll(",", ""),
+        );
+        sampleList[index]["vat"] = Number(
+          sampleList[index]["vat"].replaceAll(",", ""),
+        );
       });
       return sampleList;
     };
@@ -144,7 +153,7 @@ const LicenseRegView = () => {
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
       costList: sampleUkeyList(),
-      depthMc: 'BS_0100010001',
+      depthMc: "BS_0100010001",
       memo: data.memo,
       orderUkey: null,
       pltfMc: data.pltfMc,
@@ -213,23 +222,22 @@ const LicenseRegView = () => {
     let startDate;
     let endDate;
     // const nowDate= 5;
-    console.log('nowDate : ', nowDate)
+    console.log("nowDate : ", nowDate);
     let startMonth: number = 0;
     let endMonth: number = 0;
-    if(nowDate < 6) {
-      startDate = new Date(now.setMonth(now.getMonth()-1));
+    if (nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth() - 1));
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endDate = new Date(now.setMonth(now.getMonth() + 2));
       endMonth = endDate.getMonth();
-
     } else {
       startDate = new Date(now);
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endDate = new Date(now.setMonth(now.getMonth() + 1));
       endMonth = endDate.getMonth();
     }
-    console.log('startMonth : ', startMonth);
-    console.log('endMonth : ', endMonth);
+    console.log("startMonth : ", startMonth);
+    console.log("endMonth : ", endMonth);
 
     return [
       {
@@ -255,7 +263,7 @@ const LicenseRegView = () => {
                 <TD sx={{ width: "85%", textAlign: "left" }}>
                   License
                   <InputValidation
-                    // sx={{ display: "none" }}
+                    sx={{ display: "none" }}
                     inputName="srvcCtgrMc"
                     required={true}
                     InputProps={{
@@ -306,7 +314,7 @@ const LicenseRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="pltfMc"
                       required={true}
                       InputProps={{
@@ -315,7 +323,7 @@ const LicenseRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="anlsTypeMc"
                       required={true}
                       InputProps={{
@@ -411,7 +419,8 @@ const LicenseRegView = () => {
                 License의 경우, 플랫폼을 먼저 입력해주세요.
               </Typography>
               <Typography variant="body2">
-                이렇게 하면 추가 정보(고객정보와 분석내역 등)를 입력할 수 있습니다.
+                이렇게 하면 추가 정보(고객정보와 분석내역 등)를 입력할 수
+                있습니다.
               </Typography>
             </Stack>
           </Stack>
@@ -504,10 +513,10 @@ const LicenseRegView = () => {
                         {/*  required={true}*/}
                         {/*/>*/}
                         <SingleDatePicker
-                        inputName="anlsDttm"
-                        required={true}
-                        includeDateIntervals={standDate()}
-                      />
+                          inputName="anlsDttm"
+                          required={true}
+                          includeDateIntervals={standDate()}
+                        />
                       </TD>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
                       <TD sx={{ width: "35%" }}>
@@ -789,7 +798,7 @@ const LicenseRegView = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/analysis-report-list">
+                <Link href="/ledger-analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
 
@@ -797,11 +806,7 @@ const LicenseRegView = () => {
                   size="small"
                   type="submit"
                   buttonName="저장"
-                  endIcon={
-                    isLoading ? (
-                      <LoadingWhiteSvg />
-                    ) : null
-                  }
+                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               </Stack>
             </Box>
@@ -828,7 +833,6 @@ const LicenseRegView = () => {
             type="order"
           />
         </ErrorContainer>
-
       </>
     </Form>
   );
