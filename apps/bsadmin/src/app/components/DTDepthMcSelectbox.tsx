@@ -30,7 +30,7 @@ const DTDepthMcSelectbox = ({
     anlsTypeMc === "BS_0100006006"
       ? `/code/list/shortly/value?topValue=Depth%28GB%29&midValue=none`
       : null,
-    fetcher
+    fetcher,
   );
 
   if (error) return <Typography>오류 발생: {error.message}</Typography>;
@@ -44,7 +44,6 @@ const DTDepthMcSelectbox = ({
       options={options}
       disabled={anlsTypeMc !== "BS_0100006006"}
       sx={{ width: "100%" }}
-      required={false}
     />
   );
 };
