@@ -83,9 +83,11 @@ export default function SvcCatePage({ params }: ViewProps) {
     console.log("data", data);
     const selectCodeList = data["btmCodeMcList"];
     let saveObj = {
+      ...data,
       btmCodeMcList: selectCodeList,
-      midCodeMc,
-      topCodeMc,
+      topCodeMc: data.topCodeMc.toString(),
+      // midCodeMc,
+      // topCodeMc,
     };
     //console.log("saveObj", saveObj);
     //console.log("modify stringify", JSON.stringify(saveObj));
@@ -182,8 +184,9 @@ export default function SvcCatePage({ params }: ViewProps) {
           <OutlinedButton
             buttonName="목록"
             onClick={() => router.push("/svc-cate-list")}
+            size="small"
           />
-          <ContainedButton buttonName="저장" type="submit" />
+          <ContainedButton buttonName="저장" type="submit" size="small" />
         </Stack>
       </Form>
       {/* 로그 API 는 아직 개발 되지 않음  
