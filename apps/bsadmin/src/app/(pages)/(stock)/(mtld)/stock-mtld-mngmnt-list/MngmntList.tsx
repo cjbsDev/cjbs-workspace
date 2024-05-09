@@ -5,11 +5,9 @@ import { fetcher } from "api";
 import {
   Box,
   Stack,
-  styled,
   Table,
   TableBody,
   TableCell,
-  tableCellClasses,
   TableContainer,
   TableFooter,
   TableHead,
@@ -20,20 +18,36 @@ import {
   cjbsTheme,
   FileDownloadBtn,
   formatNumberWithCommas,
-  SelectBox2,
   SelectBox3,
-  TD,
   TD2,
-  TH,
   TH2,
   Title1,
 } from "cjbsDSTM";
 import dayjs from "dayjs";
-import localeData from "dayjs/plugin/localeData";
 import {
   dashboardYearData,
   dashboardMonthData,
 } from "../../../../data/inputDataLists";
+
+const qrtlLists = [
+  {
+    qrtl: "Q1",
+    name: "1분기",
+  },
+  {
+    qrtl: "Q2",
+    name: "2분기",
+  },
+  {
+    qrtl: "Q3",
+    name: "3분기",
+  },
+  {
+    qrtl: "Q4",
+    name: "4분기",
+  },
+];
+
 const MngmntList = () => {
   const [year, setYear] = useState(dayjs().year());
   const [month, setMonth] = useState(dayjs().month() + 1);
@@ -94,26 +108,36 @@ const MngmntList = () => {
               exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}`}
               iconName="xls3"
             />
-            <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q1`}
-              iconName="xls3"
-              buttonName="1분기"
-            />
-            <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q2`}
-              iconName="xls3"
-              buttonName="2분기"
-            />
-            <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q3`}
-              iconName="xls3"
-              buttonName="3분기"
-            />
-            <FileDownloadBtn
-              exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q4`}
-              iconName="xls3"
-              buttonName="4분기"
-            />
+            {qrtlLists.map((item) => {
+              const { qrtl, name } = item;
+              return (
+                <FileDownloadBtn
+                  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=${qrtl}`}
+                  iconName="xls3"
+                  buttonName={name}
+                />
+              );
+            })}
+            {/*<FileDownloadBtn*/}
+            {/*  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q1`}*/}
+            {/*  iconName="xls3"*/}
+            {/*  buttonName="1분기"*/}
+            {/*/>*/}
+            {/*<FileDownloadBtn*/}
+            {/*  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q2`}*/}
+            {/*  iconName="xls3"*/}
+            {/*  buttonName="2분기"*/}
+            {/*/>*/}
+            {/*<FileDownloadBtn*/}
+            {/*  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q3`}*/}
+            {/*  iconName="xls3"*/}
+            {/*  buttonName="3분기"*/}
+            {/*/>*/}
+            {/*<FileDownloadBtn*/}
+            {/*  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=Q4`}*/}
+            {/*  iconName="xls3"*/}
+            {/*  buttonName="4분기"*/}
+            {/*/>*/}
           </Stack>
         </Stack>
       </Box>
@@ -158,12 +182,34 @@ const MngmntList = () => {
                   <TableRow key={mtldDetailUkey}>
                     <TD2 align="center">{stockId}</TD2>
                     <TD2>{stockNm}</TD2>
-                    <TD2 align="right">{formatNumberWithCommas(unpr)}</TD2>
+                    <TD2 align="right">
+                      <Stack
+                        direction="row"
+                        justifyContent="right"
+                        alignItems="center"
+                        spacing={0.2}
+                      >
+                        <Typography variant="body2">
+                          {formatNumberWithCommas(unpr)}
+                        </Typography>
+                        <Typography variant="body2">원</Typography>
+                      </Stack>
+                    </TD2>
                     <TD2 align="right">
                       {formatNumberWithCommas(openingStockCnt)}
                     </TD2>
                     <TD2 align="right">
-                      {formatNumberWithCommas(openingStockAmt)}
+                      <Stack
+                        direction="row"
+                        justifyContent="right"
+                        alignItems="center"
+                        spacing={0.2}
+                      >
+                        <Typography variant="body2">
+                          {formatNumberWithCommas(openingStockAmt)}
+                        </Typography>
+                        <Typography variant="body2">원</Typography>
+                      </Stack>
                     </TD2>
                     <TD2 align="right">
                       {formatNumberWithCommas(stockInCnt)}
@@ -175,13 +221,33 @@ const MngmntList = () => {
                       {formatNumberWithCommas(stockOutCnt)}
                     </TD2>
                     <TD2 align="right">
-                      {formatNumberWithCommas(stockOutAmt)}
+                      <Stack
+                        direction="row"
+                        justifyContent="right"
+                        alignItems="center"
+                        spacing={0.2}
+                      >
+                        <Typography variant="body2">
+                          {formatNumberWithCommas(stockOutAmt)}
+                        </Typography>
+                        <Typography variant="body2">원</Typography>
+                      </Stack>
                     </TD2>
                     <TD2 align="right">
                       {formatNumberWithCommas(closingStockCnt)}
                     </TD2>
                     <TD2 align="right">
-                      {formatNumberWithCommas(closingStockAmt)}
+                      <Stack
+                        direction="row"
+                        justifyContent="right"
+                        alignItems="center"
+                        spacing={0.2}
+                      >
+                        <Typography variant="body2">
+                          {formatNumberWithCommas(closingStockAmt)}
+                        </Typography>
+                        <Typography variant="body2">원</Typography>
+                      </Stack>
                     </TD2>
                   </TableRow>
                 );
@@ -205,7 +271,17 @@ const MngmntList = () => {
                 </TableCell>
                 <TableCell align="right">
                   <Typography>
-                    {formatNumberWithCommas(closingStockTotalAmt)}
+                    <Stack
+                      direction="row"
+                      justifyContent="right"
+                      alignItems="center"
+                      spacing={0.2}
+                    >
+                      <Typography>
+                        {formatNumberWithCommas(closingStockTotalAmt)}
+                      </Typography>
+                      <Typography variant="body2">원</Typography>
+                    </Stack>
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
@@ -224,9 +300,17 @@ const MngmntList = () => {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography>
-                    {formatNumberWithCommas(stockOutTotalAmt)}
-                  </Typography>
+                  <Stack
+                    direction="row"
+                    justifyContent="right"
+                    alignItems="center"
+                    spacing={0.2}
+                  >
+                    <Typography>
+                      {formatNumberWithCommas(stockOutTotalAmt)}
+                    </Typography>
+                    <Typography variant="body2">원</Typography>
+                  </Stack>
                 </TableCell>
                 <TableCell align="right">
                   <Typography>
@@ -234,9 +318,17 @@ const MngmntList = () => {
                   </Typography>
                 </TableCell>
                 <TableCell align="right">
-                  <Typography>
-                    {formatNumberWithCommas(openingStockTotalAmt)}
-                  </Typography>
+                  <Stack
+                    direction="row"
+                    justifyContent="right"
+                    alignItems="center"
+                    spacing={0.2}
+                  >
+                    <Typography>
+                      {formatNumberWithCommas(openingStockTotalAmt)}
+                    </Typography>
+                    <Typography variant="body2">원</Typography>
+                  </Stack>
                 </TableCell>
               </TableRow>
             </TableFooter>
