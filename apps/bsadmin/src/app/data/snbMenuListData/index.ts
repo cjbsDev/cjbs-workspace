@@ -210,7 +210,7 @@ export const snbMenuListData = [
   },
   {
     menuLabel: "재고",
-    menuIcon: "database",
+    menuIcon: "stock",
     menuPath: {
       name: "/stock",
       nestedPath: [
