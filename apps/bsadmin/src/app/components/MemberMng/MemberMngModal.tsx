@@ -4,6 +4,7 @@ import {
   ContainedButton,
   DataTableBase,
   DataTableFilter,
+  DeletedButton,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
@@ -49,6 +50,7 @@ interface ModalContainerProps {
 
 import { fetcher } from "api";
 import MemberMngDataTable from "./MemberMngDataTable";
+import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/components/DeleteBtn";
 
 const MemberMngtNewModal = ({
   onClose,
@@ -194,7 +196,7 @@ const MemberMngtNewModal = ({
           <OutlinedButton
             buttonName="추가"
             size="small"
-            color="secondary"
+            // color="secondary"
             endIcon={<MyIcon icon="plus" size={16} />}
             onClick={handleAddRow}
           />
@@ -284,13 +286,18 @@ const MemberMngtNewModal = ({
           <Grid item xs={5}>
             <Box>
               <Box sx={{ pt: 0.7, pb: 2, textAlign: "right" }}>
-                <OutlinedButton
+                <DeletedButton
                   buttonName="삭제"
-                  size="small"
-                  color="secondary"
                   endIcon={<MyIcon icon="trash" size={16} />}
                   onClick={handleDeleteRows}
                 />
+                {/*<OutlinedButton*/}
+                {/*  buttonName="삭제"*/}
+                {/*  size="small"*/}
+                {/*  color="secondary"*/}
+                {/*  endIcon={<MyIcon icon="trash" size={16} />}*/}
+                {/*  onClick={handleDeleteRows}*/}
+                {/*/>*/}
               </Box>
               <TableContainer>
                 <Table>
