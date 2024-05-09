@@ -42,7 +42,7 @@ import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
-import {addDays, subDays} from "date-fns";
+import { addDays, subDays } from "date-fns";
 
 const LazyOrderSearchModal = dynamic(
   () => import("../../../../../components/OrderSearchModal"),
@@ -213,23 +213,22 @@ const AnalysisRegView = () => {
     let startDate;
     let endDate;
     // const nowDate= 5;
-    console.log('nowDate : ', nowDate)
+    console.log("nowDate : ", nowDate);
     let startMonth: number = 0;
     let endMonth: number = 0;
-    if(nowDate < 6) {
-      startDate = new Date(now.setMonth(now.getMonth()-1));
+    if (nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth() - 1));
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endDate = new Date(now.setMonth(now.getMonth() + 2));
       endMonth = endDate.getMonth();
-
     } else {
       startDate = new Date(now);
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endDate = new Date(now.setMonth(now.getMonth() + 1));
       endMonth = endDate.getMonth();
     }
-    console.log('startMonth : ', startMonth);
-    console.log('endMonth : ', endMonth);
+    console.log("startMonth : ", startMonth);
+    console.log("endMonth : ", endMonth);
 
     return [
       {
@@ -325,7 +324,7 @@ const AnalysisRegView = () => {
                       }}
                     />
                     <InputValidation
-                      sx={{ display: "none" }}
+                      // sx={{ display: "none" }}
                       inputName="pltfMc"
                       required={true}
                       InputProps={{
@@ -334,7 +333,7 @@ const AnalysisRegView = () => {
                       }}
                     />
                     <InputValidation
-                      sx={{ display: "none" }}
+                      // sx={{ display: "none" }}
                       inputName="anlsTypeMc"
                       required={true}
                       InputProps={{
@@ -781,7 +780,7 @@ const AnalysisRegView = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/analysis-report-list">
+                <Link href="/ledger-analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
 
@@ -789,11 +788,7 @@ const AnalysisRegView = () => {
                   size="small"
                   type="submit"
                   buttonName="저장"
-                  endIcon={
-                    isLoading ? (
-                      <LoadingWhiteSvg />
-                    ) : null
-                  }
+                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               </Stack>
             </Box>

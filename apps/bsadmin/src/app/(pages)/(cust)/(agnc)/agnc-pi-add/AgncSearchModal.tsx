@@ -22,7 +22,6 @@ interface ModalContainerProps {
   modalWidth: number;
 }
 
-// https://dummyjson.com/products?limit=10&skip=10
 const AgncSearchModal = ({
   onClose,
   open,
