@@ -27,7 +27,7 @@ const LazyPrepSelectbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const TableNewRows = (props: any) => {
@@ -59,6 +59,7 @@ const TableNewRows = (props: any) => {
   // console.log(addType);
 
   useEffect(() => {
+    callStndPrice();
     return () => {
       // console.log("addType=="+watchAddType)
       // console.log("srvcTypeMc=="+watchSrvcTypeMc)
@@ -101,7 +102,7 @@ const TableNewRows = (props: any) => {
             `sample.[${index}].stndPrice`,
             resData[0].stndPrice
               .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
           );
           setValue(`sample.[${index}].dscntPctg`, 0);
         }
@@ -110,6 +111,7 @@ const TableNewRows = (props: any) => {
         setValue(`sample.[${index}].unitPrice`, "0");
         setValue(`sample.[${index}].supplyPrice`, "0");
         setValue(`sample.[${index}].vat`, "0");
+        setValue(`sample.[${index}].isExc`, "N");
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
@@ -147,11 +149,11 @@ const TableNewRows = (props: any) => {
   // 단가 포커스 아웃시 이벤트
   const handleOnBlurUnitPrice = () => {
     const unitPrice = Number(
-      getValues(`sample.[${index}].unitPrice`).replaceAll(",", "")
+      getValues(`sample.[${index}].unitPrice`).replaceAll(",", ""),
     );
     const sampleSize = getValues(`sample.[${index}].sampleSize`);
     const stndPrice = Number(
-      getValues(`sample.[${index}].stndPrice`).replaceAll(",", "")
+      getValues(`sample.[${index}].stndPrice`).replaceAll(",", ""),
     );
     const stndDscntPctg = Number(getValues(`sample.[${index}].stndDscntPctg`));
     console.log("unitPrice", unitPrice);
@@ -163,14 +165,14 @@ const TableNewRows = (props: any) => {
         `sample.[${index}].supplyPrice`,
         (unitPrice * sampleSize)
           .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       );
       setValue(
         `sample.[${index}].vat`,
         (unitPrice * sampleSize * 0.1)
           .toFixed(0)
           .toString()
-          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       );
       setStndSupplyPrice(unitPrice * sampleSize);
 
@@ -188,7 +190,7 @@ const TableNewRows = (props: any) => {
           } else if (stndPrice < unitPrice) {
             disCountPercent =
               Math.round(
-                (((unitPrice - stndPrice) / stndPrice) * 100 + 100) * 100
+                (((unitPrice - stndPrice) / stndPrice) * 100 + 100) * 100,
               ) / 100.0;
             setValue(`sample.[${index}].dscntPctg`, disCountPercent);
           } else if (stndPrice == unitPrice) {
@@ -217,14 +219,14 @@ const TableNewRows = (props: any) => {
     // 모든계산이 끝나면 단가에 콤마추가
     setValue(
       `sample.[${index}].unitPrice`,
-      unitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+      unitPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     );
   };
 
   // 공급가액 포커스 아웃시 이벤트
   const handleOnBlurSupplyPrice = () => {
     const supplyPrice = Number(
-      getValues(`sample.[${index}].supplyPrice`).replaceAll(",", "")
+      getValues(`sample.[${index}].supplyPrice`).replaceAll(",", ""),
     );
 
     console.log("supplyPrice", supplyPrice);
@@ -236,11 +238,11 @@ const TableNewRows = (props: any) => {
             금액이 10원 이상 변경 되었습니다.
           </Typography>
           <Typography variant="body2">공급금액을 다시 입력해주세요.</Typography>
-        </>
+        </>,
       );
       setValue(
         `sample.[${index}].supplyPrice`,
-        stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       );
     } else if (supplyPrice - stndSupplyPrice < -10) {
       toast(
@@ -249,11 +251,11 @@ const TableNewRows = (props: any) => {
             금액이 10원 이상 변경 되었습니다.
           </Typography>
           <Typography variant="body2">공급금액을 다시 입력해주세요.</Typography>
-        </>
+        </>,
       );
       setValue(
         `sample.[${index}].supplyPrice`,
-        stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        stndSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       );
     }
   };
@@ -264,7 +266,7 @@ const TableNewRows = (props: any) => {
         {/*<TableCell sx={{ paddingX: 2, paddingY: 1 }}>*/}
         {/*  <Typography variant="body2">{index + 1}</Typography>*/}
         {/*</TableCell>*/}
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].addType`}
             required={false}
@@ -302,7 +304,7 @@ const TableNewRows = (props: any) => {
             </Typography>
           )}
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].stndPrice`}
             required={true}
@@ -338,7 +340,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].sampleSize`}
             required={true}
@@ -358,7 +360,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].unitPrice`}
             required={true}
@@ -382,7 +384,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].supplyPrice`}
             required={true}
@@ -406,7 +408,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].vat`}
             required={true}
@@ -435,16 +437,22 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <InputValidation
             inputName={`sample.[${index}].stndDscntPctg`}
             required={true}
-            sx={{ width: 100, display: "none" }}
+            sx={{
+              width: 100,
+              display: "none",
+            }}
           />
           <InputValidation
             inputName={`sample.[${index}].isExc`}
             required={true}
-            sx={{ width: 100, display: "none" }}
+            sx={{
+              width: 100,
+              display: "none",
+            }}
           />
           <InputValidation
             inputName={`sample.[${index}].dscntPctg`}
@@ -474,7 +482,7 @@ const TableNewRows = (props: any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           <Stack
             direction="row"
             alignItems="center"
@@ -510,7 +518,7 @@ const TableNewRows = (props: any) => {
             )}
           </Stack>
         </TableCell>
-        <TableCell sx={{ p: '0 0 0 6px' }}>
+        <TableCell sx={{ p: "0 0 0 6px" }}>
           {watchAddType === "button" && (
             <IconButton aria-label="delete" onClick={() => remove(index)}>
               <MyIcon icon="trash" size={20} />

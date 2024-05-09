@@ -92,10 +92,10 @@ const AnalysisRegView = () => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
-    if (data.sample.length <= 0) {
-      toast("해당 오더에 포함된 분석 내역이 없습니다.");
-      return false;
-    }
+    // if (data.sample.length <= 0) {
+    //   toast("해당 오더에 포함된 분석 내역이 없습니다.");
+    //   return false;
+    // }
 
     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
 
@@ -137,6 +137,7 @@ const AnalysisRegView = () => {
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
       costList: sampleUkeyList(),
+      // costList: data.sample,
       depthMc: data.depthMc,
       memo: data.memo,
       orderUkey: data.orderUkey,
@@ -255,7 +256,7 @@ const AnalysisRegView = () => {
                   {/*<ErrorContainer FallbackComponent={Fallback}>*/}
                   {/*  <LazyServiceCategoryType handleOnChange={handleOnChange} />*/}
                   {/*</ErrorContainer>*/}
-                  Analysis
+                  <Typography variant="body2">Analysis</Typography>
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="srvcCtgrMc"
@@ -324,16 +325,16 @@ const AnalysisRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="pltfMc"
-                      required={true}
+                      // required={true}
                       InputProps={{
                         readOnly: true,
                         hidden: true,
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="anlsTypeMc"
                       required={true}
                       InputProps={{
@@ -415,7 +416,7 @@ const AnalysisRegView = () => {
                     <TD sx={{ width: "35%" }}>
                       <InputValidation
                         inputName="custNm"
-                        required={false}
+                        // required={false}
                         // errorMessage="연구책임자를 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
@@ -430,7 +431,7 @@ const AnalysisRegView = () => {
                       <InputValidation
                         inputName="bsnsMngrVal"
                         required={true}
-                        errorMessage="아이디(이메일) 입력해 주세요."
+                        errorMessage="영업 담당자 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
@@ -442,7 +443,7 @@ const AnalysisRegView = () => {
                       <InputValidation
                         inputName="rmnPrePymtPrice"
                         required={true}
-                        errorMessage="이름을 입력해 주세요."
+                        errorMessage="선결제 금액 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
@@ -588,7 +589,10 @@ const AnalysisRegView = () => {
                           inputName="vat"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
+                          sx={{
+                            width: "100%",
+                            // display: "none"
+                          }}
                         />
                       </TD>
                     </TableRow>
@@ -788,7 +792,7 @@ const AnalysisRegView = () => {
                   size="small"
                   type="submit"
                   buttonName="저장"
-                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
+                  // endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               </Stack>
             </Box>
