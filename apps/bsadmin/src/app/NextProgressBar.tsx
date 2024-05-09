@@ -7,7 +7,7 @@ import { yellow } from "cjbsDSTM/themes/color";
 export const NextProgressBar = () => {
   return (
     <ProgressBar
-      height="6px"
+      height="8px"
       color={yellow["500"]}
       options={{ showSpinner: false }}
       shallowRouting

@@ -132,7 +132,9 @@ const ListPymtPrice = (props: any) => {
               ? `/ledger-license-report-list/${anlsItstUkey}`
               : `/ledger-tax-invoice-list/${invcUkey}`;
           const id = anlsItstId !== null ? anlsItstId : invcId;
-          return (
+          return anlsItstId === null && invcId === null ? (
+            "-"
+          ) : (
             <Link href={path}>
               <Typography variant="body2" color="primary">
                 {id}
