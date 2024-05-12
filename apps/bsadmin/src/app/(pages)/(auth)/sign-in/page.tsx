@@ -57,144 +57,131 @@ export default function Page() {
   };
 
   return (
-    <Box
+    <Container
+      component="main"
+      maxWidth="xs"
       sx={{
-        backgroundImage: `url('./img/background/backgroundBlue.png'), url('./img/background/backgroundRed.png'), url('./img/background/backgroundYellow.png')`,
-        backgroundPosition: "top left, top right, bottom left 160px",
-        backgroundSize: "160px, 820px, 620px",
-        backgroundRepeat: "no-repeat",
-        height: "100vh",
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
       }}
     >
-      <Container
-        component="main"
-        maxWidth="xs"
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <Stack spacing={1} alignItems="center">
-          <Box sx={{ marginTop: 0, marginBottom: 0, width: 210 }}>
-            <MyIcon icon="cj_bk" />
-          </Box>
-          <Typography variant="h4" sx={{ marginBottom: 2 }}>
-            BS Admin
-          </Typography>
-          <Typography
-            variant="body2"
-            sx={{ marginBottom: 2, textAlign: "center" }}
+      <Stack spacing={1} alignItems="center">
+        <Box sx={{ marginTop: 0, marginBottom: 0, width: 210 }}>
+          <MyIcon icon="cj_bk" />
+        </Box>
+        <Typography variant="h4" sx={{ marginBottom: 2 }}>
+          BS Admin
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{ marginBottom: 2, textAlign: "center" }}
+        >
+          BS Admin 시스템은 CJ Bioscience
+          <br />
+          임직원만 이용할 수 있습니다.
+        </Typography>
+
+        <Form onSubmit={onSubmit} defaultValues={undefined}>
+          <InputValidation
+            margin="normal"
+            inputName="email"
+            // label="이메일"
+            placeholder="이메일"
+            required={true}
+            errorMessage="이메일 형식의 아이디를 입력해 주세요."
+            pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+            patternErrMsg="이메일 형식이 아닙니다."
+            sx={{ width: 380 }}
+            inputProps={{
+              style: {
+                height: 39.6,
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MyIcon icon="profile" size={20} />
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <InputValidation
+            inputName="password"
+            // label="비밀번호"
+            placeholder="비밀번호"
+            required={true}
+            errorMessage="비밀번호를 입력해 주세요."
+            type={showPassword ? "text" : "password"}
+            sx={{ width: 380 }}
+            inputProps={{
+              style: {
+                height: 39.6,
+              },
+            }}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <MyIcon icon="lock" size={20} />
+                </InputAdornment>
+              ),
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? (
+                      <MyIcon icon="eye-slash-fill" size={24} />
+                    ) : (
+                      <MyIcon icon="eye-fill" size={24} />
+                    )}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
+            type="submit"
+            fullWidth
+            size="large"
+            style={{ marginTop: 10, marginBottom: 10 }}
           >
-            BS Admin 시스템은 CJ Bioscience
-            <br />
-            임직원만 이용할 수 있습니다.
-          </Typography>
+            로그인
+          </LoadingButton>
 
-          <Form onSubmit={onSubmit} defaultValues={undefined}>
-            <InputValidation
-              margin="normal"
-              inputName="email"
-              // label="이메일"
-              placeholder="이메일"
-              required={true}
-              errorMessage="이메일 형식의 아이디를 입력해 주세요."
-              pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
-              patternErrMsg="이메일 형식이 아닙니다."
-              sx={{ width: 380 }}
-              inputProps={{
-                style: {
-                  height: 39.6,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MyIcon icon="profile" size={20} />
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <InputValidation
-              inputName="password"
-              // label="비밀번호"
-              placeholder="비밀번호"
-              required={true}
-              errorMessage="비밀번호를 입력해 주세요."
-              type={showPassword ? "text" : "password"}
-              sx={{ width: 380 }}
-              inputProps={{
-                style: {
-                  height: 39.6,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <MyIcon icon="lock" size={20} />
-                  </InputAdornment>
-                ),
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? (
-                        <MyIcon icon="eye-slash-fill" size={24} />
-                      ) : (
-                        <MyIcon icon="eye-fill" size={24} />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-
-            <LoadingButton
-              loading={isLoading}
-              variant="contained"
-              type="submit"
-              fullWidth
-              size="large"
-              style={{ marginTop: 10, marginBottom: 10 }}
-            >
-              로그인
-            </LoadingButton>
-
-            {/*<XlargeButton*/}
-            {/*  buttonName="로그인"*/}
-            {/*  type="submit"*/}
-            {/*  variant="contained"*/}
-            {/*  fullWidth*/}
-            {/*  style={{ marginTop: 10, marginBottom: 10 }}*/}
-            {/*/>*/}
-            <Grid container>
-              <Grid item xs>
-                {/*<Link*/}
-                {/*  href="https://www.ezbiocloud.net/signup?from=mydata"*/}
-                {/*  variant="body2"*/}
-                {/*  underline="none"*/}
-                {/*  target="_blank"*/}
-                {/*>*/}
-                {/*  회원가입*/}
-                {/*</Link>*/}
-              </Grid>
-              <Grid item>
-                <Button disabled>
-                  비밀번호 찾기
-                  {/*<Link href="#" variant="body2">*/}
-                  {/*  비밀번호 찾기*/}
-                  {/*</Link>*/}
-                </Button>
-              </Grid>
+          {/*<XlargeButton*/}
+          {/*  buttonName="로그인"*/}
+          {/*  type="submit"*/}
+          {/*  variant="contained"*/}
+          {/*  fullWidth*/}
+          {/*  style={{ marginTop: 10, marginBottom: 10 }}*/}
+          {/*/>*/}
+          <Grid container>
+            <Grid item xs>
+              {/*<Link*/}
+              {/*  href="https://www.ezbiocloud.net/signup?from=mydata"*/}
+              {/*  variant="body2"*/}
+              {/*  underline="none"*/}
+              {/*  target="_blank"*/}
+              {/*>*/}
+              {/*  회원가입*/}
+              {/*</Link>*/}
             </Grid>
-          </Form>
-        </Stack>
-      </Container>
-    </Box>
+            <Grid item>
+              <Link href="/password-find" variant="body2">
+                비밀번호 찾기
+              </Link>
+            </Grid>
+          </Grid>
+        </Form>
+      </Stack>
+    </Container>
   );
 }

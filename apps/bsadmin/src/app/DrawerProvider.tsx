@@ -22,7 +22,7 @@ import { snbMenuListData } from "./data/snbMenuListData";
 import { cjbsTheme, yellow } from "cjbsDSTM";
 import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
 import { useRouter } from "next-nprogress-bar";
-import { usePathname } from "next/navigation";
+import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -89,6 +89,9 @@ export default function DrawerProvider({ children }: ContextProps) {
   const [currentIndex, setCurrentIndex] = React.useState<number>();
   const router = useRouter();
   const currentPathname = usePathname();
+  const segment = useSelectedLayoutSegments();
+
+  console.log("segment", segment);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -115,6 +118,8 @@ export default function DrawerProvider({ children }: ContextProps) {
     setOpen(true);
   }, []);
 
+  // if () {}
+
   return (
     <Box sx={{ display: "flex" }}>
       <AppBar
@@ -126,18 +131,18 @@ export default function DrawerProvider({ children }: ContextProps) {
         variant="permanent"
         open={open}
         sx={{
-          display:
-            currentPathname === "/sign-in" ||
-            currentPathname === "/sampleListPopup" ||
-            currentPathname === "/sampleSimpleListPopup" ||
-            currentPathname === "/agncListPopup" ||
-            currentPathname === "/tnsfAgncListPopup" ||
-            currentPathname === "/custListPopup" ||
-            currentPathname === "/instListPopup" ||
-            currentPathname === "/hsptListPopup" ||
-            currentPathname === "/projectListPopup"
-              ? "none"
-              : "block",
+          // display:
+          //   currentPathname === "/sign-in" ||
+          //   currentPathname === "/sampleListPopup" ||
+          //   currentPathname === "/sampleSimpleListPopup" ||
+          //   currentPathname === "/agncListPopup" ||
+          //   currentPathname === "/tnsfAgncListPopup" ||
+          //   currentPathname === "/custListPopup" ||
+          //   currentPathname === "/instListPopup" ||
+          //   currentPathname === "/hsptListPopup" ||
+          //   currentPathname === "/projectListPopup"
+          //     ? "none"
+          //     : "block",
           zIndex: 1000,
         }}
       >
@@ -278,20 +283,22 @@ export default function DrawerProvider({ children }: ContextProps) {
         }}
       >
         <DrawerHeader
-          sx={{
-            display:
-              currentPathname === "/custListPopup" ||
-              currentPathname === "/sampleListPopup" ||
-              currentPathname === "/sampleSimpleListPopup" ||
-              currentPathname === "/agncListPopup" ||
-              currentPathname === "/tnsfAgncListPopup" ||
-              currentPathname === "/projectListPopup" ||
-              currentPathname === "/instListPopup" ||
-              currentPathname === "/hsptListPopup" ||
-              currentPathname === "/sign-in"
-                ? "none"
-                : "block",
-          }}
+          sx={
+            {
+              // display:
+              //   currentPathname === "/custListPopup" ||
+              //   currentPathname === "/sampleListPopup" ||
+              //   currentPathname === "/sampleSimpleListPopup" ||
+              //   currentPathname === "/agncListPopup" ||
+              //   currentPathname === "/tnsfAgncListPopup" ||
+              //   currentPathname === "/projectListPopup" ||
+              //   currentPathname === "/instListPopup" ||
+              //   currentPathname === "/hsptListPopup" ||
+              //   currentPathname === "/sign-in"
+              //     ? "none"
+              //     : "block",
+            }
+          }
         />
         {children}
       </Box>

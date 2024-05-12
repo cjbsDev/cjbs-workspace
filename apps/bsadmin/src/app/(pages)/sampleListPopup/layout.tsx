@@ -1,8 +1,7 @@
-import styles from "./styles.module.css";
-export default function SampleListPopupLayout({
+export default function PopupLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <section>{children}</section>;
+  return <section style={{ padding: 20 }}>{children}</section>;
 }

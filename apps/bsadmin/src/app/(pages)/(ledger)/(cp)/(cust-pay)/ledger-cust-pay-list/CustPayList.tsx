@@ -39,6 +39,7 @@ const CustPayList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const resultObject: any = {};
 
@@ -66,9 +67,7 @@ const CustPayList = () => {
   const totalAnlsPrice = data.totalAnlsPrice;
   const totalPymtPrice = data.totalPymtPrice;
 
-  const [filterText, setFilterText] = useState("");
-  const router = useRouter();
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -305,7 +304,7 @@ const CustPayList = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
+        // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination
         paginationServer
