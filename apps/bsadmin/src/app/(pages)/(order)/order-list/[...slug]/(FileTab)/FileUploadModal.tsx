@@ -84,10 +84,8 @@ const FileUploadModal = (props) => {
         // router.push("/order-list");
         onClose();
         mutate(`/order/${orderUkey}/file/list`);
-      } else if (response.data.code === "INVALID_ETC_EMAIL") {
-        toast(response.data.message);
       } else {
-        toast("문제가 발생했습니다.");
+        toast(response.data.message);
       }
     } catch (error) {
       console.error("request failed:", error);
