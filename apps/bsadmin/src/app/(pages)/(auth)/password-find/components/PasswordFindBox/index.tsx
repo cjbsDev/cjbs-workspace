@@ -13,25 +13,32 @@ import {
 import MyIcon from "icon/MyIcon";
 import { Form, InputValidation } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
-import { POST_MULTIPART } from "api";
+import { POST } from "api";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { useRouter } from "next-nprogress-bar";
 
 const Index = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const onSubmit = (data: any) => {
-    console.log("jjjkljlkjlkjlkj", data);
-    try {
-      const res = await POST_MULTIPART(apiUrl, formData); // API 요청
-      console.log("response", res);
 
-      if (response.data.success) {
-      }
-    } catch (error) {
-      console.error("request failed:", error);
-      toast(error.message);
-    } finally {
-      setIsLoading(false);
-    }
+  const onSubmit = async (data: any) => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/authEmail/verify/password`,
+        data,
+      )
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          router.push(`/password-mail-send?email=${data.email}`);
+        } else {
+          toast(response.data.message);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
   };
 
   return (
@@ -92,8 +99,9 @@ const Index = () => {
               fullWidth
               size="large"
               style={{ marginTop: 10, marginBottom: 10 }}
+              // onClick={onSubmit}
             >
-              로그인
+              fasdflkjasd
             </LoadingButton>
           </Stack>
 
