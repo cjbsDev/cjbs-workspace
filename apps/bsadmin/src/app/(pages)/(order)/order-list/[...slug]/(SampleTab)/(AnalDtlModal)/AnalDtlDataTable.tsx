@@ -32,7 +32,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
     );
   }, [data.length]);
 
-  const rowDisabled = (row: { isAnlsItst: string }) => row.isAnlsItst === "N";
+  const rowDisabled = (row: { isAnlsItst: string }) => row.isAnlsItst === "Y";
 
   return (
     <RecoilRoot override={false}>
