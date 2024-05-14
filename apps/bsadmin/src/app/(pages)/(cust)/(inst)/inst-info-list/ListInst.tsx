@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
 import { DataTableBase, Title1 } from "cjbsDSTM";
 import { Box, Stack, useTheme } from "@mui/material";
@@ -179,6 +179,17 @@ const ListInst = () => {
     router.push("/inst-info-list/" + path);
   };
 
+  const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
+    setPage(page);
+  }, []);
+
+  const handlePerRowsChange = useCallback(
+    (newPerPage: React.SetStateAction<number>, page: any) => {
+      setSize(newPerPage);
+    },
+    [],
+  );
+
   return (
     <DataTableBase
       title={<Title1 titleName="기관 관리" />}
@@ -193,6 +204,11 @@ const ListInst = () => {
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
       noDataComponent={<NoDataView />}
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
     />
   );
 };

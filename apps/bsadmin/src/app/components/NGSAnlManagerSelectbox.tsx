@@ -7,11 +7,5 @@ export default function NGSAnlManagerSelectbox({ inputName }) {
     suspense: true,
   });
 
-  return (
-    <SelectBox
-      errorMessage="담당자를 선택해 주세요."
-      inputName={inputName}
-      options={data}
-    />
-  );
+  return <SelectBox inputName={inputName} options={data} />;
 }
