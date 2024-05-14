@@ -72,10 +72,14 @@ export const snbMenuListData = [
           menuLabel: "오더 등록",
           menuPath: "/order-reg",
         },
-        // {
-        //   menuLabel: "오더 등록(내부)",
-        //   menuPath: "/order-intn-reg",
-        // },
+        {
+          menuLabel: "내부 오더 등록",
+          menuPath: "/order-intn-reg",
+        },
+        {
+          menuLabel: "외부 오더 등록",
+          menuPath: "/order-extr-reg",
+        },
       ],
     },
   },
