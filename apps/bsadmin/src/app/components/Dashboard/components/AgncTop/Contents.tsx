@@ -1,11 +1,13 @@
 import React from "react";
 import {
+  Stack,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
   TableRow,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import useSWR from "swr";
@@ -56,10 +58,20 @@ const Contents = () => {
                   <TableCell height={56}>{index + 1}</TableCell>
                   <TableCell>{nm}</TableCell>
                   <TableCell align="right">
-                    {formatNumberWithCommas(monthlySales)}
+                    <Stack direction="row" justifyContent="right" spacing={0.2}>
+                      <Typography variant="body2">
+                        {formatNumberWithCommas(monthlySales)}
+                      </Typography>
+                      <Typography variant="body2">원</Typography>
+                    </Stack>
                   </TableCell>
                   <TableCell align="right">
-                    {formatNumberWithCommas(totalSales)}
+                    <Stack direction="row" justifyContent="right" spacing={0.2}>
+                      <Typography variant="body2">
+                        {formatNumberWithCommas(totalSales)}
+                      </Typography>
+                      <Typography variant="body2">원</Typography>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               );

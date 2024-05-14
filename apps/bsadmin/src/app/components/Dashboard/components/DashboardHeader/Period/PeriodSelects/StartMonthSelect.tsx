@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import { startMonthAtom } from "../../../../recoil/dashboardAtom";
-import { SelectBox2 } from "cjbsDSTM";
+import { SelectBox2, SelectBox3 } from "cjbsDSTM";
 import { dashboardMonthData } from "../../../../../../data/inputDataLists";
 
 const StartMonthSelect = () => {
@@ -12,7 +12,7 @@ const StartMonthSelect = () => {
     setStrMonth(getMonth);
   };
   return (
-    <SelectBox2
+    <SelectBox3
       options={dashboardMonthData}
       value={strMonth}
       onChange={handleMonth}

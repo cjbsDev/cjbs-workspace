@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { endMonthAtom, startMonthAtom } from "../../../../recoil/dashboardAtom";
-import { SelectBox2 } from "cjbsDSTM";
+import { SelectBox2, SelectBox3 } from "cjbsDSTM";
 import { dashboardMonthData } from "../../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
 
@@ -22,7 +22,7 @@ const EndMonthSelect = () => {
     }
   };
   return (
-    <SelectBox2
+    <SelectBox3
       options={dashboardMonthData}
       value={endMonth}
       onChange={handleMonth}

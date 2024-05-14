@@ -1,6 +1,6 @@
 import React from "react";
 import { dashboardYearData } from "../../../../../../data/inputDataLists";
-import { SelectBox2 } from "cjbsDSTM";
+import { SelectBox2, SelectBox3 } from "cjbsDSTM";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { endYearAtom, startYearAtom } from "../../../../recoil/dashboardAtom";
 import { toast } from "react-toastify";
@@ -20,7 +20,7 @@ const EndYearSelect = () => {
   };
 
   return (
-    <SelectBox2
+    <SelectBox3
       options={dashboardYearData}
       value={endYear}
       onChange={handleYear}
