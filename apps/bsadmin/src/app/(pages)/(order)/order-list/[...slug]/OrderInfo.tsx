@@ -38,6 +38,20 @@ const LazyOrderInfoModifyModal = dynamic(
   },
 );
 
+const LazyOrderInfoBIModifyModal = dynamic(
+  () => import("./OrderInfoBIModifyModal"),
+  {
+    ssr: false,
+  },
+);
+
+const LazyOrderInfoSalesModifyModal = dynamic(
+  () => import("./OrderInfoSalesModifyModal"),
+  {
+    ssr: false,
+  },
+);
+
 // 샘플탭
 const LazySampleTab = dynamic(() => import("./(SampleTab)/SampleTab"), {
   ssr: false,
@@ -57,8 +71,6 @@ const LazyCommentTab = dynamic(() => import("./(CommentTab)/CommentTab"), {
 });
 
 export default function OrderInfo() {
-  console.log("#########################WOW");
-
   const router = useRouter();
   // [샘플 리스트에서 넘오 왔는지 체크 하기 위해서 'prevPageUrl' 확인함 ]
   const searchParams = useSearchParams();
@@ -71,6 +83,10 @@ export default function OrderInfo() {
   console.log("From ==>>", from);
   // [오더 정보 변경] 모달
   const [showOrderInfoModifyModal, setShowOrderInfoModifyModal] =
+    useState<boolean>(false);
+  const [showOrderInfoBIModifyModal, setShowOrderInfoBIModifyModal] =
+    useState<boolean>(false);
+  const [showOrderInfoSalesModifyModal, setShowOrderInfoSalesModifyModal] =
     useState<boolean>(false);
   const [tabValue, setTabValue] = useState(0);
 
@@ -111,8 +127,17 @@ export default function OrderInfo() {
   const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
   };
+
   const orderInfoModifyModalClose = () => {
     setShowOrderInfoModifyModal(false);
+  };
+
+  const orderInfoBIModifyModalClose = () => {
+    setShowOrderInfoBIModifyModal(false);
+  };
+
+  const orderInfoSalesModifyModalClose = () => {
+    setShowOrderInfoSalesModifyModal(false);
   };
 
   return (
@@ -124,12 +149,26 @@ export default function OrderInfo() {
               <Typography variant="h4">오더 정보</Typography>
             </Grid>
             <Grid item>
-              <ContainedButton
-                size="small"
-                buttonName="오더 정보 변경"
-                onClick={() => setShowOrderInfoModifyModal(true)}
-                endIcon={<MyIcon icon="cheveron-right" size={18} />}
-              />
+              <Stack direction="row" spacing={1}>
+                <ContainedButton
+                  size="small"
+                  buttonName="NGS 분석팀 정보 변경"
+                  onClick={() => setShowOrderInfoModifyModal(true)}
+                  endIcon={<MyIcon icon="cheveron-right" size={18} />}
+                />
+                <ContainedButton
+                  size="small"
+                  buttonName="NGS 영업팀 정보 변경"
+                  onClick={() => setShowOrderInfoSalesModifyModal(true)}
+                  endIcon={<MyIcon icon="cheveron-right" size={18} />}
+                />
+                <ContainedButton
+                  size="small"
+                  buttonName="NGS 영업팀(BI) 정보 변경"
+                  onClick={() => setShowOrderInfoBIModifyModal(true)}
+                  endIcon={<MyIcon icon="cheveron-right" size={18} />}
+                />
+              </Stack>
             </Grid>
           </Grid>
         </Box>
@@ -172,6 +211,26 @@ export default function OrderInfo() {
             onClose={orderInfoModifyModalClose}
             open={showOrderInfoModifyModal}
             modalWidth={800}
+          />
+        </ErrorContainer>
+      )}
+
+      {showOrderInfoSalesModifyModal && (
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyOrderInfoSalesModifyModal
+            onClose={orderInfoSalesModifyModalClose}
+            open={showOrderInfoSalesModifyModal}
+            modalWidth={800}
+          />
+        </ErrorContainer>
+      )}
+
+      {showOrderInfoBIModifyModal && (
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyOrderInfoBIModifyModal
+            onClose={orderInfoBIModifyModalClose}
+            open={showOrderInfoBIModifyModal}
+            modalWidth={500}
           />
         </ErrorContainer>
       )}

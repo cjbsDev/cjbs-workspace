@@ -158,7 +158,7 @@ const OrderRegView = () => {
     <>
       <Form onSubmit={onSubmit} defaultValues={defaultValues}>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName={"외부 오더 등록"} />
+          <Title1 titleName={"고객 오더 등록"} />
         </Box>
 
         {/* 연구책임자 정보 */}
