@@ -4,8 +4,8 @@ import React from "react";
 export const getColumns = (goDetailPage: (prjtUkey: string) => void) => [
   {
     name: "코드",
-    selector: (row: { prjtUkey: string }) => row.prjtUkey,
-    width: "100px",
+    selector: (row: { douzone: string }) => row.douzone,
+    width: "150px",
   },
   {
     name: "과제명",
