@@ -10,6 +10,7 @@ import {
   OutlinedButton,
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
+import NoDataView from "../NoDataView";
 
 // 거래처 번호, 거래처, 기관, 선택
 const APIPATH = "/agnc/list";
@@ -17,10 +18,14 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
   const { type, onClose } = props;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR(APIPATH, fetcher, {
+
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
+
+  const { data } = useSWR(`${APIPATH}`, fetcher, {
     suspense: true,
   });
-  console.log("거래처 검색: ", data)
+  console.log("거래처 검색 ==>>", data);
   const { setValue, clearErrors, resetField } = useFormContext();
 
   const columns = useMemo(
@@ -29,6 +34,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
         name: "거래처 번호",
         selector: (row: { agncId: number }) => row.agncId,
         width: "100px",
+        center: true,
       },
       {
         name: "거래처",
@@ -52,7 +58,16 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
           bsnsMngrNm: string;
           rmnPrePymtPrice: string;
         }) => {
-          const { agncId, agncUkey, agncNm, instNm, custNm, ebcEmail, bsnsMngrNm, rmnPrePymtPrice } = row;
+          const {
+            agncId,
+            agncUkey,
+            agncNm,
+            instNm,
+            custNm,
+            ebcEmail,
+            bsnsMngrNm,
+            rmnPrePymtPrice,
+          } = row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
           const custEbcNm = `${row.custNm} (${row.ebcEmail})`;
 
@@ -65,7 +80,12 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
                 setValue("agncUkey", agncUkey);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrNm);
-                setValue("rmnPrePymtPrice", rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                setValue(
+                  "rmnPrePymtPrice",
+                  rmnPrePymtPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                );
 
                 onClose();
                 clearErrors("agncNm");
@@ -77,11 +97,16 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
         },
       },
     ],
-    [clearErrors, onClose, resetField, setValue, type]
+    [clearErrors, onClose, resetField, setValue, type],
   );
 
-  //console.log("data.custList", data.custList);
-  const filteredData = data.agncList;
+  const filteredData = data.agncList.filter(
+    (item) =>
+      (item.agncNm &&
+        item.agncNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.instNm &&
+        item.instNm.toLowerCase().includes(filterText.toLowerCase())),
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -137,6 +162,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
       // }
       paginationPerPage={10}
       paginationRowsPerPageOptions={[5, 10, 15]}
+      noDataComponent={<NoDataView />}
     />
   );
 };
