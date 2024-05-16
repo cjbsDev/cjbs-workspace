@@ -5,17 +5,26 @@ import {
   DataCountResultInfo,
   DataTableBase,
   cjbsTheme,
-  FileDownloadBtn, green, red, grey, TH, TD,
+  FileDownloadBtn,
+  green,
+  red,
+  grey,
+  TH,
+  TD,
 } from "cjbsDSTM";
-import {
-  blue,
-} from "cjbsDSTM/themes/color";
+import { blue } from "cjbsDSTM/themes/color";
 import {
   Box,
   Stack,
   Grid,
   Typography,
-  TableContainer, Table, TableBody, TableCell, TableRow, Chip, FormControlLabel,
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Chip,
+  FormControlLabel,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -53,7 +62,7 @@ const PrePymtList = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
   const prePymtStatusList = data.prePymtStatusList;
@@ -81,7 +90,15 @@ const PrePymtList = () => {
         selector: (row) => row.agncId,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">거래처(PI)</Typography>
+          </Stack>
+        ),
         width: "300px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
@@ -104,19 +121,43 @@ const PrePymtList = () => {
         },
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구 책임자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">연구 책임자</Typography>
+          </Stack>
+        ),
         width: "150px",
         // sortable: true,
         selector: (row: any) => row.rhpiNm,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">영업 담당자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">영업 담당자</Typography>
+          </Stack>
+        ),
         width: "150px",
         // sortable: true,
         selector: (row: any) => row.bsnsMngrNm,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">발행일자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">발행일자</Typography>
+          </Stack>
+        ),
         width: "110px",
         // sortable: true,
         selector: (row: any) => row.issueDttm,
@@ -127,47 +168,65 @@ const PrePymtList = () => {
         cell: (row: { pymtInfoVal: string }) => {
           const { pymtInfoVal } = row;
           return (
-              <Chip
-                data-tag="allowRowEvents"
-                label={pymtInfoVal}
-                size="small"
-                sx={{
-                  backgroundColor:
-                      pymtInfoVal === "카드"
-                      ? blue["50"]
-                      : pymtInfoVal === "계산서"
-                        ? green["50"]
-                        : pymtInfoVal === "이관"
-                          ? red["50"]
-                          : grey["100"],
-                  color:
-                      pymtInfoVal === "카드"
-                      ? cjbsTheme.palette.primary.main
-                      : pymtInfoVal === "계산서"
-                        ? cjbsTheme.palette.success.main
-                        : pymtInfoVal === "이관"
-                          ? cjbsTheme.palette.error.main
-                          : cjbsTheme.palette.common.black,
-                }}
-              />
+            <Chip
+              data-tag="allowRowEvents"
+              label={pymtInfoVal}
+              size="small"
+              sx={{
+                backgroundColor:
+                  pymtInfoVal === "카드"
+                    ? blue["50"]
+                    : pymtInfoVal === "계산서"
+                      ? green["50"]
+                      : pymtInfoVal === "이관"
+                        ? red["50"]
+                        : grey["100"],
+                color:
+                  pymtInfoVal === "카드"
+                    ? cjbsTheme.palette.primary.main
+                    : pymtInfoVal === "계산서"
+                      ? cjbsTheme.palette.success.main
+                      : pymtInfoVal === "이관"
+                        ? cjbsTheme.palette.error.main
+                        : cjbsTheme.palette.common.black,
+              }}
+            />
           );
         },
         width: "120px",
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">금액(초기발생)</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">금액(초기발생)</Typography>
+          </Stack>
+        ),
         width: "200px",
         right: true,
-        selector: (row: any) => row.prePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row: any) =>
+          row.prePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">남은 선결제 금액</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">남은 선결제 금액</Typography>
+          </Stack>
+        ),
         width: "200px",
         right: true,
-        selector: (row: any) => row.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row: any) =>
+          row.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
     ],
-    []
+    [],
   );
 
   const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -178,7 +237,7 @@ const PrePymtList = () => {
   const subHeaderComponentMemo = useMemo(() => {
     return (
       <Grid container>
-        <Grid item xs={12} sx={{mt: 0}}>
+        <Grid item xs={12} sx={{ mt: 0 }}>
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -186,25 +245,14 @@ const PrePymtList = () => {
             sx={{ mb: 0.5 }}
             alignItems="center"
           >
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-            >
+            <Stack direction="row" alignItems="center" spacing={1}>
               <DataCountResultInfo totalCount={totalElements} />
               <FormControlLabel
                 label="모든 선결제 내역 보기"
-                control={
-                  <Checkbox onChange={handleChange1}
-                  />
-                }
+                control={<Checkbox onChange={handleChange1} />}
               />
             </Stack>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-            >
+            <Stack direction="row" spacing={1} alignItems="center">
               <FileDownloadBtn
                 exportUrl={`/agnc/prePymt/list/download${result}&chkAll=${checked}`}
                 iconName="xls3"
@@ -214,13 +262,15 @@ const PrePymtList = () => {
             </Stack>
           </Stack>
 
-          <TableContainer sx={{ mb: 1, mt:1 }}>
+          <TableContainer sx={{ mb: 1, mt: 1 }}>
             <Table>
               <TableBody>
                 <TableRow>
                   <TH sx={{ width: "20%" }}>남은 선결제 금액</TH>
                   <TD sx={{ width: "80%", textAlign: "left" }}>
-                    {rmpPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    {rmpPrePymtPrice
+                      .toString()
+                      .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                   </TD>
                 </TableRow>
               </TableBody>
@@ -249,7 +299,7 @@ const PrePymtList = () => {
     // currently, props that extend ExpanderComponentProps must be set to optional.
     // someTitleProp?: string;
   }
-  const ExpandableRowComponent: React.FC<Props> = ({data}) => {
+  const ExpandableRowComponent: React.FC<Props> = ({ data }) => {
     // console.log(">>>>>>>>>>>", data);
     return (
       <>
@@ -264,17 +314,35 @@ const PrePymtList = () => {
                   backgroundColor: cjbsTheme.palette.grey["400"],
                 }}
               >
-                <TableCell width={'25%'} align="center">
+                <TableCell width={"25%"} align="center">
                   <Typography variant="body2">처리일</Typography>
                 </TableCell>
-                <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`}}>
+                <TableCell
+                  width={"25%"}
+                  align="center"
+                  sx={{
+                    borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`,
+                  }}
+                >
                   <Typography variant="body2">처리내역</Typography>
                 </TableCell>
-                <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`}}>
+                <TableCell
+                  width={"25%"}
+                  align="center"
+                  sx={{
+                    borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`,
+                  }}
+                >
                   <Typography variant="body2">사용금액</Typography>
                 </TableCell>
-                <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`}}>
-                  <Typography variant="body2">남은 설결제 금액</Typography>
+                <TableCell
+                  width={"25%"}
+                  align="center"
+                  sx={{
+                    borderLeft: `1px solid ${cjbsTheme.palette.grey["500"]}`,
+                  }}
+                >
+                  <Typography variant="body2">남은 선결제 금액</Typography>
                 </TableCell>
               </TableRow>
               {data.prePymtPrcsStatusList.length === 0 && (
@@ -284,12 +352,12 @@ const PrePymtList = () => {
                     backgroundColor: blue["50"],
                   }}
                 >
-                  <TableCell width={'25%'} align="center" colSpan={4}>
+                  <TableCell width={"25%"} align="center" colSpan={4}>
                     <Typography variant="body2">데이터가 없습니다.</Typography>
                   </TableCell>
                 </TableRow>
               )}
-              {data.prePymtPrcsStatusList.map((item:any, index:number) => (
+              {data.prePymtPrcsStatusList.map((item: any, index: number) => (
                 <TableRow
                   key={index}
                   sx={{
@@ -297,17 +365,43 @@ const PrePymtList = () => {
                     backgroundColor: blue["50"],
                   }}
                 >
-                  <TableCell width={'25%'} align="center">
+                  <TableCell width={"25%"} align="center">
                     <Typography variant="body2">{item.prcsDttm}</Typography>
                   </TableCell>
-                  <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                  <TableCell
+                    width={"25%"}
+                    align="center"
+                    sx={{
+                      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                    }}
+                  >
                     <Typography variant="body2">{item.prcsVal}</Typography>
                   </TableCell>
-                  <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                    <Typography variant="body2">{item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                  <TableCell
+                    width={"25%"}
+                    align="center"
+                    sx={{
+                      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {item.price
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </Typography>
                   </TableCell>
-                  <TableCell width={'25%'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                    <Typography variant="body2">{item.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                  <TableCell
+                    width={"25%"}
+                    align="center"
+                    sx={{
+                      borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                    }}
+                  >
+                    <Typography variant="body2">
+                      {item.rmnPrice
+                        .toString()
+                        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                    </Typography>
                   </TableCell>
                 </TableRow>
               ))}
@@ -344,7 +438,10 @@ const PrePymtList = () => {
         noDataComponent={<NoDataView />}
         expandableRows
         expandableRowsComponent={ExpandableRowComponent}
-        expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
+        expandableIcon={{
+          collapsed: <MyIcon icon="plus" size={16} />,
+          expanded: <MyIcon icon="minus" size={16} />,
+        }}
         // expandOnRowDoubleClicked={true}
       />
     </Box>

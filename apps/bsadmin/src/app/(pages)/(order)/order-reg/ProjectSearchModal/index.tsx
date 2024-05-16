@@ -28,7 +28,7 @@ const LazyProjectSearchDataTable = dynamic(
   {
     ssr: false,
     loading: () => <SkeletonTableModalLoading />,
-  }
+  },
 );
 
 const ProjectSearchModal = ({
@@ -134,7 +134,7 @@ const ProjectSearchModal = ({
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>기관 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>과제 검색</ModalTitle>
       <DialogContent>
         <LazyProjectSearchDataTable onClose={onClose} />
         {/*<DataTableBase*/}
