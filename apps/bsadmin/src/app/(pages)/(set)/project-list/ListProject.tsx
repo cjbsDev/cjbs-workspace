@@ -17,7 +17,10 @@ const ListProject = () => {
     suspense: true,
   });
 
-  const totalElements = data.prjtListResDetailList.length;
+  console.log("Project list data ==>>", data);
+
+  const { prjtListResDetailList, pageInfo } = data;
+  const { totalElements } = pageInfo;
 
   const goDetailPage = useCallback(
     (prjtUkey: string) => {
@@ -36,7 +39,7 @@ const ListProject = () => {
     <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="과제 관리" />}
-        data={data.prjtListResDetailList}
+        data={prjtListResDetailList}
         columns={columns}
         highlightOnHover
         customStyles={dataTableCustomStyles}

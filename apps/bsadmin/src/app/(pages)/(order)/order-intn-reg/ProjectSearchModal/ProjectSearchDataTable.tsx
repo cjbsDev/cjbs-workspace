@@ -10,6 +10,7 @@ import { Grid, Stack } from "@mui/material";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useFormContext } from "react-hook-form";
+import NoDataView from "../../../../components/NoDataView";
 
 const ProjectSearchDataTable = (props: { onClose: () => void }) => {
   const { onClose } = props;
@@ -25,10 +26,18 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
       suspense: true,
     },
   );
-  const { setValue, clearErrors } = useFormContext();
-  const filteredData = data.codeList;
 
-  console.log("rhkekhkehrkehrkher", data);
+  console.log("과제 검색 리스트 ==>>", data);
+
+  const { setValue, clearErrors } = useFormContext();
+
+  const filteredData = data.codeList.filter(
+    (item) =>
+      (item.value &&
+        item.value.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.optionName &&
+        item.optionName.toLowerCase().includes(filterText.toLowerCase())),
+  );
 
   const handleClose = useCallback(() => {
     onClose();
@@ -127,14 +136,15 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
-      paginationServer
-      paginationTotalRows={5}
-      onChangePage={(page, totalRows) => console.log(page, totalRows)}
-      onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-        console.log(currentRowsPerPage, currentPage)
-      }
+      // paginationServer
+      // paginationTotalRows={5}
+      // onChangePage={(page, totalRows) => console.log(page, totalRows)}
+      // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
+      //   console.log(currentRowsPerPage, currentPage)
+      // }
       paginationPerPage={10}
       paginationRowsPerPageOptions={[5, 10, 15]}
+      noDataComponent={<NoDataView />}
     />
   );
 };

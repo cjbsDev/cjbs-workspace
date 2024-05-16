@@ -150,6 +150,7 @@ const DetailView = () => {
           <TableBody>
             {otsSampleDetailList.map((item, index) => {
               const {
+                sampleId,
                 sampleUkey,
                 sampleNm,
                 sampleTypeVal,
@@ -165,7 +166,7 @@ const DetailView = () => {
               } = transformedNullToHyphon(item);
               return (
                 <TableRow>
-                  <TD align="center">{sampleUkey}</TD>
+                  <TD align="center">{sampleId}</TD>
                   <TD align="center">{sampleNm}</TD>
                   <TD align="center">{sampleTypeVal}</TD>
                   <TD align="center">{source}</TD>

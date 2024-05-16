@@ -73,11 +73,11 @@ export const snbMenuListData = [
           menuPath: "/order-reg",
         },
         {
-          menuLabel: "내부 오더 등록",
+          menuLabel: "(임시) 내부 오더 등록",
           menuPath: "/order-intn-reg",
         },
         {
-          menuLabel: "외부 오더 등록",
+          menuLabel: "(임시) 고객 오더 등록",
           menuPath: "/order-extr-reg",
         },
       ],

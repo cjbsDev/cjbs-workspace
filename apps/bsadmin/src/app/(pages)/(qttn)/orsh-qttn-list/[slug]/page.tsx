@@ -38,13 +38,10 @@ const LazyListProd = dynamic(() => import("./ProdList"), {
 });
 
 // 미리보기
-const LazyPreviewModal = dynamic(
-    () => import("./PreviewModal"),
-    {
-      ssr: false,
-      loading: () => <Typography variant="body2">Loading...</Typography>,
-    }
-);
+const LazyPreviewModal = dynamic(() => import("./PreviewModal"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const LazyAgncInfoModal = dynamic(() => import("./AgncInfoModal"), {
   ssr: false,
@@ -83,7 +80,7 @@ export default function QttnPage() {
 
   // [ 미리보기 ] 모달 오픈
   const preveiwModalOpen = (resendType: string) => {
-    setResendType(resendType)
+    setResendType(resendType);
     setShowPreviewModal(true);
   };
 
@@ -130,21 +127,26 @@ export default function QttnPage() {
             <TableRow>
               <TH sx={{ width: "15%" }}>유형</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {getDataObj.basicInfo.qttnTypeCc ?? "-"}
+                {getDataObj.basicInfo.qttnTypeVal ?? "-"}
               </TD>
 
               <TH sx={{ width: "15%" }}>거래처(PI)</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
                 {/*<Box sx={{ display: "flex", justifyContent: "space-between" }}>*/}
-                  <Stack direction="row" spacing={0.5} alignItems="center" justifyContent="space-between">
-                    {getDataObj.basicInfo.agncInstNm ?? "-"}
-                    {/*<IconButton size="small" onClick={handleAgncInfoModalOpen}>*/}
-                    {/*  <MyIcon icon="memo" size={20} />*/}
-                    {/*</IconButton>*/}
-                    {basicInfo.isExist === 'Y' && (
-                      <AgncDetailInfo agncUkey={basicInfo.agncUkey} />
-                    )}
-                  </Stack>
+                <Stack
+                  direction="row"
+                  spacing={0.5}
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
+                  {getDataObj.basicInfo.agncInstNm ?? "-"}
+                  {/*<IconButton size="small" onClick={handleAgncInfoModalOpen}>*/}
+                  {/*  <MyIcon icon="memo" size={20} />*/}
+                  {/*</IconButton>*/}
+                  {basicInfo.isExist === "Y" && (
+                    <AgncDetailInfo agncUkey={basicInfo.agncUkey} />
+                  )}
+                </Stack>
                 {/*</Box>*/}
               </TD>
             </TableRow>
@@ -273,7 +275,7 @@ export default function QttnPage() {
           buttonName="목록"
           onClick={() => router.push("/orsh-qttn-list/")}
         />
-        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' ? (
+        {getDataObj.sendInfo.sendStatusCc === "BS_2402001" ? (
           <ContainedButton
             color={"success"}
             size="small"
@@ -288,29 +290,30 @@ export default function QttnPage() {
             onClick={() => preveiwModalOpen("Y")}
           />
         )}
-        {getDataObj.sendInfo.sendStatusCc === 'BS_2402001' && getDataObj.isUpdated === 'Y' && (
-          <Link
-            href={{
-              pathname: "/orsh-qttn-modify",
-              query: { qttnUkey: slug },
-            }}
-          >
-            <ContainedButton buttonName="수정" />
-          </Link>
-        )}
+        {getDataObj.sendInfo.sendStatusCc === "BS_2402001" &&
+          getDataObj.isUpdated === "Y" && (
+            <Link
+              href={{
+                pathname: "/orsh-qttn-modify",
+                query: { qttnUkey: slug },
+              }}
+            >
+              <ContainedButton buttonName="수정" />
+            </Link>
+          )}
       </Stack>
 
       {/* 미리보기 & 발송 모달*/}
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyPreviewModal
-            open={showPreviewModal}
-            onClose={preveiwModalClose}
-            // modalWidth={995}
-            modalWidth={1173}
-            wdtDate={getDataObj.basicInfo.qttnDate}
-            conm={getDataObj.rcvInfo.rcvInstNm}
-            nm={getDataObj.rcvInfo.rcvNm}
-            resendType={resendType}
+          open={showPreviewModal}
+          onClose={preveiwModalClose}
+          // modalWidth={995}
+          modalWidth={1173}
+          wdtDate={getDataObj.basicInfo.qttnDate}
+          conm={getDataObj.rcvInfo.rcvInstNm}
+          nm={getDataObj.rcvInfo.rcvNm}
+          resendType={resendType}
         />
       </ErrorContainer>
       {/* 기관 정보 모달 */}
