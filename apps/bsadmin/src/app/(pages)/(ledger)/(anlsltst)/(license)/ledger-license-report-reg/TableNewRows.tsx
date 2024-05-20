@@ -95,9 +95,10 @@ const TableNewRows = (props: any) => {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;
 
+      console.log("기준가 조회 ==>", response);
+
       if (response.success) {
-        console.log("WWWWWWWWWWW", response);
-        console.log("SSSSSSSS", response.data[0].stndDscntPctg);
+        // console.log("SSSSSSSS", response.data[0].stndDscntPctg);
         if (resData[0].stndPrice === "N/A") {
           setValue(`sample.[${index}].stndPrice`, "N/A");
           setValue(`sample.[${index}].dscntPctg`, "N/A");
@@ -461,12 +462,17 @@ const TableNewRows = (props: any) => {
             sx={{ width: 100, display: "none" }}
           />
           <InputValidation
+            inputName={`sample.[${index}].dscntPctg`}
+            required={true}
+            sx={{ width: 100, display: "none" }}
+          />
+          <InputValidation
             inputName={`sample.[${index}].isExc`}
             required={true}
             sx={{ width: 100, display: "none" }}
           />
           <InputValidation
-            inputName={`sample.[${index}].dscntPctg`}
+            inputName={`sample.[${index}].stndDscntPctg`}
             required={true}
             fullWidth={true}
             sx={{

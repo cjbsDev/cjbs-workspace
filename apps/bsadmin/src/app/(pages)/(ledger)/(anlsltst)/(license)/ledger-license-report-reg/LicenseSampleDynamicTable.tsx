@@ -68,10 +68,11 @@ export default function LicenseSampleDynamicTable(props: any) {
     let sumTotSupplyPrice = 0;
     let sumTotVat = 0;
     let sumTotPrice;
-    console.log(
-      "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalDataSum" +
-        fields,
-    );
+
+    // console.log(
+    //   "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&totalDataSum" +
+    //     fields,
+    // );
 
     if (controlledFields.length === 0) {
       setValue("totalCnt", 0);
