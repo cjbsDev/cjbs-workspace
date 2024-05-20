@@ -21,8 +21,8 @@ const PieContent = (props: PieProps) => {
         label: "금액",
         data: salesData,
         backgroundColor: salesColors,
-        borderColor: salesColors,
-        borderWidth: 1,
+        // borderColor: salesColors,
+        // borderWidth: 2,
       },
     ],
   };
@@ -34,7 +34,7 @@ const PieContent = (props: PieProps) => {
     plugins: {
       // cutout: "80%",
       maintainAspectRatio: false,
-      tooltip: false,
+      tooltip: true,
       legend: {
         display: false,
         position: "right",
@@ -44,43 +44,44 @@ const PieContent = (props: PieProps) => {
           borderWidth: 5,
         },
       },
-      datalabels: {
-        // color: "#ffffff", // 라벨의 색상
-        // offset: 80,
-        borderColor: cjbsTheme.palette.grey["300"],
-        backgroundColor: cjbsTheme.palette.grey.A100,
-        borderRadius: 8,
-        borderWidth: 1.5,
-        // textAlign: "right",
-        // anchor: "end",
-        align: "end",
-        padding: 3,
-        font: {
-          size: 12, // 글꼴 크기
-          // weight: "bold", // 글꼴 두께
-        },
-        formatter: (value, context) => {
-          // console.log("PIE@@@@@@@", context.chart.data.datasets[0].data);
-          // console.log("PIE!!!!!!!", context.chart.data.datasets.data); context.chart.data.datasets[0].data[context.dataIndex]
-          // console.log("PIE!!!!!!!", value);
-          const label = context.chart.data.labels[context.dataIndex];
-          const commasValue = formatNumberWithCommas(value);
-          return `${label}\n${commasValue}만원`;
-        },
-      },
+      // datalabels: {
+      //   borderColor: cjbsTheme.palette.grey["300"],
+      //   backgroundColor: cjbsTheme.palette.grey.A100,
+      //   borderRadius: 8,
+      //   borderWidth: 1.5,
+      //   align: "end",
+      //   padding: 3,
+      //   font: {
+      //     size: 12,
+      //   },
+      //   formatter: (value, context) => {
+      //     // console.log("PIE@@@@@@@", context.chart.data.datasets[0].data);
+      //     // console.log("PIE!!!!!!!", context.chart.data.datasets.data); context.chart.data.datasets[0].data[context.dataIndex]
+      //     // console.log("PIE!!!!!!!", value);
+      //     const label = context.chart.data.labels[context.dataIndex];
+      //     const commasValue = formatNumberWithCommas(value);
+      //     return `${label}\n${commasValue}만원`;
+      //   },
+      // },
     },
     layout: {
-      autoPadding: true,
+      // autoPadding: true,
       padding: {
-        top: 20,
-        right: 52,
-        bottom: 20,
-        left: 52,
+        top: 30,
+        right: 30,
+        bottom: 30,
+        left: 30,
       },
     },
   };
 
-  return <Pie data={chartData} options={options} plugins={[ChartDataLabels]} />;
+  return (
+    <Pie
+      data={chartData}
+      options={options}
+      // plugins={[ChartDataLabels]}
+    />
+  );
 };
 
 export default PieContent;
