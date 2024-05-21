@@ -2,8 +2,8 @@ import React from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 
 interface TaxonTypeProps {
-  onChange: (event: { target: { name: string; value: string } }) => void;
   name: string;
+  onChange: (event: { target: { name: string; value: string } }) => void;
   taxonData: number;
 }
 

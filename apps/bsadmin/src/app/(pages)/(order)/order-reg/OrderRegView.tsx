@@ -188,7 +188,7 @@ const OrderRegView = () => {
         // price: typeNumberPrice,
         price: Number.isNaN(Number(data.price))
           ? Number(data.price.replace(/,/g, ""))
-          : data.price,
+          : Number(data.price),
         reqReturnList: data.reqReturnList === false ? [""] : data.reqReturnList,
       };
 
@@ -211,9 +211,10 @@ const OrderRegView = () => {
         prjtDetailCodeMc: data.prjtDetailCodeMc,
         rstFileRcpnEmail: data.rstFileRcpnEmail,
         isFastTrack: data.isFastTrack === false ? "N" : data.isFastTrack,
-        prepMngrUkey: data.qcMngrUkey === "" ? null : data.qcMngrUkey,
+        prepMngrUkey: data.prepMngrUkey === "" ? null : data.prepMngrUkey,
         libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
         seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
+        reqReturnList: data.reqReturnList === false ? [""] : data.reqReturnList,
       };
       const intnBodyData = {
         ...bodyData,
@@ -603,12 +604,12 @@ const OrderRegView = () => {
                           disabled={orshType === "intn" || orshType === "extr"}
                           inputMode="numeric"
                           InputProps={{
-                            inputComponent: (props) => (
-                              <TaxonCntFormat
-                                taxonData={defaultValues[taxonItem.taxonName]}
-                                {...props}
-                              />
-                            ),
+                            // inputComponent: (props) => (
+                            //   <TaxonCntFormat
+                            //     taxonData={defaultValues[taxonItem.taxonName]}
+                            //     {...props}
+                            //   />
+                            // ),
                             startAdornment: (
                               <Taxon iconName={taxonItem.taxonIconName} />
                             ),
@@ -672,6 +673,8 @@ const OrderRegView = () => {
                         inputName="price"
                         required={orshType !== "intn"}
                         errorMessage="오더 금액을 입력해 주세요."
+                        pattern={/^[0-9]+$/}
+                        patternErrMsg="숫자만 입력해 주세요."
                         sx={{
                           width: 160,
                           ".MuiOutlinedInput-input": {
@@ -680,13 +683,13 @@ const OrderRegView = () => {
                         }}
                         inputMode="numeric"
                         InputProps={{
-                          inputComponent: (props) => (
-                            <AmountFormat
-                              name={"price"}
-                              priceValue={defaultValues.price}
-                              {...props}
-                            />
-                          ),
+                          // inputComponent: (props) => (
+                          //   <AmountFormat
+                          //     name={"price"}
+                          //     priceValue={defaultValues.price}
+                          //     {...props}
+                          //   />
+                          // ),
                           endAdornment: <Won />,
                         }}
                       />
@@ -725,7 +728,7 @@ const OrderRegView = () => {
                     </TH>
                     <TD sx={{ width: "85%" }} colSpan={5}>
                       <ErrorContainer FallbackComponent={Fallback}>
-                        <LazyNGSManagerSelctbox inputName="qcMngrUkey" />
+                        <LazyNGSManagerSelctbox inputName="prepMngrUkey" />
                       </ErrorContainer>
                     </TD>
                   </TableRow>

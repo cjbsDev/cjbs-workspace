@@ -3,7 +3,7 @@ import SectionHeader from "../SectionHeader";
 import { useRecoilState } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
 import { dashboardIdleData } from "../../../../data/inputDataLists";
-import { SelectBox2 } from "cjbsDSTM";
+import { SelectBox2, SelectBox3 } from "cjbsDSTM";
 
 const IdleHeader = () => {
   const [duration, setDuration] = useRecoilState(idleDurationValueAtom);
@@ -17,7 +17,7 @@ const IdleHeader = () => {
     <SectionHeader>
       <SectionHeader.Title>유휴 거래처 (장기 미거래)</SectionHeader.Title>
       <SectionHeader.Action>
-        <SelectBox2
+        <SelectBox3
           options={dashboardIdleData}
           value={duration}
           onChange={handleDuration}

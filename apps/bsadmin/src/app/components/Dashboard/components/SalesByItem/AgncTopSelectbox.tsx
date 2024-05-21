@@ -1,4 +1,4 @@
-import { ContainedButton, SelectBox2 } from "cjbsDSTM";
+import { ContainedButton, SelectBox2, SelectBox3 } from "cjbsDSTM";
 import useSWR from "swr";
 import { fetcher } from "api";
 import useDashboardParams from "../../hooks/useDashboardParams";
@@ -33,7 +33,7 @@ export default function AgncTopSelectbox() {
   };
 
   return (
-    <SelectBox2
+    <SelectBox3
       options={data}
       value={recoilState}
       onChange={handleChange}

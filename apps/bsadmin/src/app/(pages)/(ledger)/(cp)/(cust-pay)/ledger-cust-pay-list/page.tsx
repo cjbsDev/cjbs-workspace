@@ -1,5 +1,3 @@
-"use client";
-
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, SkeletonTableModalLoading } from "cjbsDSTM";
 
@@ -14,4 +12,4 @@ export default function Page() {
       <LazyCustPayTab />
     </ErrorContainer>
   );
-};
+}

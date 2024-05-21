@@ -96,10 +96,20 @@ const IdleTop = () => {
                   <TableCell>{instNm}</TableCell>
                   <TableCell>{agncNm}</TableCell>
                   <TableCell align="right">
-                    {formatNumberWithCommas(lastSales)}
+                    <Stack direction="row" justifyContent="right" spacing={0.2}>
+                      <Typography variant="body2">
+                        {formatNumberWithCommas(lastSales)}
+                      </Typography>
+                      <Typography variant="body2">원</Typography>
+                    </Stack>
                   </TableCell>
                   <TableCell align="right">
-                    {formatNumberWithCommas(totalSales)}
+                    <Stack direction="row" justifyContent="right" spacing={0.2}>
+                      <Typography variant="body2">
+                        {formatNumberWithCommas(totalSales)}
+                      </Typography>
+                      <Typography variant="body2">원</Typography>
+                    </Stack>
                   </TableCell>
                 </TableRow>
               );

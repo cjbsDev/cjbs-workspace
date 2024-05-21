@@ -6,7 +6,7 @@ import useSWR from "swr";
 export default function PlatformSelectbox() {
   const methods = useFormContext();
   const { setValue, getValues, watch } = methods;
-  const initValue = getValues("anlsTypeMc");
+  const initValue = watch("anlsTypeMc");
 
   // const { data } = useSWR(`/code/order/pltf/list?type=${initValue}`, fetcher, {
   //   suspense: true,

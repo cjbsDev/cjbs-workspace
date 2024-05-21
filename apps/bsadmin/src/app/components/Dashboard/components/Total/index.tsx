@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import { styled } from "@mui/material/styles";
 import { Box, Stack } from "@mui/material";
 
-const LazyTotalContents = dynamic(() => import("./TotalContents/index"), {
+const LazyTotalContents = dynamic(() => import("./TotalContents"), {
   ssr: false,
   loading: () => <SkeletonLineChart />,
 });
@@ -28,6 +28,6 @@ const SectionBox = styled(Box)`
   background: white;
   border-radius: 10px;
   min-height: fit-content;
-  height: 100%;
+  //height: 100%;
   position: relative;
 `;
