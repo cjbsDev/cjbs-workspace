@@ -40,23 +40,27 @@ export const SkeletonTableModalLoading = () => {
 
 export const SkeletonPieChart = () => {
   return (
-    <Box sx={{ my: 4.5 }}>
+    <Box sx={{ height: "100%" }}>
       <Stack
-        spacing={3}
-        // direction="row"
-        justifyContent="space-between"
+        spacing={2}
+        direction="row"
+        justifyContent="center"
         alignItems="center"
+        sx={{ height: "100%" }}
       >
-        <Stack alignItems="center">
+        <Stack alignItems="center" justifyContent="center">
           <Skeleton variant="circular" width={250} height={250} />
         </Stack>
 
         <Stack spacing={2} width={"100%"}>
-          <Skeleton variant="rounded" height={20} />
-          <Skeleton variant="rounded" height={20} />
-          <Skeleton variant="rounded" height={20} />
-          <Skeleton variant="rounded" height={20} />
-          <Skeleton variant="rounded" height={20} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
+          <Skeleton variant="rounded" height={25} />
         </Stack>
       </Stack>
     </Box>
@@ -65,18 +69,14 @@ export const SkeletonPieChart = () => {
 
 export const SkeletonLineChart = () => {
   return (
-    <Box sx={{}}>
-      <Grid container>
-        <Grid item xs={12}>
-          <Stack direction="row" alignItems="flex-end" spacing={1.5}>
-            <Skeleton variant="text" width={200} height={42} />
-            <Skeleton variant="text" width={150} height={25} />
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          <Skeleton variant="rounded" height={345} />
-        </Grid>
-      </Grid>
+    <Box>
+      <Stack spacing={2}>
+        <Stack direction="row" alignItems="flex-end" spacing={1.5}>
+          <Skeleton variant="text" width={200} height={42} />
+          <Skeleton variant="text" width={150} height={25} />
+        </Stack>
+        <Skeleton variant="rounded" height={380} />
+      </Stack>
     </Box>
   );
 };

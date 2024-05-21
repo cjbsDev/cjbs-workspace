@@ -34,200 +34,32 @@ import TotalPriceBox from "./components/TotalPriceBox";
 import dayjs from "dayjs";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { currentMonthAtom, currentYearAtom } from "./atom";
+import { getColumns } from "./components/Columns/LicenseListColumns";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 // const currentYear = dayjs().year();
 // const currentMonth = dayjs().get("month");
 
 const LicenseList = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(15);
   const year = useRecoilValue(currentYearAtom);
   const month = useRecoilValue(currentMonthAtom);
-  const searchParams = useSearchParams();
-  const resultObject: any = {};
+  const [resultObject, result] = useResultObject();
 
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
-  console.log(">>>>>>>>>", resultObject);
+  const url = useMemo(() => {
+    const base = "/agnc/license/list";
+    const params =
+      JSON.stringify(resultObject) !== "{}"
+        ? `${result}&page=${page}&size=${size}&year=${year}&month=${month}`
+        : `?page=${page}&size=${size}&year=${year}&month=${month}`;
+    return `${base}${params}`;
+  }, [resultObject, result, page, size, year, month]);
 
-  const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
-
-  const { data } = useSWR(
-    JSON.stringify(resultObject) !== "{}"
-      ? `/agnc/license/list${result}&page=${page}&size=${size}&year=${year}&month=${month}`
-      : `/agnc/license/list?page=${page}&size=${size}&year=${year}&month=${month}`,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
-  console.log("RUN LIST DATA", data);
+  const { data } = useSWR(url, fetcher, { suspense: true });
   const { licenseStatusList, yearTotalPrice, monthTotalPrice, pageInfo } = data;
   const { totalElements } = pageInfo;
 
-  const [filterText, setFilterText] = useState("");
-  const router = useRouter();
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-  const columns = useMemo(
-    () => [
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">분석내역서</Typography>
-          </Stack>
-        ),
-        width: "110px",
-        center: true,
-        // sortable: true,
-        selector: (row: any) => row.anlsItstId,
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">거래처(PI)</Typography>
-          </Stack>
-        ),
-        width: "300px",
-        // sortable: true,
-        // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
-        cell: (row: any) => {
-          const { instNm, agncNm } = row;
-          return (
-            <Stack data-tag="allowRowEvents">
-              <Box data-tag="allowRowEvents">
-                <Stack direction="row" spacing={"2px"} alignItems="center">
-                  <Typography data-tag="allowRowEvents" variant="body2">
-                    {agncNm}
-                  </Typography>
-                </Stack>
-              </Box>
-              <Typography data-tag="allowRowEvents" variant="body2">
-                ({instNm})
-              </Typography>
-            </Stack>
-          );
-        },
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">연구 책임자</Typography>
-          </Stack>
-        ),
-        width: "130px",
-        center: true,
-        // sortable: true,
-        selector: (row: any) => row.rhpiNm,
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">영업 담당자</Typography>
-          </Stack>
-        ),
-        width: "130px",
-        center: true,
-        // sortable: true,
-        selector: (row: any) => row.bsnsMngrNm,
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">공급가액</Typography>
-          </Stack>
-        ),
-        width: "150px",
-        right: true,
-        // sortable: true,
-        selector: (row: any) =>
-          row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">사용 기간</Typography>
-          </Stack>
-        ),
-        width: "200px",
-        center: true,
-        // sortable: true,
-        selector: (row: any) => row.startDate + " ~ " + row.endDate,
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">회차</Typography>
-          </Stack>
-        ),
-        width: "100px",
-        center: true,
-        // sortable: true,
-        selector: (row: any) => row.currentTurn + " / " + row.totalTurn,
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">사용금액</Typography>
-          </Stack>
-        ),
-        width: "110px",
-        right: true,
-        // sortable: true,
-        selector: (row: any) =>
-          row.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-      },
-      {
-        name: (
-          <Stack
-            justifyContent="center"
-            alignItems="center"
-            sx={{ width: "100%" }}
-          >
-            <Typography variant="body2">플랫폼</Typography>
-          </Stack>
-        ),
-        width: "500px",
-        // sortable: true,
-        // selector: (row: any) => row.currentTurn+" / "+row.pltfVal,
-        selector: (row: any) => "MTP / " + row.pltfVal,
-      },
-    ],
-    [],
-  );
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeaderComponentMemo = useMemo(() => {
     return (
@@ -348,7 +180,7 @@ const LicenseList = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
-        paginationResetDefaultPage={resetPaginationToggle}
+        // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination
         paginationServer

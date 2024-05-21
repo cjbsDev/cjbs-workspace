@@ -88,6 +88,8 @@ const SampleDataTable = (props) => {
         name: "Source",
         sortable: false,
         center: true,
+        allowOverflow: true,
+        grow: 2,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
