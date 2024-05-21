@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   InputAdornment,
   Stack,
@@ -25,11 +26,12 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async () => {
+    setIsLoading(true);
     const reqBody = {
       email: email,
     };
 
-    axios
+    await axios
       .post(
         `${process.env.NEXT_PUBLIC_API_URL}/user/authEmail/verify/password`,
         reqBody,
@@ -44,6 +46,9 @@ const Index = () => {
       })
       .catch(function (error) {
         console.log(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   };
 
@@ -69,7 +74,7 @@ const Index = () => {
           variant="body2"
           sx={{ marginBottom: 2, textAlign: "center" }}
         >
-          메일함에서 비밀번호 재설정 메일을 확인해 주세요.
+          <b>메일함에서 비밀번호 재설정 메일을 확인해 주세요.</b>
           <br />
           메일의 비밀번호 재설정 버튼을 클릭하면 새로운
           <br /> 비밀번호를 변경할 수 있습니다.
@@ -91,7 +96,7 @@ const Index = () => {
           <Stack direction="row" alignItems="center" justifyContent="center">
             <Typography variant="body2">혹시 메일을 못 받으셨나요?</Typography>
             <Button variant="text" size="small" onClick={onSubmit}>
-              메일 재발송
+              {isLoading ? <CircularProgress size={14} /> : "메일 재발송"}
             </Button>
           </Stack>
         </Stack>

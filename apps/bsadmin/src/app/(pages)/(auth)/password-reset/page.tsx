@@ -1,32 +1,27 @@
 "use client";
-
-import * as React from "react";
-import { useRouter } from "next-nprogress-bar";
-import MyIcon from "icon/MyIcon";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { useSearchParams } from "next/navigation";
+import axios from "axios";
 import {
   Box,
-  InputAdornment,
-  Typography,
   Container,
-  Link,
-  Grid,
   IconButton,
+  InputAdornment,
   Stack,
-  Button,
+  Typography,
 } from "@mui/material";
+import MyIcon from "icon/MyIcon";
+import { Form, InputValidation } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
-import { Form, InputValidation, XlargeButton } from "cjbsDSTM";
-import { toast } from "react-toastify";
-import { signIn } from "next-auth/react";
+import * as React from "react";
 import { useState } from "react";
-import axios from "axios";
+import { toast } from "react-toastify";
+import { useRouter } from "next-nprogress-bar";
 
-const theme = createTheme();
 export default function Page() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const key = searchParams.get("key");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (
@@ -35,24 +30,33 @@ export default function Page() {
     event.preventDefault();
   };
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = async (data: any) => {
+    if (data.password !== data.passwordChck) {
+      toast("비밀번호가 일치하지 않습니다.");
+      return;
+    }
+
     setIsLoading(true);
-    let email = data.email;
-    let password = data.password;
-    signIn("credentials", { email, password, redirect: false })
-      .then((res) => {
-        //const isError = res && res.error ? res.error : null
-        console.log("!!!!res=", res);
-        if (res?.error) {
-          const errorMessage = res.error.split("Error:")[1];
-          toast(errorMessage, { type: "info" });
+
+    const reqBody = {
+      ...data,
+      key: key,
+    };
+
+    await axios
+      .post(`${process.env.NEXT_PUBLIC_API_URL}/user/reset/password`, reqBody)
+      .then(function (response) {
+        console.log(response);
+        if (response.status === 200) {
+          router.push("/password-reset-success");
         } else {
-          //로그인성공
-          router.push("/");
+          toast(response.data.message);
         }
       })
-      .finally(() => {
+      .catch(function (error) {
+        console.log(error);
+      })
+      .finally(function () {
         setIsLoading(false);
       });
   };
@@ -82,6 +86,7 @@ export default function Page() {
           다른 아이디나 사이트에서 사용한 적 없는 안전한
           <br />
           비밀번호로 변경해 주세요.
+          <br />6 자리 이상 영문, 숫자, 특수기호를 사용하여 비밀번호 생성.
         </Typography>
 
         <Form onSubmit={onSubmit} defaultValues={undefined}>
@@ -91,6 +96,10 @@ export default function Page() {
             placeholder="새 비밀번호"
             required={true}
             errorMessage="비밀번호를 입력해 주세요."
+            pattern={
+              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/
+            }
+            patternErrMsg="6자리 이상 영문, 숫자, 특수기호를 사용해 주세요."
             type={showPassword ? "text" : "password"}
             sx={{ width: 380 }}
             inputProps={{

@@ -11,7 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import MyIcon from "icon/MyIcon";
-import { Form, InputValidation } from "cjbsDSTM";
+import { Form, InputValidation, OutlinedButton } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
 import { POST } from "api";
 import { toast } from "react-toastify";
@@ -23,7 +23,8 @@ const Index = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const onSubmit = async (data: any) => {
-    axios
+    setIsLoading(true);
+    await axios
       .post(
         `${process.env.NEXT_PUBLIC_API_URL}/user/authEmail/verify/password`,
         data,
@@ -38,6 +39,9 @@ const Index = () => {
       })
       .catch(function (error) {
         console.log(error);
+      })
+      .finally(function () {
+        setIsLoading(false);
       });
   };
 
@@ -91,67 +95,23 @@ const Index = () => {
             }}
           />
 
-          <Stack>
-            <LoadingButton
-              loading={isLoading}
-              variant="contained"
-              type="submit"
-              fullWidth
-              size="large"
-              style={{ marginTop: 10, marginBottom: 10 }}
-              // onClick={onSubmit}
-            >
-              fasdflkjasd
-            </LoadingButton>
-          </Stack>
-
-          {/*<InputValidation*/}
-          {/*  inputName="password"*/}
-          {/*  // label="비밀번호"*/}
-          {/*  placeholder="비밀번호"*/}
-          {/*  required={true}*/}
-          {/*  errorMessage="비밀번호를 입력해 주세요."*/}
-          {/*  type={showPassword ? "text" : "password"}*/}
-          {/*  sx={{ width: 380 }}*/}
-          {/*  inputProps={{*/}
-          {/*    style: {*/}
-          {/*      height: 39.6,*/}
-          {/*    },*/}
-          {/*  }}*/}
-          {/*  InputProps={{*/}
-          {/*    startAdornment: (*/}
-          {/*      <InputAdornment position="start">*/}
-          {/*        <MyIcon icon="lock" size={20} />*/}
-          {/*      </InputAdornment>*/}
-          {/*    ),*/}
-          {/*    endAdornment: (*/}
-          {/*      <InputAdornment position="end">*/}
-          {/*        <IconButton*/}
-          {/*          aria-label="toggle password visibility"*/}
-          {/*          onClick={handleClickShowPassword}*/}
-          {/*          onMouseDown={handleMouseDownPassword}*/}
-          {/*        >*/}
-          {/*          {showPassword ? (*/}
-          {/*            <MyIcon icon="eye-slash-fill" size={24} />*/}
-          {/*          ) : (*/}
-          {/*            <MyIcon icon="eye-fill" size={24} />*/}
-          {/*          )}*/}
-          {/*        </IconButton>*/}
-          {/*      </InputAdornment>*/}
-          {/*    ),*/}
-          {/*  }}*/}
-          {/*/>*/}
-
-          {/*<LoadingButton*/}
-          {/*  loading={isLoading}*/}
-          {/*  variant="contained"*/}
-          {/*  type="submit"*/}
-          {/*  fullWidth*/}
-          {/*  size="large"*/}
-          {/*  style={{ marginTop: 10, marginBottom: 10 }}*/}
-          {/*>*/}
-          {/*  로그인*/}
-          {/*</LoadingButton>*/}
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <Link href="/sign-in">
+                <OutlinedButton buttonName="로그인 화면으로 이동" fullWidth />
+              </Link>
+            </Grid>
+            <Grid item xs={6}>
+              <LoadingButton
+                loading={isLoading}
+                variant="contained"
+                type="submit"
+                fullWidth
+              >
+                비밀번호 재설정 링크 받기
+              </LoadingButton>
+            </Grid>
+          </Grid>
         </Form>
       </Stack>
     </Container>

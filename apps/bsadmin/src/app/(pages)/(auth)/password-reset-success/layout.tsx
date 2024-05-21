@@ -1,6 +1,6 @@
-import BackgroundProvider from "../../../../../BackgroundProvider";
+import BackgroundProvider from "../../../BackgroundProvider";
 
-export default function SignInLayout({
+export default function PasswordResetSuccessLayout({
   children,
 }: {
   children: React.ReactNode;
