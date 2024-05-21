@@ -9,14 +9,12 @@ import {
 } from "cjbsDSTM";
 import { Box, Container, Grid, Stack, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { fetcher } from "api";
 import Link from "next/link";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import TabBox from "./TabBox";
 import CustomTabPanel from "./CustomTabPanel";
 import { useParams, useSearchParams } from "next/navigation";
-import useSWR from "swr";
 
 // 오더 요약 정보 영역
 const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo"), {
