@@ -33,7 +33,7 @@ const AgncSearchModal = ({
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(10);
   const { setValue, clearErrors } = useFormContext();
-  const { data } = useSWR(`/inst/list?page=${page}&size=${size}`, fetcher, {
+  const { data } = useSWR(`/inst/list`, fetcher, {
     suspense: true,
   });
 
