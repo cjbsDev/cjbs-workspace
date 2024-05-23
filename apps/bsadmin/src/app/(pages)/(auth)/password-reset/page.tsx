@@ -20,7 +20,9 @@ import { useRouter } from "next-nprogress-bar";
 export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const key = searchParams.get("key");
+  const rawKey = searchParams.get("key");
+  const key = encodeURIComponent(rawKey).replace("%20", "+");
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -29,6 +31,8 @@ export default function Page() {
   ) => {
     event.preventDefault();
   };
+
+  console.log("key", decodeURIComponent(key));
 
   const onSubmit = async (data: any) => {
     if (data.password !== data.passwordChck) {
@@ -39,8 +43,8 @@ export default function Page() {
     setIsLoading(true);
 
     const reqBody = {
-      ...data,
-      key: key,
+      password: data.password,
+      key: decodeURIComponent(key),
     };
 
     await axios
