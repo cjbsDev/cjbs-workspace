@@ -36,7 +36,8 @@ export default function RootLayout({
           <JeJuProvider>
             <RecoilRootProvider>
               <Provider>
-                <DrawerProvider>{children}</DrawerProvider>
+                {/*<DrawerProvider>{children}</DrawerProvider>*/}
+                {children}
                 <NextProgressBar />
               </Provider>
             </RecoilRootProvider>

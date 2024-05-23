@@ -96,6 +96,8 @@ export const Columns = () => [
     name: "연구책임자",
     // width: "100px",
     center: true,
+    allowOverflow: true,
+    grow: 2,
     selector: (row) => row.rhpiNm,
   },
   {

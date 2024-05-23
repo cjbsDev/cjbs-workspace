@@ -72,18 +72,18 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
       color="inherit"
       sx={{
         zIndex: 1000,
-        display:
-          currentPathname === "/custListPopup" ||
-          currentPathname === "/sampleListPopup" ||
-          currentPathname === "/sampleSimpleListPopup" ||
-          currentPathname === "/agncListPopup" ||
-          currentPathname === "/tnsfAgncListPopup" ||
-          currentPathname === "/projectListPopup" ||
-          currentPathname === "/instListPopup" ||
-          currentPathname === "/hsptListPopup" ||
-          currentPathname === "/sign-in"
-            ? "none"
-            : "block",
+        // display:
+        //   currentPathname === "/custListPopup" ||
+        //   currentPathname === "/sampleListPopup" ||
+        //   currentPathname === "/sampleSimpleListPopup" ||
+        //   currentPathname === "/agncListPopup" ||
+        //   currentPathname === "/tnsfAgncListPopup" ||
+        //   currentPathname === "/projectListPopup" ||
+        //   currentPathname === "/instListPopup" ||
+        //   currentPathname === "/hsptListPopup" ||
+        //   currentPathname === "/sign-in"
+        //     ? "none"
+        //     : "block",
       }}
     >
       <Toolbar sx={{}}>

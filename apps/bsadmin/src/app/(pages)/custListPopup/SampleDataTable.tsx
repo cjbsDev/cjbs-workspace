@@ -230,7 +230,7 @@ const SampleDataTable = () => {
 
   return (
     // <Box sx={{ display: "grid", width: 750 }}>
-    <Box sx={{ display: "grid", width: 1060 }}>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="고객 검색" />}
         data={sampleListData}
