@@ -23,6 +23,7 @@ import { cjbsTheme, yellow } from "cjbsDSTM";
 import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname, useSelectedLayoutSegments } from "next/navigation";
+import dayjs from "dayjs";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -90,8 +91,12 @@ export default function DrawerProvider({ children }: ContextProps) {
   const router = useRouter();
   const currentPathname = usePathname();
   const segment = useSelectedLayoutSegments();
-
   console.log("segment", segment);
+
+  // 3개월 후 계산
+  const currentDate = dayjs();
+  const futureDate = currentDate.add(3, "month");
+  console.log(futureDate.format("YYYY-MM-DD"));
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -121,187 +126,191 @@ export default function DrawerProvider({ children }: ContextProps) {
   // if () {}
 
   return (
-    <Box sx={{ display: "flex" }}>
-      <AppBar
-        open={open}
-        handleDrawerOpen={handleDrawerOpen}
-        handleDrawerClose={handleDrawerClose}
-      />
-      <Drawer
-        variant="permanent"
-        open={open}
-        sx={{
-          // display:
-          //   currentPathname === "/sign-in" ||
-          //   currentPathname === "/sampleListPopup" ||
-          //   currentPathname === "/sampleSimpleListPopup" ||
-          //   currentPathname === "/agncListPopup" ||
-          //   currentPathname === "/tnsfAgncListPopup" ||
-          //   currentPathname === "/custListPopup" ||
-          //   currentPathname === "/instListPopup" ||
-          //   currentPathname === "/hsptListPopup" ||
-          //   currentPathname === "/projectListPopup"
-          //     ? "none"
-          //     : "block",
-          zIndex: 1000,
-        }}
-      >
-        <DrawerHeader>
-          <Link href="/" replace={true} onClick={() => setSelectedIndex(-1)}>
-            {open ? (
-              <MyIcon icon="cj_mix" width={118} height={36} />
-            ) : (
-              <MyIcon icon="cj_mix_updown" width={28} />
-            )}
-          </Link>
-        </DrawerHeader>
-        <Divider />
-        <List
+    <>
+      <Box sx={{ display: "flex" }}>
+        <AppBar
+          open={open}
+          handleDrawerOpen={handleDrawerOpen}
+          handleDrawerClose={handleDrawerClose}
+        />
+        <Drawer
+          variant="permanent"
+          open={open}
           sx={{
-            color: "white",
-            display: currentPathname === "sign-in" ? "none" : "block",
+            // display:
+            //   currentPathname === "/sign-in" ||
+            //   currentPathname === "/sampleListPopup" ||
+            //   currentPathname === "/sampleSimpleListPopup" ||
+            //   currentPathname === "/agncListPopup" ||
+            //   currentPathname === "/tnsfAgncListPopup" ||
+            //   currentPathname === "/custListPopup" ||
+            //   currentPathname === "/instListPopup" ||
+            //   currentPathname === "/hsptListPopup" ||
+            //   currentPathname === "/projectListPopup"
+            //     ? "none"
+            //     : "block",
+            zIndex: 1000,
           }}
         >
-          {snbMenuListData.map((item, index) => {
-            const depthOne = item.menuPath.name;
-            return (
-              <ListItem
-                key={item.menuIcon}
-                disablePadding
-                sx={{ display: "block" }}
-              >
-                <ListItemButton
-                  onClick={() => {
-                    handleMenuOpenClick();
-                    handleClick(index);
-                    // item.menuPath.nestedPath.length === 0
-                    //   ? handleHomeClick(item)
-                    //   : handleClick(index);
-                  }}
-                  selected={currentPathname.includes(depthOne.split("/")[1])}
-                  disabled={
-                    item.menuPath.name === "" &&
-                    item.menuPath.nestedPath.length === 0
-                  }
-                  sx={{
-                    minHeight: 50,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2,
-                    "&.MuiListItemButton-root": {
-                      borderRadius: "0px !important",
-                      "&:hover": {
+          <DrawerHeader>
+            <Link href="/" replace={true} onClick={() => setSelectedIndex(-1)}>
+              {open ? (
+                <MyIcon icon="cj_mix" width={118} height={36} />
+              ) : (
+                <MyIcon icon="cj_mix_updown" width={28} />
+              )}
+            </Link>
+          </DrawerHeader>
+          <Divider />
+          <List
+            sx={{
+              color: "white",
+              display: currentPathname === "sign-in" ? "none" : "block",
+            }}
+          >
+            {snbMenuListData.map((item, index) => {
+              const depthOne = item.menuPath.name;
+              return (
+                <ListItem
+                  key={item.menuIcon}
+                  disablePadding
+                  sx={{ display: "block" }}
+                >
+                  <ListItemButton
+                    onClick={() => {
+                      handleMenuOpenClick();
+                      handleClick(index);
+                      // item.menuPath.nestedPath.length === 0
+                      //   ? handleHomeClick(item)
+                      //   : handleClick(index);
+                    }}
+                    selected={currentPathname.includes(depthOne.split("/")[1])}
+                    disabled={
+                      item.menuPath.name === "" &&
+                      item.menuPath.nestedPath.length === 0
+                    }
+                    sx={{
+                      minHeight: 50,
+                      justifyContent: open ? "initial" : "center",
+                      px: 2,
+                      "&.MuiListItemButton-root": {
+                        borderRadius: "0px !important",
+                        "&:hover": {
+                          backgroundColor: theme.palette.primary.main,
+                        },
+                      },
+                      "&.Mui-selected": {
                         backgroundColor: theme.palette.primary.main,
                       },
-                    },
-                    "&.Mui-selected": {
-                      backgroundColor: theme.palette.primary.main,
-                    },
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 2 : "auto",
-                      justifyContent: "center",
-                      color: "white",
                     }}
                   >
-                    <MyIcon icon={item.menuIcon} size={20} />
-                  </ListItemIcon>
-                  <ListItemText
-                    primary={item.menuLabel}
-                    sx={{ opacity: open ? 1 : 0 }}
-                  />
-                  {item.menuPath.nestedPath.length !== 0 && open ? (
-                    nestedOpen ? (
-                      <ExpandLess />
-                    ) : (
-                      <ExpandMore />
-                    )
-                  ) : null}
-                </ListItemButton>
+                    <ListItemIcon
+                      sx={{
+                        minWidth: 0,
+                        mr: open ? 2 : "auto",
+                        justifyContent: "center",
+                        color: "white",
+                      }}
+                    >
+                      <MyIcon icon={item.menuIcon} size={20} />
+                    </ListItemIcon>
+                    <ListItemText
+                      primary={item.menuLabel}
+                      sx={{ opacity: open ? 1 : 0 }}
+                    />
+                    {item.menuPath.nestedPath.length !== 0 && open ? (
+                      nestedOpen ? (
+                        <ExpandLess />
+                      ) : (
+                        <ExpandMore />
+                      )
+                    ) : null}
+                  </ListItemButton>
 
-                <Collapse
-                  in={
-                    index === selectedIndex
-                    // index === selectedIndex ||
-                    // currentPathname.includes(depthOne.split("/")[1])
-                  }
-                  timeout="auto"
-                  unmountOnExit
-                >
-                  <List
-                    component="div"
-                    sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
-                    disablePadding
+                  <Collapse
+                    in={
+                      index === selectedIndex
+                      // index === selectedIndex ||
+                      // currentPathname.includes(depthOne.split("/")[1])
+                    }
+                    timeout="auto"
+                    unmountOnExit
                   >
-                    {item.menuPath.nestedPath.map((item) => {
-                      const isActive = currentPathname.startsWith(
-                        item.menuPath,
-                      );
-                      return (
-                        <Link
-                          key={item.menuPath}
-                          href={item.menuPath}
-                          className={
-                            "navLink" +
-                            (isActive ? " activeLinkColor" : " normalLinkColor")
-                          }
-                        >
-                          {item.menuLabel}
-                        </Link>
-                      );
-                    })}
-                  </List>
-                </Collapse>
-              </ListItem>
-            );
-          })}
-        </List>
-        <List>
-          <ListItem sx={{ color: "white" }}>
-            <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>
-              <Stack direction="row" spacing={2}>
-                <MyIcon icon="lightning" size={20} color={yellow["300"]} />
-                <Box component="span">CodeBox</Box>
-              </Stack>
-            </Link>
-          </ListItem>
-        </List>
-      </Drawer>
+                    <List
+                      component="div"
+                      sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
+                      disablePadding
+                    >
+                      {item.menuPath.nestedPath.map((item) => {
+                        const isActive = currentPathname.startsWith(
+                          item.menuPath,
+                        );
+                        return (
+                          <Link
+                            key={item.menuPath}
+                            href={item.menuPath}
+                            className={
+                              "navLink" +
+                              (isActive
+                                ? " activeLinkColor"
+                                : " normalLinkColor")
+                            }
+                          >
+                            {item.menuLabel}
+                          </Link>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                </ListItem>
+              );
+            })}
+          </List>
+          <List>
+            <ListItem sx={{ color: "white" }}>
+              <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>
+                <Stack direction="row" spacing={2}>
+                  <MyIcon icon="lightning" size={20} color={yellow["300"]} />
+                  <Box component="span">CodeBox</Box>
+                </Stack>
+              </Link>
+            </ListItem>
+          </List>
+        </Drawer>
 
-      <Box
-        component="main"
-        sx={{
-          backgroundColor:
-            currentPathname === "/" ? cjbsTheme.palette.grey["100"] : "white",
+        <Box
+          component="main"
+          sx={{
+            backgroundColor:
+              currentPathname === "/" ? cjbsTheme.palette.grey["100"] : "white",
 
-          flexGrow: 1,
-          p: currentPathname === "/sign-in" ? 0 : 2.5,
-          minHeight: "100vh",
-          position: "relative",
-        }}
-      >
-        <DrawerHeader
-          sx={
-            {
-              // display:
-              //   currentPathname === "/custListPopup" ||
-              //   currentPathname === "/sampleListPopup" ||
-              //   currentPathname === "/sampleSimpleListPopup" ||
-              //   currentPathname === "/agncListPopup" ||
-              //   currentPathname === "/tnsfAgncListPopup" ||
-              //   currentPathname === "/projectListPopup" ||
-              //   currentPathname === "/instListPopup" ||
-              //   currentPathname === "/hsptListPopup" ||
-              //   currentPathname === "/sign-in"
-              //     ? "none"
-              //     : "block",
+            flexGrow: 1,
+            p: currentPathname === "/sign-in" ? 0 : 2.5,
+            minHeight: "100vh",
+            position: "relative",
+          }}
+        >
+          <DrawerHeader
+            sx={
+              {
+                // display:
+                //   currentPathname === "/custListPopup" ||
+                //   currentPathname === "/sampleListPopup" ||
+                //   currentPathname === "/sampleSimpleListPopup" ||
+                //   currentPathname === "/agncListPopup" ||
+                //   currentPathname === "/tnsfAgncListPopup" ||
+                //   currentPathname === "/projectListPopup" ||
+                //   currentPathname === "/instListPopup" ||
+                //   currentPathname === "/hsptListPopup" ||
+                //   currentPathname === "/sign-in"
+                //     ? "none"
+                //     : "block",
+              }
             }
-          }
-        />
-        {children}
+          />
+          {children}
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 }
