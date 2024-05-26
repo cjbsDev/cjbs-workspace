@@ -24,6 +24,8 @@ import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import dayjs from "dayjs";
+import PasswordChangeModal from "./components/PasswordChangeModal";
+import { useState } from "react";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -92,6 +94,10 @@ export default function DrawerProvider({ children }: ContextProps) {
   const currentPathname = usePathname();
   const segment = useSelectedLayoutSegments();
   console.log("segment", segment);
+  const [showModal, setShowModal] = useState(true);
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
 
   // 3개월 후 계산
   const currentDate = dayjs();
@@ -311,6 +317,12 @@ export default function DrawerProvider({ children }: ContextProps) {
           {children}
         </Box>
       </Box>
+
+      <PasswordChangeModal
+        onClose={handleModalClose}
+        open={showModal}
+        modalWidth={500}
+      />
     </>
   );
 }
