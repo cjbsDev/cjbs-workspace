@@ -46,7 +46,9 @@ const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
   const isGutInside = searchParams.get("isGutInside");
   const [isLoading, setIsLoading] = useState(false);
 
-  const defaultValues = {};
+  const defaultValues = {
+    outDttm: new Date(),
+  };
 
   const onSubmit = async (data: FormDataProps) => {
     // console.log("입고 전송폼 데이타 ==>>", data);

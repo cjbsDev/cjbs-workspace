@@ -94,7 +94,7 @@ export default function DrawerProvider({ children }: ContextProps) {
   const currentPathname = usePathname();
   const segment = useSelectedLayoutSegments();
   console.log("segment", segment);
-  const [showModal, setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => {
     setShowModal(false);
   };

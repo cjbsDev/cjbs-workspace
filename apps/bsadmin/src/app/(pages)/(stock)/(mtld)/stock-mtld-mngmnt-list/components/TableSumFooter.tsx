@@ -41,7 +41,7 @@ const TableSumFooter = ({
         </TableCell>
         <TableCell align="right">
           <Typography>
-            {formatNumberWithCommas(closingStockTotalCnt)}
+            {formatNumberWithCommas(openingStockTotalCnt)}
           </Typography>
         </TableCell>
         <TableCell align="right">
@@ -53,7 +53,7 @@ const TableSumFooter = ({
               spacing={0.2}
             >
               <Typography>
-                {formatNumberWithCommas(closingStockTotalAmt)}
+                {formatNumberWithCommas(openingStockTotalAmt)}
               </Typography>
               <Typography>원</Typography>
             </Stack>
@@ -81,7 +81,7 @@ const TableSumFooter = ({
         </TableCell>
         <TableCell align="right">
           <Typography>
-            {formatNumberWithCommas(openingStockTotalCnt)}
+            {formatNumberWithCommas(closingStockTotalCnt)}
           </Typography>
         </TableCell>
         <TableCell align="right">
@@ -92,7 +92,7 @@ const TableSumFooter = ({
             spacing={0.2}
           >
             <Typography>
-              {formatNumberWithCommas(openingStockTotalAmt)}
+              {formatNumberWithCommas(closingStockTotalAmt)}
             </Typography>
             <Typography>원</Typography>
           </Stack>
