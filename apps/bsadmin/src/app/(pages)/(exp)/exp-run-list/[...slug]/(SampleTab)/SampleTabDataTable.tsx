@@ -6,6 +6,7 @@ import {
   ContainedButton,
   DataCountResultInfo,
   DataTableBase,
+  DataTableFilter,
   ErrorContainer,
   Fallback,
   FileDownloadBtn,
@@ -68,6 +69,8 @@ const SampleTabDataTable = (props) => {
   // const [isClear, setIsClear] = useState<boolean>(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
+  const [filterText, setFilterText] = useState("");
+  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(20);
   const router = useRouter();
@@ -101,10 +104,14 @@ const SampleTabDataTable = (props) => {
       suspense: true,
     },
   );
-  console.log("RUN LIST DATA", data);
+  console.log("Sample TAb RUN LIST DATA", data);
 
-  const runSampleListData = data.runSamplesList;
-  const totalElements = data.pageInfo.totalElements;
+  // const runSampleListData = data.runSamplesList;
+  // const totalElements = data.pageInfo.totalElements;
+
+  const { runSamplesList, pageInfo } = data;
+  const { totalElements } = pageInfo;
+
   // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
@@ -121,7 +128,13 @@ const SampleTabDataTable = (props) => {
         selector: (row) => row.turnId,
       },
       {
-        name: "샘플번호",
+        name: "오더 번호",
+        sortable: false,
+        center: true,
+        selector: (row) => row.orderId,
+      },
+      {
+        name: "샘플 번호",
         sortable: false,
         center: true,
         selector: (row) => row.sampleId,
@@ -481,6 +494,28 @@ const SampleTabDataTable = (props) => {
     setToggleClearRows(!toggledClearRows);
   }, [setToggleClearRows, toggledClearRows]);
 
+  const filteredData = runSamplesList.filter(
+    (item) =>
+      (item.sampleNm &&
+        item.sampleNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.sampleTypeVal &&
+        item.sampleTypeVal.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.source &&
+        item.source.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.taxonVal &&
+        item.taxonVal.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.orderId &&
+        item.orderId
+          .toString()
+          .toLowerCase()
+          .includes(filterText.toLowerCase())) ||
+      (item.sampleId &&
+        item.sampleId
+          .toString()
+          .toLowerCase()
+          .includes(filterText.toLowerCase())),
+  );
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleExPrgrsPhsOpen = () => {
       // if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
@@ -488,6 +523,13 @@ const SampleTabDataTable = (props) => {
       if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       // setIsClear(false);
       setToggleClearRows(!toggledClearRows);
+    };
+
+    const handleClear = () => {
+      if (filterText) {
+        setResetPaginationToggle(!resetPaginationToggle);
+        setFilterText("");
+      }
     };
 
     return (
@@ -532,7 +574,14 @@ const SampleTabDataTable = (props) => {
               iconName="xls3"
             />
 
-            <KeywordSearch />
+            {/*<KeywordSearch />*/}
+            <DataTableFilter
+              onFilter={(e: {
+                target: { value: React.SetStateAction<string> };
+              }) => setFilterText(e.target.value)}
+              onClear={handleClear}
+              filterText={filterText}
+            />
           </Stack>
         </Grid>
       </Grid>
@@ -566,16 +615,16 @@ const SampleTabDataTable = (props) => {
     // setSampleIdList(getSampleIDList);
   }, []);
 
-  const handlePageChange = (page: number) => {
-    console.log("Page", page);
-    setPage(page);
-  };
-
-  const handlePerRowsChange = (newPerPage: number, page: number) => {
-    console.log("Row change.....", newPerPage, page);
-    setPage(page);
-    setSize(newPerPage);
-  };
+  // const handlePageChange = (page: number) => {
+  //   console.log("Page", page);
+  //   setPage(page);
+  // };
+  //
+  // const handlePerRowsChange = (newPerPage: number, page: number) => {
+  //   console.log("Row change.....", newPerPage, page);
+  //   setPage(page);
+  //   setSize(newPerPage);
+  // };
 
   const handleAlertClose = () => {
     setAlertModalOpen(false);
@@ -612,7 +661,7 @@ const SampleTabDataTable = (props) => {
       <Box sx={{ mt: -5, display: "grid" }}>
         <DataTableBase
           title={<Typography variant="subtitle1">목록</Typography>}
-          data={runSampleListData}
+          data={filteredData}
           columns={columns}
           // onRowClicked={goDetailModal}
           pointerOnHover
@@ -625,12 +674,12 @@ const SampleTabDataTable = (props) => {
           clearSelectedRows={toggledClearRows}
           selectableRowsVisibleOnly={true}
           pagination
-          paginationServer
-          paginationTotalRows={totalElements}
+          // paginationServer
+          // paginationTotalRows={totalElements}
           noDataComponent={<NoDataView />}
           // paginationResetDefaultPage={resetPaginationToggle}
-          onChangeRowsPerPage={handlePerRowsChange}
-          onChangePage={handlePageChange}
+          // onChangeRowsPerPage={handlePerRowsChange}
+          // onChangePage={handlePageChange}
         />
       </Box>
 
