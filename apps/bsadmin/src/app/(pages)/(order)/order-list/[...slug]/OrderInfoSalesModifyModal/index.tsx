@@ -282,12 +282,14 @@ ModalContainerProps) => {
           buttonName="취소"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="orderInfoModifyForm"
+          size="small"
         >
           저장
         </LoadingButton>

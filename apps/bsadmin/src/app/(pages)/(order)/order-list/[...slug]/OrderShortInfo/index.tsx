@@ -11,25 +11,24 @@ import Link from "next/link";
 import { OutlinedButton } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import { useRouter } from "next-nprogress-bar";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 const OrderShortInfo = () => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
   const orderUkey = params.slug;
-  // const { data } = useSWR(`/order/${orderUkey}`, fetcher, {
-  //   suspense: true,
-  // });
+  const [resultObject, result] = useResultObject();
 
-  const resultObject = {};
-
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
-  console.log(">>>>>>>>>", resultObject);
-
-  const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  // const resultObject = {};
+  //
+  // for (const [key, value] of searchParams.entries()) {
+  //   resultObject[key] = value;
+  // }
+  // console.log(">>>>>>>>>", resultObject);
+  //
+  // const result = "?" + new URLSearchParams(resultObject).toString();
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
 
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
@@ -40,7 +39,7 @@ const OrderShortInfo = () => {
       suspense: true,
     },
   );
-  console.log("ORDER Detail DATA", data);
+  console.log("ORDER Info Detail DATA", data);
 
   // console.log("OrderShortInfo Value ==>>", data.data);
 

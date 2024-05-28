@@ -72,6 +72,12 @@ const SampleDataTable = (props) => {
         selector: (row) => row.sampleId,
       },
       {
+        name: "번호",
+        sortable: false,
+        center: true,
+        selector: (row, index) => index + 1,
+      },
+      {
         name: "샘플명",
         sortable: false,
         center: true,
@@ -408,6 +414,8 @@ const SampleDataTable = (props) => {
         clearSelectedRows={isClear}
         selectableRowsVisibleOnly={true}
         pagination
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[20, 50, 100]}
       />
     </Box>
   );

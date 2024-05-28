@@ -36,6 +36,7 @@ import {
 } from "../../../../../data/inputDataLists";
 import { PUT, fetcher } from "api";
 import AddEmailListValidation from "./AddEmailListValidation";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -62,8 +63,8 @@ const LazyOrderType = dynamic(
 );
 
 const dataRadioGVTest = [
-  { value: "dnaReturnComp", optionName: "DNA 반송 요청" },
-  { value: "sampleReturnComp", optionName: "샘플 반송 요청" },
+  { value: "dnaReturnComp", optionName: "DNA 반송 완료" },
+  { value: "sampleReturnComp", optionName: "샘플 반송 완료" },
 ];
 interface ModalContainerProps {
   onClose: () => void;
@@ -88,6 +89,7 @@ ModalContainerProps) => {
     suspense: true,
   });
   const { mutate } = useSWRConfig();
+  const [resultObject, result] = useResultObject();
 
   console.log("오더 정보 변경 InitData ==>>", data);
 
@@ -105,7 +107,7 @@ ModalContainerProps) => {
     orderTypeCc: data.orderTypeCc,
     addEmailList: data.addEmailList,
     libMngrUkey: data.libMngrUkey,
-    qcMngrUkey: data.prepMngrUkey,
+    prepMngrUkey: data.prepMngrUkey,
     seqMngrUkey: data.seqMngrUkey,
     memo: data.memo,
   };
@@ -130,7 +132,7 @@ ModalContainerProps) => {
       orderTypeCc: data.orderTypeCc,
       addEmailList: data.addEmailList,
       libMngrUkey: data.libMngrUkey,
-      qcMngrUkey: data.qcMngrUkey,
+      prepMngrUkey: data.prepMngrUkey,
       seqMngrUkey: data.seqMngrUkey,
       memo: data.memo,
     };
@@ -140,7 +142,7 @@ ModalContainerProps) => {
       console.log("오더 정보 변경 성고 ==>>", res.success);
 
       if (res.success) {
-        mutate(`/order/${orderUkey}`);
+        mutate(`/order/${orderUkey}${result}`);
         mutate(`/order/detail/${orderUkey}`);
         mutate(`/order/analysis/${orderUkey}`);
         handleClose();
@@ -275,12 +277,14 @@ ModalContainerProps) => {
           buttonName="취소"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="orderInfoModifyForm"
+          size="small"
         >
           저장
         </LoadingButton>
