@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import useSWR from "swr";
 import { useParams, useSearchParams } from "next/navigation";
 import { grey } from "cjbsDSTM/themes/color";
@@ -118,7 +128,22 @@ const OrderShortInfo = () => {
           anlsComp={anlsComp}
         />
 
-        <Box>
+        <Box sx={{ backgroundColor: "yellow" }}>
+          <Table>
+            <TableBody>
+              <TableRow>
+                <TableCell>
+                  <Typography variant="body2">연락처</Typography>
+                </TableCell>
+                <TableCell>
+                  <Typography variant="subtitle2" sx={{}}>
+                    {ordrAplcTel === null ? "-" : ordrAplcTel}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            </TableBody>
+          </Table>
+
           <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
             거래처(PI) 및 신청인 정보
           </Typography>
@@ -137,16 +162,26 @@ const OrderShortInfo = () => {
                 </Grid>
               </Box>
               <Box>
-                <Grid container gap={1}>
-                  <Grid item>
+                <Box component="dl" sx={{ display: "flex" }}>
+                  <Box component="dt" sx={{ backgroundColor: "red" }}>
                     <Typography variant="body2">연구책임자</Typography>
-                  </Grid>
-                  <Grid item>
+                  </Box>
+                  <Box component="dd">
                     <Typography variant="subtitle2">
                       {rhpiNm === null ? "-" : rhpiNm}({rhpiEmail})
                     </Typography>
-                  </Grid>
-                </Grid>
+                  </Box>
+                </Box>
+                {/*<Grid container gap={1}>*/}
+                {/*  <Grid item xs={3}>*/}
+                {/*    <Typography variant="body2">연구책임자</Typography>*/}
+                {/*  </Grid>*/}
+                {/*  <Grid item xs={9}>*/}
+                {/*    <Typography variant="subtitle2">*/}
+                {/*      {rhpiNm === null ? "-" : rhpiNm}({rhpiEmail})*/}
+                {/*    </Typography>*/}
+                {/*  </Grid>*/}
+                {/*</Grid>*/}
               </Box>
               <Box>
                 <Grid container gap={1}>
@@ -161,16 +196,46 @@ const OrderShortInfo = () => {
                 </Grid>
               </Box>
               <Box>
-                <Grid container gap={1}>
-                  <Grid item>
+                {/*<Stack*/}
+                {/*  direction="row"*/}
+                {/*  spacing={1}*/}
+                {/*  justifyContent="flex-start"*/}
+                {/*  alignItems="flex-start"*/}
+                {/*>*/}
+                {/*  <Stack>*/}
+                {/*    <Typography variant="body2">연락처</Typography>*/}
+                {/*  </Stack>*/}
+                {/*  <Stack flexWrap="wrap">*/}
+                {/*    <Typography variant="subtitle2">*/}
+                {/*      {ordrAplcTel === null ? "-" : ordrAplcTel}*/}
+                {/*    </Typography>*/}
+                {/*  </Stack>*/}
+                {/*</Stack>*/}
+
+                <Box component="dl" sx={{ display: "flex" }}>
+                  <Box
+                    component="dt"
+                    sx={{ backgroundColor: "red", width: 60 }}
+                  >
                     <Typography variant="body2">연락처</Typography>
-                  </Grid>
-                  <Grid item>
+                  </Box>
+                  <Box component="dd">
                     <Typography variant="subtitle2">
                       {ordrAplcTel === null ? "-" : ordrAplcTel}
                     </Typography>
-                  </Grid>
-                </Grid>
+                  </Box>
+                </Box>
+
+                {/*<Grid container gap={1}>*/}
+                {/*  <Grid item>*/}
+                {/*    <Typography variant="body2">연락처</Typography>*/}
+                {/*  </Grid>*/}
+                {/*  <Grid item>*/}
+                {/*    <Typography variant="subtitle2">*/}
+                {/*      {ordrAplcTel === null ? "-" : ordrAplcTel}*/}
+                {/*    </Typography>*/}
+                {/*  </Grid>*/}
+                {/*</Grid>*/}
               </Box>
             </Stack>
           </Box>

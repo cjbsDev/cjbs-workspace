@@ -251,12 +251,14 @@ const SampleAddModal = (props: ModalContainerProps) => {
           buttonName="취소"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="sampleAddForm"
+          size="small"
         >
           저장
         </LoadingButton>

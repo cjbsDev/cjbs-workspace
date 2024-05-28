@@ -48,12 +48,15 @@ const ListOrder = () => {
     [totalElements, result],
   );
 
-  const goDetailPage = useCallback((row: any) => {
-    const { orderUkey } = row;
-    console.log("Go To Detail ===>>>>", orderUkey, result);
-    console.log("/order-list/" + orderUkey + result);
-    router.push("/order-list/" + orderUkey + result);
-  }, []);
+  const goDetailPage = useCallback(
+    (row: any) => {
+      const { orderUkey } = row;
+      console.log("Go To Detail ===>>>>", orderUkey, result);
+      console.log("/order-list/" + orderUkey + result);
+      router.push("/order-list/" + orderUkey + result);
+    },
+    [result],
+  );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
     setPage(page);
@@ -101,7 +104,7 @@ const ListOrder = () => {
         defaultSortFieldId={1}
         defaultSortAsc={false}
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[20, 50, 100]}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

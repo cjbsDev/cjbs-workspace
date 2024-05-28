@@ -144,12 +144,14 @@ const ExperimentProgressChangeModal = (
             buttonName="닫기"
             onClick={handleClose}
             color="secondary"
+            size="small"
           />
           <LoadingButton
             loading={isLoading}
             variant="contained"
             type="submit"
             form="exPrgsChng"
+            size="small"
           >
             저장
           </LoadingButton>

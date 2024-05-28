@@ -29,18 +29,16 @@ import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../data/inputDataLists";
 import { toast } from "react-toastify";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
 });
 
-const LazyDateTypeSelctbox = dynamic(
-  () => import("../../../../components/DateTypeSelectbox"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
-);
+const LazyAnlsTypeChck = dynamic(() => import("./AnlsTypeChck"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const LazyStatusTypeSelctbox = dynamic(
   () => import("../../../../components/StatusTypeSelectbox"),
@@ -55,29 +53,43 @@ const SearchForm = ({ onClose }) => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  let defaultValues;
+  const [resultObject, result] = useResultObject();
+  console.log("resultObject", resultObject);
 
-  // console.log("PATHNAME", pathname);
+  // let defaultValues;
+  //
+  // if (
+  //   resultObject?.typeCcList === undefined ||
+  //   resultObject?.anlsTypeMcList === undefined
+  // ) {
+  //   defaultValues = resultObject;
+  // } else {
+  //   const typeCcList = resultObject.typeCcList.split(",");
+  //   const anlsTypeMcList = resultObject.anlsTypeMcList.split(",");
+  //
+  //   console.log(typeCcList);
+  //
+  //   const newResultObject = {
+  //     ...resultObject,
+  //     typeCcList: typeCcList,
+  //     anlsTypeMcList: anlsTypeMcList,
+  //   };
+  //   defaultValues = newResultObject;
+  // }
 
-  const resultObject = {};
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
+  const defaultValues = {
+    ...resultObject,
+    typeCcList:
+      resultObject?.typeCcList !== undefined
+        ? resultObject?.typeCcList.split(",")
+        : [],
+    anlsTypeMcList:
+      resultObject?.anlsTypeMcList !== undefined
+        ? resultObject?.anlsTypeMcList.split(",")
+        : [],
+  };
 
-  if (resultObject.typeCcList === undefined) {
-    defaultValues = resultObject;
-  } else {
-    const typeCcList = resultObject.typeCcList.split(",");
-    const newResultObject = {
-      ...resultObject,
-      typeCcList: typeCcList,
-    };
-
-    // console.log("NEW DEFAULTVALUES", newResultObject);
-    defaultValues = newResultObject;
-  }
-
-  if (resultObject.dateTypeCc !== undefined) {
+  if (resultObject?.dateTypeCc !== undefined) {
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
 
@@ -190,6 +202,12 @@ const SearchForm = ({ onClose }) => {
           <SectionLabel variant="subtitle2">진행사항</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyStatusTypeSelctbox />
+          </ErrorContainer>
+        </Section>
+        <Section>
+          <SectionLabel variant="subtitle2">분석종류</SectionLabel>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyAnlsTypeChck />
           </ErrorContainer>
         </Section>
         <Section>
