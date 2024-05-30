@@ -16,7 +16,7 @@ import SubHeader from "./components/SubHeader/CustPayListSubHeader";
 
 const CustPayList = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const router = useRouter();
 
   const [resultObject, result] = useResultObject();
@@ -88,6 +88,8 @@ const CustPayList = () => {
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
         // expandOnRowDoubleClicked={true}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

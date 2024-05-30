@@ -6,7 +6,8 @@ import {
   DataTableBase,
   DataTableFilter,
   ContainedButton,
-  Title1, FileDownloadBtn,
+  Title1,
+  FileDownloadBtn,
 } from "cjbsDSTM";
 
 import { Box, Stack, Grid, Tooltip, IconButton, Link } from "@mui/material";
@@ -18,16 +19,16 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { useList } from "../../../../hooks/useList";
 import { toast } from "react-toastify";
 import NoDataView from "../../../../components/NoDataView";
-import {useSearchParams} from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
-import {fetcher} from "api";
+import { fetcher } from "api";
 import KeywordSearch from "../../../../components/KeywordSearch";
 
 const ListCust = () => {
   // const [page, setPage] = useState<number>(0);
   // const [perPage, setPerPage] = useState<number>(20);
-  const [page, setPage] = useState<number>(0);
-  const [size, setSize] = useState<number>(20);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
   // ListAPI Call
   // const { data } = useList("tdst", page, perPage);
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,8 +37,6 @@ const ListCust = () => {
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-
-
 
   const searchParams = useSearchParams();
   const resultObject = {};
@@ -57,7 +56,7 @@ const ListCust = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("고객주문서 LIST DATA", data);
   const totalElements = data.pageInfo.totalElements;
@@ -87,15 +86,14 @@ const ListCust = () => {
             // flexWrap="wrap"
           >
             <Box data-tag="allowRowEvents">{row.tdstNo} </Box>
-            {row.tdstNo == null && (
+            {row.tdstNo == null &&
               // <MyIcon
               //   data-tag="allowRowEvents"
               //   icon="exclamation-triangle-fill"
               //   size={20}
               //   color="#FFAB33"
               // />
-              "-"
-            )}
+              "-"}
           </Stack>
         ),
         width: "200px",
@@ -164,7 +162,7 @@ const ListCust = () => {
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: { tdstUkey: string }) => {
@@ -233,7 +231,7 @@ const ListCust = () => {
     // console.log("Row change.....", newPerPage, page);
     setPage(page);
     // setPerPage(newPerPage);
-    setSize(newPerPage)
+    setSize(newPerPage);
   };
 
   return (
@@ -256,6 +254,8 @@ const ListCust = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

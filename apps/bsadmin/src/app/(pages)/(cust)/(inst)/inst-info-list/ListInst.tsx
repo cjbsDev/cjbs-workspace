@@ -36,7 +36,7 @@ interface InstData {
 const ListInst = () => {
   const router = useRouter();
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const [sort, setSort] = useState<string>("createdAt,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -209,6 +209,8 @@ const ListInst = () => {
       paginationTotalRows={totalElements}
       onChangeRowsPerPage={handlePerRowsChange}
       onChangePage={handlePageChange}
+      paginationPerPage={100}
+      paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
     />
   );
 };

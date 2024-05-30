@@ -15,7 +15,7 @@ import Expanded from "./components/Expanded";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   // const [sort, setSort] = useState<string>("orderId,DESC");
 
   const [resultObject, result] = useResultObject();
@@ -85,6 +85,8 @@ const ListTax = () => {
         expandableRows
         expandOnRowClicked={false}
         expandableRowsComponent={Expanded}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );
