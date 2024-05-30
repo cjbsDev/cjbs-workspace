@@ -10,10 +10,10 @@ export default function PrepSelectbox() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  console.log("qcMngrUkey", data);
+  console.log("prepMngrUkey", data);
 
-  return <SelectBox inputName="qcMngrUkey" options={data} />;
+  return <SelectBox inputName="prepMngrUkey" options={data} />;
 }

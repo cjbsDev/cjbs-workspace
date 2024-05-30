@@ -47,7 +47,7 @@ const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
 
 const ListRun = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const searchParams = useSearchParams();
 
   const resultObject: any = {};
@@ -642,6 +642,8 @@ const ListRun = () => {
           expanded: <MyIcon icon="minus" size={16} />,
         }}
         // expandOnRowDoubleClicked={true}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
 
       <CategorySelectModal

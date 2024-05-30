@@ -7,6 +7,7 @@ import SearchInput from "./SearchInput";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRecoilState } from "recoil";
 import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
+import { useResultObject } from "./useResultObject";
 
 interface ResultObjectProps {
   [key: string]: string;
@@ -20,11 +21,13 @@ const KeywordSearch = () => {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  // const [resultObject, result] = useResultObject();
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
   const [recentWordsBox, setRecentWordsBox] = useState<CurrentKeywordProps[]>(
     [],
   );
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,8 +49,9 @@ const KeywordSearch = () => {
   console.log("Keyword values ==>>", resultObject);
 
   const defaultValues = resultObject;
-  const onSubmit = (data: { keyword: string }) => {
-    // console.log("Keyword ==>>", data.keyword);
+  const onSubmit = async (data: { keyword: string }) => {
+    console.log("Keyword ==>>", data.keyword);
+    // setLoading(true);
     const params = new URLSearchParams(searchParams.toString());
     console.log("@@@@@@@@@@@PARAMS", params.toString());
 
@@ -65,6 +69,8 @@ const KeywordSearch = () => {
     } else {
       router.push(`${pathname}${result}&${params.toString()}`);
     }
+
+    // setLoading(false);
 
     // localstorage에 검색에 저장되는 부분 시작
     // 공백제거.

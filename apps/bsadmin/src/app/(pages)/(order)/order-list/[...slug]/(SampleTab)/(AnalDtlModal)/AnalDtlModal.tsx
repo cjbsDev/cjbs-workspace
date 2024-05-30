@@ -51,6 +51,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
           buttonName="닫기"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
@@ -58,6 +59,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
           type="submit"
           form="sampleBatchChange"
           disabled={true}
+          size="small"
         >
           분석 내역서 등록하기
         </LoadingButton>

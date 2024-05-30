@@ -65,6 +65,9 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
     variant: "popover",
     popupId: "useInfoMenu",
   });
+
+  console.log("SESSION", session);
+
   return (
     <AppBarNew
       position="fixed"

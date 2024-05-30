@@ -300,8 +300,8 @@ const MngmntReg = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="lastPrice"
-                    required={true}
-                    errorMessage="견적 금액을 입력해 주세요."
+                    // required={true}
+                    // errorMessage="견적 금액을 입력해 주세요."
                     sx={{
                       width: 160,
                       ".MuiOutlinedInput-input": {

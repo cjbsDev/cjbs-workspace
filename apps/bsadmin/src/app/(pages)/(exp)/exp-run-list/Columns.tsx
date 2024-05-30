@@ -32,8 +32,9 @@ export const getColumns = () => [
   },
   {
     name: "Kit",
-    width: "160px",
+    // width: "160px",
     allowOverflow: true,
+    grow: 3,
     selector: (row) => (row.kitVal === null ? "-" : row.kitVal),
   },
   {

@@ -15,6 +15,7 @@ import dynamic from "next/dynamic";
 import TabBox from "./TabBox";
 import CustomTabPanel from "./CustomTabPanel";
 import { useParams, useSearchParams } from "next/navigation";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 
 // 오더 요약 정보 영역
 const LazyOrderShortInfo = dynamic(() => import("./OrderShortInfo"), {
@@ -87,16 +88,19 @@ export default function OrderInfo() {
   const [showOrderInfoSalesModifyModal, setShowOrderInfoSalesModifyModal] =
     useState<boolean>(false);
   const [tabValue, setTabValue] = useState(0);
+  const [resultObject, result] = useResultObject();
 
-  const resultObject = {};
+  console.log("^&^&^&^&^&^&^&^&^&", result);
 
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
-  console.log(">>>>>>>>>", resultObject);
-
-  const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  // const resultObject = {};
+  //
+  // for (const [key, value] of searchParams.entries()) {
+  //   resultObject[key] = value;
+  // }
+  // console.log(">>>>>>>>>", resultObject);
+  //
+  // const result = "?" + new URLSearchParams(resultObject).toString();
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
   //
   // const { data } = useSWR(
   //   JSON.stringify(resultObject) !== "{}"

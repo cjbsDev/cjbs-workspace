@@ -18,7 +18,7 @@ const ListAgnc = () => {
   const theme = useTheme();
   const router = useRouter();
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const [sort, setSort] = useState<string>("agncId,desc");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -133,6 +133,8 @@ const ListAgnc = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

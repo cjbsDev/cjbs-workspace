@@ -2,6 +2,7 @@
 import { useSearchParams } from "next/navigation";
 import axios from "axios";
 import {
+  Alert,
   Box,
   Container,
   IconButton,
@@ -13,7 +14,7 @@ import MyIcon from "icon/MyIcon";
 import { Form, InputValidation } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
 import * as React from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next-nprogress-bar";
 
@@ -23,6 +24,8 @@ export default function Page() {
   const rawKey = searchParams.get("key");
   const key = encodeURIComponent(rawKey).replace("%20", "+");
 
+  const [keyChck, setKeyChck] = useState<boolean>(true);
+  const [keyChckMsg, setKeyChckMsg] = useState(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,6 +36,28 @@ export default function Page() {
   };
 
   console.log("key", decodeURIComponent(key));
+
+  useEffect(() => {
+    axios
+      .post(
+        `${process.env.NEXT_PUBLIC_API_URL}/user/authEmail/verify/password/check`,
+        { key: decodeURIComponent(key) },
+      )
+      .then(function (response) {
+        console.log(response);
+        if (response.data.success) {
+          setKeyChck(false);
+          // router.push("/password-reset-success");
+        } else {
+          // toast(response.data.message);
+          setKeyChckMsg(response.data.message);
+          setKeyChck(true);
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, []);
 
   const onSubmit = async (data: any) => {
     if (data.password !== data.passwordChck) {
@@ -101,7 +126,7 @@ export default function Page() {
             required={true}
             errorMessage="비밀번호를 입력해 주세요."
             pattern={
-              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{6,}$/
+              /^(?=.*[A-Za-z])(?=.*\d)(?=.*[~!@#$%^&*_+=()-])[A-Za-z\d~!@#$%^&*_+=()-]{6,}$/
             }
             patternErrMsg="6자리 이상 영문, 숫자, 특수기호를 사용해 주세요."
             type={showPassword ? "text" : "password"}
@@ -178,10 +203,14 @@ export default function Page() {
             fullWidth
             size="large"
             style={{ marginTop: 10, marginBottom: 10 }}
+            disabled={keyChck}
           >
             비밀번호 변경
           </LoadingButton>
         </Form>
+      </Stack>
+      <Stack>
+        {keyChckMsg !== null && <Alert severity="error">{keyChckMsg}</Alert>}
       </Stack>
     </Container>
   );

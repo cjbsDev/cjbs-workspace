@@ -1,5 +1,15 @@
 import React from "react";
-import { Box, Container, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import useSWR from "swr";
 import { useParams, useSearchParams } from "next/navigation";
 import { grey } from "cjbsDSTM/themes/color";
@@ -11,25 +21,24 @@ import Link from "next/link";
 import { OutlinedButton } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import { useRouter } from "next-nprogress-bar";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 const OrderShortInfo = () => {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
   const orderUkey = params.slug;
-  // const { data } = useSWR(`/order/${orderUkey}`, fetcher, {
-  //   suspense: true,
-  // });
+  const [resultObject, result] = useResultObject();
 
-  const resultObject = {};
-
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
-  console.log(">>>>>>>>>", resultObject);
-
-  const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  // const resultObject = {};
+  //
+  // for (const [key, value] of searchParams.entries()) {
+  //   resultObject[key] = value;
+  // }
+  // console.log(">>>>>>>>>", resultObject);
+  //
+  // const result = "?" + new URLSearchParams(resultObject).toString();
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
 
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
@@ -40,7 +49,7 @@ const OrderShortInfo = () => {
       suspense: true,
     },
   );
-  console.log("ORDER Detail DATA", data);
+  console.log("ORDER Info Detail DATA", data);
 
   // console.log("OrderShortInfo Value ==>>", data.data);
 
@@ -138,6 +147,16 @@ const OrderShortInfo = () => {
                 </Grid>
               </Box>
               <Box>
+                {/*<Box component="dl" sx={{ display: "flex" }}>*/}
+                {/*  <Box component="dt" sx={{ backgroundColor: "red" }}>*/}
+                {/*    <Typography variant="body2">연구책임자</Typography>*/}
+                {/*  </Box>*/}
+                {/*  <Box component="dd">*/}
+                {/*    <Typography variant="subtitle2">*/}
+                {/*      {rhpiNm === null ? "-" : rhpiNm}({rhpiEmail})*/}
+                {/*    </Typography>*/}
+                {/*  </Box>*/}
+                {/*</Box>*/}
                 <Grid container gap={1}>
                   <Grid item>
                     <Typography variant="body2">연구책임자</Typography>
@@ -162,6 +181,21 @@ const OrderShortInfo = () => {
                 </Grid>
               </Box>
               <Box>
+                {/*<Stack*/}
+                {/*  direction="row"*/}
+                {/*  spacing={1}*/}
+                {/*  justifyContent="flex-start"*/}
+                {/*  alignItems="flex-start"*/}
+                {/*>*/}
+                {/*  <Stack>*/}
+                {/*    <Typography variant="body2">연락처</Typography>*/}
+                {/*  </Stack>*/}
+                {/*  <Stack flexWrap="wrap">*/}
+                {/*    <Typography variant="subtitle2">*/}
+                {/*      {ordrAplcTel === null ? "-" : ordrAplcTel}*/}
+                {/*    </Typography>*/}
+                {/*  </Stack>*/}
+                {/*</Stack>*/}
                 <Grid container gap={1}>
                   <Grid item>
                     <Typography variant="body2">연락처</Typography>

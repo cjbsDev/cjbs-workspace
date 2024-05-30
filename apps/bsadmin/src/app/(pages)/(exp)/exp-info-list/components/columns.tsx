@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton, Stack, Tooltip, Typography } from "@mui/material";
+import { Chip, IconButton, Stack, Tooltip, Typography } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import ResultHistory from "./resultHistory";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -7,6 +7,7 @@ import {
   resultHistoryModalOpenAtom,
   sampleUkeyAtom,
 } from "./resultHistory/atom";
+import { blue, cjbsTheme, green, grey, red } from "cjbsDSTM";
 
 const useSampleCell = (sampleUkey: string) => {
   const [isOpen, setIsOpen] = useRecoilState(
@@ -51,6 +52,7 @@ export const Columns = () => [
     name: "샘플번호",
     center: true,
     allowOverflow: true,
+    width: "120px",
     // sortable: true,
     // selector: (row: { sampleId: number }) => row.sampleId,
     cell: (row: { sampleId: number; sampleUkey: string }) => {
@@ -74,6 +76,34 @@ export const Columns = () => [
     name: "상태",
     center: true,
     selector: (row) => row.orderStatusVal,
+    cell: (row: { orderStatusVal: string }) => {
+      const { orderStatusVal } = row;
+      return (
+        <Chip
+          data-tag="allowRowEvents"
+          label={orderStatusVal}
+          size="small"
+          sx={{
+            backgroundColor:
+              orderStatusVal === "진행중"
+                ? blue["50"]
+                : orderStatusVal === "완료"
+                  ? green["50"]
+                  : orderStatusVal === "취소"
+                    ? red["50"]
+                    : grey["100"],
+            color:
+              orderStatusVal === "진행중"
+                ? cjbsTheme.palette.primary.main
+                : orderStatusVal === "완료"
+                  ? cjbsTheme.palette.success.main
+                  : orderStatusVal === "취소"
+                    ? cjbsTheme.palette.error.main
+                    : cjbsTheme.palette.common.black,
+          }}
+        />
+      );
+    },
   },
   {
     name: "Type",
@@ -87,8 +117,9 @@ export const Columns = () => [
   },
   {
     name: "거래처(PI)",
-    width: "160px",
-    allowOverflow: true,
+    width: "200px",
+    // allowOverflow: true,
+    // grow: 2,
     // right: true,
     selector: (row) => row.agncNm,
   },
@@ -96,19 +127,23 @@ export const Columns = () => [
     name: "연구책임자",
     // width: "100px",
     center: true,
-    allowOverflow: true,
-    grow: 2,
+    // allowOverflow: true,
+    // grow: 2,
     selector: (row) => row.rhpiNm,
   },
   {
     name: "샘플명",
-    width: "100px",
+    // width: "100px",
+    allowOverflow: true,
+    grow: 2,
     center: true,
     selector: (row) => formatValue(row.sampleNm),
   },
   {
     name: "대체명",
-    width: "120px",
+    // width: "120px",
+    allowOverflow: true,
+    grow: 2,
     center: true,
     selector: (row) => formatValue(row.altrNm),
   },
@@ -120,7 +155,9 @@ export const Columns = () => [
   },
   {
     name: "Source",
-    width: "120px",
+    // width: "120px",
+    allowOverflow: true,
+    grow: 2,
     center: true,
     selector: (row) => formatValue(row.source),
   },

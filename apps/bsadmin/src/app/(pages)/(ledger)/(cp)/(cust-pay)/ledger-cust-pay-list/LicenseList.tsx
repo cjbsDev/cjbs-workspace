@@ -41,7 +41,7 @@ import { useResultObject } from "../../../../../components/KeywordSearch/useResu
 
 const LicenseList = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const year = useRecoilValue(currentYearAtom);
   const month = useRecoilValue(currentMonthAtom);
   const [resultObject, result] = useResultObject();
@@ -195,6 +195,8 @@ const LicenseList = () => {
           expanded: <MyIcon icon="minus" size={16} />,
         }}
         // expandOnRowDoubleClicked={true}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

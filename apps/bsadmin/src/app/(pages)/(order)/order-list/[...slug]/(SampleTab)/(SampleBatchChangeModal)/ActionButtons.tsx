@@ -14,12 +14,14 @@ const ActionButtons = (props: ActionButtonsProps) => {
         buttonName="닫기"
         onClick={handleClose}
         color="secondary"
+        size="small"
       />
       <LoadingButton
         loading={isLoading}
         variant="contained"
         type="submit"
         form="sampleBatchChange"
+        size="small"
       >
         저장
       </LoadingButton>

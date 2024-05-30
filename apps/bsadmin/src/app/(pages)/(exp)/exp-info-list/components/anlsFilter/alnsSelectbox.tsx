@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import useStatusTypeList from "../../../../../hooks/useStatusTypeList";
 import { SelectBox2 } from "cjbsDSTM";
 import { SelectChangeEvent } from "@mui/material";
@@ -15,18 +15,10 @@ const AlnsSelectbox = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [resultObject] = useResultObject() as [ResultObject, unknown];
-  // console.log("Anls resultObject", resultObject);
   const { anlsTypeMc } = resultObject;
-
-  // const params = new URLSearchParams(searchParams.toString());
-  // console.log("PARAMS", params);
-  // params.append("mason", "spiderman");
-  // console.log("((((((((((", params.toString());
 
   const { data } = useStatusTypeList("Analaysis Type ", "none");
   const DEFAULT_ANALYSIS_TYPE = "ALL";
-
-  // console.log("SELECT DATA", data);
 
   const valuesToDelete = [
     "BS_0100006004",
@@ -65,11 +57,13 @@ const AlnsSelectbox = () => {
   };
 
   return (
-    <SelectBox2
-      options={filteredAnlsListData}
-      onChange={handleChange}
-      defaultValue={anlsTypeMc}
-    />
+    <>
+      <SelectBox2
+        options={filteredAnlsListData}
+        onChange={handleChange}
+        defaultValue={anlsTypeMc}
+      />
+    </>
   );
 };
 

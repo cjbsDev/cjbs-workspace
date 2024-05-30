@@ -19,7 +19,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import KeywordSearch from "../../components/KeywordSearch";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useSWR, { useSWRConfig } from "swr";
 import { fetcher } from "api";
@@ -43,6 +43,7 @@ const SampleDataTable = () => {
   const router = useRouter();
   const params = useParams();
   const ukey = params.slug;
+  const currentPath = usePathname();
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
 
   const searchParams = useSearchParams();
@@ -249,7 +250,7 @@ const SampleDataTable = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView resetPath={currentPath} />}
         paginationPerPage={10}
         paginationRowsPerPageOptions={[10, 15, 20]}
       />

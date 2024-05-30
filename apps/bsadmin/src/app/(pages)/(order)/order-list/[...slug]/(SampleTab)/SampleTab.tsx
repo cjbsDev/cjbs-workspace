@@ -127,20 +127,23 @@ const SampleTab = () => {
     };
 
     const handleAnalDtlModalOpen = () => {
+      console.log("sampleUkeyList.length1", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
-      setIsClear(false);
+      // setIsClear(false);
     };
     const handleExPrgrsPhsOpen = () => {
+      console.log("sampleUkeyList.length2", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
-      setIsClear(false);
+      // setIsClear(false);
     };
 
     const handleSampleBatchModalOpen = () => {
+      console.log("sampleUkeyList.length3", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
       if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
-      setIsClear(false);
+      // setIsClear(false);
     };
 
     return (
@@ -156,7 +159,16 @@ const SampleTab = () => {
         onFilter={onFilter}
       />
     );
-  }, [filterText, resetPaginationToggle, sampleUkeyList, filteredItems.length]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    sampleUkeyList,
+    filteredItems.length,
+    isClear,
+    showAnalDtlModal,
+    showExPrgsChngModal,
+    showSampleBatchChangeModal,
+  ]);
 
   const goDetailModal = useCallback(
     (row: any) => {
@@ -170,19 +182,22 @@ const SampleTab = () => {
     [showSampleInfoModal],
   );
 
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    const getSampleIDList = selectedRows.map((row) => row.sampleId);
-    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-    // console.log("selectedSampleIdList ==>>", getSampleIDList);
-    setSampleUkeyList(getSampleUkeyList);
-    setSampleIdList(getSampleIDList);
-  }, []);
+  const handleSelectedRowChange = useCallback(
+    ({ selectedRows }: any) => {
+      const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+      const getSampleIDList = selectedRows.map((row) => row.sampleId);
+      console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+      // console.log("selectedSampleIdList ==>>", getSampleIDList);
+      setSampleUkeyList(getSampleUkeyList);
+      setSampleIdList(getSampleIDList);
+    },
+    [sampleUkeyList],
+  );
 
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
       ...showSampleInfoModal,
-      isShow: false,
+      // isShow: false,
     });
   };
 
@@ -192,21 +207,21 @@ const SampleTab = () => {
 
   const handleAnalDtlModalClose = () => {
     setShowAnalDtlModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
+    // setSampleUkeyList([]);
+    // setIsClear(true);
   };
 
   const handleExPrgsChngModalClose = () => {
     setShowExPrgsChngModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
+    // setSampleUkeyList([]);
+    // setIsClear(true);
   };
 
   const handleSampleBatchChangeModalClose = () => {
     setShowSampleBatchChangeModal(false);
-    setSampleUkeyList([]);
-    setSampleIdList([]);
-    setIsClear(true);
+    // setSampleUkeyList([]);
+    // setSampleIdList([]);
+    // setIsClear(true);
   };
 
   return (
@@ -217,7 +232,7 @@ const SampleTab = () => {
           handleSelectedRowChange={handleSelectedRowChange}
           goDetailModal={goDetailModal}
           filterText={filterText}
-          isClear={isClear}
+          // isClear={isClear}
         />
       </ErrorContainer>
 
