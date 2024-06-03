@@ -6,10 +6,11 @@ import {
   DataTableBase,
   DataTableFilter,
   ContainedButton,
-  Title1, FileDownloadBtn,
+  Title1,
+  FileDownloadBtn,
 } from "cjbsDSTM";
 
-import {Box, Stack, Grid, Link, Chip, FormControlLabel} from "@mui/material";
+import { Box, Stack, Grid, Link, Chip, FormControlLabel } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import MyIcon from "icon/MyIcon";
@@ -17,9 +18,9 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../hooks/useList";
 import { toast } from "react-toastify";
-import useSWR, {mutate} from "swr";
-import {DELETE, fetcher} from "api";
-import {useSearchParams} from "next/navigation";
+import useSWR, { mutate } from "swr";
+import { DELETE, fetcher } from "api";
+import { usePathname, useSearchParams } from "next/navigation";
 import Checkbox from "@mui/material/Checkbox";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { useSession } from "next-auth/react";
@@ -28,8 +29,9 @@ import NoDataView from "../../../components/NoDataView";
 const ListQttn = () => {
   const { data: session, status } = useSession();
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(100);
   const [checked, setChecked] = useState(false);
+  const currentPath = usePathname();
   const searchParams = useSearchParams();
   const resultObject: any = {};
   for (const [key, value] of searchParams.entries()) {
@@ -47,7 +49,7 @@ const ListQttn = () => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
 
@@ -190,7 +192,7 @@ const ListQttn = () => {
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: { qttnUkey: string }) => {
@@ -270,11 +272,7 @@ const ListQttn = () => {
             sx={{ mb: 0.5 }}
             alignItems="center"
           >
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-            >
+            <Stack direction="row" alignItems="center" spacing={1}>
               <DataCountResultInfo totalCount={totalElements} />
               <Link href="/orsh-qttn-add">
                 <ContainedButton buttonName="견적서 등록" size="small" />
@@ -288,17 +286,10 @@ const ListQttn = () => {
               />
               <FormControlLabel
                 label="나와 관련된 견적서만 보기"
-                control={
-                  <Checkbox onChange={handleChange1}
-                  />
-                }
+                control={<Checkbox onChange={handleChange1} />}
               />
             </Stack>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-            >
+            <Stack direction="row" spacing={1} alignItems="center">
               <FileDownloadBtn
                 exportUrl={`/qttn/list/download${result}&isOwn=${checked}`}
                 iconName="xls3"
@@ -333,10 +324,11 @@ const ListQttn = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView resetPath={currentPath} />}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
-
   );
 };
 
