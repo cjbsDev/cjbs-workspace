@@ -20,10 +20,10 @@ import {
 } from "../../../../../data/inputDataLists";
 import { useRecoilState } from "recoil";
 import {
-  endMonthAtom,
-  endYearAtom,
-  startMonthAtom,
-  startYearAtom,
+  invcEndYearAtom,
+  invcEndMonthAtom,
+  invcStartMonthAtom,
+  invcStartYearAtom,
 } from "../atom";
 const LazyTotalTaxPrice = dynamic(() => import("./TotalTaxPrice"), {
   ssr: false,
@@ -42,10 +42,10 @@ const LazyTotalTaxPrice = dynamic(() => import("./TotalTaxPrice"), {
 // }
 
 const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
-  const [startYear, setStartYear] = useRecoilState(startYearAtom);
-  const [startMonth, setStartMonth] = useRecoilState(startMonthAtom);
-  const [endYear, setEndYear] = useRecoilState(endYearAtom);
-  const [endMonth, setEndMonth] = useRecoilState(endMonthAtom);
+  const [startYear, setStartYear] = useRecoilState(invcStartYearAtom);
+  const [startMonth, setStartMonth] = useRecoilState(invcStartMonthAtom);
+  const [endYear, setEndYear] = useRecoilState(invcEndYearAtom);
+  const [endMonth, setEndMonth] = useRecoilState(invcEndMonthAtom);
 
   const handleStartYear = (event: { target: { value: any } }) => {
     const { value } = event.target;

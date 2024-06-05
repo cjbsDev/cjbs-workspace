@@ -12,19 +12,19 @@ import {
 import { cjbsTheme, TD, TH, formatNumberWithCommas } from "cjbsDSTM";
 import { useRecoilValue } from "recoil";
 import {
-  endMonthAtom,
-  endYearAtom,
   isBillAndRequestAtom,
-  startMonthAtom,
-  startYearAtom,
+  invcStartMonthAtom,
+  invcEndMonthAtom,
+  invcEndYearAtom,
+  invcStartYearAtom,
 } from "../atom";
 
 const TotalTaxPrice = () => {
   const isBillAndRequest = useRecoilValue(isBillAndRequestAtom);
-  const startYear = useRecoilValue(startYearAtom);
-  const startMonth = useRecoilValue(startMonthAtom);
-  const endYear = useRecoilValue(endYearAtom);
-  const endMonth = useRecoilValue(endMonthAtom);
+  const startYear = useRecoilValue(invcStartYearAtom);
+  const startMonth = useRecoilValue(invcStartMonthAtom);
+  const endYear = useRecoilValue(invcEndYearAtom);
+  const endMonth = useRecoilValue(invcEndMonthAtom);
   const { data } = useSWR(
     `/invc/total/price?isBillAndRequest=${isBillAndRequest}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`,
     fetcher,

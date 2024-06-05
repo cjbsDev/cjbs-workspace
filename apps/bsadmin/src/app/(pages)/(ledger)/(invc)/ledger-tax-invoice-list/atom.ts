@@ -11,22 +11,22 @@ export const isBillAndRequestAtom = atom({
   default: false,
 });
 
-export const startYearAtom = atom({
-  key: "startYearAtom",
+export const invcStartYearAtom = atom({
+  key: "invcStartYearAtom",
   default: dayjs().year(),
 });
 
-export const startMonthAtom = atom({
-  key: "startMonthAtom",
+export const invcStartMonthAtom = atom({
+  key: "invcStartMonthAtom",
   default: dayjs().month(0).get("month") + 1,
 });
 
-export const endYearAtom = atom({
-  key: "endYearAtom",
+export const invcEndYearAtom = atom({
+  key: "invcEndYearAtom",
   default: dayjs().year(),
 });
 
-export const endMonthAtom = atom({
-  key: "endMonthAtom",
+export const invcEndMonthAtom = atom({
+  key: "invcEndMonthAtom",
   default: dayjs().month() + 1,
 });

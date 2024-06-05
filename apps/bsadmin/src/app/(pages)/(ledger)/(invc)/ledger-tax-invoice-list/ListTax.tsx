@@ -15,10 +15,10 @@ import Expanded from "./components/Expanded";
 import dayjs from "dayjs";
 import { useRecoilState, useRecoilValue } from "recoil";
 import {
-  endMonthAtom,
-  endYearAtom,
-  startMonthAtom,
-  startYearAtom,
+  invcStartMonthAtom,
+  invcStartYearAtom,
+  invcEndYearAtom,
+  invcEndMonthAtom,
 } from "./atom";
 
 const ListTax = () => {
@@ -31,10 +31,10 @@ const ListTax = () => {
   // const [endYear, setEndYear] = useState(dayjs().year());
   // const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
 
-  const startYear = useRecoilValue(startYearAtom);
-  const startMonth = useRecoilValue(startMonthAtom);
-  const endYear = useRecoilValue(endYearAtom);
-  const endMonth = useRecoilValue(endMonthAtom);
+  const startYear = useRecoilValue(invcStartYearAtom);
+  const startMonth = useRecoilValue(invcStartMonthAtom);
+  const endYear = useRecoilValue(invcEndYearAtom);
+  const endMonth = useRecoilValue(invcEndMonthAtom);
 
   const [resultObject, result] = useResultObject();
   const router = useRouter();
