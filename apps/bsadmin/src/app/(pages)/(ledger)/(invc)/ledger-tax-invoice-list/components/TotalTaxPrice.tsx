@@ -10,11 +10,28 @@ import {
   TableRow,
 } from "@mui/material";
 import { cjbsTheme, TD, TH, formatNumberWithCommas } from "cjbsDSTM";
+import { useRecoilValue } from "recoil";
+import {
+  endMonthAtom,
+  endYearAtom,
+  isBillAndRequestAtom,
+  startMonthAtom,
+  startYearAtom,
+} from "../atom";
 
 const TotalTaxPrice = () => {
-  const { data } = useSWR("/invc/total/price", fetcher, {
-    suspense: true,
-  });
+  const isBillAndRequest = useRecoilValue(isBillAndRequestAtom);
+  const startYear = useRecoilValue(startYearAtom);
+  const startMonth = useRecoilValue(startMonthAtom);
+  const endYear = useRecoilValue(endYearAtom);
+  const endMonth = useRecoilValue(endMonthAtom);
+  const { data } = useSWR(
+    `/invc/total/price?isBillAndRequest=${isBillAndRequest}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
 
   const { totalSupplyPrice, totalVat, totalPrice } = data;
   console.log(data);

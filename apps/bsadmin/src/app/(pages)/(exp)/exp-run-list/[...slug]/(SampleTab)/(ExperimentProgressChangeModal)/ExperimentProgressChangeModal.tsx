@@ -162,12 +162,12 @@ const ExperimentProgressChangeModal = (
                       </ErrorContainer>
                     </TD>
                   </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>완료일</TH>
-                    <TD colSpan={3}>
-                      <SingleDatePicker inputName="compDttm" />
-                    </TD>
-                  </TableRow>
+                  {/*<TableRow>*/}
+                  {/*  <TH sx={{ width: "20%" }}>완료일</TH>*/}
+                  {/*  <TD colSpan={3}>*/}
+                  {/*    <SingleDatePicker inputName="compDttm" />*/}
+                  {/*  </TD>*/}
+                  {/*</TableRow>*/}
                 </TableBody>
               </Table>
             </TableContainer>

@@ -11,7 +11,8 @@ import {
   SelectBox,
   Form,
   OutlinedButton,
-  cjbsTheme, FileDownloadBtn,
+  cjbsTheme,
+  FileDownloadBtn,
 } from "cjbsDSTM";
 import {
   Stack,
@@ -23,7 +24,8 @@ import {
   TooltipProps,
   Tooltip,
   tooltipClasses,
-  IconButton, Link
+  IconButton,
+  Link,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState, useRef, useEffect } from "react";
@@ -37,22 +39,21 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import ServiceSelectModal from "./ServiceSelectModal";
 import KeywordSearch from "../../../components/KeywordSearch";
-import {useSearchParams} from "next/navigation";
-import {fetcher} from "api";
-import {styled} from "@mui/material/styles";
+import { usePathname, useSearchParams } from "next/navigation";
+import { fetcher } from "api";
+import { styled } from "@mui/material/styles";
 import NoDataView from "../../../components/NoDataView";
-
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
     backgroundColor: theme.palette.common.white,
-    color: 'rgba(0, 0, 0, 1)',
+    color: "rgba(0, 0, 0, 1)",
     boxShadow: theme.shadows[10],
     fontSize: 11,
-    border: '1px solid #000000',
-    padding: '10px'
+    border: "1px solid #000000",
+    padding: "10px",
   },
 }));
 
@@ -60,19 +61,21 @@ export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
   const table = useRef(null);
 
-  const [page, setPage] = useState<number>(0);
-  const [size, setSize] = useState<number>(20);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
   const [filters, setFilters] = useState("");
 
   const { mutate } = useSWRConfig();
 
   // ListAPI Call
   // const { data } = useFiltersList("orsh/bs/intn", filters);
+  const currentPath = usePathname();
   const router = useRouter();
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [serviceSelectModalOpen, setServiceSelectModalOpen] = useState<boolean>(false);
+  const [serviceSelectModalOpen, setServiceSelectModalOpen] =
+    useState<boolean>(false);
 
   const searchParams = useSearchParams();
   const resultObject = {};
@@ -92,7 +95,7 @@ export default function ListOrshbs() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("고객주문서 LIST DATA", data);
 
@@ -151,40 +154,61 @@ export default function ListOrshbs() {
       },
       {
         name: "주문자(ID)",
-        cell: (row: { rhpiNm: string; rhpiEbcEmail: string; isMastered:string}) => (
-          <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2} width={'100%'}>
-          <Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              <Box>{row.rhpiNm}</Box>
-              <Box>({row.rhpiEbcEmail})</Box>
+        cell: (row: {
+          rhpiNm: string;
+          rhpiEbcEmail: string;
+          isMastered: string;
+        }) => (
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="center"
+            spacing={2}
+            width={"100%"}
+          >
+            <Stack>
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <Box>{row.rhpiNm}</Box>
+                <Box>({row.rhpiEbcEmail})</Box>
+              </Stack>
+              {/*<Stack direction="row" spacing={0.5} alignItems="center">*/}
+              {/*  <Box>({row.rhpiEbcEmail})</Box>*/}
+              {/*</Stack>*/}
             </Stack>
-            {/*<Stack direction="row" spacing={0.5} alignItems="center">*/}
-            {/*  <Box>({row.rhpiEbcEmail})</Box>*/}
-            {/*</Stack>*/}
-          </Stack>
-          {row.isMastered == "N" ? (
-            <>
-              <LightTooltip placement="top"
-                title={
-                  <React.Fragment>
-                    <Typography variant="body2">미등록 거래처(기관) 사용자입니다.</Typography>
-                    <Typography variant="body2">거래처 및 연구원 등록 후 오더를 등록해주세요.</Typography>
-                  </React.Fragment>
-                }
-              >
-                <IconButton>
-                  <MyIcon icon="exclamation-circle-fill" size={26} color={cjbsTheme.palette.warning.main}/>
-                </IconButton>
-              </LightTooltip>
-            </>
-          ):('')}
+            {row.isMastered == "N" ? (
+              <>
+                <LightTooltip
+                  placement="top"
+                  title={
+                    <React.Fragment>
+                      <Typography variant="body2">
+                        미등록 거래처(기관) 사용자입니다.
+                      </Typography>
+                      <Typography variant="body2">
+                        거래처 및 연구원 등록 후 오더를 등록해주세요.
+                      </Typography>
+                    </React.Fragment>
+                  }
+                >
+                  <IconButton>
+                    <MyIcon
+                      icon="exclamation-circle-fill"
+                      size={26}
+                      color={cjbsTheme.palette.warning.main}
+                    />
+                  </IconButton>
+                </LightTooltip>
+              </>
+            ) : (
+              ""
+            )}
           </Stack>
         ),
         minWidth: "460px",
       },
       {
         name: "주문상태",
-        cell: (row: { isOrderStatus: string; isMastered:string }) => {
+        cell: (row: { isOrderStatus: string; isMastered: string }) => {
           return row.isOrderStatus == "N" ? (
             <Stack direction="row" spacing={1} alignItems="center">
               <Typography
@@ -209,8 +233,9 @@ export default function ListOrshbs() {
                     onClick={() => goLinkOrderPage(row)}
                   />
                 </>
-              ):('')}
-
+              ) : (
+                ""
+              )}
             </Stack>
           ) : (
             <Stack direction="row" spacing={0.5} alignItems="center">
@@ -229,7 +254,7 @@ export default function ListOrshbs() {
         // width: "150px",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: {
@@ -242,7 +267,16 @@ export default function ListOrshbs() {
     const srvcTypeAbb = row.srvcTypeAbb;
     const isOrderStatus = row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
-    router.push("/orshbs-list/" + orshUkey + "/" + srvcTypeAbb + "/" + isOrderStatus + "/" + anlsTypeAbb);
+    router.push(
+      "/orshbs-list/" +
+        orshUkey +
+        "/" +
+        srvcTypeAbb +
+        "/" +
+        isOrderStatus +
+        "/" +
+        anlsTypeAbb,
+    );
   };
 
   const goLinkOrderPage = (row: {
@@ -255,7 +289,9 @@ export default function ListOrshbs() {
     const srvcTypeAbb = row.srvcTypeAbb;
     const isOrderStatus = row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
-    router.push(`/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`);
+    router.push(
+      `/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`,
+    );
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -339,7 +375,9 @@ export default function ListOrshbs() {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView resetPath={currentPath} />}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
 
       <ServiceSelectModal

@@ -4,11 +4,15 @@ import { Stack, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname } from "next/navigation";
+import { useRecoilState } from "recoil";
+import { isBillAndRequestAtom } from "../atom";
 
 const InvcReqFilterBtn = () => {
   const pathname = usePathname();
   const router = useRouter();
   const [selected, setSelected] = React.useState(false);
+  const [isBillAndRequest, setIsBillAndRequest] =
+    useRecoilState(isBillAndRequestAtom);
 
   useEffect(() => {
     if (selected) {
@@ -30,6 +34,7 @@ const InvcReqFilterBtn = () => {
         selected={selected}
         onChange={() => {
           setSelected(!selected);
+          setIsBillAndRequest(!isBillAndRequest);
         }}
       >
         <Typography variant="body2">계산서 요청</Typography>

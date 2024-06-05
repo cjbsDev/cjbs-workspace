@@ -11,10 +11,10 @@ export default function PhaseSelectbox() {
     },
   );
 
-  console.log(
-    "단계",
-    data.filter((item) => item.optionName !== "Prep"),
-  );
+  // console.log(
+  //   "단계",
+  //   data.filter((item) => item.optionName !== "Prep"),
+  // );
 
   const filteredData = data.filter((item) => item.optionName !== "Prep");
 

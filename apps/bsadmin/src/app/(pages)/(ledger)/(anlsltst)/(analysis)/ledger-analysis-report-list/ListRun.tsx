@@ -40,6 +40,8 @@ import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
 import CategorySelectModal from "./CategorySelectModal";
 import { bold } from "next/dist/lib/picocolors";
+import SubHeader from "./components/SubHeader";
+import dayjs from "dayjs";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -48,6 +50,12 @@ const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
 const ListRun = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
+  const [startYear, setStartYear] = useState(dayjs().year());
+  const [startMonth, setStartMonth] = useState(
+    dayjs().month(0).get("month") + 1,
+  );
+  const [endYear, setEndYear] = useState(dayjs().year());
+  const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
   const searchParams = useSearchParams();
 
   const resultObject: any = {};
@@ -62,8 +70,8 @@ const ListRun = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
-      ? `/anls/itst/list${result}&page=${page}&size=${size}`
-      : `/anls/itst/list?page=${page}&size=${size}`,
+      ? `/anls/itst/list${result}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`
+      : `/anls/itst/list?page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`,
     fetcher,
     {
       suspense: true,
@@ -73,8 +81,8 @@ const ListRun = () => {
   const anlsItstList = data.anlsItstList;
   const totalElements = data.pageInfo.totalElements;
   const totalPrice = data.totalPrice;
-  const [filterText, setFilterText] = useState("");
-  const [checked, setChecked] = useState(false);
+  // const [filterText, setFilterText] = useState("");
+  // const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [serviceSelectModalOpen, setServiceSelectModalOpen] =
@@ -361,53 +369,93 @@ const ListRun = () => {
     );
   };
 
-  const subHeaderComponentMemo = useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={12} sx={{ mt: 0 }}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={1}
-            sx={{ mb: 0.5 }}
-            alignItems="center"
-          >
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <DataCountResultInfo totalCount={totalElements} />
+  const handleStartYear = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setStartYear(value);
+  };
 
-              <Typography
-                variant="body2"
-                sx={{ width: "max-content", pb: "2px" }}
-              >
-                {" / "}총 누적 금액{" "}
-                <Box
-                  component="b"
-                  sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main }}
-                >
-                  {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </Box>{" "}
-                원
-              </Typography>
+  const handleStartMonth = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setStartMonth(value);
+  };
 
-              <ContainedButton
-                buttonName="분석 내역서 등록"
-                size="small"
-                onClick={() => handleServiceSelectOpen()}
-              />
-            </Stack>
-            <Stack direction="row" spacing={1} alignItems="center">
-              <FileDownloadBtn
-                exportUrl={`/anls/itst/list/download${result}`}
-                iconName="xls3"
-              />
-              <KeywordSearch />
-              <ResultInSearch />
-            </Stack>
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [totalElements, result]);
+  const handleEndYear = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setEndYear(value);
+  };
+
+  const handleEndMonth = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setEndMonth(value);
+  };
+
+  const subHeaderComponentMemo = useMemo(
+    () => (
+      <SubHeader
+        totalElements={totalElements}
+        result={result}
+        startMonth={startMonth}
+        startYear={startYear}
+        endMonth={endMonth}
+        endYear={endYear}
+        handleEndMonth={handleEndMonth}
+        handleEndYear={handleEndYear}
+        handleStartMonth={handleStartMonth}
+        handleStartYear={handleStartYear}
+        handleServiceSelectOpen={handleServiceSelectOpen}
+        totalPrice={totalPrice}
+      />
+    ),
+    [totalElements, result, startYear, startMonth, endYear, endMonth],
+  );
+
+  // const subHeaderComponentMemo = useMemo(() => {
+  //   return (
+  //     <Grid container>
+  //       <Grid item xs={12} sx={{ mt: 0 }}>
+  //         <Stack
+  //           direction="row"
+  //           justifyContent="space-between"
+  //           spacing={1}
+  //           sx={{ mb: 0.5 }}
+  //           alignItems="center"
+  //         >
+  //           <Stack direction="row" alignItems="center" spacing={1}>
+  //             <DataCountResultInfo totalCount={totalElements} />
+  //
+  //             <Typography
+  //               variant="body2"
+  //               sx={{ width: "max-content", pb: "2px" }}
+  //             >
+  //               {" / "}총 누적 금액{" "}
+  //               <Box
+  //                 component="b"
+  //                 sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main }}
+  //               >
+  //                 {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+  //               </Box>{" "}
+  //               원
+  //             </Typography>
+  //
+  //             <ContainedButton
+  //               buttonName="분석 내역서 등록"
+  //               size="small"
+  //               onClick={() => handleServiceSelectOpen()}
+  //             />
+  //           </Stack>
+  //           <Stack direction="row" spacing={1} alignItems="center">
+  //             <FileDownloadBtn
+  //               exportUrl={`/anls/itst/list/download${result}`}
+  //               iconName="xls3"
+  //             />
+  //             <KeywordSearch />
+  //             <ResultInSearch />
+  //           </Stack>
+  //         </Stack>
+  //       </Grid>
+  //     </Grid>
+  //   );
+  // }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
