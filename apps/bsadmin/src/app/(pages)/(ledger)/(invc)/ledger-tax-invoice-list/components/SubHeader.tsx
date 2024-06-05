@@ -30,29 +30,18 @@ const LazyTotalTaxPrice = dynamic(() => import("./TotalTaxPrice"), {
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-interface ExtentSubHeaderProps extends SubHeaderProps {
-  startYear: number;
-  startMonth: number;
-  endYear: number;
-  endMonth: number;
-  handleStartYear: (event: { target: { value: any } }) => void;
-  handleStartMonth: (event: { target: { value: any } }) => void;
-  handleEndYear: (event: { target: { value: any } }) => void;
-  handleEndMonth: (event: { target: { value: any } }) => void;
-}
+// interface ExtentSubHeaderProps extends SubHeaderProps {
+//   startYear: number;
+//   startMonth: number;
+//   endYear: number;
+//   endMonth: number;
+//   handleStartYear: (event: { target: { value: any } }) => void;
+//   handleStartMonth: (event: { target: { value: any } }) => void;
+//   handleEndYear: (event: { target: { value: any } }) => void;
+//   handleEndMonth: (event: { target: { value: any } }) => void;
+// }
 
-const SubHeader = ({
-  totalElements,
-  result,
-  // startMonth,
-  // startYear,
-  // endYear,
-  // endMonth,
-  // handleStartMonth,
-  // handleStartYear,
-  // handleEndMonth,
-  // handleEndYear,
-}: ExtentSubHeaderProps) => {
+const SubHeader = ({ totalElements, result }: SubHeaderProps) => {
   const [startYear, setStartYear] = useRecoilState(startYearAtom);
   const [startMonth, setStartMonth] = useRecoilState(startMonthAtom);
   const [endYear, setEndYear] = useRecoilState(endYearAtom);
