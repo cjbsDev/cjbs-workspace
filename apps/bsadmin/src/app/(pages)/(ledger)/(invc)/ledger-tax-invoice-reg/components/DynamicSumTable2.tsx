@@ -4,8 +4,11 @@ import { TD, TH } from "cjbsDSTM";
 import InputPrice from "./InputPrice";
 import VatValue from "./VatValue";
 import TotalPrice from "./TotalPrice";
+import { useFormContext } from "react-hook-form";
 
 const DynamicSumTable2 = () => {
+  const { watch, setValue } = useFormContext();
+  // const getPymtInfoCc = watch("pymtInfoCc");
   return (
     <TableContainer sx={{ mb: 5 }}>
       <Table>

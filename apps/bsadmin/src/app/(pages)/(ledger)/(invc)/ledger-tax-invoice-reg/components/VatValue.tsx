@@ -6,9 +6,15 @@ import { NumericFormat } from "react-number-format";
 const VatValue = () => {
   const { watch, setValue } = useFormContext();
   const getSupplyTotalValue = watch("totalSupplyPrice");
-  const vatValue = getSupplyTotalValue * 0.1;
+  const getPymtInfoCc = watch("pymtInfoCc");
+  console.log("getPymtInfoCc&&&&&&&", getPymtInfoCc);
+  const vatValue =
+    getPymtInfoCc === "BS_1914003" ? 0 : getSupplyTotalValue * 0.1;
 
   useEffect(() => {
+    // getPymtInfoCc === "BS_1914003"
+    //   ? setValue("vat", 0)
+    //   : setValue("vat", vatValue);
     setValue("vat", vatValue);
   }, [setValue, vatValue]);
 

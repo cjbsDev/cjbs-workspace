@@ -28,7 +28,7 @@ import {
   rmnPriceDetailShowAtom,
 } from "../atom";
 import dynamic from "next/dynamic";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import RmnPrePymtPrice from "./RmnPrePymtPrice";
 import { useSearchParams } from "next/navigation";
 import useCenteredPopup from "../../../../../hooks/useCenteredPopup";

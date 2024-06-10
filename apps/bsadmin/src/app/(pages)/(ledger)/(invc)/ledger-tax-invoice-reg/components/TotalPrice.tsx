@@ -6,12 +6,13 @@ import { formatNumberWithCommas } from "cjbsDSTM";
 const TotalPrice = () => {
   const { watch, setValue } = useFormContext();
   const getSupplyTotalValue = watch("totalSupplyPrice");
-  const supplyPlusVatTotalValue =
-    getSupplyTotalValue + getSupplyTotalValue * 0.1;
+  const getVat = watch("vat");
+  // console.log("getVat^^^^", getVat);
+  const supplyPlusVatTotalValue = getSupplyTotalValue + getVat;
 
   useEffect(() => {
     setValue("totalPrice", supplyPlusVatTotalValue);
-  }, [setValue, supplyPlusVatTotalValue]);
+  }, [setValue, supplyPlusVatTotalValue, getVat]);
 
   return (
     <Stack direction="row" spacing={0.5} justifyContent="flex-end">

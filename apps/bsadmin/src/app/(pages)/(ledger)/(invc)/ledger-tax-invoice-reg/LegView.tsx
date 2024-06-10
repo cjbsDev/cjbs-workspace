@@ -14,6 +14,7 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { formatDataForSubmission } from "./func/formatDataForSubmission";
 import { defaultValues } from "./func/defaultValues";
+import { de } from "date-fns/locale";
 
 const LegView = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -109,6 +110,8 @@ const LegView = () => {
       setIsLoading(false);
     }
   };
+
+  console.log("^&^&^&^&^&^&^&^&", defaultValues);
 
   return (
     <Form
