@@ -5,13 +5,16 @@ import { formatNumberWithCommas } from "cjbsDSTM";
 
 const TotalPrice = () => {
   const { watch, setValue } = useFormContext();
-  const getSupplyTotalValue = watch("totalSupplyPrice");
-  const getVat = watch("vat");
+  const getSupplyTotalValue = watch("totalSupplyPrice2");
+  const getVat = watch("vat2");
   console.log("getVat^^^^", getVat);
   const supplyPlusVatTotalValue = getSupplyTotalValue + getVat;
 
   useEffect(() => {
-    setValue("totalPrice", supplyPlusVatTotalValue);
+    if (getVat === undefined) {
+      setValue("vat2", 0);
+    }
+    setValue("totalPrice2", supplyPlusVatTotalValue);
   }, [setValue, supplyPlusVatTotalValue, getVat]);
 
   return (

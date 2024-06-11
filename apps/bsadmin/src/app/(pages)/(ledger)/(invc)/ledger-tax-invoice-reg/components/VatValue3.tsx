@@ -4,21 +4,20 @@ import { Stack, Typography } from "@mui/material";
 import { NumericFormat } from "react-number-format";
 import { InputPriceType } from "cjbsDSTM";
 
-const VatValue = () => {
+const VatValue3 = () => {
   const {
     setValue,
     control,
     watch,
     formState: { errors },
   } = useFormContext();
-  const getSupplyTotalValue = watch("totalSupplyPrice");
-  const getPymtInfoCc = watch("pymtInfoCc");
-  console.log("getPymtInfoCc&&&&&&&", getPymtInfoCc);
-  const vatValue =
-    getPymtInfoCc === "BS_1914003" ? 0 : getSupplyTotalValue * 0.1;
+  // const getSupplyTotalValue = watch("totalSupplyPrice");
+  // const getPymtInfoCc = watch("pymtInfoCc");
+  // console.log("getPymtInfoCc&&&&&&&", getPymtInfoCc);
+  const vatValue = 0;
 
   useEffect(() => {
-    setValue("vat", vatValue);
+    setValue("vat3", vatValue);
   }, [setValue, vatValue]);
 
   return (
@@ -41,12 +40,12 @@ const VatValue = () => {
       {/*</Stack>*/}
 
       <Controller
-        name="vat"
+        name="vat3"
         control={control}
         rules={{ required: "입금액을 입력하세요." }}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <NumericFormat
-            disabled={getPymtInfoCc === "BS_1914003"}
+            disabled={true}
             defaultValue={0}
             value={vatValue}
             thousandSeparator={true}
@@ -61,4 +60,4 @@ const VatValue = () => {
   );
 };
 
-export default VatValue;
+export default VatValue3;

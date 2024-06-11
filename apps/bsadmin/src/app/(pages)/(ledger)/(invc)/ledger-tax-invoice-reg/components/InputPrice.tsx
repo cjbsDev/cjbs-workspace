@@ -9,6 +9,7 @@ const InputPrice = ({ inputName }) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  const getPymtInfoCc = watch("pymtInfoCc");
   return (
     <Controller
       name={inputName}
@@ -16,6 +17,7 @@ const InputPrice = ({ inputName }) => {
       rules={{ required: "입금액을 입력하세요." }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <NumericFormat
+          disabled={getPymtInfoCc === "BS_1914002"}
           defaultValue={0}
           value={value}
           thousandSeparator={true}

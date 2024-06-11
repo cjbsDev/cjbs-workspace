@@ -57,6 +57,33 @@ const LegView = () => {
 
   const onSubmit = async (formData: any) => {
     setIsLoading(true);
+    const reqBody = {
+      ...formData,
+      totalPrice:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.totalPrice2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.totalPrice
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.totalPrice3
+              : formData.totalPrice4,
+      totalSupplyPrice:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.totalSupplyPrice2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.totalSupplyPrice
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.totalSupplyPrice3
+              : formData.totalSupplyPrice4,
+      vat:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.vat2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.vat
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.vat3
+              : formData.vat4,
+    };
     // 요청 바디 구성
     // const bodyData = {
     //   ...data,

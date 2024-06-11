@@ -3,15 +3,15 @@ import { useFormContext } from "react-hook-form";
 import { Stack, Typography } from "@mui/material";
 import { formatNumberWithCommas } from "cjbsDSTM";
 
-const TotalPrice = () => {
+const TotalPrice3 = () => {
   const { watch, setValue } = useFormContext();
-  const getSupplyTotalValue = watch("totalSupplyPrice");
-  const getVat = watch("vat");
+  const getSupplyTotalValue = watch("totalSupplyPrice3");
+  const getVat = watch("vat3");
   console.log("getVat^^^^", getVat);
   const supplyPlusVatTotalValue = getSupplyTotalValue + getVat;
 
   useEffect(() => {
-    setValue("totalPrice", supplyPlusVatTotalValue);
+    setValue("totalPrice3", supplyPlusVatTotalValue);
   }, [setValue, supplyPlusVatTotalValue, getVat]);
 
   return (
@@ -26,4 +26,4 @@ const TotalPrice = () => {
   );
 };
 
-export default TotalPrice;
+export default TotalPrice3;
