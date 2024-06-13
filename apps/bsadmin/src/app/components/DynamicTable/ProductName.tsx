@@ -26,10 +26,14 @@ const ProductName = ({
   const productValue = useWatch({ name: fieldName, control });
   const anlsTypeMc = productValue[index]?.anlsTypeMc;
 
+  console.log("anlsTypeMc ==>>", anlsTypeMc);
+
   const { data, error, isValidating } = useSWR(
     anlsTypeMc ? `/mngr/esPrMng/anlsType/${anlsTypeMc}` : null,
     fetcher,
   );
+
+  console.log("!@!@#!@!!!@##$$$$$", data);
 
   useEffect(() => {
     if (anlsTypeMc === "BS_0100006015") {

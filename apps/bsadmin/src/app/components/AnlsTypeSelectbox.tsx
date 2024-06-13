@@ -2,19 +2,32 @@ import React, { useEffect } from "react";
 import { fetcher } from "api";
 import useSWR from "swr";
 import { SelectBox } from "cjbsDSTM";
+import { useFormContext, useWatch } from "react-hook-form";
 
 interface InputNameProps {
   inputName: string;
+  inputName2: string;
   disabled: boolean;
 }
 
-const AnlsTypeSelectbox = ({ inputName, disabled }: InputNameProps) => {
+const AnlsTypeSelectbox = ({
+  inputName,
+  inputName2,
+  disabled,
+}: InputNameProps) => {
+  const { watch } = useFormContext();
+
+  const srvcCategory = watch(inputName2);
+  console.log(">>>NNNNNN>>>>", srvcCategory);
+
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=Analaysis Type&midValue=`,
+    srvcCategory === "BS_0100005001"
+      ? `/code/list/shortly/value?topValue=Analaysis Type&midValue=`
+      : `/mngr/license/srvcType/BS_0100005002/all`,
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   return (

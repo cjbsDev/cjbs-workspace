@@ -11,6 +11,7 @@ interface InputNameProps {
 // 서비스 분류
 const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
   const {
+    watch,
     formState: { errors },
   } = useFormContext();
 
@@ -19,7 +20,7 @@ const ServiceCategorySelectbox = ({ inputName, index }: InputNameProps) => {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   return (

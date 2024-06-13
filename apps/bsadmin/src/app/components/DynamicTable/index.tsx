@@ -195,6 +195,7 @@ const DynamicTable = () => {
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyAnlsTypeSelectbox
                         inputName={`productDetailList[${index}].anlsTypeMc`}
+                        inputName2={`productDetailList[${index}].srvcTypeMc`}
                       />
                     </ErrorContainer>
                     {errors.productDetailList?.[index]?.anlsTypeMc && (
