@@ -46,6 +46,7 @@ import { useFormContext } from "react-hook-form";
 import MonthlyList from "./MonthlyList";
 import { addDays, subDays } from "date-fns";
 import DynamicLiceseSumTable from "./DynamicLicenseSumTable";
+import SalesManagerSelectbox from "../../../../../components/SalesManagerSelectbox";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -67,6 +68,14 @@ const LazyAgncSearchAnlsltstModal = dynamic(
 
 const LazyAnalysisListModal = dynamic(
   () => import("../../../../../components/AnalysisListModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
+const LazySalesManagerSelectbox = dynamic(
+  () => import("../../../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -478,6 +487,10 @@ const LicenseRegView = () => {
                           readOnly: true,
                         }}
                       />
+
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazySalesManagerSelectbox />
+                      </ErrorContainer>
                     </TD>
                     <TH sx={{ width: "15%" }}>선결제 금액</TH>
                     <TD sx={{ width: "35%" }}>
