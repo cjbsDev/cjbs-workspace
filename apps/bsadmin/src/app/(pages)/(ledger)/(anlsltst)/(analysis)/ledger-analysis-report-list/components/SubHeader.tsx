@@ -111,7 +111,7 @@ const SubHeader = ({
         </Stack>
         <Stack direction="row" spacing={1} alignItems="center">
           <FileDownloadBtn
-            exportUrl={`/anls/itst/list/download${result}`}
+            exportUrl={`/anls/itst/list/download${result}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`}
             iconName="xls3"
           />
           <KeywordSearch />
