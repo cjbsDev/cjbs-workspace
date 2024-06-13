@@ -326,25 +326,6 @@ const DynamicTable = () => {
               />
             }
           />
-
-          {/*<OutlinedButton*/}
-          {/*  size="small"*/}
-          {/*  color="error"*/}
-          {/*  buttonName="삭제"*/}
-          {/*  onClick={handleDeleteSelected}*/}
-          {/*  startIcon={*/}
-          {/*    <MyIcon*/}
-          {/*      icon="trash"*/}
-          {/*      size={18}*/}
-          {/*      color={*/}
-          {/*        isDeleteDisabled*/}
-          {/*          ? cjbsTheme.palette.grey["400"]*/}
-          {/*          : cjbsTheme.palette.error.main*/}
-          {/*      }*/}
-          {/*    />*/}
-          {/*  }*/}
-          {/*  disabled={isDeleteDisabled}*/}
-          {/*/>*/}
         </Stack>
       )}
     </>

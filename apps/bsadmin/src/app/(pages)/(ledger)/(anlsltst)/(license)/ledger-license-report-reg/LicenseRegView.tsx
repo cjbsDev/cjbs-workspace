@@ -45,6 +45,7 @@ import dayjs from "dayjs";
 import { useFormContext } from "react-hook-form";
 import MonthlyList from "./MonthlyList";
 import { addDays, subDays } from "date-fns";
+import DynamicLiceseSumTable from "./DynamicLicenseSumTable";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -536,6 +537,7 @@ const LicenseRegView = () => {
                         />
                       </TD>
                     </TableRow>
+
                     <TableRow>
                       <TH sx={{ width: "15%" }}>총 공급가액</TH>
                       <TD sx={{ width: "35%" }}>
@@ -575,7 +577,7 @@ const LicenseRegView = () => {
                       <TH sx={{ width: "15%" }}>부가세</TH>
                       <TD sx={{ width: "35%" }}>
                         <InputValidation
-                          inputName="vatVal"
+                          inputName="vat"
                           required={true}
                           sx={{
                             width: "100%",
@@ -604,7 +606,10 @@ const LicenseRegView = () => {
                           inputName="vat"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
+                          sx={{
+                            width: "100%",
+                            display: "none",
+                          }}
                         />
                       </TD>
                     </TableRow>
@@ -648,6 +653,8 @@ const LicenseRegView = () => {
                   </TableBody>
                 </Table>
               </TableContainer>
+
+              {/*<DynamicLiceseSumTable />*/}
 
               <MonthlyList />
 
