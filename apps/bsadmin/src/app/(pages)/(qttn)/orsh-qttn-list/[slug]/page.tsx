@@ -274,6 +274,7 @@ export default function QttnPage() {
         <OutlinedButton
           buttonName="목록"
           onClick={() => router.push("/orsh-qttn-list/")}
+          size="small"
         />
         {getDataObj.sendInfo.sendStatusCc === "BS_2402001" ? (
           <ContainedButton

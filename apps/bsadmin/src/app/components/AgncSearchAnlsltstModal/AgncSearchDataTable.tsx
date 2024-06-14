@@ -56,6 +56,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
           custNm: string;
           ebcEmail: string;
           bsnsMngrNm: string;
+          bsnsMngrUkey: string;
           rmnPrePymtPrice: string;
         }) => {
           const {
@@ -66,6 +67,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
             custNm,
             ebcEmail,
             bsnsMngrNm,
+            bsnsMngrUkey,
             rmnPrePymtPrice,
           } = row;
           const agncInstNm = `${row.agncNm}(${row.instNm})`;
@@ -80,6 +82,7 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
                 setValue("agncUkey", agncUkey);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrNm);
+                setValue("bsnsMngrUkey", "user207477");
                 setValue(
                   "rmnPrePymtPrice",
                   rmnPrePymtPrice
