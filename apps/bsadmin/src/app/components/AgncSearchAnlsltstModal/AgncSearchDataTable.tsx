@@ -82,7 +82,8 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
                 setValue("agncUkey", agncUkey);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrNm);
-                setValue("bsnsMngrUkey", "user207477");
+                setValue("bsnsMngrUkey", bsnsMngrUkey);
+                // setValue("bsnsMngrUkey", "user207477");
                 setValue(
                   "rmnPrePymtPrice",
                   rmnPrePymtPrice
