@@ -66,7 +66,7 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
     popupId: "useInfoMenu",
   });
 
-  console.log("SESSION", session);
+  // console.log("SESSION", session);
 
   return (
     <AppBarNew
@@ -132,7 +132,7 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   spacing={1}
                 >
                   <MyIcon icon="profile-circle-fill" size={24} />
-                  <Typography variant="body2">{session.user.email}</Typography>
+                  <Typography variant="body2">{session.user?.email}</Typography>
                   <IconButton
                     {...bindTrigger(popupState)}
                     edge="end"

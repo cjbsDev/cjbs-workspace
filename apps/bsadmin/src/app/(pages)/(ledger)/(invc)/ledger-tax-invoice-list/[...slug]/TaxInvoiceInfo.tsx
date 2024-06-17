@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -44,6 +45,7 @@ import ModifyBtn from "../components/ModifyBtn";
 import DeleteBtn from "../components/DeleteBtn";
 import AgncDetailInfo from "../../../../../components/AgncDetailInfo";
 import NoDataView from "../../../../../components/NoDataView";
+import useArraysContainSameElements from "../../../../../hooks/useArraysContainSameElements";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
@@ -61,6 +63,28 @@ const LazyRmnPymtPriceDetail = dynamic(
 );
 
 const TaxInvoiceInfo = () => {
+  const { data: session, status } = useSession();
+  const authority = session?.authorities;
+
+  //  ["IT", "MEMBER"] ["NGS_SALES", "PART_MANAGER"] ["", ""]
+  console.log("authority", status, authority);
+  // console.log(
+  //   "USER-SESSION",
+  //   authority?.toString() === ["IT", "MEMBER"].toString(),
+  // );
+
+  let NGS_SALES_PART_MANAGER = false;
+
+  if (status !== "loading") {
+    NGS_SALES_PART_MANAGER = useArraysContainSameElements(authority, [
+      "MEMBER",
+      "NGS_SALES",
+      "PART_MANAGER",
+    ]);
+
+    console.log("&&&&&&&&&", NGS_SALES_PART_MANAGER);
+  }
+
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -663,11 +687,13 @@ const TaxInvoiceInfo = () => {
 
             {statusCc === "BS_1902003" && <PublishCancelBtn />}
 
+            {/* authority?.toString() === ["NGS_SALES", "PART_MANAGER"].toString() */}
             {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
                 buttonName="발행"
                 onClick={handleAccountStatementModalOpen}
+                disabled={!NGS_SALES_PART_MANAGER}
               />
             )}
           </Stack>
