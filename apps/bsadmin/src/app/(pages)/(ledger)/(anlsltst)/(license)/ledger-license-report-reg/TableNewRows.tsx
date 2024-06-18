@@ -272,6 +272,11 @@ const TableNewRows = (props: any) => {
     setIsMonthly(false);
   };
 
+  const handleOnBlurVat = () => {
+    console.log("VAT!@!@#!@#", watch(`sample.[${index}].vat`));
+    // watch(`sample.[${index}].vat`);
+  };
+
   return (
     <>
       <TableRow>
@@ -430,7 +435,8 @@ const TableNewRows = (props: any) => {
           <InputValidation
             inputName={`sample.[${index}].vat`}
             required={true}
-            onBlur={handleOnBlurSupplyPrice}
+            // onBlur={handleOnBlurSupplyPrice}
+            onBlur={handleOnBlurVat}
             onFocus={handleOnFocus}
             fullWidth={true}
             sx={{
@@ -439,12 +445,12 @@ const TableNewRows = (props: any) => {
               ".MuiOutlinedInput-input": {
                 textAlign: "end",
               },
-              "&.MuiTextField-root": {
-                backgroundColor: "#F1F3F5",
-              },
+              // "&.MuiTextField-root": {
+              //   backgroundColor: "#F1F3F5",
+              // },
             }}
             InputProps={{
-              readOnly: true,
+              // readOnly: true,
               endAdornment: (
                 <InputAdornment position="end">
                   <Typography variant="body2" sx={{ color: "black" }}>

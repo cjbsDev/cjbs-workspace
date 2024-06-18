@@ -1,0 +1,354 @@
+import React, { useState } from "react";
+import { useFormContext, useFieldArray, Controller } from "react-hook-form";
+import {
+  Checkbox,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
+import {
+  cjbsTheme,
+  ContainedButton,
+  DeletedButton,
+  ErrorContainer,
+  Fallback,
+  InputEAType,
+  InputPriceType,
+  OutlinedButton,
+  TD,
+  TH,
+} from "cjbsDSTM";
+import dynamic from "next/dynamic";
+import MyIcon from "icon/MyIcon";
+import { NumericFormat } from "react-number-format";
+import SupplyPrice from "./SupplyPrice";
+import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/components/DeleteBtn";
+import InputPrice from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
+import StndPrice from "./components/StndPrice";
+
+const LazyServiceCategorySelectbox = dynamic(
+  () => import("../../components/ServiceCategorySelectbox"),
+  {
+    ssr: false,
+    loading: () => (
+      <Typography variant="body2" color="secondary">
+        Loading...
+      </Typography>
+    ),
+  },
+);
+
+// const LazyAnlsTypeSelectbox = dynamic(
+//   () => import("../../components/AnlsTypeSelectbox"),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <Typography variant="body2" color="secondary">
+//         Loading...
+//       </Typography>
+//     ),
+//   },
+// );
+//
+// const LazyProductName = dynamic(() => import("./ProductName"), {
+//   ssr: false,
+//   loading: () => (
+//     <Typography variant="body2" color="secondary">
+//       Loading...
+//     </Typography>
+//   ),
+// });
+
+const DynamicTableLiecense = () => {
+  const [selectedRows, setSelectedRows] = useState([]);
+  const {
+    control,
+    watch,
+    formState: { errors },
+  } = useFormContext();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "sample",
+  });
+  // const paymentInfoValue = watch("pymtInfoCc");
+  const watchFieldArray = watch("sample");
+  const controlledFields = fields.map((field, index) => {
+    return {
+      ...field,
+      ...watchFieldArray[index],
+    };
+  });
+
+  const handleAppend = () => {
+    append({
+      srvcTypeMc: "BS_0100005001",
+      anlsTypeMc: "",
+      products: "",
+      sampleSize: 0,
+      unitPrice: 0,
+      supplyPrice: 0,
+    });
+  };
+
+  const toggleRowSelection = (index: number, isChecked: boolean) => {
+    if (isChecked) {
+      setSelectedRows([...selectedRows, index]);
+    } else {
+      setSelectedRows(selectedRows.filter((i) => i !== index));
+    }
+  };
+
+  const toggleSelectAll = (isChecked: boolean) => {
+    console.log("isChecked", isChecked);
+    if (isChecked) {
+      setSelectedRows(fields.map((_, index) => index));
+    } else {
+      setSelectedRows([]);
+    }
+  };
+
+  const isDeleteDisabled = selectedRows.length === 0;
+  const handleDeleteSelected = () => {
+    const rowsToDelete = [...selectedRows].sort((a, b) => b - a);
+    rowsToDelete.forEach((index) => remove(index));
+    setSelectedRows([]);
+  };
+
+  return (
+    <>
+      <Typography variant="subtitle1">품명(총 {fields.length}건)</Typography>
+      <TableContainer sx={{ mb: 3 }}>
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              {/*{paymentInfoValue !== "BS_1914004" && (*/}
+              {/*  <TH sx={{ width: 50 }} align="center">*/}
+              {/*    <Checkbox*/}
+              {/*      size="small"*/}
+              {/*      checked={*/}
+              {/*        fields.length > 0 && selectedRows.length === fields.length*/}
+              {/*      }*/}
+              {/*      onChange={(e) => toggleSelectAll(e.target.checked)}*/}
+              {/*    />*/}
+              {/*  </TH>*/}
+              {/*)}*/}
+              <TH sx={{ width: 250 }}>서비스 타입</TH>
+              <TH sx={{ width: 250 }}>기준가</TH>
+              {/*<TH>품명</TH>*/}
+              <TH sx={{ width: 150 }} align="right">
+                수량
+              </TH>
+              <TH sx={{ width: 200 }} align="right">
+                단가
+              </TH>
+              <TH sx={{ width: 200 }} align="right">
+                공급가액
+              </TH>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {controlledFields.map((field, index) => {
+              return (
+                <TableRow key={field.id || index}>
+                  {/*{paymentInfoValue !== "BS_1914004" && (*/}
+                  {/*  <TD align="center">*/}
+                  {/*    <Checkbox*/}
+                  {/*      size="small"*/}
+                  {/*      checked={selectedRows.includes(index)}*/}
+                  {/*      onChange={(e) =>*/}
+                  {/*        toggleRowSelection(index, e.target.checked)*/}
+                  {/*      }*/}
+                  {/*    />*/}
+                  {/*  </TD>*/}
+                  {/*)}*/}
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyServiceCategorySelectbox
+                        inputName={`sample[${index}].srvcTypeMc`}
+                        index={index}
+                      />
+                    </ErrorContainer>
+                    {errors.sample?.[index]?.srvcTypeMc && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        서비스 분류를 선택해 주세요
+                      </Typography>
+                    )}
+                  </TD>
+                  <TD>
+                    {/*<InputPrice inputName={`sample[${index}].stndPrice`} />*/}
+                    <StndPrice index={index} />
+                  </TD>
+                  {/*<TD>*/}
+                  {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+                  {/*    <LazyAnlsTypeSelectbox*/}
+                  {/*      inputName={`sample[${index}].anlsTypeMc`}*/}
+                  {/*      inputName2={`sample[${index}].srvcTypeMc`}*/}
+                  {/*    />*/}
+                  {/*  </ErrorContainer>*/}
+                  {/*  {errors.productDetailList?.[index]?.anlsTypeMc && (*/}
+                  {/*    <Typography*/}
+                  {/*      variant="body2"*/}
+                  {/*      color={cjbsTheme.palette.warning.main}*/}
+                  {/*    >*/}
+                  {/*      분석 종류를 선택해 주세요*/}
+                  {/*    </Typography>*/}
+                  {/*  )}*/}
+                  {/*</TD>*/}
+                  {/*<TD>*/}
+                  {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+                  {/*    <LazyProductName*/}
+                  {/*      inputName={`sample[${index}].products`}*/}
+                  {/*      fieldName="sample"*/}
+                  {/*      control={control}*/}
+                  {/*      index={index}*/}
+                  {/*    />*/}
+                  {/*  </ErrorContainer>*/}
+                  {/*  {errors.productDetailList?.[index]?.products && (*/}
+                  {/*    <Typography*/}
+                  {/*      variant="body2"*/}
+                  {/*      color={cjbsTheme.palette.warning.main}*/}
+                  {/*    >*/}
+                  {/*      품명을 입력 해주세요*/}
+                  {/*    </Typography>*/}
+                  {/*  )}*/}
+                  {/*</TD>*/}
+                  <TD>
+                    <Controller
+                      name={`sample[${index}].sampleSize`}
+                      control={control}
+                      rules={{ required: "수량을 입력해야 합니다." }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <NumericFormat
+                          defaultValue={0}
+                          value={value}
+                          thousandSeparator={true}
+                          onValueChange={(values) => {
+                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
+                          }}
+                          customInput={InputEAType}
+                        />
+                      )}
+                    />
+                    {errors.productDetailList?.[index]?.sampleSize && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        수량을 입력 해주세요
+                      </Typography>
+                    )}
+                  </TD>
+                  <TD align="right">
+                    <Controller
+                      name={`sample[${index}].unitPrice`}
+                      control={control}
+                      rules={{ required: "단가를 입력해야 합니다." }}
+                      render={({
+                        field: { onChange, value },
+                        fieldState: { error },
+                      }) => (
+                        <NumericFormat
+                          defaultValue={0}
+                          value={value}
+                          thousandSeparator={true}
+                          onValueChange={(values) => {
+                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
+                          }}
+                          customInput={InputPriceType}
+                        />
+                      )}
+                    />
+                    {errors.productDetailList?.[index]?.unitPrice && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        단가를 입력 해주세요
+                      </Typography>
+                    )}
+                  </TD>
+                  <TD align="right">
+                    <SupplyPrice
+                      fieldName="sample"
+                      index={index}
+                      inputName={`sample[${index}].supplyPrice`}
+                    />
+                  </TD>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
+        <ContainedButton
+          size="small"
+          buttonName="품명 추가"
+          onClick={handleAppend}
+          startIcon={<MyIcon icon="plus" size={18} color="white" />}
+        />
+        <DeletedButton
+          buttonName="삭제"
+          disabled={isDeleteDisabled}
+          onClick={handleDeleteSelected}
+          startIcon={
+            <MyIcon
+              icon="trash"
+              size={18}
+              color={
+                isDeleteDisabled
+                  ? cjbsTheme.palette.grey["400"]
+                  : cjbsTheme.palette.error.main
+              }
+            />
+          }
+        />
+      </Stack>
+
+      {/*{paymentInfoValue !== "BS_1914004" && (*/}
+      {/*  <Stack*/}
+      {/*    direction="row"*/}
+      {/*    spacing={1}*/}
+      {/*    justifyContent="center"*/}
+      {/*    sx={{ mb: 3 }}*/}
+      {/*  >*/}
+      {/*    <ContainedButton*/}
+      {/*      size="small"*/}
+      {/*      buttonName="품명 추가"*/}
+      {/*      onClick={handleAppend}*/}
+      {/*      startIcon={<MyIcon icon="plus" size={18} color="white" />}*/}
+      {/*    />*/}
+      {/*    <DeletedButton*/}
+      {/*      buttonName="삭제"*/}
+      {/*      disabled={isDeleteDisabled}*/}
+      {/*      onClick={handleDeleteSelected}*/}
+      {/*      startIcon={*/}
+      {/*        <MyIcon*/}
+      {/*          icon="trash"*/}
+      {/*          size={18}*/}
+      {/*          color={*/}
+      {/*            isDeleteDisabled*/}
+      {/*              ? cjbsTheme.palette.grey["400"]*/}
+      {/*              : cjbsTheme.palette.error.main*/}
+      {/*          }*/}
+      {/*        />*/}
+      {/*      }*/}
+      {/*    />*/}
+      {/*  </Stack>*/}
+      {/*)}*/}
+    </>
+  );
+};
+
+export default DynamicTableLiecense;

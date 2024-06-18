@@ -55,13 +55,13 @@ export default function LicenseSampleDynamicTable(props: any) {
   const [clearRowsAtom, setClearRowsAtom] =
     useRecoilState(toggledClearRowsAtom);
 
-  useEffect(() => {
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
-    // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
-    if (clearRowsAtom) {
-      resetTable();
-    }
-  }, [selectSampleList]);
+  // useEffect(() => {
+  //   // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",clearRowsAtom)
+  //   // console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&",fields)
+  //   if (clearRowsAtom) {
+  //     resetTable();
+  //   }
+  // }, [selectSampleList]);
 
   const totalDataSum = () => {
     let sumTotCnt = 0;
@@ -157,6 +157,7 @@ export default function LicenseSampleDynamicTable(props: any) {
           .toString()
           .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       );
+      setValue("", sumTotVat);
       setSettlement(false);
     }
   };

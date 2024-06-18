@@ -4,15 +4,15 @@ import { Stack, Typography } from "@mui/material";
 import { formatNumberWithCommas } from "cjbsDSTM";
 
 const TotalPrice = () => {
-  const { watch, setValue } = useFormContext();
-  const getSupplyTotalValue = watch("totalSupplyPrice");
+  const { watch, setValue, getValues } = useFormContext();
+  const getSupplyTotalValue = getValues("totalSupplyPrice");
   const getVat = watch("vat");
   console.log("getVat^^^^", getVat);
-  const supplyPlusVatTotalValue = getSupplyTotalValue + getVat;
+  const supplyPlusVatTotalValue = Number(getSupplyTotalValue) + Number(getVat);
 
-  useEffect(() => {
-    setValue("totalPrice", supplyPlusVatTotalValue);
-  }, [setValue, supplyPlusVatTotalValue, getVat]);
+  // useEffect(() => {
+  //   setValue("totalPrice", supplyPlusVatTotalValue);
+  // }, [setValue, supplyPlusVatTotalValue, getVat]);
 
   return (
     <Stack direction="row" spacing={0.5} justifyContent="flex-end">

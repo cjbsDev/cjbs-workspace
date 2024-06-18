@@ -37,7 +37,7 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
 import { cjbsTheme } from "cjbsDSTM/themes";
-import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
+
 import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
@@ -47,6 +47,10 @@ import MonthlyList from "./MonthlyList";
 import { addDays, subDays } from "date-fns";
 import DynamicLiceseSumTable from "./DynamicLicenseSumTable";
 import SalesManagerSelectbox from "../../../../../components/SalesManagerSelectbox";
+import TotalPrice from "./TotalPrice";
+import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
+import DynamicTableLicense from "../../../../../components/DynamicTableLicense";
+import DynamicSumTableLicense from "../../../../../components/DynamicSumTableLicense";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -510,11 +514,10 @@ const LicenseRegView = () => {
             </TableContainer>
 
             <Box>
-              <AnalysisSampleDynamicTable
-                // analysisSearchModalOpen={analysisSearchModalOpen}
-                setSettlement={setSettlement}
-                // setSelectSampleListData={setSelectSampleListData}
-              />
+              <DynamicTableLicense />
+              <DynamicSumTableLicense />
+
+              <AnalysisSampleDynamicTable setSettlement={setSettlement} />
 
               <TableContainer sx={{ mb: 2 }}>
                 <Table>
@@ -522,18 +525,51 @@ const LicenseRegView = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>분석일</TH>
                       <TD sx={{ width: "35%" }}>
-                        {/*<SingleDatePicker*/}
-                        {/*  inputName="anlsDttm"*/}
-                        {/*  required={true}*/}
-                        {/*/>*/}
                         <SingleDatePicker
                           inputName="anlsDttm"
                           required={true}
                           includeDateIntervals={standDate()}
                         />
                       </TD>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
+
+              <TableContainer sx={{ mb: 2 }}>
+                <Table>
+                  <TableBody>
+                    <TableRow>
+                      {/*<TH sx={{ width: "15%" }}>분석일</TH>*/}
+                      {/*<TD sx={{ width: "35%" }}>*/}
+                      {/*  <SingleDatePicker*/}
+                      {/*    inputName="anlsDttm"*/}
+                      {/*    required={true}*/}
+                      {/*    includeDateIntervals={standDate()}*/}
+                      {/*  />*/}
+                      {/*</TD>*/}
+                      {/*<TH sx={{ width: "15%" }}>총 수량</TH>*/}
+                      {/*<TD sx={{ width: "35%" }}>*/}
+                      {/*  <InputValidation*/}
+                      {/*    inputName="totalCnt"*/}
+                      {/*    required={true}*/}
+                      {/*    // errorMessage="연구책임자를 입력해 주세요."*/}
+                      {/*    sx={{*/}
+                      {/*      width: "100%",*/}
+                      {/*      ".MuiOutlinedInput-input": {*/}
+                      {/*        textAlign: "end",*/}
+                      {/*      },*/}
+                      {/*    }}*/}
+                      {/*    InputProps={{*/}
+                      {/*      readOnly: true,*/}
+                      {/*    }}*/}
+                      {/*  />*/}
+                      {/*</TD>*/}
+                    </TableRow>
+
+                    <TableRow>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
-                      <TD sx={{ width: "35%" }}>
+                      <TD sx={{}}>
                         <InputValidation
                           inputName="totalCnt"
                           required={true}
@@ -549,11 +585,8 @@ const LicenseRegView = () => {
                           }}
                         />
                       </TD>
-                    </TableRow>
-
-                    <TableRow>
                       <TH sx={{ width: "15%" }}>총 공급가액</TH>
-                      <TD sx={{ width: "35%" }}>
+                      <TD sx={{}}>
                         <InputValidation
                           inputName="totalSupplyPriceVal"
                           required={true}
@@ -588,9 +621,9 @@ const LicenseRegView = () => {
                         />
                       </TD>
                       <TH sx={{ width: "15%" }}>부가세</TH>
-                      <TD sx={{ width: "35%" }}>
+                      <TD sx={{}}>
                         <InputValidation
-                          inputName="vat"
+                          inputName="vatVal"
                           required={true}
                           sx={{
                             width: "100%",
@@ -621,14 +654,14 @@ const LicenseRegView = () => {
                           // errorMessage="아이디(이메일) 입력해 주세요."
                           sx={{
                             width: "100%",
-                            display: "none",
+                            // display: "none",
                           }}
                         />
                       </TD>
                     </TableRow>
                     <TableRow>
                       <TH sx={{ width: "15%" }}>합계금액</TH>
-                      <TD sx={{ width: "85%" }} colSpan={3}>
+                      <TD sx={{ width: "85%" }} colSpan={5}>
                         <InputValidation
                           inputName="totalPriceVal"
                           required={true}
@@ -661,13 +694,12 @@ const LicenseRegView = () => {
                           // errorMessage="아이디(이메일) 입력해 주세요."
                           sx={{ width: "100%", display: "none" }}
                         />
+                        {/*<TotalPrice />*/}
                       </TD>
                     </TableRow>
                   </TableBody>
                 </Table>
               </TableContainer>
-
-              {/*<DynamicLiceseSumTable />*/}
 
               <MonthlyList />
 
