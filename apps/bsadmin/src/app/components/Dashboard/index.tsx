@@ -14,7 +14,7 @@ import useArrayContainsCharacter from "../../hooks/useArrayContainsCharacter";
 const Index = () => {
   const { data: session, status } = useSession();
   const authority = session?.authorities;
-  console.log(authority);
+  // console.log(authority);
 
   // IT or NGS_SALES 부서인지 확인
   const containsChar = useArrayContainsCharacter(authority, [

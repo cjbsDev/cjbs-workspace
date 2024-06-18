@@ -13,6 +13,7 @@ import {
   OutlinedButton,
   cjbsTheme,
   FileDownloadBtn,
+  FullHeightLoading,
 } from "cjbsDSTM";
 import {
   Stack,
@@ -43,6 +44,16 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { fetcher } from "api";
 import { styled } from "@mui/material/styles";
 import NoDataView from "../../../components/NoDataView";
+import OrderRegChckNgsAnalysis from "./components/OrderRegChckNgsAnalysis";
+import dynamic from "next/dynamic";
+
+const LazyOrderRegChckNgsAnalysis = dynamic(
+  () => import("./components/OrderRegChckNgsAnalysis"),
+  {
+    ssr: false,
+    loading: () => <p>Loading...</p>,
+  },
+);
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -161,7 +172,7 @@ export default function ListOrshbs() {
         }) => (
           <Stack
             direction="row"
-            justifyContent="space-between"
+            // justifyContent="space-between"
             alignItems="center"
             spacing={2}
             width={"100%"}
@@ -226,12 +237,13 @@ export default function ListOrshbs() {
 
               {row.isMastered == "Y" ? (
                 <>
-                  <Divider orientation="vertical" variant="middle" flexItem />
-                  <ContainedButton
-                    buttonName="+오더등록"
-                    size="small"
-                    onClick={() => goLinkOrderPage(row)}
-                  />
+                  {/*<Divider orientation="vertical" variant="middle" flexItem />*/}
+                  {/*<ContainedButton*/}
+                  {/*  buttonName="+오더등록"*/}
+                  {/*  size="small"*/}
+                  {/*  onClick={() => goLinkOrderPage(row)}*/}
+                  {/*/>*/}
+                  <LazyOrderRegChckNgsAnalysis row={row} />
                 </>
               ) : (
                 ""
@@ -279,20 +291,20 @@ export default function ListOrshbs() {
     );
   };
 
-  const goLinkOrderPage = (row: {
-    orshUkey: string;
-    srvcTypeAbb: string;
-    isOrderStatus: string;
-    anlsTypeAbb: string;
-  }) => {
-    const orshUkey = row.orshUkey;
-    const srvcTypeAbb = row.srvcTypeAbb;
-    const isOrderStatus = row.isOrderStatus;
-    const anlsTypeAbb = row.anlsTypeAbb;
-    router.push(
-      `/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`,
-    );
-  };
+  // const goLinkOrderPage = (row: {
+  //   orshUkey: string;
+  //   srvcTypeAbb: string;
+  //   isOrderStatus: string;
+  //   anlsTypeAbb: string;
+  // }) => {
+  //   const orshUkey = row.orshUkey;
+  //   const srvcTypeAbb = row.srvcTypeAbb;
+  //   const isOrderStatus = row.isOrderStatus;
+  //   const anlsTypeAbb = row.anlsTypeAbb;
+  //   router.push(
+  //     `/order-reg?orshUkey=${orshUkey}&orshType=intn&from=/orshbs-list&srvcTypeAbb=${srvcTypeAbb}&isOrderStatus=${isOrderStatus}&anlsTypeAbb=${anlsTypeAbb}`,
+  //   );
+  // };
 
   const subHeaderComponentMemo = React.useMemo(() => {
     // const handleClear = () => {
