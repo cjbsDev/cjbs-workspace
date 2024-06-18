@@ -80,3 +80,18 @@ export const SkeletonLineChart = () => {
     </Box>
   );
 };
+
+export const FullHeightLoading = () => {
+  return (
+    <Box sx={{ height: "100%", backgroundColor: "white" }}>
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{ height: "100%" }}
+      >
+        <CircularProgress />
+      </Stack>
+    </Box>
+  );
+};
