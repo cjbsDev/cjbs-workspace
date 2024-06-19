@@ -29,6 +29,7 @@ import SupplyPrice from "./SupplyPrice";
 import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/components/DeleteBtn";
 import InputPrice from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
 import StndPrice from "./components/StndPrice";
+import StndDscntPctg from "./components/StndDscntPctg";
 
 const LazyServiceCategorySelectbox = dynamic(
   () => import("../../components/ServiceCategorySelectbox"),
@@ -42,18 +43,15 @@ const LazyServiceCategorySelectbox = dynamic(
   },
 );
 
-// const LazyAnlsTypeSelectbox = dynamic(
-//   () => import("../../components/AnlsTypeSelectbox"),
-//   {
-//     ssr: false,
-//     loading: () => (
-//       <Typography variant="body2" color="secondary">
-//         Loading...
-//       </Typography>
-//     ),
-//   },
-// );
-//
+const LazyDscntRasnSelectbox = dynamic(() => import("./components/DscntRasn"), {
+  ssr: false,
+  loading: () => (
+    <Typography variant="body2" color="secondary">
+      Loading...
+    </Typography>
+  ),
+});
+
 // const LazyProductName = dynamic(() => import("./ProductName"), {
 //   ssr: false,
 //   loading: () => (
@@ -120,24 +118,25 @@ const DynamicTableLiecense = () => {
 
   return (
     <>
-      <Typography variant="subtitle1">품명(총 {fields.length}건)</Typography>
+      <Typography variant="subtitle1">
+        분석내역(총 {fields.length}건)
+      </Typography>
       <TableContainer sx={{ mb: 3 }}>
         <Table size="small">
           <TableHead>
             <TableRow>
-              {/*{paymentInfoValue !== "BS_1914004" && (*/}
-              {/*  <TH sx={{ width: 50 }} align="center">*/}
-              {/*    <Checkbox*/}
-              {/*      size="small"*/}
-              {/*      checked={*/}
-              {/*        fields.length > 0 && selectedRows.length === fields.length*/}
-              {/*      }*/}
-              {/*      onChange={(e) => toggleSelectAll(e.target.checked)}*/}
-              {/*    />*/}
-              {/*  </TH>*/}
-              {/*)}*/}
-              <TH sx={{ width: 250 }}>서비스 타입</TH>
-              <TH sx={{ width: 250 }}>기준가</TH>
+              <TH sx={{ width: 50 }} align="center">
+                <Checkbox
+                  size="small"
+                  checked={
+                    fields.length > 0 && selectedRows.length === fields.length
+                  }
+                  onChange={(e) => toggleSelectAll(e.target.checked)}
+                />
+              </TH>
+
+              <TH sx={{ width: 200 }}>서비스 타입</TH>
+              <TH sx={{ width: 200 }}>기준가</TH>
               {/*<TH>품명</TH>*/}
               <TH sx={{ width: 150 }} align="right">
                 수량
@@ -145,26 +144,28 @@ const DynamicTableLiecense = () => {
               <TH sx={{ width: 200 }} align="right">
                 단가
               </TH>
-              <TH sx={{ width: 200 }} align="right">
+              <TH sx={{ width: 150 }} align="right">
                 공급가액
               </TH>
+              <TH sx={{ width: 80 }} align="right">
+                사용할인율
+              </TH>
+              <TH align="center">사유</TH>
             </TableRow>
           </TableHead>
           <TableBody>
             {controlledFields.map((field, index) => {
               return (
                 <TableRow key={field.id || index}>
-                  {/*{paymentInfoValue !== "BS_1914004" && (*/}
-                  {/*  <TD align="center">*/}
-                  {/*    <Checkbox*/}
-                  {/*      size="small"*/}
-                  {/*      checked={selectedRows.includes(index)}*/}
-                  {/*      onChange={(e) =>*/}
-                  {/*        toggleRowSelection(index, e.target.checked)*/}
-                  {/*      }*/}
-                  {/*    />*/}
-                  {/*  </TD>*/}
-                  {/*)}*/}
+                  <TD align="center">
+                    <Checkbox
+                      size="small"
+                      checked={selectedRows.includes(index)}
+                      onChange={(e) =>
+                        toggleRowSelection(index, e.target.checked)
+                      }
+                    />
+                  </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
@@ -239,7 +240,7 @@ const DynamicTableLiecense = () => {
                         />
                       )}
                     />
-                    {errors.productDetailList?.[index]?.sampleSize && (
+                    {errors.sample?.[index]?.sampleSize && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -268,7 +269,7 @@ const DynamicTableLiecense = () => {
                         />
                       )}
                     />
-                    {errors.productDetailList?.[index]?.unitPrice && (
+                    {errors.sample?.[index]?.unitPrice && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -284,6 +285,12 @@ const DynamicTableLiecense = () => {
                       inputName={`sample[${index}].supplyPrice`}
                     />
                   </TD>
+                  <TD>
+                    <StndDscntPctg index={index} />
+                  </TD>
+                  <TD>
+                    <LazyDscntRasnSelectbox index={index} />
+                  </TD>
                 </TableRow>
               );
             })}
@@ -294,7 +301,7 @@ const DynamicTableLiecense = () => {
       <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
         <ContainedButton
           size="small"
-          buttonName="품명 추가"
+          buttonName="서비스 타입 추가"
           onClick={handleAppend}
           startIcon={<MyIcon icon="plus" size={18} color="white" />}
         />

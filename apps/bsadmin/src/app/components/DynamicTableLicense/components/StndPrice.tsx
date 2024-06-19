@@ -3,6 +3,9 @@ import InputPrice from "../../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/
 import { POST } from "api";
 import { toast } from "react-toastify";
 import { useFormContext } from "react-hook-form";
+import { InputValidation } from "cjbsDSTM";
+import { IconButton, Stack } from "@mui/material";
+import MyIcon from "icon/MyIcon";
 
 interface StndPriceProps {
   index: number;
@@ -11,9 +14,9 @@ interface StndPriceProps {
 const StndPrice = ({ index }: StndPriceProps) => {
   const { control, setValue, getValues, watch } = useFormContext();
 
-  useEffect(() => {
-    callStndPrice();
-  }, []);
+  // useEffect(() => {
+  //   callStndPrice();
+  // }, []);
 
   const callStndPrice = async () => {
     const bodyData = [
@@ -36,22 +39,22 @@ const StndPrice = ({ index }: StndPriceProps) => {
       if (response.success) {
         // console.log("SSSSSSSS", response.data[0].stndDscntPctg);
         if (resData[0].stndPrice === "N/A") {
-          // setValue(`sample.[${index}].stndPrice`, "N/A");
-          // setValue(`sample.[${index}].dscntPctg`, "N/A");
+          setValue(`sample.[${index}].stndPrice`, "N/A");
+          setValue(`sample.[${index}].dscntPctg`, "N/A");
         } else {
-          // setValue(
-          //   `sample.[${index}].stndPrice`,
-          //   resData[0].stndPrice
-          //     .toString()
-          //     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-          // );
-          // setValue(`sample.[${index}].dscntPctg`, 0);
+          setValue(
+            `sample.[${index}].stndPrice`,
+            resData[0].stndPrice
+              .toString()
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+          );
+          setValue(`sample.[${index}].dscntPctg`, 0);
         }
-        // setValue(`sample.[${index}].stndCode`, resData[0].stndCode);
-        // setValue(`sample.[${index}].stndDscntPctg`, resData[0].stndDscntPctg);
-        // setValue(`sample.[${index}].unitPrice`, "0");
-        // setValue(`sample.[${index}].supplyPrice`, "0");
-        // setValue(`sample.[${index}].vat`, "0");
+        setValue(`sample.[${index}].stndCode`, resData[0].stndCode);
+        setValue(`sample.[${index}].stndDscntPctg`, resData[0].stndDscntPctg);
+        setValue(`sample.[${index}].unitPrice`, "0");
+        setValue(`sample.[${index}].supplyPrice`, "0");
+        setValue(`sample.[${index}].vat`, "0");
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
@@ -65,9 +68,18 @@ const StndPrice = ({ index }: StndPriceProps) => {
   };
 
   return (
-    <>
-      <InputPrice inputName={`sample[${index}].stndPrice`} />
-    </>
+    <Stack direction="row" spacing={1}>
+      <InputValidation
+        inputName={`sample[${index}].stndPrice`}
+        disabled={true}
+        placeholder="수량을 입력후 기준가를 조회 하세요."
+      />
+      <IconButton onClick={callStndPrice} color="primary">
+        <MyIcon icon="search" size={18} />
+      </IconButton>
+
+      {/*<InputPrice inputName={`sample[${index}].stndPrice`} />*/}
+    </Stack>
   );
 };
 

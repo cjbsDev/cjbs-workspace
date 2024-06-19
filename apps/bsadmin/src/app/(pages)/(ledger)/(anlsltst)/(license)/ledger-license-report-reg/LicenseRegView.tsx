@@ -514,8 +514,9 @@ const LicenseRegView = () => {
             </TableContainer>
 
             <Box>
-              <DynamicTableLicense />
-              <DynamicSumTableLicense />
+              {/* 신규 작업중... */}
+              {/*<DynamicTableLicense />*/}
+              {/*<DynamicSumTableLicense />*/}
 
               <AnalysisSampleDynamicTable setSettlement={setSettlement} />
 
@@ -524,7 +525,7 @@ const LicenseRegView = () => {
                   <TableBody>
                     <TableRow>
                       <TH sx={{ width: "15%" }}>분석일</TH>
-                      <TD sx={{ width: "35%" }}>
+                      <TD sx={{}}>
                         <SingleDatePicker
                           inputName="anlsDttm"
                           required={true}
@@ -566,7 +567,13 @@ const LicenseRegView = () => {
                       {/*  />*/}
                       {/*</TD>*/}
                     </TableRow>
+                  </TableBody>
+                </Table>
+              </TableContainer>
 
+              <TableContainer sx={{ mb: 2 }}>
+                <Table>
+                  <TableBody>
                     <TableRow>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
                       <TD sx={{}}>
@@ -654,7 +661,7 @@ const LicenseRegView = () => {
                           // errorMessage="아이디(이메일) 입력해 주세요."
                           sx={{
                             width: "100%",
-                            // display: "none",
+                            display: "none",
                           }}
                         />
                       </TD>
@@ -694,7 +701,6 @@ const LicenseRegView = () => {
                           // errorMessage="아이디(이메일) 입력해 주세요."
                           sx={{ width: "100%", display: "none" }}
                         />
-                        {/*<TotalPrice />*/}
                       </TD>
                     </TableRow>
                   </TableBody>
