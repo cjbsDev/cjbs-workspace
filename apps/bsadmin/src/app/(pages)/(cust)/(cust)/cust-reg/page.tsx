@@ -2,6 +2,7 @@
 import {
   Box,
   Container,
+  Grid,
   Stack,
   Table,
   TableBody,
@@ -21,8 +22,13 @@ import {
 import * as React from "react";
 import { useState } from "react";
 import IDSearchModal from "./components/IDSearchModal";
+import { POST } from "api";
+import { toast } from "react-toastify";
+import { useRouter } from "next-nprogress-bar";
+import Link from "next/link";
 
 export default function CustRegPage() {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleModalOpen = () => {
@@ -33,9 +39,27 @@ export default function CustRegPage() {
     setIsOpen(false);
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
+
+    const reqBody = { ...data, telList: [data.tel_0, data.tel_1, data.tel_2] };
+    console.log("reqBody", reqBody);
+
+    await POST("/cust", reqBody)
+      .then((res) => {
+        console.log("", res);
+        if (res.success) {
+          router.push("/cust-list");
+        } else {
+          toast(res.message);
+        }
+      })
+      .catch((error) => {
+        console.log("Error!!", error);
+      })
+      .finally(() => setIsOpen(false));
   };
+
   return (
     <Form onSubmit={onSubmit} defaultValues={undefined}>
       <Box sx={{ mb: 4 }}>
@@ -59,56 +83,57 @@ export default function CustRegPage() {
               </TD>
               <TH sx={{ width: "15%" }}>아이디</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <Stack
-                  direction="row"
-                  // justifyContent="space-between"
-                  alignItems="center"
-                  spacing={1}
-                >
-                  <InputValidation
-                    inputName="ebcEmail"
-                    sx={{ width: "100%" }}
-                  />
-                  <ContainedButton
-                    buttonName="계정 검색"
-                    size="small"
-                    onClick={handleModalOpen}
-                  />
-                </Stack>
+                <Grid container spacing={1}>
+                  <Grid item xs={10}>
+                    <InputValidation inputName="ebcEmail" disabled={true} />
+                  </Grid>
+                  <Grid item xs={2}>
+                    {/*<Stack*/}
+                    {/*  direction="row"*/}
+                    {/*  alignItems="center"*/}
+                    {/*  justifyContent="flex-end"*/}
+                    {/*>*/}
+                    <ContainedButton
+                      buttonName="계정 검색"
+                      size="small"
+                      onClick={handleModalOpen}
+                    />
+                    {/*</Stack>*/}
+                  </Grid>
+                </Grid>
               </TD>
             </TableRow>
 
             <TableRow>
               <TH sx={{ width: "15%" }}>서브 이메일</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcSubEmail" />
+                <InputValidation inputName="ebcSubEmail" disabled={true} />
               </TD>
 
               <TH sx={{ width: "15%" }}>academic</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcIsSchl" />
+                <InputValidation inputName="ebcIsSchl" disabled={true} />
               </TD>
             </TableRow>
 
             <TableRow>
               <TH sx={{ width: "15%" }}>영문 이름</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcFullName" />
+                <InputValidation inputName="ebcFullName" disabled={true} />
               </TD>
               <TH sx={{ width: "15%" }}>호칭</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcTitle" />
+                <InputValidation inputName="ebcTitle" disabled={true} />
               </TD>
             </TableRow>
-
             <TableRow>
               <TH sx={{ width: "15%" }}>국가</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcNtly" />
+                <InputValidation inputName="ebcNtly" disabled={true} />
               </TD>
               <TH sx={{ width: "15%" }}>소속 단체</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
-                <InputValidation inputName="ebcInstNm" />
+                <InputValidation inputName="ebcInstNm" disabled={true} />
               </TD>
             </TableRow>
           </TableBody>
@@ -227,22 +252,16 @@ export default function CustRegPage() {
       </TableContainer>
 
       <Stack direction="row" spacing={1} justifyContent="center">
-        <OutlinedButton
-          buttonName="목록"
-          size="small"
-          // onClick={() => router.push("/cust-list")}
-        />
-        <ContainedButton
-          type="submit"
-          buttonName="저장"
-          size="small"
-          // onClick={() => router.push("/cust-modify/" + slug)}
-        />
+        <Link href="/cust-list">
+          <OutlinedButton buttonName="목록" size="small" />
+        </Link>
+
+        <ContainedButton type="submit" buttonName="저장" size="small" />
       </Stack>
 
       {/*{isOpen && }*/}
       <IDSearchModal
-        modalWidth={500}
+        modalWidth={450}
         open={isOpen}
         onClose={handleModalClose}
       />

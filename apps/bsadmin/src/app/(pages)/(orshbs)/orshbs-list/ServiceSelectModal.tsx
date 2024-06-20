@@ -6,12 +6,8 @@ import {
   ModalContainer,
   ModalTitle,
 } from "cjbsDSTM";
-import {
-  DialogActions,
-  DialogContent, Stack,
-} from "@mui/material";
+import { DialogActions, DialogContent, Stack } from "@mui/material";
 import Link from "next/link";
-
 
 const ServiceSelectModal = (props: any) => {
   const { open, onClose, modalWidth } = props;
@@ -22,41 +18,41 @@ const ServiceSelectModal = (props: any) => {
         <Stack spacing={1} alignItems="center" justifyContent="center">
           <Link
             href={{
-              pathname: '/orshbs/in/mtp',
+              pathname: "/orshbs/in/mtp",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
             <OutlinedButton buttonName="MTP" size="large" fullWidth />
           </Link>
           <Link
             href={{
-              pathname: '/orshbs/in/shotgun',
+              pathname: "/orshbs/in/shotgun",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
             <OutlinedButton buttonName="Shotgun" size="large" fullWidth />
           </Link>
           <Link
             href={{
-              pathname: '/orshbs/in/wg',
+              pathname: "/orshbs/in/wg",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
-            <OutlinedButton buttonName="WG" size="large" fullWidth/>
+            <OutlinedButton buttonName="WG" size="large" fullWidth />
           </Link>
           <Link
             href={{
-              pathname: '/orshbs/in/rs',
+              pathname: "/orshbs/in/rs",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
-            <OutlinedButton buttonName="RS" size="large" fullWidth/>
+            <OutlinedButton buttonName="RS" size="large" fullWidth />
           </Link>
         </Stack>
       </DialogContent>
-      {/*<ModalAction>*/}
+      {/*<ModalActionGroup>*/}
       {/*  <ContainedButton buttonName="확인" onClick={onClose} />*/}
-      {/*</ModalAction>*/}
+      {/*</ModalActionGroup>*/}
     </ModalContainer>
   );
 };

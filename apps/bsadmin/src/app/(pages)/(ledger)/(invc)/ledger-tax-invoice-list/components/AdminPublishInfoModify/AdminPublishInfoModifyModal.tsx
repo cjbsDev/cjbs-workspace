@@ -7,7 +7,7 @@
 // import {
 //   ErrorContainer,
 //   Fallback,
-//   ModalAction,
+//   ModalActionGroup,
 //   ModalContainer,
 //   ModalTitle,
 //   OutlinedButton,
@@ -88,7 +88,7 @@
 //           <LazyAdminPublishInfoModifyForm onSubmit={onSubmit} />
 //         </ErrorContainer>
 //       </DialogContent>
-//       <ModalAction>
+//       <ModalActionGroup>
 //         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />
 //         <LoadingButton
 //           loading={isLoading}
@@ -98,7 +98,7 @@
 //         >
 //           수정
 //         </LoadingButton>
-//       </ModalAction>
+//       </ModalActionGroup>
 //     </ModalContainer>
 //   );
 // };

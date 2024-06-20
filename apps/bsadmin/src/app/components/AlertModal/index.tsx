@@ -10,7 +10,7 @@ import {
 import MyIcon from "icon/MyIcon";
 import * as React from "react";
 import { DialogContent, Stack, ThemeProvider, Typography } from "@mui/material";
-// import { ModalAction, ModalContainer } from "cjbsDSTM";
+// import { ModalActionGroup, ModalContainer } from "cjbsDSTM";
 // import { ContainedButton, OutlinedButton } from "../../atoms/Buttons";
 // import { cjbsTheme } from "../../themes";
 

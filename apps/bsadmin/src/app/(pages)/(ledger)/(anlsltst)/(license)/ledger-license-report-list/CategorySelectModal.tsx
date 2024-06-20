@@ -7,12 +7,8 @@ import {
   ModalContainer,
   ModalTitle,
 } from "cjbsDSTM";
-import {
-  DialogActions,
-  DialogContent, Stack,
-} from "@mui/material";
+import { DialogActions, DialogContent, Stack } from "@mui/material";
 import Link from "next/link";
-
 
 const CategorySelectModal = (props: any) => {
   const { open, onClose, modalWidth } = props;
@@ -23,25 +19,25 @@ const CategorySelectModal = (props: any) => {
         <Stack spacing={1} alignItems="center" justifyContent="center">
           <Link
             href={{
-              pathname: '/ledger-analysis-report-reg',
+              pathname: "/ledger-analysis-report-reg",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
             <OutlinedButton buttonName="Analysis" size="large" fullWidth />
           </Link>
           <Link
             href={{
-              pathname: '/ledger-license-report-reg',
+              pathname: "/ledger-license-report-reg",
             }}
-            style={{width:'100%'}}
+            style={{ width: "100%" }}
           >
             <OutlinedButton buttonName="License" size="large" fullWidth />
           </Link>
         </Stack>
       </DialogContent>
-      {/*<ModalAction>*/}
+      {/*<ModalActionGroup>*/}
       {/*  <ContainedButton buttonName="확인" onClick={onClose} />*/}
-      {/*</ModalAction>*/}
+      {/*</ModalActionGroup>*/}
     </ModalContainer>
   );
 };
