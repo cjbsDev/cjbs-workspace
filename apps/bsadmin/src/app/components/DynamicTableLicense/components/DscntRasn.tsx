@@ -2,7 +2,7 @@ import React from "react";
 import { InputValidation, SelectBox } from "cjbsDSTM";
 import useSWR from "swr";
 import { fetcher } from "api";
-import { Box } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useFormContext } from "react-hook-form";
 
 const DscntRasn = ({ index }) => {
@@ -18,7 +18,7 @@ const DscntRasn = ({ index }) => {
 
   console.log("사유 목록 ==>>", data);
   return (
-    <>
+    <Stack direction="row" spacing={1}>
       <SelectBox
         errorMessage="값을 선택해 주세요."
         // inputName="bsnsMngrUkey"
@@ -35,7 +35,7 @@ const DscntRasn = ({ index }) => {
           />
         </Box>
       )}
-    </>
+    </Stack>
   );
 };
 

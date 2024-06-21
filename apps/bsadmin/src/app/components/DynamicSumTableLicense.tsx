@@ -17,9 +17,10 @@ import InputPrice from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/compon
 const DynamicSumTableLicense = () => {
   const { control, setValue, getValues, watch } = useFormContext();
   const getPymtInfoCc = watch("pymtInfoCc");
+  const fieldArrayName = "costList";
   const productValue =
     useWatch({
-      name: "sample",
+      name: fieldArrayName,
       control,
     }) || []; // productValue가 undefined일 경우 빈 배열을 기본값으로 사용
 
@@ -55,7 +56,7 @@ const DynamicSumTableLicense = () => {
       <Table>
         <TableBody>
           <TableRow>
-            <TH>총 수량</TH>
+            <TH sx={{ width: "15%" }}>총 수량</TH>
             <TD>
               {/*totalCnt*/}
               <InputPrice inputName="sampleSize" />

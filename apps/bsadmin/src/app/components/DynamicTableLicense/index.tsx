@@ -18,6 +18,7 @@ import {
   Fallback,
   InputEAType,
   InputPriceType,
+  InputValidation,
   OutlinedButton,
   TD,
   TH,
@@ -30,6 +31,7 @@ import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/com
 import InputPrice from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
 import StndPrice from "./components/StndPrice";
 import StndDscntPctg from "./components/StndDscntPctg";
+import Vat from "./components/Vat";
 
 const LazyServiceCategorySelectbox = dynamic(
   () => import("../../components/ServiceCategorySelectbox"),
@@ -68,12 +70,15 @@ const DynamicTableLiecense = () => {
     watch,
     formState: { errors },
   } = useFormContext();
+
+  const fieldArrayName = "costList";
+
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "sample",
+    name: fieldArrayName,
   });
   // const paymentInfoValue = watch("pymtInfoCc");
-  const watchFieldArray = watch("sample");
+  const watchFieldArray = watch(fieldArrayName);
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -89,6 +94,7 @@ const DynamicTableLiecense = () => {
       sampleSize: 0,
       unitPrice: 0,
       supplyPrice: 0,
+      stndPrice: "0",
     });
   };
 
@@ -125,7 +131,7 @@ const DynamicTableLiecense = () => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TH sx={{ width: 50 }} align="center">
+              <TH align="center" sx={{ width: 50 }}>
                 <Checkbox
                   size="small"
                   checked={
@@ -135,19 +141,24 @@ const DynamicTableLiecense = () => {
                 />
               </TH>
 
-              <TH sx={{ width: 200 }}>서비스 타입</TH>
-              <TH sx={{ width: 200 }}>기준가</TH>
+              <TH align="center">서비스 타입</TH>
+              <TH sx={{ width: 180 }} align="center">
+                기준가
+              </TH>
               {/*<TH>품명</TH>*/}
-              <TH sx={{ width: 150 }} align="right">
+              <TH sx={{ width: 150 }} align="center">
                 수량
               </TH>
-              <TH sx={{ width: 200 }} align="right">
+              <TH sx={{ width: 150 }} align="center">
                 단가
               </TH>
-              <TH sx={{ width: 150 }} align="right">
+              <TH sx={{ width: 180 }} align="center">
                 공급가액
               </TH>
-              <TH sx={{ width: 80 }} align="right">
+              <TH sx={{ width: 120 }} align="center">
+                부가세
+              </TH>
+              <TH sx={{ width: 120 }} align="center">
                 사용할인율
               </TH>
               <TH align="center">사유</TH>
@@ -169,11 +180,11 @@ const DynamicTableLiecense = () => {
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
-                        inputName={`sample[${index}].srvcTypeMc`}
+                        inputName={`${fieldArrayName}[${index}].srvcTypeMc`}
                         index={index}
                       />
                     </ErrorContainer>
-                    {errors.sample?.[index]?.srvcTypeMc && (
+                    {errors.costList?.[index]?.srvcTypeMc && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -184,45 +195,11 @@ const DynamicTableLiecense = () => {
                   </TD>
                   <TD>
                     {/*<InputPrice inputName={`sample[${index}].stndPrice`} />*/}
-                    <StndPrice index={index} />
+                    <StndPrice fieldName={fieldArrayName} index={index} />
                   </TD>
-                  {/*<TD>*/}
-                  {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
-                  {/*    <LazyAnlsTypeSelectbox*/}
-                  {/*      inputName={`sample[${index}].anlsTypeMc`}*/}
-                  {/*      inputName2={`sample[${index}].srvcTypeMc`}*/}
-                  {/*    />*/}
-                  {/*  </ErrorContainer>*/}
-                  {/*  {errors.productDetailList?.[index]?.anlsTypeMc && (*/}
-                  {/*    <Typography*/}
-                  {/*      variant="body2"*/}
-                  {/*      color={cjbsTheme.palette.warning.main}*/}
-                  {/*    >*/}
-                  {/*      분석 종류를 선택해 주세요*/}
-                  {/*    </Typography>*/}
-                  {/*  )}*/}
-                  {/*</TD>*/}
-                  {/*<TD>*/}
-                  {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
-                  {/*    <LazyProductName*/}
-                  {/*      inputName={`sample[${index}].products`}*/}
-                  {/*      fieldName="sample"*/}
-                  {/*      control={control}*/}
-                  {/*      index={index}*/}
-                  {/*    />*/}
-                  {/*  </ErrorContainer>*/}
-                  {/*  {errors.productDetailList?.[index]?.products && (*/}
-                  {/*    <Typography*/}
-                  {/*      variant="body2"*/}
-                  {/*      color={cjbsTheme.palette.warning.main}*/}
-                  {/*    >*/}
-                  {/*      품명을 입력 해주세요*/}
-                  {/*    </Typography>*/}
-                  {/*  )}*/}
-                  {/*</TD>*/}
                   <TD>
                     <Controller
-                      name={`sample[${index}].sampleSize`}
+                      name={`${fieldArrayName}[${index}].sampleSize`}
                       control={control}
                       rules={{ required: "수량을 입력해야 합니다." }}
                       render={({
@@ -240,7 +217,7 @@ const DynamicTableLiecense = () => {
                         />
                       )}
                     />
-                    {errors.sample?.[index]?.sampleSize && (
+                    {errors.costList?.[index]?.sampleSize && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -251,7 +228,7 @@ const DynamicTableLiecense = () => {
                   </TD>
                   <TD align="right">
                     <Controller
-                      name={`sample[${index}].unitPrice`}
+                      name={`${fieldArrayName}[${index}].unitPrice`}
                       control={control}
                       rules={{ required: "단가를 입력해야 합니다." }}
                       render={({
@@ -269,7 +246,7 @@ const DynamicTableLiecense = () => {
                         />
                       )}
                     />
-                    {errors.sample?.[index]?.unitPrice && (
+                    {errors.costList?.[index]?.unitPrice && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -280,13 +257,16 @@ const DynamicTableLiecense = () => {
                   </TD>
                   <TD align="right">
                     <SupplyPrice
-                      fieldName="sample"
+                      fieldName={fieldArrayName}
                       index={index}
-                      inputName={`sample[${index}].supplyPrice`}
+                      inputName={`${fieldArrayName}[${index}].supplyPrice`}
                     />
                   </TD>
                   <TD>
-                    <StndDscntPctg index={index} />
+                    <Vat fieldName={fieldArrayName} index={index} />
+                  </TD>
+                  <TD>
+                    <StndDscntPctg fieldName={fieldArrayName} index={index} />
                   </TD>
                   <TD>
                     <LazyDscntRasnSelectbox index={index} />
