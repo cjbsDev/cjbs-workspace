@@ -7,7 +7,7 @@ import { useFormContext } from "react-hook-form";
 
 const DscntRasn = ({ index }) => {
   const { control, setValue, getValues, watch } = useFormContext();
-  const dscntRasnCc = watch(`sample.[${index}].dscntRasnCc`);
+  const dscntRasnCc = watch(`costList[${index}].dscntRasnCc`);
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=anls itst&midValue=reason`,
     fetcher,
@@ -22,14 +22,15 @@ const DscntRasn = ({ index }) => {
       <SelectBox
         errorMessage="값을 선택해 주세요."
         // inputName="bsnsMngrUkey"
-        inputName={`sample.[${index}].dscntRasnCc`}
+        inputName={`costList[${index}].dscntRasnCc`}
         options={data}
         required={true}
+        sx={{ width: dscntRasnCc === "BS_1813004" ? 130 : "100%" }}
       />
       {dscntRasnCc === "BS_1813004" && (
         <Box sx={{ width: "100%" }}>
           <InputValidation
-            inputName={`sample.[${index}].dscntRasnDetail`}
+            inputName={`costList[${index}].dscntRasnDetail`}
             required={false}
             fullWidth={true}
           />

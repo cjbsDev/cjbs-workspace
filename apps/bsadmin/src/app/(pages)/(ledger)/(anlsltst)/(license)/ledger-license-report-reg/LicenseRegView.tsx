@@ -111,7 +111,6 @@ const LicenseRegView = () => {
     useState<boolean>(false);
 
   // defaultValues 세팅
-  // const defaultValues = getDefaultValues(orshType, orshExtrData);
   const defaultValues = {
     // ...commonValues,
     srvcCtgrMc: "BS_0100005002",
@@ -123,52 +122,59 @@ const LicenseRegView = () => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
-    if (data.sample.length <= 0) {
+    if (data.costList.length <= 0) {
       toast("해당 오더에 포함된 분석 내역이 없습니다.");
       return false;
     }
 
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
+    // costList에 들어 있는 vat타입을 숫자로 변경
+    data.costList.map((item) => {
+      item.vat = Number(item.vat.replace(/,/g, ""));
+      item.sampleUkey = [];
+    });
 
-    const sampleUkeyList = () => {
-      let sampleList = data.costList;
+    // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
 
-      sampleList.map((item: any, index: any) => {
-        console.log("item", item);
-        // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
-        if (selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
-          console.log(
-            "selectSampleListData",
-            selectSampleListData[item.srvcTypeMc]["sampleUkey"],
-          );
-          sampleList[index]["sampleUkey"] =
-            selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        } else {
-          sampleList[index]["sampleUkey"] = [];
-        }
-        // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] =
-          typeof sampleList[index]["stndPrice"] === "string"
-            ? sampleList[index]["stndPrice"]
-            : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
-        sampleList[index]["supplyPrice"] = Number(
-          sampleList[index]["supplyPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["unitPrice"] = Number(
-          sampleList[index]["unitPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["vat"] = Number(
-          sampleList[index]["vat"].replaceAll(",", ""),
-        );
-      });
-      return sampleList;
-    };
+    // const sampleUkeyList = () => {
+    //   let sampleList = data.costList;
+    //
+    //   sampleList.map((item: any, index: any) => {
+    //     console.log("item", item);
+    //     // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
+    //     if (selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
+    //       console.log(
+    //         "selectSampleListData",
+    //         selectSampleListData[item.srvcTypeMc]["sampleUkey"],
+    //       );
+    //       sampleList[index]["sampleUkey"] =
+    //         selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+    //     } else {
+    //       sampleList[index]["sampleUkey"] = [];
+    //     }
+    //     // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+    //     sampleList[index]["stndPrice"] =
+    //       typeof sampleList[index]["stndPrice"] === "string"
+    //         ? sampleList[index]["stndPrice"]
+    //         : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+    //     sampleList[index]["supplyPrice"] = Number(
+    //       sampleList[index]["supplyPrice"].replaceAll(",", ""),
+    //     );
+    //     sampleList[index]["unitPrice"] = Number(
+    //       sampleList[index]["unitPrice"].replaceAll(",", ""),
+    //     );
+    //     sampleList[index]["vat"] = Number(
+    //       sampleList[index]["vat"].replaceAll(",", ""),
+    //     );
+    //   });
+    //   return sampleList;
+    // };
 
     const bodyData = {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
-      costList: sampleUkeyList(),
+      // costList: sampleUkeyList(),
+      costList: data.costList,
       depthMc: "BS_0100010001",
       memo: data.memo,
       orderUkey: null,
@@ -183,25 +189,25 @@ const LicenseRegView = () => {
     console.log("bodyData", bodyData);
 
     const apiUrl: string = `/anls/itst`;
-    // await POST(apiUrl, bodyData)
-    //   .then((response) => {
-    //     console.log("POST request successful:", response);
-    //     if (response.success) {
-    //       toast("등록 되었습니다.");
-    //       setIsLoading(false);
-    //       mutate(apiUrl);
-    //       router.push("/ledger-analysis-report-list");
-    //     } else {
-    //       toast(response.message);
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.error("POST request failed:", error);
-    //     // toast(error.)
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
+    await POST(apiUrl, bodyData)
+      .then((response) => {
+        console.log("POST request successful:", response);
+        if (response.success) {
+          toast("등록 되었습니다.");
+          setIsLoading(false);
+          mutate(apiUrl);
+          router.push("/ledger-analysis-report-list");
+        } else {
+          toast(response.message);
+        }
+      })
+      .catch((error) => {
+        console.error("POST request failed:", error);
+        // toast(error.)
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   // [ 고객 검색 ] 모달 오픈
@@ -231,37 +237,37 @@ const LicenseRegView = () => {
     // setClearRowsAtom(true);
   };
 
-  const standDate = () => {
-    // const now = new Date("2024-03-01");
-    const now = new Date();
-    const nowDate: number = now.getDate();
-    let startDate;
-    let endDate;
-    // const nowDate= 5;
-    console.log("nowDate : ", nowDate);
-    let startMonth: number = 0;
-    let endMonth: number = 0;
-    if (nowDate < 6) {
-      startDate = new Date(now.setMonth(now.getMonth() - 1));
-      startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth() + 2));
-      endMonth = endDate.getMonth();
-    } else {
-      startDate = new Date(now);
-      startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth() + 1));
-      endMonth = endDate.getMonth();
-    }
-    console.log("startMonth : ", startMonth);
-    console.log("endMonth : ", endMonth);
-
-    return [
-      {
-        start: subDays(new Date(startDate.setDate(1)), 1),
-        end: addDays(new Date(endDate.setDate(5)), 0),
-      },
-    ];
-  };
+  // const standDate = () => {
+  //   // const now = new Date("2024-03-01");
+  //   const now = new Date();
+  //   const nowDate: number = now.getDate();
+  //   let startDate;
+  //   let endDate;
+  //   // const nowDate= 5;
+  //   console.log("nowDate : ", nowDate);
+  //   let startMonth: number = 0;
+  //   let endMonth: number = 0;
+  //   if (nowDate < 6) {
+  //     startDate = new Date(now.setMonth(now.getMonth() - 1));
+  //     startMonth = startDate.getMonth();
+  //     endDate = new Date(now.setMonth(now.getMonth() + 2));
+  //     endMonth = endDate.getMonth();
+  //   } else {
+  //     startDate = new Date(now);
+  //     startMonth = startDate.getMonth();
+  //     endDate = new Date(now.setMonth(now.getMonth() + 1));
+  //     endMonth = endDate.getMonth();
+  //   }
+  //   console.log("startMonth : ", startMonth);
+  //   console.log("endMonth : ", endMonth);
+  //
+  //   return [
+  //     {
+  //       start: subDays(new Date(startDate.setDate(1)), 1),
+  //       end: addDays(new Date(endDate.setDate(5)), 0),
+  //     },
+  //   ];
+  // };
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -502,13 +508,38 @@ const LicenseRegView = () => {
                     <TD>
                       <InputValidation
                         inputName="rmnPrePymtPrice"
-                        required={true}
-                        errorMessage="선결제 금액 입력해 주세요."
-                        sx={{ width: "100%" }}
+                        disabled={true}
+                        sx={{
+                          ".MuiOutlinedInput-input": {
+                            textAlign: "end",
+                          },
+                          "&.MuiTextField-root": {
+                            backgroundColor: "#F1F3F5",
+                          },
+                        }}
                         InputProps={{
                           readOnly: true,
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Typography
+                                variant="body2"
+                                sx={{ color: "black" }}
+                              >
+                                원
+                              </Typography>
+                            </InputAdornment>
+                          ),
                         }}
                       />
+                      {/*<InputValidation*/}
+                      {/*  inputName="rmnPrePymtPrice"*/}
+                      {/*  required={true}*/}
+                      {/*  errorMessage="선결제 금액 입력해 주세요."*/}
+                      {/*  sx={{ width: "100%" }}*/}
+                      {/*  InputProps={{*/}
+                      {/*    readOnly: true,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
                     </TD>
                   </TableRow>
                 </TableBody>
@@ -519,23 +550,6 @@ const LicenseRegView = () => {
               {/* 신규 작업중... */}
               <DynamicTableLicense />
               <DynamicSumTableLicense />
-
-              <TableContainer sx={{ mb: 2 }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>분석일</TH>
-                      <TD sx={{}}>
-                        <SingleDatePicker
-                          inputName="anlsDttm"
-                          required={true}
-                          includeDateIntervals={standDate()}
-                        />
-                      </TD>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
 
               {/*<AnalysisSampleDynamicTable setSettlement={setSettlement} />*/}
               {/*<TableContainer sx={{ mb: 2 }}>*/}
@@ -684,32 +698,6 @@ const LicenseRegView = () => {
                       <TH sx={{ width: "15%" }}>남은금액</TH>
                       <TD sx={{ width: "85%" }}>
                         <RemainingAmount />
-                        {/*<InputValidation*/}
-                        {/*  inputName="remainingAmount"*/}
-                        {/*  required={true}*/}
-                        {/*  sx={{*/}
-                        {/*    width: "100%",*/}
-                        {/*    ".MuiOutlinedInput-input": {*/}
-                        {/*      textAlign: "end",*/}
-                        {/*    },*/}
-                        {/*    "&.MuiTextField-root": {*/}
-                        {/*      backgroundColor: "#F1F3F5",*/}
-                        {/*    },*/}
-                        {/*  }}*/}
-                        {/*  InputProps={{*/}
-                        {/*    readOnly: true,*/}
-                        {/*    endAdornment: (*/}
-                        {/*      <InputAdornment position="end">*/}
-                        {/*        <Typography*/}
-                        {/*          variant="body2"*/}
-                        {/*          sx={{ color: "black" }}*/}
-                        {/*        >*/}
-                        {/*          원*/}
-                        {/*        </Typography>*/}
-                        {/*      </InputAdornment>*/}
-                        {/*    ),*/}
-                        {/*  }}*/}
-                        {/*/>*/}
                       </TD>
                     </TableRow>
                     {settlement === true && (

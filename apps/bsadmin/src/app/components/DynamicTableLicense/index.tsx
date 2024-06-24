@@ -32,9 +32,10 @@ import InputPrice from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/com
 import StndPrice from "./components/StndPrice";
 import StndDscntPctg from "./components/StndDscntPctg";
 import Vat from "./components/Vat";
+import SampleSize from "./components/SampleSize";
 
-const LazyServiceCategorySelectbox = dynamic(
-  () => import("../../components/ServiceCategorySelectbox"),
+const LazyServiceTypeSelectbox = dynamic(
+  () => import("./components/ServiceTypeSelectbox"),
   {
     ssr: false,
     loading: () => (
@@ -88,13 +89,14 @@ const DynamicTableLiecense = () => {
 
   const handleAppend = () => {
     append({
-      srvcTypeMc: "BS_0100005001",
+      srvcTypeMc: "BS_0100007001",
       anlsTypeMc: "",
       products: "",
       sampleSize: 0,
       unitPrice: 0,
       supplyPrice: 0,
       stndPrice: "0",
+      dscntPctg: 0,
     });
   };
 
@@ -179,10 +181,13 @@ const DynamicTableLiecense = () => {
                   </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyServiceCategorySelectbox
+                      <LazyServiceTypeSelectbox
                         inputName={`${fieldArrayName}[${index}].srvcTypeMc`}
-                        index={index}
                       />
+                      {/*<LazyServiceCategorySelectbox*/}
+                      {/*  inputName={`${fieldArrayName}[${index}].srvcTypeMc`}*/}
+                      {/*  index={index}*/}
+                      {/*/>*/}
                     </ErrorContainer>
                     {errors.costList?.[index]?.srvcTypeMc && (
                       <Typography
@@ -198,33 +203,35 @@ const DynamicTableLiecense = () => {
                     <StndPrice fieldName={fieldArrayName} index={index} />
                   </TD>
                   <TD>
-                    <Controller
-                      name={`${fieldArrayName}[${index}].sampleSize`}
-                      control={control}
-                      rules={{ required: "수량을 입력해야 합니다." }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { error },
-                      }) => (
-                        <NumericFormat
-                          defaultValue={0}
-                          value={value}
-                          thousandSeparator={true}
-                          onValueChange={(values) => {
-                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
-                          }}
-                          customInput={InputEAType}
-                        />
-                      )}
-                    />
-                    {errors.costList?.[index]?.sampleSize && (
-                      <Typography
-                        variant="body2"
-                        color={cjbsTheme.palette.warning.main}
-                      >
-                        수량을 입력 해주세요
-                      </Typography>
-                    )}
+                    <SampleSize fieldName={fieldArrayName} index={index} />
+                    {/*<Controller*/}
+                    {/*  name={`${fieldArrayName}[${index}].sampleSize`}*/}
+                    {/*  control={control}*/}
+                    {/*  rules={{ required: "수량을 입력해야 합니다." }}*/}
+                    {/*  render={({*/}
+                    {/*    field: { onChange, onBlur, value },*/}
+                    {/*    fieldState: { error },*/}
+                    {/*  }) => (*/}
+                    {/*    <NumericFormat*/}
+                    {/*      defaultValue={0}*/}
+                    {/*      value={value}*/}
+                    {/*      thousandSeparator={true}*/}
+                    {/*      onValueChange={(values) => {*/}
+                    {/*        onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
+                    {/*      }}*/}
+                    {/*      onBlur={() => console.log("BBBBBBBB")}*/}
+                    {/*      customInput={InputEAType}*/}
+                    {/*    />*/}
+                    {/*  )}*/}
+                    {/*/>*/}
+                    {/*{errors.costList?.[index]?.sampleSize && (*/}
+                    {/*  <Typography*/}
+                    {/*    variant="body2"*/}
+                    {/*    color={cjbsTheme.palette.warning.main}*/}
+                    {/*  >*/}
+                    {/*    수량을 입력 해주세요*/}
+                    {/*  </Typography>*/}
+                    {/*)}*/}
                   </TD>
                   <TD align="right">
                     <Controller
@@ -302,38 +309,6 @@ const DynamicTableLiecense = () => {
           }
         />
       </Stack>
-
-      {/*{paymentInfoValue !== "BS_1914004" && (*/}
-      {/*  <Stack*/}
-      {/*    direction="row"*/}
-      {/*    spacing={1}*/}
-      {/*    justifyContent="center"*/}
-      {/*    sx={{ mb: 3 }}*/}
-      {/*  >*/}
-      {/*    <ContainedButton*/}
-      {/*      size="small"*/}
-      {/*      buttonName="품명 추가"*/}
-      {/*      onClick={handleAppend}*/}
-      {/*      startIcon={<MyIcon icon="plus" size={18} color="white" />}*/}
-      {/*    />*/}
-      {/*    <DeletedButton*/}
-      {/*      buttonName="삭제"*/}
-      {/*      disabled={isDeleteDisabled}*/}
-      {/*      onClick={handleDeleteSelected}*/}
-      {/*      startIcon={*/}
-      {/*        <MyIcon*/}
-      {/*          icon="trash"*/}
-      {/*          size={18}*/}
-      {/*          color={*/}
-      {/*            isDeleteDisabled*/}
-      {/*              ? cjbsTheme.palette.grey["400"]*/}
-      {/*              : cjbsTheme.palette.error.main*/}
-      {/*          }*/}
-      {/*        />*/}
-      {/*      }*/}
-      {/*    />*/}
-      {/*  </Stack>*/}
-      {/*)}*/}
     </>
   );
 };

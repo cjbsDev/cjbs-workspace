@@ -1,6 +1,6 @@
 import React from "react";
 import { NumericFormat } from "react-number-format";
-import { InputPriceType } from "cjbsDSTM";
+import { InputEAType, InputPriceType } from "cjbsDSTM";
 import { Controller, useFormContext } from "react-hook-form";
 
 const InputPrice = ({ inputName }) => {
@@ -14,7 +14,7 @@ const InputPrice = ({ inputName }) => {
     <Controller
       name={inputName}
       control={control}
-      rules={{ required: "입금액을 입력하세요." }}
+      rules={{ required: "수량을 입력하세요." }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <NumericFormat
           disabled={getPymtInfoCc === "BS_1914002"}
@@ -24,7 +24,7 @@ const InputPrice = ({ inputName }) => {
           onValueChange={(values) => {
             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
           }}
-          customInput={InputPriceType}
+          customInput={InputEAType}
         />
       )}
     />

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { InputAdornment, Typography } from "@mui/material";
-import { InputValidation } from "cjbsDSTM";
+import { formatNumberWithCommas, InputValidation } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 
 const RemainingAmount = () => {
@@ -19,11 +19,13 @@ const RemainingAmount = () => {
   // const getVat = watch("vat");
   // console.log("getVat^^^^", getVat);
   const remainingAmount =
-    Number(rmnPrePymtPrice.replaceAll(",", "")) - totalPrice;
+    totalPrice - Number(rmnPrePymtPrice.replaceAll(",", ""));
+
+  const isRemainingAmount = remainingAmount > 0 ? remainingAmount : 0;
 
   useEffect(() => {
-    setValue("remainingAmount", remainingAmount);
-  }, [setValue, totalPrice, rmnPrePymtPrice]);
+    setValue("remainingAmount", formatNumberWithCommas(isRemainingAmount));
+  }, [setValue, totalPrice, isRemainingAmount]);
 
   // console.log("totalSupplyPrice", totalSupplyPrice);
   // console.log("totalVat", totalVat);
