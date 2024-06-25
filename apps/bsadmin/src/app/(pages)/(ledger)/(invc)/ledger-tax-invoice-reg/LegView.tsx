@@ -57,6 +57,7 @@ const LegView = () => {
 
   const onSubmit = async (formData: any) => {
     setIsLoading(true);
+    console.log("SubmitData ==>>", formData);
     const reqBody = {
       ...formData,
       totalPrice:
@@ -106,6 +107,15 @@ const LegView = () => {
     //   delete bodyData.pyrNm;
     // }
 
+    // 숫자가 붙은 키들이 객체에서 삭제
+    Object.keys(reqBody).forEach((key) => {
+      if (/\d$/.test(key)) {
+        delete reqBody[key];
+      }
+    });
+
+    console.log("REQ BODY ==>>", reqBody);
+
     try {
       // 요청 타입에 따른 API 호출
       // const apiCall = type === "modify" ? PUT : POST;
@@ -113,7 +123,7 @@ const LegView = () => {
       //
       // console.log("RES", res);
 
-      const formattedData = formatDataForSubmission(formData, type);
+      const formattedData = formatDataForSubmission(reqBody, type);
       const response = await (type === "modify" ? PUT : POST)(
         `/invc`,
         formattedData,
