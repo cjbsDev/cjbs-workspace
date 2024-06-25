@@ -13,6 +13,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
   const productValue = useWatch({ name: fieldName, control });
   console.log("##########", productValue);
 
+  const sampleSize = productValue[index].sampleSize;
   const unitPrice = productValue[index].unitPrice;
   console.log("기준가!!@!@!@!", unitPrice);
   const stndPrice = Number(productValue[index].stndPrice.replaceAll(",", ""));
@@ -31,7 +32,15 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
   useEffect(() => {
     setValue(`costList[${index}].dscntPctg`, dscntPctg);
     setValue(`costList[${index}].isExc`, isExc);
-  }, [setValue, dscntPctg, isExc]);
+  }, [
+    setValue,
+    stndDscntPctg,
+    dscntPctg,
+    isExc,
+    stndPrice,
+    unitPrice,
+    sampleSize,
+  ]);
 
   return (
     <>

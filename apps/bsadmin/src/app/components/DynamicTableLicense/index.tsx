@@ -26,7 +26,7 @@ import {
 import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 import { NumericFormat } from "react-number-format";
-import SupplyPrice from "./SupplyPrice";
+import SupplyPrice from "./components/SupplyPrice";
 import DeleteBtn from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-list/components/DeleteBtn";
 import InputPrice from "../../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
 import StndPrice from "./components/StndPrice";
@@ -154,7 +154,7 @@ const DynamicTableLiecense = () => {
               <TH sx={{ width: 150 }} align="center">
                 단가
               </TH>
-              <TH sx={{ width: 180 }} align="center">
+              <TH sx={{ width: 240 }} align="center">
                 공급가액
               </TH>
               <TH sx={{ width: 120 }} align="center">

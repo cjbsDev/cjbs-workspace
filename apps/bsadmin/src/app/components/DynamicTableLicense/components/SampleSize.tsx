@@ -54,9 +54,9 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
         }
         setValue(`costList[${index}].stndCode`, resData[0].stndCode);
         setValue(`costList[${index}].stndDscntPctg`, resData[0].stndDscntPctg);
-        // setValue(`costList[${index}].unitPrice`, "0");
-        // setValue(`costList[${index}].supplyPrice`, "0");
-        // setValue(`costList[${index}].vat`, "0");
+        setValue(`costList[${index}].unitPrice`, "0");
+        setValue(`costList[${index}].supplyPrice`, "0");
+        setValue(`costList[${index}].vat`, "0");
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
