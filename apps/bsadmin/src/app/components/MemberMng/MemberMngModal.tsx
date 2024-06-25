@@ -142,11 +142,45 @@ const MemberMngtNewModal = ({
     };
 
     // [멤버 관리] - row 추가
+    // const handleAddRow = () => {
+    //   // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
+    //   //console.log("handleAddRow-selectedRows", selectedRows);
+    //
+    //   const newMemberDataList: Member[] = [];
+    //   selectedRows.selectedRows.forEach((row: any) => {
+    //     // 기존 멤버 확인 후 있다면 추가를 무시함
+    //     const existingMember = memeberData.find(
+    //       (member) => member.custUkey === row.custUkey,
+    //     );
+    //     if (existingMember) {
+    //       return;
+    //     }
+    //
+    //     if (row.instNm) {
+    //       toast("이미 거래처가 있는 고객은 연구원으로 등록 할 수 없습니다.");
+    //       return;
+    //     }
+    //
+    //     let newRow: Member = {
+    //       custUkey: row.custUkey,
+    //       ebcEmail: row.ebcEmail,
+    //       custNm: row.custNm,
+    //     };
+    //
+    //     newMemberDataList.push(newRow);
+    //     clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
+    //   });
+    //
+    //   setMemberData((prevData) => [...prevData, ...newMemberDataList]);
+    // };
+
     const handleAddRow = () => {
       // 여기서 왼쪽 데이터를 받아서 넣어야 될듯.
       //console.log("handleAddRow-selectedRows", selectedRows);
 
       const newMemberDataList: Member[] = [];
+      let toastShown = false;
+
       selectedRows.selectedRows.forEach((row: any) => {
         // 기존 멤버 확인 후 있다면 추가를 무시함
         const existingMember = memeberData.find(
@@ -157,7 +191,10 @@ const MemberMngtNewModal = ({
         }
 
         if (row.instNm) {
-          toast("이미 거래처가 있는 고객은 연구원으로 등록 할 수 없습니다.");
+          if (!toastShown) {
+            toast("이미 거래처가 있는 고객은 연구원으로 등록 할 수 없습니다.");
+            toastShown = true;
+          }
           return;
         }
 
@@ -168,9 +205,9 @@ const MemberMngtNewModal = ({
         };
 
         newMemberDataList.push(newRow);
-        clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
       });
 
+      clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
       setMemberData((prevData) => [...prevData, ...newMemberDataList]);
     };
 
