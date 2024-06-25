@@ -172,21 +172,21 @@ const MCItemModifyModal = ({
                     </Stack>
                   </TD>
                 </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "25%" }}>주문서 노출</TH>
-                  <TD sx={{ width: "75%" }} colSpan={5}>
-                    <Stack direction="row" spacing={0.5} alignItems="center">
-                      <SelectBox
-                        inputName="isExpsOrsh"
-                        options={[
-                          { value: "Y", optionName: "노출" },
-                          { value: "N", optionName: "노출안함" },
-                        ]}
-                        defaultOption={false}
-                      />
-                    </Stack>
-                  </TD>
-                </TableRow>
+                {/*<TableRow>*/}
+                {/*  <TH sx={{ width: "25%" }}>주문서 노출</TH>*/}
+                {/*  <TD sx={{ width: "75%" }} colSpan={5}>*/}
+                {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
+                {/*      <SelectBox*/}
+                {/*        inputName="isExpsOrsh"*/}
+                {/*        options={[*/}
+                {/*          { value: "Y", optionName: "노출" },*/}
+                {/*          { value: "N", optionName: "노출안함" },*/}
+                {/*        ]}*/}
+                {/*        defaultOption={false}*/}
+                {/*      />*/}
+                {/*    </Stack>*/}
+                {/*  </TD>*/}
+                {/*</TableRow>*/}
 
                 <TableRow>
                   <TH sx={{ width: "25%" }}>사용 여부</TH>
