@@ -21,7 +21,7 @@ const DynamicSumTable2 = () => {
           <TableRow>
             <TH sx={{ width: "15%" }}>총 공급가액</TH>
             <TD align="right" sx={{ width: "20%" }}>
-              <InputPrice inputName="totalSupplyPrice4" />
+              <InputPrice inputName="totalSupplyPrice4" unit="PRICE" />
             </TD>
             <TH sx={{ width: "15%" }}>부가세</TH>
             <TD align="right">

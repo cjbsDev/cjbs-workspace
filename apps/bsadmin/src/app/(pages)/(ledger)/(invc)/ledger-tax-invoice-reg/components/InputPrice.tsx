@@ -3,7 +3,12 @@ import { NumericFormat } from "react-number-format";
 import { InputEAType, InputPriceType } from "cjbsDSTM";
 import { Controller, useFormContext } from "react-hook-form";
 
-const InputPrice = ({ inputName }) => {
+interface InputPriceProps {
+  inputName: string;
+  unit?: string;
+}
+
+const InputPrice = ({ inputName, unit = "EA" }: InputPriceProps) => {
   const {
     control,
     watch,
@@ -24,7 +29,7 @@ const InputPrice = ({ inputName }) => {
           onValueChange={(values) => {
             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
           }}
-          customInput={InputEAType}
+          customInput={unit === "EA" ? InputEAType : InputPriceType}
         />
       )}
     />
