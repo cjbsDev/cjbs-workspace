@@ -10,8 +10,17 @@ const TrackingProgress = (props: {
   machineVal: string;
   kitVal: string;
   seqAgncVal: string;
+  runMngrNm: string;
 }) => {
-  const { runId, runTypeVal, runDttm, machineVal, kitVal, seqAgncVal } = props;
+  const {
+    runId,
+    runTypeVal,
+    runDttm,
+    machineVal,
+    kitVal,
+    seqAgncVal,
+    runMngrNm,
+  } = props;
   return (
     <Box>
       <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
@@ -98,6 +107,18 @@ const TrackingProgress = (props: {
                 <Grid item>
                   <Typography variant="subtitle2">
                     {kitVal === null ? "-" : kitVal}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Box>
+            <Box>
+              <Grid container gap={1}>
+                <Grid item>
+                  <Typography variant="body2">실험담당자</Typography>
+                </Grid>
+                <Grid item>
+                  <Typography variant="subtitle2">
+                    {runMngrNm === null ? "-" : runMngrNm}
                   </Typography>
                 </Grid>
               </Grid>

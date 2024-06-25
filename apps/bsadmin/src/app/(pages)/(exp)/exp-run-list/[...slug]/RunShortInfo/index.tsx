@@ -23,6 +23,7 @@ const RunShortInfo = () => {
     runSamplesCnt,
     runTypeMc,
     runTypeVal,
+    runMngrNm,
     seqAgncMc,
     seqAgncVal,
     runDttm,
@@ -56,6 +57,7 @@ const RunShortInfo = () => {
           machineVal={machineVal}
           kitVal={kitVal}
           seqAgncVal={seqAgncVal}
+          runMngrNm={runMngrNm}
         />
 
         <SampleBEA bcount={bcount} ecount={ecount} acount={acount} />
