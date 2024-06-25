@@ -26,7 +26,7 @@ const FileUploadAddInfo = () => {
             <TD colSpan={3}>
               <CheckboxSV
                 inputName="isSendQCEmail"
-                labelText="파일 업로드와 함께 고객에게 OC 메일을 발송합니다"
+                labelText="파일 업로드와 함께 고객에게 QC 메일을 발송합니다"
                 // value="Y"
               />
             </TD>

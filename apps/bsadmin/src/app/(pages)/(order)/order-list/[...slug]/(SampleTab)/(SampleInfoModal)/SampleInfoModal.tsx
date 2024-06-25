@@ -54,6 +54,12 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
     return res.data;
   };
 
+  const handleClose = () => {
+    console.log("CLOSE!!!");
+    setIsLoading(false);
+    onClose();
+  };
+
   const onSubmit = async (data: any) => {
     console.log("sampleInfoModify Add", data);
 
@@ -82,11 +88,6 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
       .catch((error) => {
         console.error("PUT request failed:", error);
       });
-  };
-
-  const handleClose = () => {
-    setIsLoading(false);
-    onClose();
   };
 
   return (

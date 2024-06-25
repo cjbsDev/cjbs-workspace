@@ -197,7 +197,7 @@ const SampleTab = () => {
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
       ...showSampleInfoModal,
-      // isShow: false,
+      isShow: false,
     });
   };
 
