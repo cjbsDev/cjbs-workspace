@@ -32,7 +32,7 @@ import { useMemo } from "react";
 
 function useArrayContainsCharacters(arr: string[], chars: string[]) {
   return useMemo(() => {
-    return chars.some((char) => arr.includes(char));
+    return chars?.some((char) => arr?.includes(char));
   }, [arr, chars]);
 }
 
