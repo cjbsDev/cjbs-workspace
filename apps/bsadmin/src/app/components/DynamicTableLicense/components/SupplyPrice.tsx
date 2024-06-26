@@ -18,7 +18,8 @@ interface SupplyPriceProps {
 }
 
 const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
-  const [stndSupplyPrice, setStndSupplyPrice] = useState<number>(0);
+  const [count, setCount] = useState<number>(0);
+
   const {
     control,
     setValue,
@@ -58,100 +59,96 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
     }
   }, [sampleSize, unitPrice, setValue]);
 
-  const handleSupplyPriceChange = useCallback(() => {
-    // 기준이 되는 공급가액
-    const newProductValue = [...productValue];
-    const newSupplyPrice = newProductValue[index].supplyPrice;
-
-    // 변경되는 공급가액
-    const currentValue = getValues(inputName);
-    console.log("변경가, 기준가 ==>>", currentValue, newSupplyPrice);
-  }, []);
-
-  // const incrementSupplyPrice = useCallback(() => {
-  //   const currentValue = getValues(inputName);
-  //   setValue(inputName, currentValue + 10);
-  // }, [getValues, inputName, setValue]);
+  // const handleSupplyPriceChange = useCallback(() => {
+  //   // 기준이 되는 공급가액
+  //   const newProductValue = [...productValue];
+  //   const newSupplyPrice = newProductValue[index].supplyPrice;
   //
-  // const decrementSupplyPrice = useCallback(() => {
+  //   // 변경되는 공급가액
   //   const currentValue = getValues(inputName);
-  //   setValue(inputName, Math.max(0, currentValue - 10)); // Ensures value does not go below 0
-  // }, [getValues, inputName, setValue]);
-
-  // const incrementSupplyPrice = useCallback(() => {
-  //   const currentValue = getValues(inputName);
-  //   if (currentValue % 10 !== 0) return; // Ensures modification only for exact 10 increments
-  //   setValue(inputName, currentValue + 10);
-  // }, [getValues, inputName, setValue]);
-
-  // const incrementSupplyPrice = useCallback(() => {
-  //   const currentValue = getValues(inputName);
-  //   const maxIncrement = 10; // Maximum increment value
-  //   const newValue = currentValue + 10;
-  //
-  //   if (currentValue % 10 !== 0) return; // Ensures modification only for exact 10 increments
-  //   if (newValue - currentValue > maxIncrement) return; // Ensures the increment does not exceed the maximum
-  //
-  //   setValue(inputName, newValue);
-  // }, [getValues, inputName, setValue]);
+  //   console.log("변경가, 기준가 ==>>", currentValue, newSupplyPrice);
+  // }, []);
 
   const incrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
-    const incrementedValue = currentValue + 10;
-    if (incrementedValue <= 100) {
-      setValue(inputName, incrementedValue);
-    } else {
-      console.log("Cannot increment beyond 100");
-    }
-  }, [getValues, inputName, setValue]);
+    setCount(count + 10);
+    setValue(inputName, currentValue + 10);
+  }, [getValues, inputName, setValue, count]);
 
   const decrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
-    if (currentValue % 10 !== 0) return; // Ensures modification only for exact 10 increments
-    setValue(inputName, Math.max(0, currentValue - 10)); // Ensures value does not go below 0
-  }, [getValues, inputName, setValue]);
+    setCount(count - 10);
+    setValue(inputName, currentValue - 10);
+  }, [getValues, inputName, setValue, count]);
 
   return (
     <>
-      <Controller
-        name={`${fieldName}[${index}].supplyPrice`}
-        control={control}
-        rules={{ required: "공급가액을 입력하세요." }}
-        render={({ field: { onChange, value }, fieldState: { error } }) => (
-          <Stack direction="row">
-            <NumericFormat
-              defaultValue={0}
-              value={value}
-              thousandSeparator={true}
-              onValueChange={(values) => {
-                onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
-              }}
-              // onBlur={handleSupplyPriceChange}
-              customInput={InputPriceType}
-            />
-            {/*<Stack direction="row">*/}
-            {/*  <IconButton onClick={incrementSupplyPrice} size="small">*/}
-            {/*    <MyIcon icon="arrow-up" size={18} />*/}
-            {/*  </IconButton>*/}
-            {/*  <IconButton onClick={decrementSupplyPrice} size="small">*/}
-            {/*    <MyIcon icon="arrow-down" size={18} />*/}
-            {/*  </IconButton>*/}
-            {/*</Stack>*/}
-          </Stack>
-        )}
-      />
-      {errors.costList?.[index]?.supplyPrice && (
-        <Typography variant="body2" color={cjbsTheme.palette.warning.main}>
-          공급가액을 입력해 주세요.
-        </Typography>
-      )}
-
-      {/*<Stack direction="row" spacing={0.5} justifyContent="flex-end">*/}
-      {/*  <Typography variant="body2">*/}
-      {/*    {formatNumberWithCommas(supplyPrice)}*/}
+      {/*<Controller*/}
+      {/*  name={`${fieldName}[${index}].supplyPrice`}*/}
+      {/*  control={control}*/}
+      {/*  rules={{ required: "공급가액을 입력하세요." }}*/}
+      {/*  render={({ field: { onChange, value }, fieldState: { error } }) => (*/}
+      {/*    <Stack direction="row">*/}
+      {/*      <NumericFormat*/}
+      {/*        defaultValue={0}*/}
+      {/*        value={value}*/}
+      {/*        thousandSeparator={true}*/}
+      {/*        onValueChange={(values) => {*/}
+      {/*          onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
+      {/*        }}*/}
+      {/*        // onBlur={handleSupplyPriceChange}*/}
+      {/*        customInput={InputPriceType}*/}
+      {/*      />*/}
+      {/*      <Stack direction="row">*/}
+      {/*        <IconButton*/}
+      {/*          onClick={incrementSupplyPrice}*/}
+      {/*          size="small"*/}
+      {/*          disabled={count === 10 ? true : false}*/}
+      {/*        >*/}
+      {/*          <MyIcon icon="arrow-up" size={18} />*/}
+      {/*        </IconButton>*/}
+      {/*        <IconButton*/}
+      {/*          onClick={decrementSupplyPrice}*/}
+      {/*          size="small"*/}
+      {/*          disabled={count === -10 ? true : false}*/}
+      {/*        >*/}
+      {/*          <MyIcon icon="arrow-down" size={18} />*/}
+      {/*        </IconButton>*/}
+      {/*      </Stack>*/}
+      {/*    </Stack>*/}
+      {/*  )}*/}
+      {/*/>*/}
+      {/*{errors.costList?.[index]?.supplyPrice && (*/}
+      {/*  <Typography variant="body2" color={cjbsTheme.palette.warning.main}>*/}
+      {/*    공급가액을 입력해 주세요.*/}
       {/*  </Typography>*/}
-      {/*  <Typography variant="body2">원</Typography>*/}
-      {/*</Stack>*/}
+      {/*)}*/}
+
+      <Stack direction="row" spacing={1} justifyContent="flex-end">
+        <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+          <Typography variant="body2">
+            {formatNumberWithCommas(watchSupplyPrice)}
+          </Typography>
+          <Typography variant="body2">원</Typography>
+        </Stack>
+
+        <Stack direction="row">
+          <IconButton
+            onClick={incrementSupplyPrice}
+            size="small"
+            disabled={watchSupplyPrice === 0 || count === 10}
+          >
+            <MyIcon icon="plus" size={18} />
+          </IconButton>
+          <IconButton
+            onClick={decrementSupplyPrice}
+            size="small"
+            disabled={watchSupplyPrice === 0 || count === -10}
+          >
+            <MyIcon icon="minus" size={18} />
+          </IconButton>
+        </Stack>
+      </Stack>
     </>
   );
 };

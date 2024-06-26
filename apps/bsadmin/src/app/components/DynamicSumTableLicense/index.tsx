@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
+import { useFormContext, useWatch } from "react-hook-form";
+import { addDays, subDays } from "date-fns";
 import {
-  InputAdornment,
   Stack,
   Table,
   TableBody,
@@ -8,21 +9,11 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import {
-  formatNumberWithCommas,
-  InputValidation,
-  SingleDatePicker,
-  TD,
-  TH,
-} from "cjbsDSTM";
-import { useFormContext, useWatch } from "react-hook-form";
-import { NumericFormat } from "react-number-format";
-import VatValue from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/VatValue";
-import TotalPrice from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/TotalPrice";
-import InputPrice from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
-import { addDays, subDays } from "date-fns";
+import { formatNumberWithCommas, SingleDatePicker, TD, TH } from "cjbsDSTM";
+import VatValue from "./VatValue";
+import TotalPrice from "./TotalPrice";
 
-const DynamicSumTableLicense = () => {
+const Index = () => {
   const { control, setValue, getValues, watch } = useFormContext();
   // const getPymtInfoCc = watch("pymtInfoCc");
   const fieldArrayName = "costList";
@@ -136,4 +127,4 @@ const DynamicSumTableLicense = () => {
   );
 };
 
-export default DynamicSumTableLicense;
+export default Index;

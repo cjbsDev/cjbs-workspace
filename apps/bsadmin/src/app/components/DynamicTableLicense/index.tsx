@@ -1,13 +1,19 @@
 import React, { useState } from "react";
 import { useFormContext, useFieldArray, Controller } from "react-hook-form";
 import {
+  Button,
   Checkbox,
+  IconButton,
   Stack,
+  styled,
   Table,
   TableBody,
   TableContainer,
   TableHead,
   TableRow,
+  Tooltip,
+  tooltipClasses,
+  TooltipProps,
   Typography,
 } from "@mui/material";
 import {
@@ -33,6 +39,7 @@ import StndPrice from "./components/StndPrice";
 import StndDscntPctg from "./components/StndDscntPctg";
 import Vat from "./components/Vat";
 import SampleSize from "./components/SampleSize";
+import { QuestionTooltip } from "../QuestionTooltip";
 
 const LazyServiceTypeSelectbox = dynamic(
   () => import("./components/ServiceTypeSelectbox"),
@@ -124,6 +131,18 @@ const DynamicTableLiecense = () => {
     setSelectedRows([]);
   };
 
+  const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+  ))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+      backgroundColor: "#f5f5f9",
+      color: "rgba(0, 0, 0, 0.87)",
+      maxWidth: 220,
+      fontSize: theme.typography.pxToRem(12),
+      border: "1px solid #dadde9",
+    },
+  }));
+
   return (
     <>
       <Typography variant="subtitle1">
@@ -155,7 +174,40 @@ const DynamicTableLiecense = () => {
                 단가
               </TH>
               <TH sx={{ width: 240 }} align="center">
-                공급가액
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                  spacing={0.5}
+                >
+                  <Typography variant="body2">공급가액</Typography>
+                  <HtmlTooltip
+                    title={
+                      <>
+                        <Stack
+                          direction="column"
+                          justifyContent="center"
+                          alignItems="flex-start"
+                          spacing={1}
+                          // sx={{ width: 500 }}
+                        >
+                          <Typography variant="subtitle2">안내</Typography>
+                          <Typography variant="body2">
+                            공급가액은 원래 공급가액에서
+                          </Typography>
+                          <Typography variant="body2">
+                            ± 10원 범위 내에서만 수정 가능합니다.
+                          </Typography>
+                        </Stack>
+                      </>
+                    }
+                    placement="top"
+                  >
+                    <IconButton>
+                      <MyIcon icon="exclamation-circle" size={20} />
+                    </IconButton>
+                  </HtmlTooltip>
+                </Stack>
               </TH>
               <TH sx={{ width: 120 }} align="center">
                 부가세
