@@ -71,14 +71,14 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
 
   const incrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
-    setCount(count + 10);
-    setValue(inputName, currentValue + 10);
+    setCount(count + 1);
+    setValue(inputName, currentValue + 1);
   }, [getValues, inputName, setValue, count]);
 
   const decrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
-    setCount(count - 10);
-    setValue(inputName, currentValue - 10);
+    setCount(count - 1);
+    setValue(inputName, currentValue - 1);
   }, [getValues, inputName, setValue, count]);
 
   return (

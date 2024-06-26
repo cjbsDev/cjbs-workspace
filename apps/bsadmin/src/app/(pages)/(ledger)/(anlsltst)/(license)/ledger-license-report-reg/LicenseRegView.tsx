@@ -50,9 +50,7 @@ import SalesManagerSelectbox from "../../../../../components/SalesManagerSelectb
 import TotalPrice from "./TotalPrice";
 import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
 import DynamicTableLicense from "../../../../../components/DynamicTableLicense";
-// import DynamicSumTableLicense2 from "../../../../../components/DynamicSumTableLicense2";
 import RemainingAmount from "./RemainingAmount";
-import DynamicSumTableLicense2 from "../../../../../components/DynamicSumTableLicense2";
 import DynamicSumTableLicense from "../../../../../components/DynamicSumTableLicense";
 
 // 플랫폼 모달

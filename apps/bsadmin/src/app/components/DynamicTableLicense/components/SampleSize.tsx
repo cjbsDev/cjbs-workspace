@@ -19,7 +19,7 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
     watch,
     formState: { errors },
   } = useFormContext();
-  const productValue = useWatch({ name: fieldName, control });
+  // const productValue = useWatch({ name: fieldName, control });
   const callStndPrice = async () => {
     const bodyData = [
       {
@@ -74,7 +74,7 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
       <Controller
         name={`${fieldName}[${index}].sampleSize`}
         control={control}
-        rules={{ required: "수량을 입력해야 합니다." }}
+        rules={{ required: true }}
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },
@@ -91,7 +91,8 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
           />
         )}
       />
-      {errors.costList?.[index]?.sampleSize && (
+
+      {errors?.costList?.[index]?.sampleSize && (
         <Typography variant="body2" color={cjbsTheme.palette.warning.main}>
           수량을 입력 해주세요
         </Typography>
