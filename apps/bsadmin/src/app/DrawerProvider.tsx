@@ -92,8 +92,8 @@ export default function DrawerProvider({ children }: ContextProps) {
   const [currentIndex, setCurrentIndex] = React.useState<number>();
   const router = useRouter();
   const currentPathname = usePathname();
-  const segment = useSelectedLayoutSegments();
-  console.log("segment", segment);
+  // const segment = useSelectedLayoutSegments();
+  // console.log("segment", segment);
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => {
     setShowModal(false);

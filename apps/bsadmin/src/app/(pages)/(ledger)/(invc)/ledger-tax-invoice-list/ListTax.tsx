@@ -24,6 +24,12 @@ import {
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
+  // const [startYear, setStartYear] = useState(dayjs().year());
+  // const [startMonth, setStartMonth] = useState(
+  //   dayjs().month(0).get("month") + 1,
+  // );
+  // const [endYear, setEndYear] = useState(dayjs().year());
+  // const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
 
   const startYear = useRecoilValue(invcStartYearAtom);
   const startMonth = useRecoilValue(invcStartMonthAtom);
@@ -56,10 +62,43 @@ const ListTax = () => {
   const listData = data.invcList;
   const totalElements = data.pageInfo.totalElements;
 
+  // const handleStartYear = (event: { target: { value: any } }) => {
+  //   const { value } = event.target;
+  //   setStartYear(value);
+  // };
+  //
+  // const handleStartMonth = (event: { target: { value: any } }) => {
+  //   const { value } = event.target;
+  //   setStartMonth(value);
+  // };
+  //
+  // const handleEndYear = (event: { target: { value: any } }) => {
+  //   const { value } = event.target;
+  //   setEndYear(value);
+  // };
+  //
+  // const handleEndMonth = (event: { target: { value: any } }) => {
+  //   const { value } = event.target;
+  //   setEndMonth(value);
+  // };
+
   const columns = useMemo(() => getColumns(totalElements), [totalElements]);
 
   const subHeaderComponentMemo = useMemo(
-    () => <SubHeader totalElements={totalElements} result={result} />,
+    () => (
+      <SubHeader
+        totalElements={totalElements}
+        result={result}
+        // startMonth={startMonth}
+        // startYear={startYear}
+        // endMonth={endMonth}
+        // endYear={endYear}
+        // handleEndMonth={handleEndMonth}
+        // handleEndYear={handleEndYear}
+        // handleStartMonth={handleStartMonth}
+        // handleStartYear={handleStartYear}
+      />
+    ),
     [totalElements, result, startYear, startMonth, endYear, endMonth],
   );
 
