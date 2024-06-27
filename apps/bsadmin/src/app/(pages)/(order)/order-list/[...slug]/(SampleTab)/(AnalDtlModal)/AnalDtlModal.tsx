@@ -25,8 +25,12 @@ const LazyAnalDtlDataTable = dynamic(() => import("./AnalDtlDataTable"), {
   loading: () => <SkeletonLoading height={300} />,
 });
 
-const AnalDtlModal = (props: AnalDtlModalProps) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+const AnalDtlModal = ({
+  onClose,
+  open,
+  modalWidth,
+  sampleUkeyList,
+}: AnalDtlModalProps) => {
   // console.log("SampleUkeyList ==>>>", sampleUkeyList);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleClose = () => {

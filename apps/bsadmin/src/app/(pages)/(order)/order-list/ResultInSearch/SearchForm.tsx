@@ -197,7 +197,13 @@ const SearchForm = ({ onClose }) => {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 539, p: 3.5, pb: 1 }}>
+      <Box sx={{ width: 580, p: 3, pb: 1 }}>
+        {/*<Stack direction="row">*/}
+        {/*  <Typography variant="subtitle2">진행사항</Typography>*/}
+        {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*    <LazyStatusTypeSelctbox />*/}
+        {/*  </ErrorContainer>*/}
+        {/*</Stack>*/}
         <Section>
           <SectionLabel variant="subtitle2">진행사항</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>
@@ -311,11 +317,11 @@ const SearchForm = ({ onClose }) => {
       <Box
         sx={{
           backgroundColor: cjbsTheme.palette.grey["50"],
-          p: 2.5,
+          p: 2,
           textAlign: "center",
         }}
       >
-        <Stack spacing={2} justifyContent="center" alignItems="center">
+        <Stack spacing={1} justifyContent="center" alignItems="center">
           <CheckboxSV
             inputName="isExcludeResult"
             labelText="위 검색 조건 목록에서 제외 합니다."
@@ -344,8 +350,8 @@ export default SearchForm;
 
 const Section = styled(Box)<BoxProps>(({ theme }) => ({
   color: theme.palette.common.black,
-  marginBottom: 24,
+  marginBottom: 10,
 }));
 const SectionLabel = styled(Typography)<TypographyProps>(({ theme }) => ({
-  marginBottom: 8,
+  marginBottom: 4,
 }));
