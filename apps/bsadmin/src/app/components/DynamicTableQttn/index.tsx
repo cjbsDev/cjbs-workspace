@@ -23,6 +23,7 @@ import {
   ErrorContainer,
   Fallback,
   InputEAType,
+  InputPriceType,
   InputValidation,
   OutlinedButton,
   TD,
@@ -35,6 +36,7 @@ import DTSupplyPrice from "./components/DTSupplyPrice";
 import DTUnitPrice from "./components/DTUnitPrice";
 import { POST } from "api";
 import { toast } from "react-toastify";
+import SampleSize from "./components/SampleSize";
 
 // 서비스 분류
 const LazyServiceCategorySelectbox = dynamic(
@@ -46,7 +48,7 @@ const LazyServiceCategorySelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
 // 분석 종류
@@ -69,7 +71,7 @@ const LazyServiceTypeSelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
 // 플랫폼 분류
@@ -82,7 +84,7 @@ const LazyDTPlatformSelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
 // 생산량 ( 생산량은 분석종류가 SG 값일 경우만 활성화된다. )
@@ -100,7 +102,7 @@ const LazyDTItemAddModifyModal = dynamic(
   () => import("./components/DTItemMemoModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 interface ProductDetailListProps {
@@ -217,10 +219,18 @@ const DynamicTable = () => {
 
   // 기준가 조회하기
   const callStndPrice = async (index: number) => {
+    console.log(
+      "@@@@@@@@@@@@@@@@@==>>",
+      getValues(`productDetailList.[${index}].depthMc`),
+    );
     const bodyData = [
       {
         anlsTypeMc: getValues(`productDetailList.[${index}].anlsTypeMc`),
-        depthMc: getValues(`productDetailList.[${index}].depthMc`),
+        depthMc:
+          getValues(`productDetailList.[${index}].depthMc`) === undefined
+            ? "BS_0100010001"
+            : getValues(`productDetailList.[${index}].depthMc`),
+        // depthMc: "BS_0100010001",
         pltfMc: getValues(`productDetailList.[${index}].pltfMc`),
         sampleSize: getValues(`productDetailList.[${index}].sampleSize`),
         srvcCtgrMc: getValues(`productDetailList.[${index}].srvcCtgrMc`),
@@ -235,7 +245,7 @@ const DynamicTable = () => {
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;
-      // console.log("PRICE response.data", resData);
+      console.log("견적서 기준가 Data ==>>", resData);
       if (response.success) {
         // console.log("성공");
         // 기준가, 기준할인율,
@@ -249,15 +259,15 @@ const DynamicTable = () => {
             `productDetailList.[${index}].stndPrice`,
             resData[0].stndPrice
               .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
           );
           setValue(
             `productDetailList.[${index}].dscntPctg`,
-            resData[0].stndDscntPctg
+            resData[0].stndDscntPctg,
           );
           setValue(
             `productDetailList.[${index}].stndDscntPctg`,
-            resData[0].stndDscntPctg
+            resData[0].stndDscntPctg,
           );
         }
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
@@ -358,6 +368,7 @@ const DynamicTable = () => {
                       <LazyAnlsTypeSelectbox
                         inputName={`productDetailList[${index}].anlsTypeMc`}
                         disabled={disabledIndexes[index]}
+                        inputName2={`productDetailList[${index}].srvcCtgrMc`}
                       />
                     </ErrorContainer>
                     {errors.productDetailList?.[index]?.anlsTypeMc && (
@@ -429,6 +440,7 @@ const DynamicTable = () => {
                   </TD>
                   {/* 수량 */}
                   <TD>
+                    {/*<SampleSize fieldName="productDetailList" index={index} />*/}
                     <Controller
                       name={`productDetailList[${index}].sampleSize`}
                       control={control}
@@ -460,6 +472,33 @@ const DynamicTable = () => {
                   </TD>
                   {/* 단가 */}
                   <TD align="right">
+                    {/*<Controller*/}
+                    {/*  name={`productDetailList[${index}].unitPrice`}*/}
+                    {/*  control={control}*/}
+                    {/*  rules={{ required: "단가를 입력해야 합니다." }}*/}
+                    {/*  render={({*/}
+                    {/*    field: { onChange, value },*/}
+                    {/*    fieldState: { error },*/}
+                    {/*  }) => (*/}
+                    {/*    <NumericFormat*/}
+                    {/*      defaultValue={0}*/}
+                    {/*      value={value}*/}
+                    {/*      thousandSeparator={true}*/}
+                    {/*      onValueChange={(values) => {*/}
+                    {/*        onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
+                    {/*      }}*/}
+                    {/*      customInput={InputPriceType}*/}
+                    {/*    />*/}
+                    {/*  )}*/}
+                    {/*/>*/}
+                    {/*{errors.productDetailList?.[index]?.unitPrice && (*/}
+                    {/*  <Typography*/}
+                    {/*    variant="body2"*/}
+                    {/*    color={cjbsTheme.palette.warning.main}*/}
+                    {/*  >*/}
+                    {/*    단가를 입력 해주세요*/}
+                    {/*  </Typography>*/}
+                    {/*)}*/}
                     <DTUnitPrice index={index} errors={errors} />
                   </TD>
                   {/* 공급가액 */}

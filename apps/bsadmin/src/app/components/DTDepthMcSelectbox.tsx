@@ -25,7 +25,12 @@ const DTDepthMcSelectbox = ({
   const productValue = useWatch({ name: fieldName, control });
   const anlsTypeMc = productValue[index]?.anlsTypeMc;
 
+  console.log("anlsTypeMc ==>>", anlsTypeMc);
+
   // 'anlsTypeMc'가 'BS_0100006006'일 때만 API 호출
+
+  // /code/list/shortly/value?topValue=Depth(GB)&midValue=none
+
   const { data, error, isValidating } = useSWR(
     anlsTypeMc === "BS_0100006006"
       ? `/code/list/shortly/value?topValue=Depth%28GB%29&midValue=none`
