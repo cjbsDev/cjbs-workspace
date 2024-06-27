@@ -32,10 +32,13 @@ interface ExperimentProgressChangeModalProps extends ModalContainerProps {
 
 const apiUrl = `/sample/status`;
 
-const ExperimentProgressChangeModal = (
-  props: ExperimentProgressChangeModalProps,
-) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+const ExperimentProgressChangeModal = ({
+  onClose,
+  open,
+  modalWidth,
+  sampleUkeyList,
+}: ExperimentProgressChangeModalProps) => {
+  // const { onClose, open, modalWidth, sampleUkeyList } = props;
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
@@ -63,10 +66,14 @@ const ExperimentProgressChangeModal = (
     compDttm: new Date(),
   };
   const handleClose = () => {
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: {
+    compDttm: string | number | Date | dayjs.Dayjs | null | undefined;
+  }) => {
     setIsLoading(true);
     console.log("FORM DATA ==>>", data);
     console.log("SampleUkeyList", sampleUkeyList);
@@ -91,7 +98,9 @@ const ExperimentProgressChangeModal = (
           mutate(`/order/${orderUkey}`);
           mutate(`/order/${orderUkey}/sample/list`);
           setIsLoading(false);
-          handleClose();
+          if (onClose) {
+            onClose(response.success);
+          }
         } else {
           handleAlertClick();
           setErrorMsg(response.message);

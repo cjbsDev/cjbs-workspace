@@ -42,8 +42,14 @@ const dataRadio = [
 
 const apiUrl = `/sample/update`;
 const apiUrl2 = `/sample/update/options`;
-const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
-  const { onClose, open, modalWidth, sampleUkeyList, sampleIdList } = props;
+const SampleBatchChangeModal = ({
+  onClose,
+  // onSubmitClose,
+  open,
+  modalWidth,
+  sampleUkeyList,
+  sampleIdList,
+}: SampleBathcChangeModalProps) => {
   const { mutate } = useSWRConfig();
   const params = useParams();
   const orderUkey = params.slug;
@@ -52,12 +58,23 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
     categoryNm: "sampleNm",
   };
 
-  console.log("sampleUkeyList", sampleUkeyList);
+  // console.log("sampleUkeyList $%$%$%", sampleUkeyList);
   const handleClose = () => {
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: {
+    categoryNm?: any;
+    changeContentList?: any;
+    isVrfc?: any;
+    mcNmCc?: any;
+    prgrAgncNmCc?: any;
+    sampleTypeCc?: any;
+    taxonCc?: any;
+    depthMc?: any;
+  }) => {
     setIsLoading(true);
     console.log("Form DATA ==>>", data);
 
@@ -118,7 +135,9 @@ const SampleBatchChangeModal = (props: SampleBathcChangeModalProps) => {
 
       if (response.success) {
         mutate(`/order/${orderUkey}/sample/list`);
-        handleClose();
+        if (onClose) {
+          onClose(response.success);
+        }
       } else {
         // 실패 처리 로직
         // handleAlertClick();

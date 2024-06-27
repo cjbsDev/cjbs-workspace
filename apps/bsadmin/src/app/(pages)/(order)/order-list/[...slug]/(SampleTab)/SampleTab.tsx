@@ -211,18 +211,29 @@ const SampleTab = () => {
     // setIsClear(true);
   };
 
-  const handleExPrgsChngModalClose = () => {
+  const handleExPrgsChngModalClose = (success?: boolean) => {
     setShowExPrgsChngModal(false);
-    // setSampleUkeyList([]);
-    // setIsClear(true);
+    if (success) {
+      setSampleUkeyList([]);
+      setIsClear(true);
+    }
   };
 
-  const handleSampleBatchChangeModalClose = () => {
+  const handleSampleBatchChangeModalClose = (success?: boolean) => {
     setShowSampleBatchChangeModal(false);
-    // setSampleUkeyList([]);
-    // setSampleIdList([]);
-    // setIsClear(true);
+    if (success) {
+      setSampleUkeyList([]);
+      setSampleIdList([]);
+      setIsClear(true);
+    }
   };
+
+  // const handleSampleBatchChangeSubmitModalClose = () => {
+  //   setShowSampleBatchChangeModal(false);
+  //   setSampleUkeyList([]);
+  //   setSampleIdList([]);
+  //   setIsClear(true);
+  // };
 
   return (
     <>
@@ -232,7 +243,7 @@ const SampleTab = () => {
           handleSelectedRowChange={handleSelectedRowChange}
           goDetailModal={goDetailModal}
           filterText={filterText}
-          // isClear={isClear}
+          isClear={isClear}
         />
       </ErrorContainer>
 
@@ -269,6 +280,7 @@ const SampleTab = () => {
       {showSampleBatchChangeModal && (
         <LazySampleBatchChangeModal
           onClose={handleSampleBatchChangeModalClose}
+          // onSubmitClose={handleSampleBatchChangeSubmitModalClose}
           open={showSampleBatchChangeModal}
           modalWidth={800}
           sampleIdList={sampleIdList}
