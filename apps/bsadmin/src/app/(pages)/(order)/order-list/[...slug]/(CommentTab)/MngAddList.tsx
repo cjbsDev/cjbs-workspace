@@ -20,10 +20,10 @@ const MngAddList = () => {
     setIsOpen(false);
   };
   const handleMngDelete = (ukey) => {
-    console.info("You clicked the delete icon.", ukey);
+    console.info("Delete ukey ==>.", ukey);
     const currentRcpnEmailList = resEamilList || []; // 현재 rcpnEmailList 가져오기
     const updatedRcpnEmailList = currentRcpnEmailList.filter(
-      (item) => item.ukey !== ukey
+      (item) => item.ukey !== ukey,
     ); // 삭제된 항목 제외
     setResEmailList(updatedRcpnEmailList);
   };
@@ -37,7 +37,7 @@ const MngAddList = () => {
           padding: "6px 16px",
         }}
       >
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack direction="row" spacing={1} alignItems="flex-start">
           <OutlinedButton
             buttonName="담당자 조회"
             size="small"
@@ -47,19 +47,20 @@ const MngAddList = () => {
           {resEamilList.length === 0 ? (
             <Typography
               variant="body2"
-              sx={{ color: cjbsTheme.palette.grey["500"] }}
+              sx={{ color: cjbsTheme.palette.grey["500"], pt: 0.3 }}
             >
               담당자 조회 버튼을 통해 선택 해 주세요.
             </Typography>
           ) : (
-            <Stack direction="row" spacing={1}>
-              {resEamilList.map((item: any) => {
+            <Stack direction="row" spacing={1} useFlexGap flexWrap="wrap">
+              {resEamilList.map((item) => {
+                const { ukey, nm, email } = item;
                 return (
                   <Chip
-                    key={item.ukey}
-                    label={`${item.nm} ${item.email}`}
+                    key={ukey}
+                    label={`${nm} ${email}`}
                     variant="outlined"
-                    onDelete={() => handleMngDelete(item.ukey)}
+                    onDelete={() => handleMngDelete(ukey)}
                     size="small"
                     sx={{
                       borderRadius: 4,

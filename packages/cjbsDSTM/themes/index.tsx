@@ -297,7 +297,7 @@ export const cjbsTheme = createTheme({
         select: {
           "&.MuiNativeSelect-select": {
             fontSize: 14,
-            padding: '2px 5px',
+            padding: "2px 5px",
           },
         },
       },
@@ -321,10 +321,10 @@ export const cjbsTheme = createTheme({
       styleOverrides: {
         root: {},
         sizeSmall: {
-          height: 22,
+          // height: 22,
           fontSize: 14,
           fontWeight: 400,
-          lineHeight: "16px",
+          // lineHeight: "16px",
         },
         sizeMedium: {
           height: 32,

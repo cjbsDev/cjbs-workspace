@@ -54,8 +54,8 @@ const LazyOrderType = dynamic(() => import("./OrderType"), {
 });
 
 const dataRadioGVTest = [
-  { value: "dnaReturnComp", optionName: "DNA 반송 요청" },
-  { value: "sampleReturnComp", optionName: "샘플 반송 요청" },
+  { value: "dnaReturnReq", optionName: "DNA 반송 요청" },
+  { value: "sampleReturnReq", optionName: "샘플 반송 요청" },
 ];
 
 const dataRadioGVTest2 = [
@@ -135,7 +135,8 @@ ModalContainerProps) => {
       if (res.success) {
         mutate(`/order/${orderUkey}`);
         mutate(`/order/detail/${orderUkey}`);
-        mutate(`/order/analysis/${orderUkey}`);
+        // mutate(`/order/analysis/${orderUkey}`);
+        mutate(`/order/sales/${orderUkey}`);
         handleClose();
       }
     } catch (error) {

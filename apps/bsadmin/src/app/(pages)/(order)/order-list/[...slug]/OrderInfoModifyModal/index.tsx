@@ -139,24 +139,24 @@ ModalContainerProps) => {
 
     console.log("reqBody ==>>", body);
 
-    // try {
-    //   const res = await PUT(`/order/analysis/${orderUkey}`, body);
-    //   console.log("오더 정보 변경 성고 ==>>", res.success);
-    //
-    //   if (res.success) {
-    //     mutate(`/order/${orderUkey}${result}`);
-    //     mutate(`/order/detail/${orderUkey}`);
-    //     mutate(`/order/analysis/${orderUkey}`);
-    //     handleClose();
-    //   }
-    // } catch (error) {
-    //   console.error(
-    //     "오더 정보 변경Error",
-    //     error.response?.data?.data || error.message,
-    //   );
-    // } finally {
-    //   setIsLoading(false);
-    // }
+    try {
+      const res = await PUT(`/order/analysis/${orderUkey}`, body);
+      console.log("오더 정보 변경 성고 ==>>", res.success);
+
+      if (res.success) {
+        mutate(`/order/${orderUkey}${result}`);
+        mutate(`/order/detail/${orderUkey}`);
+        mutate(`/order/analysis/${orderUkey}`);
+        handleClose();
+      }
+    } catch (error) {
+      console.error(
+        "오더 정보 변경Error",
+        error.response?.data?.data || error.message,
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
