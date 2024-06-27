@@ -128,7 +128,7 @@ const OrderRegView = () => {
     taxonACnt: 0,
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
     orderTypeCc: "BS_0800001",
-    isCheck16s: "Y",
+    isCheck16s: "N",
   };
   console.log("DefaultValues ==>>", defaultValues);
 
