@@ -121,7 +121,7 @@ const MngmntReg = () => {
   const onSubmit = async (data: FormDataProps) => {
     console.log(">>>>>>>>>>>", data);
 
-    const filteredSampleUkeyList = data.sampleUkeyList.filter(
+    const filteredSampleUkeyList = data.sampleUkeyList?.filter(
       (item) => item !== "",
     );
     console.log("srterter", filteredSampleUkeyList);
@@ -139,7 +139,8 @@ const MngmntReg = () => {
       qttnPrice: Number.isNaN(Number(data.qttnPrice))
         ? Number(data.qttnPrice.replace(/,/g, ""))
         : data.qttnPrice,
-      sampleUkeyList: filteredSampleUkeyList,
+      sampleUkeyList:
+        filteredSampleUkeyList === undefined ? [] : filteredSampleUkeyList,
     };
 
     console.log("REQ BODY", reqBody);

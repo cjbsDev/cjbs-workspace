@@ -132,54 +132,58 @@ const DetailView = () => {
         </Table>
       </TableContainer>
 
-      <Typography variant="subtitle1">샘플 정보</Typography>
-      <TableContainer sx={{ mb: 1.5 }}>
-        <Table size="small">
-          <TableHead>
-            <TableRow>
-              <TH align="center">샘플 번호</TH>
-              <TH align="center">샘플명</TH>
-              <TH align="center">샘플종류</TH>
-              <TH align="center">Source</TH>
-              <TH align="center">Depth(GB)</TH>
-              <TH align="center">Taxon</TH>
-              <TH align="center">오더 번호</TH>
-              <TH align="center">서비스 타입</TH>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {otsSampleDetailList.map((item, index) => {
-              const {
-                sampleId,
-                sampleUkey,
-                sampleNm,
-                sampleTypeVal,
-                source,
-                depthVal,
-                depthMc,
-                taxonVal,
-                taxonCc,
-                orderId,
-                orderUkey,
-                srvcTypeVal,
-                srvcTypeMc,
-              } = transformedNullToHyphon(item);
-              return (
+      {otsSampleDetailList.length !== 0 ? (
+        <>
+          <Typography variant="subtitle1">샘플 정보</Typography>
+          <TableContainer sx={{ mb: 1.5 }}>
+            <Table size="small">
+              <TableHead>
                 <TableRow>
-                  <TD align="center">{sampleId}</TD>
-                  <TD align="center">{sampleNm}</TD>
-                  <TD align="center">{sampleTypeVal}</TD>
-                  <TD align="center">{source}</TD>
-                  <TD align="center">{depthVal}</TD>
-                  <TD align="center">{taxonVal}</TD>
-                  <TD align="center">{orderId}</TD>
-                  <TD align="center">{srvcTypeVal}</TD>
+                  <TH align="center">샘플 번호</TH>
+                  <TH align="center">샘플명</TH>
+                  <TH align="center">샘플종류</TH>
+                  <TH align="center">Source</TH>
+                  <TH align="center">Depth(GB)</TH>
+                  <TH align="center">Taxon</TH>
+                  <TH align="center">오더 번호</TH>
+                  <TH align="center">서비스 타입</TH>
                 </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableHead>
+              <TableBody>
+                {otsSampleDetailList.map((item, index) => {
+                  const {
+                    sampleId,
+                    sampleUkey,
+                    sampleNm,
+                    sampleTypeVal,
+                    source,
+                    depthVal,
+                    depthMc,
+                    taxonVal,
+                    taxonCc,
+                    orderId,
+                    orderUkey,
+                    srvcTypeVal,
+                    srvcTypeMc,
+                  } = transformedNullToHyphon(item);
+                  return (
+                    <TableRow>
+                      <TD align="center">{sampleId}</TD>
+                      <TD align="center">{sampleNm}</TD>
+                      <TD align="center">{sampleTypeVal}</TD>
+                      <TD align="center">{source}</TD>
+                      <TD align="center">{depthVal}</TD>
+                      <TD align="center">{taxonVal}</TD>
+                      <TD align="center">{orderId}</TD>
+                      <TD align="center">{srvcTypeVal}</TD>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      ) : null}
 
       <TableContainer sx={{ mb: 5 }}>
         <Table>
