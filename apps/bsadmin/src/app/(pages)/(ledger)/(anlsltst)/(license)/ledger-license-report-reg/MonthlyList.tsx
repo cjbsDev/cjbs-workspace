@@ -86,13 +86,16 @@ const MonthlyList = (props: any) => {
   const getMonthlyData = async () => {
     const getAnlsDttm = getValues("anlsDttm");
     const getTotalPrice = getValues("totalPrice");
+    const getTotalSupplyPrice = getValues("totalSupplyPrice");
 
     if (getAnlsDttm === "" || getTotalPrice === "") {
       toast("분석일 및 합계금액이 입력된 경우만 조회가 가능합니다.");
       return false;
     }
 
-    const apiUrl: string = `/anls/itst/cost/monthly?anlsDttm=${dayjs(getAnlsDttm).format("YYYY-MM-DD")}&totalPrice=${getTotalPrice}`;
+    const apiUrl: string = `/anls/itst/cost/monthly?anlsDttm=${dayjs(
+      getAnlsDttm,
+    ).format("YYYY-MM-DD")}&totalSupplyPrice=${getTotalSupplyPrice}`;
     await GET(apiUrl, {})
       .then((response) => {
         console.log("POST request successful:", response);
