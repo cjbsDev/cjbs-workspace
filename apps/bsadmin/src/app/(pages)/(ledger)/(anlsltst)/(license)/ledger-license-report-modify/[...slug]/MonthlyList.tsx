@@ -4,11 +4,12 @@ import {
   IconButton,
   InputAdornment,
   Stack,
-  Table, TableBody,
+  Table,
+  TableBody,
   TableCell,
   TableContainer,
   TableRow,
-  Typography
+  Typography,
 } from "@mui/material";
 import {
   InputValidation,
@@ -19,20 +20,19 @@ import {
   OutlinedButton,
   TH,
   TD,
-  ContainedButton
+  ContainedButton,
 } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import { useFormContext } from "react-hook-form";
-import {useEffect, useState} from "react";
-import {POST, GET} from "api";
-import {toast} from "react-toastify";
+import { useEffect, useState } from "react";
+import { POST, GET } from "api";
+import { toast } from "react-toastify";
 import dayjs from "dayjs";
 import { useRecoilState } from "recoil";
 import { monthlyViewAtom } from "../../../../../../recoil/atoms/monthlyViewAtom";
 
-
-const MonthlyList = (props:any) => {
+const MonthlyList = (props: any) => {
   // const { field, remove, index, acct, perm, errors } = props;
   const { field, remove, index, errors } = props;
   const { getValues, setValue } = useFormContext();
@@ -41,8 +41,8 @@ const MonthlyList = (props:any) => {
   const [isMonthly, setIsMonthly] = useRecoilState(monthlyViewAtom);
   // 월비용 데이터
   const [monthlyData, setMonthlyData] = useState<any>({});
-  const [sDate, setSDate] = useState<string>('');
-  const [eDate, setEDate] = useState<string>('');
+  const [sDate, setSDate] = useState<string>("");
+  const [eDate, setEDate] = useState<string>("");
   // useEffect(() => {
   //   return () => {
   //   }
@@ -52,13 +52,16 @@ const MonthlyList = (props:any) => {
   const getMonthlyData = async () => {
     const getAnlsDttm = getValues("anlsDttm");
     const getTotalPrice = getValues("totalPrice");
+    const getTotalSupplyPrice = getValues("totalSupplyPrice");
 
-    if(getAnlsDttm === '' || getTotalPrice === '') {
-      toast('분석일 및 합계금액이 입력된 경우만 조회가 가능합니다.');
+    if (getAnlsDttm === "" || getTotalPrice === "") {
+      toast("분석일 및 합계금액이 입력된 경우만 조회가 가능합니다.");
       return false;
     }
 
-    const apiUrl: string = `/anls/itst/cost/monthly?anlsDttm=${dayjs(getAnlsDttm).format("YYYY-MM-DD")}&totalPrice=${getTotalPrice}`;
+    const apiUrl: string = `/anls/itst/cost/monthly?anlsDttm=${dayjs(
+      getAnlsDttm,
+    ).format("YYYY-MM-DD")}&totalSupplyPrice=${getTotalSupplyPrice}`;
     await GET(apiUrl, {})
       .then((response) => {
         console.log("GET request successful:", response);
@@ -79,9 +82,7 @@ const MonthlyList = (props:any) => {
       .finally(() => {
         // setIsLoading(false);
       });
-
-  }
-
+  };
 
   return (
     <TableContainer sx={{ mb: 5 }}>
@@ -90,12 +91,7 @@ const MonthlyList = (props:any) => {
           <TableRow>
             <TH sx={{ width: "15%" }}>사용 기간</TH>
             <TD sx={{ width: "85%" }}>
-              { isMonthly === true ? (
-                ` ${sDate} ~ ${eDate}`
-              ) : (
-                " -"
-              )}
-
+              {isMonthly === true ? ` ${sDate} ~ ${eDate}` : " -"}
             </TD>
           </TableRow>
           <TableRow>
@@ -112,35 +108,45 @@ const MonthlyList = (props:any) => {
                   buttonName="예상 월비용 조회"
                   onClick={() => getMonthlyData()}
                 />
-                <Typography variant="body2">예상 월비용을 조회할 수 있습니다. 분석내역 또는 분석일 변경 시 재 조회해주세요.</Typography>
+                <Typography variant="body2">
+                  예상 월비용을 조회할 수 있습니다. 분석내역 또는 분석일 변경 시
+                  재 조회해주세요.
+                </Typography>
               </Stack>
 
-              { isMonthly === true && (
+              {isMonthly === true && (
                 <>
-                  <TableContainer sx={{ marginY: 1, width: '100%', mb:0 }}>
+                  <TableContainer sx={{ marginY: 1, width: "100%", mb: 0 }}>
                     <Table>
                       <TableBody>
-                        <TableRow sx={{textAlign: "center"}}>
-                          { monthlyData.map((item, index) => {
-                            const {
-                              month,
-                              year,
-                              price,
-                            } = item;
+                        <TableRow sx={{ textAlign: "center" }}>
+                          {monthlyData.map((item, index) => {
+                            const { month, year, price } = item;
                             return (
-                              <TH key={month+price} sx={{ width: "7%" }} align="center">{year}.{month}</TH>
+                              <TH
+                                key={month + price}
+                                sx={{ width: "7%" }}
+                                align="center"
+                              >
+                                {year}.{month}
+                              </TH>
                             );
                           })}
                         </TableRow>
                         <TableRow>
-                          { monthlyData.map((item, index) => {
-                            const {
-                              month,
-                              year,
-                              price,
-                            } = item;
+                          {monthlyData.map((item, index) => {
+                            const { month, year, price } = item;
                             return (
-                              <TD key={month+price} sx={{ width: "7%" }} align="center">{price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원</TD>
+                              <TD
+                                key={month + price}
+                                sx={{ width: "7%" }}
+                                align="center"
+                              >
+                                {price
+                                  .toString()
+                                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                                원
+                              </TD>
                             );
                           })}
                         </TableRow>
