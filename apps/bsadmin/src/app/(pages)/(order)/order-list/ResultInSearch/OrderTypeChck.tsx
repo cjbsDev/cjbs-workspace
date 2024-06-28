@@ -12,11 +12,11 @@ const OrderTypeChck = () => {
     },
   );
 
-  const orderTypeValue = data.data;
+  // const orderTypeValue = data.data;
+  //
+  // console.log("오더타입 리스트", orderTypeValue);
 
-  console.log("오더타입 리스트", orderTypeValue);
-
-  return <CheckboxGV data={orderTypeValue} inputName="typeCcList" />;
+  return <CheckboxGV data={data} inputName="typeCcList" />;
 };
 
 export default OrderTypeChck;

@@ -13,6 +13,7 @@ import useSWR from "swr";
 import axios from "axios";
 import { useFormContext } from "react-hook-form";
 import { fetcher } from "api";
+import NoDataView from "../../../components/NoDataView";
 
 interface ModalContainerProps {
   // children?: React.ReactNode;
@@ -29,17 +30,19 @@ const ProjectSearchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const [perPage, setPerPage] = useState(50);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(10);
   const { data } = useSWR(
-    `/mngr/prjc/list/unRgst?page.page=${pageIndex}&page.size=${perPage}`,
+    `/mngr/prjt/list/unRgst?page=${page}&size=${size}`,
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   const { setValue, clearErrors } = useFormContext();
   // useMemo will only be created once
+  const { instList, pageInfo } = data;
+  // console.log("PPPPPPPPP", data);
 
   const handleClose = useCallback(() => {
     onClose();
@@ -49,12 +52,12 @@ const ProjectSearchModal = ({
     () => [
       {
         name: "코드",
-        selector: (row: { prjcUniqueCodeMc: string }) => row.prjcUniqueCodeMc,
+        selector: (row: { prjtUniqueCodeMc: string }) => row.prjtUniqueCodeMc,
         width: "200px",
       },
       {
         name: "과제명",
-        selector: (row: { prjcNm: string }) => row.prjcNm,
+        selector: (row: { prjtNm: string }) => row.prjtNm,
         width: "450px",
       },
 
@@ -66,11 +69,11 @@ const ProjectSearchModal = ({
               size="small"
               buttonName="선택"
               onClick={() => {
-                setValue("prjcUniqueCode", row.prjcUniqueCodeMc);
-                setValue("prjcNm", row.prjcNm);
+                setValue("prjtUniqueCode", row.prjtUniqueCodeMc);
+                setValue("prjtNm", row.prjtNm);
                 // onClose();
                 handleClose();
-                clearErrors("prjcNm");
+                clearErrors("prjtNm");
               }}
             />
           );
@@ -78,10 +81,20 @@ const ProjectSearchModal = ({
         width: "100px",
       },
     ],
-    [setValue, clearErrors, handleClose]
+    [setValue, clearErrors, handleClose],
   );
 
-  const filteredData = data.instList;
+  // const filteredData = data.instList;
+
+  const filteredData = instList.filter(
+    (item) =>
+      (item.prjtUniqueCodeMc &&
+        item.prjtUniqueCodeMc
+          .toLowerCase()
+          .includes(filterText.toLowerCase())) ||
+      (item.prjtNm &&
+        item.prjtNm.toLowerCase().includes(filterText.toLowerCase())),
+  );
 
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
@@ -95,7 +108,7 @@ const ProjectSearchModal = ({
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
+            <DataCountResultInfo totalCount={pageInfo.totalElements} />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -116,11 +129,11 @@ const ProjectSearchModal = ({
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
+  }, [filterText, resetPaginationToggle, pageInfo.totalElements]);
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>기관 검색</ModalTitle>
+      <ModalTitle onClose={onClose}>과제 검색</ModalTitle>
       <DialogContent>
         <DataTableBase
           data={filteredData}
@@ -132,14 +145,15 @@ const ProjectSearchModal = ({
           subHeaderComponent={subHeaderComponentMemo}
           paginationResetDefaultPage={resetPaginationToggle}
           selectableRows={false}
-          paginationServer
-          paginationTotalRows={5}
-          onChangePage={(page, totalRows) => console.log(page, totalRows)}
-          onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
-            console.log(currentRowsPerPage, currentPage)
-          }
+          // paginationServer
+          // paginationTotalRows={5}
+          // onChangePage={(page, totalRows) => console.log(page, totalRows)}
+          // onChangeRowsPerPage={(currentRowsPerPage, currentPage) =>
+          //   console.log(currentRowsPerPage, currentPage)
+          // }
           paginationPerPage={10}
           paginationRowsPerPageOptions={[5, 10, 15]}
+          noDataComponent={<NoDataView />}
         />
       </DialogContent>
     </ModalContainer>

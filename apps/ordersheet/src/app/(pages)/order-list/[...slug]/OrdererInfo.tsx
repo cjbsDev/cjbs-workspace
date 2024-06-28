@@ -24,6 +24,7 @@ import {useParams} from "next/navigation";
 import {AddressDeleteButton} from "@components/AddressDeleteButton";
 import MyIcon from "icon/MyIcon";
 import {useFormContext} from "react-hook-form";
+import AddEmailInput from "@app/(pages)/order-list/[...slug]/AddEmailInput";
 
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (

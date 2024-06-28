@@ -25,8 +25,12 @@ const LazyAnalDtlDataTable = dynamic(() => import("./AnalDtlDataTable"), {
   loading: () => <SkeletonLoading height={300} />,
 });
 
-const AnalDtlModal = (props: AnalDtlModalProps) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+const AnalDtlModal = ({
+  onClose,
+  open,
+  modalWidth,
+  sampleUkeyList,
+}: AnalDtlModalProps) => {
   // console.log("SampleUkeyList ==>>>", sampleUkeyList);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const handleClose = () => {
@@ -51,6 +55,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
           buttonName="닫기"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
@@ -58,6 +63,7 @@ const AnalDtlModal = (props: AnalDtlModalProps) => {
           type="submit"
           form="sampleBatchChange"
           disabled={true}
+          size="small"
         >
           분석 내역서 등록하기
         </LoadingButton>

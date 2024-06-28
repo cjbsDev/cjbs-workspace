@@ -23,7 +23,7 @@ import {
   TH,
   Title1,
 } from "cjbsDSTM";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
@@ -31,6 +31,7 @@ import { fetcherOrsh } from "api";
 import { useParams } from "next/navigation";
 import { AddressDeleteButton } from "../../../../components/AddressDeleteButton";
 import { useFormContext } from "react-hook-form";
+import useCenteredPopup from "../../../../hooks/useCenteredPopup";
 
 const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
   ssr: false,
@@ -56,7 +57,7 @@ const dataMailRcpnListGV = [
 
 export default function OrdererInfo() {
   const methods = useFormContext();
-  const { setValue, getValues } = methods;
+  const { setValue, getValues, clearErrors } = methods;
   const params = useParams();
   // console.log("params", params.slug[2]);
   const updataYn = params.slug[2];
@@ -88,6 +89,62 @@ export default function OrdererInfo() {
   const clearFormValue = () => {
     setValue("rstFileRcpnEmail", "");
   };
+
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/custListPopup?type=order`,
+    "고객 검색",
+    1100,
+    700,
+  );
+
+  useEffect(() => {
+    window.addEventListener("myCustData", function (e) {
+      console.log("Received data:", e.detail);
+
+      const {
+        custUkey,
+        custNm,
+        telList,
+        ebcEmail,
+        agncInstNm,
+        agncUkey,
+        instNm,
+        agncNm,
+        type,
+      } = e.detail;
+      console.log("ebcEmail&&&&&&&&&&&&&&", ebcEmail);
+
+      // setValue("custUkey", custUkey);
+      // setValue("custNm", custNm);
+      setValue("ebcEmail", ebcEmail);
+      // setValue("telList", telList);
+
+      setValue("custUkey", custUkey);
+      setValue("custNm", custNm);
+      setValue("ebcEmail", ebcEmail);
+      setValue("telList", telList);
+
+      if (type === "order") {
+        setValue("agncNm", agncInstNm);
+        setValue("agncUkey", agncUkey);
+      }
+
+      if (type === "agnc-order") {
+        setValue("ebcEmail", ebcEmail);
+        setValue("rhpiNm", custNm);
+        setValue("rhpiTel", telList);
+        setValue("instNm", instNm);
+        setValue("agncNm", agncNm);
+      }
+
+      clearErrors("custNm");
+      clearErrors("ebcEmail");
+      clearErrors("custUkey");
+      clearErrors("agncUkey");
+      clearErrors("agncNm");
+      clearErrors("telList");
+    });
+  }, []);
 
   return (
     <>
@@ -133,10 +190,19 @@ export default function OrdererInfo() {
                       해당 계정으로 결과가 업로드 됩니다.
                     </Box>
                   </Box>
-                  <ContainedButton
-                    buttonName="계정 변경"
-                    onClick={handleCustSearchModalOpen}
-                  />
+                  {/*<ContainedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="계정 변경"*/}
+                  {/*  onClick={handleCustSearchModalOpen}*/}
+                  {/*/>*/}
+                  {updataYn === "N" ?
+                    <ContainedButton
+                      size="small"
+                      buttonName="계정 변경"
+                      onClick={openPopup}
+                    />
+                  : ""}
+
                 </Stack>
               </TD>
             </TableRow>

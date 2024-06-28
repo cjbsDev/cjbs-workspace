@@ -86,7 +86,7 @@ const SampleAddModal = (props: ModalContainerProps) => {
     prgrAgncNmCc: sampleAddDefaultData.prgrAgncNmCc,
     memo: sampleAddDefaultData.memo,
     source: sampleAddDefaultData.source,
-    depth: sampleAddDefaultData.depth,
+    depthMc: sampleAddDefaultData.depthMc,
   };
 
   const handleClose = () => {
@@ -101,14 +101,16 @@ const SampleAddModal = (props: ModalContainerProps) => {
     const convertedDate = dayjs(data.rcptDttm).format("YYYY-MM-DD");
 
     const bodyData = {
-      depthMc: data.depthMc,
-      memo: data.memo,
-      prgrAgncNmCc: data.prgrAgncNmCc,
+      ...data,
       rcptDttm: convertedDate,
-      sampleNm: data.sampleNm,
-      sampleTypeCc: data.sampleTypeCc,
-      source: data.source,
-      taxonCc: data.taxonCc,
+      // depthMc: data.depthMc,
+      // memo: data.memo,
+      // prgrAgncNmCc: data.prgrAgncNmCc,
+      //
+      // sampleNm: data.sampleNm,
+      // sampleTypeCc: data.sampleTypeCc,
+      // source: data.source,
+      // taxonCc: data.taxonCc,
     };
 
     console.log("BODYDATA ==>", bodyData);
@@ -249,12 +251,14 @@ const SampleAddModal = (props: ModalContainerProps) => {
           buttonName="취소"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="sampleAddForm"
+          size="small"
         >
           저장
         </LoadingButton>

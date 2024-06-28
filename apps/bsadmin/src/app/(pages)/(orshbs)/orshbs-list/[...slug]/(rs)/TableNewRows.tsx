@@ -115,7 +115,7 @@ const TableNewRows = (props: any) => {
                 inputName={`sample.[${index}].memo`}
                 required={false}
                 sx={{
-                  width: 117,
+                  width: 200,
                   "& .MuiOutlinedInput-root": {
                     "& fieldset": { border: updataYn === 'N' ? '' : 'none' },
                   },

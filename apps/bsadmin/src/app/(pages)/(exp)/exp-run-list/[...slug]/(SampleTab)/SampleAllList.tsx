@@ -44,7 +44,7 @@ const SampleAllList = (props: ModalContainerProps) => {
 
       <SampleActionBtns handleClose={handleClose} isLoading={isLoading} />
 
-      {/*<ModalAction>*/}
+      {/*<ModalActionGroup>*/}
       {/*  <OutlinedButton*/}
       {/*    buttonName="취소"*/}
       {/*    onClick={handleClose}*/}
@@ -57,7 +57,7 @@ const SampleAllList = (props: ModalContainerProps) => {
       {/*  >*/}
       {/*    샘플 추가*/}
       {/*  </LoadingButton>*/}
-      {/*</ModalAction>*/}
+      {/*</ModalActionGroup>*/}
     </ModalContainer>
   );
 };

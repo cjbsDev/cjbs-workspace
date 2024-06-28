@@ -3,7 +3,7 @@ import React from "react";
 
 interface ModalContainerProps {
   children?: React.ReactNode;
-  onClose: () => void;
+  onClose?: () => void;
   open: boolean;
   modalWidth: number;
   overflowY?: string;

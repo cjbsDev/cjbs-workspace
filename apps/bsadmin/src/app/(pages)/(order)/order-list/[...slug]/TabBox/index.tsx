@@ -26,8 +26,8 @@ const TabBox = (props: TabsWrapProps) => {
           style: { background: "black" },
         }}
       >
-        <StyledTab label="오더" {...a11yProps(0)} />
-        <StyledTab label="샘플" {...a11yProps(1)} />
+        <StyledTab label="샘플" {...a11yProps(0)} />
+        <StyledTab label="오더" {...a11yProps(1)} />
         <StyledTab label="파일" {...a11yProps(2)} />
         <StyledTab label="코멘트" {...a11yProps(3)} />
       </Tabs>

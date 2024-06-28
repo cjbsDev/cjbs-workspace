@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import {
   Menu,
@@ -6,22 +8,12 @@ import {
   Typography,
   IconButton,
   Box,
-  Badge,
   Stack,
-  Link,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
-
-import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import InputAdornment from "@mui/material/InputAdornment";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import ClearRoundedIcon from "@mui/icons-material/ClearRounded";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import ExpandMoreRoundedIcon from "@mui/icons-material/ExpandMoreRounded";
 import { signOut } from "next-auth/react";
-
 import {
   usePopupState,
   bindTrigger,
@@ -34,6 +26,7 @@ import { useSession } from "next-auth/react";
 import { cjbsTheme, LinkButton } from "cjbsDSTM";
 import Skeleton from "@mui/material/Skeleton";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 const drawerWidth = 228;
 
@@ -43,7 +36,7 @@ interface AppBarProps extends MuiAppBarProps {
   handleDrawerClose: () => void;
 }
 
-const AppBar = styled(MuiAppBar, {
+const AppBarNew = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
   zIndex: theme.zIndex.drawer + 1,
@@ -64,25 +57,36 @@ const AppBar = styled(MuiAppBar, {
   padding: 0,
   margin: 0,
 }));
-const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
+const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
+  const router = useRouter();
   const currentPathname = usePathname();
   const { data: session, status } = useSession();
   const popupState = usePopupState({
     variant: "popover",
     popupId: "useInfoMenu",
   });
+
+  // console.log("SESSION", session);
+
   return (
-    <AppBar
+    <AppBarNew
       position="fixed"
       open={open}
       color="inherit"
       sx={{
         zIndex: 1000,
-        display:
-          currentPathname === "/sampleListPopup" ||
-          currentPathname === "/sign-in"
-            ? "none"
-            : "block",
+        // display:
+        //   currentPathname === "/custListPopup" ||
+        //   currentPathname === "/sampleListPopup" ||
+        //   currentPathname === "/sampleSimpleListPopup" ||
+        //   currentPathname === "/agncListPopup" ||
+        //   currentPathname === "/tnsfAgncListPopup" ||
+        //   currentPathname === "/projectListPopup" ||
+        //   currentPathname === "/instListPopup" ||
+        //   currentPathname === "/hsptListPopup" ||
+        //   currentPathname === "/sign-in"
+        //     ? "none"
+        //     : "block",
       }}
     >
       <Toolbar sx={{}}>
@@ -128,7 +132,7 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   spacing={1}
                 >
                   <MyIcon icon="profile-circle-fill" size={24} />
-                  <Typography variant="body2">{session.user.email}</Typography>
+                  <Typography variant="body2">{session.user?.email}</Typography>
                   <IconButton
                     {...bindTrigger(popupState)}
                     edge="end"
@@ -142,10 +146,24 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
+                      router.push("/my-pwchk");
+                    }}
+                  >
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <MyIcon icon="pencil-alt" size={20} />
+                      <Typography variant="body2">내 정보관리</Typography>
+                    </Stack>
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      popupState.close();
                       signOut({ callbackUrl: "/sign-in" });
                     }}
                   >
-                    Sign Out
+                    <Stack direction="row" spacing={1} alignItems="center">
+                      <MyIcon icon="logout" size={20} />
+                      <Typography variant="body2">Sign Out</Typography>
+                    </Stack>
                   </MenuItem>
                 </Menu>
               </Box>
@@ -160,8 +178,8 @@ const Header = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
           )}
         </Box>
       </Toolbar>
-    </AppBar>
+    </AppBarNew>
   );
 };
 
-export default Header;
+export default AppBar;

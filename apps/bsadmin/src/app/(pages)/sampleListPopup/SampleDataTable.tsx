@@ -30,10 +30,10 @@ import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(5);
-  const [filterText, setFilterText] = useState("");
-  const [checked, setChecked] = useState(false);
+  // const [filterText, setFilterText] = useState("");
+  // const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [isClear, setIsClear] = useState<boolean>(false);
+  // const [isClear, setIsClear] = useState<boolean>(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
 
@@ -71,78 +71,69 @@ const SampleDataTable = () => {
   );
 
   const sampleListData = data.sampleList;
+  console.log("Sample Search List ==>>", sampleListData);
   const totalElements = data.pageInfo.totalElements;
 
-  const subHeaderComponentMemo = React.useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <KeywordSearch />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [totalElements]);
-
-  // const handleSampleBatchChangeModalClose = () => {
-  //   setIsClear(true);
-  // };
-
-  const handleSelectedRowChange = useCallback(
-    ({ selectedRows }: any) => {
-      const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-      // const getSampleIDList = selectedRows.map((row) => row.sampleId);
-      console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-      setSampleUkeyList(getSampleUkeyList);
-      // console.log("selectedSampleIdList ==>>", getSampleIDList);
-    },
-    [setSampleUkeyList],
-  );
+  const formatValue = (value: string) => (value === null ? "-" : value);
 
   const columns = useMemo(
     () => [
       {
-        name: "샘플번호",
+        name: "오더 번호",
+        center: true,
+        allowOverflow: true,
         // width: "80px",
-        sortable: true,
+        // sortable: true,
+        selector: (row, index) => row.orderId,
+      },
+      {
+        name: "서비스 타입",
+        width: "120px",
+        // sortable: true,
+        allowOverflow: true,
+        selector: (row, index) => formatValue(row.srvcTypeVal),
+      },
+      {
+        name: "샘플번호",
+        center: true,
+        allowOverflow: true,
+        // width: "80px",
+        // sortable: true,
         selector: (row, index) => row.sampleId,
       },
       {
         name: "샘플명",
-        sortable: true,
-        selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
+        width: "160px",
+        allowOverflow: true,
+        // sortable: true,
+        selector: (row) => formatValue(row.sampleNm),
       },
       {
         name: "샘플종류",
-        sortable: true,
-        selector: (row) => row.seqAgncVal,
+        center: true,
+        // sortable: true,
+        selector: (row) => formatValue(row.sampleTypeVal),
       },
       {
         name: "Source",
+        center: true,
+        allowOverflow: true,
         selector: (row) => row.source,
       },
       {
         name: "Depth",
+        right: true,
         selector: (row) => row.depthVal,
       },
       {
         name: "Taxon",
+        center: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),
       },
       {
         name: "RUN",
-        width: "120px",
+        // width: "120px",
+        allowOverflow: true,
         selector: (row) => row.runList,
       },
       {
@@ -408,6 +399,39 @@ const SampleDataTable = () => {
     [],
   );
 
+  const subHeaderComponentMemo = React.useMemo(() => {
+    return (
+      <Grid container>
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5} alignItems="center">
+            <DataCountResultInfo totalCount={totalElements} />
+          </Stack>
+        </Grid>
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <KeywordSearch />
+          </Stack>
+        </Grid>
+      </Grid>
+    );
+  }, [totalElements]);
+
+  const handleSelectedRowChange = useCallback(
+    ({ selectedRows }: any) => {
+      const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+      // const getSampleIDList = selectedRows.map((row) => row.sampleId);
+      console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+      setSampleUkeyList(getSampleUkeyList);
+      // console.log("selectedSampleIdList ==>>", getSampleIDList);
+    },
+    [setSampleUkeyList],
+  );
+
   const handlePageChange = (page: number) => {
     console.log("Page", page);
     setPage(page);
@@ -420,7 +444,7 @@ const SampleDataTable = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="샘플 검색" />}
         data={sampleListData}
@@ -445,7 +469,7 @@ const SampleDataTable = () => {
         paginationRowsPerPageOptions={[5, 10, 15]}
       />
       <SampleActionBtns />
-    </>
+    </Box>
   );
 };
 

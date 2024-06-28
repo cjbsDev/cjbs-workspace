@@ -72,8 +72,7 @@ const TSRegView = () => {
   } = methods;
 
   // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] =
-    useState<boolean>(false);
+  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
 
   // [ 기관 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -301,6 +300,7 @@ const TSRegView = () => {
             endIcon={isLoading ? <LoadingWhiteSvg /> : null}
           />
         </Stack>
+
       </Form>
     </>
   );

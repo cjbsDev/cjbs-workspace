@@ -1,6 +1,14 @@
+import dayjs from "dayjs";
+import localeData from "dayjs/plugin/localeData";
+import "dayjs/locale/ko";
+
+dayjs.extend(localeData);
+dayjs.locale("ko");
+
 export const reqReturnListData = [
   { value: "dnaReturnReq", optionName: "DNA 반송 요청" },
   { value: "sampleReturnReq", optionName: "샘플 반송 요청" },
+  // { value: "sampleReturnReq", optionName: "보관요청" },
 ];
 export const emailReceiveSettingData = [
   { value: "agncLeaderRcpn", optionName: "연구책임자" },
@@ -33,12 +41,21 @@ export const yieldData = [
     value: "BS_0100010005",
     optionName: "20G",
   },
+  {
+    value: "BS_0100010007",
+    optionName: "50000",
+  },
 ];
 
 export const vrfcData = [
   { value: "Y", optionName: "Y" },
   { value: "N", optionName: "N" },
   { value: "NA", optionName: "N/A" },
+];
+
+export const isSendEmailData = [
+  { value: "Y", optionName: "Y" },
+  { value: "N", optionName: "N" },
 ];
 
 export const dateTypeCcData = [
@@ -49,9 +66,9 @@ export const dateTypeCcData = [
   { value: "BS_0811005", optionName: "완료 통보일" },
 ];
 
-// 2021년 부터 올해까지
+// 2021년 부터 올해까지 연도 리스트
 const startYear = 2021;
-const currentYear = new Date().getFullYear();
+const currentYear = dayjs().year();
 // const currentYear = 2023;
 const yearOptions = [];
 
@@ -61,20 +78,29 @@ for (let year = startYear; year <= currentYear; year++) {
 
 export const dashboardYearData = yearOptions;
 
-export const dashboardMonthData = [
-  { value: 1, optionName: "1월" },
-  { value: 2, optionName: "2월" },
-  { value: 3, optionName: "3월" },
-  { value: 4, optionName: "4월" },
-  { value: 5, optionName: "5월" },
-  { value: 6, optionName: "6월" },
-  { value: 7, optionName: "7월" },
-  { value: 8, optionName: "8월" },
-  { value: 9, optionName: "9월" },
-  { value: 10, optionName: "10월" },
-  { value: 11, optionName: "11월" },
-  { value: 12, optionName: "12월" },
-];
+// 월 리스트
+const monthNames = dayjs.months();
+const monthArray = monthNames.map((name, index) => ({
+  value: index + 1,
+  optionName: name,
+}));
+
+export const dashboardMonthData = monthArray;
+
+// export const dashboardMonthData = [
+//   { value: 1, optionName: "1월" },
+//   { value: 2, optionName: "2월" },
+//   { value: 3, optionName: "3월" },
+//   { value: 4, optionName: "4월" },
+//   { value: 5, optionName: "5월" },
+//   { value: 6, optionName: "6월" },
+//   { value: 7, optionName: "7월" },
+//   { value: 8, optionName: "8월" },
+//   { value: 9, optionName: "9월" },
+//   { value: 10, optionName: "10월" },
+//   { value: 11, optionName: "11월" },
+//   { value: 12, optionName: "12월" },
+// ];
 
 export const dashboardIdleData = [
   { value: 3, optionName: "3개월" },
@@ -108,6 +134,11 @@ export const periodListData = [
 export const groupListData = [
   { name: "기관", value: "BS_2200001" },
   { name: "거래처", value: "BS_2200002" },
+];
+
+export const groupDepartMngrListData = [
+  { value: "BS_0100003011", optionName: "NGS분석팀" },
+  { value: "BS_0100003012", optionName: "NGS영업팀" },
 ];
 
 export const taxonListData = [

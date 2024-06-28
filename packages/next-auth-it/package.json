@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mem": "^9.0.2",
-    "next-auth": "^4.22.1",
+    "next-auth": "^4.24.5",
     "next": "latest"
   },
   "devDependencies": {

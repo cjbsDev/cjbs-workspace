@@ -12,6 +12,7 @@ interface InputNameProps {
   index: number;
 }
 
+// DT : DynamicTable
 const DTPlatformSelectbox = ({
   inputName,
   fieldName,
@@ -26,7 +27,7 @@ const DTPlatformSelectbox = ({
 
   const { data, error, isValidating } = useSWR(
     anlsTypeMc ? `/code/order/pltf/list?type=${anlsTypeMc}` : null,
-    fetcher
+    fetcher,
   );
   if (error) return <Typography>오류 발생: {error.message}</Typography>;
   if (isValidating) return <Typography>로딩 중...</Typography>;
@@ -38,10 +39,10 @@ const DTPlatformSelectbox = ({
 
   return (
     <SelectBox
-      inputName="platformMc"
+      inputName={inputName}
       options={data}
-      required={true}
-      errorMessage="플랫폼을 선택해 주세요."
+      // required={true}
+      // errorMessage="플랫폼을 선택해 주세요."
     />
   );
 };

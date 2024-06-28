@@ -1,72 +1,142 @@
-import React, { useState } from "react";
+// import React, { useState } from "react";
+// import { ModalContainerProps } from "../../../../../../types/modal-container-props";
+// import { useParams } from "next/navigation";
+// import dayjs from "dayjs";
+// import { PUT } from "api";
+// import { toast } from "react-toastify";
+// import {
+//   ErrorContainer,
+//   Fallback,
+//   ModalActionGroup,
+//   ModalContainer,
+//   ModalTitle,
+//   OutlinedButton,
+// } from "cjbsDSTM";
+// import { CircularProgress, DialogContent, Stack } from "@mui/material";
+// import { LoadingButton } from "@mui/lab";
+// import { useSWRConfig } from "swr";
+// import dynamic from "next/dynamic";
+//
+// const LazyAdminPublishInfoModifyForm = dynamic(
+//   () => import("./AdminPublishInfoModifyForm"),
+//   {
+//     ssr: false,
+//     loading: () => (
+//       <Stack direction="row" justifyContent="center" spacing={1}>
+//         <CircularProgress size={20} />
+//       </Stack>
+//     ),
+//   },
+// );
+//
+// const formatDate = (
+//   date: string | number | Date | dayjs.Dayjs | null | undefined,
+// ) => dayjs(date).format("YYYY-MM-DD");
+//
+// const AdminPublishInfoModifyModal = ({
+//   onClose,
+//   open,
+//   modalWidth,
+// }: ModalContainerProps) => {
+//   const [isLoading, setIsLoading] = useState<boolean>(false);
+//   const { slug: invcUkey } = useParams();
+//   // const params = useParams();
+//   // const invcUkey = params.slug;
+//   const { mutate } = useSWRConfig();
+//
+//   const onSubmit = async (data: {
+//     issuDttm: string | number | Date | dayjs.Dayjs | null | undefined;
+//   }) => {
+//     setIsLoading(true);
+//     console.log("ssssssss", data);
+//
+//     const formattedIssuDttm = formatDate(data.issuDttm);
+//     const bodyData = {
+//       ...data,
+//       issuDttm: formattedIssuDttm,
+//       invcUkey: invcUkey?.toString(),
+//     };
+//
+//     try {
+//       const res = await PUT(`/invc/issuedInfo`, bodyData);
+//
+//       if (res.success) {
+//         console.log("SUCCESS", res);
+//         mutate(`/invc/${invcUkey}`);
+//         onClose();
+//       } else {
+//         toast.error(res.message || "알 수 없는 오류가 발생했습니다.");
+//       }
+//     } catch (error: any) {
+//       console.error("Error submitting form", error);
+//       toast.error(error.message || "폼 제출 중 오류가 발생했습니다.");
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   };
+//
+//   return (
+//     <ModalContainer
+//       onClose={onClose}
+//       open={open}
+//       modalWidth={modalWidth}
+//       overflowY="visible"
+//     >
+//       <ModalTitle onClose={onClose}>계산서 발행 정보 변경</ModalTitle>
+//       <DialogContent>
+//         <ErrorContainer FallbackComponent={Fallback}>
+//           <LazyAdminPublishInfoModifyForm onSubmit={onSubmit} />
+//         </ErrorContainer>
+//       </DialogContent>
+//       <ModalActionGroup>
+//         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />
+//         <LoadingButton
+//           loading={isLoading}
+//           variant="contained"
+//           type="submit"
+//           form="accountStatementForm"
+//         >
+//           수정
+//         </LoadingButton>
+//       </ModalActionGroup>
+//     </ModalContainer>
+//   );
+// };
+//
+// export default AdminPublishInfoModifyModal;
+
+// AdminPublishInfoModifyModal.js (View)
+import React from "react";
 import { ModalContainerProps } from "../../../../../../types/modal-container-props";
 import { useParams } from "next/navigation";
-import { useRouter } from "next-nprogress-bar";
-import dayjs from "dayjs";
-import { PUT } from "api";
-import { toast } from "react-toastify";
 import {
-  Form,
+  ErrorContainer,
+  Fallback,
   ModalAction,
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  SingleDatePicker,
-  TD,
-  TH,
 } from "cjbsDSTM";
-import {
-  Alert,
-  DialogContent,
-  Table,
-  TableBody,
-  TableContainer,
-  TableRow,
-} from "@mui/material";
-import AccountStatementInput from "../AccountStatementInput";
+import { DialogContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
-import { useSWRConfig } from "swr";
+import dynamic from "next/dynamic";
+import { useAdminPublishInfoModifyViewModel } from "./viewModel/useAdminPublishInfoModifyViewModel";
+
+const LazyAdminPublishInfoModifyForm = dynamic(
+  () => import("./AdminPublishInfoModifyForm"),
+  { ssr: false },
+);
 
 const AdminPublishInfoModifyModal = ({
   onClose,
   open,
   modalWidth,
 }: ModalContainerProps) => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const params = useParams();
-  const router = useRouter();
-  const invcUkey = params.slug;
-  const { mutate } = useSWRConfig();
-
-  const onSubmit = async (data: any) => {
-    setIsLoading(true);
-
-    const bodyData = {
-      ...data,
-      issuDttm: dayjs(data.issuDttm).format("YYYY-MM-DD"),
-      invcUkey: invcUkey?.toString(),
-    };
-
-    console.log("PUT BODYDATA ==>>", bodyData);
-
-    try {
-      const res = await PUT(`/invc/issuedInfo`, bodyData);
-
-      if (res.success) {
-        console.log("SUCCESS", res);
-        // router.push("/tax-invoice-list");
-        mutate(`/invc/${invcUkey}`);
-        onClose();
-      } else {
-        toast.error(res.message);
-      }
-    } catch (error) {
-      console.error("Error submitting form", error);
-      toast.error("폼 제출 중 오류가 발생했습니다.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const { slug: invcUkey } = useParams();
+  const { onSubmit, isLoading } = useAdminPublishInfoModifyViewModel(
+    invcUkey,
+    onClose,
+  );
 
   return (
     <ModalContainer
@@ -77,38 +147,9 @@ const AdminPublishInfoModifyModal = ({
     >
       <ModalTitle onClose={onClose}>계산서 발행 정보 변경</ModalTitle>
       <DialogContent>
-        <Form
-          onSubmit={onSubmit}
-          defaultValues={undefined}
-          id="accountStatementForm"
-        >
-          <TableContainer>
-            <Table>
-              <TableBody>
-                <TableRow>
-                  <TH sx={{ width: "35%" }}>발행일</TH>
-                  <TD>
-                    <SingleDatePicker
-                      inputName="issuDttm"
-                      required={true}
-                      textAlign="end"
-                    />
-                  </TD>
-                </TableRow>
-                <TableRow>
-                  <TH sx={{ width: "35%" }}>세금계산서 번호</TH>
-                  <TD>
-                    <AccountStatementInput />
-                  </TD>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
-          <Alert severity="error">
-            세금계산서 발행 후에는 요청 내용을 수정할 수 없습니다. 발행 전에
-            다시 한번 확인해 주세요.
-          </Alert>
-        </Form>
+        <ErrorContainer FallbackComponent={Fallback}>
+          <LazyAdminPublishInfoModifyForm onSubmit={onSubmit} />
+        </ErrorContainer>
       </DialogContent>
       <ModalAction>
         <OutlinedButton buttonName="닫기" onClick={onClose} color="secondary" />

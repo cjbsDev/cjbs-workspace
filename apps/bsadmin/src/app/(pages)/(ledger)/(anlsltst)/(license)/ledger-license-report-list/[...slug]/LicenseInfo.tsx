@@ -33,6 +33,7 @@ import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 import AgncDetailInfo from "../../../../../../components/AgncDetailInfo";
 import RearchDetailInfo from "../../../../../../components/RearchDetailInfo";
+import {addDays, subDays} from "date-fns";
 
 const LazyPrePayListModal = dynamic(() => import("./PrePayListModal"), {
   ssr: false,
@@ -64,6 +65,12 @@ const LicenseInfo = () => {
   // [선결제 정산내역] 모달
   const [showPrePayListModal, setShowPrePayListModal] = useState<boolean>(false);
 
+  // string으로 가져온 stndPrice에 NA 값이 아니면 콤마 추가
+  const convertedData = data.anlsItstCostInfo.anlsItstCostList.map((dataItem: any) => ({
+    ...dataItem,
+    stndPrice: dataItem.stndPrice !== "N/A" ? dataItem.stndPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") : "N/A",
+  }));
+
   const defaultValues = {
     srvcCtgrMc: data.anlsItstInfo.srvcCtgrMc,
     agncUkey: data.anlsItstCustInfo.agncUkey,
@@ -80,7 +87,7 @@ const LicenseInfo = () => {
     rmnPrePymtPrice: data.anlsItstCustInfo.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     memo: data.memo,
     anlsDttm: data.anlsItstCostInfo.anlsDttm,
-    sample: data.anlsItstCostInfo.anlsItstCostList,
+    sample: convertedData,
     totalCnt: data.anlsItstCostInfo.totalCnt,
     totalSupplyPriceVal: data.anlsItstCostInfo.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalSupplyPrice: data.anlsItstCostInfo.totalSupplyPrice,
@@ -91,6 +98,77 @@ const LicenseInfo = () => {
     remainingAmount: data.anlsItstCalculationInfo.remainingAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
   };
 
+  const isUpdateChk = () => {
+    // const nowDate = new Date("2024-02-05");
+    // const nowMonth = nowDate.getMonth()+1;
+    // const nowDay: number = nowDate.getDate();
+    // console.log('nowDate : ', nowDate)
+    // console.log('nowMonth : ', nowMonth)
+    // console.log('nowDay : ', nowDay)
+    //
+    // const anlsDttmDate = new Date(data.anlsItstCostInfo.anlsDttm);
+    // const anlsDttmMonth = anlsDttmDate.getMonth()+1;
+    // const anlsDttmDay: number = anlsDttmDate.getDate();
+    // console.log('anlsDttmDate : ', anlsDttmDate)
+    // console.log('anlsDttmMonth : ', anlsDttmMonth)
+    // console.log('anlsDttmDay : ', anlsDttmDay)
+    //
+    // let startRange;
+    // let endRange;
+    // if(nowDay < 6) {
+    //   console.log('111')
+    //   startRange = new Date(nowDate.setMonth(nowDate.setMonth(nowDate.getMonth()-1)));
+    //   endRange = new Date(nowDate.setMonth(nowDate.getMonth()+2));
+    //
+    // } else {
+    //  console.log('222')
+    // }
+    //
+    // console.log('startRange', startRange)
+    // console.log('endRange', endRange)
+
+    // 오늘 날짜
+    const currentDate = new Date("2024-03-05");
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth()+1;
+    const currentDay: number = currentDate.getDate();
+    // 비교할 날짜
+    const targetDate = new Date(data.anlsItstCostInfo.anlsDttm);
+    const targetYear = targetDate.getFullYear();
+    const targetMonth = targetDate.getMonth()+1;
+    const targetDay: number = targetDate.getDate();
+    // 오늘 날짜가 1일부터 5일 사이인지 확인
+    const isBetween1and5 = currentDate.getDate() >= 1 && currentDate.getDate() <= 5;
+    if(currentDate <= targetDate) {
+        console.log('수정가능');
+    } else {
+
+      if (isBetween1and5) {
+        // const currentMonth = currentDate.getMonth() + 1;
+        // const targetMonth = targetDate.getMonth() + 1;
+        let cDate = new Date(currentYear, currentMonth, 1);
+        let tDate = new Date(targetYear, targetMonth, 1);
+        if (cDate == tDate) {
+          console.log('수정가능');
+        } else {
+          cDate = new Date(currentYear, currentMonth-1, 1);
+          if (cDate == tDate) {
+            console.log('수정가능');
+          } else {
+            console.log('수정불가');
+          }
+        }
+      }
+    }
+  };
+
+  function formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }
+
   useEffect(() => {
     if(data) {
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!", data.anlsItstInfo.orderUkey)
@@ -98,16 +176,18 @@ const LicenseInfo = () => {
       if(data.isEdit === 'N') {
         setIsEdit(data.isEdit);
       }
+      isUpdateChk();
     }
   }, [data]);
 
   const goModifyPage = () => {
-    router.push("/ledger-analysis-report-modify/" + anlsItstUkey);
+    router.push("/ledger-license-report-modify/" + anlsItstUkey);
   };
 
   const { agncInfoDetail, agncLeaderInfoDetail } = data.anlsItstCustInfo;
   const { payList } = data.anlsItstCalculationInfo;
-  const { anlsItstCostLcnsDetailList } = data.anlsItstCostLcnsInfo;
+  const { anlsItstCostLcnsDetailList, startDttm, endDttm } = data.anlsItstCostLcnsInfo;
+
 
   const agncInfoModalClose = () => {
     setShowAgncInfoModal(false);
@@ -139,7 +219,7 @@ const LicenseInfo = () => {
                 <TableRow>
                   <TH sx={{width: "15%"}}>서비스 분류</TH>
                   <TD sx={{width: "35%", textAlign: "left"}}>
-                    <Typography variant="body2" sx={{pl: '14px'}}>Analysis</Typography>
+                    <Typography variant="body2" sx={{pl: '14px'}}>License</Typography>
                     <InputValidation
                       sx={{display: "none"}}
                       inputName="srvcCtgrMc"
@@ -613,7 +693,7 @@ const LicenseInfo = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>사용 기간</TH>
                       <TD sx={{ width: "85%" }}>
-                        {" "}2023-04-10 ~ 2023-04-09
+                        {" "}{startDttm} ~ {endDttm}
                       </TD>
                     </TableRow>
                     {/*{settlement === true && (*/}
@@ -782,7 +862,7 @@ const LicenseInfo = () => {
                                             세금계산서
                                             <LinkButton
                                               buttonName={ "("+invcId+")" }
-                                              onClick={() => router.push("/tax-invoice-list/"+invcUkey)}
+                                              onClick={() => router.push("/ledger-tax-invoice-list/"+invcUkey)}
                                             />
                                           </Stack>
                                         )}

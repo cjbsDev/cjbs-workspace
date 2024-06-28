@@ -21,11 +21,13 @@ import React, {useEffect, useState} from "react";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import {useRecoilState} from "recoil";
-import {prjcCodeAtom} from "../../../../recoil/atoms/fileIdValueAtom";
+import {prjtCodeAtom} from "../../../../recoil/atoms/fileIdValueAtom";
 import {useParams} from "next/navigation";
+import useCenteredPopup from "../../../../hooks/useCenteredPopup";
+import {useFormContext} from "react-hook-form";
 
 
-const LazyProjectSearchModal = dynamic(() => import("../../orsh-order/ProjectSearchModal"), {
+const LazyProjectSearchModal = dynamic(() => import("../../orshbs/ProjectSearchModal"), {
   ssr: false,
 });
 
@@ -38,13 +40,16 @@ const LazyPrepSelectbox = dynamic(
 );
 
 export default function StudySelection(props: any) {
+  const methods = useFormContext();
+  const { setValue, getValues, clearErrors } = methods;
+
   const params = useParams();
   const updataYn = params.slug[2];
-  const prjcCode = props.prjcCode;
+  const prjtCode = props.prjtCode;
   // // [프로젝트 검색] 모달
   const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
-  const [newPrjcCode, setNewPrjcCode] = useState<string>(prjcCode);
-  // const [prjcCode, setPrjcCode] = useRecoilState(prjcCodeAtom);
+  const [newPrjtCode, setNewPrjtCode] = useState<string>(prjtCode);
+  // const [prjtCode, setPrjtCode] = useRecoilState(prjtCodeAtom);
 
   // [ 프로젝트 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
@@ -57,19 +62,45 @@ export default function StudySelection(props: any) {
   };
 
   const setCodeDataChange = (code: string) => {
-    setNewPrjcCode(code);
+    setNewPrjtCode(code);
   };
 
   useEffect(() => {
-    // console.log("{{{{{{{{{{{{{{", props.prjcCode);
-    setNewPrjcCode(prjcCode)
-  }, [prjcCode])
+    // console.log("{{{{{{{{{{{{{{", props.prjtCode);
+    setNewPrjtCode(prjtCode)
+  }, [prjtCode]);
+
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/projectListPopup?type=order`,
+    "과제 검색",
+    1100,
+    700,
+  );
+
+  useEffect(() => {
+    window.addEventListener("projectData", function (e) {
+      console.log("Received data:", e.detail);
+
+      const {
+        value,
+        optionName,
+        prjtDetailCnt,
+        isPrjtSelect,
+      } = e.detail;
+
+      setValue("prjtUniqueCode", value);
+      setValue("prjtNm", optionName);
+      clearErrors("prjtNm");
+      setCodeDataChange(value);
+
+    });
+  }, []);
 
   return (
     <>
-      <Typography variant="subtitle1">
-        주문자 정보
-      </Typography>
+      {/*<Typography variant="subtitle1">*/}
+      {/*  주문자 정보*/}
+      {/*</Typography>*/}
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
@@ -78,7 +109,7 @@ export default function StudySelection(props: any) {
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
-                    inputName="prjcUniqueCode"
+                    inputName="prjtUniqueCode"
                     disabled={true}
                     required={true}
                     errorMessage="과제를 검색 & 선택해주세요."
@@ -86,18 +117,25 @@ export default function StudySelection(props: any) {
                     sx={{ width: 200 }}
                   />
                   <InputValidation
-                    inputName="prjcNm"
+                    inputName="prjtNm"
                     disabled={true}
                     required={true}
                     errorMessage="과제를 검색 & 선택해주세요."
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
+                  {/*{updataYn === 'N' && (*/}
+                  {/*  <OutlinedButton*/}
+                  {/*    size="small"*/}
+                  {/*    buttonName="과제 검색"*/}
+                  {/*    onClick={agncSearchModalOpen}*/}
+                  {/*  />*/}
+                  {/*)}*/}
                   {updataYn === 'N' && (
                     <OutlinedButton
                       size="small"
                       buttonName="과제 검색"
-                      onClick={agncSearchModalOpen}
+                      onClick={openPopup}
                     />
                   )}
 
@@ -110,11 +148,25 @@ export default function StudySelection(props: any) {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
                     <LazyPrepSelectbox
-                      url={`/code/orsh/prjtDetail/list?type=${newPrjcCode}`}
-                      inputName={`prjcDetailCode`}
+                      url={`/code/orsh/prjtDetail/list?type=${newPrjtCode}`}
+                      inputName={`prjtDetailCode`}
                       disabled={updataYn === 'N' ? false : true}
                     />
                   </ErrorContainer>
+                </Stack>
+              </TD>
+            </TableRow>
+            <TableRow>
+              <TH sx={{ width: "15%" }}>품의번호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TD sx={{ width: "85%" }} colSpan={3}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="loaNum"
+                    required={true}
+                    errorMessage="품의번호를 입력해주세요."
+                    placeholder="품의번호를 입력해주세요."
+                    sx={{ width: 600 }}
+                  />
                 </Stack>
               </TD>
             </TableRow>

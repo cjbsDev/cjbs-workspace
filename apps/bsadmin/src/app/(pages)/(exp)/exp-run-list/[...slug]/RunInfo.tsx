@@ -80,14 +80,14 @@ const RunInfo = () => {
                 endIcon={<MyIcon icon="cheveron-right" size={18} />}
               />
             </Grid>
-            <Grid item>
-              <ContainedButton
-                size="small"
-                buttonName="BI분석 요청"
-                onClick={handleBIReqModalOpen}
-                endIcon={<MyIcon icon="cheveron-right" size={18} />}
-              />
-            </Grid>
+            {/*<Grid item>*/}
+            {/*  <ContainedButton*/}
+            {/*    size="small"*/}
+            {/*    buttonName="BI분석 요청"*/}
+            {/*    onClick={handleBIReqModalOpen}*/}
+            {/*    endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
+            {/*  />*/}
+            {/*</Grid>*/}
           </Grid>
         </Box>
         <Box sx={{ mb: 5 }}>
@@ -131,7 +131,7 @@ const RunInfo = () => {
           <LazyBIAnalyzeReqModal
             onClose={handleBIReqModalClose}
             open={showBIReqModal}
-            modalWidth={800}
+            modalWidth={600}
           />
         </ErrorContainer>
       )}

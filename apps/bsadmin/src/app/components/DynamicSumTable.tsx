@@ -10,9 +10,13 @@ import {
 import { formatNumberWithCommas, TD, TH } from "cjbsDSTM";
 import { useFormContext, useWatch } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
+import VatValue from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/VatValue";
+import TotalPrice from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/TotalPrice";
+import InputPrice from "../(pages)/(ledger)/(invc)/ledger-tax-invoice-reg/components/InputPrice";
 
 const DynamicSumTable = () => {
-  const { control, setValue, getValues } = useFormContext();
+  const { control, setValue, getValues, watch } = useFormContext();
+  const getPymtInfoCc = watch("pymtInfoCc");
   const productValue =
     useWatch({
       name: "productDetailList",
@@ -23,10 +27,10 @@ const DynamicSumTable = () => {
 
   const totalSupplyPrice = productValue.reduce(
     (sum, item) => sum + (item.supplyPrice || 0), // item.supplyPrice가 undefined일 경우 0을 기본값으로 사용
-    0
+    0,
   );
 
-  const vatValue = totalSupplyPrice * 0.1;
+  const vatValue = Math.round(totalSupplyPrice * 0.1);
   const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;
 
   useEffect(() => {
@@ -34,6 +38,11 @@ const DynamicSumTable = () => {
     setValue("vat", vatValue);
     setValue("totalPrice", supplyPlusVatTotalValue);
   }, [setValue, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
+  useEffect(() => {
+    // setValue("totalSupplyPrice", 0);
+    // setValue("vat", 0);
+    // setValue("totalPrice", 0);
+  }, [getPymtInfoCc]);
 
   return (
     <TableContainer sx={{ mb: 5 }}>
@@ -42,37 +51,39 @@ const DynamicSumTable = () => {
           <TableRow>
             <TH sx={{ width: "15%" }}>총 공급가액</TH>
             <TD align="right">
-              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
-                <Typography variant="body2">
-                  {formatNumberWithCommas(totalSupplyPrice)}
-                </Typography>
-                <Typography variant="body2">원</Typography>
-              </Stack>
+              <InputPrice inputName="totalSupplyPrice" />
+              {/*<Stack direction="row" spacing={0.5} justifyContent="flex-end">*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    {formatNumberWithCommas(totalSupplyPrice)}*/}
+              {/*  </Typography>*/}
+              {/*  <Typography variant="body2">원</Typography>*/}
+              {/*</Stack>*/}
             </TD>
             <TH sx={{ width: "15%" }}>부가세</TH>
             <TD align="right">
-              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
-                <Typography variant="body2">
-                  {/*{formatNumberWithCommas(vatValue)}*/}
-                  <NumericFormat
-                    value={vatValue}
-                    decimalScale={1}
-                    thousandSeparator
-                    fixedDecimalScale
-                    displayType="text"
-                  />
-                </Typography>
-                <Typography variant="body2">원</Typography>
-              </Stack>
+              {/*<Stack direction="row" spacing={0.5} justifyContent="flex-end">*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    <NumericFormat*/}
+              {/*      value={vatValue}*/}
+              {/*      // decimalScale={1}*/}
+              {/*      thousandSeparator*/}
+              {/*      fixedDecimalScale*/}
+              {/*      displayType="text"*/}
+              {/*    />*/}
+              {/*  </Typography>*/}
+              {/*  <Typography variant="body2">원</Typography>*/}
+              {/*</Stack>*/}
+              <VatValue />
             </TD>
             <TH sx={{ width: "15%" }}>합계금액</TH>
             <TD align="right">
-              <Stack direction="row" spacing={0.5} justifyContent="flex-end">
-                <Typography variant="body2">
-                  {formatNumberWithCommas(supplyPlusVatTotalValue)}
-                </Typography>
-                <Typography variant="body2">원</Typography>
-              </Stack>
+              <TotalPrice />
+              {/*<Stack direction="row" spacing={0.5} justifyContent="flex-end">*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    {formatNumberWithCommas(supplyPlusVatTotalValue)}*/}
+              {/*  </Typography>*/}
+              {/*  <Typography variant="body2">원</Typography>*/}
+              {/*</Stack>*/}
             </TD>
           </TableRow>
         </TableBody>

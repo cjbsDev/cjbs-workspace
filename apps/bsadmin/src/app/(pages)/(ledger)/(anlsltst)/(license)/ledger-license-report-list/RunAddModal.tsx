@@ -37,35 +37,35 @@ const LazyMcNameSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyRUNTypeSelctbox = dynamic(
   () => import("../../../../../components/RunTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyKitSelctbox = dynamic(
   () => import("../../../../../components/KitSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">장비를 선택하세요.</Typography>,
-  }
+  },
 );
 const LazyHostCompSelctbox = dynamic(
   () => import("../../../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyExpMngSelctbox = dynamic(
   () => import("../../../../../components/ExpMngSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const RunAddModal = (props: ModalContainerProps) => {
@@ -181,7 +181,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH>실험 당당자</TH>
+                  <TH>실험 담당자</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyExpMngSelctbox

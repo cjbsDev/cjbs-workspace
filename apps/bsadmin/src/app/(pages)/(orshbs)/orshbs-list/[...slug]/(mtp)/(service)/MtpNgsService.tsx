@@ -53,9 +53,10 @@ export default function MtpNgsService(){
     addEmailList : data.custAgnc.addEmailList,
     memo : data.addRqstMemo.memo,
     isRtrnRasn : data.custAgnc.isRtrnRasn,
-    prjcUniqueCode : data.custAgnc.prjcCode,
-    prjcNm : data.custAgnc.prjcNm,
-    prjcDetailCode : data.custAgnc.prjcDetailCode,
+    loaNum : data.custAgnc.loaNum,
+    prjtUniqueCode : data.custAgnc.prjtCode,
+    prjtNm : data.custAgnc.prjtNm,
+    prjtDetailCode : data.custAgnc.prjtDetailCode,
     rstFileRcpnEmail : data.custAgnc.rstFileRcpnEmail,
     sample : data.samples,
   };
@@ -75,6 +76,7 @@ export default function MtpNgsService(){
         ebcEmail : data.ebcEmail,
         instNm : data.instNm,
         isRtrnRasn : data.isRtrnRasn,
+        loaNum : data.loaNum,
         mailRcpnList : data.mailRcpnList,
         ordrAplcEmail : data.ordrAplcEmail,
         ordrAplcNm : data.ordrAplcNm,
@@ -82,8 +84,8 @@ export default function MtpNgsService(){
         rhpiId : data.rhpiId,
         rhpiNm : data.rhpiNm,
         rhpiTel : data.rhpiTel,
-        prjcCode : data.prjcUniqueCode,
-        prjcDetailCode : data.prjcDetailCode,
+        prjtCode : data.prjtUniqueCode,
+        prjtDetailCode : data.prjtDetailCode,
         rstFileRcpnEmail : data.rstFileRcpnEmail,
       },
       samples : data.sample,
@@ -146,7 +148,7 @@ export default function MtpNgsService(){
         </Stack>
 
         <Box sx={{ p: 2 }}>
-          <StudySelection prjcCode={data.custAgnc.prjcCode}/>
+          <StudySelection prjtCode={data.custAgnc.prjtCode}/>
         </Box>
 
         <Stack

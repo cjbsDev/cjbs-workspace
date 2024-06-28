@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ContainedButton,
   OutlinedButton,
@@ -28,13 +28,14 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import LoadingWhiteSvg from "../../../../components/LoadingWhiteSvg";
+import useCenteredPopup from "../../../../hooks/useCenteredPopup";
 
 const LazyMemberTable = dynamic(
   () => import("../../../../components/MemberMng"),
   {
     ssr: false,
     loading: () => <SkeletonLoading height={270} />,
-  }
+  },
 );
 
 const LazyAgncSearchModal = dynamic(() => import("./AgncSearchModal"), {
@@ -46,7 +47,7 @@ const LazyCustSearchModal = dynamic(
   () => import("../../../../components/CustSearchModal"),
   {
     ssr: false,
-  }
+  },
 );
 
 // 영업 담당자
@@ -55,7 +56,7 @@ const LazySalesManagerSelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 /**
@@ -97,6 +98,51 @@ const AgncAdd = () => {
 
   // [멤버 관리] 멤버 저장
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+
+  // const { isOpen, openPopup, closePopup } = useCenteredPopup(
+  //   `/instListPopup`,
+  //   "거래처 검색",
+  //   800,
+  //   570,
+  // );
+  //
+  // useEffect(() => {
+  //   window.addEventListener("myAgncData", function (e) {
+  //     console.log("myAgncData Received data:", e.detail);
+  //
+  //     const {
+  //       agncUkey,
+  //       agncNm,
+  //       instFakeNm,
+  //       rmnPrePymtPrice,
+  //       rmnPrice,
+  //       agncInstNm,
+  //       tnsfTargetAgncNm,
+  //       tnsfTargetAgncUkey,
+  //     } = e.detail;
+  //
+  //     if (paymentInfoValue === "BS_1914004") {
+  //       setValue("tnsfTargetAgncNm", tnsfTargetAgncNm);
+  //       setValue("tnsfTargetAgncUkey", tnsfTargetAgncUkey);
+  //     } else {
+  //       setValue("agncUkey", agncUkey);
+  //       setValue("agncNm", agncNm);
+  //       setValue("instFakeNm", instFakeNm);
+  //       setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+  //       setValue("rmnPrice", rmnPrice);
+  //       setValue("agncInstNm", agncInstNm);
+  //     }
+  //
+  //     clearErrors([
+  //       "agncUkey",
+  //       "agncNm",
+  //       "instFakeNm",
+  //       "instNm",
+  //       "rmnPrice",
+  //       "rmnPrePymtPrice",
+  //     ]);
+  //   });
+  // }, []);
 
   // [ 고객 검색 ] 모달 오픈
   const handleCustSearchModalOpen = () => {
@@ -208,6 +254,11 @@ const AgncAdd = () => {
                     buttonName="기관 검색"
                     onClick={agncSearchModalOpen}
                   />
+                  {/*<OutlinedButton*/}
+                  {/*  size="small"*/}
+                  {/*  buttonName="기관 검색"*/}
+                  {/*  onClick={openPopup}*/}
+                  {/*/>*/}
                 </Stack>
               </TD>
             </TableRow>
@@ -310,6 +361,7 @@ const AgncAdd = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      {/* 소속 연구원 */}
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyMemberTable
           selectMemberCallbak={handleMemberSelection}
@@ -379,12 +431,14 @@ const AgncAdd = () => {
         <OutlinedButton
           buttonName="목록"
           onClick={() => router.push("/agnc-pi-list")}
+          size="small"
         />
 
         <ContainedButton
           type="submit"
           buttonName="저장"
           endIcon={isLoading ? <LoadingWhiteSvg /> : null}
+          size="small"
         />
       </Stack>
     </Form>

@@ -149,12 +149,14 @@ const RunAddModal = (props: ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH>Kit</TH>
+                  <TH>
+                    Kit<NotRequired>[선택]</NotRequired>
+                  </TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyKitSelctbox
-                        required={true}
-                        errorMessage="Kit를 선택해 주세요."
+                      // required={true}
+                      // errorMessage="Kit를 선택해 주세요."
                       />
                     </ErrorContainer>
                   </TD>
@@ -181,7 +183,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH>실험 당당자</TH>
+                  <TH>실험 담당자</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyExpMngSelctbox

@@ -30,18 +30,28 @@ import {
 } from "cjbsDSTM";
 import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import { POST } from "api";
+import { GET, POST } from "api";
 import { useSearchParams } from "next/navigation";
 import { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
 import { cjbsTheme } from "cjbsDSTM/themes";
-import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
+
 import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
+import { useFormContext } from "react-hook-form";
+import MonthlyList from "./MonthlyList";
+import { addDays, subDays } from "date-fns";
+import DynamicLiceseSumTable from "./DynamicLicenseSumTable";
+import SalesManagerSelectbox from "../../../../../components/SalesManagerSelectbox";
+import TotalPrice from "./TotalPrice";
+import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
+import DynamicTableLicense from "../../../../../components/DynamicTableLicense";
+import RemainingAmount from "./RemainingAmount";
+import DynamicSumTableLicense from "../../../../../components/DynamicSumTableLicense";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -69,10 +79,19 @@ const LazyAnalysisListModal = dynamic(
   },
 );
 
+const LazySalesManagerSelectbox = dynamic(
+  () => import("../../../../../components/SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
 const LicenseRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { mutate } = useSWRConfig();
+  // const { getValues, setValue} = useFormContext();
 
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
     useState<boolean>(false);
@@ -80,22 +99,22 @@ const LicenseRegView = () => {
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [platformSelectChk, setPlatformSelectChk] = useState<boolean>(false);
-  const [ukeyValue, setUkeyValue] = useState<string>(null);
+  // const [ukeyValue, setUkeyValue] = useState<string>(null);
 
-  const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
+  // const [isSampleSelected, setIsSampleSelected] = useState<boolean>(false);
   const [settlement, setSettlement] = useState<boolean>(false);
-  const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
-  const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
+  // const [selectSampleList, setSelectSampleList] = useRecoilState(groupListDataAtom);
+  // const [clearRowsAtom, setClearRowsAtom] = useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
-
   // [기관 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
 
   // defaultValues 세팅
-  // const defaultValues = getDefaultValues(orshType, orshExtrData);
   const defaultValues = {
     // ...commonValues,
     srvcCtgrMc: "BS_0100005002",
+    rmnPrePymtPrice: "0",
   };
   // console.log("DefaultValues ==>>", defaultValues);
 
@@ -103,52 +122,60 @@ const LicenseRegView = () => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
-    if (data.sample.length <= 0) {
+    if (data.costList.length <= 0) {
       toast("해당 오더에 포함된 분석 내역이 없습니다.");
       return false;
     }
 
-    console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
+    // costList에 들어 있는 vat타입을 숫자로 변경
+    data.costList.map((item) => {
+      item.vat = Number(item.vat.replace(/,/g, ""));
+      item.sampleUkey = [];
+    });
 
-    const sampleUkeyList = () => {
-      let sampleList = data.sample;
+    // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
 
-      sampleList.map((item: any, index: any) => {
-        console.log("item", item);
-        // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
-        if (selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
-          console.log(
-            "selectSampleListData",
-            selectSampleListData[item.srvcTypeMc]["sampleUkey"],
-          );
-          sampleList[index]["sampleUkey"] =
-            selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        } else {
-          sampleList[index]["sampleUkey"] = [];
-        }
-        // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
-        sampleList[index]["stndPrice"] = Number(
-          sampleList[index]["stndPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["supplyPrice"] = Number(
-          sampleList[index]["supplyPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["unitPrice"] = Number(
-          sampleList[index]["unitPrice"].replaceAll(",", ""),
-        );
-        sampleList[index]["vat"] = Number(
-          sampleList[index]["vat"].replaceAll(",", ""),
-        );
-      });
-      return sampleList;
-    };
+    // const sampleUkeyList = () => {
+    //   let sampleList = data.costList;
+    //
+    //   sampleList.map((item: any, index: any) => {
+    //     console.log("item", item);
+    //     // console.log("selectSampleListData.hasOwnProperty(item.srvcTypeMc)", selectSampleListData.hasOwnProperty(item.srvcTypeMc));
+    //     if (selectSampleListData.hasOwnProperty(item.srvcTypeMc)) {
+    //       console.log(
+    //         "selectSampleListData",
+    //         selectSampleListData[item.srvcTypeMc]["sampleUkey"],
+    //       );
+    //       sampleList[index]["sampleUkey"] =
+    //         selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+    //     } else {
+    //       sampleList[index]["sampleUkey"] = [];
+    //     }
+    //     // sampleList[index]["sampleUkey"] = selectSampleListData[item.srvcTypeMc]["sampleUkey"];
+    //     sampleList[index]["stndPrice"] =
+    //       typeof sampleList[index]["stndPrice"] === "string"
+    //         ? sampleList[index]["stndPrice"]
+    //         : Number(sampleList[index]["stndPrice"].replaceAll(",", ""));
+    //     sampleList[index]["supplyPrice"] = Number(
+    //       sampleList[index]["supplyPrice"].replaceAll(",", ""),
+    //     );
+    //     sampleList[index]["unitPrice"] = Number(
+    //       sampleList[index]["unitPrice"].replaceAll(",", ""),
+    //     );
+    //     sampleList[index]["vat"] = Number(
+    //       sampleList[index]["vat"].replaceAll(",", ""),
+    //     );
+    //   });
+    //   return sampleList;
+    // };
 
     const bodyData = {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
-      costList: sampleUkeyList(),
-      depthMc: 'BS_0100010001',
+      // costList: sampleUkeyList(),
+      costList: data.costList,
+      depthMc: "BS_0100010001",
       memo: data.memo,
       orderUkey: null,
       pltfMc: data.pltfMc,
@@ -210,6 +237,38 @@ const LicenseRegView = () => {
     // setClearRowsAtom(true);
   };
 
+  // const standDate = () => {
+  //   // const now = new Date("2024-03-01");
+  //   const now = new Date();
+  //   const nowDate: number = now.getDate();
+  //   let startDate;
+  //   let endDate;
+  //   // const nowDate= 5;
+  //   console.log("nowDate : ", nowDate);
+  //   let startMonth: number = 0;
+  //   let endMonth: number = 0;
+  //   if (nowDate < 6) {
+  //     startDate = new Date(now.setMonth(now.getMonth() - 1));
+  //     startMonth = startDate.getMonth();
+  //     endDate = new Date(now.setMonth(now.getMonth() + 2));
+  //     endMonth = endDate.getMonth();
+  //   } else {
+  //     startDate = new Date(now);
+  //     startMonth = startDate.getMonth();
+  //     endDate = new Date(now.setMonth(now.getMonth() + 1));
+  //     endMonth = endDate.getMonth();
+  //   }
+  //   console.log("startMonth : ", startMonth);
+  //   console.log("endMonth : ", endMonth);
+  //
+  //   return [
+  //     {
+  //       start: subDays(new Date(startDate.setDate(1)), 1),
+  //       end: addDays(new Date(endDate.setDate(5)), 0),
+  //     },
+  //   ];
+  // };
+
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <>
@@ -223,10 +282,10 @@ const LicenseRegView = () => {
             <TableBody>
               <TableRow>
                 <TH sx={{ width: "15%" }}>서비스 분류</TH>
-                <TD sx={{ width: "85%", textAlign: "left" }}>
+                <TD sx={{ textAlign: "left" }}>
                   License
                   <InputValidation
-                    // sx={{ display: "none" }}
+                    sx={{ display: "none" }}
                     inputName="srvcCtgrMc"
                     required={true}
                     InputProps={{
@@ -271,13 +330,13 @@ const LicenseRegView = () => {
                       inputName="pltfValueView"
                       required={true}
                       errorMessage="플랫폼을 입력해 주세요."
-                      sx={{ width: "500px" }}
+                      sx={{ width: "300px" }}
                       InputProps={{
                         readOnly: true,
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="pltfMc"
                       required={true}
                       InputProps={{
@@ -286,7 +345,7 @@ const LicenseRegView = () => {
                       }}
                     />
                     <InputValidation
-                      // sx={{ display: "none" }}
+                      sx={{ display: "none" }}
                       inputName="anlsTypeMc"
                       required={true}
                       InputProps={{
@@ -382,7 +441,8 @@ const LicenseRegView = () => {
                 License의 경우, 플랫폼을 먼저 입력해주세요.
               </Typography>
               <Typography variant="body2">
-                이렇게 하면 추가 정보(고객정보와 분석내역 등)를 입력할 수 있습니다.
+                이렇게 하면 추가 정보(고객정보와 분석내역 등)를 입력할 수
+                있습니다.
               </Typography>
             </Stack>
           </Stack>
@@ -396,13 +456,13 @@ const LicenseRegView = () => {
                 <TableBody>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-                    <TD sx={{ width: "35%" }}>
+                    <TD>
                       <Stack direction="row" spacing={0.5} alignItems="center">
                         <InputValidation
                           inputName="agncNm"
                           required={false}
                           // errorMessage="소속 거래처(PI)를 입력해 주세요."
-                          sx={{ width: "530px" }}
+                          // sx={{ width: "530px" }}
                           InputProps={{
                             readOnly: true,
                           }}
@@ -415,7 +475,7 @@ const LicenseRegView = () => {
                       </Stack>
                     </TD>
                     <TH sx={{ width: "15%" }}>연구책임자</TH>
-                    <TD sx={{ width: "35%" }}>
+                    <TD sx={{}}>
                       <InputValidation
                         inputName="custNm"
                         required={false}
@@ -429,28 +489,57 @@ const LicenseRegView = () => {
                   </TableRow>
                   <TableRow>
                     <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                    <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="bsnsMngrVal"
-                        required={true}
-                        errorMessage="아이디(이메일) 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
+                    <TD>
+                      {/*<InputValidation*/}
+                      {/*  inputName="bsnsMngrVal"*/}
+                      {/*  required={true}*/}
+                      {/*  errorMessage="영엄 담당자 선택해 주세요"*/}
+                      {/*  sx={{ width: "100%" }}*/}
+                      {/*  InputProps={{*/}
+                      {/*    readOnly: true,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
+
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazySalesManagerSelectbox />
+                      </ErrorContainer>
                     </TD>
                     <TH sx={{ width: "15%" }}>선결제 금액</TH>
-                    <TD sx={{ width: "35%" }}>
+                    <TD>
                       <InputValidation
                         inputName="rmnPrePymtPrice"
-                        required={true}
-                        errorMessage="이름을 입력해 주세요."
-                        sx={{ width: "100%" }}
+                        disabled={true}
+                        sx={{
+                          ".MuiOutlinedInput-input": {
+                            textAlign: "end",
+                          },
+                          "&.MuiTextField-root": {
+                            backgroundColor: "#F1F3F5",
+                          },
+                        }}
                         InputProps={{
                           readOnly: true,
+                          endAdornment: (
+                            <InputAdornment position="end">
+                              <Typography
+                                variant="body2"
+                                sx={{ color: "black" }}
+                              >
+                                원
+                              </Typography>
+                            </InputAdornment>
+                          ),
                         }}
                       />
+                      {/*<InputValidation*/}
+                      {/*  inputName="rmnPrePymtPrice"*/}
+                      {/*  required={true}*/}
+                      {/*  errorMessage="선결제 금액 입력해 주세요."*/}
+                      {/*  sx={{ width: "100%" }}*/}
+                      {/*  InputProps={{*/}
+                      {/*    readOnly: true,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
                     </TD>
                   </TableRow>
                 </TableBody>
@@ -458,240 +547,148 @@ const LicenseRegView = () => {
             </TableContainer>
 
             <Box>
-              <AnalysisSampleDynamicTable
-                // analysisSearchModalOpen={analysisSearchModalOpen}
-                setSettlement={setSettlement}
-                // setSelectSampleListData={setSelectSampleListData}
-              />
+              {/* 신규 작업중... */}
+              <DynamicTableLicense />
+              <DynamicSumTableLicense />
 
-              <TableContainer sx={{ mb: 2 }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>분석일</TH>
-                      <TD sx={{ width: "35%" }}>
-                        <SingleDatePicker
-                          inputName="anlsDttm"
-                          required={true}
-                        />
-                      </TD>
-                      <TH sx={{ width: "15%" }}>총 수량</TH>
-                      <TD sx={{ width: "35%" }}>
-                        <InputValidation
-                          inputName="totalCnt"
-                          required={true}
-                          // errorMessage="연구책임자를 입력해 주세요."
-                          sx={{
-                            width: "100%",
-                            ".MuiOutlinedInput-input": {
-                              textAlign: "end",
-                            },
-                          }}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                      </TD>
-                    </TableRow>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>총 공급가액</TH>
-                      <TD sx={{ width: "35%" }}>
-                        <InputValidation
-                          inputName="totalSupplyPriceVal"
-                          required={true}
-                          sx={{
-                            width: "100%",
-                            ".MuiOutlinedInput-input": {
-                              textAlign: "end",
-                            },
-                            "&.MuiTextField-root": {
-                              backgroundColor: "#F1F3F5",
-                            },
-                          }}
-                          InputProps={{
-                            readOnly: true,
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "black" }}
-                                >
-                                  원
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                        <InputValidation
-                          inputName="totalSupplyPrice"
-                          required={true}
-                          // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
-                        />
-                      </TD>
-                      <TH sx={{ width: "15%" }}>부가세</TH>
-                      <TD sx={{ width: "35%" }}>
-                        <InputValidation
-                          inputName="vatVal"
-                          required={true}
-                          sx={{
-                            width: "100%",
-                            ".MuiOutlinedInput-input": {
-                              textAlign: "end",
-                            },
-                            "&.MuiTextField-root": {
-                              backgroundColor: "#F1F3F5",
-                            },
-                          }}
-                          InputProps={{
-                            readOnly: true,
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "black" }}
-                                >
-                                  원
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                        <InputValidation
-                          inputName="vat"
-                          required={true}
-                          // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
-                        />
-                      </TD>
-                    </TableRow>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>합계금액</TH>
-                      <TD sx={{ width: "85%" }} colSpan={3}>
-                        <InputValidation
-                          inputName="totalPriceVal"
-                          required={true}
-                          sx={{
-                            width: "100%",
-                            ".MuiOutlinedInput-input": {
-                              textAlign: "end",
-                            },
-                            "&.MuiTextField-root": {
-                              backgroundColor: "#F1F3F5",
-                            },
-                          }}
-                          InputProps={{
-                            readOnly: true,
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "black" }}
-                                >
-                                  원
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
-                        <InputValidation
-                          inputName="totalPrice"
-                          required={true}
-                          // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
-                        />
-                      </TD>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              {/*<AnalysisSampleDynamicTable setSettlement={setSettlement} />*/}
+              {/*<TableContainer sx={{ mb: 2 }}>*/}
+              {/*  <Table>*/}
+              {/*    <TableBody>*/}
+              {/*      <TableRow>*/}
+              {/*        <TH sx={{ width: "15%" }}>총 수량</TH>*/}
+              {/*        <TD sx={{}}>*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="totalCnt"*/}
+              {/*            required={true}*/}
+              {/*            // errorMessage="연구책임자를 입력해 주세요."*/}
+              {/*            sx={{*/}
+              {/*              width: "100%",*/}
+              {/*              ".MuiOutlinedInput-input": {*/}
+              {/*                textAlign: "end",*/}
+              {/*              },*/}
+              {/*            }}*/}
+              {/*            InputProps={{*/}
+              {/*              readOnly: true,*/}
+              {/*            }}*/}
+              {/*          />*/}
+              {/*        </TD>*/}
+              {/*        <TH sx={{ width: "15%" }}>총 공급가액</TH>*/}
+              {/*        <TD sx={{}}>*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="totalSupplyPriceVal"*/}
+              {/*            required={true}*/}
+              {/*            sx={{*/}
+              {/*              width: "100%",*/}
+              {/*              ".MuiOutlinedInput-input": {*/}
+              {/*                textAlign: "end",*/}
+              {/*              },*/}
+              {/*              "&.MuiTextField-root": {*/}
+              {/*                backgroundColor: "#F1F3F5",*/}
+              {/*              },*/}
+              {/*            }}*/}
+              {/*            InputProps={{*/}
+              {/*              readOnly: true,*/}
+              {/*              endAdornment: (*/}
+              {/*                <InputAdornment position="end">*/}
+              {/*                  <Typography*/}
+              {/*                    variant="body2"*/}
+              {/*                    sx={{ color: "black" }}*/}
+              {/*                  >*/}
+              {/*                    원*/}
+              {/*                  </Typography>*/}
+              {/*                </InputAdornment>*/}
+              {/*              ),*/}
+              {/*            }}*/}
+              {/*          />*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="totalSupplyPrice"*/}
+              {/*            required={true}*/}
+              {/*            // errorMessage="아이디(이메일) 입력해 주세요."*/}
+              {/*            sx={{ width: "100%", display: "none" }}*/}
+              {/*          />*/}
+              {/*        </TD>*/}
+              {/*        <TH sx={{ width: "15%" }}>부가세</TH>*/}
+              {/*        <TD sx={{}}>*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="vatVal"*/}
+              {/*            required={true}*/}
+              {/*            sx={{*/}
+              {/*              width: "100%",*/}
+              {/*              ".MuiOutlinedInput-input": {*/}
+              {/*                textAlign: "end",*/}
+              {/*              },*/}
+              {/*              "&.MuiTextField-root": {*/}
+              {/*                backgroundColor: "#F1F3F5",*/}
+              {/*              },*/}
+              {/*            }}*/}
+              {/*            InputProps={{*/}
+              {/*              readOnly: true,*/}
+              {/*              endAdornment: (*/}
+              {/*                <InputAdornment position="end">*/}
+              {/*                  <Typography*/}
+              {/*                    variant="body2"*/}
+              {/*                    sx={{ color: "black" }}*/}
+              {/*                  >*/}
+              {/*                    원*/}
+              {/*                  </Typography>*/}
+              {/*                </InputAdornment>*/}
+              {/*              ),*/}
+              {/*            }}*/}
+              {/*          />*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="vat"*/}
+              {/*            required={true}*/}
+              {/*            // errorMessage="아이디(이메일) 입력해 주세요."*/}
+              {/*            sx={{*/}
+              {/*              width: "100%",*/}
+              {/*              display: "none",*/}
+              {/*            }}*/}
+              {/*          />*/}
+              {/*        </TD>*/}
+              {/*      </TableRow>*/}
+              {/*      <TableRow>*/}
+              {/*        <TH sx={{ width: "15%" }}>합계금액</TH>*/}
+              {/*        <TD sx={{ width: "85%" }} colSpan={5}>*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="totalPriceVal"*/}
+              {/*            required={true}*/}
+              {/*            sx={{*/}
+              {/*              width: "100%",*/}
+              {/*              ".MuiOutlinedInput-input": {*/}
+              {/*                textAlign: "end",*/}
+              {/*              },*/}
+              {/*              "&.MuiTextField-root": {*/}
+              {/*                backgroundColor: "#F1F3F5",*/}
+              {/*              },*/}
+              {/*            }}*/}
+              {/*            InputProps={{*/}
+              {/*              readOnly: true,*/}
+              {/*              endAdornment: (*/}
+              {/*                <InputAdornment position="end">*/}
+              {/*                  <Typography*/}
+              {/*                    variant="body2"*/}
+              {/*                    sx={{ color: "black" }}*/}
+              {/*                  >*/}
+              {/*                    원*/}
+              {/*                  </Typography>*/}
+              {/*                </InputAdornment>*/}
+              {/*              ),*/}
+              {/*            }}*/}
+              {/*          />*/}
+              {/*          <InputValidation*/}
+              {/*            inputName="totalPrice"*/}
+              {/*            required={true}*/}
+              {/*            // errorMessage="아이디(이메일) 입력해 주세요."*/}
+              {/*            sx={{ width: "100%", display: "none" }}*/}
+              {/*          />*/}
+              {/*        </TD>*/}
+              {/*      </TableRow>*/}
+              {/*    </TableBody>*/}
+              {/*  </Table>*/}
+              {/*</TableContainer>*/}
 
-              <TableContainer sx={{ mb: 5 }}>
-                <Table>
-                  <TableBody>
-                    <TableRow>
-                      <TH sx={{ width: "15%" }}>사용 기간</TH>
-                      <TD sx={{ width: "85%" }}>
-                        {" "}2023-04-10 ~ 2023-04-09
-                      </TD>
-                    </TableRow>
-                    {/*{settlement === true && (*/}
-                      <TableRow>
-                        <TH sx={{ width: "15%" }}>월비용</TH>
-                        <TD sx={{ width: "85%" }}>
-                          <TableContainer sx={{ marginY: 1 }}>
-                            <Table>
-                              <TableBody>
-                                <TableRow sx={{textAlign: "center"}}>
-                                  <TH sx={{ width: "7%" }} align="center">23.04</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.05</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.06</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.07</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.08</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.09</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.10</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.11</TH>
-                                  <TH sx={{ width: "7%" }} align="center">23.12</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.01</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.02</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.03</TH>
-                                  <TH sx={{ width: "7%" }} align="center">24.04</TH>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                  <TD sx={{ width: "7%" }} align="center">632,860</TD>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                          <TableContainer sx={{ display: "none" }}>
-                            <Table>
-                              <TableBody>
-                                <TableRow>
-                                  <TH sx={{ width: "25%" }}>정산방법</TH>
-                                  <TH sx={{ width: "25%" }}>구분</TH>
-                                  <TH sx={{ width: "25%" }}>정산비용</TH>
-                                  <TH sx={{ width: "25%" }}>비고</TH>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "25%" }}>선결제</TD>
-                                  <TD sx={{ width: "25%" }}>자동 정산</TD>
-                                  <TD sx={{ width: "25%" }}>-1,000,000</TD>
-                                  <TD sx={{ width: "25%" }}>
-                                    <ContainedButton
-                                      size="small"
-                                      // type="submit"
-                                      color="secondary"
-                                      buttonName="정산내역"
-                                    />
-                                  </TD>
-                                </TableRow>
-                                <TableRow>
-                                  <TD sx={{ width: "25%" }}>세금계산서</TD>
-                                  <TD sx={{ width: "25%" }}>카드</TD>
-                                  <TD sx={{ width: "25%" }}>-50,000</TD>
-                                  <TD sx={{ width: "25%" }}>123445</TD>
-                                </TableRow>
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </TD>
-                      </TableRow>
-                    {/*)}*/}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <MonthlyList />
 
               <Typography variant="subtitle1">정산</Typography>
               <TableContainer sx={{ mb: 5 }}>
@@ -700,32 +697,7 @@ const LicenseRegView = () => {
                     <TableRow>
                       <TH sx={{ width: "15%" }}>남은금액</TH>
                       <TD sx={{ width: "85%" }}>
-                        <InputValidation
-                          inputName="remainingAmount"
-                          required={true}
-                          sx={{
-                            width: "100%",
-                            ".MuiOutlinedInput-input": {
-                              textAlign: "end",
-                            },
-                            "&.MuiTextField-root": {
-                              backgroundColor: "#F1F3F5",
-                            },
-                          }}
-                          InputProps={{
-                            readOnly: true,
-                            endAdornment: (
-                              <InputAdornment position="end">
-                                <Typography
-                                  variant="body2"
-                                  sx={{ color: "black" }}
-                                >
-                                  원
-                                </Typography>
-                              </InputAdornment>
-                            ),
-                          }}
-                        />
+                        <RemainingAmount />
                       </TD>
                     </TableRow>
                     {settlement === true && (
@@ -840,7 +812,7 @@ const LicenseRegView = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/analysis-report-list">
+                <Link href="/ledger-analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
 
@@ -848,11 +820,7 @@ const LicenseRegView = () => {
                   size="small"
                   type="submit"
                   buttonName="저장"
-                  endIcon={
-                    isLoading ? (
-                      <LoadingWhiteSvg />
-                    ) : null
-                  }
+                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               </Stack>
             </Box>
@@ -879,7 +847,6 @@ const LicenseRegView = () => {
             type="order"
           />
         </ErrorContainer>
-
       </>
     </Form>
   );

@@ -8,15 +8,20 @@ export default function PhaseSelectbox() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  console.log(data);
+  // console.log(
+  //   "단계",
+  //   data.filter((item) => item.optionName !== "Prep"),
+  // );
+
+  const filteredData = data.filter((item) => item.optionName !== "Prep");
 
   return (
     <SelectBox
       inputName="analysisPhaseMc"
-      options={data}
+      options={filteredData}
       sx={{ width: "100%" }}
       required={true}
       errorMessage="단계를 선택해 주세요."

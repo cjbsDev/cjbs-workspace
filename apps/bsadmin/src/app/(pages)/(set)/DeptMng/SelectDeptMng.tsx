@@ -8,7 +8,7 @@ import { fetcher } from "api";
 export default function SelectDeptMng() {
   const { watch } = useFormContext();
   const departCode = watch("departCodeMc");
-  const prjcMngrUkey = watch("prjcMngrUkey");
+  const prjtMngrUkey = watch("prjtMngrUkey");
   // ~/code/user/{depart}/list
   const { data: deptMngData } = useSWR(
     departCode !== undefined ? `/code/user/${departCode}/list` : null,
@@ -22,7 +22,7 @@ export default function SelectDeptMng() {
   return deptMngData ? (
     <SelectBox
       sx={{ width: "200px" }}
-      inputName="prjcMngrUkey"
+      inputName="prjtMngrUkey"
       options={deptMngData}
       defaultOption={false}
     />

@@ -7,6 +7,7 @@ import {
   DataTableFilter,
   ContainedButton,
   Title1,
+  FileDownloadBtn,
 } from "cjbsDSTM";
 
 import { Box, Stack, Grid, Tooltip, IconButton, Link } from "@mui/material";
@@ -17,12 +18,19 @@ import Dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { useList } from "../../../../hooks/useList";
 import { toast } from "react-toastify";
+import NoDataView from "../../../../components/NoDataView";
+import { useSearchParams } from "next/navigation";
+import useSWR from "swr";
+import { fetcher } from "api";
+import KeywordSearch from "../../../../components/KeywordSearch";
 
 const ListCust = () => {
-  const [page, setPage] = useState<number>(0);
-  const [perPage, setPerPage] = useState<number>(20);
+  // const [page, setPage] = useState<number>(0);
+  // const [perPage, setPerPage] = useState<number>(20);
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
   // ListAPI Call
-  const { data } = useList("tdst", page, perPage);
+  // const { data } = useList("tdst", page, perPage);
   const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState(null);
@@ -30,9 +38,30 @@ const ListCust = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+  const searchParams = useSearchParams();
+  const resultObject = {};
+
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+  console.log(">>>>>>>>>", resultObject);
+
+  const result = "?" + new URLSearchParams(resultObject).toString();
+  console.log("RESULT@#@#@#", JSON.stringify(result));
+
+  const { data } = useSWR(
+    JSON.stringify(resultObject) !== "{}"
+      ? `/tdst/list${result}&page=${page}&size=${size}`
+      : `/tdst/list?page=${page}&size=${size}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
+  console.log("고객주문서 LIST DATA", data);
+  const totalElements = data.pageInfo.totalElements;
   const filteredData = data.tdstList;
 
-  const totalElements = data.pageInfo.totalElements;
   const handleRowSelected = (rows: any) => {
     //console.log("rows", rows);
     setSelectedRowCnt(rows.selectedCount);
@@ -48,7 +77,7 @@ const ListCust = () => {
       {
         name: "번호",
         center: true,
-        cell: (row: { tdstId: number; tdstUkey: string }) => (
+        cell: (row: { tdstId: number; tdstNo: string }) => (
           <Stack
             direction="row"
             spacing={0.5}
@@ -56,22 +85,22 @@ const ListCust = () => {
             // useFlexGap
             // flexWrap="wrap"
           >
-            <Box data-tag="allowRowEvents">{row.tdstId} </Box>
-            {row.tdstUkey == null && (
-              <MyIcon
-                data-tag="allowRowEvents"
-                icon="exclamation-triangle-fill"
-                size={20}
-                color="#FFAB33"
-              />
-            )}
+            <Box data-tag="allowRowEvents">{row.tdstNo} </Box>
+            {row.tdstNo == null &&
+              // <MyIcon
+              //   data-tag="allowRowEvents"
+              //   icon="exclamation-triangle-fill"
+              //   size={20}
+              //   color="#FFAB33"
+              // />
+              "-"}
           </Stack>
         ),
-        width: "100px",
+        width: "200px",
       },
       {
         name: "유형",
-        selector: (row: { tdstTypeCcVal: string }) => row.tdstTypeCcVal,
+        selector: (row: { tdstTypeVal: string }) => row.tdstTypeVal,
         width: "100px",
       },
       {
@@ -98,35 +127,36 @@ const ListCust = () => {
       {
         name: "거래금액",
         selector: (row: { tdPrice: string }) => row.tdPrice,
-        width: "250px",
+        width: "200px",
         right: true,
         cell: (row) => formatNumber(row.tdPrice),
       },
       {
         name: "작성일",
-        width: "150px",
-        right: true,
+        width: "120px",
+        center: true,
         selector: (row: { wdtDate: any }) =>
           row.wdtDate && Dayjs(row.wdtDate).format("YYYY-MM-DD"),
       },
       {
         name: "영업담당",
+        center: true,
         selector: (row: { bsnsMngrNm: string }) => row.bsnsMngrNm,
-        width: "150px",
+        width: "130px",
       },
       {
         name: "작성자",
         selector: (row: { wdtNm: string }) => row.wdtNm,
-        width: "150px",
+        width: "130px",
       },
       {
         name: "발송",
         selector: (row: { sendStatusVal: string }) => row.sendStatusVal,
-        width: "100px",
+        width: "130px",
       },
       {
         name: "발송일자",
-        width: "150px",
+        width: "120px",
         center: true,
         selector: (row: { sendDttm: any }) =>
           row.sendDttm ? Dayjs(row.sendDttm).format("YYYY-MM-DD") : "-",
@@ -155,29 +185,39 @@ const ListCust = () => {
 
     return (
       <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2}>
-            <DataCountResultInfo
-              totalCount={totalElements}
-              //selectedCount={selectedRowCnt}
-            />
-
+        <Grid item xs={5} sx={{ pt: 0 }}>
+          <Stack direction="row" spacing={1.5}>
+            <DataCountResultInfo totalCount={totalElements} />
             <Link href="/ledger-ts-add">
               <ContainedButton buttonName="거래명세서 등록" size="small" />
             </Link>
           </Stack>
         </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
+        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            sx={{ mb: 1.5 }}
+            alignItems="center"
+          >
+            <FileDownloadBtn
+              exportUrl={`/tdst/list/download${result}`}
+              iconName="xls3"
             />
+            <KeywordSearch />
           </Stack>
         </Grid>
+        {/*<Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>*/}
+        {/*  <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>*/}
+        {/*    <DataTableFilter*/}
+        {/*      onFilter={(e: {*/}
+        {/*        target: { value: React.SetStateAction<string> };*/}
+        {/*      }) => setFilterText(e.target.value)}*/}
+        {/*      onClear={handleClear}*/}
+        {/*      filterText={filterText}*/}
+        {/*    />*/}
+        {/*  </Stack>*/}
+        {/*</Grid>*/}
       </Grid>
     );
   }, [filterText, resetPaginationToggle, totalElements]);
@@ -190,28 +230,34 @@ const ListCust = () => {
   const handlePerRowsChange = (newPerPage: number, page: number) => {
     // console.log("Row change.....", newPerPage, page);
     setPage(page);
-    setPerPage(newPerPage);
+    // setPerPage(newPerPage);
+    setSize(newPerPage);
   };
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="거래명세서 관리" />}
-      data={filteredData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      pagination
-      paginationServer
-      paginationTotalRows={totalElements}
-      onChangeRowsPerPage={handlePerRowsChange}
-      onChangePage={handlePageChange}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="거래명세서 관리" />}
+        data={filteredData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        paginationResetDefaultPage={resetPaginationToggle}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        noDataComponent={<NoDataView />}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+      />
+    </Box>
   );
 };
 

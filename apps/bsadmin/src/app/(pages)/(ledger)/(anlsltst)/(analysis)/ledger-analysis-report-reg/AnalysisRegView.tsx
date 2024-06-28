@@ -42,6 +42,7 @@ import { useRecoilState } from "recoil";
 import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
+import { addDays, subDays } from "date-fns";
 
 const LazyOrderSearchModal = dynamic(
   () => import("../../../../../components/OrderSearchModal"),
@@ -91,10 +92,10 @@ const AnalysisRegView = () => {
     setIsLoading(true);
     console.log("Submit Data ==>>", data);
 
-    if (data.sample.length <= 0) {
-      toast("해당 오더에 포함된 분석 내역이 없습니다.");
-      return false;
-    }
+    // if (data.sample.length <= 0) {
+    //   toast("해당 오더에 포함된 분석 내역이 없습니다.");
+    //   return false;
+    // }
 
     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", selectSampleListData);
 
@@ -136,6 +137,7 @@ const AnalysisRegView = () => {
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
       costList: sampleUkeyList(),
+      // costList: data.sample,
       depthMc: data.depthMc,
       memo: data.memo,
       orderUkey: data.orderUkey,
@@ -205,6 +207,38 @@ const AnalysisRegView = () => {
     }
   };
 
+  const standDate = () => {
+    // const now = new Date("2024-03-01");
+    const now = new Date();
+    const nowDate: number = now.getDate();
+    let startDate;
+    let endDate;
+    // const nowDate= 5;
+    console.log("nowDate : ", nowDate);
+    let startMonth: number = 0;
+    let endMonth: number = 0;
+    if (nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth() - 1));
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth() + 2));
+      endMonth = endDate.getMonth();
+    } else {
+      startDate = new Date(now);
+      startMonth = startDate.getMonth();
+      endDate = new Date(now.setMonth(now.getMonth() + 1));
+      endMonth = endDate.getMonth();
+    }
+    console.log("startMonth : ", startMonth);
+    console.log("endMonth : ", endMonth);
+
+    return [
+      {
+        start: subDays(new Date(startDate.setDate(1)), 1),
+        end: addDays(new Date(endDate.setDate(5)), 0),
+      },
+    ];
+  };
+
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <>
@@ -222,7 +256,7 @@ const AnalysisRegView = () => {
                   {/*<ErrorContainer FallbackComponent={Fallback}>*/}
                   {/*  <LazyServiceCategoryType handleOnChange={handleOnChange} />*/}
                   {/*</ErrorContainer>*/}
-                  Analysis
+                  <Typography variant="body2">Analysis</Typography>
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="srvcCtgrMc"
@@ -293,7 +327,7 @@ const AnalysisRegView = () => {
                     <InputValidation
                       sx={{ display: "none" }}
                       inputName="pltfMc"
-                      required={true}
+                      // required={true}
                       InputProps={{
                         readOnly: true,
                         hidden: true,
@@ -382,7 +416,7 @@ const AnalysisRegView = () => {
                     <TD sx={{ width: "35%" }}>
                       <InputValidation
                         inputName="custNm"
-                        required={false}
+                        // required={false}
                         // errorMessage="연구책임자를 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
@@ -397,7 +431,7 @@ const AnalysisRegView = () => {
                       <InputValidation
                         inputName="bsnsMngrVal"
                         required={true}
-                        errorMessage="아이디(이메일) 입력해 주세요."
+                        errorMessage="영업 담당자 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
@@ -409,7 +443,7 @@ const AnalysisRegView = () => {
                       <InputValidation
                         inputName="rmnPrePymtPrice"
                         required={true}
-                        errorMessage="이름을 입력해 주세요."
+                        errorMessage="선결제 금액 입력해 주세요."
                         sx={{ width: "100%" }}
                         InputProps={{
                           readOnly: true,
@@ -466,6 +500,7 @@ const AnalysisRegView = () => {
                         <SingleDatePicker
                           inputName="anlsDttm"
                           required={true}
+                          includeDateIntervals={standDate()}
                         />
                       </TD>
                       <TH sx={{ width: "15%" }}>총 수량</TH>
@@ -554,7 +589,10 @@ const AnalysisRegView = () => {
                           inputName="vat"
                           required={true}
                           // errorMessage="아이디(이메일) 입력해 주세요."
-                          sx={{ width: "100%", display: "none" }}
+                          sx={{
+                            width: "100%",
+                            // display: "none"
+                          }}
                         />
                       </TD>
                     </TableRow>
@@ -746,7 +784,7 @@ const AnalysisRegView = () => {
               </TableContainer>
 
               <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/analysis-report-list">
+                <Link href="/ledger-analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
 
@@ -754,11 +792,7 @@ const AnalysisRegView = () => {
                   size="small"
                   type="submit"
                   buttonName="저장"
-                  endIcon={
-                    isLoading ? (
-                      <LoadingWhiteSvg />
-                    ) : null
-                  }
+                  // endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               </Stack>
             </Box>

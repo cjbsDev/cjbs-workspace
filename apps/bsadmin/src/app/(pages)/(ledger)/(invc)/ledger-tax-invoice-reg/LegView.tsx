@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useState } from "react";
 import { Form, Title1 } from "cjbsDSTM";
 import { Box } from "@mui/material";
 import { fetcher, POST, PUT } from "api";
@@ -23,55 +23,67 @@ const LegView = () => {
   const type = searchParams.get("type");
   const invcUkey = searchParams.get("invcUkey");
   const anlsItstUkey = searchParams.get("anlsItstUkey");
+  console.log("anlsItstUkey&&&&&&&&", anlsItstUkey);
+
+  console.log("$%$%$%$%$%$%$%", type);
 
   const getSWRUrl = () => {
     if (type === "modify") {
       return `/invc/${invcUkey}`;
     }
-    if (type === "anlsItst") {
+    if (type === "anlsltst") {
       return `/invc/anlsItst/${anlsItstUkey}`;
     }
     return null;
   };
 
   const { data } = useSWR(getSWRUrl(), fetcher, { suspense: true });
+  console.log("세금계산서 ==>>", data);
 
-  // const { data } = useSWR(
-  //   type === "modify"
-  //     ? `/invc/${invcUkey}`
-  //     : type === "anlsItst"
-  //       ? `/invc/anlsItst/${anlsItstUkey}`
-  //       : null,
-  //   fetcher,
-  //   {
-  //     suspense: true,
-  //   },
-  // );
+  const anlsltstDefaultValues = data
+    ? {
+        ...data,
+      }
+    : null;
 
   const modifyDefaultValues = data
     ? {
         ...data,
-        issuDttm: dayjs(data.issuDttm).toDate(),
-        dpstDttm: dayjs(data.dpstDttm).toDate(),
+        issuDttm: data.issuDttm !== null ? dayjs(data.issuDttm).toDate() : "",
+        dpstDttm: data.dpstDttm !== null ? dayjs(data.dpstDttm).toDate() : "",
       }
     : null;
 
-  // const modifyDefaultValues = useMemo(() => {
-  //   if (data) {
-  //     return {
-  //       ...data,
-  //       issuDttm: new Date(data.issuDttm),
-  //       dpstDttm: new Date(data.dpstDttm),
-  //     };
-  //   }
-  //   return null;
-  // }, [data]);
-
-  // console.log("modifyDefaultValues ==>> ", modifyDefaultValues);
-
   const onSubmit = async (formData: any) => {
-    // console.log("SUBMIT CLICK!");
     setIsLoading(true);
+    console.log("SubmitData ==>>", formData);
+    const reqBody = {
+      ...formData,
+      totalPrice:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.totalPrice2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.totalPrice
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.totalPrice3
+              : formData.totalPrice4,
+      totalSupplyPrice:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.totalSupplyPrice2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.totalSupplyPrice
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.totalSupplyPrice3
+              : formData.totalSupplyPrice4,
+      vat:
+        formData.pymtInfoCc === "BS_1914001"
+          ? formData.vat2
+          : formData.pymtInfoCc === "BS_1914002"
+            ? formData.vat
+            : formData.pymtInfoCc === "BS_1914003"
+              ? formData.vat3
+              : formData.vat4,
+    };
     // 요청 바디 구성
     // const bodyData = {
     //   ...data,
@@ -93,8 +105,15 @@ const LegView = () => {
     //   delete bodyData.dpstDttm;
     //   delete bodyData.pyrNm;
     // }
-    //
-    // console.log("세금계산서 BODY DATA ==>>", bodyData);
+
+    // 숫자가 붙은 키들이 객체에서 삭제
+    Object.keys(reqBody).forEach((key) => {
+      if (/\d$/.test(key)) {
+        delete reqBody[key];
+      }
+    });
+
+    console.log("REQ BODY ==>>", reqBody);
 
     try {
       // 요청 타입에 따른 API 호출
@@ -103,7 +122,7 @@ const LegView = () => {
       //
       // console.log("RES", res);
 
-      const formattedData = formatDataForSubmission(formData, type);
+      const formattedData = formatDataForSubmission(reqBody, type);
       const response = await (type === "modify" ? PUT : POST)(
         `/invc`,
         formattedData,
@@ -120,16 +139,6 @@ const LegView = () => {
         toast.error(response.message);
         setIsLoading(false);
       }
-
-      // if (response.success) {
-      //   type === "modify"
-      //     ? router.push(`/ledger-tax-invoice-list/${invcUkey}`)
-      //     : router.push("/ledger-tax-invoice-list");
-      //   setIsDisabled(true);
-      // } else {
-      //   toast.error(response.message);
-      //   setIsLoading(false);
-      // }
     } catch (error) {
       console.error("Error submitting form", error);
       toast.error("세금계산서 등록 중 오류가 발생했습니다.");
@@ -138,10 +147,18 @@ const LegView = () => {
     }
   };
 
+  console.log("^&^&^&^&^&^&^&^&", defaultValues);
+
   return (
     <Form
       onSubmit={onSubmit}
-      defaultValues={type ? modifyDefaultValues : defaultValues}
+      defaultValues={
+        type === "modify"
+          ? modifyDefaultValues
+          : type === "anlsltst"
+            ? anlsltstDefaultValues
+            : defaultValues
+      }
     >
       <Box sx={{ mb: 4 }}>
         <Title1

@@ -28,11 +28,11 @@ import { toast } from "react-toastify";
 interface DataItem {
   departCodeMc: string;
   departCodeMcVal: string;
-  prjcMngrNm: string;
-  prjcMngrUkey: string;
-  prjcNm: string;
-  prjcUkey: string;
-  prjcUniqueCode: string;
+  prjtMngrNm: string;
+  prjtMngrUkey: string;
+  prjtNm: string;
+  prjtUkey: string;
+  prjtUniqueCode: string;
 }
 
 const LazySelectDept = dynamic(() => import("../../DeptMng/SelectDept"), {
@@ -51,7 +51,7 @@ interface ProjectModifyModalProps {
   open: boolean;
   modalWidth: number;
   selectItem: DataItem;
-  prjcUkey: string;
+  prjtUkey: string;
   renderList: () => void;
   //renderList: (saveObj: DataItem) => void;
 }
@@ -61,7 +61,7 @@ const ProjectModifyModal = ({
   open,
   modalWidth,
   selectItem,
-  prjcUkey,
+  prjtUkey,
   renderList,
 }: ProjectModifyModalProps) => {
   const router = useRouter();
@@ -70,14 +70,14 @@ const ProjectModifyModal = ({
   const onSubmit = async (data: any) => {
     let saveObj = {
       departCodeMc: data.departCodeMc,
-      isPrjcDetailUse: "Y",
-      prjcMngrUkey: data.prjcMngrUkey,
-      prjcUniqueCode: data.prjcUniqueCode,
+      isPrjtDetailUse: "Y",
+      prjtMngrUkey: data.prjtMngrUkey,
+      prjtUniqueCode: data.prjtUniqueCode,
     };
-    // {"departCodeMc":"BS_0100003012","isPrjcDetailUse":"Y","prjcMngrUkey":"user809094","prjcUniqueCode":"BS_0100002001"}
+    // {"departCodeMc":"BS_0100003012","isPrjcDetailUse":"Y","prjtMngrUkey":"user809094","prjtUniqueCode":"BS_0100002001"}
     console.log("==saveObj", saveObj);
     console.log("saveObj stringify", JSON.stringify(saveObj));
-    const apiUrl = `/mngr/prjc/${prjcUkey}`; // Replace with your API URL
+    const apiUrl = `/mngr/prjt/${prjtUkey}`; // Replace with your API URL
 
     try {
       const response = await PUT(apiUrl, saveObj); // API 요청
@@ -96,13 +96,13 @@ const ProjectModifyModal = ({
   };
 
   const defaultValues = {
-    prjcUniqueCode: selectItem.prjcUniqueCode,
-    prjcUkey: selectItem.prjcUkey,
-    prjcNm: selectItem.prjcNm,
+    prjtUniqueCode: selectItem.prjtUniqueCode,
+    prjtUkey: selectItem.prjtUkey,
+    prjtNm: selectItem.prjtNm,
     departCodeMc: selectItem.departCodeMc,
     departCodeMcVal: selectItem.departCodeMcVal,
-    prjcMngrUkey: selectItem.prjcMngrUkey,
-    prjcMngrNm: selectItem.prjcMngrNm,
+    prjtMngrUkey: selectItem.prjtMngrUkey,
+    prjtMngrNm: selectItem.prjtMngrNm,
   };
 
   //const defaultValues = {};
@@ -111,7 +111,7 @@ const ProjectModifyModal = ({
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={onClose}>
-        과제 정보 {selectItem.prjcUkey ? "수정" : "등록"}
+        과제 정보 {selectItem.prjtUkey ? "수정" : "등록"}
       </ModalTitle>
       <DialogContent>
         <Form onSubmit={onSubmit} defaultValues={defaultValues}>
@@ -121,7 +121,7 @@ const ProjectModifyModal = ({
                 <TableRow>
                   <TH sx={{ width: "252px" }}>과제</TH>
                   <TD sx={{ width: "488px" }} colSpan={5}>
-                    {selectItem.prjcNm ?? ""}
+                    {selectItem.prjtNm ?? ""}
                   </TD>
                 </TableRow>
                 <TableRow>

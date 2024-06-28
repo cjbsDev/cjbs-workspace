@@ -36,6 +36,7 @@ import {
 } from "../../../../../data/inputDataLists";
 import { PUT, fetcher } from "api";
 import AddEmailListValidation from "./AddEmailListValidation";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -45,7 +46,7 @@ const LazyPrepSelctbox = dynamic(() => import("./PrepSelectbox"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
-const LazyLipSelctbox = dynamic(() => import("./LipSelectbox"), {
+const LazyLibSelctbox = dynamic(() => import("./LibSelectbox"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
@@ -58,12 +59,12 @@ const LazyOrderType = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const dataRadioGVTest = [
-  { value: "dnaReturnComp", optionName: "DNA 반송 요청" },
-  { value: "sampleReturnComp", optionName: "샘플 반송 요청" },
+  { value: "dnaReturnComp", optionName: "DNA 반송 완료" },
+  { value: "sampleReturnComp", optionName: "샘플 반송 완료" },
 ];
 interface ModalContainerProps {
   onClose: () => void;
@@ -88,6 +89,7 @@ ModalContainerProps) => {
     suspense: true,
   });
   const { mutate } = useSWRConfig();
+  const [resultObject, result] = useResultObject();
 
   console.log("오더 정보 변경 InitData ==>>", data);
 
@@ -105,7 +107,7 @@ ModalContainerProps) => {
     orderTypeCc: data.orderTypeCc,
     addEmailList: data.addEmailList,
     libMngrUkey: data.libMngrUkey,
-    qcMngrUkey: data.prepMngrUkey,
+    prepMngrUkey: data.prepMngrUkey,
     seqMngrUkey: data.seqMngrUkey,
     memo: data.memo,
   };
@@ -130,17 +132,19 @@ ModalContainerProps) => {
       orderTypeCc: data.orderTypeCc,
       addEmailList: data.addEmailList,
       libMngrUkey: data.libMngrUkey,
-      qcMngrUkey: data.qcMngrUkey,
+      prepMngrUkey: data.prepMngrUkey,
       seqMngrUkey: data.seqMngrUkey,
       memo: data.memo,
     };
+
+    console.log("reqBody ==>>", body);
 
     try {
       const res = await PUT(`/order/analysis/${orderUkey}`, body);
       console.log("오더 정보 변경 성고 ==>>", res.success);
 
       if (res.success) {
-        mutate(`/order/${orderUkey}`);
+        mutate(`/order/${orderUkey}${result}`);
         mutate(`/order/detail/${orderUkey}`);
         mutate(`/order/analysis/${orderUkey}`);
         handleClose();
@@ -148,7 +152,7 @@ ModalContainerProps) => {
     } catch (error) {
       console.error(
         "오더 정보 변경Error",
-        error.response?.data?.data || error.message
+        error.response?.data?.data || error.message,
       );
     } finally {
       setIsLoading(false);
@@ -231,11 +235,11 @@ ModalContainerProps) => {
                 </TableRow>
                 <TableRow>
                   <TH sx={{ width: "35%" }}>
-                    Lip 담당<NotRequired>[선택]</NotRequired>
+                    Lib 담당<NotRequired>[선택]</NotRequired>
                   </TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyLipSelctbox />
+                      <LazyLibSelctbox />
                     </ErrorContainer>
                   </TD>
                 </TableRow>
@@ -275,12 +279,14 @@ ModalContainerProps) => {
           buttonName="취소"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="orderInfoModifyForm"
+          size="small"
         >
           저장
         </LoadingButton>

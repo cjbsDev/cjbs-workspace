@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Stack, Typography, Chip, Box } from "@mui/material";
+import { Stack, Typography, Chip, Box, IconButton } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { cjbsTheme } from "cjbsDSTM";
@@ -146,17 +146,33 @@ export const getColumns = (totalElements: number) => [
     width: "110px",
     // sortable: true,
     // sortField: "rcptDttm",
-    selector: (row: { issuDttm: null | string }) =>
-      row.issuDttm === null ? "-" : row.issuDttm,
+    selector: (row: { issuDttm: null | string; invcStatusVal: string }) =>
+      row.invcStatusVal === "발행" && row.issuDttm !== null
+        ? row.issuDttm
+        : "-",
   },
   {
     name: "메모",
     width: "160px",
-    // center: true,
     cell: (row: { memo: string }) => {
       const { memo } = row;
-      return <Ellipsis text={memo} />;
+      return (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={1}
+        >
+          <Ellipsis text={memo} />
+          <IconButton onClick={() => console.log("Click! Memo")}>
+            <MyIcon icon="pencil-alt" size={18} />
+          </IconButton>
+        </Stack>
+      );
     },
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
   {
     name: "보고서",
@@ -165,7 +181,22 @@ export const getColumns = (totalElements: number) => [
       row.report === null ? "-" : row.report,
     cell: (row: { report: string }) => {
       const { report } = row;
-      return <Ellipsis text={report} />;
+      return (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          spacing={1}
+        >
+          <Ellipsis text={report} />
+          <IconButton onClick={() => console.log("Click! Report")}>
+            <MyIcon icon="pencil-alt" size={18} />
+          </IconButton>
+        </Stack>
+      );
     },
+    ignoreRowClick: true,
+    allowOverflow: true,
+    button: true,
   },
 ];

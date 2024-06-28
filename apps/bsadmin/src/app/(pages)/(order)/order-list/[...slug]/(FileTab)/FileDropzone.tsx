@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useFormContext, Controller } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import {
   Box,
   Divider,
   Grid,
+  IconButton,
   List,
   ListItem,
   ListItemText,
@@ -33,6 +34,7 @@ const maxFileMB: number = 9;
 const maxFileAdd: number = 30;
 const FileDropzone = () => {
   const setIsDis = useSetRecoilState(isDisabledAtom);
+  const [files, setFiles] = useState([]);
   const [state, setState] = useState({
     totalFileSize: 0,
     totalFileLen: 0,
@@ -42,17 +44,34 @@ const FileDropzone = () => {
   const { errors } = formState;
 
   const onDrop = (acceptedFiles: File[], fileRejections: File[]) => {
-    console.log("acceptedFiles", acceptedFiles);
     // console.log("fileRejections", fileRejections);
     // 선택한 파일을 폼 데이터에 설정
-    const acceptedFilesLen = acceptedFiles.length;
+    console.log("acceptedFiles", acceptedFiles);
+    let newFiles = [...files, ...acceptedFiles];
+    let totalFileSize = newFiles.reduce((acc, file) => acc + file.size, 0);
 
-    const totalFileSize = acceptedFiles
-      .map((item) => item.size)
-      .reduce((acc, cur, index) => {
-        const sum = acc + cur;
-        return sum;
-      });
+    const acceptedFilesLen = newFiles.length;
+
+    // if (totalFileSize > megabyte * maxFileMB) {
+    //   console.log("FAIL1", totalFileSize);
+    //   toast(`업로드한 파일은 최대 ${maxFileMB}MB를 넘을 수 없습니다.`);
+    //   resetField("uploadFile");
+    // } else if (newFiles.length > maxFileAdd) {
+    //   console.log("FAIL2", newFiles.length);
+    //   toast(`${maxFileAdd}개를 넘을 수 없습니다.`);
+    //   resetField("uploadFile");
+    // } else {
+    //   setValue("uploadFile", newFiles);
+    //   setIsDis(false);
+    //   setFiles(newFiles);
+    // }
+
+    // const totalFileSize = acceptedFiles
+    //   .map((item) => item.size)
+    //   .reduce((acc, cur, index) => {
+    //     const sum = acc + cur;
+    //     return sum;
+    //   });
 
     if (totalFileSize > megabyte * maxFileMB) {
       console.log("FAIL1", totalFileSize);
@@ -78,12 +97,14 @@ const FileDropzone = () => {
       totalFileSize <= megabyte * maxFileMB &&
       acceptedFilesLen <= maxFileAdd
     ) {
-      setValue("uploadFile", acceptedFiles);
+      // setValue("uploadFile", acceptedFiles);
+      setValue("uploadFile", newFiles);
       setIsDis(false);
       setState({
         totalFileSize: totalFileSize,
         totalFileLen: acceptedFilesLen,
       });
+      setFiles(newFiles);
     }
   };
 
@@ -99,6 +120,10 @@ const FileDropzone = () => {
     noClick: true,
     noKeyboard: true,
   });
+
+  const handleDelete = (path) => {
+    setFiles(files.filter((file) => file.path !== path));
+  };
 
   return (
     <div>
@@ -161,7 +186,7 @@ const FileDropzone = () => {
                     backgroundColor: cjbsTheme.palette.grey["50"],
                   }}
                 >
-                  {acceptedFiles.length === 0 ? (
+                  {files.length === 0 ? (
                     <Box
                       sx={{
                         display: "flex",
@@ -179,7 +204,7 @@ const FileDropzone = () => {
                         height: 177,
                       }}
                     >
-                      {acceptedFiles.map((item: File) => {
+                      {files.map((item: File) => {
                         return (
                           <ListItem
                             disablePadding
@@ -205,11 +230,13 @@ const FileDropzone = () => {
                                     }}
                                   >
                                     {formatBytes(item.size)}
-                                    {/*{item.size*/}
-                                    {/*  .toString()*/}
-                                    {/*  .replace(/\B(?=(\d{3})+(?!\d))/g, ",") +*/}
-                                    {/*  " bytes"}*/}
                                   </Typography>
+
+                                  <IconButton
+                                    onClick={() => handleDelete(item.path)}
+                                  >
+                                    <MyIcon icon="trash" size={20} />
+                                  </IconButton>
                                 </Stack>
                               }
                               primaryTypographyProps={{
@@ -242,7 +269,10 @@ const FileDropzone = () => {
                           fontWeight: 600,
                         }}
                       >
-                        {formatBytes(state.totalFileSize)}
+                        {formatBytes(
+                          files.reduce((acc, file) => acc + file.size, 0),
+                        )}
+                        {/*{formatBytes(state.totalFileSize)}*/}
                       </Typography>
                       <Typography variant="body2">{maxFileMB}MB</Typography>
                     </Stack>
@@ -259,7 +289,7 @@ const FileDropzone = () => {
                           fontWeight: 600,
                         }}
                       >
-                        {state.totalFileLen}개
+                        {files.length}개{/*{state.totalFileLen}개*/}
                       </Typography>
                       <Typography variant="body2">{maxFileAdd}개</Typography>
                     </Stack>

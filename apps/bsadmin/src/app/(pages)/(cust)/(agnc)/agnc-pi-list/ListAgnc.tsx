@@ -1,44 +1,44 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
-import {
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  Title1,
-  exportCSVData,
-  OutlinedButton,
-  ContainedButton,
-} from "cjbsDSTM";
-import {
-  Box,
-  Stack,
-  Grid,
-  Chip,
-  useTheme,
-  Tooltip,
-  IconButton,
-} from "@mui/material";
-import axios from "axios";
+import { DataTableBase, Title1 } from "cjbsDSTM";
+import { Box, useTheme } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
-import MyIcon from "icon/MyIcon";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import IconDescBar from "../../../../components/IconDescBar";
 import { fetcher } from "api";
+import NoDataView from "../../../../components/NoDataView";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
+import SubHeader from "./SubHeader";
+import { getColumns } from "./Columns";
 
-const tempUrl = `/agnc/list?page.page=0&page.size=50`;
 const ListAgnc = () => {
   // init
   const theme = useTheme();
   const router = useRouter();
-
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
+  const [sort, setSort] = useState<string>("agncId,desc");
+  const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
+  const [resultObject, result] = useResultObject();
+
+  const url = useMemo(() => {
+    const base = "/agnc/list";
+    const params =
+      JSON.stringify(resultObject) !== "{}"
+        ? `${result}&page=${page}&size=${size}&sort=${sort}`
+        : `?page=${page}&size=${size}&sort=${sort}`;
+    return `${base}${params}`;
+  }, [resultObject, result, page, size, sort]);
+
+  const { data } = useSWR(url, fetcher, { suspense: true });
+  console.log("PI LIST DATA", data);
+
+  const agncListData = data.agncList;
+  const totalElements = data.pageInfo.totalElements;
 
   const handleRowSelected = (rows: any) => {
     setSelectedRowCnt(rows.selectedCount);
@@ -47,164 +47,96 @@ const ListAgnc = () => {
 
   // 거래처 번호, 거래처(PI), 리더, 멤버, 선결제 금액, 영업 담당자, 메모
   const columns = useMemo(
-    () => [
-      {
-        name: "거래처 번호",
-        selector: (row: { agncId: number }) => row.agncId,
-        width: "100px",
-        center: true,
-      },
-      {
-        name: "거래처(PI)",
-        cell: (row: { agncNm: any; instNm: any; isSpecialMng: string }) => (
-          <Stack
-            direction="row"
-            spacing={0.5}
-            alignItems="center"
-            // useFlexGap
-            // flexWrap="wrap"
-          >
-            <Box data-tag="allowRowEvents">{row.agncNm} </Box>
-            <Box data-tag="allowRowEvents">({row.instNm})</Box>
-            {row.isSpecialMng === "Y" && (
-              <MyIcon
-                data-tag="allowRowEvents"
-                icon="vip-fill"
-                size={20}
-                color="#FFAB33"
-              />
-            )}
-          </Stack>
-        ),
-        // width: "300px",
-      },
-
-      {
-        name: "연구책임자 아이디",
-        selector: (row: { ebcEmail: any }) => row.ebcEmail,
-        // width: "200px",
-      },
-      {
-        name: "연구책임자 이름",
-        center: true,
-        selector: (row: { custNm: any }) => row.custNm,
-      },
-
-      {
-        name: "소속 연구원",
-        right: true,
-        cell: (row: { memberCount: number }) => (
-          <Stack direction="row" spacing={0.5} alignItems="center">
-            <Box>{row.memberCount} </Box>
-          </Stack>
-        ),
-        width: "100px",
-      },
-
-      {
-        name: "선결제 금액",
-        width: "150px",
-        right: true,
-        selector: (row: { pymnPrice: number }) =>
-          row.pymnPrice ? row.pymnPrice + " 원" : "-",
-      },
-
-      {
-        name: "영업 담당자",
-        center: true,
-        width: "120px",
-        selector: (row: { bsnsMngrNm: any }) => row.bsnsMngrNm,
-      },
-
-      {
-        name: "메모",
-        center: true,
-        cell: (row: { memo: string }) => {
-          return (
-            row.memo !== null &&
-            row.memo !== "" && (
-              <Tooltip title={row.memo} arrow>
-                <IconButton>
-                  <MyIcon icon="memo" size={24} />
-                </IconButton>
-              </Tooltip>
-            )
-          );
-        },
-        width: "80px",
-      },
-    ],
-    [],
+    () => getColumns(hideDirector, totalElements),
+    [hideDirector, totalElements],
   );
-  const [filterText, setFilterText] = useState("");
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  const filteredData = data.agncList;
-
-  const goDetailPage = (row: { agncUkey: string }) => {
-    const path = row.agncUkey;
-    router.push("/agnc-pi-list/" + path);
+  const goDetailPage = (row: { agncUkey: string; instUkey: string }) => {
+    const { agncUkey, instUkey } = row;
+    // const path = row.agncUkey;
+    router.push(`/agnc-pi-list/` + agncUkey + `/?instUkey=${instUkey}`);
   };
 
-  const subHeaderComponentMemo = useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
+  const subHeaderComponentMemo = useMemo(
+    () => <SubHeader totalElements={totalElements} result={result} />,
+    [totalElements, result],
+  );
 
-    return (
-      <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo
-              totalCount={data.pageInfo.totalElements}
-              //selectedCount={selectedRowCnt}
-            />
-            <ContainedButton
-              buttonName="거래처(PI)등록"
-              size="small"
-              onClick={() => router.push("/agnc-pi-add")}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements, router]);
+  // const subHeaderComponentMemo = useMemo(() => {
+  //
+  //
+  //   return (
+  //     <Grid container>
+  //       <Grid item xs={6} sx={{ pt: 0 }}>
+  //         <Stack direction="row" spacing={2} alignItems="center">
+  //           <DataCountResultInfo
+  //             totalCount={data.pageInfo.totalElements}
+  //             //selectedCount={selectedRowCnt}
+  //           />
+  //           <ContainedButton
+  //             buttonName="거래처(PI)등록"
+  //             size="small"
+  //             onClick={() => router.push("/agnc-pi-add")}
+  //           />
+  //         </Stack>
+  //       </Grid>
+  //       <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
+  //         <Stack
+  //           direction="row"
+  //           spacing={1}
+  //           sx={{ mb: 1.5 }}
+  //           alignItems="center"
+  //         >
+  //           <IconDescBar reOrder={true} fastTrack={true} freeDisabled={true} />
+  //           <DataTableFilter
+  //             onFilter={(e: {
+  //               target: { value: React.SetStateAction<string> };
+  //             }) => setFilterText(e.target.value)}
+  //             onClear={handleClear}
+  //             filterText={filterText}
+  //           />
+  //         </Stack>
+  //       </Grid>
+  //     </Grid>
+  //   );
+  // }, [filterText, resetPaginationToggle, data.pageInfo.totalElements, router]);
+
+  const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
+    setPage(page);
+  }, []);
+
+  const handlePerRowsChange = useCallback(
+    (newPerPage: React.SetStateAction<number>, page: any) => {
+      setSize(newPerPage);
+    },
+    [],
+  );
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="거래처(PI) 관리" />}
-      data={filteredData}
-      columns={columns}
-      onRowClicked={goDetailPage}
-      // onSelectedRowsChange={handleRowSelected}
-      pointerOnHover
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeaderComponentMemo}
-      paginationResetDefaultPage={resetPaginationToggle}
-      selectableRows={false}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="거래처(PI) 관리" />}
+        data={agncListData}
+        columns={columns}
+        onRowClicked={goDetailPage}
+        // onSelectedRowsChange={handleRowSelected}
+        pointerOnHover
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeaderComponentMemo}
+        // paginationResetDefaultPage={resetPaginationToggle}
+        selectableRows={false}
+        noDataComponent={<NoDataView />}
+        pagination
+        paginationServer
+        paginationTotalRows={totalElements}
+        onChangeRowsPerPage={handlePerRowsChange}
+        onChangePage={handlePageChange}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+      />
+    </Box>
   );
 };
 

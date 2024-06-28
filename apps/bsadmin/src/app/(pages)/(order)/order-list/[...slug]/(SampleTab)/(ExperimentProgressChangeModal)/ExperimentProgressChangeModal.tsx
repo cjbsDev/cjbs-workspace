@@ -8,9 +8,6 @@ import {
   ModalContainer,
   ModalTitle,
   OutlinedButton,
-  SingleDatePicker,
-  TD,
-  TH,
 } from "cjbsDSTM";
 import {
   Alert,
@@ -18,28 +15,16 @@ import {
   DialogContent,
   Snackbar,
   Table,
-  TableBody,
   TableContainer,
-  TableRow,
   Typography,
 } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import { ModalContainerProps } from "../../../../../../types/modal-container-props";
-import dynamic from "next/dynamic";
 import dayjs from "dayjs";
 import { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
 import { PUT } from "api";
-
-const LazyPhaseSelectbox = dynamic(() => import("./PhaseSelectbox"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
-
-const LazyConditionSelectbox = dynamic(() => import("./ConditionSelectbox"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+import TableContent from "./TableContent";
 
 interface ExperimentProgressChangeModalProps extends ModalContainerProps {
   sampleUkeyList: string[];
@@ -47,10 +32,13 @@ interface ExperimentProgressChangeModalProps extends ModalContainerProps {
 
 const apiUrl = `/sample/status`;
 
-const ExperimentProgressChangeModal = (
-  props: ExperimentProgressChangeModalProps,
-) => {
-  const { onClose, open, modalWidth, sampleUkeyList } = props;
+const ExperimentProgressChangeModal = ({
+  onClose,
+  open,
+  modalWidth,
+  sampleUkeyList,
+}: ExperimentProgressChangeModalProps) => {
+  // const { onClose, open, modalWidth, sampleUkeyList } = props;
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
@@ -78,10 +66,14 @@ const ExperimentProgressChangeModal = (
     compDttm: new Date(),
   };
   const handleClose = () => {
-    onClose();
+    if (onClose) {
+      onClose();
+    }
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: {
+    compDttm: string | number | Date | dayjs.Dayjs | null | undefined;
+  }) => {
     setIsLoading(true);
     console.log("FORM DATA ==>>", data);
     console.log("SampleUkeyList", sampleUkeyList);
@@ -89,10 +81,12 @@ const ExperimentProgressChangeModal = (
     const convertedDate = dayjs(data.compDttm).format("YYYY-MM-DD");
 
     const bodyData = {
-      analysisPhaseMc: data.analysisPhaseMc,
+      ...data,
       compDttm: convertedDate,
       sampleUkeyList: sampleUkeyList,
-      statusCc: data.statusCc,
+      // analysisPhaseMc: data.analysisPhaseMc,
+      // statusCc: data.statusCc,
+      // isSendEmail: data.isSendEmail,
     };
 
     console.log("BODYDATA ==>", bodyData);
@@ -104,7 +98,9 @@ const ExperimentProgressChangeModal = (
           mutate(`/order/${orderUkey}`);
           mutate(`/order/${orderUkey}/sample/list`);
           setIsLoading(false);
-          handleClose();
+          if (onClose) {
+            onClose(response.success);
+          }
         } else {
           handleAlertClick();
           setErrorMsg(response.message);
@@ -145,46 +141,26 @@ const ExperimentProgressChangeModal = (
           >
             <TableContainer>
               <Table>
-                <TableBody>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>단계</TH>
-                    <TD colSpan={3}>
-                      <ErrorContainer FallbackComponent={Fallback}>
-                        <LazyPhaseSelectbox />
-                      </ErrorContainer>
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>상태</TH>
-                    <TD colSpan={3}>
-                      <ErrorContainer FallbackComponent={Fallback}>
-                        <LazyConditionSelectbox />
-                      </ErrorContainer>
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "20%" }}>완료일</TH>
-                    <TD colSpan={3}>
-                      <SingleDatePicker inputName="compDttm" />
-                    </TD>
-                  </TableRow>
-                </TableBody>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <TableContent />
+                </ErrorContainer>
               </Table>
             </TableContainer>
           </Form>
-          <ErrorContainer FallbackComponent={Fallback}></ErrorContainer>
         </DialogContent>
         <ModalAction>
           <OutlinedButton
             buttonName="닫기"
             onClick={handleClose}
             color="secondary"
+            size="small"
           />
           <LoadingButton
             loading={isLoading}
             variant="contained"
             type="submit"
             form="exPrgsChng"
+            size="small"
           >
             저장
           </LoadingButton>

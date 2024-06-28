@@ -37,7 +37,6 @@ export const snbMenuListData = [
   //     ]
   //   },
   // },
-
   {
     menuLabel: "주문서",
     menuIcon: "sheet",
@@ -54,12 +53,11 @@ export const snbMenuListData = [
         },
         {
           menuLabel: "견적서 관리",
-          menuPath: "/qttn-list",
+          menuPath: "/orsh-qttn-list",
         },
       ],
     },
   },
-
   {
     menuLabel: "오더",
     menuIcon: "order",
@@ -74,10 +72,14 @@ export const snbMenuListData = [
           menuLabel: "오더 등록",
           menuPath: "/order-reg",
         },
-        // {
-        //   menuLabel: "오더 등록(내부)",
-        //   menuPath: "/order-intn-reg",
-        // },
+        {
+          menuLabel: "(임시) 내부 오더 등록",
+          menuPath: "/order-intn-reg",
+        },
+        {
+          menuLabel: "(임시) 고객 오더 등록",
+          menuPath: "/order-extr-reg",
+        },
       ],
     },
   },
@@ -108,18 +110,14 @@ export const snbMenuListData = [
     menuPath: {
       name: "/ledger",
       nestedPath: [
-        // {
-        //   menuLabel: '고객별 결제 현황',
-        //   menuPath: '/cust-pay-list'
-        // },
+        {
+          menuLabel: "거래처별 결제 현황",
+          menuPath: "/ledger-cust-pay-list",
+        },
         {
           menuLabel: "분석 내역서 관리",
           menuPath: "/ledger-analysis-report-list",
         },
-        // {
-        //   menuLabel: '세금 계산서 관리',
-        //   menuPath: '/tax-invoice-list'
-        // },
         {
           menuLabel: "거래 명세서 관리",
           menuPath: "/ledger-ts-list",
@@ -156,7 +154,7 @@ export const snbMenuListData = [
     menuLabel: "고객",
     menuIcon: "customer",
     menuPath: {
-      name: "/cust",
+      name: "/customer",
       nestedPath: [
         {
           menuLabel: "고객 관리",
@@ -173,7 +171,6 @@ export const snbMenuListData = [
       ],
     },
   },
-
   {
     menuLabel: "관리",
     menuIcon: "manage",
@@ -215,52 +212,37 @@ export const snbMenuListData = [
       ],
     },
   },
-
-  // {
-  //   menuLabel: '기준가',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '서비스 기준가 관리',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: '서비스 타입 관리',
-  //         menuPath: ''
-  //       }
-  //     ]
-  //   }
-  // },
-  // {
-  //   menuLabel: '담당자',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '담당자 관리',
-  //         menuPath: ''
-  //       },
-  //     ]
-  //   }
-  // },
-  // {
-  //   menuLabel: '관리',
-  //   menuIcon: '',
-  //   menuPath: {
-  //     name: '',
-  //     nestedPath: [
-  //       {
-  //         menuLabel: '마스터코드 관리',
-  //         menuPath: ''
-  //       },
-  //       {
-  //         menuLabel: '프로젝트 관리',
-  //         menuPath: ''
-  //       },
-  //     ]
-  //   }
-  // },
+  {
+    menuLabel: "재고",
+    menuIcon: "stock",
+    menuPath: {
+      name: "/stock",
+      nestedPath: [
+        {
+          menuLabel: "재고 관리",
+          menuPath: "/stock-mngmnt-list",
+        },
+        {
+          menuLabel: "입출고부",
+          menuPath: "/stock-inout-mngmnt-list",
+        },
+        {
+          menuLabel: "수불부",
+          menuPath: "/stock-mtld-mngmnt-list",
+        },
+        {
+          menuLabel: "아웃소싱 관리",
+          menuPath: "/stock-ots-mngmnt-list",
+        },
+        {
+          menuLabel: "주문처 관리",
+          menuPath: "/stock-agnc-mngmnt-list",
+        },
+        {
+          menuLabel: "병원 거래처 관리",
+          menuPath: "/stock-hspt-mngmnt-list",
+        },
+      ],
+    },
+  },
 ];

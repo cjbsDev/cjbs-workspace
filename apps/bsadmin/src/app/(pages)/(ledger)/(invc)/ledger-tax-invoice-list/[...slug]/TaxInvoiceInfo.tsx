@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -44,6 +45,7 @@ import ModifyBtn from "../components/ModifyBtn";
 import DeleteBtn from "../components/DeleteBtn";
 import AgncDetailInfo from "../../../../../components/AgncDetailInfo";
 import NoDataView from "../../../../../components/NoDataView";
+import useArraysContainSameElements from "../../../../../hooks/useArraysContainSameElements";
 
 const LazyRmnPymtPriceDetail = dynamic(
   () => import("./../components/RmnPymtPriceDetail"),
@@ -61,6 +63,28 @@ const LazyRmnPymtPriceDetail = dynamic(
 );
 
 const TaxInvoiceInfo = () => {
+  const { data: session, status } = useSession();
+  const authority = session?.authorities;
+
+  //  ["IT", "MEMBER"] ["NGS_SALES", "PART_MANAGER"] ["", ""]
+  console.log("authority", status, authority);
+  // console.log(
+  //   "USER-SESSION",
+  //   authority?.toString() === ["IT", "MEMBER"].toString(),
+  // );
+
+  let NGS_SALES_PART_MANAGER = false;
+
+  if (status !== "loading") {
+    NGS_SALES_PART_MANAGER = useArraysContainSameElements(authority, [
+      "MEMBER",
+      "NGS_SALES",
+      "PART_MANAGER",
+    ]);
+
+    console.log("&&&&&&&&&", NGS_SALES_PART_MANAGER);
+  }
+
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -280,7 +304,7 @@ const TaxInvoiceInfo = () => {
                     <TableContainer
                       sx={{
                         border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-                        mt: 2,
+                        my: 1,
                       }}
                     >
                       <Table size="small">
@@ -308,7 +332,7 @@ const TaxInvoiceInfo = () => {
                               tnsfTypeVal,
                             } = item;
                             return (
-                              <TableRow>
+                              <TableRow key={invcUkey + index.toString()}>
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell>
                                   <Typography
@@ -362,7 +386,7 @@ const TaxInvoiceInfo = () => {
                     <TableContainer
                       sx={{
                         border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
-                        mt: 2,
+                        my: 1,
                       }}
                     >
                       <Table size="small">
@@ -386,9 +410,12 @@ const TaxInvoiceInfo = () => {
                               rmnPrice,
                               srvcCtgrMc,
                               srvcCtgrMcVal,
+                              productDetailUkey,
                             } = item;
                             return (
-                              <TableRow key={anlsItstUkey}>
+                              <TableRow
+                                key={productDetailUkey + index.toString()}
+                              >
                                 <TableCell>{index + 1}</TableCell>
                                 <TableCell align="center">
                                   {srvcCtgrMcVal}
@@ -477,7 +504,7 @@ const TaxInvoiceInfo = () => {
                     unitPrice,
                   } = item;
                   return (
-                    <TableRow>
+                    <TableRow key={products + index.toString()}>
                       <TD align="center">{index + 1}</TD>
                       <TD>{products}</TD>
                       <TD align="right">
@@ -575,7 +602,7 @@ const TaxInvoiceInfo = () => {
         <Stack direction="row" justifyContent="space-between">
           <Typography variant="subtitle1">발행 정보</Typography>
 
-          {/* 부서 관리자만 가능 권한 로직 추가 */}
+          {/* !!!부서 관리자만 가능 권한 로직 추가!!! */}
           {isManager && <AdminPublishInfoModify />}
         </Stack>
 
@@ -648,7 +675,7 @@ const TaxInvoiceInfo = () => {
           </Link>
 
           <Stack direction="row" spacing={0.5}>
-            {pymtInfoCc !== "BS_1914004" && statusCc === "BS_1902002" && (
+            {statusCc === "BS_1902002" && (
               <ModifyBtn
                 invcUkey={invcUkey}
                 agncUkey={agncUkey}
@@ -660,11 +687,13 @@ const TaxInvoiceInfo = () => {
 
             {statusCc === "BS_1902003" && <PublishCancelBtn />}
 
+            {/* authority?.toString() === ["NGS_SALES", "PART_MANAGER"].toString() */}
             {statusCc === "BS_1902002" && (
               <ContainedButton
                 size="small"
                 buttonName="발행"
                 onClick={handleAccountStatementModalOpen}
+                disabled={!NGS_SALES_PART_MANAGER}
               />
             )}
           </Stack>

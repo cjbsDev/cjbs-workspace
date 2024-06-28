@@ -1,0 +1,26 @@
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    @page {
+        size: A4;
+        margin: 0;
+    }
+    html, body {
+        width: 210mm;
+        height: 297mm;
+        /*background: #0087fd;*/
+    }
+    /*body * {*/
+    /*    visibility: hidden;*/
+    /*}*/
+    /*.printArea, .printArea * {*/
+    /*    visibility: visible;*/
+    /*}*/
+    .printArea {
+        transform-origin: 0 0;
+        transform : scale(1.54, 1.53)
+    }
+}

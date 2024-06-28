@@ -23,14 +23,14 @@ const TrackingProgress = (props) => {
               orderStatusVal === "진행중"
                 ? cjbsTheme.palette.primary.light
                 : orderStatusVal === "완료"
-                ? cjbsTheme.palette.success.light
-                : orderStatusVal === "취소"
-                ? cjbsTheme.palette.error.light
-                : cjbsTheme.palette.grey["600"],
+                  ? cjbsTheme.palette.success.light
+                  : orderStatusVal === "취소"
+                    ? cjbsTheme.palette.error.light
+                    : cjbsTheme.palette.grey["600"],
             color: "white",
             pl: "12px",
             pr: "12px",
-            pt: "2px",
+            // pt: "2px",
             borderRadius: 2,
           }}
         >

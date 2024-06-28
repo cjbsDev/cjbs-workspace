@@ -1,5 +1,10 @@
-import React, { useState } from "react";
-import { useFormContext, useFieldArray, Controller } from "react-hook-form";
+import React, { useState, useEffect } from "react";
+import {
+  useFormContext,
+  useFieldArray,
+  Controller,
+  useWatch,
+} from "react-hook-form";
 import {
   Checkbox,
   Stack,
@@ -14,6 +19,7 @@ import {
 import {
   cjbsTheme,
   ContainedButton,
+  DeletedButton,
   ErrorContainer,
   Fallback,
   InputEAType,
@@ -26,10 +32,13 @@ import {
 import dynamic from "next/dynamic";
 import MyIcon from "icon/MyIcon";
 import { NumericFormat } from "react-number-format";
-import SupplyPrice from "./SupplyPrice";
-import { fetcher, POST } from "api";
+import DTSupplyPrice from "./components/DTSupplyPrice";
+import DTUnitPrice from "./components/DTUnitPrice";
+import { POST } from "api";
 import { toast } from "react-toastify";
+import SampleSize from "./components/SampleSize";
 
+// 서비스 분류
 const LazyServiceCategorySelectbox = dynamic(
   () => import("../ServiceCategorySelectbox"),
   {
@@ -39,9 +48,10 @@ const LazyServiceCategorySelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
 );
 
+// 분석 종류
 const LazyAnlsTypeSelectbox = dynamic(() => import("../AnlsTypeSelectbox"), {
   ssr: false,
   loading: () => (
@@ -51,6 +61,20 @@ const LazyAnlsTypeSelectbox = dynamic(() => import("../AnlsTypeSelectbox"), {
   ),
 });
 
+// 서비스 타입
+const LazyServiceTypeSelectbox = dynamic(
+  () => import("../DTServiceTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => (
+      <Typography variant="body2" color="secondary">
+        Loading...
+      </Typography>
+    ),
+  },
+);
+
+// 플랫폼 분류
 const LazyDTPlatformSelectbox = dynamic(
   () => import("../DTPlatformSelectbox"),
   {
@@ -60,16 +84,43 @@ const LazyDTPlatformSelectbox = dynamic(
         Loading...
       </Typography>
     ),
-  }
+  },
+);
+
+// 생산량 ( 생산량은 분석종류가 SG 값일 경우만 활성화된다. )
+const LazyDTDepthMcSelectbox = dynamic(() => import("../DTDepthMcSelectbox"), {
+  ssr: false,
+  loading: () => (
+    <Typography variant="body2" color="secondary">
+      Loading...
+    </Typography>
+  ),
+});
+
+// 기타 ( 모달 관련 )
+const LazyDTItemAddModifyModal = dynamic(
+  () => import("./components/DTItemMemoModal"),
+  {
+    ssr: false,
+  },
 );
 
 interface ProductDetailListProps {
   anlsTypeMc: string;
   pltfMc: string;
+  srvcCtgrMc: string;
   srvcTypeMc: string;
   sampleSize: number;
   supplyPrice: number;
   unitPrice: number;
+  inclMemo: string;
+}
+
+// 기타 ( 모달 관련 )
+interface DataItem {
+  index: number;
+  anlsTypeMc: string;
+  inputName: string;
 }
 
 const DynamicTable = () => {
@@ -82,15 +133,22 @@ const DynamicTable = () => {
     formState: { errors },
   } = useFormContext<{
     productDetailList: ProductDetailListProps[];
-    pymtInfoCc: string;
   }>();
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "productDetailList",
   });
-  const [disCountChk, setDisCountChk] = useState<boolean>(false);
-  const paymentInfoValue = watch("pymtInfoCc");
   const watchFieldArray = watch("productDetailList");
+  const [modifiedMemo, setModifiedMemo] = useState({}); // index를 key로 하여 수정된 inclMemo 값을 저장
+
+  const handleMemoSave = (index: number, memo: string) => {
+    setDisabledIndexes({ ...disabledIndexes, [index]: true });
+    setModifiedMemo({ ...modifiedMemo, [index]: memo });
+  };
+
+  const [disabledIndexes, setDisabledIndexes] = useState({});
+
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -98,10 +156,36 @@ const DynamicTable = () => {
     };
   });
 
+  // 모달 관련 코드 진행
+  const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
+  const [selectItem, setSelectItem] = useState<DataItem>();
+
+  // [ 품명 포함 사항 ]  각 컬럼에 분석 종류를 판단하여 모달 오픈
+  const mcItemModifyModalOpen = (index: number) => {
+    const anlsTypeMc = getValues(`productDetailList.[${index}].anlsTypeMc`);
+    if (!anlsTypeMc) {
+      toast("분석 종류를 먼저 선택해 주세요.");
+    } else {
+      const tempDataItem = {
+        index: index,
+        anlsTypeMc: anlsTypeMc,
+        inputName: `productDetailList.[${index}].inclMemo`,
+      };
+      setSelectItem(tempDataItem);
+      setMcCodeModifyModal(true);
+    }
+  };
+
+  // [ 품명 포함 사항 ] 모달 닫기
+  const mcItemModifyModalClose = () => {
+    setMcCodeModifyModal(false);
+  };
+
   const handleAppend = () => {
     append({
-      srvcTypeMc: "BS_0100005001",
+      srvcCtgrMc: "BS_0100005001",
       anlsTypeMc: "",
+      srvcTypeMc: "",
       pltfMc: "",
       sampleSize: 0,
       unitPrice: 0,
@@ -118,7 +202,7 @@ const DynamicTable = () => {
   };
 
   const toggleSelectAll = (isChecked: boolean) => {
-    console.log("isChecked", isChecked);
+    // console.log("isChecked", isChecked);
     if (isChecked) {
       setSelectedRows(fields.map((_, index) => index));
     } else {
@@ -135,28 +219,39 @@ const DynamicTable = () => {
 
   // 기준가 조회하기
   const callStndPrice = async (index: number) => {
+    console.log(
+      "@@@@@@@@@@@@@@@@@==>>",
+      getValues(`productDetailList.[${index}].depthMc`),
+    );
     const bodyData = [
       {
         anlsTypeMc: getValues(`productDetailList.[${index}].anlsTypeMc`),
-        depthMc: getValues("depthMc"),
-        // pltfMc: getValues("pltfMc"),
+        depthMc:
+          getValues(`productDetailList.[${index}].depthMc`) === undefined
+            ? "BS_0100010001"
+            : getValues(`productDetailList.[${index}].depthMc`),
+        // depthMc: "BS_0100010001",
         pltfMc: getValues(`productDetailList.[${index}].pltfMc`),
         sampleSize: getValues(`productDetailList.[${index}].sampleSize`),
-        srvcCtgrMc: getValues("srvcCtgrMc"),
+        srvcCtgrMc: getValues(`productDetailList.[${index}].srvcCtgrMc`),
         srvcTypeMc: getValues(`productDetailList.[${index}].srvcTypeMc`),
       },
     ];
+
+    // 견적서에서 기준가를 조회시 srvcCtgrMc 는 srvcTypeMc 값을 보낸다고함. // 로라 확인
+    // 20240130 : Analysis 인 경우 BS_0100005001, License 인 경우 BS_0100005002
     // console.log("************", bodyData);
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;
-      // console.log("PRICE response.data", resData);
+      console.log("견적서 기준가 Data ==>>", resData);
       if (response.success) {
         // console.log("성공");
         // 기준가, 기준할인율,
 
         if (resData[0].stndPrice === "N/A") {
+          // console.log("여기에 세팅되어야 댐 ");
           setValue(`productDetailList.[${index}].stndPrice`, "N/A");
           setValue(`productDetailList.[${index}].dscntPctg`, "N/A");
         } else {
@@ -164,18 +259,17 @@ const DynamicTable = () => {
             `productDetailList.[${index}].stndPrice`,
             resData[0].stndPrice
               .toString()
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
           );
-          setValue(`productDetailList.[${index}].dscntPctg`, 0);
+          setValue(
+            `productDetailList.[${index}].dscntPctg`,
+            resData[0].stndDscntPctg,
+          );
+          setValue(
+            `productDetailList.[${index}].stndDscntPctg`,
+            resData[0].stndDscntPctg,
+          );
         }
-        setValue(`productDetailList.[${index}].stndCode`, resData[0].stndCode);
-        setValue(
-          `productDetailList.[${index}].stndDscntPctg`,
-          resData[0].stndDscntPctg
-        );
-        // setValue(`productDetailList.[${index}].unitPrice`, "0");
-        // setValue(`productDetailList.[${index}].supplyPrice`, "0");
-        // setValue(`productDetailList.[${index}].vat`, "0");
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
@@ -191,8 +285,11 @@ const DynamicTable = () => {
   const handleOnBlur = (index: number) => {
     const srvcTypeMc = getValues(`productDetailList[${index}].srvcTypeMc`);
     const sampleSize = getValues(`productDetailList[${index}].sampleSize`);
+    // srvcTypeMc
     // console.log(index + " / " + srvcTypeMc + " / " + sampleSize);
-    if (srvcTypeMc !== "" && sampleSize > 0) callStndPrice(index);
+    if (srvcTypeMc !== "" && sampleSize > 0) {
+      callStndPrice(index);
+    }
   };
 
   return (
@@ -202,27 +299,26 @@ const DynamicTable = () => {
         <Table size="small">
           <TableHead>
             <TableRow>
-              {paymentInfoValue !== "BS_1914004" && (
-                <TH sx={{ width: 50 }} align="center">
-                  <Checkbox
-                    size="small"
-                    checked={
-                      fields.length > 0 && selectedRows.length === fields.length
-                    }
-                    onChange={(e) => toggleSelectAll(e.target.checked)}
-                  />
-                </TH>
-              )}
-              <TH sx={{ width: 150 }}>서비스 분류</TH>
-              <TH sx={{ width: 200 }}>분석 종류</TH>
-              <TH>플랫폼</TH>
+              <TH sx={{ width: 50 }} align="center">
+                <Checkbox
+                  size="small"
+                  checked={
+                    fields.length > 0 && selectedRows.length === fields.length
+                  }
+                  onChange={(e) => toggleSelectAll(e.target.checked)}
+                />
+              </TH>
+              <TH sx={{ width: 250 }}>서비스 분류</TH>
+              <TH sx={{ width: 250 }}>분석 종류</TH>
+              <TH sx={{ width: 250 }}>서비스 타입</TH>
+              <TH sx={{ width: 250 }}>플랫폼</TH>
               <TH sx={{ width: 150 }} align="right">
                 생산량
               </TH>
               <TH sx={{ width: 150 }} align="right">
                 수량
               </TH>
-              <TH sx={{ width: 150 }} align="right">
+              <TH sx={{ width: 200 }} align="right">
                 단가
               </TH>
               <TH sx={{ width: 200 }} align="right">
@@ -240,27 +336,24 @@ const DynamicTable = () => {
             {controlledFields.map((field, index) => {
               return (
                 <TableRow key={field.id || index}>
-                  {/* 선택 */}
-                  {paymentInfoValue !== "BS_1914004" && (
-                    <TD>
-                      <Checkbox
-                        size="small"
-                        checked={selectedRows.includes(index)}
-                        onChange={(e) =>
-                          toggleRowSelection(index, e.target.checked)
-                        }
-                      />
-                    </TD>
-                  )}
                   {/* 서비스 분류 */}
+                  <TD align="center">
+                    <Checkbox
+                      size="small"
+                      checked={selectedRows.includes(index)}
+                      onChange={(e) =>
+                        toggleRowSelection(index, e.target.checked)
+                      }
+                    />
+                  </TD>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceCategorySelectbox
-                        inputName={`productDetailList[${index}].srvcTypeMc`}
+                        inputName={`productDetailList[${index}].srvcCtgrMc`}
                         index={index}
                       />
                     </ErrorContainer>
-                    {errors.productDetailList?.[index]?.srvcTypeMc && (
+                    {errors.productDetailList?.[index]?.srvcCtgrMc && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
@@ -269,11 +362,13 @@ const DynamicTable = () => {
                       </Typography>
                     )}
                   </TD>
-                  {/* 분석 분류 */}
+                  {/* 분석 종류 */}
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyAnlsTypeSelectbox
                         inputName={`productDetailList[${index}].anlsTypeMc`}
+                        disabled={disabledIndexes[index]}
+                        inputName2={`productDetailList[${index}].srvcCtgrMc`}
                       />
                     </ErrorContainer>
                     {errors.productDetailList?.[index]?.anlsTypeMc && (
@@ -285,6 +380,24 @@ const DynamicTable = () => {
                       </Typography>
                     )}
                   </TD>
+
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyServiceTypeSelectbox
+                        inputName={`productDetailList[${index}].srvcTypeMc`}
+                        index={index}
+                      />
+                    </ErrorContainer>
+                    {errors.productDetailList?.[index]?.srvcTypeMc && (
+                      <Typography
+                        variant="body2"
+                        color={cjbsTheme.palette.warning.main}
+                      >
+                        서비스 타입을 선택해 주세요
+                      </Typography>
+                    )}
+                  </TD>
+
                   {/* 플랫폼 */}
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
@@ -306,25 +419,28 @@ const DynamicTable = () => {
                     )}
                   </TD>
                   {/* 생산량 */}
-                  <TD>
-                    {/* <ErrorContainer FallbackComponent={Fallback}>
-                      <LazyServiceCategorySelectbox
-                        inputName={`productDetailList[${index}].srvcTypeMc`}
+                  <TD align="right">
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyDTDepthMcSelectbox
+                        inputName={`productDetailList[${index}].depthMc`}
+                        fieldName="productDetailList"
+                        control={control}
                         index={index}
                       />
                     </ErrorContainer>
-                    {errors.productDetailList?.[index]?.srvcTypeMc && (
+
+                    {errors.productDetailList?.[index]?.pltfMc && (
                       <Typography
                         variant="body2"
                         color={cjbsTheme.palette.warning.main}
                       >
-                        서비스 분류를 선택해 주세요
+                        생산량을 선택해주세요.
                       </Typography>
-                    )} */}
+                    )}
                   </TD>
-
                   {/* 수량 */}
                   <TD>
+                    {/*<SampleSize fieldName="productDetailList" index={index} />*/}
                     <Controller
                       name={`productDetailList[${index}].sampleSize`}
                       control={control}
@@ -337,7 +453,6 @@ const DynamicTable = () => {
                           defaultValue={0}
                           value={value}
                           thousandSeparator={true}
-                          allowNegative={false}
                           onBlur={handleOnBlur(index)}
                           onValueChange={(values) => {
                             onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
@@ -357,68 +472,69 @@ const DynamicTable = () => {
                   </TD>
                   {/* 단가 */}
                   <TD align="right">
-                    <Controller
-                      name={`productDetailList[${index}].unitPrice`}
-                      control={control}
-                      rules={{ required: "단가를 입력해야 합니다." }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { error },
-                      }) => (
-                        <NumericFormat
-                          defaultValue={0}
-                          value={value}
-                          thousandSeparator={true}
-                          allowNegative={false}
-                          onValueChange={(values) => {
-                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
-                          }}
-                          customInput={InputPriceType}
-                        />
-                      )}
-                    />
-                    {errors.productDetailList?.[index]?.unitPrice && (
-                      <Typography
-                        variant="body2"
-                        color={cjbsTheme.palette.warning.main}
-                      >
-                        단가를 입력 해주세요
-                      </Typography>
-                    )}
+                    {/*<Controller*/}
+                    {/*  name={`productDetailList[${index}].unitPrice`}*/}
+                    {/*  control={control}*/}
+                    {/*  rules={{ required: "단가를 입력해야 합니다." }}*/}
+                    {/*  render={({*/}
+                    {/*    field: { onChange, value },*/}
+                    {/*    fieldState: { error },*/}
+                    {/*  }) => (*/}
+                    {/*    <NumericFormat*/}
+                    {/*      defaultValue={0}*/}
+                    {/*      value={value}*/}
+                    {/*      thousandSeparator={true}*/}
+                    {/*      onValueChange={(values) => {*/}
+                    {/*        onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
+                    {/*      }}*/}
+                    {/*      customInput={InputPriceType}*/}
+                    {/*    />*/}
+                    {/*  )}*/}
+                    {/*/>*/}
+                    {/*{errors.productDetailList?.[index]?.unitPrice && (*/}
+                    {/*  <Typography*/}
+                    {/*    variant="body2"*/}
+                    {/*    color={cjbsTheme.palette.warning.main}*/}
+                    {/*  >*/}
+                    {/*    단가를 입력 해주세요*/}
+                    {/*  </Typography>*/}
+                    {/*)}*/}
+                    <DTUnitPrice index={index} errors={errors} />
                   </TD>
                   {/* 공급가액 */}
                   <TD align="right">
-                    <SupplyPrice
+                    <DTSupplyPrice
                       fieldName="productDetailList"
                       index={index}
+                      errors={errors}
                       inputName={`productDetailList[${index}].supplyPrice`}
                     />
                   </TD>
+                  {/* 할인율 */}
                   <TD sx={{ width: "150px", paddingY: 1 }}>
                     <InputValidation
                       inputName={`productDetailList[${index}].stndDscntPctg`}
-                      required={true}
+                      required={false}
                       sx={{ width: "100%", display: "none" }}
                     />
                     <InputValidation
                       inputName={`productDetailList[${index}].isExc`}
                       required={true}
+                      // sx={{ width: "100%" }}
                       sx={{ width: "100%", display: "none" }}
                     />
                     <InputValidation
                       inputName={`productDetailList[${index}].dscntPctg`}
                       required={true}
+                      // required={false}
                       fullWidth={true}
                       sx={{
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
+                        // width: 150,
                         "&.MuiTextField-root": {
                           backgroundColor: "#F1F3F5",
                         },
-                        ".MuiOutlinedInput-input:read-only": {
-                          textFillColor:
-                            disCountChk === true ? "#f10505" : "#000000",
+                        ".MuiOutlinedInput-input": {
+                          textAlign: "end",
                         },
                       }}
                       InputProps={{
@@ -433,8 +549,14 @@ const DynamicTable = () => {
                       }}
                     />
                   </TD>
-
-                  <TD align="right">확인</TD>
+                  {/* inclMemo: "메모 테스트", */}
+                  <TD align="right">
+                    <OutlinedButton
+                      buttonName="확인"
+                      size="small"
+                      onClick={() => mcItemModifyModalOpen(index)}
+                    />
+                  </TD>
                 </TableRow>
               );
             })}
@@ -442,38 +564,43 @@ const DynamicTable = () => {
         </Table>
       </TableContainer>
 
-      {paymentInfoValue !== "BS_1914004" && (
-        <Stack
-          direction="row"
-          spacing={1}
-          justifyContent="center"
-          sx={{ mb: 3 }}
-        >
-          <ContainedButton
-            size="small"
-            buttonName="품명 추가"
-            onClick={handleAppend}
-            startIcon={<MyIcon icon="plus" size={18} color="white" />}
-          />
-          <OutlinedButton
-            size="small"
-            color="error"
-            buttonName="삭제"
-            onClick={handleDeleteSelected}
-            startIcon={
-              <MyIcon
-                icon="trash"
-                size={18}
-                color={
-                  isDeleteDisabled
-                    ? cjbsTheme.palette.grey["400"]
-                    : cjbsTheme.palette.error.main
-                }
-              />
-            }
-            disabled={isDeleteDisabled}
-          />
-        </Stack>
+      <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 3 }}>
+        <ContainedButton
+          size="small"
+          buttonName="품명 추가"
+          onClick={handleAppend}
+          startIcon={<MyIcon icon="plus" size={18} color="white" />}
+        />
+        <DeletedButton
+          buttonName="삭제"
+          disabled={isDeleteDisabled}
+          onClick={handleDeleteSelected}
+          startIcon={
+            <MyIcon
+              icon="trash"
+              size={18}
+              color={
+                isDeleteDisabled
+                  ? cjbsTheme.palette.grey["400"]
+                  : cjbsTheme.palette.error.main
+              }
+            />
+          }
+        />
+      </Stack>
+
+      {/* 코드 수정 모달  */}
+      {selectItem && (
+        <LazyDTItemAddModifyModal
+          onClose={mcItemModifyModalClose}
+          open={mcCodeModifyModal}
+          modalWidth={800}
+          index={selectItem.index}
+          inputName={`productDetailList[${selectItem.index}].inclMemo`}
+          selectItem={selectItem}
+          onSave={handleMemoSave}
+          modifiedMemo={modifiedMemo[selectItem.index]} // 수정된 inclMemo 값 전달
+        />
       )}
     </>
   );

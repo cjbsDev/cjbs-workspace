@@ -1,21 +1,18 @@
 "use client";
 
-import React, { useMemo, useEffect } from "react";
+import React, { useCallback, useMemo } from "react";
 import useSWR from "swr";
-import {
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  Title1,
-  ContainedButton,
-} from "cjbsDSTM";
-import { Box, Stack, Grid, useTheme } from "@mui/material";
-import axios from "axios";
+import { DataTableBase, Title1 } from "cjbsDSTM";
+import { Box, Stack, useTheme } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { fetcher } from "api";
 import { formatBusinessRegNo } from "cjbsDSTM/commonFunc";
+import NoDataView from "../../../../components/NoDataView";
+import SubHeader from "./SubHeader";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
+import { getColumns } from "./Columns";
 
 interface InstData {
   instId?: any;
@@ -36,186 +33,169 @@ interface InstData {
   region2GcNm?: any;
 }
 
-const tempUrl = `/inst/list?page.page=0&page.size=50`;
-
 const ListInst = () => {
-  // init
-  const theme = useTheme();
-  const [instList, setInstList] = useState<InstData[]>([]);
-
   const router = useRouter();
-
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [selectedRowCnt, setSelectedRowCnt] = useState(0);
-  const { data } = useSWR(tempUrl, fetcher, {
-    suspense: true,
-  });
-
-  // console.log("LISTSDFSDFSDFSDFSDF", data);
-
-  const handleRowSelected = (rows: any) => {
-    setSelectedRowCnt(rows.selectedCount);
-    //setSelectedRows(rows.map((row) => row.id));
-  };
-
-  // 위치, 기관명, 사업자 등록번호, 대표자, 지역(나라), 분류, 특성, 상태
-  // region1Gc, instNm, brno, rprsNm, region2Gc, lctnTypeCc, ftr, statusCodeCc
-  const columns = useMemo(
-    () => [
-      {
-        name: "No",
-        selector: (row: { instId: string }) => row.instId,
-        center: true,
-        width: "50px",
-      },
-      {
-        name: "위치",
-        center: true,
-        selector: (row: { lctnTypeVal: string }) => row.lctnTypeVal,
-        width: "80px",
-      },
-      {
-        name: "기관명",
-        selector: (row: { instNm: string }) => row.instNm,
-      },
-      {
-        name: "사업자 등록번호",
-        width: "150px",
-        right: true,
-        selector: (row: { brno: string }) => formatBusinessRegNo(row.brno),
-      },
-      {
-        name: "대표자",
-        center: true,
-        selector: (row: { rprsNm: string }) => row.rprsNm,
-      },
-      {
-        name: "지역(나라)",
-        cell: (row: { region1Val: any; region2Val: any }) => (
-          <Stack
-            direction="row"
-            spacing={0.5}
-            alignItems="center"
-            // useFlexGap
-            // flexWrap="wrap"
-          >
-            <Box data-tag="allowRowEvents">
-              {row.region1Val ?? ""} {row.region2Val ?? ""}{" "}
-            </Box>
-          </Stack>
-        ),
-        minWidth: "150px",
-      },
-
-      {
-        name: "분류",
-        center: true,
-        selector: (row: { instTypeVal: string }) => row.instTypeVal,
-        width: "80px",
-      },
-      {
-        name: "특성",
-        selector: (row: { ftr: string }) => row.ftr,
-      },
-      {
-        name: "상태",
-        center: true,
-        selector: (row: { statusCodeVal: string }) => row.statusCodeVal,
-        width: "80px",
-      },
-    ],
-    [],
-  );
-  const [filterText, setFilterText] = useState("");
+  const [page, setPage] = useState<number>(1);
+  const [size, setSize] = useState<number>(100);
+  const [sort, setSort] = useState<string>("createdAt,DESC");
+  const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  const [resultObject, result] = useResultObject();
 
-  /*
-  useEffect(() => {
-    if (data.data) {
-      const filteredData: InstData[] = data.data.instList;
-      const updatedInstList: InstData[] = filteredData.map((item: InstData) => {
-        const instTypeCcNm = getCodeNm(item.instTypeCc);
-        const region1GcNm = getCodeNm(item.region1Gc);
-        const region2GcNm = getCodeNm(item.region2Gc);
-        const lctnTypeCcNm = getCodeNm(item.lctnTypeCc);
-        const statusCodeCcNm = getCodeNm(item.statusCodeCc);
+  const url = useMemo(() => {
+    const base = "/inst/list";
+    const params =
+      JSON.stringify(resultObject) !== "{}"
+        ? `${result}&page=${page}&size=${size}&sort=${sort}`
+        : `?page=${page}&size=${size}&sort=${sort}`;
+    return `${base}${params}`;
+  }, [resultObject, result, page, size, sort]);
 
-        return {
-          ...item,
-          instTypeCcNm,
-          lctnTypeCcNm,
-          statusCodeCcNm,
-          region1GcNm,
-          region2GcNm,
-        };
-      });
+  const { data } = useSWR(url, fetcher, { suspense: true });
 
-      console.log("updatedInstList", updatedInstList);
-      setInstList(updatedInstList);
-    }
-  }, [data.data]);
+  // console.log(data);
+  const { instList, pageInfo } = data;
+  const { totalElements } = pageInfo;
 
-  const getCodeNm = (uniqueCode: string): string | null => {
-    const foundData = getCodeList.data.find(
-      (item: any) => item.uniqueCode === uniqueCode
-      );
-      return foundData ? foundData.codeNm : null;
-    };
-    */
+  // const columns = useMemo(
+  //   () => [
+  //     {
+  //       name: "No",
+  //       selector: (row: { instId: string }) => row.instId,
+  //       center: true,
+  //       width: "50px",
+  //     },
+  //     {
+  //       name: "위치",
+  //       center: true,
+  //       selector: (row: { lctnTypeVal: string }) => row.lctnTypeVal,
+  //       width: "80px",
+  //     },
+  //     {
+  //       name: "기관명",
+  //       selector: (row: { instNm: string }) => row.instNm,
+  //     },
+  //     {
+  //       name: "사업자 등록번호",
+  //       width: "150px",
+  //       right: true,
+  //       selector: (row: { brno: string }) => formatBusinessRegNo(row.brno),
+  //     },
+  //     {
+  //       name: "대표자",
+  //       center: true,
+  //       selector: (row: { rprsNm: string }) => row.rprsNm,
+  //     },
+  //     {
+  //       name: "지역(나라)",
+  //       cell: (row: { region1Val: any; region2Val: any }) => (
+  //         <Stack
+  //           direction="row"
+  //           spacing={0.5}
+  //           alignItems="center"
+  //           // useFlexGap
+  //           // flexWrap="wrap"
+  //         >
+  //           <Box data-tag="allowRowEvents">
+  //             {row.region1Val ?? ""} {row.region2Val ?? ""}{" "}
+  //           </Box>
+  //         </Stack>
+  //       ),
+  //       minWidth: "150px",
+  //     },
+  //
+  //     {
+  //       name: "분류",
+  //       center: true,
+  //       selector: (row: { instTypeVal: string }) => row.instTypeVal,
+  //       width: "80px",
+  //     },
+  //     {
+  //       name: "특성",
+  //       selector: (row: { ftr: string }) => row.ftr,
+  //     },
+  //     {
+  //       name: "상태",
+  //       center: true,
+  //       selector: (row: { statusCodeVal: string }) => row.statusCodeVal,
+  //       width: "80px",
+  //     },
+  //   ],
+  //   [],
+  // );
+
+  const columns = useMemo(
+    () => getColumns(hideDirector, totalElements),
+    [hideDirector, totalElements],
+  );
+
+  const subHeaderComponentMemo = useMemo(
+    () => <SubHeader totalElements={totalElements} result={result} />,
+    [totalElements, result],
+  );
+
+  // const subHeaderComponentMemo = useMemo(() => {
+  //   const handleClear = () => {
+  //     if (filterText) {
+  //       setResetPaginationToggle(!resetPaginationToggle);
+  //       setFilterText("");
+  //     }
+  //   };
+  //
+  //   return (
+  //     <Grid container>
+  //       <Grid item xs={6} sx={{ pt: 0 }}>
+  //         <Stack direction="row" spacing={2} alignItems="center">
+  //           <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
+  //           <ContainedButton
+  //             buttonName="기관 정보 등록"
+  //             size="small"
+  //             onClick={() => router.push("/inst-info-add")}
+  //           />
+  //         </Stack>
+  //       </Grid>
+  //       <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
+  //         <Stack
+  //           direction="row"
+  //           spacing={1}
+  //           sx={{ mb: 1.5 }}
+  //           alignItems="center"
+  //         >
+  //           <DataTableFilter
+  //             onFilter={(e: {
+  //               target: { value: React.SetStateAction<string> };
+  //             }) => setFilterText(e.target.value)}
+  //             onClear={handleClear}
+  //             filterText={filterText}
+  //           />
+  //         </Stack>
+  //       </Grid>
+  //     </Grid>
+  //   );
+  // }, [filterText, resetPaginationToggle, data.pageInfo.totalElements, router]);
 
   const goDetailPage = (row: { instUkey: string }) => {
     const path = row.instUkey;
     router.push("/inst-info-list/" + path);
   };
 
-  const subHeaderComponentMemo = useMemo(() => {
-    const handleClear = () => {
-      if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
-        setFilterText("");
-      }
-    };
+  const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
+    setPage(page);
+  }, []);
 
-    return (
-      <Grid container>
-        <Grid item xs={6} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={data.pageInfo.totalElements} />
-            <ContainedButton
-              buttonName="기관 정보 등록"
-              size="small"
-              onClick={() => router.push("/inst-info-add")}
-            />
-          </Stack>
-        </Grid>
-        <Grid item xs={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
-              onClear={handleClear}
-              filterText={filterText}
-            />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [filterText, resetPaginationToggle, data.pageInfo.totalElements, router]);
+  const handlePerRowsChange = useCallback(
+    (newPerPage: React.SetStateAction<number>, page: any) => {
+      setSize(newPerPage);
+    },
+    [],
+  );
 
   return (
     <DataTableBase
       title={<Title1 titleName="기관 관리" />}
-      //data={instList}
-      data={data.instList}
+      data={instList}
       columns={columns}
       onRowClicked={goDetailPage}
-      // onSelectedRowsChange={handleRowSelected}
       pointerOnHover
       highlightOnHover
       customStyles={dataTableCustomStyles}
@@ -223,6 +203,14 @@ const ListInst = () => {
       subHeaderComponent={subHeaderComponentMemo}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
+      noDataComponent={<NoDataView />}
+      pagination
+      paginationServer
+      paginationTotalRows={totalElements}
+      onChangeRowsPerPage={handlePerRowsChange}
+      onChangePage={handlePageChange}
+      paginationPerPage={100}
+      paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
     />
   );
 };

@@ -28,7 +28,7 @@ import dynamic from "next/dynamic";
 import { cjbsTheme } from "cjbsDSTM";
 import OrderShotgunSampleDynamicTable from "./OrderShotgunSampleDynamicTable";
 import {useParams} from "next/navigation";
-import NoticeBox from "../../../orsh-order/in/mtp/(service)/(contents)/NoticeBox";
+import NoticeBox from "../../../orshbs/in/mtp/(service)/(contents)/NoticeBox";
 import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import {useRouter} from "next-nprogress-bar";
 

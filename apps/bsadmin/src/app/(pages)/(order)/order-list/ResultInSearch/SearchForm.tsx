@@ -28,25 +28,24 @@ import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../data/inputDataLists";
+import { toast } from "react-toastify";
+import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 
 const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
   ssr: false,
 });
 
-const LazyDateTypeSelctbox = dynamic(
-  () => import("../../../../components/DateTypeSelectbox"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
-);
+const LazyAnlsTypeChck = dynamic(() => import("./AnlsTypeChck"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const LazyStatusTypeSelctbox = dynamic(
   () => import("../../../../components/StatusTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const SearchForm = ({ onClose }) => {
@@ -54,29 +53,43 @@ const SearchForm = ({ onClose }) => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  let defaultValues;
+  const [resultObject, result] = useResultObject();
+  console.log("resultObject", resultObject);
 
-  // console.log("PATHNAME", pathname);
+  // let defaultValues;
+  //
+  // if (
+  //   resultObject?.typeCcList === undefined ||
+  //   resultObject?.anlsTypeMcList === undefined
+  // ) {
+  //   defaultValues = resultObject;
+  // } else {
+  //   const typeCcList = resultObject.typeCcList.split(",");
+  //   const anlsTypeMcList = resultObject.anlsTypeMcList.split(",");
+  //
+  //   console.log(typeCcList);
+  //
+  //   const newResultObject = {
+  //     ...resultObject,
+  //     typeCcList: typeCcList,
+  //     anlsTypeMcList: anlsTypeMcList,
+  //   };
+  //   defaultValues = newResultObject;
+  // }
 
-  const resultObject = {};
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
+  const defaultValues = {
+    ...resultObject,
+    typeCcList:
+      resultObject?.typeCcList !== undefined
+        ? resultObject?.typeCcList.split(",")
+        : [],
+    anlsTypeMcList:
+      resultObject?.anlsTypeMcList !== undefined
+        ? resultObject?.anlsTypeMcList.split(",")
+        : [],
+  };
 
-  if (resultObject.typeCcList === undefined) {
-    defaultValues = resultObject;
-  } else {
-    const typeCcList = resultObject.typeCcList.split(",");
-    const newResultObject = {
-      ...resultObject,
-      typeCcList: typeCcList,
-    };
-
-    // console.log("NEW DEFAULTVALUES", newResultObject);
-    defaultValues = newResultObject;
-  }
-
-  if (resultObject.dateTypeCc !== undefined) {
+  if (resultObject?.dateTypeCc !== undefined) {
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
 
@@ -94,41 +107,42 @@ const SearchForm = ({ onClose }) => {
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
+
+    // data.startDttm = dayjs(data.startDttm).format("YYYY-MM-DD");
+    // data.endDttm = dayjs(data.endDttm).format("YYYY-MM-DD");
+
     let result;
-    //
-    // if (data.dateRange !== undefined) {
-    //   const [startDttm, endDttm] = data.dateRange.map((dateStr) =>
-    //     dayjs(dateStr).format("YYYY-MM-DD")
-    //   );
-    //   data.startDttm = startDttm;
-    //   data.endDttm = endDttm;
-    //   data.dateRange = undefined;
-    // }
-    //
-    // console.log("DATA>>>>>", data);
 
     // 날짜
     if (
       data.dateTypeCc === "" &&
-      data.startDttm !== null &&
-      data.endDttm !== null
+      (data.startDttm === undefined || data.startDttm === null) &&
+      (data.endDttm === undefined || data.endDttm === null)
     ) {
-      console.log("날짜 타입을 선택해 주세요");
-      return;
+      data.dateTypeCc = "";
+      data.startDttm = undefined;
+      data.endDttm = undefined;
     } else if (
-      data.dateTypeCc !== "" &&
-      data.startDttm === null &&
+      (data.dateTypeCc !== "" &&
+        (data.startDttm === undefined || data.startDttm === null)) ||
+      data.endDttm === undefined ||
       data.endDttm === null
     ) {
       console.log("날짜 선택해 주세요");
+      toast("날짜 선택해 주세요");
+      // data.startDttm = undefined;
+      // data.endDttm = undefined;
+      return;
+    } else if (
+      data.dateTypeCc === "" &&
+      data.startDttm !== "" &&
+      data.endDttm !== ""
+    ) {
+      console.log("날짜 타입을 선택해 주세요");
+      toast("날짜 타입을  선택해 주세요");
       return;
     } else {
-      // console.log("날짜 타입을 선택해 주세요");
-      // return;
-
-      // 변환할 날짜 문자열 가져오기
       const { startDttm, endDttm } = data;
-
       // 날짜 문자열을 Date 객체로 변환
       data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
       data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
@@ -177,18 +191,29 @@ const SearchForm = ({ onClose }) => {
   };
 
   const handleKeywordClear = () => {
-    // resetField("Keyword");
-    router.push(`/order-list`);
+    router.push(pathname);
     onClose();
   };
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 539, p: 3.5, pb: 1 }}>
+      <Box sx={{ width: 580, p: 3, pb: 1 }}>
+        {/*<Stack direction="row">*/}
+        {/*  <Typography variant="subtitle2">진행사항</Typography>*/}
+        {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*    <LazyStatusTypeSelctbox />*/}
+        {/*  </ErrorContainer>*/}
+        {/*</Stack>*/}
         <Section>
           <SectionLabel variant="subtitle2">진행사항</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyStatusTypeSelctbox />
+          </ErrorContainer>
+        </Section>
+        <Section>
+          <SectionLabel variant="subtitle2">분석종류</SectionLabel>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyAnlsTypeChck />
           </ErrorContainer>
         </Section>
         <Section>
@@ -292,11 +317,11 @@ const SearchForm = ({ onClose }) => {
       <Box
         sx={{
           backgroundColor: cjbsTheme.palette.grey["50"],
-          p: 2.5,
+          p: 2,
           textAlign: "center",
         }}
       >
-        <Stack spacing={2} justifyContent="center" alignItems="center">
+        <Stack spacing={1} justifyContent="center" alignItems="center">
           <CheckboxSV
             inputName="isExcludeResult"
             labelText="위 검색 조건 목록에서 제외 합니다."
@@ -325,8 +350,8 @@ export default SearchForm;
 
 const Section = styled(Box)<BoxProps>(({ theme }) => ({
   color: theme.palette.common.black,
-  marginBottom: 24,
+  marginBottom: 10,
 }));
 const SectionLabel = styled(Typography)<TypographyProps>(({ theme }) => ({
-  marginBottom: 8,
+  marginBottom: 4,
 }));

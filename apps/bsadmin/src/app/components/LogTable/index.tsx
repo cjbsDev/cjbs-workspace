@@ -5,7 +5,8 @@ import { DataTableBase } from "cjbsDSTM";
 import { Typography, Box, Stack } from "@mui/material";
 import { dataTableCustomStyles2 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../NoDataView";
-import { useUnifiedLogList } from "./useUnifiedLogList"; // 새로운 hook을 import
+import { useUnifiedLogList } from "./useUnifiedLogList";
+import { useParams } from "next/navigation"; // 새로운 hook을 import
 
 interface LogProps {
   uKey: string;
@@ -13,7 +14,7 @@ interface LogProps {
   logTitle: string;
   ebcShow?: boolean;
   subUkey?: string;
-  type?: string;
+  type?: string | undefined;
 }
 
 interface LogUpdateTitleProps {
@@ -41,9 +42,9 @@ interface LogDisplayComponentProps {
 }
 
 interface LogDataComponentProps {
-  type: string;
+  type: string | undefined;
   apiName: string;
-  uKey: string;
+  uKey?: string;
   subUkey?: string;
   logTitle: string;
 }
@@ -58,39 +59,42 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
     {
       name: "변경일",
       selector: (row: { modifiedAt: any }) => row.modifiedAt,
-      width: "170px",
+      width: "180px",
       right: true,
     },
     {
       name: "변경자",
-      width: "170px",
+      width: "220px",
+      center: true,
       cell: (row: { updatedByNm: any; updatedByEmail: any }) => (
         <>
           <Stack
-            direction="row"
-            spacing={0.4}
-            alignItems="center"
+            // direction="row"
+            // spacing={0.4}
+            // alignItems="center"
             useFlexGap
             flexWrap="wrap"
           >
             <Box>{row.updatedByNm}</Box>
-            <Box>( {row.updatedByEmail} )</Box>
+            <Box>({row.updatedByEmail})</Box>
           </Stack>
         </>
       ),
     },
     {
       name: "컬럼",
-      width: "100px",
+      width: "180px",
       center: true,
       selector: (row: { targetColVal: any }) => row.targetColVal,
     },
     {
       name: "변경 전",
+      wrap: true,
       selector: (row: { preUpdateValue: any }) => row.preUpdateValue,
     },
     {
       name: "변경 후",
+      wrap: true,
       selector: (row: { postUpdateValue: any }) => row.postUpdateValue,
     },
   ];
@@ -105,7 +109,7 @@ const LogDisplayComponent: React.FC<LogDisplayComponentProps> = ({
         paginationPerPage={5}
         paginationRowsPerPageOptions={[5, 10, 20]}
         customStyles={dataTableCustomStyles2}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView dataType="Y" />}
       />
     </Box>
   );
@@ -118,6 +122,9 @@ const LogDataComponent: React.FC<LogDataComponentProps> = ({
   subUkey,
   logTitle,
 }) => {
+  // const params = useParams();
+  // const { slug } = params;
+  console.log("!!!!!!!!!!!!", uKey);
   const logDataProps = useUnifiedLogList(type, apiName, uKey, subUkey);
 
   return (
@@ -126,7 +133,9 @@ const LogDataComponent: React.FC<LogDataComponentProps> = ({
 };
 
 const LogTable = (props: LogProps) => {
-  const { uKey, apiName, logTitle, ebcShow, type, subUkey } = props;
+  // const params = useParams();
+  // const { slug } = params;
+  const { apiName, logTitle, ebcShow, type, uKey, subUkey } = props;
 
   return (
     <>

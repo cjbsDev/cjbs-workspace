@@ -8,6 +8,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import { Box } from "@mui/material";
 
 const ListMaster = () => {
   const router = useRouter();
@@ -17,30 +18,40 @@ const ListMaster = () => {
   });
   const totalElements = data.length;
 
-  const goDetailPage = useCallback(
-    (uniqueCode: string) => {
-      return router.push("/master-code-list/" + uniqueCode);
-    },
-    [router],
-  );
+  // const goDetailPage = useCallback(
+  //   (uniqueCode: string) => {
+  //     return router.push("/master-code-list/" + uniqueCode);
+  //   },
+  //   [router],
+  // );
 
-  const columns = useMemo(() => getColumns(goDetailPage), [goDetailPage]);
+  const handleOnRowClicked = (row) => {
+    console.log("@#@#$@#@#@@#", row);
+    const { uniqueCode } = row;
+    router.push("/master-code-list/" + uniqueCode);
+  };
+
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeader = useMemo(() => {
     return <SubHeader totalElements={totalElements} />;
   }, [totalElements]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="마스터 코드" />}
-      data={data}
-      columns={columns}
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeader}
-      selectableRows={false}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="마스터 코드" />}
+        data={data}
+        columns={columns}
+        onRowClicked={handleOnRowClicked}
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeader}
+        selectableRows={false}
+        pagination={false}
+      />
+    </Box>
   );
 };
 

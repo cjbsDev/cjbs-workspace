@@ -9,13 +9,6 @@ import useDashboardParams from "../../hooks/useDashboardParams";
 const SrvcSalesChart = () => {
   const anchorRef = useRef(null);
 
-  // useEffect(() => {
-  //   if (anchorRef.current) {
-  //     console.log("WIDTH", anchorRef.current?.offsetWidth); // 컴포넌트의 width
-  //     console.log("HEIGHT", anchorRef.current?.offsetHeight); // 컴포넌트의 height
-  //   }
-  // }, []);
-
   const { startMonth, startYear, endMonth, endYear, typeCc } =
     useDashboardParams();
 
@@ -42,23 +35,23 @@ const SrvcSalesChart = () => {
 
   return (
     <Box ref={anchorRef}>
-      <Stack alignItems="center" sx={{ height: 300 }}>
-        <PieContent
+      <Stack direction="row" alignItems="center">
+        <Stack alignItems="center">
+          <PieContent
+            salesLabels={salesLabels}
+            salesColors={salesColors}
+            salesData={salesData}
+          />
+        </Stack>
+
+        <Legend
+          salesData={salesData}
           salesLabels={salesLabels}
           salesColors={salesColors}
-          salesData={salesData}
+          salesPerColors={salesPerColors}
+          salesPercent={salesPercent}
         />
       </Stack>
-      <Stack direction="row" justifyContent="flex-end" sx={{ mb: 2.5 }}>
-        <Typography variant="body2">단위: 만원</Typography>
-      </Stack>
-      <Legend
-        salesData={salesData}
-        salesLabels={salesLabels}
-        salesColors={salesColors}
-        salesPerColors={salesPerColors}
-        salesPercent={salesPercent}
-      />
     </Box>
   );
 };

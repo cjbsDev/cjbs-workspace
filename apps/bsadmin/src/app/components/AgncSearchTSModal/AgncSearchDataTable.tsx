@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, {useCallback, useEffect, useMemo, useState} from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useFormContext } from "react-hook-form";
@@ -12,14 +12,13 @@ import {
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 
 // 거래처 번호, 거래처, 기관, 선택
-const APIPATH = "/agnc/list";
+
 const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
   const { type, onClose } = props;
   const [filterText, setFilterText] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const { data } = useSWR(APIPATH, fetcher, {
-    suspense: true,
-  });
+
   const { setValue, clearErrors, resetField } = useFormContext();
 
   const columns = useMemo(
@@ -78,9 +77,27 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
     [clearErrors, onClose, resetField, setValue, type]
   );
 
+  let APIPATH = `/agnc/list?keyword=${searchText}`;
+  console.log(APIPATH)
+  const { data } = useSWR(APIPATH, fetcher, {
+    suspense: true,
+  });
+
   const filteredData = data.agncList;
   // console.log("거래처 검색 모달", filteredData);
   //bsnsMngrNm
+
+  const onKeydownSearchText = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        console.log("Enter", filterText);
+        // setSearchState(true);
+        setSearchText(filterText);
+      }
+    },
+    [filterText],
+  );
+
   const subHeaderComponentMemo = React.useMemo(() => {
     const handleClear = () => {
       if (filterText) {
@@ -106,9 +123,13 @@ const AgncSearchDataTable = (props: { type: any; onClose: any }) => {
             <DataTableFilter
               onFilter={(e: {
                 target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
+              }) => {
+                // console.log("IIIIIIII",e.target.value);
+                setFilterText(e.target.value)
+              }}
               onClear={handleClear}
               filterText={filterText}
+              onKeyDown={onKeydownSearchText}
             />
           </Stack>
         </Grid>

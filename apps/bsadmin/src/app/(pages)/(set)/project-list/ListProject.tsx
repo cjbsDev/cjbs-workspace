@@ -8,19 +8,23 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import { Box } from "@mui/material";
 
 const ListProject = () => {
   const router = useRouter();
-  const tempUrl = `/mngr/prjc/list`;
+  const tempUrl = `/mngr/prjt/list`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
   });
 
-  const totalElements = data.prjcListResDetailList.length;
+  console.log("Project list data ==>>", data);
+
+  const { prjtListResDetailList, pageInfo } = data;
+  const { totalElements } = pageInfo;
 
   const goDetailPage = useCallback(
-    (prjcUkey: string) => {
-      router.push("/project-list/" + prjcUkey);
+    (prjtUkey: string) => {
+      router.push("/project-list/" + prjtUkey);
     },
     [router],
   );
@@ -32,16 +36,18 @@ const ListProject = () => {
   }, [totalElements]);
 
   return (
-    <DataTableBase
-      title={<Title1 titleName="과제 관리" />}
-      data={data.prjcListResDetailList}
-      columns={columns}
-      highlightOnHover
-      customStyles={dataTableCustomStyles}
-      subHeader
-      subHeaderComponent={subHeader}
-      selectableRows={false}
-    />
+    <Box sx={{ display: "grid" }}>
+      <DataTableBase
+        title={<Title1 titleName="과제 관리" />}
+        data={prjtListResDetailList}
+        columns={columns}
+        highlightOnHover
+        customStyles={dataTableCustomStyles}
+        subHeader
+        subHeaderComponent={subHeader}
+        selectableRows={false}
+      />
+    </Box>
   );
 };
 

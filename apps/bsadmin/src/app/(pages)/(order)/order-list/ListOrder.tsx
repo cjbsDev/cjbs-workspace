@@ -15,7 +15,7 @@ import SubHeader from "./SubHeader";
 
 const ListOrder = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const [sort, setSort] = useState<string>("orderId,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
 
@@ -48,10 +48,15 @@ const ListOrder = () => {
     [totalElements, result],
   );
 
-  const goDetailPage = useCallback((row: any) => {
-    const path = row.orderUkey;
-    router.push("/order-list/" + path + result);
-  }, []);
+  const goDetailPage = useCallback(
+    (row: any) => {
+      const { orderUkey } = row;
+      console.log("Go To Detail ===>>>>", orderUkey, result);
+      console.log("/order-list/" + orderUkey + result);
+      router.push("/order-list/" + orderUkey + result);
+    },
+    [result],
+  );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
     setPage(page);
@@ -98,6 +103,8 @@ const ListOrder = () => {
         onSort={handleSort}
         defaultSortFieldId={1}
         defaultSortAsc={false}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
     </Box>
   );

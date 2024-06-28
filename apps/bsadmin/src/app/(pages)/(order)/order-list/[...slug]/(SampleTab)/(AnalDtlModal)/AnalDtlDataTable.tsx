@@ -8,6 +8,7 @@ import { columns } from "./analDtlColumns";
 import { RecoilRoot, useRecoilValue } from "recoil";
 import { analDtlAtom } from "./analDtlAtom";
 import SubHeader from "./Subheader";
+import NoDataView from "../../../../../../components/NoDataView";
 
 const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
   const { sampleUkeyList } = props;
@@ -31,7 +32,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
     );
   }, [data.length]);
 
-  const rowDisabled = (row: { isAnlsItst: string }) => row.isAnlsItst === "N";
+  const rowDisabled = (row: { isAnlsItst: string }) => row.isAnlsItst === "Y";
 
   return (
     <RecoilRoot override={false}>
@@ -47,6 +48,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
         paginationRowsPerPageOptions={[5, 10, 15]}
         selectableRows
         selectableRowDisabled={rowDisabled}
+        noDataComponent={<NoDataView />}
       />
     </RecoilRoot>
   );

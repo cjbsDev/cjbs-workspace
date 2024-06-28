@@ -96,7 +96,7 @@ export const CheckboxGV = (props: CheckboxGVProps) => {
     <ThemeProvider theme={cjbsTheme}>
       <Stack>
         <FormGroup>
-          <Stack direction={direction}>
+          <Stack direction={direction} useFlexGap flexWrap="wrap">
             {data.map((item: any) => {
               return (
                 <CheckboxSV

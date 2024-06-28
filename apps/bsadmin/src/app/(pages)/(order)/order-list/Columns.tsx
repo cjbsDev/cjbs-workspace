@@ -16,7 +16,7 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
   // ... 이전에 ListOrder 컴포넌트 안에 있던 columns 배열의 내용 ...
   {
     name: "No",
-    width: "80px",
+    width: "100px",
     center: true,
     sortable: true,
     sortField: "orderId",
@@ -282,9 +282,10 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
   {
     name: "PCR/Lib 완료일",
     right: true,
-    width: "140px",
+    width: "150px",
     sortable: true,
     sortField: "libCompDttm",
+    allowOverflow: true,
     selector: (row: { libCompDttm: null | string }) =>
       row.libCompDttm === null ? "-" : row.libCompDttm,
   },

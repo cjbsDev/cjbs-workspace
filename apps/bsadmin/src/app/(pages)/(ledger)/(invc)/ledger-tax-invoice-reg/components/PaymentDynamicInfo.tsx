@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   CircularProgress,
   Stack,
@@ -28,9 +28,10 @@ import {
   rmnPriceDetailShowAtom,
 } from "../atom";
 import dynamic from "next/dynamic";
-import { useFormContext, useWatch } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import RmnPrePymtPrice from "./RmnPrePymtPrice";
 import { useSearchParams } from "next/navigation";
+import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
 
 const LazyRmnPymtPriceDetail = dynamic(() => import("./RmnPymtPriceDetail"), {
   ssr: false,
@@ -44,7 +45,27 @@ const LazyRmnPymtPriceDetail = dynamic(() => import("./RmnPymtPriceDetail"), {
 const PaymentDynamicInfo = () => {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
-  const { watch, getValues } = useFormContext();
+  const { watch, getValues, setValue, clearErrors } = useFormContext();
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/tnsfAgncListPopup`,
+    "이관 거래처 검색",
+    800,
+    670,
+  );
+
+  useEffect(() => {
+    window.addEventListener("myTnsfAgncData", function (e) {
+      console.log("myTnsfAgncData Received data:", e.detail);
+
+      const { tnsfTargetAgncNm, tnsfTargetAgncUkey } = e.detail;
+
+      setValue("tnsfTargetAgncNm", tnsfTargetAgncNm);
+      setValue("tnsfTargetAgncUkey", tnsfTargetAgncUkey);
+
+      clearErrors(["tnsfTargetAgncNm", "tnsfTargetAgncUkey"]);
+    });
+  }, []);
+
   // const [showInstSearchModal, setShowInstSearchModal] =
   //   useState<boolean>(false);
   const setShowAgncSearchModal = useSetRecoilState(agncModalShowAtom);
@@ -105,16 +126,16 @@ const PaymentDynamicInfo = () => {
                 <TD>
                   <SingleDatePicker
                     inputName="dpstDttm"
-                    required={true}
-                    errorMessage="날짜를 입력하세요"
+                    // required={true}
+                    // errorMessage="날짜를 입력하세요"
                   />
                 </TD>
                 <TH sx={{ width: "15%" }}>입금자명</TH>
                 <TD>
                   <InputValidation
                     inputName="pyrNm"
-                    required={true}
-                    errorMessage="입금자명을 입력하세요."
+                    // required={true}
+                    // errorMessage="입금자명을 입력하세요."
                   />
                 </TD>
               </TableRow>
@@ -161,7 +182,8 @@ const PaymentDynamicInfo = () => {
                       <OutlinedButton
                         size="small"
                         buttonName="거래처 검색"
-                        onClick={handleAgncSearchModalOpen}
+                        // onClick={handleAgncSearchModalOpen}
+                        onClick={openPopup}
                       />
                     </Stack>
                   </TD>

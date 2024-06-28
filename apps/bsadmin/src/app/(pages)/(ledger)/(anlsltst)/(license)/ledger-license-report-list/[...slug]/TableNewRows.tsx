@@ -5,7 +5,6 @@ import MyIcon from "icon/MyIcon";
 import dynamic from "next/dynamic";
 import {useFieldArray, useFormContext} from "react-hook-form";
 import {useEffect, useState} from "react";
-import {maxWidth} from "@mui/system";
 
 
 const LazyPrepSelectbox = dynamic(
@@ -37,7 +36,7 @@ const TableNewRows = (props:any) => {
   return (
     <>
       <TableRow sx={{height: "36px", paddingY: '3px'}}>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].addType`}
             required={false}
@@ -76,7 +75,7 @@ const TableNewRows = (props:any) => {
           {/*</ErrorContainer>*/}
           {/*{errors.sample?.[index]?.srvcTypeMc && <Typography variant="body2" color={cjbsTheme.palette.error.main}>값을 선택해 주세요.</Typography>}*/}
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].stndPrice`}
             required={true}
@@ -120,7 +119,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].sampleSize`}
             required={true}
@@ -146,7 +145,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].unitPrice`}
             required={true}
@@ -178,7 +177,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].supplyPrice`}
             required={true}
@@ -210,7 +209,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].vat`}
             required={true}
@@ -241,7 +240,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <InputValidation
             inputName={`sample.[${index}].stndDscntPctg`}
             required={true}
@@ -282,7 +281,7 @@ const TableNewRows = (props:any) => {
             }}
           />
         </TableCell>
-        <TableCell sx={{ paddingX: 2, paddingY: 0 }}>
+        <TableCell sx={{ p: '0 0 0 6px' }}>
           <Stack direction="row" alignItems="center" spacing={1} sx={{width : '100%'}}>
             <ErrorContainer FallbackComponent={Fallback}>
               <LazyPrepSelectbox

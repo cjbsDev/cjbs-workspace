@@ -1,5 +1,5 @@
 export interface ModalContainerProps {
-  onClose: () => void;
+  onClose?: ((success?: boolean | undefined) => void | undefined) | undefined;
   open: boolean;
   modalWidth: number;
 }

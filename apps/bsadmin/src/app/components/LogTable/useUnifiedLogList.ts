@@ -2,12 +2,14 @@ import useSWR from "swr";
 import { fetcher } from "api";
 
 export const useUnifiedLogList = (
-  type: string,
+  type: string | undefined,
   apiName: string,
-  uKey: string,
-  subUkey?: string
+  uKey: string | string[] | undefined,
+  subUkey?: string | undefined,
 ) => {
   let url = ""; // 초기 URL은 빈 문자열로 설정
+
+  console.log("TYPE^^^^^^", type, uKey);
 
   // type에 따라 API URL을 설정
   if (type === "mngr") {

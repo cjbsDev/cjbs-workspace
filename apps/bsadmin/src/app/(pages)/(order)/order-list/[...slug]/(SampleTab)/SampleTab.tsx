@@ -127,25 +127,28 @@ const SampleTab = () => {
     };
 
     const handleAnalDtlModalOpen = () => {
+      console.log("sampleUkeyList.length1", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowAnalDtlModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
+      // setIsClear(false);
     };
     const handleExPrgrsPhsOpen = () => {
+      console.log("sampleUkeyList.length2", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowExPrgsChngModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
+      // setIsClear(false);
     };
 
     const handleSampleBatchModalOpen = () => {
+      console.log("sampleUkeyList.length3", sampleUkeyList.length);
       if (sampleUkeyList.length !== 0) setShowSampleBatchChangeModal(true);
-      if (sampleUkeyList.length === 0) toast("샘플을 선책해 주세요.");
-      setIsClear(false);
+      if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
+      // setIsClear(false);
     };
 
     return (
       <SubHeader
-        exportUrl={`/order/list/download`}
+        exportUrl={`/order/${orderUkey}/sample/list/download`}
         totalCount={filteredItems.length}
         handleSampleAddModalOpen={handleSampleAddModalOpen}
         handleAnalDtlModalOpen={handleAnalDtlModalOpen}
@@ -156,7 +159,16 @@ const SampleTab = () => {
         onFilter={onFilter}
       />
     );
-  }, [filterText, resetPaginationToggle, sampleUkeyList, filteredItems.length]);
+  }, [
+    filterText,
+    resetPaginationToggle,
+    sampleUkeyList,
+    filteredItems.length,
+    isClear,
+    showAnalDtlModal,
+    showExPrgsChngModal,
+    showSampleBatchChangeModal,
+  ]);
 
   const goDetailModal = useCallback(
     (row: any) => {
@@ -170,14 +182,17 @@ const SampleTab = () => {
     [showSampleInfoModal],
   );
 
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
-    const getSampleIDList = selectedRows.map((row) => row.sampleId);
-    console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
-    // console.log("selectedSampleIdList ==>>", getSampleIDList);
-    setSampleUkeyList(getSampleUkeyList);
-    setSampleIdList(getSampleIDList);
-  }, []);
+  const handleSelectedRowChange = useCallback(
+    ({ selectedRows }: any) => {
+      const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+      const getSampleIDList = selectedRows.map((row) => row.sampleId);
+      console.log("selectedSampleUkeyList ==>>", getSampleUkeyList);
+      // console.log("selectedSampleIdList ==>>", getSampleIDList);
+      setSampleUkeyList(getSampleUkeyList);
+      setSampleIdList(getSampleIDList);
+    },
+    [sampleUkeyList],
+  );
 
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
@@ -192,22 +207,33 @@ const SampleTab = () => {
 
   const handleAnalDtlModalClose = () => {
     setShowAnalDtlModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
+    // setSampleUkeyList([]);
+    // setIsClear(true);
   };
 
-  const handleExPrgsChngModalClose = () => {
+  const handleExPrgsChngModalClose = (success?: boolean) => {
     setShowExPrgsChngModal(false);
-    setSampleUkeyList([]);
-    setIsClear(true);
+    if (success) {
+      setSampleUkeyList([]);
+      setIsClear(true);
+    }
   };
 
-  const handleSampleBatchChangeModalClose = () => {
+  const handleSampleBatchChangeModalClose = (success?: boolean) => {
     setShowSampleBatchChangeModal(false);
-    setSampleUkeyList([]);
-    setSampleIdList([]);
-    setIsClear(true);
+    if (success) {
+      setSampleUkeyList([]);
+      setSampleIdList([]);
+      setIsClear(true);
+    }
   };
+
+  // const handleSampleBatchChangeSubmitModalClose = () => {
+  //   setShowSampleBatchChangeModal(false);
+  //   setSampleUkeyList([]);
+  //   setSampleIdList([]);
+  //   setIsClear(true);
+  // };
 
   return (
     <>
@@ -254,6 +280,7 @@ const SampleTab = () => {
       {showSampleBatchChangeModal && (
         <LazySampleBatchChangeModal
           onClose={handleSampleBatchChangeModalClose}
+          // onSubmitClose={handleSampleBatchChangeSubmitModalClose}
           open={showSampleBatchChangeModal}
           modalWidth={800}
           sampleIdList={sampleIdList}

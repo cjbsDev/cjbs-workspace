@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Box, Typography, useTheme } from "@mui/material";
+import { formatNumberWithCommas } from "../../commonFunc";
 
 interface DataCountResiltInfoProps {
   totalCount: number | undefined;
@@ -34,7 +35,7 @@ export const DataCountResultInfo = ({
               color: theme.palette.primary.main,
             }}
           >
-            {totalCount}
+            {formatNumberWithCommas(totalCount)}
           </Box>{" "}
           건
         </Typography>

@@ -29,7 +29,7 @@ export const getColumns = (
   {
     name: "생산량",
     selector: (row: { prdcSizeMcVal: string }) => row.prdcSizeMcVal,
-    width: "80px",
+    width: "100px",
     right: true,
   },
   {

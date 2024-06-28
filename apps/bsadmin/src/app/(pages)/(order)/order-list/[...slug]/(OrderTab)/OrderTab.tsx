@@ -31,10 +31,10 @@ const OrderTab = () => {
 
   return (
     <>
-      <Typography variant="subtitle1" sx={{ mb: 1 }}>
-        거래처(PI) 및 신청인 정보
-      </Typography>
-      <OrderTable1 data={agncInfo} />
+      {/*<Typography variant="subtitle1" sx={{ mb: 1 }}>*/}
+      {/*  거래처(PI) 및 신청인 정보*/}
+      {/*</Typography>*/}
+      {/*<OrderTable1 data={agncInfo} />*/}
 
       <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
         <Typography variant="subtitle1">주문 정보</Typography>
@@ -52,10 +52,10 @@ const OrderTab = () => {
       </Stack>
       <OrderTable2 data={orderInfo} />
 
-      <Typography variant="subtitle1" sx={{ mb: 1 }}>
-        담당자 정보
-      </Typography>
-      <OrderTable3 data={mngrInfo} />
+      {/*<Typography variant="subtitle1" sx={{ mb: 1 }}>*/}
+      {/*  담당자 정보*/}
+      {/*</Typography>*/}
+      {/*<OrderTable3 data={mngrInfo} />*/}
 
       <Typography variant="subtitle1" sx={{ mb: 1 }}>
         메모

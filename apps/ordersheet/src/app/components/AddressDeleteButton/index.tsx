@@ -18,7 +18,7 @@ export const AddressDeleteButton = () => {
       buttonName="삭제"
       color="error"
       onClick={handleClick}
-      sx={{height:"30px"}}
+      // sx={{height:"30px"}}
     />
   );
 };

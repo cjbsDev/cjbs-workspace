@@ -37,19 +37,15 @@ const PblshrInst = () => {
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.2} alignItems="center">
                   <InputValidation
-                    // sx={{ display: "none" }}
                     inputName="instNm"
-                    required={true}
-                    errorMessage="기관을 입력해 주세요"
-                    // InputProps={{
-                    //   readOnly: true,
-                    // }}
+                    // required={true}
+                    // errorMessage="기관을 입력해 주세요"
                   />
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="instUkey"
-                    required={true}
-                    errorMessage="키값 입력하세요."
+                    // required={true}
+                    // errorMessage="키값 입력하세요."
                     InputProps={{
                       readOnly: true,
                       hidden: true,
@@ -78,16 +74,16 @@ const PblshrInst = () => {
               <TD sx={{ width: "35%" }}>
                 <InputValidation
                   inputName="pymtMngrNm"
-                  required={true}
-                  errorMessage="결제담당자를 입력해 주세요"
+                  // required={true}
+                  // errorMessage="결제담당자를 입력해 주세요"
                 />
               </TD>
               <TH sx={{ width: "15%" }}>이메일</TH>
               <TD sx={{ width: "35%" }}>
                 <InputValidation
                   inputName="rcvEmail"
-                  required={true}
-                  errorMessage="이메일을 입력하세요"
+                  // required={true}
+                  // errorMessage="이메일을 입력하세요"
                   patternErrMsg="이메일 형식으로 입력해주세요"
                   pattern={/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/}
                   placeholder="ex)test@test.com"

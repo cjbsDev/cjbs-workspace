@@ -72,6 +72,12 @@ const SampleDataTable = (props) => {
         selector: (row) => row.sampleId,
       },
       {
+        name: "번호",
+        sortable: false,
+        center: true,
+        selector: (row, index) => index + 1,
+      },
+      {
         name: "샘플명",
         sortable: false,
         center: true,
@@ -88,6 +94,8 @@ const SampleDataTable = (props) => {
         name: "Source",
         sortable: false,
         center: true,
+        allowOverflow: true,
+        grow: 2,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
@@ -405,7 +413,9 @@ const SampleDataTable = (props) => {
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
         selectableRowsVisibleOnly={true}
-        pagination={false}
+        pagination
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[20, 50, 100]}
       />
     </Box>
   );

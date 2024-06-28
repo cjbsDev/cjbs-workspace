@@ -54,6 +54,12 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
     return res.data;
   };
 
+  const handleClose = () => {
+    console.log("CLOSE!!!");
+    setIsLoading(false);
+    onClose();
+  };
+
   const onSubmit = async (data: any) => {
     console.log("sampleInfoModify Add", data);
 
@@ -84,11 +90,6 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
       });
   };
 
-  const handleClose = () => {
-    setIsLoading(false);
-    onClose();
-  };
-
   return (
     <ModalContainer onClose={handleClose} open={open} modalWidth={modalWidth}>
       <ModalTitle onClose={handleClose}>샘플 정보</ModalTitle>
@@ -112,12 +113,14 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
           buttonName="닫기"
           onClick={handleClose}
           color="secondary"
+          size="small"
         />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="sampleInfoModify"
+          size="small"
         >
           저장
         </LoadingButton>

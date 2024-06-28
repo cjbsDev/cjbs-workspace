@@ -7,10 +7,12 @@ import AgncSearchModal from "../../../../../components/AgncSearchModal";
 import InstSearchModal from "../../../../../components/InstSearchModal";
 import { useRecoilState } from "recoil";
 import { agncModalShowAtom, instModalShowAtom } from "../atom";
-import DynamicSumTable2 from "./DynamicSumTable2";
 import DynamicTable from "../../../../../components/DynamicTable";
 import DynamicSumTable from "../../../../../components/DynamicSumTable";
 import PublicationInfo from "./PublicationInfo";
+import DynamicSumTable2 from "./DynamicSumTable2";
+import DynamicSumTable4 from "./DynamicSumTable4";
+import DynamicSumTable3 from "./DynamicSumTable3";
 
 const DynamicViews = () => {
   const { watch, getValues } = useFormContext();
@@ -48,7 +50,7 @@ const DynamicViews = () => {
       {/* 결제 정보 */}
       <PaymentDynamicInfo />
 
-      {/* 품명 */}
+      {/* 계산서 */}
       {paymentInfoValue === "BS_1914002" && (
         <>
           <DynamicTable />
@@ -56,13 +58,20 @@ const DynamicViews = () => {
         </>
       )}
 
-      {paymentInfoValue !== "BS_1914002" && <DynamicSumTable2 />}
+      {/* card */}
+      {paymentInfoValue === "BS_1914001" && <DynamicSumTable2 />}
+
+      {/* invoice */}
+      {paymentInfoValue === "BS_1914003" && <DynamicSumTable3 />}
+
+      {/* 이관 */}
+      {paymentInfoValue === "BS_1914004" && <DynamicSumTable4 />}
 
       {/* 발행처 정보 */}
       <PblshrInst />
 
       {/* 발행 정보 */}
-      <PublicationInfo />
+      {/*<PublicationInfo />*/}
 
       {/* 기타 정보 */}
       <EtcInfo />

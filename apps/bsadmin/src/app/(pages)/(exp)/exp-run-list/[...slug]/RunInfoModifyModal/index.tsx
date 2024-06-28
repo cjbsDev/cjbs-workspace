@@ -42,7 +42,7 @@ const LazyRunTypeList = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazyMCNameList = dynamic(
@@ -50,14 +50,14 @@ const LazyMCNameList = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyKitList = dynamic(
   () => import("../../../../../components/KitSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazySeqAgncList = dynamic(
@@ -65,7 +65,7 @@ const LazySeqAgncList = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const LazyExpMngList = dynamic(
@@ -73,7 +73,7 @@ const LazyExpMngList = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 const dataRadioGVTest = [
@@ -161,7 +161,7 @@ ModalContainerProps) => {
     } catch (error: any) {
       console.error(
         "오더 정보 변경Error",
-        error.response?.data?.data || error.message
+        error.response?.data?.data || error.message,
       );
     } finally {
       setIsLoading(false);
@@ -233,12 +233,12 @@ ModalContainerProps) => {
                   </TD>
                 </TableRow>
                 <TableRow>
-                  <TH sx={{ width: "35%" }}>실험 당당자</TH>
+                  <TH sx={{ width: "35%" }}>실험 담당자</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyExpMngList
                         required={true}
-                        errorMessage="실험 당당자를 선택해 주세요!"
+                        errorMessage="실험 담당자를 선택해 주세요!"
                       />
                     </ErrorContainer>
                   </TD>

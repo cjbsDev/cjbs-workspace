@@ -12,24 +12,40 @@ interface DialogTitleProps {
   children?: React.ReactNode;
   onClose: () => void;
   desctext?: string;
+  closeBtnHidden?: boolean;
 }
 export const ModalTitle = (props: DialogTitleProps) => {
-  const { children, onClose, ...other } = props;
+  const { children, onClose, closeBtnHidden = false, ...other } = props;
   return (
     <DialogTitle sx={{ m: 0, p: 3 }} {...other}>
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Typography variant="title2">{children}</Typography>
-        <IconButton
-          onClick={onClose}
-          sx={{
-            // position: "absolute",
-            // right: 20,
-            // top: 25,
-            color: "black",
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
+        {closeBtnHidden ? null : (
+          <IconButton
+            onClick={onClose}
+            sx={{
+              // position: "absolute",
+              // right: 20,
+              // top: 25,
+              color: "black",
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        )}
+        {/*{*/}
+        {/*  closeBtnHidden ? null : <IconButton*/}
+        {/*    onClick={onClose}*/}
+        {/*    sx={{*/}
+        {/*      // position: "absolute",*/}
+        {/*      // right: 20,*/}
+        {/*      // top: 25,*/}
+        {/*      color: "black",*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    <CloseIcon />*/}
+        {/*  </IconButton>,*/}
+        {/*}*/}
       </Stack>
       <Typography variant="body2">{other.desctext}</Typography>
       <Divider sx={{ mt: 2 }} />

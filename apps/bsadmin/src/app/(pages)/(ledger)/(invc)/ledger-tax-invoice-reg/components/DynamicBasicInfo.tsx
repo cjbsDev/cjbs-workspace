@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import {
   Stack,
   Table,
@@ -22,13 +22,59 @@ import { useSetRecoilState } from "recoil";
 import { agncModalShowAtom } from "../atom";
 import { useFormContext } from "react-hook-form";
 import { useSearchParams } from "next/navigation";
+import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
 
 const DynamicBasicInfo = () => {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
-  const { watch } = useFormContext();
+  const { watch, setValue, clearErrors, resetField } = useFormContext();
   const agncUkeyValue = watch("agncUkey");
+  const paymentInfoValue = watch("pymtInfoCc");
   const setShowAgncSearchModal = useSetRecoilState(agncModalShowAtom);
+  const { isOpen, openPopup, closePopup } = useCenteredPopup(
+    `/agncListPopup`,
+    "거래처 검색",
+    800,
+    670,
+  );
+
+  useEffect(() => {
+    window.addEventListener("myAgncData", function (e) {
+      console.log("myAgncData Received data:", e.detail);
+
+      const {
+        agncUkey,
+        agncNm,
+        instFakeNm,
+        rmnPrePymtPrice,
+        rmnPrice,
+        agncInstNm,
+        tnsfTargetAgncNm,
+        tnsfTargetAgncUkey,
+      } = e.detail;
+
+      if (paymentInfoValue === "BS_1914004") {
+        setValue("tnsfTargetAgncNm", tnsfTargetAgncNm);
+        setValue("tnsfTargetAgncUkey", tnsfTargetAgncUkey);
+      } else {
+        setValue("agncUkey", agncUkey);
+        setValue("agncNm", agncNm);
+        setValue("instFakeNm", instFakeNm);
+        setValue("rmnPrePymtPrice", rmnPrePymtPrice);
+        setValue("rmnPrice", rmnPrice);
+        setValue("agncInstNm", agncInstNm);
+      }
+
+      clearErrors([
+        "agncUkey",
+        "agncNm",
+        "instFakeNm",
+        "instNm",
+        "rmnPrice",
+        "rmnPrePymtPrice",
+      ]);
+    });
+  }, []);
 
   const handleAgncSearchModalOpen = useCallback(() => {
     setShowAgncSearchModal(true);
@@ -45,6 +91,7 @@ const DynamicBasicInfo = () => {
               <TD sx={{ width: "85%" }}>
                 <Stack direction="row" spacing={0.2} alignItems="center">
                   <AgncAndInstName />
+
                   <InputValidation
                     sx={{ display: "none" }}
                     inputName="agncNm"
@@ -68,7 +115,8 @@ const DynamicBasicInfo = () => {
                     <OutlinedButton
                       size="small"
                       buttonName="거래처 검색"
-                      onClick={handleAgncSearchModalOpen}
+                      // onClick={handleAgncSearchModalOpen}
+                      onClick={openPopup}
                     />
                   )}
                 </Stack>

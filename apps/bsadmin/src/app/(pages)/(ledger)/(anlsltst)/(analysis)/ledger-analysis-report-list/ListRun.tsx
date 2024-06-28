@@ -9,9 +9,7 @@ import {
   cjbsTheme,
   FileDownloadBtn,
 } from "cjbsDSTM";
-import {
-  blue,
-} from "cjbsDSTM/themes/color";
+import { blue } from "cjbsDSTM/themes/color";
 import {
   Box,
   Stack,
@@ -19,7 +17,13 @@ import {
   Typography,
   Chip,
   Tooltip,
-  IconButton, Collapse, TableContainer, Table, TableBody, TableCell, TableRow,
+  IconButton,
+  Collapse,
+  TableContainer,
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
 } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
@@ -35,7 +39,9 @@ import dynamic from "next/dynamic";
 import { ExpanderComponentProps } from "react-data-table-component";
 import ResultInSearch from "./ResultInSearch";
 import CategorySelectModal from "./CategorySelectModal";
-import {bold} from "next/dist/lib/picocolors";
+import { bold } from "next/dist/lib/picocolors";
+import SubHeader from "./components/SubHeader";
+import dayjs from "dayjs";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -43,7 +49,13 @@ const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
 
 const ListRun = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(100);
+  const [startYear, setStartYear] = useState(dayjs().year());
+  const [startMonth, setStartMonth] = useState(
+    dayjs().month(0).get("month") + 1,
+  );
+  const [endYear, setEndYear] = useState(dayjs().year());
+  const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
   const searchParams = useSearchParams();
 
   const resultObject: any = {};
@@ -58,22 +70,23 @@ const ListRun = () => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
-      ? `/anls/itst/list${result}&page=${page}&size=${size}`
-      : `/anls/itst/list?page=${page}&size=${size}`,
+      ? `/anls/itst/list${result}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`
+      : `/anls/itst/list?page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`,
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
   console.log("RUN LIST DATA", data);
   const anlsItstList = data.anlsItstList;
   const totalElements = data.pageInfo.totalElements;
   const totalPrice = data.totalPrice;
-  const [filterText, setFilterText] = useState("");
-  const [checked, setChecked] = useState(false);
+  // const [filterText, setFilterText] = useState("");
+  // const [checked, setChecked] = useState(false);
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [serviceSelectModalOpen, setServiceSelectModalOpen] = useState<boolean>(false);
+  const [serviceSelectModalOpen, setServiceSelectModalOpen] =
+    useState<boolean>(false);
 
   const handleServiceSelectOpen = () => {
     setServiceSelectModalOpen(true);
@@ -85,14 +98,30 @@ const ListRun = () => {
   const columns = useMemo(
     () => [
       {
-        name: "No",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">No</Typography>
+          </Stack>
+        ),
         width: "80px",
         center: true,
         // sortable: true,
         selector: (row, index) => row.anlsItstId,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">거래처(PI)</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">거래처(PI)</Typography>
+          </Stack>
+        ),
         width: "300px",
         // sortable: true,
         // selector: (row : {agncNm: string; instNm: string}) => row.agncNm,
@@ -115,14 +144,30 @@ const ListRun = () => {
         },
       },
       {
-        name: "거래처 번호",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">거래처 번호</Typography>
+          </Stack>
+        ),
         width: "100px",
         center: true,
         // sortable: true,
         selector: (row, index) => row.agncId,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">연구책임자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">연구책임자</Typography>
+          </Stack>
+        ),
         width: "250px",
         // sortable: true,
         // selector: (row) => row.custNm,
@@ -141,28 +186,68 @@ const ListRun = () => {
         },
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">영업 담당자</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">영업 담당자</Typography>
+          </Stack>
+        ),
         width: "160px",
         // sortable: true,
         selector: (row) => row.bsnsMngrNm,
       },
       {
-        name: "분류",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">분류</Typography>
+          </Stack>
+        ),
         center: true,
         selector: (row) => row.srvcCtgrVal,
       },
       {
-        name: "분석종류",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">분석종류</Typography>
+          </Stack>
+        ),
         center: true,
         selector: (row) => row.anlsTypeVal,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">플랫폼</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">플랫폼</Typography>
+          </Stack>
+        ),
         width: "300px",
         selector: (row) => row.pltfVal,
       },
       {
-        name: "분석일",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">분석일</Typography>
+          </Stack>
+        ),
         width: "120px",
         center: true,
         selector: (row) => row.anlsDttm,
@@ -173,48 +258,91 @@ const ListRun = () => {
       //   selector: (row) => (row.kitVal === null ? "-" : row.kitVal),
       // },
       {
-        name: "수량",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">수량</Typography>
+          </Stack>
+        ),
         width: "80px",
         center: true,
         selector: (row) => row.totalCnt,
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">총 공급가액</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">총 공급가액</Typography>
+          </Stack>
+        ),
         width: "140px",
         right: true,
-        selector: (row) => row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row) =>
+          row.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">부가세</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">부가세</Typography>
+          </Stack>
+        ),
         width: "120px",
         right: true,
-        selector: (row) => row.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row) =>
+          row.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: <Stack justifyContent="center" alignItems="center" sx={{width:'100%'}}><Typography variant="body2">합계금액</Typography></Stack>,
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">합계금액</Typography>
+          </Stack>
+        ),
         width: "150px",
         right: true,
-        selector: (row) => row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        selector: (row) =>
+          row.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
       },
       {
-        name: "정산",
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
+            <Typography variant="body2">정산</Typography>
+          </Stack>
+        ),
         center: true,
         cell: (row: { isSettled: string }) => {
           const { isSettled } = row;
-          return (
-            isSettled === "N" ? (
-              <ContainedButton
-                buttonName="발행 요청"
-                size="small"
-                onClick={() => goDetailPage(row)}
-              />
-            ) : ('완료')
+          return isSettled === "N" ? (
+            <ContainedButton
+              buttonName="발행 요청"
+              size="small"
+              onClick={() => goTaxInvoicePage(row)}
+            />
+          ) : (
+            "완료"
           );
         },
         width: "140px",
       },
     ],
-    []
+    [],
   );
 
   const goDetailPage = (row: any) => {
@@ -222,65 +350,112 @@ const ListRun = () => {
     const srvcCtgrVal = row.srvcCtgrVal;
     // console.log(path);
     // console.log(srvcCtgrVal);
-    if(srvcCtgrVal === "Analysis") {
+    if (srvcCtgrVal === "Analysis") {
       router.push("/ledger-analysis-report-list/" + path);
     } else if (srvcCtgrVal === "License") {
       router.push("/ledger-license-report-list/" + path);
     }
   };
 
-  const subHeaderComponentMemo = useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={12} sx={{mt: 0}}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            spacing={1}
-            sx={{ mb: 0.5 }}
-            alignItems="center"
-          >
-            <Stack
-              direction="row"
-              alignItems="center"
-              spacing={1}
-            >
-              <DataCountResultInfo totalCount={totalElements} />
-
-              <Typography variant="body2" sx={{ width: "max-content", pb: '2px' }}>
-                {" / "}총 누적 금액{" "}
-                <Box
-                  component="b"
-                  sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main, }}
-                >
-                  {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
-                </Box>{" "}
-                원
-              </Typography>
-
-              <ContainedButton
-                buttonName="분석 내역서 등록"
-                size="small"
-                onClick={() => handleServiceSelectOpen()}
-              />
-            </Stack>
-            <Stack
-              direction="row"
-              spacing={1}
-              alignItems="center"
-            >
-              <FileDownloadBtn
-                exportUrl={`/anls/itst/list/download${result}`}
-                iconName="xls3"
-              />
-              <KeywordSearch />
-              <ResultInSearch/>
-            </Stack>
-          </Stack>
-        </Grid>
-      </Grid>
+  // 발행요청
+  const goTaxInvoicePage = (row: any) => {
+    const anlsItstUkey = row.anlsItstUkey;
+    const agncUkey = row.agncUkey;
+    console.log("row", row);
+    console.log("anlsItstUkey", anlsItstUkey);
+    console.log("agncUkey", agncUkey);
+    router.push(
+      `/ledger-tax-invoice-reg?type=anlsltst&anlsItstUkey=${anlsItstUkey}&agncUkey=${agncUkey}`,
     );
-  }, [totalElements, result]);
+  };
+
+  const handleStartYear = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setStartYear(value);
+  };
+
+  const handleStartMonth = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setStartMonth(value);
+  };
+
+  const handleEndYear = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setEndYear(value);
+  };
+
+  const handleEndMonth = (event: { target: { value: any } }) => {
+    const { value } = event.target;
+    setEndMonth(value);
+  };
+
+  const subHeaderComponentMemo = useMemo(
+    () => (
+      <SubHeader
+        totalElements={totalElements}
+        result={result}
+        startMonth={startMonth}
+        startYear={startYear}
+        endMonth={endMonth}
+        endYear={endYear}
+        handleEndMonth={handleEndMonth}
+        handleEndYear={handleEndYear}
+        handleStartMonth={handleStartMonth}
+        handleStartYear={handleStartYear}
+        handleServiceSelectOpen={handleServiceSelectOpen}
+        totalPrice={totalPrice}
+      />
+    ),
+    [totalElements, result, startYear, startMonth, endYear, endMonth],
+  );
+
+  // const subHeaderComponentMemo = useMemo(() => {
+  //   return (
+  //     <Grid container>
+  //       <Grid item xs={12} sx={{ mt: 0 }}>
+  //         <Stack
+  //           direction="row"
+  //           justifyContent="space-between"
+  //           spacing={1}
+  //           sx={{ mb: 0.5 }}
+  //           alignItems="center"
+  //         >
+  //           <Stack direction="row" alignItems="center" spacing={1}>
+  //             <DataCountResultInfo totalCount={totalElements} />
+  //
+  //             <Typography
+  //               variant="body2"
+  //               sx={{ width: "max-content", pb: "2px" }}
+  //             >
+  //               {" / "}총 누적 금액{" "}
+  //               <Box
+  //                 component="b"
+  //                 sx={{ fontSize: 18, color: cjbsTheme.palette.primary.main }}
+  //               >
+  //                 {totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+  //               </Box>{" "}
+  //               원
+  //             </Typography>
+  //
+  //             <ContainedButton
+  //               buttonName="분석 내역서 등록"
+  //               size="small"
+  //               onClick={() => handleServiceSelectOpen()}
+  //             />
+  //           </Stack>
+  //           <Stack direction="row" spacing={1} alignItems="center">
+  //             <FileDownloadBtn
+  //               exportUrl={`/anls/itst/list/download${result}`}
+  //               iconName="xls3"
+  //             />
+  //             <KeywordSearch />
+  //             <ResultInSearch />
+  //           </Stack>
+  //         </Stack>
+  //       </Grid>
+  //     </Grid>
+  //   );
+  // }, [totalElements, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
@@ -304,14 +479,14 @@ const ListRun = () => {
     // currently, props that extend ExpanderComponentProps must be set to optional.
     // someTitleProp?: string;
   }
-  const ExpandableRowComponent: React.FC<Props> = ({data}) => {
+  const ExpandableRowComponent: React.FC<Props> = ({ data }) => {
     // console.log(">>>>>>>>>>>", data);
     return (
       <>
         <TableContainer>
           <Table aria-label="simple table" size="small">
             <TableBody>
-              {data.anlsItstCostList.map((item, index) => (
+              {data.anlsItstCostList.map((item, index) =>
                 index === 0 ? (
                   <TableRow
                     key={index}
@@ -322,36 +497,92 @@ const ListRun = () => {
                       backgroundColor: blue["50"],
                     }}
                   >
-                    <TableCell width={'1138px'} align="center" rowSpan={10}>
+                    <TableCell width={"1138px"} align="center" rowSpan={10}>
                       <Typography variant="body2">분석비용</Typography>
                     </TableCell>
-                    <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.srvcTypeVal}</Typography>
+                    <TableCell
+                      width={"420px"}
+                      align="left"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.srvcTypeVal}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'80px'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell
+                      width={"80px"}
+                      align="center"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
                       <Typography variant="body2">{item.sampleSize}</Typography>
                     </TableCell>
-                    <TableCell width={'140px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"140px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.supplyPrice
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'120px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"120px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.vat
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'150px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"150px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.totalPrice
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'140px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}} rowSpan={10}>
-                      <Stack spacing={1} justifyContent="center" alignItems="center">
+                    <TableCell
+                      width={"140px"}
+                      align="left"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                      rowSpan={10}
+                    >
+                      <Stack
+                        spacing={1}
+                        justifyContent="center"
+                        alignItems="center"
+                      >
+                        <Typography variant="body2">남은금액</Typography>
                         <Typography variant="body2">
-                          남은금액
-                        </Typography>
-                        <Typography variant="body2">
-                          {data.rmnPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")} 원
+                          {data.rmnPrice
+                            .toString()
+                            .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}{" "}
+                          원
                         </Typography>
                       </Stack>
                     </TableCell>
                   </TableRow>
-                ):(
+                ) : (
                   <TableRow
                     key={index}
                     sx={{
@@ -359,24 +590,68 @@ const ListRun = () => {
                       border: `1px solid ${cjbsTheme.palette.grey["400"]}`,
                     }}
                   >
-                    <TableCell width={'420px'} align="left" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.srvcTypeVal}</Typography>
+                    <TableCell
+                      width={"420px"}
+                      align="left"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.srvcTypeVal}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'80px'} align="center" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
+                    <TableCell
+                      width={"80px"}
+                      align="center"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
                       <Typography variant="body2">{item.sampleSize}</Typography>
                     </TableCell>
-                    <TableCell width={'140px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.supplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"140px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.supplyPrice
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'120px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.vat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"120px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.vat
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
-                    <TableCell width={'150px'} align="right" sx={{borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`}}>
-                      <Typography variant="body2">{item.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</Typography>
+                    <TableCell
+                      width={"150px"}
+                      align="right"
+                      sx={{
+                        borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+                      }}
+                    >
+                      <Typography variant="body2">
+                        {item.totalPrice
+                          .toString()
+                          .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                      </Typography>
                     </TableCell>
                   </TableRow>
-                )
-              ))}
+                ),
+              )}
             </TableBody>
           </Table>
         </TableContainer>
@@ -385,7 +660,7 @@ const ListRun = () => {
   };
 
   return (
-    <>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={
           <Stack direction="row" spacing={2} sx={{ mb: 0 }}>
@@ -410,8 +685,13 @@ const ListRun = () => {
         noDataComponent={<NoDataView />}
         expandableRows
         expandableRowsComponent={ExpandableRowComponent}
-        expandableIcon={{ collapsed: <MyIcon icon="plus" size={16} />, expanded: <MyIcon icon="minus" size={16} />}}
+        expandableIcon={{
+          collapsed: <MyIcon icon="plus" size={16} />,
+          expanded: <MyIcon icon="minus" size={16} />,
+        }}
         // expandOnRowDoubleClicked={true}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
       />
 
       <CategorySelectModal
@@ -419,7 +699,7 @@ const ListRun = () => {
         onClose={handleServiceSelectModalClose}
         modalWidth={500}
       />
-    </>
+    </Box>
   );
 };
 

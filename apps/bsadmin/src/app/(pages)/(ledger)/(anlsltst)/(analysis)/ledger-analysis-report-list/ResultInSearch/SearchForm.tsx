@@ -85,10 +85,7 @@ const SearchForm = ({ onClose }) => {
     let result;
 
     // 날짜
-    if (
-      data.startDttm === null &&
-      data.endDttm === null
-    ) {
+    if (data.startDttm === null && data.endDttm === null) {
       console.log("날짜 선택해 주세요");
       return;
     } else {
@@ -153,7 +150,7 @@ const SearchForm = ({ onClose }) => {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 539, p: 3.5, pb: 1, minHeight: 360 }}>
+      <Box sx={{ width: 539, p: 3.5, pb: 1 }}>
         <Section>
           <SectionLabel variant="subtitle2">날짜</SectionLabel>
           <Stack direction="row" spacing={1}>
