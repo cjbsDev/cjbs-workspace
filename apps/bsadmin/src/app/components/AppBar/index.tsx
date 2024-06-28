@@ -89,24 +89,23 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
         //     : "block",
       }}
     >
-      <Toolbar sx={{}}>
-        <Box sx={{}}>
-          <IconButton
-            color="inherit"
-            onClick={!open ? handleDrawerOpen : handleDrawerClose}
-            edge="start"
-            sx={{
-              p: 0,
-              m: 0,
-              ml: 3.5,
-              minWidth: "fit-content",
-              ...(open && { ml: -3 }),
-            }}
-          >
-            {/*<MenuIcon />*/}
-            {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-        </Box>
+      <Toolbar>
+        {/*<Box>*/}
+        {/*  <IconButton*/}
+        {/*    color="inherit"*/}
+        {/*    onClick={!open ? handleDrawerOpen : handleDrawerClose}*/}
+        {/*    edge="start"*/}
+        {/*    sx={{*/}
+        {/*      p: 0,*/}
+        {/*      m: 0,*/}
+        {/*      ml: 3.5,*/}
+        {/*      minWidth: "fit-content",*/}
+        {/*      ...(open && { ml: -3 }),*/}
+        {/*    }}*/}
+        {/*  >*/}
+        {/*    {!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
+        {/*  </IconButton>*/}
+        {/*</Box>*/}
         <Box sx={{ flexGrow: 1 }} />
         <Box>
           {status === "authenticated" ? (
