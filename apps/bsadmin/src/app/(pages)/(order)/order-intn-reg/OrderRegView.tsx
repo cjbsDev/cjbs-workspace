@@ -265,6 +265,7 @@ const OrderRegView = () => {
           </Table>
         </TableContainer>
 
+        {/* 과제 및 연구 */}
         <ProjectSection />
 
         {/*<Typography variant="subtitle1">과제 및 연구</Typography>*/}

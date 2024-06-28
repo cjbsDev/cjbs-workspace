@@ -53,10 +53,10 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
       {
         name: "과제명",
         selector: (row: { optionName: string }) => row.optionName,
-        width: "550px",
       },
       {
         name: "연구갯수",
+        right: true,
         selector: (row: { prjtDetailCnt: string }) => row.prjtDetailCnt,
         width: "100px",
       },
@@ -80,11 +80,14 @@ const ProjectSearchDataTable = (props: { onClose: () => void }) => {
                 clearErrors("prjcNm");
                 clearErrors("prjtCodeMc");
               }}
-              disabled={row.isPrjtSelect === "N" ? true : false}
+              // disabled={row.isPrjtSelect === "N" ? true : false}
             />
           );
         },
         width: "100px",
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
       },
     ],
     [setValue, clearErrors, handleClose],
