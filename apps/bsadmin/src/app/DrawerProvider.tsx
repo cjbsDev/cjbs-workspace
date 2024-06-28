@@ -272,16 +272,16 @@ export default function DrawerProvider({ children }: ContextProps) {
               );
             })}
           </List>
-          <List>
-            <ListItem sx={{ color: "white" }}>
-              <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>
-                <Stack direction="row" spacing={2}>
-                  <MyIcon icon="lightning" size={20} color={yellow["300"]} />
-                  <Box component="span">CodeBox</Box>
-                </Stack>
-              </Link>
-            </ListItem>
-          </List>
+          {/*<List>*/}
+          {/*  <ListItem sx={{ color: "white" }}>*/}
+          {/*    <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>*/}
+          {/*      <Stack direction="row" spacing={2}>*/}
+          {/*        <MyIcon icon="lightning" size={20} color={yellow["300"]} />*/}
+          {/*        <Box component="span">CodeBox</Box>*/}
+          {/*      </Stack>*/}
+          {/*    </Link>*/}
+          {/*  </ListItem>*/}
+          {/*</List>*/}
         </Drawer>
 
         <Box
