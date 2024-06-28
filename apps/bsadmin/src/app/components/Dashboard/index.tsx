@@ -21,13 +21,14 @@ const Index = () => {
   const containsChar = useArrayContainsCharacter(authority, [
     "IT",
     "NGS_SALES",
+    "TOTAL_MANAGER",
   ]);
   console.log("IT or NGS_SALES 체크 ==>>", containsChar);
 
   if (!containsChar) {
     return (
       <div>
-        <p>IT / NGS_SALES 부서가 아닙니다!</p>
+        <p>IT / NGS_SALES / TOTAL_MANAGER 아닙니다!</p>
       </div>
     );
   }
