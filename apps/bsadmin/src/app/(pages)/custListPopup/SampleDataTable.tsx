@@ -126,14 +126,14 @@ const SampleDataTable = () => {
       {
         name: "이름",
         selector: (row: { custNm: string }) => row.custNm,
-        width: "100px",
+        // width: "100px",
         center: true,
         allowOverflow: true,
       },
 
       {
         name: "소속 거래처(PI)",
-        allowOverflow: true,
+        // allowOverflow: true,
         cell: (row: { agncNm: any; instNm: any }) => (
           <>
             <Stack
@@ -213,6 +213,9 @@ const SampleDataTable = () => {
             />
           );
         },
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
       },
     ],
     [],

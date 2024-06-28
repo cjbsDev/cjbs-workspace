@@ -74,7 +74,7 @@ const ProjectSection = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>연구</TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
-                <Research required={true} />
+                <Research required={false} />
               </TD>
             </TableRow>
           </TableBody>
@@ -85,7 +85,7 @@ const ProjectSection = () => {
       <LazyProjectSearchModal
         onClose={agncSearchModalClose}
         open={showAgncSearchModal}
-        modalWidth={1000}
+        modalWidth={900}
       />
     </>
   );
