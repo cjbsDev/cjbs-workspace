@@ -20,8 +20,8 @@ const ResearcherMngInfo = () => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/custListPopup?type=order`,
     "고객 검색",
-    1100,
-    670,
+    1000,
+    590,
   );
 
   useEffect(() => {
