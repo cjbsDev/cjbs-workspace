@@ -9,6 +9,7 @@ import {
   Collapse,
   Divider,
   Drawer as MuiDrawer,
+  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -18,6 +19,8 @@ import {
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { snbMenuListData } from "./data/snbMenuListData";
 import { cjbsTheme, yellow } from "cjbsDSTM";
 import { CSSObject, styled, Theme, useTheme } from "@mui/material/styles";
@@ -102,7 +105,7 @@ export default function DrawerProvider({ children }: ContextProps) {
   // 3개월 후 계산
   const currentDate = dayjs();
   const futureDate = currentDate.add(3, "month");
-  console.log(futureDate.format("YYYY-MM-DD"));
+  console.log("3개월 후", futureDate.format("YYYY-MM-DD"));
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -159,13 +162,36 @@ export default function DrawerProvider({ children }: ContextProps) {
           }}
         >
           <DrawerHeader>
-            <Link href="/" replace={true} onClick={() => setSelectedIndex(-1)}>
-              {open ? (
-                <MyIcon icon="cj_mix" width={118} height={36} />
-              ) : (
-                <MyIcon icon="cj_mix_updown" width={28} />
-              )}
-            </Link>
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              sx={{ width: "100%" }}
+            >
+              <Link
+                href="/"
+                replace={true}
+                onClick={() => setSelectedIndex(-1)}
+              >
+                {open ? (
+                  <MyIcon icon="cj_mix" width={118} height={36} />
+                ) : (
+                  <MyIcon icon="cj_mix_updown" width={28} />
+                )}
+              </Link>
+              <IconButton
+                // onClick={!open ? handleDrawerOpen : handleDrawerClose}
+                onClick={handleDrawerClose}
+                sx={{
+                  color: "white",
+                  mr: 2,
+                  // minWidth: "fit-content",
+                  // ...(open && { ml: -3 }),
+                }}
+              >
+                {/*{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
+                <ChevronLeftIcon />
+              </IconButton>
+            </Stack>
           </DrawerHeader>
           <Divider />
           <List
