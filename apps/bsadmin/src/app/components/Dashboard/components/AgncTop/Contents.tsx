@@ -54,7 +54,7 @@ const Contents = () => {
             ) => {
               const { code, nm, monthlySales, totalSales } = item;
               return (
-                <TableRow key={code}>
+                <TableRow key={code + index.toString()}>
                   <TableCell height={56}>{index + 1}</TableCell>
                   <TableCell>{nm}</TableCell>
                   <TableCell align="right">
