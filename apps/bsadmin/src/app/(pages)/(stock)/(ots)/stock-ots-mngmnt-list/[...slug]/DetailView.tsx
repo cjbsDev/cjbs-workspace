@@ -167,7 +167,7 @@ const DetailView = () => {
                     srvcTypeMc,
                   } = transformedNullToHyphon(item);
                   return (
-                    <TableRow>
+                    <TableRow key={sampleId}>
                       <TD align="center">{sampleId}</TD>
                       <TD align="center">{sampleNm}</TD>
                       <TD align="center">{sampleTypeVal}</TD>

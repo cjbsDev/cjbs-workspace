@@ -63,7 +63,7 @@ const SubHeader = () => {
             exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}`}
             iconName="xls3"
           />
-          {qrtlLists.map((item) => {
+          {qrtlLists.map((item, index) => {
             const { qrtl, name } = item;
             return (
               <FileDownloadBtn
