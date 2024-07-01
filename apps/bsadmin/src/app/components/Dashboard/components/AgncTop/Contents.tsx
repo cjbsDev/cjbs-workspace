@@ -4,6 +4,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableCellProps,
   TableContainer,
   TableHead,
   TableRow,
@@ -85,7 +86,7 @@ const Contents = () => {
 
 export default Contents;
 
-const CmnTH = styled(TableCell)`
+const CmnTH = styled(TableCell)<TableCellProps>`
   border-bottom: none;
   background-color: #f1f3f5;
 `;
