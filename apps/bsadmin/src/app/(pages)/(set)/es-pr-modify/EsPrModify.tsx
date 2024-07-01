@@ -139,11 +139,16 @@ const EsPrModify = () => {
 
         <Stack direction="row" spacing={0.5} justifyContent="center">
           <Link href="/es-pr-list/">
-            <OutlinedButton buttonName="목록" />
+            <OutlinedButton buttonName="목록" size="small" />
           </Link>
 
           {/*<ContainedButton buttonName="수정" type="submit" />*/}
-          <LoadingButton loading={isLoading} variant="contained" type="submit">
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
+            type="submit"
+            size="small"
+          >
             저장
           </LoadingButton>
         </Stack>

@@ -163,7 +163,7 @@ export default function MachineKitPage({ params }: ViewProps) {
               <TableRow>
                 <TH sx={{ width: "252px" }}>kit</TH>
                 <TD>
-                  <Stack direction="column">
+                  <Stack direction="row" useFlexGap flexWrap="wrap">
                     <LazyCheckboxList
                       inputName="btmCodeMcList"
                       dataList={codeData.btmValueList}
@@ -178,8 +178,9 @@ export default function MachineKitPage({ params }: ViewProps) {
           <OutlinedButton
             buttonName="목록"
             onClick={() => router.push("/machine-kit-list")}
+            size="small"
           />
-          <ContainedButton buttonName="저장" type="submit" />
+          <ContainedButton buttonName="저장" type="submit" size="small" />
         </Stack>
       </Form>
 

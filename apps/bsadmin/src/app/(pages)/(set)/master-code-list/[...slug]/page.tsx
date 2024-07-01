@@ -53,6 +53,7 @@ export default function MasterCodePage() {
         <OutlinedButton
           buttonName="목록"
           onClick={() => router.push("/master-code-list")}
+          size="small"
         />
       </Stack>
 

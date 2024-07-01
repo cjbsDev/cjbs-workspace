@@ -208,8 +208,8 @@ const MCItemModifyModal = ({
           </TableContainer>
 
           <Stack direction="row" spacing={0.5} justifyContent="center">
-            <OutlinedButton buttonName="취소" onClick={onClose} />
-            <ContainedButton type="submit" buttonName="저장" />
+            <OutlinedButton buttonName="취소" onClick={onClose} size="small" />
+            <ContainedButton type="submit" buttonName="저장" size="small" />
           </Stack>
         </Form>
       </DialogContent>

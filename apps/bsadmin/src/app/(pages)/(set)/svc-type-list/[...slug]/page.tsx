@@ -149,8 +149,9 @@ export default function SvcTypePage({ params }: ViewProps) {
           <OutlinedButton
             buttonName="목록"
             onClick={() => router.push("/svc-type-list")}
+            size="small"
           />
-          <ContainedButton buttonName="저장" type="submit" />
+          <ContainedButton buttonName="저장" type="submit" size="small" />
         </Stack>
       </Form>
       <Box sx={{ mb: 5 }}>
