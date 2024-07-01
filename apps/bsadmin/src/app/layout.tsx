@@ -18,9 +18,6 @@ import RecoilRootProvider from "./recoilRootProvider";
 export const metadata: Metadata = {
   title: "BSAdmin",
   description: "...",
-  icons: {
-    icon: "/logo-en.png",
-  },
 };
 
 export default function RootLayout({
