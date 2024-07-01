@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./globals.css";
+import type { Metadata } from "next";
 import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import DrawerProvider from "./DrawerProvider";
@@ -13,6 +14,14 @@ import RecoilRootProvider from "./recoilRootProvider";
 //   subsets: ["latin"],
 //   display: "swap",
 // });
+
+export const metadata: Metadata = {
+  title: "BSAdmin",
+  description: "...",
+  icons: {
+    icon: "/logo-en.png",
+  },
+};
 
 export default function RootLayout({
   children,
