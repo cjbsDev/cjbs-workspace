@@ -43,8 +43,12 @@ const LegView = () => {
   const anlsltstDefaultValues = data
     ? {
         ...data,
+        // issuDttm: data.issuDttm !== null ? dayjs(data.issuDttm).toDate() : "",
+        // dpstDttm: data.dpstDttm !== null ? dayjs(data.dpstDttm).toDate() : "",
       }
     : null;
+
+  // console.log("AAAAAAA", anlsltstDefaultValues);
 
   const modifyDefaultValues = data
     ? {
@@ -56,9 +60,13 @@ const LegView = () => {
 
   const onSubmit = async (formData: any) => {
     setIsLoading(true);
-    console.log("SubmitData ==>>", formData);
+    console.log("SubmitData ==>>", formData.issuDttm);
     const reqBody = {
       ...formData,
+      // issuDttm:
+      //   formData.issuDttm !== null ? dayjs(formData.issuDttm).toDate() : "",
+      dpstDttm:
+        formData.dpstDttm !== null ? dayjs(formData.dpstDttm).toDate() : "",
       totalPrice:
         formData.pymtInfoCc === "BS_1914001"
           ? formData.totalPrice2

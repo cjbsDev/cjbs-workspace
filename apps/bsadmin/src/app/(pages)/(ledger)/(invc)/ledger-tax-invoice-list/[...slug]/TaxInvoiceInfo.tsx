@@ -85,6 +85,7 @@ const TaxInvoiceInfo = () => {
     console.log("&&&&&&&&&", NGS_SALES_PART_MANAGER);
   }
 
+  const [isDepositInfoModal, setIsDepositInfoModal] = useState<boolean>(false);
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -145,6 +146,10 @@ const TaxInvoiceInfo = () => {
   const handleAccountStatementModalClose = useCallback(() => {
     setAccountStatementModalOpen(false);
   }, []);
+
+  const handleDepositInfoModalOpen = () => {
+    setIsDepositInfoModal(true);
+  };
 
   return (
     <>
@@ -670,9 +675,19 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
-          <Link href="/ledger-tax-invoice-list">
-            <OutlinedButton size="small" buttonName="목록" />
-          </Link>
+          <Stack direction="row" spacing={0.5}>
+            <Link href="/ledger-tax-invoice-list">
+              <OutlinedButton size="small" buttonName="목록" />
+            </Link>
+
+            {statusCc === "BS_1902002" && (
+              <ContainedButton
+                buttonName="입금 정보 입력"
+                size="small"
+                onClick={handleDepositInfoModalOpen}
+              />
+            )}
+          </Stack>
 
           <Stack direction="row" spacing={0.5}>
             {statusCc === "BS_1902002" && (
@@ -707,6 +722,8 @@ const TaxInvoiceInfo = () => {
         open={accountStatementModalOpen}
         modalWidth={440}
       />
+
+      {/* 입금 정보 입력 모달 */}
     </>
   );
 };

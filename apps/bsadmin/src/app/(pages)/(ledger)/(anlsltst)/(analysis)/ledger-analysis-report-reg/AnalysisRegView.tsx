@@ -591,7 +591,7 @@ const AnalysisRegView = () => {
                           // errorMessage="아이디(이메일) 입력해 주세요."
                           sx={{
                             width: "100%",
-                            // display: "none"
+                            display: "none",
                           }}
                         />
                       </TD>

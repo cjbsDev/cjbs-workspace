@@ -2,8 +2,14 @@ import dayjs from "dayjs";
 export function formatDataForSubmission(formData: any, type: string | null) {
   let bodyData = { ...formData };
 
-  bodyData.dpstDttm = dayjs(bodyData.dpstDttm).format("YYYY-MM-DD");
-  bodyData.issuDttm = dayjs(bodyData.issuDttm).format("YYYY-MM-DD");
+  bodyData.dpstDttm =
+    bodyData.dpstDttm !== null
+      ? dayjs(bodyData.dpstDttm).format("YYYY-MM-DD")
+      : null;
+  bodyData.issuDttm =
+    bodyData.issuDttm !== null
+      ? dayjs(bodyData.issuDttm).format("YYYY-MM-DD")
+      : null;
 
   switch (bodyData.pymtInfoCc) {
     case "BS_1914001":
