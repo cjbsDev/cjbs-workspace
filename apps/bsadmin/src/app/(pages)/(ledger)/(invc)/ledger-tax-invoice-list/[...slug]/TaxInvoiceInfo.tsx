@@ -680,13 +680,13 @@ const TaxInvoiceInfo = () => {
               <OutlinedButton size="small" buttonName="목록" />
             </Link>
 
-            {statusCc === "BS_1902002" && (
-              <ContainedButton
-                buttonName="입금 정보 입력"
-                size="small"
-                onClick={handleDepositInfoModalOpen}
-              />
-            )}
+            {/*{statusCc === "BS_1902002" && (*/}
+            {/*  <ContainedButton*/}
+            {/*    buttonName="입금 정보 입력"*/}
+            {/*    size="small"*/}
+            {/*    onClick={handleDepositInfoModalOpen}*/}
+            {/*  />*/}
+            {/*)}*/}
           </Stack>
 
           <Stack direction="row" spacing={0.5}>
