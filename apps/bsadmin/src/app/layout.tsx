@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>BS-Admin</title>
-        {/*<link rel="icon" href="/favicon.ico" />*/}
+        <link rel="icon" href="/favicon.ico" />
         {/*<link*/}
         {/*  rel="preload"*/}
         {/*  href="/api/data"*/}
