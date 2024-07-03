@@ -105,6 +105,7 @@ const TaxInvoiceInfo = () => {
     bsnsMngrVal,
     dpstDttm,
     dpstPrice,
+    dpstListDetail,
     instNm,
     instUkey,
     invcNum,
@@ -237,6 +238,50 @@ const TaxInvoiceInfo = () => {
                         />
                       </ErrorContainer>
                     )}
+                  </TD>
+                </TableRow>
+              )}
+
+              {(pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914003") && (
+                <TableRow>
+                  <TH>입금 정보</TH>
+                  <TD>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        my: 1,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center" sx={{ width: 80 }}>
+                              No
+                            </TableCell>
+                            <TableCell>입금일자</TableCell>
+                            <TableCell>입금자</TableCell>
+                            <TableCell align="right">입금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {dpstListDetail.map((item, index) => {
+                            const { dpstDttm, dpstPrice, pyrNm } = item;
+                            return (
+                              <TableRow key={pyrNm + index.toString()}>
+                                <TableCell align="center">
+                                  {index + 1}
+                                </TableCell>
+                                <TableCell>{dpstDttm}</TableCell>
+                                <TableCell>{pyrNm}</TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(dpstPrice)}원
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </TD>
                 </TableRow>
               )}
