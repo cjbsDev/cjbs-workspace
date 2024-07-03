@@ -142,7 +142,7 @@ const SampleBatchChangeModal = ({
         // 실패 처리 로직
         // handleAlertClick();
         // setErrorMsg(response.data.message);
-        toast("선택한 항목에 값이 입력되지 않았습니다.\n" + response.message);
+        toast(response.message);
       }
     } catch (error) {
       console.error("Request Failed:", error);
@@ -179,7 +179,7 @@ const SampleBatchChangeModal = ({
               </ErrorContainer>
             </Grid>
             <Grid item xs={6}>
-              <SampleBatchInputs />
+              <SampleBatchInputs sampleUkeyList={sampleUkeyList} />
             </Grid>
           </Grid>
         </Form>

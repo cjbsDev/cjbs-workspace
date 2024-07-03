@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useFormContext } from "react-hook-form";
 import {
   ErrorContainer,
@@ -9,6 +9,7 @@ import {
   TH,
 } from "cjbsDSTM";
 import {
+  Stack,
   Table,
   TableBody,
   TableContainer,
@@ -23,44 +24,67 @@ const LazySampleCategorySelctbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyTaxonTypeSelctbox = dynamic(
   () => import("../../../../../../components/TaxonTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyHostCompSelctbox = dynamic(
   () => import("../../../../../../components/HostCompSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyDepthSelctbox = dynamic(
   () => import("../../../../../../components/DepthSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 const LazyMcNmSelctbox = dynamic(
   () => import("../../../../../../components/McNmSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
-const SampleBatchInputs = () => {
-  const methods = useFormContext();
-  const getNm = methods.watch("categoryNm");
+const SampleBatchInputs = ({ sampleUkeyList }) => {
+  const sampleCount = sampleUkeyList.length;
+  const { watch } = useFormContext();
+  const getNm = watch("categoryNm");
+  const changeContentList = watch("changeContentList") || "";
+  const watchCntntLst = (changeContentList.match(/\n/g) || []).length;
+
+  const textareaRef = useRef(null);
+
+  // useEffect(() => {
+  //   if (sampleCount === watchCntntLst && textareaRef.current) {
+  //     watch("changeContentList");
+  //   }
+  // }, [sampleCount, watchCntntLst]);
 
   return (
     <>
-      <Typography variant="subtitle2">변경 내용</Typography>
+      <Stack direction="row" spacing={1} justifyContent="space-between">
+        <Typography variant="subtitle2">
+          변경 내용
+          {/*{sampleCount}개 가능*/}
+        </Typography>
+
+        {sampleCount < watchCntntLst + 1 && (
+          <Typography variant="body2" color="red">
+            {sampleCount}줄까지만 입력 가능 합니다.
+          </Typography>
+        )}
+      </Stack>
+
       {getNm === "etc" ? (
         <TableContainer>
           <Table>
@@ -127,8 +151,8 @@ const SampleBatchInputs = () => {
             multiline
             rows={13}
             inputName="changeContentList"
-            placeholder="이곳에 변경할 내용을 1줄씩 입력 하거나 엑셀이나 워드에 입력된 데이터를 복사하여 붙여 넣기 해주세요."
-            sx={{ minHeight: 313 }}
+            placeholder={`숫자, 영어, 하이픈만 입력 가능 합니다.\n이곳에 변경할 내용을 1줄씩 입력 하거나\n엑셀이나 워드에 입력된 데이터를 복사하여 붙여 넣기 해주세요.`}
+            // sx={{ minHeight: 313 }}
             required={true}
             errorMessage="변경할 내용을 입력해 주세요."
             // maxLength={500}
