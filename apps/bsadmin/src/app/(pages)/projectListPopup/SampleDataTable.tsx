@@ -72,6 +72,8 @@ const SampleDataTable = () => {
   const sampleListData = data.codeList;
   const totalElements = data.pageInfo.totalElements;
 
+  console.log("STUDY LIST DATA ==>>", sampleListData);
+
   const subHeaderComponentMemo = React.useMemo(() => {
     return (
       <Grid container>
@@ -113,24 +115,24 @@ const SampleDataTable = () => {
     () => [
       {
         name: "코드",
-        selector: (row: { value: string }) => row.value,
+        selector: (row: { douzoneCode: string }) => row.douzoneCode,
         width: "150px",
       },
       {
         name: "과제명",
         selector: (row: { optionName: string }) => row.optionName,
-        width: "500px",
       },
       {
         name: "연구갯수",
         selector: (row: { prjtDetailCnt: string }) => row.prjtDetailCnt,
         width: "100px",
-        center: true
+        right: true,
       },
       {
         name: "선택",
         center: true,
         cell: (row: {
+          douzoneCode: string;
           value: string;
           optionName: string;
           prjtDetailCnt: number;
@@ -141,6 +143,7 @@ const SampleDataTable = () => {
             optionName,
             prjtDetailCnt,
             isPrjtSelect,
+            douzoneCode,
           } = row;
 
           return (
@@ -153,6 +156,7 @@ const SampleDataTable = () => {
                   optionName: optionName,
                   prjtDetailCnt: prjtDetailCnt,
                   isPrjtSelect: isPrjtSelect,
+                  douzoneCode: douzoneCode,
                 };
                 const event = new CustomEvent("projectData", {
                   detail: data,
@@ -160,10 +164,13 @@ const SampleDataTable = () => {
                 window.opener.dispatchEvent(event);
                 window.close();
               }}
-              disabled={ row.isPrjtSelect === 'N' ? true : false }
+              // disabled={ row.isPrjtSelect === 'N' ? true : false }
             />
           );
         },
+        ignoreRowClick: true,
+        allowOverflow: true,
+        button: true,
       },
     ],
     [],
@@ -182,7 +189,7 @@ const SampleDataTable = () => {
 
   return (
     // <Box sx={{ display: "grid", width: 750 }}>
-    <Box sx={{ display: "grid", width: 1060 }}>
+    <Box sx={{ display: "grid" }}>
       <DataTableBase
         title={<Title1 titleName="과제 검색" />}
         data={sampleListData}
