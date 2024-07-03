@@ -62,6 +62,21 @@ const LazyRmnPymtPriceDetail = dynamic(
   },
 );
 
+const LazyDepositInfoModal = dynamic(
+  () => import("../components/DepositInfoModal/indx"),
+  {
+    ssr: false,
+    // loading: () => (
+    //   <Stack direction="row" justifyContent="center" spacing={1}>
+    //     <Typography variant="body2" color="secondary">
+    //       Loading...
+    //     </Typography>
+    //     <CircularProgress size={20} />
+    //   </Stack>
+    // ),
+  },
+);
+
 const TaxInvoiceInfo = () => {
   const { data: session, status } = useSession();
   const authority = session?.authorities;
@@ -85,6 +100,7 @@ const TaxInvoiceInfo = () => {
     console.log("&&&&&&&&&", NGS_SALES_PART_MANAGER);
   }
 
+  const [isDepositInfoModal, setIsDepositInfoModal] = useState<boolean>(false);
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -146,6 +162,14 @@ const TaxInvoiceInfo = () => {
   const handleAccountStatementModalClose = useCallback(() => {
     setAccountStatementModalOpen(false);
   }, []);
+
+  const handleDepositInfoModalOpen = () => {
+    setIsDepositInfoModal(true);
+  };
+
+  const handleDepositInfoModalClose = () => {
+    setIsDepositInfoModal(false);
+  };
 
   return (
     <>
@@ -715,9 +739,19 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
-          <Link href="/ledger-tax-invoice-list">
-            <OutlinedButton size="small" buttonName="목록" />
-          </Link>
+          <Stack direction="row" spacing={0.5}>
+            <Link href="/ledger-tax-invoice-list">
+              <OutlinedButton size="small" buttonName="목록" />
+            </Link>
+
+            {(pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914003") && (
+              <ContainedButton
+                buttonName="입금 정보 입력"
+                size="small"
+                onClick={handleDepositInfoModalOpen}
+              />
+            )}
+          </Stack>
 
           <Stack direction="row" spacing={0.5}>
             {statusCc === "BS_1902002" && (
@@ -752,6 +786,15 @@ const TaxInvoiceInfo = () => {
         open={accountStatementModalOpen}
         modalWidth={440}
       />
+
+      {/* 입금 정보 입력 모달 */}
+      {isDepositInfoModal && (
+        <LazyDepositInfoModal
+          modalWidth={600}
+          open={isDepositInfoModal}
+          onClose={handleDepositInfoModalClose}
+        />
+      )}
     </>
   );
 };
