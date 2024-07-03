@@ -101,8 +101,9 @@ const ExperimentProgressChangeModal = (
       .then((response) => {
         console.log("POST request successful:", response.success);
         if (response.success) {
-          mutate(`/order/${orderUkey}`);
-          mutate(`/order/${orderUkey}/sample/list`);
+          // mutate(`/order/${orderUkey}`);
+          // mutate(`/order/${orderUkey}/sample/list`);
+          mutate(`/run/sample/${orderUkey}?page=1&size=20`);
           setIsLoading(false);
           handleClose();
         } else {
