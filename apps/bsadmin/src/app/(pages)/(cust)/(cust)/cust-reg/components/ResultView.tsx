@@ -30,6 +30,7 @@ const ResultView = ({ data, onClose }) => {
       ebcSubEmail,
       ebcTitle,
       ebcUid,
+      ebcMaskingFullNm,
     } = data;
     setValue("ebcUid", ebcUid);
     setValue("ebcEmail", ebcEmail);
@@ -39,6 +40,7 @@ const ResultView = ({ data, onClose }) => {
     setValue("ebcNtly", ebcNtly);
     setValue("ebcSubEmail", ebcSubEmail);
     setValue("ebcTitle", ebcTitle);
+    setValue("ebcMaskingFullNm", ebcMaskingFullNm);
     onClose();
     clearErrors("custNm");
   };
@@ -76,7 +78,9 @@ const ResultView = ({ data, onClose }) => {
                       <Typography variant="body2">{data.ebcEmail}</Typography>
                     </TableCell>
                     <TableCell>
-                      <Typography variant="body2">{data.ebcFullNm}</Typography>
+                      <Typography variant="body2">
+                        {data.ebcMaskingFullNm}
+                      </Typography>
                     </TableCell>
                     <TableCell>
                       <ContainedButton
