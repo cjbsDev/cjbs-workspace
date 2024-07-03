@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Grid } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import DashboardHeader from "./components/DashboardHeader";
 import Total from "./components/Total";
 import SrvcSales from "./components/SrvcSales";
@@ -27,9 +27,13 @@ const Index = () => {
 
   if (!containsChar) {
     return (
-      <div>
-        <p>IT / NGS_SALES / TOTAL_MANAGER 아닙니다!</p>
-      </div>
+      <Grid container sx={{ mb: 2 }}>
+        <Grid item xs={12}>
+          <Stack justifyContent="center" alignItems="center">
+            <Typography variant="body2">Who is..??</Typography>
+          </Stack>
+        </Grid>
+      </Grid>
     );
   }
 
