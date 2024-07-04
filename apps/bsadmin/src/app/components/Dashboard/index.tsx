@@ -30,7 +30,7 @@ const Index = () => {
       <Grid container sx={{ mb: 2 }}>
         <Grid item xs={12}>
           <Stack justifyContent="center" alignItems="center">
-            <Typography variant="body2">Who is..??</Typography>
+            <Typography variant="body2"></Typography>
           </Stack>
         </Grid>
       </Grid>

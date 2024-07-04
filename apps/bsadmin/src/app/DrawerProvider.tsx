@@ -29,6 +29,8 @@ import { usePathname, useSelectedLayoutSegments } from "next/navigation";
 import dayjs from "dayjs";
 import PasswordChangeModal from "./components/PasswordChangeModal";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
+import useArrayContainsCharacter from "./hooks/useArrayContainsCharacter";
 
 interface ContextProps {
   children: React.ReactNode;
@@ -101,6 +103,24 @@ export default function DrawerProvider({ children }: ContextProps) {
   const handleModalClose = () => {
     setShowModal(false);
   };
+  const { data: session, status } = useSession();
+  const authority = session?.authorities;
+
+  console.log("authority ==>>", authority);
+
+  const containsChar1 = useArrayContainsCharacter(authority, [
+    "IT",
+    "NGS_BI",
+    "NGS_SALES",
+  ]);
+  console.log("NGS_BI or NGS_SALES 체크 ==>>", containsChar1);
+
+  const containsChar2 = useArrayContainsCharacter(authority, [
+    "IT",
+    "NGS_BI",
+    "NGS_ANALYSIS",
+  ]);
+  console.log("NGS_BI or NGS_ANALYSIS 체크 ==>>", containsChar2);
 
   // 3개월 후 계산
   const currentDate = dayjs();
@@ -273,23 +293,80 @@ export default function DrawerProvider({ children }: ContextProps) {
                       sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
                       disablePadding
                     >
+                      {depthOne === "/order" && (
+                        <>
+                          <Link
+                            href="/order-intn-reg"
+                            className={
+                              "navLink" +
+                              (currentPathname === "/order-intn-reg"
+                                ? " activeLinkColor"
+                                : " normalLinkColor")
+                            }
+                            style={{
+                              display: containsChar2 ? "block" : "none",
+                            }}
+                          >
+                            내부 오더 등록
+                          </Link>
+
+                          <Link
+                            href="/order-extr-reg"
+                            className={
+                              "navLink" +
+                              (currentPathname === "/order-extr-reg"
+                                ? " activeLinkColor"
+                                : " normalLinkColor")
+                            }
+                            style={{
+                              display: containsChar1 ? "block" : "none",
+                            }}
+                          >
+                            고객 오더 등록
+                          </Link>
+                        </>
+                      )}
+
                       {item.menuPath.nestedPath.map((item) => {
                         const isActive = currentPathname.startsWith(
                           item.menuPath,
                         );
+
+                        // if (Array.isArray(authority)) {
+                        //   console.log("sdsdsdfsdf", authority.includes(item));
+                        // } else {
+                        //   console.error("Error: authority is not an array.");
+                        // }
+
+                        // console.log("sdsdsdfsdf", authority.filter());
+
                         return (
-                          <Link
-                            key={item.menuPath}
-                            href={item.menuPath}
-                            className={
-                              "navLink" +
-                              (isActive
-                                ? " activeLinkColor"
-                                : " normalLinkColor")
-                            }
-                          >
-                            {item.menuLabel}
-                          </Link>
+                          <>
+                            {/*{item.menuPath === "/order-intn-reg" ? null}*/}
+                            {/*{item.menuPath === "/order-extr-reg" && "aaaaa"}*/}
+                            <Link
+                              key={item.menuPath}
+                              href={item.menuPath}
+                              className={
+                                "navLink" +
+                                (isActive
+                                  ? " activeLinkColor"
+                                  : " normalLinkColor")
+                              }
+                              style={
+                                {
+                                  // display:
+                                  //   item.menuLabel === "내부 오더 등록"
+                                  //     ? item.auth === containsChar2
+                                  //       ? "block"
+                                  //       : "none"
+                                  //     : "",
+                                }
+                              }
+                            >
+                              {item.menuLabel}
+                            </Link>
+                          </>
                         );
                       })}
                     </List>
