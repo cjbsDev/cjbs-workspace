@@ -296,6 +296,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                       {depthOne === "/order" && (
                         <>
                           <Link
+                            key="/order-intn-reg"
                             href="/order-intn-reg"
                             className={
                               "navLink" +
@@ -311,6 +312,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                           </Link>
 
                           <Link
+                            key="/order-extr-reg"
                             href="/order-extr-reg"
                             className={
                               "navLink" +
@@ -342,8 +344,6 @@ export default function DrawerProvider({ children }: ContextProps) {
 
                         return (
                           <>
-                            {/*{item.menuPath === "/order-intn-reg" ? null}*/}
-                            {/*{item.menuPath === "/order-extr-reg" && "aaaaa"}*/}
                             <Link
                               key={item.menuPath}
                               href={item.menuPath}
@@ -353,16 +353,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                                   ? " activeLinkColor"
                                   : " normalLinkColor")
                               }
-                              style={
-                                {
-                                  // display:
-                                  //   item.menuLabel === "내부 오더 등록"
-                                  //     ? item.auth === containsChar2
-                                  //       ? "block"
-                                  //       : "none"
-                                  //     : "",
-                                }
-                              }
+                              style={{}}
                             >
                               {item.menuLabel}
                             </Link>
