@@ -1,19 +1,24 @@
 "use client";
 
 import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableContainer,
-    TableRow,
-    Typography,
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import {
-  CheckboxGV, cjbsTheme, ContainedButton, ErrorContainer, Fallback,
+  CheckboxGV,
+  cjbsTheme,
+  ContainedButton,
+  ErrorContainer,
+  Fallback,
   InputValidation,
   OutlinedButton,
-  PostCodeBtn, RadioGV,
+  PostCodeBtn,
+  RadioGV,
   TD,
   TH,
 } from "cjbsDSTM";
@@ -21,7 +26,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
 import useCenteredPopup from "../../../hooks/useCenteredPopup";
-import {useFormContext} from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 
 const LazyProjectSearchModal = dynamic(() => import("./ProjectSearchModal"), {
   ssr: false,
@@ -32,18 +37,18 @@ const LazyPrepSelectbox = dynamic(
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
-  }
+  },
 );
 
 export default function StudySelection() {
-
   const methods = useFormContext();
   const { setValue, getValues, clearErrors } = methods;
   // // [프로젝트 검색] 모달
-  const [showAgncSearchModal, setShowAgncSearchModal] = useState<boolean>(false);
-  const [prjcCode, setPrjcCode] = useState<string>('');
+  const [showAgncSearchModal, setShowAgncSearchModal] =
+    useState<boolean>(false);
+  const [prjcCode, setPrjcCode] = useState<string>("");
 
-    // [ 프로젝트 검색 ] 모달 오픈
+  // [ 프로젝트 검색 ] 모달 오픈
   const agncSearchModalOpen = () => {
     setShowAgncSearchModal(true);
   };
@@ -60,26 +65,22 @@ export default function StudySelection() {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/projectListPopup?type=order`,
     "과제 검색",
-    1100,
+    1000,
     700,
   );
 
   useEffect(() => {
     window.addEventListener("projectData", function (e) {
-      console.log("Received data:", e.detail);
+      console.log("Received data:", e.detail.douzoneCode);
 
-      const {
-        value,
-        optionName,
-        prjtDetailCnt,
-        isPrjtSelect,
-      } = e.detail;
+      const { value, optionName, prjtDetailCnt, isPrjtSelect, douzoneCode } =
+        e.detail;
 
+      setValue("douzoneCode", douzoneCode);
       setValue("prjtUniqueCode", value);
       setValue("prjtNm", optionName);
       clearErrors("prjtNm");
       setCodeDataChange(value);
-
     });
   }, []);
 
@@ -92,7 +93,12 @@ export default function StudySelection() {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>과제 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "15%" }}>
+                과제{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -101,13 +107,25 @@ export default function StudySelection() {
                     required={true}
                     errorMessage="과제를 검색 & 선택해주세요."
                     placeholder="과제 코드"
-                    sx={{ width: 200 }}
+                    sx={{ width: 200, display: "none" }}
+                    InputProps={{
+                      readOnly: true,
+                      hidden: true,
+                    }}
+                  />
+                  <InputValidation
+                    inputName="douzoneCode"
+                    disabled={true}
+                    required={true}
+                    errorMessage="과제를 검색 & 선택해주세요."
+                    placeholder="과제 코드"
+                    sx={{ width: 130 }}
                   />
                   <InputValidation
                     inputName="prjtNm"
                     disabled={true}
-                    required={true}
-                    errorMessage="과제를 검색 & 선택해주세요."
+                    // required={true}
+                    // errorMessage="과제를 검색 & 선택해주세요."
                     placeholder="과제를 선택해주세요"
                     sx={{ width: 600 }}
                   />
@@ -125,7 +143,10 @@ export default function StudySelection() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>연구 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "15%" }}>
+                연구
+                {/*<Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box>*/}
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <ErrorContainer FallbackComponent={Fallback}>
@@ -138,7 +159,12 @@ export default function StudySelection() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>품의번호 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "15%" }}>
+                품의번호{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -162,7 +188,6 @@ export default function StudySelection() {
         modalWidth={1000}
         setCodeDataChange={setCodeDataChange}
       />
-
     </>
   );
 }

@@ -62,6 +62,21 @@ const LazyRmnPymtPriceDetail = dynamic(
   },
 );
 
+const LazyDepositInfoModal = dynamic(
+  () => import("../components/DepositInfoModal/indx"),
+  {
+    ssr: false,
+    // loading: () => (
+    //   <Stack direction="row" justifyContent="center" spacing={1}>
+    //     <Typography variant="body2" color="secondary">
+    //       Loading...
+    //     </Typography>
+    //     <CircularProgress size={20} />
+    //   </Stack>
+    // ),
+  },
+);
+
 const TaxInvoiceInfo = () => {
   const { data: session, status } = useSession();
   const authority = session?.authorities;
@@ -85,6 +100,7 @@ const TaxInvoiceInfo = () => {
     console.log("&&&&&&&&&", NGS_SALES_PART_MANAGER);
   }
 
+  const [isDepositInfoModal, setIsDepositInfoModal] = useState<boolean>(false);
   const [accountStatementModalOpen, setAccountStatementModalOpen] =
     useState<boolean>(false);
   const [show, setShow] = useRecoilState(rmnPriceDetailShowInfoAtom);
@@ -105,6 +121,7 @@ const TaxInvoiceInfo = () => {
     bsnsMngrVal,
     dpstDttm,
     dpstPrice,
+    dpstListDetail,
     instNm,
     instUkey,
     invcNum,
@@ -145,6 +162,14 @@ const TaxInvoiceInfo = () => {
   const handleAccountStatementModalClose = useCallback(() => {
     setAccountStatementModalOpen(false);
   }, []);
+
+  const handleDepositInfoModalOpen = () => {
+    setIsDepositInfoModal(true);
+  };
+
+  const handleDepositInfoModalClose = () => {
+    setIsDepositInfoModal(false);
+  };
 
   return (
     <>
@@ -237,6 +262,50 @@ const TaxInvoiceInfo = () => {
                         />
                       </ErrorContainer>
                     )}
+                  </TD>
+                </TableRow>
+              )}
+
+              {(pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914003") && (
+                <TableRow>
+                  <TH>입금 정보</TH>
+                  <TD>
+                    <TableContainer
+                      sx={{
+                        border: `1px solid ${cjbsTheme.palette.grey["300"]}`,
+                        my: 1,
+                      }}
+                    >
+                      <Table size="small">
+                        <TableHead>
+                          <TableRow>
+                            <TableCell align="center" sx={{ width: 80 }}>
+                              No
+                            </TableCell>
+                            <TableCell>입금일자</TableCell>
+                            <TableCell>입금자</TableCell>
+                            <TableCell align="right">입금액</TableCell>
+                          </TableRow>
+                        </TableHead>
+                        <TableBody>
+                          {dpstListDetail.map((item, index) => {
+                            const { dpstDttm, dpstPrice, pyrNm } = item;
+                            return (
+                              <TableRow key={pyrNm + index.toString()}>
+                                <TableCell align="center">
+                                  {index + 1}
+                                </TableCell>
+                                <TableCell>{dpstDttm}</TableCell>
+                                <TableCell>{pyrNm}</TableCell>
+                                <TableCell align="right">
+                                  {formatNumberWithCommas(dpstPrice)}원
+                                </TableCell>
+                              </TableRow>
+                            );
+                          })}
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
                   </TD>
                 </TableRow>
               )}
@@ -670,9 +739,19 @@ const TaxInvoiceInfo = () => {
         </TableContainer>
 
         <Stack direction="row" spacing={0.5} justifyContent="space-between">
-          <Link href="/ledger-tax-invoice-list">
-            <OutlinedButton size="small" buttonName="목록" />
-          </Link>
+          <Stack direction="row" spacing={0.5}>
+            <Link href="/ledger-tax-invoice-list">
+              <OutlinedButton size="small" buttonName="목록" />
+            </Link>
+
+            {(pymtInfoCc === "BS_1914002" || pymtInfoCc === "BS_1914003") && (
+              <ContainedButton
+                buttonName="입금 정보 입력"
+                size="small"
+                onClick={handleDepositInfoModalOpen}
+              />
+            )}
+          </Stack>
 
           <Stack direction="row" spacing={0.5}>
             {statusCc === "BS_1902002" && (
@@ -707,6 +786,15 @@ const TaxInvoiceInfo = () => {
         open={accountStatementModalOpen}
         modalWidth={440}
       />
+
+      {/* 입금 정보 입력 모달 */}
+      {isDepositInfoModal && (
+        <LazyDepositInfoModal
+          modalWidth={600}
+          open={isDepositInfoModal}
+          onClose={handleDepositInfoModalClose}
+        />
+      )}
     </>
   );
 };
