@@ -106,21 +106,21 @@ export default function DrawerProvider({ children }: ContextProps) {
   const { data: session, status } = useSession();
   const authority = session?.authorities;
 
-  console.log("authority ==>>", authority);
+  // console.log("authority ==>>", authority);
 
   const containsChar1 = useArrayContainsCharacter(authority, [
     "IT",
     "NGS_BI",
     "NGS_SALES",
   ]);
-  console.log("NGS_BI or NGS_SALES 체크 ==>>", containsChar1);
+  // console.log("NGS_BI or NGS_SALES 체크 ==>>", containsChar1);
 
   const containsChar2 = useArrayContainsCharacter(authority, [
     "IT",
     "NGS_BI",
     "NGS_ANALYSIS",
   ]);
-  console.log("NGS_BI or NGS_ANALYSIS 체크 ==>>", containsChar2);
+  // console.log("NGS_BI or NGS_ANALYSIS 체크 ==>>", containsChar2);
 
   // 3개월 후 계산
   const currentDate = dayjs();
@@ -224,7 +224,7 @@ export default function DrawerProvider({ children }: ContextProps) {
               const depthOne = item.menuPath.name;
               return (
                 <ListItem
-                  key={item.menuIcon}
+                  key={item.menuIcon + index.toString()}
                   disablePadding
                   sx={{ display: "block" }}
                 >
@@ -293,71 +293,77 @@ export default function DrawerProvider({ children }: ContextProps) {
                       sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
                       disablePadding
                     >
-                      {depthOne === "/order" && (
-                        <>
-                          <Link
-                            key="/order-intn-reg"
-                            href="/order-intn-reg"
-                            className={
-                              "navLink" +
-                              (currentPathname === "/order-intn-reg"
-                                ? " activeLinkColor"
-                                : " normalLinkColor")
-                            }
-                            style={{
-                              display: containsChar2 ? "block" : "none",
-                            }}
-                          >
-                            내부 오더 등록
-                          </Link>
+                      {/*{depthOne === "/order" && (*/}
+                      {/*  <>*/}
+                      {/*    <Link*/}
+                      {/*      key="/order-intn-reg"*/}
+                      {/*      href="/order-intn-reg"*/}
+                      {/*      className={*/}
+                      {/*        "navLink" +*/}
+                      {/*        (currentPathname === "/order-intn-reg"*/}
+                      {/*          ? " activeLinkColor"*/}
+                      {/*          : " normalLinkColor")*/}
+                      {/*      }*/}
+                      {/*      style={{*/}
+                      {/*        display: containsChar2 ? "block" : "none",*/}
+                      {/*      }}*/}
+                      {/*    >*/}
+                      {/*      내부 오더 등록*/}
+                      {/*    </Link>*/}
 
-                          <Link
-                            key="/order-extr-reg"
-                            href="/order-extr-reg"
-                            className={
-                              "navLink" +
-                              (currentPathname === "/order-extr-reg"
-                                ? " activeLinkColor"
-                                : " normalLinkColor")
-                            }
-                            style={{
-                              display: containsChar1 ? "block" : "none",
-                            }}
-                          >
-                            고객 오더 등록
-                          </Link>
-                        </>
-                      )}
+                      {/*    <Link*/}
+                      {/*      key="/order-extr-reg"*/}
+                      {/*      href="/order-extr-reg"*/}
+                      {/*      className={*/}
+                      {/*        "navLink" +*/}
+                      {/*        (currentPathname === "/order-extr-reg"*/}
+                      {/*          ? " activeLinkColor"*/}
+                      {/*          : " normalLinkColor")*/}
+                      {/*      }*/}
+                      {/*      style={{*/}
+                      {/*        display: containsChar1 ? "block" : "none",*/}
+                      {/*      }}*/}
+                      {/*    >*/}
+                      {/*      고객 오더 등록*/}
+                      {/*    </Link>*/}
+                      {/*  </>*/}
+                      {/*)}*/}
 
                       {item.menuPath.nestedPath.map((item) => {
                         const isActive = currentPathname.startsWith(
                           item.menuPath,
                         );
 
-                        // if (Array.isArray(authority)) {
-                        //   console.log("sdsdsdfsdf", authority.includes(item));
-                        // } else {
-                        //   console.error("Error: authority is not an array.");
-                        // }
-
-                        // console.log("sdsdsdfsdf", authority.filter());
-
                         return (
-                          <>
-                            <Link
-                              key={item.menuPath}
-                              href={item.menuPath}
-                              className={
-                                "navLink" +
-                                (isActive
-                                  ? " activeLinkColor"
-                                  : " normalLinkColor")
-                              }
-                              style={{}}
-                            >
-                              {item.menuLabel}
-                            </Link>
-                          </>
+                          <Link
+                            key={item.menuPath}
+                            href={item.menuPath}
+                            className={
+                              "navLink" +
+                              (isActive
+                                ? " activeLinkColor"
+                                : " normalLinkColor")
+                            }
+                            style={{
+                              display:
+                                item.menuPath === "/order-intn-reg" &&
+                                !containsChar2
+                                  ? "none"
+                                  : item.menuPath === "/order-extr-reg" &&
+                                      !containsChar1
+                                    ? "none"
+                                    : "block",
+                            }}
+                          >
+                            {/*{item.menuLabel === "내부 오더 등록" &&*/}
+                            {/*!containsChar2*/}
+                            {/*  ? null*/}
+                            {/*  : item.menuLabel === "고객 오더 등록" &&*/}
+                            {/*      !containsChar1*/}
+                            {/*    ? null*/}
+                            {/*    : item.menuLabel}*/}
+                            {item.menuLabel}
+                          </Link>
                         );
                       })}
                     </List>
