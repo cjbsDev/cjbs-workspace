@@ -72,11 +72,11 @@ export const snbMenuListData = [
           menuPath: "/order-list",
           auth: [],
         },
-        {
-          menuLabel: "오더 등록",
-          menuPath: "/order-reg",
-          auth: [],
-        },
+        // {
+        //   menuLabel: "오더 등록",
+        //   menuPath: "/order-reg",
+        //   auth: [],
+        // },
         {
           menuLabel: "내부 오더 등록",
           menuPath: "/order-intn-reg",
