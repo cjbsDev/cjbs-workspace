@@ -43,7 +43,7 @@ export default function Page() {
       email,
       password,
       redirect: false,
-      callbackUrl: `https://bsa.cjbioscience.com/sign-in`,
+      // callbackUrl: `https://bsa.cjbioscience.com/sign-in`,
     })
       .then((res) => {
         //const isError = res && res.error ? res.error : null
