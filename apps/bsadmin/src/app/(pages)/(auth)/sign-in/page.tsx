@@ -43,7 +43,6 @@ export default function Page() {
       email,
       password,
       redirect: false,
-      callbackUrl: `${process.env.NEXTAUTH_URL}/sign-in`,
     })
       .then((res) => {
         //const isError = res && res.error ? res.error : null
