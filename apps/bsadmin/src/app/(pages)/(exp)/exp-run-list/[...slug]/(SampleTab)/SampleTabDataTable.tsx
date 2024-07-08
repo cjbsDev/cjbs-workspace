@@ -97,8 +97,8 @@ const SampleTabDataTable = (props) => {
 
   const { data } = useSWR(
     JSON.stringify(resultObject) === "{}"
-      ? `/run/sample/${ukey}?page=${page}&size=${size}`
-      : `/run/sample/${ukey}${result}&page=${page}&size=${size}`,
+      ? `/run/sample/${ukey}`
+      : `/run/sample/${ukey}${result}`,
     fetcher,
     {
       suspense: true,
