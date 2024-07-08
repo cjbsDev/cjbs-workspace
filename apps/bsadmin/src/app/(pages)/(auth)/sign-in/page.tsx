@@ -35,7 +35,7 @@ export default function Page() {
   };
 
   const onSubmit = (data: any) => {
-    console.log(data);
+    // console.log(data);
     setIsLoading(true);
     let email = data.email;
     let password = data.password;
