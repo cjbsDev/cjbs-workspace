@@ -11,7 +11,7 @@ interface CommonSelectboxProps {
 export default function OrderSelectbox({
   url,
   inputName,
-  required = true,
+  required = false,
   onBlur,
   ...props
 }: CommonSelectboxProps) {
@@ -30,7 +30,7 @@ export default function OrderSelectbox({
       options={data}
       required={required}
       onBlur={onBlur}
-      errorMessage="값을 선택해 주세요."
+      // errorMessage="값을 선택해 주세요."
     />
   );
 }
