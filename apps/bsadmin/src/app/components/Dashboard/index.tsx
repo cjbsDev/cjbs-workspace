@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Grid, Stack, Typography } from "@mui/material";
 import DashboardHeader from "./components/DashboardHeader";
 import Total from "./components/Total";
@@ -24,6 +24,11 @@ const Index = () => {
     "TOTAL_MANAGER",
   ]);
   console.log("IT or NGS_SALES 체크 ==>>", containsChar);
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>", process.env.NEXTAUTH_URL);
+
+  useEffect(() => {
+    console.log(process.env.NEXTAUTH_URL);
+  }, []);
 
   if (!containsChar) {
     return (
