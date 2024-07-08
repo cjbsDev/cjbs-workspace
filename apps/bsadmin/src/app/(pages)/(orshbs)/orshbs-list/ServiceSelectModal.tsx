@@ -17,9 +17,10 @@ const ServiceSelectModal = (props: any) => {
       <DialogContent>
         <Stack spacing={1} alignItems="center" justifyContent="center">
           <Link
-            href={{
-              pathname: "/orshbs/in/mtp",
-            }}
+            href="/orshbs/in/mtp"
+            // href={{
+            //   pathname: "/orshbs/in/mtp",
+            // }}
             style={{ width: "100%" }}
           >
             <OutlinedButton buttonName="MTP" size="large" fullWidth />
