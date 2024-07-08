@@ -156,7 +156,8 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
-                      signOut({ callbackUrl: "/sign-in" });
+                      // signOut({ callbackUrl: "/sign-in" });
+                      signOut();
                     }}
                   >
                     <Stack direction="row" spacing={1} alignItems="center">
