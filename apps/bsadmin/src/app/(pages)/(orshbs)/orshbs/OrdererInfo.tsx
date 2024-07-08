@@ -1,28 +1,29 @@
 "use client";
 
 import {
-    Box,
-    Stack,
-    Table,
-    TableBody,
-    TableContainer,
-    TableRow,
-    Typography,
+  Box,
+  Stack,
+  Table,
+  TableBody,
+  TableContainer,
+  TableRow,
+  Typography,
 } from "@mui/material";
 import {
   CheckboxGV,
   InputValidation,
   OutlinedButton,
-  PostCodeBtn, RadioGV,
+  PostCodeBtn,
+  RadioGV,
   TD,
   TH,
 } from "cjbsDSTM";
 import React, { useState } from "react";
 import dynamic from "next/dynamic";
 import useSWR from "swr";
-import {fetcherOrsh} from "api";
-import {AddressDeleteButton} from "../../../components/AddressDeleteButton";
-import {useFormContext} from "react-hook-form";
+import { fetcherOrsh } from "api";
+import { AddressDeleteButton } from "../../../components/AddressDeleteButton";
+import { useFormContext } from "react-hook-form";
 
 const LazyEzbcIdSearchModal = dynamic(() => import("./CustSearchModal"), {
   ssr: false,
@@ -34,22 +35,23 @@ const dataRadioGV = [
 ];
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
-    ssr: false,
+  ssr: false,
 });
 
 const dataMailRcpnListGV = [
-    { value: "agncLeaderRcpn", optionName: "연구책임자" },
-    { value: "ordrAplcRcpn", optionName: "신청인" },
-    { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
+  { value: "agncLeaderRcpn", optionName: "연구책임자" },
+  { value: "ordrAplcRcpn", optionName: "신청인" },
+  { value: "etcRcpn", optionName: "추가 이메일(직접입력)" },
 ];
 
 export default function OrdererInfo() {
   const methods = useFormContext();
-  const {setValue, getValues} = methods;
+  const { setValue, getValues } = methods;
   // const values = getValues(["rhpiNm", "ebcEmail", "rhpiTel"]);
 
-  const [showCustSearchModal, setShowCustSearchModal] = useState<boolean>(false);
-  const [prjcCode, setPrjcCode] = useState<string>('');
+  const [showCustSearchModal, setShowCustSearchModal] =
+    useState<boolean>(false);
+  const [prjcCode, setPrjcCode] = useState<string>("");
 
   // [ 프로젝트 검색 ] 모달 오픈
   const custSearchModalOpen = () => {
@@ -65,12 +67,12 @@ export default function OrdererInfo() {
   //   setPrjcCode(code);
   // };
 
-  const { data: custTemp } = useSWR(
-    `/cust/info`,
-    fetcherOrsh,
-    { suspense: true }
-  );
+  const { data: custTemp } = useSWR(`/cust/info`, fetcherOrsh, {
+    suspense: true,
+  });
   const custData = custTemp.data;
+
+  console.log("CUST DATA ==>>", custData);
 
   const clearFormValue = () => {
     setValue("rstFileRcpnEmail", "");
@@ -110,9 +112,7 @@ export default function OrdererInfo() {
   return (
     // <Form onSubmit={onSubmit} defaultValues={defaultValues}>
     <>
-      <Typography variant="subtitle1">
-        주문자 정보
-      </Typography>
+      <Typography variant="subtitle1">주문자 정보RTRT</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
@@ -122,7 +122,13 @@ export default function OrdererInfo() {
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <Typography variant="body2" sx={{}}>
                     {custData.custAgnc.ebcEmail ?? ""}
-                    &nbsp;<Box sx={{color: "#006ECD", fontSize:12}} component="span">해당 계정으로 결과가 업로드 됩니다.</Box>
+                    &nbsp;
+                    <Box
+                      sx={{ color: "#006ECD", fontSize: 12 }}
+                      component="span"
+                    >
+                      해당 계정으로 결과가 업로드 됩니다.
+                    </Box>
                   </Typography>
                   <InputValidation
                     sx={{ display: "none" }}
@@ -140,7 +146,12 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>연구책임자 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                연구책임자{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -175,7 +186,12 @@ export default function OrdererInfo() {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "20%" }}>기관 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                기관{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -188,7 +204,12 @@ export default function OrdererInfo() {
                   />
                 </Stack>
               </TD>
-              <TH sx={{ width: "20%" }}>연구 부서 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                연구 부서{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -197,9 +218,11 @@ export default function OrdererInfo() {
                     errorMessage="연구 부서를 입력해 주세요."
                     placeholder="연구 부서를 입력해 주세요."
                     sx={{ width: 306 }}
-                    InputProps={{
+                    InputProps={
+                      {
                         // readOnly: true,
-                    }}
+                      }
+                    }
                     defaultValue={custData.custAgnc.agncNm ?? ""}
                   />
                 </Stack>
@@ -214,11 +237,16 @@ export default function OrdererInfo() {
         <LazyQuickCopy />
       </Stack>
 
-      <TableContainer sx={{ mb: 5, mt:1 }}>
+      <TableContainer sx={{ mb: 5, mt: 1 }}>
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "20%" }}>신청인 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                신청인{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -227,13 +255,20 @@ export default function OrdererInfo() {
                     errorMessage="신청인 이름을 입력해 주세요."
                     placeholder="신청인 이름을 입력해 주세요."
                     sx={{ width: 306 }}
-                    InputProps={{
+                    InputProps={
+                      {
                         // readOnly: true,
-                    }}
+                      }
+                    }
                   />
                 </Stack>
               </TD>
-              <TH sx={{ width: "20%" }}>신청인 이메일 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                신청인 이메일{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "30%" }}>
                 <Stack direction="row" spacing={0.5} alignItems="flex-start">
                   <InputValidation
@@ -241,35 +276,46 @@ export default function OrdererInfo() {
                     required={true}
                     errorMessage="이메일을 입력해 주세요."
                     placeholder="이메일을 입력해 주세요."
-                    pattern={/^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/}
+                    pattern={
+                      /^[a-zA-Z0-9+-\_.]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/
+                    }
                     patternErrMsg="이메일 형식이 아닙니다."
                     sx={{ width: 306 }}
-                    InputProps={{
+                    InputProps={
+                      {
                         // readOnly: true,
-                    }}
+                      }
+                    }
                   />
                 </Stack>
               </TD>
             </TableRow>
-              <TableRow>
-                <TH sx={{ width: "20%" }}>연락처 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
-                <TD sx={{ width: "80%" }} colSpan={3}>
-                  <Stack direction="row" spacing={0.5} alignItems="flex-start">
-                    <InputValidation
-                      inputName="ordrAplcTel"
-                      required={true}
-                      errorMessage="연락처를 입력해 주세요."
-                      pattern={/^[0-9,]*$/}
-                      patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
-                      placeholder="연락처를 입력해 주세요."
-                      sx={{ width: 306 }}
-                      InputProps={{
-                          // readOnly: true,
-                      }}
-                    />
-                  </Stack>
-                </TD>
-              </TableRow>
+            <TableRow>
+              <TH sx={{ width: "20%" }}>
+                연락처{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
+              <TD sx={{ width: "80%" }} colSpan={3}>
+                <Stack direction="row" spacing={0.5} alignItems="flex-start">
+                  <InputValidation
+                    inputName="ordrAplcTel"
+                    required={true}
+                    errorMessage="연락처를 입력해 주세요."
+                    pattern={/^[0-9,]*$/}
+                    patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
+                    placeholder="연락처를 입력해 주세요."
+                    sx={{ width: 306 }}
+                    InputProps={
+                      {
+                        // readOnly: true,
+                      }
+                    }
+                  />
+                </Stack>
+              </TD>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>
@@ -280,9 +326,13 @@ export default function OrdererInfo() {
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
-
             <TableRow>
-              <TH sx={{ width: "20%" }}>진행사항 메일 수신 설정 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                진행사항 메일 수신 설정{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row">
                   <CheckboxGV
@@ -309,19 +359,23 @@ export default function OrdererInfo() {
                     placeholder="example@cj.net"
                     sx={{ width: 306 }}
                     InputProps={{
-                      readOnly: true
+                      readOnly: true,
                     }}
                   />
                   <OutlinedButton
                     size="small"
                     buttonName="계정 등록"
-                    onClick={() => {custSearchModalOpen()}}
+                    onClick={() => {
+                      custSearchModalOpen();
+                    }}
                   />
                   <OutlinedButton
                     size="small"
                     buttonName="삭제"
                     color={"error"}
-                    onClick={() => {clearFormValue()}}
+                    onClick={() => {
+                      clearFormValue();
+                    }}
                   />
                 </Stack>
               </TD>
@@ -340,7 +394,12 @@ export default function OrdererInfo() {
             {/*  </TD>*/}
             {/*</TableRow>*/}
             <TableRow>
-              <TH sx={{ width: "20%" }}>샘플 반송 요청 <Box sx={{color: "#EF151E", fontSize:12}} component="span">*</Box></TH>
+              <TH sx={{ width: "20%" }}>
+                샘플 반송 요청{" "}
+                <Box sx={{ color: "#EF151E", fontSize: 12 }} component="span">
+                  *
+                </Box>
+              </TH>
               <TD sx={{ width: "80%" }} colSpan={5}>
                 <Stack direction="row" spacing={1}>
                   <RadioGV
@@ -352,14 +411,14 @@ export default function OrdererInfo() {
                 </Stack>
               </TD>
             </TableRow>
-              {/*<TableRow>*/}
-              {/*    <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>*/}
-              {/*    <TD sx={{ width: "80%" }} colSpan={5}>*/}
-              {/*        <ErrorContainer FallbackComponent={Fallback}>*/}
-              {/*            <LazySalesManagerSelctbox />*/}
-              {/*        </ErrorContainer>*/}
-              {/*    </TD>*/}
-              {/*</TableRow>*/}
+            {/*<TableRow>*/}
+            {/*    <TH sx={{ width: "20%" }}>영업담당자 (선택)</TH>*/}
+            {/*    <TD sx={{ width: "80%" }} colSpan={5}>*/}
+            {/*        <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*            <LazySalesManagerSelctbox />*/}
+            {/*        </ErrorContainer>*/}
+            {/*    </TD>*/}
+            {/*</TableRow>*/}
           </TableBody>
         </Table>
       </TableContainer>
@@ -370,7 +429,6 @@ export default function OrdererInfo() {
         modalWidth={600}
         // setCodeDataChange={setCodeDataChange}
       />
-
     </>
     // </Form>
   );
