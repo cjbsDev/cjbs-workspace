@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   // console.log("$$$", process.env.NEXT_PUBLIC_NEXTAUTH_SECRET)
   // eslint-disable-next-line turbo/no-undeclared-env-vars
-  // console.log("$$$", process.env.NEXT_PUBLIC_NEXTAUTH_URL)
+  console.log("process.env.NEXTAUTH_URL", process.env.NEXTAUTH_URL);
 
   //Page url 외의 요청은 Pass한다.
   // if (!matcher.includes(pathname)) {
