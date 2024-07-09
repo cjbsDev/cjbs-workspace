@@ -2,7 +2,6 @@
 import { getSession, signOut } from "next-auth/react";
 import { toast } from "react-toastify";
 import {
-
   GET_API,
   POST_API,
   PUT_API,
@@ -82,11 +81,11 @@ export const POST_BLOB: POST_BOLB_API = async (url, body, option, headers) => {
 
 export const PUT_BLOB: PUT_BOLB_API = async (url, body, option, headers) => {
   return await requestBLOB(
-      `${process.env.NEXT_PUBLIC_API_URL}${url}`,
-      "PUT",
-      body,
-      option,
-      headers,
+    `${process.env.NEXT_PUBLIC_API_URL}${url}`,
+    "PUT",
+    body,
+    option,
+    headers,
   );
 };
 
@@ -185,6 +184,7 @@ const request: REQUEST_API = async (url, method, body, option) => {
 
         if (retryResponse.ok) {
           const data = await retryResponse.json();
+          console.log("RTRTRTRTRTRR!@!@!@!@!@", data);
           resolve(data);
         } else {
           console.log("토큰 갱신에 실패함.");
