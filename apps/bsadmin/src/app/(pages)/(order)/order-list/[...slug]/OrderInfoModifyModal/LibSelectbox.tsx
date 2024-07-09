@@ -12,7 +12,7 @@ export default function LibSelectbox() {
     },
   );
 
-  console.log(data.data);
+  // console.log(data);
 
-  return <SelectBox inputName="libMngrUkey" options={data.data} />;
+  return <SelectBox inputName="libMngrUkey" options={data} />;
 }

@@ -12,14 +12,14 @@ export default function StatusCcSelectbox() {
     },
   );
 
-  console.log(data.data);
+  // console.log("StatusCcSelectbox ==>>", data);
 
   return (
     <SelectBox
       required={true}
       errorMessage="진행사황을 선택헤 주세요."
       inputName="orderStatusCc"
-      options={data.data}
+      options={data}
     />
   );
 }
