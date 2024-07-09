@@ -28,7 +28,7 @@ const Contents = () => {
     },
   );
 
-  console.log("기관별 매출 Top", data);
+  // console.log("기관별 매출 Top", data);
 
   return (
     <TableContainer>

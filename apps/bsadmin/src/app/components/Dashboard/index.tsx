@@ -23,8 +23,8 @@ const Index = () => {
     "NGS_SALES",
     "TOTAL_MANAGER",
   ]);
-  console.log("IT or NGS_SALES 체크 ==>>", containsChar);
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>", process.env.NEXTAUTH_URL);
+  // console.log("IT or NGS_SALES 체크 ==>>", containsChar);
+  // console.log(">>>>>>>>>>>>>>>>>>>>>>>", process.env.NEXTAUTH_URL);
 
   useEffect(() => {
     console.log(process.env.NEXTAUTH_URL);

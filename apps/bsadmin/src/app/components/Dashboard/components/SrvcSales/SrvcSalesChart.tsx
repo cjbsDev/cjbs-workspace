@@ -21,7 +21,7 @@ const SrvcSalesChart = () => {
     },
   );
 
-  console.log("srvcSalesData", srvcSalesData);
+  // console.log("srvcSalesData", srvcSalesData);
 
   const salesLabels = srvcSalesData.labels;
   const salesData = srvcSalesData.slsForAnlsResList.map(
