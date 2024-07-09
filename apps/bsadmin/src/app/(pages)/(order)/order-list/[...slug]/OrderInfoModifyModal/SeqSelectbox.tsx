@@ -13,7 +13,7 @@ export default function LipSelectbox() {
     },
   );
 
-  console.log(data.data);
+  // console.log(data);
 
-  return <SelectBox inputName="seqMngrUkey" options={data.data} />;
+  return <SelectBox inputName="seqMngrUkey" options={data} />;
 }
