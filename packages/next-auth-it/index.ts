@@ -33,19 +33,28 @@ export const refreshAccessToken = mem(
 
     return new Promise(async function (resolve, reject) {
       try {
+        console.log("refreshToken@@@@", refreshToken);
+        console.log("defaultUrl@@@@@", defaultUrl);
+
         const response = await fetch(defaultUrl, {
           method: "GET",
           headers: {
             emSW: refreshToken,
             "Accept-Language": "ko",
+            "Content-Type": "application/json",
           },
-        }).then((res) => {
-          console.log("res>> ", res);
-          res.json();
         });
+        //   .then((res) => {
+        //   console.log("res>> ", res);
+        //   res.json();
+        // });
 
-        console.log("response>> 터큰", response);
-        if (!response.success) {
+        const responseData = await response.json();
+
+        console.log("RESPONSE$$$$", responseData);
+        // console.log("response>> 터큰", response);
+
+        if (!responseData.success) {
           console.log("실패!!!!!!!!!!!");
 
           return resolve({
@@ -54,7 +63,7 @@ export const refreshAccessToken = mem(
           });
         }
 
-        const data = response.data;
+        const data = responseData.data;
 
         const newToken: RetrunRefreshAccessToken = {
           email,
