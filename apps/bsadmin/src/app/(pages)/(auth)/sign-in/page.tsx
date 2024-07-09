@@ -39,7 +39,12 @@ export default function Page() {
     setIsLoading(true);
     let email = data.email;
     let password = data.password;
-    signIn("credentials", { email, password, redirect: false })
+    signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      // callbackUrl: `https://bsa.cjbioscience.com/sign-in`,
+    })
       .then((res) => {
         //const isError = res && res.error ? res.error : null
         console.log("!!!!res=", res);

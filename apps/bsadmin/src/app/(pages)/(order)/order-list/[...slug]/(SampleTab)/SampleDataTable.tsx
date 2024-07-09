@@ -79,6 +79,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "샘플명",
+        width: "200px",
         sortable: false,
         center: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
@@ -100,7 +101,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "Depth",
-        width: "100px",
+        width: "80px",
         sortable: false,
         center: true,
         selector: (row) => (row.depthMc === null ? "-" : row.depthVal),

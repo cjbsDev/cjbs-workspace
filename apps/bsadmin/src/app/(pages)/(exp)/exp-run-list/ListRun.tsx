@@ -101,6 +101,8 @@ const ListRun = () => {
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
           noDataComponent={<NoDataView />}
+          paginationPerPage={100}
+          paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
         />
       </Box>
 

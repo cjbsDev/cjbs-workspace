@@ -156,7 +156,7 @@ const AppBar = ({ open, handleDrawerOpen, handleDrawerClose }: AppBarProps) => {
                   <MenuItem
                     onClick={() => {
                       popupState.close();
-                      signOut({ callbackUrl: "/sign-in", redirect: true });
+                      signOut({ callbackUrl: "/sign-in" });
                       // signOut();
                     }}
                   >
