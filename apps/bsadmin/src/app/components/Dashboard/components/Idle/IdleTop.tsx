@@ -30,7 +30,7 @@ const IdleTop = () => {
     },
   );
 
-  console.log("장기 미거래 Top", data);
+  // console.log("장기 미거래 Top", data);
 
   return (
     <TableContainer>

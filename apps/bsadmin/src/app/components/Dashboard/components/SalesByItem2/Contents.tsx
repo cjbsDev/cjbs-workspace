@@ -58,7 +58,7 @@ const Contents = () => {
     },
   );
 
-  console.log("항목별 매출", groupData);
+  // console.log("항목별 매출", groupData);
 
   const { labels, colors, slsList, min, max, stepSize } = groupData;
 

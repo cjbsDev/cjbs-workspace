@@ -24,7 +24,7 @@ const Index = () => {
     },
   );
 
-  console.log("Total Data", totalData);
+  // console.log("Total Data", totalData);
 
   const {
     labels,

@@ -446,7 +446,8 @@ const OrderRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>연구</TH>
                 <TD sx={{ width: "85%" }} colSpan={3}>
-                  <Research required={orshType === "intn"} />
+                  {/*<Research required={orshType === "intn"} />*/}
+                  <Research required={false} />
                 </TD>
               </TableRow>
             </TableBody>
