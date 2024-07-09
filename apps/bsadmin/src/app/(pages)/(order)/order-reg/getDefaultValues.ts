@@ -78,6 +78,7 @@ export const getDefaultValues = (orshType: any, orshExtrData: any) => {
       prjtCodeMc: orshExtrData.projectInfo.prjtCodeMc,
       prjcNm: orshExtrData.projectInfo.prjtCodeVal,
       prjtDetailCodeMc: orshExtrData.projectInfo.prjtDetailCodeMc,
+      rstFileRcpnEmail: orshExtrData.orderInfo.rstFileRcpnEmail,
     };
   } else {
     defaultValues = {
