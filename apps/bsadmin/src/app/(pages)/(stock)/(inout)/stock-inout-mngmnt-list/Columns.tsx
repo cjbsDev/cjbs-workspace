@@ -16,14 +16,14 @@ export const getColumns = () => [
     selector: (row: { stockCtgrVal: string }) =>
       row.stockCtgrVal !== null ? row.stockCtgrVal : "-",
     center: true,
-    width: "100px",
+    // width: "100px",
   },
   {
     name: "구분",
     selector: (row: { inOut: string }) =>
       row.inOut !== null ? row.inOut : "-",
     center: true,
-    width: "80px",
+    // width: "80px",
     cell: (row: { inOut: string }) => {
       return (
         <Chip
@@ -40,6 +40,7 @@ export const getColumns = () => [
       row.stockNm !== null ? row.stockNm : "-",
     // center: true,
     allowOverflow: true,
+    wrap: true,
   },
   {
     name: "제조사",
@@ -85,14 +86,14 @@ export const getColumns = () => [
     name: "처리일",
     selector: (row: { inOutDttm: string }) =>
       row.inOutDttm !== null ? row.inOutDttm : "-",
-    width: "120px",
+    // width: "120px",
     center: true,
   },
   {
     name: "관리자",
     selector: (row: { mngrNm: string }) =>
       row.mngrNm !== null ? row.mngrNm : "-",
-    width: "100px",
+    // width: "100px",
     center: true,
   },
   {
