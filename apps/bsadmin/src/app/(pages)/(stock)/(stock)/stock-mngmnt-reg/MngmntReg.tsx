@@ -96,7 +96,10 @@ const MngmntReg = () => {
 
     const reqBody = {
       ...data,
-      unpr: ukey !== null ? data.unpr : Number(data.unpr.replaceAll(",", "")),
+      unpr:
+        typeof data.unpr === "string"
+          ? Number(data.unpr.replaceAll(",", ""))
+          : data.unpr,
       stockHsptUkey: ukey,
     };
 
