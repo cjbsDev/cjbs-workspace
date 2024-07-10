@@ -54,13 +54,13 @@ const MngmntList = () => {
 
       <SubHeader />
 
-      <Box>
-        <TableContainer>
-          <Table>
-            <TableHeader />
-            <TableBody>
-              {mtldDetailList.map(
-                (item: {
+      <TableContainer>
+        <Table>
+          <TableHeader />
+          <TableBody>
+            {mtldDetailList.map(
+              (
+                item: {
                   closingStockAmt: any;
                   closingStockCnt: any;
                   mtldDetailUkey: any;
@@ -73,55 +73,56 @@ const MngmntList = () => {
                   stockOutAmt: any;
                   stockOutCnt: any;
                   unpr: any;
-                }) => {
-                  const {
-                    closingStockAmt,
-                    closingStockCnt,
-                    mtldDetailUkey,
-                    openingStockAmt,
-                    openingStockCnt,
-                    stockId,
-                    stockInAmt,
-                    stockInCnt,
-                    stockNm,
-                    stockOutAmt,
-                    stockOutCnt,
-                    unpr,
-                  } = item;
-                  return (
-                    <TableRow key={mtldDetailUkey}>
-                      <Row
-                        stockId={stockId}
-                        stockNm={stockNm}
-                        unpr={unpr}
-                        openingStockCnt={openingStockCnt}
-                        openingStockAmt={openingStockAmt}
-                        stockInCnt={stockInCnt}
-                        stockInAmt={stockInAmt}
-                        stockOutCnt={stockOutCnt}
-                        stockOutAmt={stockOutAmt}
-                        closingStockCnt={closingStockCnt}
-                        closingStockAmt={closingStockAmt}
-                      />
-                    </TableRow>
-                  );
                 },
-              )}
-            </TableBody>
+                index,
+              ) => {
+                const {
+                  closingStockAmt,
+                  closingStockCnt,
+                  mtldDetailUkey,
+                  openingStockAmt,
+                  openingStockCnt,
+                  stockId,
+                  stockInAmt,
+                  stockInCnt,
+                  stockNm,
+                  stockOutAmt,
+                  stockOutCnt,
+                  unpr,
+                } = item;
+                return (
+                  <TableRow key={mtldDetailUkey + index.toString()}>
+                    <Row
+                      stockId={stockId}
+                      stockNm={stockNm}
+                      unpr={unpr}
+                      openingStockCnt={openingStockCnt}
+                      openingStockAmt={openingStockAmt}
+                      stockInCnt={stockInCnt}
+                      stockInAmt={stockInAmt}
+                      stockOutCnt={stockOutCnt}
+                      stockOutAmt={stockOutAmt}
+                      closingStockCnt={closingStockCnt}
+                      closingStockAmt={closingStockAmt}
+                    />
+                  </TableRow>
+                );
+              },
+            )}
+          </TableBody>
 
-            <TableSumFooter
-              closingStockTotalCnt={closingStockTotalCnt}
-              closingStockTotalAmt={closingStockTotalAmt}
-              openingStockTotalAmt={openingStockTotalAmt}
-              openingStockTotalCnt={openingStockTotalCnt}
-              stockInTotalAmt={stockInTotalAmt}
-              stockInTotalCnt={stockInTotalCnt}
-              stockOutTotalCnt={stockOutTotalCnt}
-              stockOutTotalAmt={stockOutTotalAmt}
-            />
-          </Table>
-        </TableContainer>
-      </Box>
+          <TableSumFooter
+            closingStockTotalCnt={closingStockTotalCnt}
+            closingStockTotalAmt={closingStockTotalAmt}
+            openingStockTotalAmt={openingStockTotalAmt}
+            openingStockTotalCnt={openingStockTotalCnt}
+            stockInTotalAmt={stockInTotalAmt}
+            stockInTotalCnt={stockInTotalCnt}
+            stockOutTotalCnt={stockOutTotalCnt}
+            stockOutTotalAmt={stockOutTotalAmt}
+          />
+        </Table>
+      </TableContainer>
     </>
   );
 };

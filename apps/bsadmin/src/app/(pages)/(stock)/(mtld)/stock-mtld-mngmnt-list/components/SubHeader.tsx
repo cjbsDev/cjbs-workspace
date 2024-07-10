@@ -11,18 +11,22 @@ import { currentMonthAtom, currentYearAtom } from "../atom";
 
 const qrtlLists = [
   {
+    id: "Q1",
     qrtl: "Q1",
     name: "1분기",
   },
   {
+    id: "Q2",
     qrtl: "Q2",
     name: "2분기",
   },
   {
+    id: "Q3",
     qrtl: "Q3",
     name: "3분기",
   },
   {
+    id: "Q4",
     qrtl: "Q4",
     name: "4분기",
   },
@@ -63,14 +67,16 @@ const SubHeader = () => {
             exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}`}
             iconName="xls3"
           />
-          {qrtlLists.map((item) => {
-            const { qrtl, name } = item;
+          {qrtlLists.map((item, index) => {
+            const { id, qrtl, name } = item;
             return (
-              <FileDownloadBtn
-                exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=${qrtl}`}
-                iconName="xls3"
-                buttonName={name}
-              />
+              <Box key={id}>
+                <FileDownloadBtn
+                  exportUrl={`/stock/mtld/list/download?year=${year}&month=${month}&qrtl=${qrtl}`}
+                  iconName="xls3"
+                  buttonName={name}
+                />
+              </Box>
             );
           })}
         </Stack>
