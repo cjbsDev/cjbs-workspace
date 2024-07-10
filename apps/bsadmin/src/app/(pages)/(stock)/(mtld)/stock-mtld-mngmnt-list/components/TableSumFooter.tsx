@@ -45,19 +45,17 @@ const TableSumFooter = ({
           </Typography>
         </TableCell>
         <TableCell align="right">
-          <Typography>
-            <Stack
-              direction="row"
-              justifyContent="right"
-              alignItems="center"
-              spacing={0.2}
-            >
-              <Typography>
-                {formatNumberWithCommas(openingStockTotalAmt)}
-              </Typography>
-              <Typography>원</Typography>
-            </Stack>
-          </Typography>
+          <Stack
+            direction="row"
+            justifyContent="right"
+            alignItems="center"
+            spacing={0.2}
+          >
+            <Typography>
+              {formatNumberWithCommas(openingStockTotalAmt)}
+            </Typography>
+            <Typography>원</Typography>
+          </Stack>
         </TableCell>
         <TableCell align="right">
           <Typography>{formatNumberWithCommas(stockInTotalCnt)}</Typography>

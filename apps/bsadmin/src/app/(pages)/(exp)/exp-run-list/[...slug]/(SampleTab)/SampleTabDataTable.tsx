@@ -491,7 +491,7 @@ const SampleTabDataTable = (props) => {
   const handleAlertOpen = useCallback(() => {
     // setIsClear(false);
     setAlertModalOpen(true);
-    setToggleClearRows(!toggledClearRows);
+    // setToggleClearRows(!toggledClearRows);
   }, [setToggleClearRows, toggledClearRows]);
 
   const filteredData = runSamplesList.filter(
