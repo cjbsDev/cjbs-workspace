@@ -14,8 +14,8 @@ const StockMachine = () => {
   );
   return (
     <SelectBox
-      required={true}
-      errorMessage="사용기계를 선택헤 주세요."
+      // required={true}
+      // errorMessage="사용기계를 선택헤 주세요."
       inputName="mchnMc"
       options={data}
     />
