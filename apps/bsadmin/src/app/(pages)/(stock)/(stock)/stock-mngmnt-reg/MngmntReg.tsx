@@ -272,7 +272,9 @@ const MngmntReg = () => {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>사용기계</TH>
+              <TH sx={{ width: "15%" }}>
+                사용기계<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "35%" }}>
                 <ErrorContainer FallbackComponent={Fallback}>
                   <LazyStockMachine />
