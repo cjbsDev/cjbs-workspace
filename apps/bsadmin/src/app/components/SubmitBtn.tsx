@@ -7,11 +7,15 @@ const SubmitBtn = () => {
   const searchParams = useSearchParams();
   const ukey = searchParams.get("modifyUkey");
   const {
-    formState: { isDirty, isValid, isSubmitting },
+    formState: { isDirty, isValid, isSubmitting, dirtyFields },
   } = useFormContext();
+
+  console.log("!isValid || isSubmitting", isSubmitting || !isDirty);
+  console.log("isDirty", isDirty);
   return (
     <LoadingButton
-      disabled={!isValid || isSubmitting}
+      disabled={!isValid || isSubmitting || !isDirty}
+      // disabled={!isValid || Object.keys(dirtyFields).length === 0}
       loading={isSubmitting}
       variant="contained"
       size="small"
