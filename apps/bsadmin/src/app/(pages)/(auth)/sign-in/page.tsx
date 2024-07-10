@@ -43,13 +43,17 @@ export default function Page() {
       email,
       password,
       redirect: false,
-      // callbackUrl: `https://bsa.cjbioscience.com/sign-in`,
+      login_hint: "info@example.com",
     })
       .then((res) => {
         //const isError = res && res.error ? res.error : null
         console.log("!!!!res=", res);
         if (res?.error) {
-          const errorMessage = res.error.split("Error:")[1];
+          console.log("ERERERER", res?.error.split("Error:")[0]);
+          const errorMessage =
+            res.error.split("Error:")[0] === "Failed to authorize" &&
+            "사용자 이메일과 패스워드를 확인하고 다시 시도해주세요.";
+          // 사용자 이메일과 패스워드를 확인하고 다시 시도해주세요.
           toast(errorMessage, { type: "info" });
         } else {
           //로그인성공
