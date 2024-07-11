@@ -33,17 +33,26 @@ import { toast } from "react-toastify";
 import { standDate } from "../../../../../../func/standDate";
 import HsptOutRow from "./HsptOutRow";
 
-interface StockInModalProps extends ModalContainerProps {}
+interface StockOutModalProps extends ModalContainerProps {
+  stockUkey: string;
+  isGutInside: string;
+}
 
 interface FormDataProps {
   outDttm: string | number | Date | dayjs.Dayjs | null | undefined;
   qnty: string;
 }
 
-const StockOutModal = ({ onClose, open, modalWidth }: StockInModalProps) => {
-  const searchParams = useSearchParams();
-  const stockUkey = searchParams.get("stockUkey");
-  const isGutInside = searchParams.get("isGutInside");
+const StockOutModal = ({
+  onClose,
+  open,
+  modalWidth,
+  stockUkey,
+  isGutInside,
+}: StockOutModalProps) => {
+  // const searchParams = useSearchParams();
+  // const stockUkey = searchParams.get("stockUkey");
+  // const isGutInside = searchParams.get("isGutInside");
   const [isLoading, setIsLoading] = useState(false);
 
   const defaultValues = {
