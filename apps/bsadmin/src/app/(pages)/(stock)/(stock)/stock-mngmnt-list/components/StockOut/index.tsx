@@ -14,14 +14,14 @@ const Index = ({ rowData }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    router.push(currentPathname);
+    // router.push(currentPathname);
   };
 
   const handleOpen = () => {
     setIsOpen(true);
-    router.push(
-      `${currentPathname}?stockUkey=${stockUkey}&isGutInside=${isGutInside}`,
-    );
+    // router.push(
+    //   `${currentPathname}?stockUkey=${stockUkey}&isGutInside=${isGutInside}`,
+    // );
   };
 
   return (
@@ -33,7 +33,13 @@ const Index = ({ rowData }) => {
         size="small"
       />
       {isOpen && (
-        <StockOutModal onClose={handleClose} open={isOpen} modalWidth={500} />
+        <StockOutModal
+          onClose={handleClose}
+          open={isOpen}
+          modalWidth={500}
+          stockUkey={stockUkey}
+          isGutInside={isGutInside}
+        />
       )}
     </>
   );

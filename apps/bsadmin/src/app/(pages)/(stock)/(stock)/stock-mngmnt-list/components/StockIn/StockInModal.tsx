@@ -39,6 +39,7 @@ interface FormData {
   inDttm: string | number | Date | dayjs.Dayjs | null | undefined;
   unpr: string;
   qnty: string;
+  stockUkey: string;
 }
 
 const StockInModal = ({
@@ -46,9 +47,10 @@ const StockInModal = ({
   open,
   modalWidth,
   unpr,
+  stockUkey,
 }: StockInModalProps) => {
   const searchParams = useSearchParams();
-  const stockUkey = searchParams.get("stockUkey");
+  // const stockUkey = searchParams.get("stockUkey");
   const [isLoading, setIsLoading] = useState(false);
 
   const defaultValues = {

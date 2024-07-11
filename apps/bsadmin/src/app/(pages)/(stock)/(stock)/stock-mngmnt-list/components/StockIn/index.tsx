@@ -14,12 +14,12 @@ const Index = ({ rowData }) => {
 
   const handleClose = () => {
     setIsOpen(false);
-    router.push(currentPathname);
+    // router.push(currentPathname);
   };
 
   const handleOpen = () => {
     setIsOpen(true);
-    router.push(`${currentPathname}?stockUkey=${stockUkey}`);
+    // router.push(`${currentPathname}?stockUkey=${stockUkey}`);
   };
 
   return (
@@ -32,6 +32,7 @@ const Index = ({ rowData }) => {
           open={isOpen}
           modalWidth={500}
           unpr={unpr}
+          stockUkey={stockUkey}
         />
       )}
     </>
