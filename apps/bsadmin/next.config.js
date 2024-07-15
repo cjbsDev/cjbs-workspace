@@ -20,6 +20,9 @@ module.exports = {
     dangerouslyAllowSVG: true,
     contentDispositionType: "attachment",
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
-    domains: ['bsa-common-dev.s3.ap-northeast-2.amazonaws.com'],
+    domains: [
+      "bsa-common-dev.s3.ap-northeast-2.amazonaws.com",
+      "bsa-common-prod.s3.ap-northeast-2.amazonaws.com",
+    ],
   },
 };
