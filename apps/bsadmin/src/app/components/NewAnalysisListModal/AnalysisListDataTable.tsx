@@ -24,36 +24,38 @@ import {
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import { analysisAtom } from "./analysisAtom";
 
 const AnalysisListDataTable = (props: {
+  append: any;
   selectSampleList: any;
   onClose: any;
-  getOrderUkey: string;
+  // getOrderUkey: string;
   // handleSelectedRowChange: any;
   handleAddSampleList: any;
 }) => {
   const {
+    append,
     selectSampleList,
     onClose,
-    getOrderUkey,
+    // getOrderUkey,
     handleAddSampleList,
     viewType,
   } = props;
-  const APIPATH = `/anls/itst/${getOrderUkey}/sample/list`;
-  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", getOrderUkey)
-  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", APIPATH)
+  const { getValues } = useFormContext();
+  const orderUkey = getValues("orderUkey");
+  const APIPATH = `/anls/itst/${orderUkey}/sample/list`;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [selectSampleIdArray, setSelectSampleIdArray] = useState<any>([]);
-  // const setSelectedSampleList = useSetRecoilState(analysisAtom);
+  const [selectSampleIdArray, setSelectSampleIdArray] = useState<any>({});
+  const setSelectedSampleList = useSetRecoilState(analysisAtom);
 
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
+  // const {} = data;
   const totCnt = data.length;
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", data);
-  const { setValue, clearErrors, resetField } = useFormContext();
-
   const columns = useMemo(
     () => [
       {
@@ -420,15 +422,33 @@ const AnalysisListDataTable = (props: {
     }
   }, []);
 
-  const handleSelectedRowChange1 = ({ selectedRows }: any) => {
-    // const getSampleIdList = selectedRows.map((row) => row.sampleId);
-    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", getSampleIdList)
+  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     console.log("선택된 분석내열 row ==>>", selectedRows);
-    setSelectSampleIdArray(selectedRows);
-  };
+    const sampleUkeys = selectedRows.map((sample) => sample.sampleUkey);
+    const srvcTypeMc = selectedRows?.srvcTypeMc || null;
+    const sampleSize = selectedRows.length;
+
+    const result = {
+      sampleUkey: sampleUkeys,
+      srvcTypeMc: srvcTypeMc,
+      sampleSize: sampleSize,
+      addType: "modal",
+      unitPrice: 0,
+      supplyPrice: 0,
+      vat: 0,
+      dscntRasnCc: "",
+      dscntRasnDetail: "",
+      stndPrice: "0",
+      stndCode: "",
+      isExc: "N",
+    };
+
+    console.log("result", result);
+    setSelectSampleIdArray(result);
+  }, []);
 
   const setSampleData = () => {
-    handleAddSampleList(selectSampleIdArray);
+    append(selectSampleIdArray);
     onClose();
   };
 
@@ -483,7 +503,7 @@ const AnalysisListDataTable = (props: {
         selectableRowsVisibleOnly={false}
         selectableRowSelected={rowSelectCritera}
         selectableRowDisabled={rowSelectDisabled}
-        onSelectedRowsChange={handleSelectedRowChange1}
+        onSelectedRowsChange={handleSelectedRowChange}
         pagination={false}
       />
       <Stack direction="row" spacing={0.5} justifyContent="center" mt={5}>
