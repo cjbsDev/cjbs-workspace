@@ -32,6 +32,8 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
       },
     ];
 
+    console.log("License Stnd Price BodyData ==>>", bodyData);
+
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;

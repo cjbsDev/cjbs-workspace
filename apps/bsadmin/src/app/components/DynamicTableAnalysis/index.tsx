@@ -152,7 +152,7 @@ const DynamicTableAnalysis = ({}) => {
       // dscntPctg: 0,
 
       sampleUkey: ["V259JA", "1UX23C", "O84ZV2"],
-      srvcTypeMc: "BS_0100007007",
+      srvcTypeMc: "",
       sampleSize: 3,
       addType: "modal",
       unitPrice: 0,

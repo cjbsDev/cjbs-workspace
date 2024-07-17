@@ -425,7 +425,7 @@ const AnalysisListDataTable = (props: {
   const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
     console.log("선택된 분석내열 row ==>>", selectedRows);
     const sampleUkeys = selectedRows.map((sample) => sample.sampleUkey);
-    const srvcTypeMc = selectedRows?.srvcTypeMc || null;
+    const srvcTypeMc = selectedRows[0]?.srvcTypeMc || null;
     const sampleSize = selectedRows.length;
 
     const result = {

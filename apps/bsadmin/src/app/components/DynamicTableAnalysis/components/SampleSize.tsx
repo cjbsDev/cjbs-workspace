@@ -32,6 +32,8 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
       },
     ];
 
+    console.log("StndPrice BodyData ==>>", bodyData);
+
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
       const resData = response.data;
