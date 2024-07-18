@@ -15,7 +15,12 @@ import TotalPrice from "./TotalPrice";
 
 const Index = () => {
   const { control, setValue, getValues, watch } = useFormContext();
-  // const getPymtInfoCc = watch("pymtInfoCc");
+  const rmnPrePymtPrice = Number(
+    getValues("rmnPrePymtPrice").replaceAll(",", ""),
+  );
+
+  console.log("rmnPrePymtPrice", rmnPrePymtPrice);
+
   const fieldArrayName = "costList";
   const productValue =
     useWatch({
@@ -43,6 +48,48 @@ const Index = () => {
     setValue("totalSupplyPrice", totalSupplyPrice);
     setValue("vat", vatValue);
     setValue("totalPrice", supplyPlusVatTotalValue);
+
+    if (rmnPrePymtPrice > 0) {
+      // 선결제 금액이 있는경우
+      if (rmnPrePymtPrice >= supplyPlusVatTotalValue) {
+        // 선결제 비용이 합계금액보다 큰경우
+        setValue("remainingAmount", "0");
+        setValue(
+          "settlementCost",
+          supplyPlusVatTotalValue,
+          // .toFixed(0)
+          // .toString()
+          // .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        );
+      } else if (rmnPrePymtPrice < supplyPlusVatTotalValue) {
+        // 선결제 비용이 합계금액보다 적은경우
+        setValue(
+          "remainingAmount",
+          supplyPlusVatTotalValue - rmnPrePymtPrice,
+          // .toFixed(0)
+          // .toString()
+          // .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        );
+        setValue(
+          "settlementCost",
+          rmnPrePymtPrice,
+          // .toFixed(0)
+          // .toString()
+          // .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+        );
+      }
+      // setSettlement(true);
+    } else {
+      // 선결제 금액이 없는경우
+      setValue(
+        "remainingAmount",
+        supplyPlusVatTotalValue,
+        // .toFixed(0)
+        // .toString()
+        // .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+      );
+      // setSettlement(false);
+    }
   }, [setValue, totalCnt, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
 
   const standDate = () => {
@@ -76,6 +123,10 @@ const Index = () => {
       },
     ];
   };
+
+  if (productValue.length === 0) {
+    return null;
+  }
 
   return (
     <TableContainer sx={{ mb: 5 }}>

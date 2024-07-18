@@ -41,7 +41,7 @@ import StndDscntPctg from "./components/StndDscntPctg";
 import Vat from "./components/Vat";
 import SampleSize from "./components/SampleSize";
 import { QuestionTooltip } from "../QuestionTooltip";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { analysisAtom } from "../NewAnalysisListModal/analysisAtom";
 
 const LazyAnalysisListModal = dynamic(
@@ -82,7 +82,7 @@ const LazyDscntRasnSelectbox = dynamic(() => import("./components/DscntRasn"), {
 // });
 
 const DynamicTableAnalysis = ({}) => {
-  const getSelectedSampleList = useRecoilState(analysisAtom);
+  const getSelectedSampleList = useRecoilValue(analysisAtom);
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
     useState<boolean>(false);
   const [selectedRows, setSelectedRows] = useState([]);
@@ -94,7 +94,7 @@ const DynamicTableAnalysis = ({}) => {
 
   const fieldArrayName = "costList";
 
-  const { fields, append, remove } = useFieldArray({
+  const { fields, append, update, remove } = useFieldArray({
     control,
     name: fieldArrayName,
   });
@@ -107,38 +107,12 @@ const DynamicTableAnalysis = ({}) => {
     };
   });
 
-  useEffect(() => {
-    console.log(
-      "getSelectedSampleList useEffect ==>>",
-      getSelectedSampleList[0],
-    );
-    // if (
-    //   getSelectedSampleList[0] !== undefined &&
-    //   getSelectedSampleList[0].length > 0
-    // ) {
-    //   const sampleUkeys = getSelectedSampleList[0].map(
-    //     (sample) => sample.sampleUkey,
-    //   );
-    //   const srvcTypeMc = getSelectedSampleList[0][0]?.srvcTypeMc || null;
-    //   const sampleSize = getSelectedSampleList[0].length;
-    //
-    //   const result = {
-    //     sampleUkey: sampleUkeys,
-    //     srvcTypeMc: srvcTypeMc,
-    //     sampleSize: sampleSize,
-    //     addType: "modal",
-    //     unitPrice: 0,
-    //     supplyPrice: 0,
-    //     vat: 0,
-    //     dscntRasnCc: "",
-    //     dscntRasnDetail: "",
-    //     stndPrice: "0",
-    //     stndCode: "",
-    //     isExc: "N",
-    //   };
-    //   console.log("result", result);
-    // }
-  }, []);
+  // useEffect(() => {
+  //   console.log(
+  //     "getSelectedSampleList useEffect ==>>",
+  //     getSelectedSampleList[0],
+  //   );
+  // }, []);
 
   const handleAppend = () => {
     append({
@@ -150,11 +124,10 @@ const DynamicTableAnalysis = ({}) => {
       // supplyPrice: 0,
       // stndPrice: "0",
       // dscntPctg: 0,
-
-      sampleUkey: ["V259JA", "1UX23C", "O84ZV2"],
+      addType: null,
+      sampleUkey: [],
       srvcTypeMc: "",
-      sampleSize: 3,
-      addType: "modal",
+      sampleSize: 0,
       unitPrice: 0,
       supplyPrice: 0,
       vat: 0,
@@ -245,6 +218,7 @@ const DynamicTableAnalysis = ({}) => {
             // getOrderUkey={ukeyValue}
             // selectSampleList={selectSampleList}
             append={append}
+            update={update}
             modalWidth={1400}
           />
         </ErrorContainer>
@@ -344,6 +318,8 @@ const DynamicTableAnalysis = ({}) => {
                     <ErrorContainer FallbackComponent={Fallback}>
                       <LazyServiceTypeSelectbox
                         inputName={`${fieldArrayName}[${index}].srvcTypeMc`}
+                        fieldArrayName={fieldArrayName}
+                        index={index}
                       />
                       {/*<LazyServiceCategorySelectbox*/}
                       {/*  inputName={`${fieldArrayName}[${index}].srvcTypeMc`}*/}
@@ -453,6 +429,11 @@ const DynamicTableAnalysis = ({}) => {
           onClick={handleAppend}
           startIcon={<MyIcon icon="plus" size={18} color="white" />}
         />
+        <ContainedButton
+          size="small"
+          buttonName="분석 비용 추가"
+          onClick={analysisSearchModalOpen}
+        />
         <DeletedButton
           buttonName="삭제"
           disabled={isDeleteDisabled}
@@ -470,6 +451,21 @@ const DynamicTableAnalysis = ({}) => {
           }
         />
       </Stack>
+
+      {/* 분석내역 검색 모달*/}
+      <ErrorContainer FallbackComponent={Fallback}>
+        <LazyAnalysisListModal
+          onClose={analysisSearchModalClose}
+          // handleSelectedRowChange={handleSelectedRowChange}
+          // handleAddSampleList={handleAddSampleList}
+          open={showAnalysisSearchModal}
+          // getOrderUkey={ukeyValue}
+          // selectSampleList={selectSampleList}
+          append={append}
+          update={update}
+          modalWidth={1400}
+        />
+      </ErrorContainer>
     </>
   );
 };

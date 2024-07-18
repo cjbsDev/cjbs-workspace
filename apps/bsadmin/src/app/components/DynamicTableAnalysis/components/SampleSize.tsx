@@ -3,8 +3,8 @@ import { POST } from "api";
 import { toast } from "react-toastify";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
 import { NumericFormat } from "react-number-format";
-import { cjbsTheme, InputEAType } from "cjbsDSTM";
-import { Typography } from "@mui/material";
+import { cjbsTheme, InputEAType, InputValidation } from "cjbsDSTM";
+import { InputAdornment, Typography } from "@mui/material";
 
 interface SampleSizeProps {
   fieldName: string;
@@ -19,6 +19,7 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  const getAddType = getValues(`${fieldName}[${index}].addType`);
   // const productValue = useWatch({ name: fieldName, control });
   const callStndPrice = async () => {
     const bodyData = [
@@ -70,6 +71,33 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
     } finally {
     }
   };
+
+  if (getAddType === "modal") {
+    return (
+      <InputValidation
+        inputName={`${fieldName}[${index}].sampleSize`}
+        disabled={true}
+        sx={{
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+          "&.MuiTextField-root": {
+            backgroundColor: "#F1F3F5",
+          },
+        }}
+        InputProps={{
+          readOnly: true,
+          endAdornment: (
+            <InputAdornment position="end">
+              <Typography variant="body2" sx={{ color: "black" }}>
+                개
+              </Typography>
+            </InputAdornment>
+          ),
+        }}
+      />
+    );
+  }
 
   return (
     <>

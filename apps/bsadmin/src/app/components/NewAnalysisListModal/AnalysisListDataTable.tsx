@@ -3,7 +3,7 @@ import { useCallback, useMemo, useState } from "react";
 
 import useSWR from "swr";
 import { fetcher } from "api";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useWatch } from "react-hook-form";
 import {
   Box,
   Chip,
@@ -23,12 +23,13 @@ import {
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { analysisAtom } from "./analysisAtom";
 
 const AnalysisListDataTable = (props: {
   append: any;
-  selectSampleList: any;
+  update: any;
+  // selectSampleList: any;
   onClose: any;
   // getOrderUkey: string;
   // handleSelectedRowChange: any;
@@ -36,19 +37,30 @@ const AnalysisListDataTable = (props: {
 }) => {
   const {
     append,
-    selectSampleList,
+    update,
+    // selectSampleList,
     onClose,
     // getOrderUkey,
     handleAddSampleList,
     viewType,
   } = props;
-  const { getValues } = useFormContext();
+
+  const selectSampleList = useRecoilValue(analysisAtom);
+  console.log("selectSampleList ==>>", selectSampleList);
+
+  const { getValues, control } = useFormContext();
   const orderUkey = getValues("orderUkey");
   const APIPATH = `/anls/itst/${orderUkey}/sample/list`;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
-  const [selectSampleIdArray, setSelectSampleIdArray] = useState<any>({});
+  const [selectSampleIdArray, setSelectSampleIdArray] = useState<any>([]);
   const setSelectedSampleList = useSetRecoilState(analysisAtom);
+
+  const productValue = useWatch({ name: "costList", control });
+  console.log("jjjjjjjj ==>>", productValue);
+  // const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+  // console.log("sampleUkeys ==>>", sampleUkeys);
+  // const allSampleUkeys = results.flatMap(result => result.sampleUkey);
 
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
@@ -352,37 +364,14 @@ const AnalysisListDataTable = (props: {
     [],
   );
 
-  const rowSelectCritera = useCallback((row) => {
-    //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", selectSampleList)
-    if (selectSampleList != undefined && selectSampleList.length > 0) {
-      setSelectSampleIdArray(selectSampleList);
-      // console.log("!!selectSampleList : ", selectSampleList);
-      // console.log("!!row data : ", row);
-      // console.log("!!row.sampleId : ", row.sampleId);
-      // console.log("!! : ", selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey)));
-      // 배열안에 값이 row에 sampleId 와 같다면 true
-      // if(selectSampleList.includes(row)) return true;
-      if (
-        selectSampleList.find((list) =>
-          Object.keys(list).includes("sampleUkeyList"),
-        )
-      ) {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkeyList.includes(row.sampleUkey),
-          )
-        )
-          return true;
-      } else {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkey.includes(row.sampleUkey),
-          )
-        )
-          return true;
-      }
-    }
-  }, []);
+  const rowSelectCritera = useCallback(
+    (row) => {
+      const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+      console.log("sampleUkeys ==>>", sampleUkeys);
+      return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
+    },
+    [productValue],
+  );
 
   const rowSelectDisabled = useCallback((row) => {
     // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
@@ -422,34 +411,56 @@ const AnalysisListDataTable = (props: {
     }
   }, []);
 
-  const handleSelectedRowChange = useCallback(({ selectedRows }: any) => {
-    console.log("선택된 분석내열 row ==>>", selectedRows);
-    const sampleUkeys = selectedRows.map((sample) => sample.sampleUkey);
-    const srvcTypeMc = selectedRows[0]?.srvcTypeMc || null;
-    const sampleSize = selectedRows.length;
+  const handleSelectedRowChange = useCallback(
+    ({ selectedRows }: any) => {
+      console.log("선택된 분석내역 row ==>>", selectedRows);
 
-    const result = {
-      sampleUkey: sampleUkeys,
-      srvcTypeMc: srvcTypeMc,
-      sampleSize: sampleSize,
-      addType: "modal",
-      unitPrice: 0,
-      supplyPrice: 0,
-      vat: 0,
-      dscntRasnCc: "",
-      dscntRasnDetail: "",
-      stndPrice: "0",
-      stndCode: "",
-      isExc: "N",
-    };
+      const groupedByServiceType = selectedRows.reduce((acc, sample) => {
+        const { srvcTypeMc } = sample;
+        if (!acc[srvcTypeMc]) {
+          acc[srvcTypeMc] = [];
+        }
+        acc[srvcTypeMc].push(sample);
+        return acc;
+      }, {});
 
-    console.log("result", result);
-    setSelectSampleIdArray(result);
-  }, []);
+      console.log("groupedByServiceType", groupedByServiceType);
+
+      const results = Object.keys(groupedByServiceType).map((srvcTypeMc) => {
+        const samples = groupedByServiceType[srvcTypeMc];
+        const sampleUkeys = samples.map((sample) => sample.sampleUkey);
+        const sampleSize = samples.length;
+
+        return {
+          sampleUkey: sampleUkeys,
+          srvcTypeMc: srvcTypeMc,
+          sampleSize: sampleSize,
+          addType: "modal",
+          unitPrice: 0,
+          supplyPrice: 0,
+          vat: 0,
+          dscntRasnCc: "",
+          dscntRasnDetail: "",
+          stndPrice: "0",
+          stndCode: "",
+          isExc: "N",
+        };
+      });
+
+      console.log("results", results);
+      setSelectSampleIdArray(results);
+    },
+    [productValue, setSelectSampleIdArray],
+  );
 
   const setSampleData = () => {
-    append(selectSampleIdArray);
-    onClose();
+    // append(selectSampleIdArray);
+    console.log(">>>>>>>>>>>>>", selectSampleIdArray);
+    selectSampleIdArray.map((item, index) => {
+      console.log("item", index, item);
+      update(index, item);
+    });
+    // onClose();
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

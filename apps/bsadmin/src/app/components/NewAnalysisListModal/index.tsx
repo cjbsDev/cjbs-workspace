@@ -9,6 +9,8 @@ import {
 } from "cjbsDSTM";
 import { DialogContent } from "@mui/material";
 import dynamic from "next/dynamic";
+import { toast } from "react-toastify";
+import update = toast.update;
 
 const LazyAnalysisListDataTable = dynamic(
   () => import("./AnalysisListDataTable"),
@@ -21,6 +23,7 @@ const LazyAnalysisListDataTable = dynamic(
 interface ModalContainerProps {
   // children?: React.ReactNode;
   append: any;
+  update: any;
   onClose: () => void;
   handleAddSampleList: () => void;
   getOrderUkey: string;
@@ -35,6 +38,7 @@ const NewAnalysisListModal = ({
   open,
   modalWidth,
   append,
+  update,
   // getOrderUkey,
   handleAddSampleList,
   selectSampleList,
@@ -51,6 +55,7 @@ const NewAnalysisListModal = ({
             // handleAddSampleList={handleAddSampleList}
             // selectSampleList={selectSampleList}
             append={append}
+            update={update}
             viewType={viewType}
           />
         </ErrorContainer>
