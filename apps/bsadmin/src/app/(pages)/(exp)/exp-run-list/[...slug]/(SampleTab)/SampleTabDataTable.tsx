@@ -81,8 +81,8 @@ const SampleTabDataTable = (props) => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
-    1642,
-    557,
+    1000,
+    700,
   );
 
   const resultObject = {};
@@ -177,7 +177,8 @@ const SampleTabDataTable = (props) => {
         // width: "120px",
         sortable: false,
         center: true,
-        wrap: true,
+        // wrap: true,
+        allowOverflow: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
         cell: (row) => {

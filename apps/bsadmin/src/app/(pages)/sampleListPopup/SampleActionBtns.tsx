@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ModalAction, OutlinedButton } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
 import { useRecoilValue } from "recoil";
@@ -10,6 +10,7 @@ import { useSWRConfig } from "swr";
 import { Box, Stack } from "@mui/material";
 
 const SampleActionBtns = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
   // const params = useParams();
   // const ukey = params.slug;
@@ -25,6 +26,7 @@ const SampleActionBtns = () => {
 
   const sampleAdd = async () => {
     console.log(getSampleUkeyList);
+    setIsLoading(true);
 
     if (getSampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
 
@@ -47,7 +49,7 @@ const SampleActionBtns = () => {
         error.response?.data?.data || error.message,
       );
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -59,7 +61,7 @@ const SampleActionBtns = () => {
         color="secondary"
       />
       <LoadingButton
-        // loading={isLoading}
+        loading={isLoading}
         variant="contained"
         onClick={sampleAdd}
         disabled={getSampleUkeyList.length === 0 ? true : false}
