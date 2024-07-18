@@ -9,7 +9,7 @@ import { sampleSize } from "lodash";
 export const getColumns = (totalElements: number) => [
   {
     name: "No",
-    width: "60px",
+    width: "80px",
     center: true,
     // sortable: true,
     // sortField: "orderId",

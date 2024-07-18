@@ -14,6 +14,7 @@ import {
   Grid,
   Stack,
   styled,
+  Tooltip,
   Typography,
   TypographyProps,
 } from "@mui/material";
@@ -29,7 +30,7 @@ import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(5);
+  const [size, setSize] = useState<number>(10);
   // const [filterText, setFilterText] = useState("");
   // const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
@@ -132,9 +133,17 @@ const SampleDataTable = () => {
       },
       {
         name: "RUN",
-        // width: "120px",
-        allowOverflow: true,
-        selector: (row) => row.runList,
+        // width: "320px",
+        // wrap: true,
+        // allowOverflow: true,
+        // selector: (row) => row.runList,
+        cell: (row) => {
+          return (
+            <Tooltip title={row.runList} followCursor>
+              <Typography variant="body2">{row.runList}</Typography>
+            </Tooltip>
+          );
+        },
       },
       {
         name: "접수",
@@ -465,8 +474,8 @@ const SampleDataTable = () => {
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
-        paginationPerPage={5}
-        paginationRowsPerPageOptions={[5, 10, 15]}
+        paginationPerPage={10}
+        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
       />
       <SampleActionBtns />
     </Box>
