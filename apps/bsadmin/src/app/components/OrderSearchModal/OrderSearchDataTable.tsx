@@ -26,6 +26,9 @@ const OrderSearchDataTable = (props: {
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
+
+  console.log("ORDER SEARCH LIST DATA ==>>", data);
+
   const { control, setValue, clearErrors, resetField } = useFormContext();
 
   // [오더] 컬럼세팅
@@ -138,6 +141,7 @@ const OrderSearchDataTable = (props: {
             custNm,
             custEbcEmail,
             bsnsMngrVal,
+            bsnsMngrUkey,
             rmnPrePymtPrice,
 
             telList,
@@ -169,6 +173,7 @@ const OrderSearchDataTable = (props: {
                 setValue("depthVal", depthVal);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrVal);
+                setValue("bsnsMngrUkey", bsnsMngrUkey);
                 setValue(
                   "rmnPrePymtPrice",
                   rmnPrePymtPrice

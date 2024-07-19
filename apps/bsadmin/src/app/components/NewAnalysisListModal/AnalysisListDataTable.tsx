@@ -28,7 +28,9 @@ import { analysisAtom } from "./analysisAtom";
 
 const AnalysisListDataTable = (props: {
   append: any;
-  update: any;
+  // update: any;
+  replace: any;
+  // remove: any;
   // selectSampleList: any;
   onClose: any;
   // getOrderUkey: string;
@@ -37,7 +39,9 @@ const AnalysisListDataTable = (props: {
 }) => {
   const {
     append,
-    update,
+    // update,
+    replace,
+    // remove,
     // selectSampleList,
     onClose,
     // getOrderUkey,
@@ -57,10 +61,7 @@ const AnalysisListDataTable = (props: {
   const setSelectedSampleList = useSetRecoilState(analysisAtom);
 
   const productValue = useWatch({ name: "costList", control });
-  console.log("jjjjjjjj ==>>", productValue);
-  // const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
-  // console.log("sampleUkeys ==>>", sampleUkeys);
-  // const allSampleUkeys = results.flatMap(result => result.sampleUkey);
+  console.log("current productValue ==>>", productValue);
 
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
@@ -454,13 +455,15 @@ const AnalysisListDataTable = (props: {
   );
 
   const setSampleData = () => {
-    // append(selectSampleIdArray);
     console.log(">>>>>>>>>>>>>", selectSampleIdArray);
-    selectSampleIdArray.map((item, index) => {
-      console.log("item", index, item);
-      update(index, item);
-    });
-    // onClose();
+    replace(selectSampleIdArray);
+    onClose();
+
+    // await selectSampleIdArray.map((item, index) => {
+    //   console.log("item", index, item);
+    //   remove(index, item);
+    // });
+    // append(selectSampleIdArray);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {

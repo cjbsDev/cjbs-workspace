@@ -30,7 +30,9 @@ const Index = () => {
 
   // console.log("Product Sum Vaule ==>>", productValue);
 
-  const totalCnt = productValue.reduce(
+  const totalCnt = productValue.length;
+
+  const sampleSize = productValue.reduce(
     (sum, item) => sum + (item.sampleSize || 0),
     0,
   );
@@ -44,7 +46,8 @@ const Index = () => {
   const supplyPlusVatTotalValue = totalSupplyPrice + vatValue;
 
   useEffect(() => {
-    setValue("sampleSize", totalCnt);
+    setValue("sampleSize", sampleSize);
+    setValue("totalCnt", sampleSize);
     setValue("totalSupplyPrice", totalSupplyPrice);
     setValue("vat", vatValue);
     setValue("totalPrice", supplyPlusVatTotalValue);
@@ -90,7 +93,14 @@ const Index = () => {
       );
       // setSettlement(false);
     }
-  }, [setValue, totalCnt, totalSupplyPrice, vatValue, supplyPlusVatTotalValue]);
+  }, [
+    setValue,
+    totalCnt,
+    sampleSize,
+    totalSupplyPrice,
+    vatValue,
+    supplyPlusVatTotalValue,
+  ]);
 
   const standDate = () => {
     // const now = new Date("2024-03-01");

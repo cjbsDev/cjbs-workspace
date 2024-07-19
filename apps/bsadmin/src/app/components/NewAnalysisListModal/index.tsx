@@ -23,7 +23,9 @@ const LazyAnalysisListDataTable = dynamic(
 interface ModalContainerProps {
   // children?: React.ReactNode;
   append: any;
-  update: any;
+  // update: any;
+  replace: any;
+  // remove: any;
   onClose: () => void;
   handleAddSampleList: () => void;
   getOrderUkey: string;
@@ -38,7 +40,9 @@ const NewAnalysisListModal = ({
   open,
   modalWidth,
   append,
-  update,
+  // update,
+  replace,
+  // remove,
   // getOrderUkey,
   handleAddSampleList,
   selectSampleList,
@@ -55,7 +59,9 @@ const NewAnalysisListModal = ({
             // handleAddSampleList={handleAddSampleList}
             // selectSampleList={selectSampleList}
             append={append}
-            update={update}
+            // update={update}
+            replace={replace}
+            // remove={remove}
             viewType={viewType}
           />
         </ErrorContainer>

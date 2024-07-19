@@ -87,14 +87,16 @@ const DynamicTableAnalysis = ({}) => {
     useState<boolean>(false);
   const [selectedRows, setSelectedRows] = useState([]);
   const {
+    getValues,
     control,
     watch,
     formState: { errors },
   } = useFormContext();
-
+  const getOrderUkey = getValues("orderUkey");
+  console.log("getOrderUkey", getOrderUkey);
   const fieldArrayName = "costList";
 
-  const { fields, append, update, remove } = useFieldArray({
+  const { fields, append, update, replace, remove } = useFieldArray({
     control,
     name: fieldArrayName,
   });
@@ -107,12 +109,11 @@ const DynamicTableAnalysis = ({}) => {
     };
   });
 
-  // useEffect(() => {
-  //   console.log(
-  //     "getSelectedSampleList useEffect ==>>",
-  //     getSelectedSampleList[0],
-  //   );
-  // }, []);
+  useEffect(() => {
+    // if () {}
+    console.log("Hmmmmmm!", controlledFields);
+    controlledFields.map((index) => remove(index));
+  }, [getOrderUkey]);
 
   const handleAppend = () => {
     append({
@@ -125,17 +126,24 @@ const DynamicTableAnalysis = ({}) => {
       // stndPrice: "0",
       // dscntPctg: 0,
       addType: null,
-      sampleUkey: [],
       srvcTypeMc: "",
       sampleSize: 0,
-      unitPrice: 0,
-      supplyPrice: 0,
-      vat: 0,
+      unitPrice: "0",
+      supplyPrice: "0",
+      vat: "0",
       dscntRasnCc: "",
-      dscntRasnDetail: "",
-      stndPrice: "0",
-      stndCode: "",
-      isExc: "N",
+
+      // sampleUkey: [],
+      // srvcTypeMc: "",
+      // sampleSize: 0,
+      // unitPrice: 0,
+      // supplyPrice: 0,
+      // vat: 0,
+      // dscntRasnCc: "",
+      // dscntRasnDetail: "",
+      // stndPrice: "0",
+      // stndCode: "",
+      // isExc: "N",
     });
   };
 
@@ -182,7 +190,7 @@ const DynamicTableAnalysis = ({}) => {
     setShowAnalysisSearchModal(false);
   };
 
-  if (fields.length === 0) {
+  if (controlledFields.length === 0) {
     return (
       <>
         <Stack
@@ -218,7 +226,9 @@ const DynamicTableAnalysis = ({}) => {
             // getOrderUkey={ukeyValue}
             // selectSampleList={selectSampleList}
             append={append}
-            update={update}
+            // update={update}
+            replace={replace}
+            // remove={remove}
             modalWidth={1400}
           />
         </ErrorContainer>
@@ -462,7 +472,9 @@ const DynamicTableAnalysis = ({}) => {
           // getOrderUkey={ukeyValue}
           // selectSampleList={selectSampleList}
           append={append}
-          update={update}
+          // update={update}
+          replace={replace}
+          // remove={remove}
           modalWidth={1400}
         />
       </ErrorContainer>

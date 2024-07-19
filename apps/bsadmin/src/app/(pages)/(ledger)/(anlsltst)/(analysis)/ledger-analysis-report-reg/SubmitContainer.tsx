@@ -13,6 +13,8 @@ const SubmitContainer = () => {
       control,
     }) || []; // productValue가 undefined일 경우 빈 배열을 기본값으로 사용
 
+  console.log("ALL Values ==>>", getValues());
+
   if (productValue.length === 0) {
     return null;
   }
