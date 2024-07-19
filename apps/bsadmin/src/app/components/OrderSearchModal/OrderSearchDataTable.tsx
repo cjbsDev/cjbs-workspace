@@ -173,7 +173,7 @@ const OrderSearchDataTable = (props: {
                 setValue("depthVal", depthVal);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrVal);
-                setValue("bsnsMngrUkey", bsnsMngrUkey);
+                // setValue("bsnsMngrUkey", bsnsMngrUkey);
                 setValue(
                   "rmnPrePymtPrice",
                   rmnPrePymtPrice

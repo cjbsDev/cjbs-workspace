@@ -43,6 +43,8 @@ import { groupListDataAtom } from "../../../../../../recoil/atoms/groupListDataA
 import { toggledClearRowsAtom } from "../../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
 import { addDays, subDays, subMonths } from "date-fns";
+import DynamicTableAnalysis from "../../../../../../components/DynamicTableAnalysis";
+import DynamicSumTableAnalysis from "../../../../../../components/DynamicSumTableAnalysis";
 
 const LazyAnalysisListModal = dynamic(
   () => import("../../../../../../components/AnalysisListModal"),
@@ -87,24 +89,39 @@ const AnalysisInfo = () => {
     agncUkey: data.anlsItstCustInfo.agncUkey,
     orderId: data.anlsItstInfo.orderId,
     orderUkey: data.anlsItstInfo.orderUkey,
-    pltfValueView: data.anlsItstInfo.anlsTypeVal + " > " + data.anlsItstInfo.pltfVal,
+    pltfValueView:
+      data.anlsItstInfo.anlsTypeVal + " > " + data.anlsItstInfo.pltfVal,
     pltfMc: data.anlsItstInfo.pltfMc,
     anlsTypeMc: data.anlsItstInfo.anlsTypeMc,
     depthVal: data.anlsItstInfo.depthVal,
     depthMc: data.anlsItstInfo.depthMc,
-    agncNm: data.anlsItstCustInfo.agncNm + "(" + data.anlsItstCustInfo.instNm + ")",
-    custNm: data.anlsItstCustInfo.rhpiNm + "(" + data.anlsItstCustInfo.rhpiEbcEmail + ")",
+    agncNm:
+      data.anlsItstCustInfo.agncNm + "(" + data.anlsItstCustInfo.instNm + ")",
+    custNm:
+      data.anlsItstCustInfo.rhpiNm +
+      "(" +
+      data.anlsItstCustInfo.rhpiEbcEmail +
+      ")",
     bsnsMngrVal: data.anlsItstCustInfo.bsnsMngrVal,
-    rmnPrePymtPrice: data.anlsItstCustInfo.rmnPrePymtPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    rmnPrePymtPrice: data.anlsItstCustInfo.rmnPrePymtPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     memo: data.memo,
     anlsDttm: new Date(data.anlsItstCostInfo.anlsDttm),
     sample: data.anlsItstCostInfo.anlsItstCostList,
+    costList: data.anlsItstCostInfo.anlsItstCostList,
     totalCnt: data.anlsItstCostInfo.totalCnt,
-    totalSupplyPriceVal: data.anlsItstCostInfo.totalSupplyPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    totalSupplyPriceVal: data.anlsItstCostInfo.totalSupplyPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalSupplyPrice: data.anlsItstCostInfo.totalSupplyPrice,
-    vatVal: data.anlsItstCostInfo.totalVat.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    vatVal: data.anlsItstCostInfo.totalVat
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     vat: data.anlsItstCostInfo.totalVat,
-    totalPriceVal: data.anlsItstCostInfo.totalPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+    totalPriceVal: data.anlsItstCostInfo.totalPrice
+      .toString()
+      .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
     totalPrice: data.anlsItstCostInfo.totalPrice,
     remainingAmount: data.anlsItstCostInfo.remainingAmount,
   };
@@ -241,23 +258,22 @@ const AnalysisInfo = () => {
     let startDate;
     let endDate;
     // const nowDate= 5;
-    console.log('nowDate : ', nowDate)
+    console.log("nowDate : ", nowDate);
     let startMonth: number = 0;
     let endMonth: number = 0;
-    if(nowDate < 6) {
-      startDate = new Date(now.setMonth(now.getMonth()-1));
+    if (nowDate < 6) {
+      startDate = new Date(now.setMonth(now.getMonth() - 1));
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+2));
+      endDate = new Date(now.setMonth(now.getMonth() + 2));
       endMonth = endDate.getMonth();
-
     } else {
       startDate = new Date(now);
       startMonth = startDate.getMonth();
-      endDate = new Date(now.setMonth(now.getMonth()+1));
+      endDate = new Date(now.setMonth(now.getMonth() + 1));
       endMonth = endDate.getMonth();
     }
-    console.log('startMonth : ', startMonth);
-    console.log('endMonth : ', endMonth);
+    console.log("startMonth : ", startMonth);
+    console.log("endMonth : ", endMonth);
 
     return [
       {
@@ -484,6 +500,9 @@ const AnalysisInfo = () => {
             </Table>
           </TableContainer>
 
+          {/*<DynamicTableAnalysis />*/}
+          {/*<DynamicSumTableAnalysis />*/}
+
           {/*<Typography variant="subtitle1">분석내역</Typography>*/}
 
           {isSampleSelected === false && (
@@ -704,11 +723,7 @@ const AnalysisInfo = () => {
                   size="medium"
                   type="submit"
                   buttonName="저장"
-                  endIcon={
-                    isLoading ? (
-                      <LoadingWhiteSvg />
-                    ) : null
-                  }
+                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
                 />
               )}
 

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 
 import useSWR from "swr";
-import { fetcher } from "api";
+import { fetcher, POST } from "api";
 import { useFormContext, useWatch } from "react-hook-form";
 import {
   Box,
@@ -25,6 +25,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import Link from "next/link";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { analysisAtom } from "./analysisAtom";
+import { toast } from "react-toastify";
 
 const AnalysisListDataTable = (props: {
   append: any;
@@ -52,7 +53,7 @@ const AnalysisListDataTable = (props: {
   const selectSampleList = useRecoilValue(analysisAtom);
   console.log("selectSampleList ==>>", selectSampleList);
 
-  const { getValues, control } = useFormContext();
+  const { getValues, setValue, control } = useFormContext();
   const orderUkey = getValues("orderUkey");
   const APIPATH = `/anls/itst/${orderUkey}/sample/list`;
   const [filterText, setFilterText] = useState("");
@@ -412,8 +413,45 @@ const AnalysisListDataTable = (props: {
     }
   }, []);
 
+  const callStndPrice = async (index, sampleSize, srvcTypeMc) => {
+    const reqBody = [
+      {
+        anlsTypeMc: getValues("anlsTypeMc"),
+        depthMc: "BS_0100010001",
+        pltfMc: getValues("pltfMc"),
+        sampleSize: sampleSize,
+        srvcCtgrMc: getValues("srvcCtgrMc"),
+        srvcTypeMc: srvcTypeMc,
+      },
+    ];
+
+    console.log("StndPrice BodyData ==>>", reqBody);
+
+    try {
+      const res = await POST(`/anls/itst/stnd/price`, reqBody);
+      const resData = res.data;
+
+      console.log("기준가 조회 ==>", resData);
+
+      const stndPriceResult = {
+        ...resData[0],
+        addType: "modal",
+        isExc: "N",
+        dscntRasnCc: "",
+      };
+
+      // console.log("result ^&&^ ==>", stndPriceEesult);
+
+      return stndPriceResult;
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    } finally {
+    }
+  };
+
   const handleSelectedRowChange = useCallback(
-    ({ selectedRows }: any) => {
+    async ({ selectedRows }: any) => {
       console.log("선택된 분석내역 row ==>>", selectedRows);
 
       const groupedByServiceType = selectedRows.reduce((acc, sample) => {
@@ -427,31 +465,49 @@ const AnalysisListDataTable = (props: {
 
       console.log("groupedByServiceType", groupedByServiceType);
 
-      const results = Object.keys(groupedByServiceType).map((srvcTypeMc) => {
-        const samples = groupedByServiceType[srvcTypeMc];
-        const sampleUkeys = samples.map((sample) => sample.sampleUkey);
-        const sampleSize = samples.length;
+      const results = await Promise.all(
+        Object.keys(groupedByServiceType).map(async (srvcTypeMc, index) => {
+          const samples = groupedByServiceType[srvcTypeMc];
+          const sampleUkeys = samples.map((sample) => sample.sampleUkey);
+          const sampleSize = samples.length;
 
-        return {
-          sampleUkey: sampleUkeys,
-          srvcTypeMc: srvcTypeMc,
-          sampleSize: sampleSize,
-          addType: "modal",
-          unitPrice: 0,
-          supplyPrice: 0,
-          vat: 0,
-          dscntRasnCc: "",
-          dscntRasnDetail: "",
-          stndPrice: "0",
-          stndCode: "",
-          isExc: "N",
-        };
-      });
+          let stndPriceResult = {};
+          try {
+            stndPriceResult = await callStndPrice(
+              index,
+              sampleSize,
+              srvcTypeMc,
+            );
+            console.log("CALL STND PRICE RETURN ==>>", stndPriceResult);
+          } catch (error) {
+            console.error("Failed to fetch standard price:", error);
+          }
 
-      console.log("results", results);
+          return {
+            sampleUkey: sampleUkeys,
+            srvcTypeMc: srvcTypeMc,
+            sampleSize: sampleSize,
+            addType: "modal",
+            unitPrice: 0,
+            supplyPrice: 0,
+            vat: 0,
+            stndPrice: stndPriceResult.stndPrice
+              ? stndPriceResult.stndPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : "0",
+            stndCode: stndPriceResult.stndCode || "",
+            isExc: "N",
+            dscntRasnCc: "",
+            stndDscntPctg: stndPriceResult.stndDscntPctg || "",
+          };
+        }),
+      );
+
+      console.log("@@@@results", results);
       setSelectSampleIdArray(results);
     },
-    [productValue, setSelectSampleIdArray],
+    [productValue, setSelectSampleIdArray, callStndPrice],
   );
 
   const setSampleData = () => {

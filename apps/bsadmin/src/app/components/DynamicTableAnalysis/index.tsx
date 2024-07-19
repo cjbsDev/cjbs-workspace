@@ -130,10 +130,10 @@ const DynamicTableAnalysis = ({}) => {
       sampleSize: 0,
       unitPrice: "0",
       supplyPrice: "0",
+      stndPrice: "0",
       vat: "0",
       dscntRasnCc: "",
-
-      // sampleUkey: [],
+      sampleUkey: [],
       // srvcTypeMc: "",
       // sampleSize: 0,
       // unitPrice: 0,

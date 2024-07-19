@@ -106,7 +106,7 @@ const AnalysisRegView = () => {
     // costList에 들어 있는 vat타입을 숫자로 변경
     data.costList.map((item) => {
       item.vat = Number(item.vat.replace(/,/g, ""));
-      item.sampleUkey = [];
+      // item.sampleUkey = [];
     });
 
     // if (data.sample.length <= 0) {
@@ -153,9 +153,9 @@ const AnalysisRegView = () => {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
-      bsnsMngrUkey: data.bsnsMngrUkey,
+      bsnsMngrVal: data.bsnsMngrVal,
       // costList: sampleUkeyList(),
-      constList: data.constList,
+      costList: data.costList,
       depthMc: data.depthMc,
       memo: data.memo,
       orderUkey: data.orderUkey,
@@ -801,7 +801,7 @@ const AnalysisRegView = () => {
             type="order"
           />
         </ErrorContainer>
-        분석내역 검색 모달
+        {/* 분석내역 검색 모달 */}
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAnalysisListModal
             onClose={analysisSearchModalClose}

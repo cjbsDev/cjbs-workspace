@@ -73,7 +73,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
       <InputValidation
         inputName={`costList[${index}].isExc`}
         required={true}
-        sx={{ display: "none" }}
+        // sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
         }}
@@ -81,7 +81,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
       <InputValidation
         inputName={`costList[${index}].stndDscntPctg`}
         required={true}
-        sx={{ display: "none" }}
+        // sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
         }}
