@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { InputValidation } from "cjbsDSTM";
+import { cjbsTheme, InputValidation } from "cjbsDSTM";
 import { InputAdornment, Typography } from "@mui/material";
 import { useFormContext, useWatch } from "react-hook-form";
 
@@ -9,7 +9,13 @@ interface StndDscntPctgProps {
 }
 
 const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
-  const { control, setValue, getValues, watch } = useFormContext();
+  const {
+    control,
+    setValue,
+    getValues,
+    watch,
+    formState: { errors },
+  } = useFormContext();
   const productValue = useWatch({ name: fieldName, control });
   console.log("##########", productValue);
 
@@ -20,9 +26,9 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
   console.log("기준$$$$가!!@!@!@!", stndPrice - unitPrice);
   const stndDscntPctg = productValue[index].stndDscntPctg;
   const dscntPctg =
-    stndPrice !== 0
+    stndPrice !== "N/A"
       ? Math.round(((stndPrice - unitPrice) / stndPrice) * 100)
-      : 0;
+      : "0";
   console.log("사용할인율####", dscntPctg);
   const isExc = dscntPctg > stndDscntPctg ? "Y" : "N";
   const watchIsExc = productValue[index].isExc;
@@ -70,6 +76,11 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
           ),
         }}
       />
+      {errors.costList?.[index]?.dscntPctg && (
+        <Typography variant="body2" color={cjbsTheme.palette.warning.main}>
+          사용할인율 미입력.
+        </Typography>
+      )}
       <InputValidation
         inputName={`costList[${index}].isExc`}
         required={true}
@@ -81,6 +92,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
       <InputValidation
         inputName={`costList[${index}].stndDscntPctg`}
         required={true}
+        errorMessage="llll"
         // sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
@@ -108,6 +120,11 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
         //   ),
         // }}
       />
+      {errors.costList?.[index]?.stndDscntPctg && (
+        <Typography variant="body2" color={cjbsTheme.palette.warning.main}>
+          stndDscntPctg 미입력.
+        </Typography>
+      )}
     </>
   );
 };
