@@ -21,14 +21,19 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
 
   const sampleSize = productValue[index].sampleSize;
   const unitPrice = productValue[index].unitPrice;
-  console.log("기준가!!@!@!@!", unitPrice);
-  const stndPrice = Number(productValue[index].stndPrice.replaceAll(",", ""));
-  console.log("기준$$$$가!!@!@!@!", stndPrice - unitPrice);
+  console.log("unitPrice ==>>", unitPrice);
+  const stndPrice =
+    productValue[index].stndPrice !== "N/A"
+      ? Number(productValue[index].stndPrice.replaceAll(",", ""))
+      : "N/A";
+  console.log("stndPrice ==>>", stndPrice);
+  // console.log("기준$$$$가!!@!@!@!", stndPrice - unitPrice);
   const stndDscntPctg = productValue[index].stndDscntPctg;
+
   const dscntPctg =
     stndPrice !== "N/A"
       ? Math.round(((stndPrice - unitPrice) / stndPrice) * 100)
-      : "0";
+      : "N/A";
   console.log("사용할인율####", dscntPctg);
   const isExc = dscntPctg > stndDscntPctg ? "Y" : "N";
   const watchIsExc = productValue[index].isExc;
@@ -84,7 +89,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
       <InputValidation
         inputName={`costList[${index}].isExc`}
         required={true}
-        // sx={{ display: "none" }}
+        sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
         }}
@@ -93,7 +98,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
         inputName={`costList[${index}].stndDscntPctg`}
         required={true}
         errorMessage="llll"
-        // sx={{ display: "none" }}
+        sx={{ display: "none" }}
         InputProps={{
           readOnly: true,
         }}
