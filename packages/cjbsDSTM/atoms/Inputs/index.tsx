@@ -3,9 +3,12 @@ import * as React from "react";
 import { Stack, TextField, TextFieldProps, Typography } from "@mui/material";
 import { cjbsTheme } from "../../themes";
 import { ThemeProvider } from "@mui/material/styles";
-import { useFormContext, ValidationRule } from "react-hook-form";
+import { Controller, useFormContext, ValidationRule } from "react-hook-form";
 import debounce from "lodash.debounce";
 import { EA, Won } from "../../molecules/Adorment";
+import { NumericFormat } from "react-number-format";
+import { useRef, forwardRef } from "react";
+// import NumericFormat from "./NumericFormat";
 
 type InputValidationProps = TextFieldProps & {
   required?: boolean;
@@ -70,7 +73,7 @@ export const InputValidation = ({
             },
             required: required,
           })}
-        ></TextField>
+        />
         {methods.formState.errors[inputName]?.type === "required" && (
           <Typography
             variant="body2"
@@ -131,6 +134,82 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
         variant="outlined"
         sx={{
           ...props.sx,
+        }}
+      />
+    </ThemeProvider>
+  );
+};
+
+export const InputPriceNewType = forwardRef((props, ref) => {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <Stack>
+      {/*<NumericFormat*/}
+      {/*  {...register("price")}*/}
+      {/*  customInput={InputPriceType}*/}
+      {/*  thousandSeparator*/}
+      {/*  onValueChange={(values, sourceInfo) => {*/}
+      {/*    console.log(values, sourceInfo);*/}
+      {/*    field.onChange(values.value);*/}
+      {/*  }}*/}
+      {/*/>*/}
+      <Controller
+        name="price"
+        control={control}
+        ref={ref}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <NumericFormat
+            {...field}
+            customInput={InputPriceType2}
+            thousandSeparator
+            onValueChange={(values, sourceInfo) => {
+              console.log(values, sourceInfo);
+              field.onChange(values.value);
+            }}
+          />
+        )}
+      />
+      {errors.price && (
+        <Typography
+          variant="body2"
+          color={cjbsTheme.palette.warning.main}
+          sx={{ pl: 0.5 }}
+        >
+          금액을 입력해 주세요.
+        </Typography>
+      )}
+    </Stack>
+  );
+});
+
+export const InputPriceType2 = ({ ...props }: TextFieldProps) => {
+  const {
+    register,
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <ThemeProvider theme={cjbsTheme}>
+      <TextField
+        {...props}
+        error={errors.price}
+        fullWidth
+        size="small"
+        variant="outlined"
+        sx={{
+          ...props.sx,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        inputMode="numeric"
+        InputProps={{
+          endAdornment: <Won />,
         }}
       />
     </ThemeProvider>
