@@ -63,7 +63,7 @@ const LazyRmnPymtPriceDetail = dynamic(
 );
 
 const LazyDepositInfoModal = dynamic(
-  () => import("../components/DepositInfoModal/indx"),
+  () => import("../components/DepositInfoModal"),
   {
     ssr: false,
     // loading: () => (
