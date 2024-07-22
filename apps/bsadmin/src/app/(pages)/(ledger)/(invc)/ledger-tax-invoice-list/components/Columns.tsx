@@ -9,7 +9,7 @@ import { sampleSize } from "lodash";
 export const getColumns = (totalElements: number) => [
   {
     name: "No",
-    width: "60px",
+    width: "90px",
     center: true,
     // sortable: true,
     // sortField: "orderId",
@@ -56,18 +56,20 @@ export const getColumns = (totalElements: number) => [
               )}
             </Stack>
           </Box>
-          <Typography
-            data-tag="allowRowEvents"
-            variant="body2"
-            sx={{
-              width: 220,
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-            }}
-          >
-            ({instNm})
-          </Typography>
+          {instNm !== null && (
+            <Typography
+              data-tag="allowRowEvents"
+              variant="body2"
+              sx={{
+                width: 220,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              ({instNm})
+            </Typography>
+          )}
         </Stack>
       );
     },
