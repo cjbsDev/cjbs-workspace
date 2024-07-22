@@ -4,9 +4,17 @@ import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { cjbsTheme } from "cjbsDSTM";
 import Ellipsis from "./Ellipsis";
-import { sampleSize } from "lodash";
 
-export const getColumns = (totalElements: number) => [
+const handleReportModifyModal = (
+  report,
+  invcUkey,
+  handleReportModifyModalOpen: () => void,
+) => {
+  console.log("invcUkey ==>>", report, invcUkey);
+  handleReportModifyModalOpen();
+};
+
+export const getColumns = (handleReportModifyModalOpen: () => void) => [
   {
     name: "No",
     width: "90px",
@@ -181,20 +189,31 @@ export const getColumns = (totalElements: number) => [
     width: "160px",
     selector: (row: { report: null | string }) =>
       row.report === null ? "-" : row.report,
-    cell: (row: { report: string }) => {
-      const { report } = row;
+    cell: (row: { report: string; invcUkey: string }) => {
+      const { report, invcUkey } = row;
+      // const setReportIs = useSetRecoilState(reportModify);
       return (
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={1}
-        >
-          <Ellipsis text={report} />
-          <IconButton onClick={() => console.log("Click! Report")}>
-            <MyIcon icon="pencil-alt" size={18} />
-          </IconButton>
-        </Stack>
+        <>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            spacing={1}
+          >
+            <Ellipsis text={report} />
+            <IconButton
+              onClick={() =>
+                handleReportModifyModal(
+                  report,
+                  invcUkey,
+                  handleReportModifyModalOpen,
+                )
+              }
+            >
+              <MyIcon icon="pencil-alt" size={18} />
+            </IconButton>
+          </Stack>
+        </>
       );
     },
     ignoreRowClick: true,

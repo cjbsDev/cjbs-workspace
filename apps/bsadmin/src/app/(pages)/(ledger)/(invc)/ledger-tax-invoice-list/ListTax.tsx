@@ -13,17 +13,21 @@ import NoDataView from "../../../../components/NoDataView";
 import { useRouter } from "next-nprogress-bar";
 import Expanded from "./components/Expanded";
 import dayjs from "dayjs";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   invcStartMonthAtom,
   invcStartYearAtom,
   invcEndYearAtom,
   invcEndMonthAtom,
+  reportModify,
 } from "./atom";
+import ReportModify from "./components/ReportModify";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
+  // const setReportIs = useSetRecoilState(reportModify);
+  const [reportModifyIs, setReportModifyIs] = useRecoilState(reportModify);
   // const [startYear, setStartYear] = useState(dayjs().year());
   // const [startMonth, setStartMonth] = useState(
   //   dayjs().month(0).get("month") + 1,
@@ -82,7 +86,18 @@ const ListTax = () => {
   //   setEndMonth(value);
   // };
 
-  const columns = useMemo(() => getColumns(totalElements), [totalElements]);
+  const handleReportModifyModalOpen = useCallback(() => {
+    setReportModifyIs(true);
+  }, [reportModifyIs]);
+
+  const handleReportModifyModalClose = useCallback(() => {
+    setReportModifyIs(false);
+  }, [reportModifyIs]);
+
+  const columns = useMemo(
+    () => getColumns(handleReportModifyModalOpen),
+    [handleReportModifyModalOpen],
+  );
 
   const subHeaderComponentMemo = useMemo(
     () => (
@@ -147,6 +162,12 @@ const ListTax = () => {
         expandableRowsComponent={Expanded}
         paginationPerPage={100}
         paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+      />
+
+      <ReportModify
+        open={reportModifyIs}
+        onClose={handleReportModifyModalClose}
+        modalWidth={400}
       />
     </Box>
   );
