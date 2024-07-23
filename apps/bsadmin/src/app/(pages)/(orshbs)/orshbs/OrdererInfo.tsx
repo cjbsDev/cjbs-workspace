@@ -112,7 +112,7 @@ export default function OrdererInfo() {
   return (
     // <Form onSubmit={onSubmit} defaultValues={defaultValues}>
     <>
-      <Typography variant="subtitle1">주문자 정보RTRT</Typography>
+      <Typography variant="subtitle1">주문자 정보</Typography>
       <TableContainer sx={{ mb: 5 }}>
         <Table>
           <TableBody>
