@@ -51,7 +51,7 @@ const SubHeader = (props: SubHeaderProps) => {
             buttonName="분석 내역 보기"
             size="small"
             onClick={handleAnalDtlModalOpen}
-            // disabled={true}
+            disabled={true}
           />
           <OutlinedButton
             buttonName="샘플 정보 일괄 변경"

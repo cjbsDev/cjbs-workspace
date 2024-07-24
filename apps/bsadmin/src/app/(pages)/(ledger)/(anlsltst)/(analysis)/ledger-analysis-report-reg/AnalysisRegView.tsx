@@ -30,9 +30,9 @@ import {
 } from "cjbsDSTM";
 import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import { POST } from "api";
+import { fetcher, POST } from "api";
 import { useSearchParams } from "next/navigation";
-import { useSWRConfig } from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { toast } from "react-toastify";
 import { getDefaultValues } from "./getDefaultValues";
@@ -70,7 +70,18 @@ const AnalysisRegView = () => {
   const searchParams = useSearchParams();
   const orderUkey = searchParams.get("orderUkey");
   const sampleUkeyList = searchParams.get("sampleUkeyList");
-  console.log("orderUkey ==>>", orderUkey);
+  console.log("searchParams Value ==>>", orderUkey, sampleUkeyList);
+
+  const { data } = useSWR(
+    `/anls/itst/${orderUkey}/sample?sampleUkeyList=${sampleUkeyList}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
+  console.log("()()()() ==>>", data);
+  const { anlsItstCostDetailList, anlsItstCustInfo, anlsItstInfo } = data;
+
   const { mutate } = useSWRConfig();
 
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
@@ -293,7 +304,7 @@ const AnalysisRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>오더</TH>
                 <TD sx={{ width: "85%" }}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack direction="row" spacing={0.3} alignItems="center">
                     <InputValidation
                       inputName="orderId"
                       required={true}
