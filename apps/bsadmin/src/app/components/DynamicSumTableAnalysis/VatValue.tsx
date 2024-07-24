@@ -15,7 +15,9 @@ const VatValue = () => {
   const getPymtInfoCc = watch("pymtInfoCc");
   console.log("getPymtInfoCc&&&&&&&", getPymtInfoCc);
   const vatValue =
-    getPymtInfoCc === "BS_1914003" ? 0 : getSupplyTotalValue * 0.1;
+    getPymtInfoCc === "BS_1914003" ? 0 : Math.round(getSupplyTotalValue * 0.1);
+
+  //const vatValue = Math.round(getSupplyTotalValue * 0.1);
 
   useEffect(() => {
     setValue("vat", vatValue);

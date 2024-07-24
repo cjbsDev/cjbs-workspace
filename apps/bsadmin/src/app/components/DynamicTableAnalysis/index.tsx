@@ -98,10 +98,13 @@ const DynamicTableAnalysis = ({}) => {
 
   const { fields, append, update, replace, remove } = useFieldArray({
     control,
-    name: fieldArrayName,
+    name: "costList",
   });
   // const paymentInfoValue = watch("pymtInfoCc");
-  const watchFieldArray = watch(fieldArrayName);
+
+  console.log("FIELDS ==>>", fields);
+
+  const watchFieldArray = watch("costList");
   const controlledFields = fields.map((field, index) => {
     return {
       ...field,
@@ -109,11 +112,12 @@ const DynamicTableAnalysis = ({}) => {
     };
   });
 
-  useEffect(() => {
-    // if () {}
-    console.log("Hmmmmmm!", controlledFields);
-    controlledFields.map((index) => remove(index));
-  }, [getOrderUkey]);
+  console.log("controlledFields", controlledFields);
+
+  // useEffect(() => {
+  //   console.log("Hmmmmmm!", controlledFields);
+  //   controlledFields.map((index) => remove(index));
+  // }, [getOrderUkey]);
 
   const handleAppend = () => {
     append({

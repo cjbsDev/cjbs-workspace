@@ -38,6 +38,8 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
       ? 0
       : productValue[index]?.unitPrice;
 
+  // Number(productValue[index].supplyPrice.replaceAll(",", ""))
+
   const watchSupplyPrice = productValue[index].supplyPrice;
 
   const supplyPrice = sampleSize * unitPrice;

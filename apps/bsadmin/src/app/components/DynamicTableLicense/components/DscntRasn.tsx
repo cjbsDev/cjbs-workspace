@@ -14,6 +14,7 @@ const DscntRasn = ({ index }) => {
     formState: { errors },
   } = useFormContext();
   const dscntRasnCc = watch(`costList[${index}].dscntRasnCc`);
+  const watchIsExc = watch(`costList[${index}].isExc`);
   const { data } = useSWR(
     `/code/list/shortly/value?topValue=anls itst&midValue=reason`,
     fetcher,
@@ -29,7 +30,7 @@ const DscntRasn = ({ index }) => {
         <ArrySelectBox
           inputName={`costList[${index}].dscntRasnCc`}
           options={data}
-          required={true}
+          required={watchIsExc === "Y"}
           errorMessage="사유를 선택해 주세요."
           sx={{
             width: dscntRasnCc === "BS_1813004" ? 130 : "100%",

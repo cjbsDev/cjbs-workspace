@@ -41,6 +41,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
   const [disCountChk, setDisCountChk] = useState<boolean>(false);
 
   useEffect(() => {
+    setValue(`costList[${index}].stndDscntPctg`, stndDscntPctg);
     setValue(`costList[${index}].dscntPctg`, dscntPctg);
     setValue(`costList[${index}].isExc`, isExc);
   }, [

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { POST } from "api";
 import { toast } from "react-toastify";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
@@ -19,6 +19,9 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
     watch,
     formState: { errors },
   } = useFormContext();
+  // useEffect(() => {
+  //   callStndPrice();
+  // }, []);
   const getAddType = getValues(`${fieldName}[${index}].addType`);
   // const productValue = useWatch({ name: fieldName, control });
   const callStndPrice = async () => {
@@ -57,9 +60,9 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
         }
         setValue(`costList[${index}].stndCode`, resData[0].stndCode);
         setValue(`costList[${index}].stndDscntPctg`, resData[0].stndDscntPctg);
-        setValue(`costList[${index}].unitPrice`, "0");
-        setValue(`costList[${index}].supplyPrice`, "0");
-        setValue(`costList[${index}].vat`, "0");
+        setValue(`costList[${index}].unitPrice`, 0);
+        setValue(`costList[${index}].supplyPrice`, 0);
+        setValue(`costList[${index}].vat`, 0);
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
@@ -73,6 +76,9 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
   };
 
   if (getAddType === "modal") {
+    // useEffect(() => {
+    //   callStndPrice();
+    // }, []);
     return (
       <InputValidation
         inputName={`${fieldName}[${index}].sampleSize`}

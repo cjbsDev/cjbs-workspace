@@ -7,7 +7,7 @@ const TotalPrice = () => {
   const { watch, setValue } = useFormContext();
   const getSupplyTotalValue = watch("totalSupplyPrice");
   const getVat = watch("vat");
-  console.log("getVat^^^^", getVat);
+  console.log("getVat^^^^", getVat, getSupplyTotalValue);
   const supplyPlusVatTotalValue = getSupplyTotalValue + getVat;
 
   useEffect(() => {

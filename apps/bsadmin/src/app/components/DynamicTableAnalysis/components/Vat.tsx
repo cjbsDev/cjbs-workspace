@@ -20,7 +20,7 @@ const Vat = ({ fieldName, index }: VatProps) => {
   const vatValue = Math.round(productValue[index].supplyPrice * 0.1);
   console.log("vatValue%%%%%%%%%%", vatValue);
   useEffect(() => {
-    setValue(`${fieldName}[${index}].vat`, formatNumberWithCommas(vatValue));
+    setValue(`${fieldName}[${index}].vat`, vatValue);
   }, [setValue, vatValue]);
   return (
     <InputValidation

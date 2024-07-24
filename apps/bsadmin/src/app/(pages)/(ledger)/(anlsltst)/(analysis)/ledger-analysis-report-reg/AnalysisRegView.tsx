@@ -15,6 +15,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import { LoadingButton } from "@mui/lab";
 import {
   ContainedButton,
   ErrorContainer,
@@ -59,6 +60,14 @@ const LazyOrderSearchModal = dynamic(
 );
 const LazyAnalysisListModal = dynamic(
   () => import("../../../../../components/AnalysisListModal"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
+const LazySalesManagerSelectbox = dynamic(
+  () => import("../../../../../components/SalesManagerSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -120,10 +129,10 @@ const AnalysisRegView = () => {
     }
 
     // costList에 들어 있는 vat타입을 숫자로 변경
-    data.costList.map((item) => {
-      item.vat = Number(item.vat.replace(/,/g, ""));
-      // item.sampleUkey = [];
-    });
+    // data.costList.map((item) => {
+    //   item.vat = Number(item.vat.replace(/,/g, ""));
+    //   // item.sampleUkey = [];
+    // });
 
     // if (data.sample.length <= 0) {
     //   toast("해당 오더에 포함된 분석 내역이 없습니다.");
@@ -169,7 +178,7 @@ const AnalysisRegView = () => {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
-      bsnsMngrVal: data.bsnsMngrVal,
+      bsnsMngrUkey: data.bsnsMngrUkey,
       // costList: sampleUkeyList(),
       costList: data.costList,
       depthMc: data.depthMc,
@@ -459,15 +468,19 @@ const AnalysisRegView = () => {
                   <TableRow>
                     <TH sx={{ width: "15%" }}>영업 담당자</TH>
                     <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="bsnsMngrVal"
-                        required={true}
-                        errorMessage="영업 담당자 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
+                      {/*<InputValidation*/}
+                      {/*  inputName="bsnsMngrVal"*/}
+                      {/*  required={true}*/}
+                      {/*  errorMessage="영업 담당자 입력해 주세요."*/}
+                      {/*  sx={{ width: "100%" }}*/}
+                      {/*  InputProps={{*/}
+                      {/*    readOnly: true,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
+
+                      <ErrorContainer FallbackComponent={Fallback}>
+                        <LazySalesManagerSelectbox />
+                      </ErrorContainer>
                     </TD>
                     <TH sx={{ width: "15%" }}>선결제 금액</TH>
                     <TD sx={{ width: "35%" }}>
