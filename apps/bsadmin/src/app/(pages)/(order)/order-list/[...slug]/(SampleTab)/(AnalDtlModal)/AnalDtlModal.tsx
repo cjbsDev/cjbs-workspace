@@ -12,6 +12,10 @@ import {
 import { DialogContent } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
+import { useRouter } from "next-nprogress-bar";
+import { useRecoilValue } from "recoil";
+import { slctedSampleUkeyAtom } from "./analDtlAtom";
+import { useParams } from "next/navigation";
 
 interface AnalDtlModalProps extends ModalContainerProps {
   onClose: any;
@@ -33,8 +37,23 @@ const AnalDtlModal = ({
 }: AnalDtlModalProps) => {
   // console.log("SampleUkeyList ==>>>", sampleUkeyList);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const getSelectedSampleUkeyList = useRecoilValue(slctedSampleUkeyAtom);
+  const router = useRouter();
+  const params = useParams();
+  const orderUkey = params.slug;
   const handleClose = () => {
     onClose();
+  };
+
+  const handleReg = () => {
+    // console.log(
+    //   "getSelectedSampleUkeyList",
+    //   getSelectedSampleUkeyList.toString(),
+    // );
+    router.push(
+      `/ledger-analysis-report-reg?orderUkey=${orderUkey}&sampleUkeyList=${getSelectedSampleUkeyList.toString()}`,
+    );
+    handleClose();
   };
 
   return (
@@ -60,9 +79,10 @@ const AnalDtlModal = ({
         <LoadingButton
           loading={isLoading}
           variant="contained"
-          type="submit"
-          form="sampleBatchChange"
-          disabled={true}
+          // type="submit"
+          // form="sampleBatchChange"
+          // disabled={true}
+          onClick={handleReg}
           size="small"
         >
           분석 내역서 등록하기

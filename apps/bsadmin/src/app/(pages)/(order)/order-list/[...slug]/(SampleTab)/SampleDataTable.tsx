@@ -29,7 +29,7 @@ const SampleDataTable = (props) => {
   });
   const sampleList = Array.from(data);
 
-  console.log(sampleList);
+  // console.log(sampleList);
 
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(

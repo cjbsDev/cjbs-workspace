@@ -68,12 +68,17 @@ const LazyAnalysisListModal = dynamic(
 const AnalysisRegView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const orderUkey = searchParams.get("orderUkey");
+  const sampleUkeyList = searchParams.get("sampleUkeyList");
+  console.log("orderUkey ==>>", orderUkey);
   const { mutate } = useSWRConfig();
 
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
     useState<boolean>(false);
   // [고객 검색] 모달
-  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
+  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(
+    orderUkey !== null ? false : true,
+  );
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [orderSelectChk, setOrderSelectChk] = useState<boolean>(false);
   const [ukeyValue, setUkeyValue] = useState<string>(null);
