@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import LinesEllipsis from "react-lines-ellipsis";
-import { Tooltip } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 
 interface EllipsisProps {
   text: string;
@@ -19,21 +19,17 @@ const Ellipsis = ({ text }: EllipsisProps) => {
   return (
     text !== null &&
     text !== "" && (
-      <>
-        <Tooltip title={isClamped ? text : ""} arrow followCursor>
-          <div>
-            <LinesEllipsis
-              ref={ellipsisRef}
-              data-tag="allowRowEvents"
-              text={text}
-              maxLine="2"
-              ellipsis="..."
-              trimRight
-              basedOn="letters"
-            />
-          </div>
-        </Tooltip>
-      </>
+      <Tooltip title={text} arrow>
+        <Box>
+          <LinesEllipsis
+            text={text}
+            maxLine="2"
+            ellipsis="..."
+            trimRight
+            basedOn="letters"
+          />
+        </Box>
+      </Tooltip>
     )
   );
 };

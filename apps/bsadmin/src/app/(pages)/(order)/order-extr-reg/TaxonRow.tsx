@@ -1,6 +1,6 @@
 import React from "react";
 import { EA, InputValidation, Taxon, TD, TH } from "cjbsDSTM";
-import { Stack, TableRow } from "@mui/material";
+import { Box, Stack, TableRow } from "@mui/material";
 import { taxonListData } from "../../../data/inputDataLists";
 import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 
@@ -18,35 +18,39 @@ const TaxonRow = () => {
         <Stack direction="row" spacing={0.5} alignItems="center">
           {taxonListData.map((taxonItem, index) => {
             return (
-              <InputValidation
-                inputName={taxonItem.taxonName}
-                required={true}
-                errorMessage="개수를 입력해 주세요."
-                pattern={/^[0-9]+$/}
-                patternErrMsg="숫자만 입력해 주세요."
-                sx={{
-                  width: 100,
-                  ".MuiOutlinedInput-input": {
-                    textAlign: "end",
-                  },
-                  "&.MuiTextField-root": {
-                    backgroundColor: "white",
-                    borderRadius: 1,
-                  },
-                }}
-                inputMode="numeric"
-                InputProps={{
-                  // inputComponent: (props) => (
-                  //   <TaxonCntFormat
-                  //     name={taxonItem.taxonName}
-                  //     taxonData={defaultValues[taxonItem.taxonName]}
-                  //     {...props}
-                  //   />
-                  // ),
-                  startAdornment: <Taxon iconName={taxonItem.taxonIconName} />,
-                  endAdornment: <EA />,
-                }}
-              />
+              <Box key={index.toString()}>
+                <InputValidation
+                  inputName={taxonItem.taxonName}
+                  required={true}
+                  errorMessage="개수를 입력해 주세요."
+                  pattern={/^[0-9]+$/}
+                  patternErrMsg="숫자만 입력해 주세요."
+                  sx={{
+                    width: 100,
+                    ".MuiOutlinedInput-input": {
+                      textAlign: "end",
+                    },
+                    "&.MuiTextField-root": {
+                      backgroundColor: "white",
+                      borderRadius: 1,
+                    },
+                  }}
+                  inputMode="numeric"
+                  InputProps={{
+                    // inputComponent: (props) => (
+                    //   <TaxonCntFormat
+                    //     name={taxonItem.taxonName}
+                    //     taxonData={defaultValues[taxonItem.taxonName]}
+                    //     {...props}
+                    //   />
+                    // ),
+                    startAdornment: (
+                      <Taxon iconName={taxonItem.taxonIconName} />
+                    ),
+                    endAdornment: <EA />,
+                  }}
+                />
+              </Box>
             );
           })}
         </Stack>

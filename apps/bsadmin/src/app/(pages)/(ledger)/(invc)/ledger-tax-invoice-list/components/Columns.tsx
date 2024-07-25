@@ -4,12 +4,13 @@ import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { cjbsTheme } from "cjbsDSTM";
 import Ellipsis from "./Ellipsis";
-import { sampleSize } from "lodash";
+import ReportModifyBtn from "./ReportModify/reportModifyBtn";
+import MemoModifyBtn from "./MemoModify/memoModifyBtn";
 
-export const getColumns = (totalElements: number) => [
+export const getColumns = () => [
   {
     name: "No",
-    width: "80px",
+    width: "90px",
     center: true,
     // sortable: true,
     // sortField: "orderId",
@@ -56,18 +57,20 @@ export const getColumns = (totalElements: number) => [
               )}
             </Stack>
           </Box>
-          <Typography
-            data-tag="allowRowEvents"
-            variant="body2"
-            sx={{
-              width: 220,
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              whiteSpace: "nowrap",
-            }}
-          >
-            ({instNm})
-          </Typography>
+          {instNm !== null && (
+            <Typography
+              data-tag="allowRowEvents"
+              variant="body2"
+              sx={{
+                width: 220,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+              }}
+            >
+              ({instNm})
+            </Typography>
+          )}
         </Stack>
       );
     },
@@ -81,7 +84,7 @@ export const getColumns = (totalElements: number) => [
   {
     name: "영업담당",
     center: true,
-    width: "90px",
+    width: "120px",
     selector: (row: { bsnsMngrNm: null | string }) =>
       row.bsnsMngrNm === null ? "-" : row.bsnsMngrNm,
   },
@@ -154,8 +157,8 @@ export const getColumns = (totalElements: number) => [
   {
     name: "메모",
     width: "160px",
-    cell: (row: { memo: string }) => {
-      const { memo } = row;
+    cell: (row: { memo: string; invcUkey: string }) => {
+      const { memo, invcUkey } = row;
       return (
         <Stack
           direction="row"
@@ -164,39 +167,40 @@ export const getColumns = (totalElements: number) => [
           spacing={1}
         >
           <Ellipsis text={memo} />
-          <IconButton onClick={() => console.log("Click! Memo")}>
-            <MyIcon icon="pencil-alt" size={18} />
-          </IconButton>
+          <MemoModifyBtn memo={memo} invcUkey={invcUkey} />
+          {/*<IconButton onClick={() => console.log("Click! Memo")}>*/}
+          {/*  <MyIcon icon="pencil-alt" size={18} />*/}
+          {/*</IconButton>*/}
         </Stack>
       );
     },
     ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
+    // allowOverflow: true,
+    // button: true,
   },
   {
     name: "보고서",
-    width: "160px",
+    minWidth: "160px",
     selector: (row: { report: null | string }) =>
       row.report === null ? "-" : row.report,
-    cell: (row: { report: string }) => {
-      const { report } = row;
+    cell: (row: { report: string; invcUkey: string }) => {
+      const { report, invcUkey } = row;
       return (
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          spacing={1}
-        >
-          <Ellipsis text={report} />
-          <IconButton onClick={() => console.log("Click! Report")}>
-            <MyIcon icon="pencil-alt" size={18} />
-          </IconButton>
-        </Stack>
+        <>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="center"
+            spacing={1}
+          >
+            <Ellipsis text={report} />
+            <ReportModifyBtn report={report} invcUkey={invcUkey} />
+          </Stack>
+        </>
       );
     },
     ignoreRowClick: true,
-    allowOverflow: true,
-    button: true,
+    // allowOverflow: true,
+    // button: true,
   },
 ];

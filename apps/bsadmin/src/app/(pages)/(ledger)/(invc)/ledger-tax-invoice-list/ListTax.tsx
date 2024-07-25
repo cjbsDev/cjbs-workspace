@@ -13,17 +13,24 @@ import NoDataView from "../../../../components/NoDataView";
 import { useRouter } from "next-nprogress-bar";
 import Expanded from "./components/Expanded";
 import dayjs from "dayjs";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import {
   invcStartMonthAtom,
   invcStartYearAtom,
   invcEndYearAtom,
   invcEndMonthAtom,
+  reportModifyAtom,
+  memoModifyAtom,
 } from "./atom";
+import ReportModifyModal from "./components/ReportModify/ReportModifyModal";
+import MemoModifyModal from "./components/MemoModify/MemoModifyModal";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
+  // const setReportIs = useSetRecoilState(reportModify);
+  const [reportModifyIs, setReportModifyIs] = useRecoilState(reportModifyAtom);
+  const [memoModifyIs, setMemoModifyIs] = useRecoilState(memoModifyAtom);
   // const [startYear, setStartYear] = useState(dayjs().year());
   // const [startMonth, setStartMonth] = useState(
   //   dayjs().month(0).get("month") + 1,
@@ -82,7 +89,25 @@ const ListTax = () => {
   //   setEndMonth(value);
   // };
 
-  const columns = useMemo(() => getColumns(totalElements), [totalElements]);
+  // const handleReportModifyModalOpen = useCallback(() => {
+  //   setReportModifyIs(true);
+  // }, [reportModifyIs]);
+
+  const handleReportModifyModalClose = useCallback(() => {
+    setReportModifyIs((prevState) => ({
+      ...prevState,
+      isOpen: false,
+    }));
+  }, [reportModifyIs]);
+
+  const handleMemoModifyModalClose = useCallback(() => {
+    setMemoModifyIs((prevState) => ({
+      ...prevState,
+      isOpen: false,
+    }));
+  }, [memoModifyIs]);
+
+  const columns = useMemo(() => getColumns(), []);
 
   const subHeaderComponentMemo = useMemo(
     () => (
@@ -147,6 +172,18 @@ const ListTax = () => {
         expandableRowsComponent={Expanded}
         paginationPerPage={100}
         paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+      />
+
+      <MemoModifyModal
+        open={memoModifyIs.isOpen}
+        onClose={handleMemoModifyModalClose}
+        modalWidth={400}
+      />
+
+      <ReportModifyModal
+        open={reportModifyIs.isOpen}
+        onClose={handleReportModifyModalClose}
+        modalWidth={400}
       />
     </Box>
   );

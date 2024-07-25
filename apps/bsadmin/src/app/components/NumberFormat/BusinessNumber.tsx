@@ -28,7 +28,7 @@ const BusinessNumber = () => {
           />
         )}
       />
-      {errors.invcNum && (
+      {errors.brno && (
         <Typography
           variant="body2"
           color={cjbsTheme.palette.warning.main}

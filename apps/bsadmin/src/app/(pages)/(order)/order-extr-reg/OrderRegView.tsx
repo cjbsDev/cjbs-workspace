@@ -26,6 +26,7 @@ import {
   Won,
   EA,
   Taxon,
+  InputPriceNewType,
 } from "cjbsDSTM";
 import * as React from "react";
 import { useState } from "react";
@@ -47,6 +48,7 @@ import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
 import TaxonRow from "./TaxonRow";
+import { NumericFormat, NumericFormatProps } from "react-number-format";
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
@@ -132,6 +134,8 @@ const OrderRegView = () => {
         : Number(data.price),
       reqReturnList: data.reqReturnList === false ? [""] : data.reqReturnList,
     };
+
+    console.log("Order Reg reqBody ==>>", reqBody);
 
     try {
       const response = await POST("/order/extr", reqBody);
@@ -280,47 +284,6 @@ const OrderRegView = () => {
 
               <TaxonRow />
 
-              {/*<TableRow>*/}
-              {/*  <TH sx={{ width: "15%" }}>Taxon 개수</TH>*/}
-              {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
-              {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
-              {/*      {taxonListData.map((taxonItem, index) => {*/}
-              {/*        return (*/}
-              {/*          <InputValidation*/}
-              {/*            inputName={taxonItem.taxonName}*/}
-              {/*            required={true}*/}
-              {/*            errorMessage="개수를 입력해 주세요."*/}
-              {/*            pattern={/^[0-9]+$/}*/}
-              {/*            patternErrMsg="숫자만 입력해 주세요."*/}
-              {/*            sx={{*/}
-              {/*              width: 100,*/}
-              {/*              ".MuiOutlinedInput-input": {*/}
-              {/*                textAlign: "end",*/}
-              {/*              },*/}
-              {/*              "&.MuiTextField-root": {*/}
-              {/*                backgroundColor: "white",*/}
-              {/*                borderRadius: 1,*/}
-              {/*              },*/}
-              {/*            }}*/}
-              {/*            inputMode="numeric"*/}
-              {/*            InputProps={{*/}
-              {/*              inputComponent: (props) => (*/}
-              {/*                <TaxonCntFormat*/}
-              {/*                  taxonData={defaultValues[taxonItem.taxonName]}*/}
-              {/*                  {...props}*/}
-              {/*                />*/}
-              {/*              ),*/}
-              {/*              startAdornment: (*/}
-              {/*                <Taxon iconName={taxonItem.taxonIconName} />*/}
-              {/*              ),*/}
-              {/*              endAdornment: <EA />,*/}
-              {/*            }}*/}
-              {/*          />*/}
-              {/*        );*/}
-              {/*      })}*/}
-              {/*    </Stack>*/}
-              {/*  </TD>*/}
-              {/*</TableRow>*/}
               <TableRow>
                 <TH sx={{ width: "15%" }}>샘플개수</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
@@ -367,30 +330,9 @@ const OrderRegView = () => {
                 <TH sx={{ width: "15%" }}>오더 금액</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
                   <Stack direction="row" spacing={0.5} alignItems="center">
-                    <InputValidation
-                      inputName="price"
-                      required={true}
-                      pattern={/^[0-9]+$/}
-                      patternErrMsg="숫자만 입력해 주세요."
-                      errorMessage="오더 금액을 입력해 주세요."
-                      sx={{
-                        width: 160,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        // inputComponent: (props) => (
-                        //   <AmountFormat
-                        //     name={"price"}
-                        //     priceValue={defaultValues.price}
-                        //     {...props}
-                        //   />
-                        // ),
-                        endAdornment: <Won />,
-                      }}
-                    />
+                    <Box sx={{ width: 160 }}>
+                      <InputPriceNewType />
+                    </Box>
                   </Stack>
                 </TD>
               </TableRow>
