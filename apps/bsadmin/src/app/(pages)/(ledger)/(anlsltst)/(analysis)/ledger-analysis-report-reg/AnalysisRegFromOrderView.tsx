@@ -79,7 +79,7 @@ const AnalysisRegView = () => {
       suspense: true,
     },
   );
-  console.log("()()()() ==>>", data);
+  console.log("From Order Analysis Init Value ==>>", data);
   const { anlsItstCostDetailList, anlsItstCustInfo, anlsItstInfo } = data;
 
   const { mutate } = useSWRConfig();
@@ -102,18 +102,43 @@ const AnalysisRegView = () => {
     useRecoilState(toggledClearRowsAtom);
   const [selectSampleListData, setSelectSampleListData] = useState<any>({});
 
+  const additionalObject = {
+    addType: null,
+    dscntPctg: "",
+    dscntRasnCc: "",
+    dscntRasnDetail: "",
+    isExc: "",
+    // sampleSize: 0,
+    sampleUkey: [],
+    // srvcTypeMc: "",
+    stndCode: "",
+    stndPrice: "0",
+    supplyPrice: 0,
+    unitPrice: 0,
+    vat: 0,
+  };
+
+  const nnnn = anlsItstCostDetailList.concat(additionalObject);
+  console.log("NNNNNNNN ==>>", nnnn);
+
+  const mergeObjects = () => {
+    return nnnn.reduce((acc, obj) => {
+      return { ...acc, ...obj };
+    }, {});
+  };
+
+  console.log("mergeObjects ", mergeObjects());
+
+  const ccc = mergeObjects();
+
   // defaultValues 세팅
-  // const defaultValues = getDefaultValues(orshType, orshExtrData);
   const defaultValues = {
     ...anlsItstInfo,
-    ...anlsItstCostDetailList,
     ...anlsItstCustInfo,
-    // agncUkey: anlsItstCustInfo.agncUkey,
-    // srvcCtgrMc: "BS_0100005001",
-    // orderId: anlsItstInfo.orderId,
-    // orderUkey: anlsItstInfo.orderUkey,
+    costList: [ccc],
   };
-  // console.log("DefaultValues ==>>", defaultValues);
+
+  console.log("defaultValues", defaultValues);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
@@ -282,7 +307,7 @@ const AnalysisRegView = () => {
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <>
         <Box sx={{ mb: 4 }}>
-          <Title1 titleName="분석 내역서 등록" />
+          <Title1 titleName="From Order 분석 내역서 등록" />
         </Box>
         <Typography variant="subtitle1">기본정보</Typography>
         <TableContainer sx={{ mb: 2 }}>
@@ -501,67 +526,69 @@ const AnalysisRegView = () => {
           </Table>
         </TableContainer>
 
+        <DynamicTableAnalysis />
+
         {orderSelectChk == true && (
           <>
-            <Typography variant="subtitle1">고객정보</Typography>
-            <TableContainer sx={{ mb: 5 }}>
-              <Table>
-                <TableBody>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>거래처(PI)</TH>
-                    <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="agncNm"
-                        required={false}
-                        // errorMessage="소속 거래처(PI)를 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </TD>
-                    <TH sx={{ width: "15%" }}>연구책임자</TH>
-                    <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="custNm"
-                        // required={false}
-                        // errorMessage="연구책임자를 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </TD>
-                  </TableRow>
-                  <TableRow>
-                    <TH sx={{ width: "15%" }}>영업 담당자</TH>
-                    <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="bsnsMngrVal"
-                        required={true}
-                        errorMessage="영업 담당자 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </TD>
-                    <TH sx={{ width: "15%" }}>선결제 금액</TH>
-                    <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="rmnPrePymtPrice"
-                        required={true}
-                        errorMessage="선결제 금액 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
-                    </TD>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
+            {/*<Typography variant="subtitle1">고객정보</Typography>*/}
+            {/*<TableContainer sx={{ mb: 5 }}>*/}
+            {/*  <Table>*/}
+            {/*    <TableBody>*/}
+            {/*      <TableRow>*/}
+            {/*        <TH sx={{ width: "15%" }}>거래처(PI)</TH>*/}
+            {/*        <TD sx={{ width: "35%" }}>*/}
+            {/*          <InputValidation*/}
+            {/*            inputName="agncNm"*/}
+            {/*            required={false}*/}
+            {/*            // errorMessage="소속 거래처(PI)를 입력해 주세요."*/}
+            {/*            sx={{ width: "100%" }}*/}
+            {/*            InputProps={{*/}
+            {/*              readOnly: true,*/}
+            {/*            }}*/}
+            {/*          />*/}
+            {/*        </TD>*/}
+            {/*        <TH sx={{ width: "15%" }}>연구책임자</TH>*/}
+            {/*        <TD sx={{ width: "35%" }}>*/}
+            {/*          <InputValidation*/}
+            {/*            inputName="custNm"*/}
+            {/*            // required={false}*/}
+            {/*            // errorMessage="연구책임자를 입력해 주세요."*/}
+            {/*            sx={{ width: "100%" }}*/}
+            {/*            InputProps={{*/}
+            {/*              readOnly: true,*/}
+            {/*            }}*/}
+            {/*          />*/}
+            {/*        </TD>*/}
+            {/*      </TableRow>*/}
+            {/*      <TableRow>*/}
+            {/*        <TH sx={{ width: "15%" }}>영업 담당자</TH>*/}
+            {/*        <TD sx={{ width: "35%" }}>*/}
+            {/*          <InputValidation*/}
+            {/*            inputName="bsnsMngrVal"*/}
+            {/*            required={true}*/}
+            {/*            errorMessage="영업 담당자 입력해 주세요."*/}
+            {/*            sx={{ width: "100%" }}*/}
+            {/*            InputProps={{*/}
+            {/*              readOnly: true,*/}
+            {/*            }}*/}
+            {/*          />*/}
+            {/*        </TD>*/}
+            {/*        <TH sx={{ width: "15%" }}>선결제 금액</TH>*/}
+            {/*        <TD sx={{ width: "35%" }}>*/}
+            {/*          <InputValidation*/}
+            {/*            inputName="rmnPrePymtPrice"*/}
+            {/*            required={true}*/}
+            {/*            errorMessage="선결제 금액 입력해 주세요."*/}
+            {/*            sx={{ width: "100%" }}*/}
+            {/*            InputProps={{*/}
+            {/*              readOnly: true,*/}
+            {/*            }}*/}
+            {/*          />*/}
+            {/*        </TD>*/}
+            {/*      </TableRow>*/}
+            {/*    </TableBody>*/}
+            {/*  </Table>*/}
+            {/*</TableContainer>*/}
 
             <DynamicTableAnalysis />
             <DynamicSumTableAnalysis />

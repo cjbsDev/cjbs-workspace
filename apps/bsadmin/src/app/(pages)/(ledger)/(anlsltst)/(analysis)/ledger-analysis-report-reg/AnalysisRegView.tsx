@@ -76,20 +76,19 @@ const LazySalesManagerSelectbox = dynamic(
 
 const AnalysisRegView = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const orderUkey = searchParams.get("orderUkey");
-  const sampleUkeyList = searchParams.get("sampleUkeyList");
-  console.log("searchParams Value ==>>", orderUkey, sampleUkeyList);
+  // const searchParams = useSearchParams();
+  // const orderUkey = searchParams.get("orderUkey");
+  // const sampleUkeyList = searchParams.get("sampleUkeyList");
+  // console.log("searchParams Value ==>>", orderUkey, sampleUkeyList);
 
-  const { data } = useSWR(
-    `/anls/itst/${orderUkey}/sample?sampleUkeyList=${sampleUkeyList}`,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
-  console.log("()()()() ==>>", data);
-  const { anlsItstCostDetailList, anlsItstCustInfo, anlsItstInfo } = data;
+  // const { data } = useSWR(
+  //   `/anls/itst/${orderUkey}/sample?sampleUkeyList=${sampleUkeyList}`,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   },
+  // );
+  // const { anlsItstCostDetailList, anlsItstCustInfo, anlsItstInfo } = data;
 
   const { mutate } = useSWRConfig();
 
