@@ -104,7 +104,7 @@ const ListOrder = () => {
         defaultSortFieldId={1}
         defaultSortAsc={false}
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+        paginationRowsPerPageOptions={[50, 100, 200, 300, 400, 600, 800, 1000]}
       />
     </Box>
   );

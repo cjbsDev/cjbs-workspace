@@ -23,7 +23,7 @@ const DscntRasn = ({ index }) => {
     },
   );
 
-  console.log("사유 목록 ==>>", data);
+  // console.log("사유 목록 ==>>", data);
   return (
     <Stack spacing={0.5}>
       <Stack direction="row" spacing={1}>

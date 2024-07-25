@@ -52,6 +52,7 @@ import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
 import DynamicTableLicense from "../../../../../components/DynamicTableLicense";
 import RemainingAmount from "./RemainingAmount";
 import DynamicSumTableLicense from "../../../../../components/DynamicSumTableLicense";
+import SubmitContainer from "./SubmitContainer";
 
 // 플랫폼 모달
 const LazyLicenseListModal = dynamic(
@@ -173,6 +174,7 @@ const LicenseRegView = () => {
       agncUkey: data.agncUkey,
       anlsDttm: dayjs(data.anlsDttm).format("YYYY-MM-DD"),
       anlsTypeMc: data.anlsTypeMc,
+      bsnsMngrUkey: data.bsnsMngrUkey,
       // costList: sampleUkeyList(),
       costList: data.costList,
       depthMc: "BS_0100010001",
@@ -811,18 +813,20 @@ const LicenseRegView = () => {
                 </Table>
               </TableContainer>
 
-              <Stack direction="row" spacing={0.5} justifyContent="center">
-                <Link href="/ledger-analysis-report-list">
-                  <OutlinedButton size="small" buttonName="목록" />
-                </Link>
+              <SubmitContainer />
 
-                <ContainedButton
-                  size="small"
-                  type="submit"
-                  buttonName="저장"
-                  endIcon={isLoading ? <LoadingWhiteSvg /> : null}
-                />
-              </Stack>
+              {/*<Stack direction="row" spacing={0.5} justifyContent="center">*/}
+              {/*  <Link href="/ledger-analysis-report-list">*/}
+              {/*    <OutlinedButton size="small" buttonName="목록" />*/}
+              {/*  </Link>*/}
+
+              {/*  <ContainedButton*/}
+              {/*    size="small"*/}
+              {/*    type="submit"*/}
+              {/*    buttonName="저장"*/}
+              {/*    endIcon={isLoading ? <LoadingWhiteSvg /> : null}*/}
+              {/*  />*/}
+              {/*</Stack>*/}
             </Box>
           </>
         )}

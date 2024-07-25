@@ -9,6 +9,7 @@ import {
   Chip,
   Stack,
   styled,
+  Tooltip,
   Typography,
   TypographyProps,
 } from "@mui/material";
@@ -28,7 +29,7 @@ const SampleDataTable = (props) => {
   });
   const sampleList = Array.from(data);
 
-  console.log(sampleList);
+  // console.log(sampleList);
 
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(
@@ -73,16 +74,40 @@ const SampleDataTable = (props) => {
       },
       {
         name: "번호",
+        width: "90px",
         sortable: false,
         center: true,
         selector: (row, index) => index + 1,
       },
       {
         name: "샘플명",
-        width: "200px",
+        minWidth: "300px",
         sortable: false,
-        center: true,
+        // center: true,
+        allowOverflow: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
+        cell: (row) => {
+          return (
+            <Tooltip
+              title={row.sampleNm}
+              arrow
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -10],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              {row.sampleNm}
+            </Tooltip>
+          );
+        },
       },
       {
         name: "샘플종류",
@@ -95,48 +120,60 @@ const SampleDataTable = (props) => {
         name: "Source",
         sortable: false,
         center: true,
-        allowOverflow: true,
-        grow: 2,
+        // allowOverflow: true,
+        // grow: 2,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
         name: "Depth",
-        width: "80px",
+        // width: "80px",
         sortable: false,
         center: true,
         selector: (row) => (row.depthMc === null ? "-" : row.depthVal),
       },
       {
         name: "Taxon",
-        width: "80px",
+        // width: "80px",
         sortable: false,
         center: true,
         selector: (row) => (row.taxonVal === null ? "-" : row.taxonVal),
       },
       {
         name: "RUN",
-        // width: "120px",
+        minWidth: "200px",
         sortable: false,
         center: true,
-        wrap: true,
+        // wrap: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
         cell: (row) => {
           return (
-            // <Tooltip
-            //   title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            //   followCursor
-            // >
-            <Typography variant="body2">
-              {row.runList.length === 0 ? "-" : row.runList.join(", ")}
-            </Typography>
-            // </Tooltip>
+            <Tooltip
+              title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
+              arrow
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    {
+                      name: "offset",
+                      options: {
+                        offset: [0, -10],
+                      },
+                    },
+                  ],
+                },
+              }}
+            >
+              <Typography variant="body2">
+                {row.runList.length === 0 ? "-" : row.runList.join(", ")}
+              </Typography>
+            </Tooltip>
           );
         },
       },
       {
         name: "접수",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.rcptStatusVal,
@@ -178,7 +215,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "QC",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.qcStatusVal,
@@ -220,7 +257,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "LIB",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.libStatusVal,
@@ -262,7 +299,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "Seq",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.seqStatusVal,
@@ -304,7 +341,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "BI",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.biStatusVal,
@@ -346,7 +383,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "통보",
-        width: "105px",
+        // width: "105px",
         sortable: false,
         center: true,
         selector: (row) => row.sampleStatusRes.ntfcStatusVal,
@@ -388,7 +425,7 @@ const SampleDataTable = (props) => {
       },
       {
         name: "분석내역서",
-        width: "100px",
+        // width: "100px",
         sortable: false,
         center: true,
         selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),

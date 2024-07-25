@@ -26,7 +26,15 @@ const OrderSearchDataTable = (props: {
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
+
+  console.log("ORDER SEARCH LIST DATA ==>>", data);
+
   const { control, setValue, clearErrors, resetField } = useFormContext();
+  const { fields, remove } = useFieldArray({
+    control,
+    name: "costList",
+  });
+  console.log("ORDER _____ FIELDS ==>>", fields);
 
   // [오더] 컬럼세팅
   const columns = useMemo(
@@ -119,7 +127,6 @@ const OrderSearchDataTable = (props: {
           custEbcEmail: string;
           bsnsMngrVal: string;
           rmnPrePymtPrice: number;
-
           telList: string;
           instNm: string;
           agncNm: string;
@@ -138,8 +145,8 @@ const OrderSearchDataTable = (props: {
             custNm,
             custEbcEmail,
             bsnsMngrVal,
+            bsnsMngrUkey,
             rmnPrePymtPrice,
-
             telList,
             instNm,
             agncNm,
@@ -169,6 +176,7 @@ const OrderSearchDataTable = (props: {
                 setValue("depthVal", depthVal);
                 setValue("custNm", custEbcNm);
                 setValue("bsnsMngrVal", bsnsMngrVal);
+                // setValue("bsnsMngrUkey", bsnsMngrUkey);
                 setValue(
                   "rmnPrePymtPrice",
                   rmnPrePymtPrice
@@ -176,6 +184,8 @@ const OrderSearchDataTable = (props: {
                     .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 );
                 setValue("anlsTypeMc", anlsTypeMc);
+                setValue("costList", []);
+                // fields.map((index) => remove(index));
 
                 // setValue("telList", telList);
 
@@ -188,7 +198,7 @@ const OrderSearchDataTable = (props: {
                 // clearErrors("agncUkey");
                 // clearErrors("agncNm");
                 // clearErrors("telList");
-                // resetField("checkTest7");
+                // resetField("costList");
 
                 handleOrderChange(orderUkey);
               }}

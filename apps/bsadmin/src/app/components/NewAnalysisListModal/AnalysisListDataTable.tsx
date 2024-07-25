@@ -2,8 +2,8 @@ import * as React from "react";
 import { useCallback, useMemo, useState } from "react";
 
 import useSWR from "swr";
-import { fetcher } from "api";
-import { useFormContext } from "react-hook-form";
+import { fetcher, POST } from "api";
+import { useFormContext, useWatch } from "react-hook-form";
 import {
   Box,
   Chip,
@@ -23,37 +23,53 @@ import {
 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import Link from "next/link";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { analysisAtom } from "./analysisAtom";
+import { toast } from "react-toastify";
 
 const AnalysisListDataTable = (props: {
-  selectSampleList: any;
+  append: any;
+  // update: any;
+  replace: any;
+  // remove: any;
+  // selectSampleList: any;
   onClose: any;
-  getOrderUkey: string;
+  // getOrderUkey: string;
   // handleSelectedRowChange: any;
   handleAddSampleList: any;
 }) => {
   const {
-    selectSampleList,
+    append,
+    // update,
+    replace,
+    // remove,
+    // selectSampleList,
     onClose,
-    getOrderUkey,
+    // getOrderUkey,
     handleAddSampleList,
     viewType,
   } = props;
-  const APIPATH = `/anls/itst/${getOrderUkey}/sample/list`;
-  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", getOrderUkey)
-  // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", APIPATH)
+
+  const selectSampleList = useRecoilValue(analysisAtom);
+  console.log("selectSampleList ==>>", selectSampleList);
+
+  const { getValues, setValue, control } = useFormContext();
+  const orderUkey = getValues("orderUkey");
+  const APIPATH = `/anls/itst/${orderUkey}/sample/list`;
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [selectSampleIdArray, setSelectSampleIdArray] = useState<any>([]);
-  // const setSelectedSampleList = useSetRecoilState(analysisAtom);
+  const setSelectedSampleList = useSetRecoilState(analysisAtom);
+
+  const productValue = useWatch({ name: "costList", control });
+  console.log("current productValue ==>>", productValue);
 
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
   });
+  // const {} = data;
   const totCnt = data.length;
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", data);
-  const { setValue, clearErrors, resetField } = useFormContext();
-
   const columns = useMemo(
     () => [
       {
@@ -350,37 +366,14 @@ const AnalysisListDataTable = (props: {
     [],
   );
 
-  const rowSelectCritera = useCallback((row) => {
-    //console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", selectSampleList)
-    if (selectSampleList != undefined && selectSampleList.length > 0) {
-      setSelectSampleIdArray(selectSampleList);
-      // console.log("!!selectSampleList : ", selectSampleList);
-      // console.log("!!row data : ", row);
-      // console.log("!!row.sampleId : ", row.sampleId);
-      // console.log("!! : ", selectSampleList.find(list => list.sampleUkeyList.includes(row.sampleUkey)));
-      // 배열안에 값이 row에 sampleId 와 같다면 true
-      // if(selectSampleList.includes(row)) return true;
-      if (
-        selectSampleList.find((list) =>
-          Object.keys(list).includes("sampleUkeyList"),
-        )
-      ) {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkeyList.includes(row.sampleUkey),
-          )
-        )
-          return true;
-      } else {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkey.includes(row.sampleUkey),
-          )
-        )
-          return true;
-      }
-    }
-  }, []);
+  const rowSelectCritera = useCallback(
+    (row) => {
+      const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+      console.log("sampleUkeys ==>>", sampleUkeys);
+      return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
+    },
+    [productValue],
+  );
 
   const rowSelectDisabled = useCallback((row) => {
     // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
@@ -420,16 +413,113 @@ const AnalysisListDataTable = (props: {
     }
   }, []);
 
-  const handleSelectedRowChange1 = ({ selectedRows }: any) => {
-    // const getSampleIdList = selectedRows.map((row) => row.sampleId);
-    // console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^", getSampleIdList)
-    console.log("선택된 분석내열 row ==>>", selectedRows);
-    setSelectSampleIdArray(selectedRows);
+  const callStndPrice = async (index, sampleSize, srvcTypeMc) => {
+    const reqBody = [
+      {
+        anlsTypeMc: getValues("anlsTypeMc"),
+        depthMc: "BS_0100010001",
+        pltfMc: getValues("pltfMc"),
+        sampleSize: sampleSize,
+        srvcCtgrMc: getValues("srvcCtgrMc"),
+        srvcTypeMc: srvcTypeMc,
+      },
+    ];
+
+    console.log("StndPrice BodyData ==>>", reqBody);
+
+    try {
+      const res = await POST(`/anls/itst/stnd/price`, reqBody);
+      const resData = res.data;
+
+      console.log("기준가 조회 ==>", resData);
+
+      const stndPriceResult = {
+        ...resData[0],
+        addType: "modal",
+        isExc: "N",
+        dscntRasnCc: "",
+      };
+
+      // console.log("result ^&&^ ==>", stndPriceEesult);
+
+      return stndPriceResult;
+    } catch (error) {
+      console.error("request failed:", error);
+      toast("문제가 발생했습니다. 02");
+    } finally {
+    }
   };
 
+  const handleSelectedRowChange = useCallback(
+    async ({ selectedRows }: any) => {
+      console.log("선택된 분석내역 row ==>>", selectedRows);
+
+      const groupedByServiceType = selectedRows.reduce((acc, sample) => {
+        const { srvcTypeMc } = sample;
+        if (!acc[srvcTypeMc]) {
+          acc[srvcTypeMc] = [];
+        }
+        acc[srvcTypeMc].push(sample);
+        return acc;
+      }, {});
+
+      console.log("groupedByServiceType", groupedByServiceType);
+
+      const results = await Promise.all(
+        Object.keys(groupedByServiceType).map(async (srvcTypeMc, index) => {
+          const samples = groupedByServiceType[srvcTypeMc];
+          const sampleUkeys = samples.map((sample) => sample.sampleUkey);
+          const sampleSize = samples.length;
+
+          let stndPriceResult = {};
+          try {
+            stndPriceResult = await callStndPrice(
+              index,
+              sampleSize,
+              srvcTypeMc,
+            );
+            console.log("CALL STND PRICE RETURN ==>>", stndPriceResult);
+          } catch (error) {
+            console.error("Failed to fetch standard price:", error);
+          }
+
+          return {
+            sampleUkey: sampleUkeys,
+            srvcTypeMc: srvcTypeMc,
+            sampleSize: sampleSize,
+            addType: "modal",
+            unitPrice: 0,
+            supplyPrice: 0,
+            vat: 0,
+            stndPrice: stndPriceResult.stndPrice
+              ? stndPriceResult.stndPrice
+                  .toString()
+                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+              : "0",
+            stndCode: stndPriceResult.stndCode || "",
+            isExc: "N",
+            dscntRasnCc: "",
+            stndDscntPctg: stndPriceResult.stndDscntPctg || "",
+          };
+        }),
+      );
+
+      console.log("@@@@results", results);
+      setSelectSampleIdArray(results);
+    },
+    [productValue, setSelectSampleIdArray, callStndPrice],
+  );
+
   const setSampleData = () => {
-    handleAddSampleList(selectSampleIdArray);
+    console.log(">>>>>>>>>>>>>", selectSampleIdArray);
+    replace(selectSampleIdArray);
     onClose();
+
+    // await selectSampleIdArray.map((item, index) => {
+    //   console.log("item", index, item);
+    //   remove(index, item);
+    // });
+    // append(selectSampleIdArray);
   };
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -483,7 +573,7 @@ const AnalysisListDataTable = (props: {
         selectableRowsVisibleOnly={false}
         selectableRowSelected={rowSelectCritera}
         selectableRowDisabled={rowSelectDisabled}
-        onSelectedRowsChange={handleSelectedRowChange1}
+        onSelectedRowsChange={handleSelectedRowChange}
         pagination={false}
       />
       <Stack direction="row" spacing={0.5} justifyContent="center" mt={5}>

@@ -30,3 +30,21 @@ export const invcEndMonthAtom = atom({
   key: "invcEndMonthAtom",
   default: dayjs().month() + 1,
 });
+
+export const reportModifyAtom = atom({
+  key: "reportModifyAtom",
+  default: {
+    isOpen: false,
+    report: "",
+    invcUkey: "",
+  },
+});
+
+export const memoModifyAtom = atom({
+  key: "memoModifyAtom",
+  default: {
+    isOpen: false,
+    memo: "",
+    invcUkey: "",
+  },
+});

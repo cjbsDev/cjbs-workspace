@@ -1,6 +1,5 @@
-export const formatNumberWithCommas = (number: number | null) => {
-  // return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  const validNumber = number === null ? 0 : number;
+export const formatNumberWithCommas = (number: number | null | undefined) => {
+  const validNumber = number === null || number === undefined ? 0 : number;
   return validNumber.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 

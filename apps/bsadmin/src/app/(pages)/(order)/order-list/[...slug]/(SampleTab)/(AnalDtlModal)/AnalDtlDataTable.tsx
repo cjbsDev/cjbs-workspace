@@ -5,8 +5,8 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { useParams } from "next/navigation";
 import { columns } from "./analDtlColumns";
-import { RecoilRoot, useRecoilValue } from "recoil";
-import { analDtlAtom } from "./analDtlAtom";
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import { analDtlAtom, slctedSampleUkeyAtom } from "./analDtlAtom";
 import SubHeader from "./Subheader";
 import NoDataView from "../../../../../../components/NoDataView";
 
@@ -15,6 +15,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
   console.log("SampleUkeyList @@@@@@@@>>", sampleUkeyList);
 
   const getIsAnlsItst = useRecoilValue(analDtlAtom);
+  const setSelectedSampleUkeyList = useSetRecoilState(slctedSampleUkeyAtom);
   const params = useParams();
   const uKey = params.slug;
   const apiUrl = `/anls/itst/${uKey}/sample/list?sampleUkeyList=${sampleUkeyList}&isAnlsItstCreated=${getIsAnlsItst}`;
@@ -22,7 +23,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
     suspense: true,
   });
 
-  console.log("분석 내역 DATA ==>>", data);
+  console.log("분석 내역 LIST DATA ==>>", data);
 
   const analDtlColumns = useMemo(() => columns, []);
 
@@ -33,6 +34,10 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
   }, [data.length]);
 
   const rowDisabled = (row: { isAnlsItst: string }) => row.isAnlsItst === "Y";
+  const handelSelectedRows = ({ selectedRows }) => {
+    const getSampleUkeyList = selectedRows.map((row) => row.sampleUkey);
+    setSelectedSampleUkeyList(getSampleUkeyList);
+  };
 
   return (
     <RecoilRoot override={false}>
@@ -48,6 +53,7 @@ const AnalDtlDataTable = (props: { sampleUkeyList: string[] }) => {
         paginationRowsPerPageOptions={[5, 10, 15]}
         selectableRows
         selectableRowDisabled={rowDisabled}
+        onSelectedRowsChange={handelSelectedRows}
         noDataComponent={<NoDataView />}
       />
     </RecoilRoot>

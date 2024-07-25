@@ -57,6 +57,7 @@ const OrderShortInfo = () => {
     agncNm,
     ordrAplcNm,
     ordrAplcTel,
+    ordrAplcEmail,
     rhpiNm,
     rhpiEmail,
     bsnsMngrNm,
@@ -162,9 +163,14 @@ const OrderShortInfo = () => {
                     <Typography variant="body2">연구책임자</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">
-                      {rhpiNm === null ? "-" : rhpiNm}({rhpiEmail})
-                    </Typography>
+                    <Stack spacing={0}>
+                      <Typography variant="subtitle2">
+                        {rhpiNm === null ? "-" : rhpiNm}
+                      </Typography>
+                      {rhpiEmail !== null && (
+                        <Typography variant="subtitle2">{rhpiEmail}</Typography>
+                      )}
+                    </Stack>
                   </Grid>
                 </Grid>
               </Box>
@@ -174,9 +180,16 @@ const OrderShortInfo = () => {
                     <Typography variant="body2">신청인</Typography>
                   </Grid>
                   <Grid item>
-                    <Typography variant="subtitle2">
-                      {ordrAplcNm === null ? "-" : ordrAplcNm}
-                    </Typography>
+                    <Stack spacing={0}>
+                      <Typography variant="subtitle2">
+                        {ordrAplcNm === null ? "-" : ordrAplcNm}
+                      </Typography>
+                      {ordrAplcEmail !== null && (
+                        <Typography variant="subtitle2">
+                          {ordrAplcEmail}
+                        </Typography>
+                      )}
+                    </Stack>
                   </Grid>
                 </Grid>
               </Box>
