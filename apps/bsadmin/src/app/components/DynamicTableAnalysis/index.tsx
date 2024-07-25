@@ -43,6 +43,7 @@ import SampleSize from "./components/SampleSize";
 import { QuestionTooltip } from "../QuestionTooltip";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { analysisAtom } from "../NewAnalysisListModal/analysisAtom";
+import UnitPrice from "./components/UnitPrice";
 
 const LazyAnalysisListModal = dynamic(
   () => import("../../components/NewAnalysisListModal"),
@@ -390,33 +391,34 @@ const DynamicTableAnalysis = ({}) => {
                     {/*)}*/}
                   </TD>
                   <TD align="right">
-                    <Controller
-                      name={`${fieldArrayName}[${index}].unitPrice`}
-                      control={control}
-                      rules={{ required: "단가를 입력해야 합니다." }}
-                      render={({
-                        field: { onChange, value },
-                        fieldState: { error },
-                      }) => (
-                        <NumericFormat
-                          defaultValue={0}
-                          value={value}
-                          thousandSeparator={true}
-                          onValueChange={(values) => {
-                            onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
-                          }}
-                          customInput={InputPriceType}
-                        />
-                      )}
-                    />
-                    {errors.costList?.[index]?.unitPrice && (
-                      <Typography
-                        variant="body2"
-                        color={cjbsTheme.palette.warning.main}
-                      >
-                        단가를 입력 해주세요
-                      </Typography>
-                    )}
+                    {/*<Controller*/}
+                    {/*  name={`${fieldArrayName}[${index}].unitPrice`}*/}
+                    {/*  control={control}*/}
+                    {/*  rules={{ required: "단가를 입력해야 합니다." }}*/}
+                    {/*  render={({*/}
+                    {/*    field: { onChange, value },*/}
+                    {/*    fieldState: { error },*/}
+                    {/*  }) => (*/}
+                    {/*    <NumericFormat*/}
+                    {/*      defaultValue={0}*/}
+                    {/*      value={value}*/}
+                    {/*      thousandSeparator={true}*/}
+                    {/*      onValueChange={(values) => {*/}
+                    {/*        onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
+                    {/*      }}*/}
+                    {/*      customInput={InputPriceType}*/}
+                    {/*    />*/}
+                    {/*  )}*/}
+                    {/*/>*/}
+                    {/*{errors.costList?.[index]?.unitPrice && (*/}
+                    {/*  <Typography*/}
+                    {/*    variant="body2"*/}
+                    {/*    color={cjbsTheme.palette.warning.main}*/}
+                    {/*  >*/}
+                    {/*    단가를 입력 해주세요*/}
+                    {/*  </Typography>*/}
+                    {/*)}*/}
+                    <UnitPrice fieldArrayName={fieldArrayName} index={index} />
                   </TD>
                   <TD align="right">
                     <SupplyPrice

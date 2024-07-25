@@ -1,15 +1,17 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Controller, useFormContext, useWatch } from "react-hook-form";
-import { IconButton, Stack, Typography } from "@mui/material";
+import { IconButton, InputAdornment, Stack, Typography } from "@mui/material";
 import {
   cjbsTheme,
   ContainedButton,
   formatNumberWithCommas,
   InputPriceType,
+  InputValidation,
 } from "cjbsDSTM";
 import { NumericFormat } from "react-number-format";
 import { toast } from "react-toastify";
 import MyIcon from "icon/MyIcon";
+import { useParams } from "next/navigation";
 
 interface SupplyPriceProps {
   inputName: string;
@@ -20,6 +22,8 @@ interface SupplyPriceProps {
 const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
   const [count, setCount] = useState<number>(0);
 
+  const params = useParams<{ tag: string; item: string }>();
+  console.log("RRRRRRRRR", params.slug);
   const {
     control,
     setValue,
@@ -38,38 +42,47 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
       ? 0
       : productValue[index]?.unitPrice;
 
+  console.log("UNIT PRICE ==>>", unitPrice);
+
+  // const anlsItstUkey = getValues("anlsItstUkey");
+
   // Number(productValue[index].supplyPrice.replaceAll(",", ""))
 
-  const watchSupplyPrice = productValue[index].supplyPrice;
+  // const getAddType = getValues(`${fieldName}[${index}].addType`);
 
-  const supplyPrice = sampleSize * unitPrice;
+  const getAddType = productValue[index].addType;
+  console.log("getAddType ==>>", getAddType);
+
+  const getSupplyPrice =
+    productValue[index].supplyPrice === undefined
+      ? 0
+      : productValue[index].supplyPrice;
+
+  const minus = sampleSize * unitPrice - getSupplyPrice;
+
+  console.log("MINUS ==>>", minus);
+
+  const watchSupplyPrice = sampleSize * unitPrice;
+
+  // const supplyPrice = sampleSize * unitPrice - watchSupplyPrice;
 
   useEffect(() => {
-    console.log("RERERERE~~!!");
-    if (unitPrice > 0 && sampleSize > 0) {
-      setValue(inputName, supplyPrice);
-    }
+    console.log("공급가액 Render~~!!");
 
-    if (unitPrice === 0 && sampleSize === 0) {
-      setValue(inputName, 0);
+    if (params.slug !== undefined) {
+      setValue(inputName, getSupplyPrice);
+    } else {
+      if (unitPrice > 0 && sampleSize > 0) {
+        setValue(inputName, watchSupplyPrice);
+      }
+      if (unitPrice === 0 && sampleSize > 0) {
+        setValue(inputName, 0);
+      }
+      if (unitPrice > 0 && sampleSize === 0) {
+        setValue(inputName, 0);
+      }
     }
-    if (unitPrice === 0 && sampleSize > 0) {
-      setValue(inputName, 0);
-    }
-    if (unitPrice > 0 && sampleSize === 0) {
-      setValue(inputName, 0);
-    }
-  }, [sampleSize, unitPrice, setValue]);
-
-  // const handleSupplyPriceChange = useCallback(() => {
-  //   // 기준이 되는 공급가액
-  //   const newProductValue = [...productValue];
-  //   const newSupplyPrice = newProductValue[index].supplyPrice;
-  //
-  //   // 변경되는 공급가액
-  //   const currentValue = getValues(inputName);
-  //   console.log("변경가, 기준가 ==>>", currentValue, newSupplyPrice);
-  // }, []);
+  }, [sampleSize, unitPrice, minus, getSupplyPrice, setValue]);
 
   const incrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
@@ -85,51 +98,33 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
 
   return (
     <>
-      {/*<Controller*/}
-      {/*  name={`${fieldName}[${index}].supplyPrice`}*/}
-      {/*  control={control}*/}
-      {/*  rules={{ required: "공급가액을 입력하세요." }}*/}
-      {/*  render={({ field: { onChange, value }, fieldState: { error } }) => (*/}
-      {/*    <Stack direction="row">*/}
-      {/*      <NumericFormat*/}
-      {/*        defaultValue={0}*/}
-      {/*        value={value}*/}
-      {/*        thousandSeparator={true}*/}
-      {/*        onValueChange={(values) => {*/}
-      {/*          onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리*/}
-      {/*        }}*/}
-      {/*        // onBlur={handleSupplyPriceChange}*/}
-      {/*        customInput={InputPriceType}*/}
-      {/*      />*/}
-      {/*      <Stack direction="row">*/}
-      {/*        <IconButton*/}
-      {/*          onClick={incrementSupplyPrice}*/}
-      {/*          size="small"*/}
-      {/*          disabled={count === 10 ? true : false}*/}
-      {/*        >*/}
-      {/*          <MyIcon icon="arrow-up" size={18} />*/}
-      {/*        </IconButton>*/}
-      {/*        <IconButton*/}
-      {/*          onClick={decrementSupplyPrice}*/}
-      {/*          size="small"*/}
-      {/*          disabled={count === -10 ? true : false}*/}
-      {/*        >*/}
-      {/*          <MyIcon icon="arrow-down" size={18} />*/}
-      {/*        </IconButton>*/}
-      {/*      </Stack>*/}
-      {/*    </Stack>*/}
-      {/*  )}*/}
-      {/*/>*/}
-      {/*{errors.costList?.[index]?.supplyPrice && (*/}
-      {/*  <Typography variant="body2" color={cjbsTheme.palette.warning.main}>*/}
-      {/*    공급가액을 입력해 주세요.*/}
-      {/*  </Typography>*/}
-      {/*)}*/}
-
       <Stack direction="row" spacing={1} justifyContent="flex-end">
+        {/*<InputValidation*/}
+        {/*  inputName={`${fieldName}[${index}].supplyPrice`}*/}
+        {/*  disabled={true}*/}
+        {/*  sx={{*/}
+        {/*    ".MuiOutlinedInput-input": {*/}
+        {/*      textAlign: "end",*/}
+        {/*    },*/}
+        {/*    "&.MuiTextField-root": {*/}
+        {/*      backgroundColor: "#F1F3F5",*/}
+        {/*    },*/}
+        {/*  }}*/}
+        {/*  InputProps={{*/}
+        {/*    readOnly: true,*/}
+        {/*    endAdornment: (*/}
+        {/*      <InputAdornment position="end">*/}
+        {/*        <Typography variant="body2" sx={{ color: "black" }}>*/}
+        {/*          원*/}
+        {/*        </Typography>*/}
+        {/*      </InputAdornment>*/}
+        {/*    ),*/}
+        {/*  }}*/}
+        {/*/>*/}
+
         <Stack direction="row" spacing={0.5} justifyContent="flex-end">
           <Typography variant="body2">
-            {formatNumberWithCommas(watchSupplyPrice)}
+            {formatNumberWithCommas(getSupplyPrice)}
           </Typography>
           <Typography variant="body2">원</Typography>
         </Stack>
@@ -139,7 +134,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
             color="primary"
             onClick={incrementSupplyPrice}
             size="small"
-            disabled={watchSupplyPrice === 0 || count === 10}
+            disabled={getSupplyPrice === 0 || count === 10}
           >
             <MyIcon icon="plus" size={18} />
           </IconButton>
@@ -147,7 +142,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
             color="primary"
             onClick={decrementSupplyPrice}
             size="small"
-            disabled={watchSupplyPrice === 0 || count === -10}
+            disabled={getSupplyPrice === 0 || count === -10}
           >
             <MyIcon icon="minus" size={18} />
           </IconButton>

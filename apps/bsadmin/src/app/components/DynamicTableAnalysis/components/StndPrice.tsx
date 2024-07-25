@@ -15,7 +15,7 @@ interface StndPriceProps {
 const StndPrice = ({ fieldName, index }: StndPriceProps) => {
   const { control, setValue, getValues, watch } = useFormContext();
   const productValue = useWatch({ name: fieldName, control });
-  console.log("productValue%%%%%%%%", productValue);
+  // console.log("productValue%%%%%%%%", productValue);
 
   // useEffect(() => {
   //   callStndPrice();
