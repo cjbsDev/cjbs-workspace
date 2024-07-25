@@ -14,14 +14,14 @@ import { useRouter } from "next-nprogress-bar";
 
 const List = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const [loading, setLoading] = useState(false);
   // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [resultObject, result] = useResultObject();
   const router = useRouter();
 
-  console.log("resultOBJ", resultObject);
-  console.log("result", result);
+  // console.log("resultOBJ", resultObject);
+  // console.log("result", result);
 
   const url = useMemo(() => {
     const base = "/expt/info/list";
@@ -35,7 +35,7 @@ const List = () => {
   const { data } = useSWR(url, fetcher, {
     suspense: true,
   });
-  console.log("EXPT INFO LIST DATA", data);
+  // console.log("EXPT INFO LIST DATA", data);
 
   // useEffect(() => {
   //   console.log("RRRRRRRRRRRR");
@@ -59,13 +59,13 @@ const List = () => {
   };
 
   const handlePageChange = useCallback((page: number) => {
-    console.log("Page", page);
+    // console.log("Page", page);
     setPage(page);
   }, []);
 
   const handlePerRowsChange = useCallback(
     (newPerPage: number, page: number) => {
-      console.log("Row change.....", newPerPage, page);
+      // console.log("Row change.....", newPerPage, page);
       setPage(page);
       setSize(newPerPage);
     },
