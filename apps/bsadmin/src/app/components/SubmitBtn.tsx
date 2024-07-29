@@ -10,7 +10,7 @@ const SubmitBtn = () => {
     formState: { isDirty, isValid, isSubmitting, dirtyFields },
   } = useFormContext();
 
-  console.log("!isValid || isSubmitting", isSubmitting || !isDirty);
+  console.log("!isValid || isSubmitting", !isValid || isSubmitting || !isDirty);
   console.log("isDirty", isDirty);
   return (
     <LoadingButton

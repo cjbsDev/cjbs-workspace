@@ -4,9 +4,10 @@ import { Box, Tooltip } from "@mui/material";
 
 interface EllipsisProps {
   text: string;
+  line?: number | string | undefined;
 }
 
-const Ellipsis = ({ text }: EllipsisProps) => {
+const Ellipsis = ({ text, line = 2 }: EllipsisProps) => {
   const [isClamped, setIsClamped] = useState(false);
   const ellipsisRef = useRef(null);
 
@@ -23,10 +24,10 @@ const Ellipsis = ({ text }: EllipsisProps) => {
         <Box>
           <LinesEllipsis
             text={text}
-            maxLine="2"
+            maxLine={line}
             ellipsis="..."
             trimRight
-            basedOn="letters"
+            basedOn="words"
           />
         </Box>
       </Tooltip>
