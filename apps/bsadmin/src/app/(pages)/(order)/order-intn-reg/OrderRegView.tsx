@@ -55,6 +55,7 @@ import ResearcherMngInfo from "./researcherMngInfo";
 import MyIcon from "icon/MyIcon";
 import ProjectSection from "./ProjectSection";
 import TaxonRow from "./TaxonRow";
+import { LoadingButton } from "@mui/lab";
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
@@ -129,13 +130,14 @@ const OrderRegView = () => {
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
     orderTypeCc: "BS_0800001",
     isCheck16s: "N",
+    sampleCnt: "0",
   };
   console.log("DefaultValues ==>>", defaultValues);
 
   // Submit
   const onSubmit = async (data: any) => {
     setIsLoading(true);
-    console.log("Submit Data ==>>", data);
+    // console.log("Submit Data ==>>", data);
 
     if (data.mailRcpnList.includes("etcRcpn") && data.addEmailList === "") {
       setAddEmailChck(true);
@@ -146,6 +148,7 @@ const OrderRegView = () => {
     const typeNumbertaxonACnt = Number(data.taxonACnt);
     const typeNumbertaxonBCnt = Number(data.taxonBCnt);
     const typeNumbertaxonECnt = Number(data.taxonECnt);
+    const numberSampleCnt = Number(data.sampleCnt.replaceAll(",", ""));
 
     const reqBody = {
       ...data,
@@ -161,7 +164,10 @@ const OrderRegView = () => {
       libMngrUkey: data.libMngrUkey === "" ? null : data.libMngrUkey,
       seqMngrUkey: data.seqMngrUkey === "" ? null : data.seqMngrUkey,
       reqReturnList: data.reqReturnList === false ? [""] : data.reqReturnList,
+      sampleCnt: numberSampleCnt,
     };
+
+    // console.log("REQ BODY ==>>", reqBody);
 
     try {
       const response = await POST("/order/intn", reqBody);
@@ -396,51 +402,12 @@ const OrderRegView = () => {
 
               <TaxonRow />
 
-              {/*<TableRow>*/}
-              {/*  <TH sx={{ width: "15%" }}>Taxon 개수</TH>*/}
-              {/*  <TD sx={{ width: "85%" }} colSpan={5}>*/}
-              {/*    <Stack direction="row" spacing={0.5} alignItems="center">*/}
-              {/*      {taxonListData.map((taxonItem, index) => {*/}
-              {/*        return (*/}
-              {/*          <InputValidation*/}
-              {/*            inputName={taxonItem.taxonName}*/}
-              {/*            required={true}*/}
-              {/*            errorMessage="개수를 입력해 주세요."*/}
-              {/*            pattern={/^[0-9]+$/}*/}
-              {/*            patternErrMsg="숫자만 입력해 주세요."*/}
-              {/*            sx={{*/}
-              {/*              width: 100,*/}
-              {/*              ".MuiOutlinedInput-input": {*/}
-              {/*                textAlign: "end",*/}
-              {/*              },*/}
-              {/*              "&.MuiTextField-root": {*/}
-              {/*                backgroundColor: "white",*/}
-              {/*                borderRadius: 1,*/}
-              {/*              },*/}
-              {/*            }}*/}
-              {/*            inputMode="numeric"*/}
-              {/*            InputProps={{*/}
-              {/*              inputComponent: (props) => (*/}
-              {/*                <TaxonCntFormat*/}
-              {/*                  taxonData={defaultValues[taxonItem.taxonName]}*/}
-              {/*                  {...props}*/}
-              {/*                />*/}
-              {/*              ),*/}
-              {/*              startAdornment: (*/}
-              {/*                <Taxon iconName={taxonItem.taxonIconName} />*/}
-              {/*              ),*/}
-              {/*              endAdornment: <EA />,*/}
-              {/*            }}*/}
-              {/*          />*/}
-              {/*        );*/}
-              {/*      })}*/}
-              {/*    </Stack>*/}
-              {/*  </TD>*/}
-              {/*</TableRow>*/}
               <TableRow>
                 <TH sx={{ width: "15%" }}>샘플개수</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  <SampleTotal />
+                  <Box sx={{ width: 100 }}>
+                    <SampleTotal />
+                  </Box>
                 </TD>
               </TableRow>
               <TableRow>
@@ -595,12 +562,21 @@ const OrderRegView = () => {
             <OutlinedButton size="small" buttonName="목록" />
           </Link>
 
-          <ContainedButton
-            size="small"
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
             type="submit"
-            buttonName="저장"
-            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
-          />
+            size="small"
+          >
+            저장
+          </LoadingButton>
+
+          {/*<ContainedButton*/}
+          {/*  size="small"*/}
+          {/*  type="submit"*/}
+          {/*  buttonName="저장"*/}
+          {/*  endIcon={isLoading ? <LoadingWhiteSvg /> : null}*/}
+          {/*/>*/}
         </Stack>
       </Form>
     </>

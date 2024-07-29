@@ -1,8 +1,18 @@
 import React from "react";
-import { EA, InputValidation, Taxon, TD, TH } from "cjbsDSTM";
-import { Stack, TableRow } from "@mui/material";
+import {
+  cjbsTheme,
+  EA,
+  InputEAType,
+  InputValidation,
+  Taxon,
+  TD,
+  TH,
+} from "cjbsDSTM";
+import { Box, Chip, Stack, TableRow, Typography } from "@mui/material";
 import { taxonListData } from "../../../data/inputDataLists";
 import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
+import { Controller, useFormContext } from "react-hook-form";
+import { NumericFormat } from "react-number-format";
 
 const TaxonRow = () => {
   const defaultValues = {
@@ -11,42 +21,54 @@ const TaxonRow = () => {
     taxonACnt: 0,
   };
 
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   return (
     <TableRow>
       <TH sx={{ width: "15%" }}>Taxon 개수</TH>
       <TD sx={{ width: "85%" }} colSpan={5}>
-        <Stack direction="row" spacing={0.5} alignItems="center">
+        <Stack direction="row" spacing={2} alignItems="center">
           {taxonListData.map((taxonItem, index) => {
             return (
-              <InputValidation
-                inputName={taxonItem.taxonName}
-                required={true}
-                errorMessage="개수를 입력해 주세요."
-                pattern={/^[0-9]+$/}
-                patternErrMsg="숫자만 입력해 주세요."
-                sx={{
-                  width: 100,
-                  ".MuiOutlinedInput-input": {
-                    textAlign: "end",
-                  },
-                  "&.MuiTextField-root": {
-                    backgroundColor: "white",
-                    borderRadius: 1,
-                  },
-                }}
-                inputMode="numeric"
-                InputProps={{
-                  // inputComponent: (props) => (
-                  //   <TaxonCntFormat
-                  //     name={taxonItem.taxonName}
-                  //     taxonData={defaultValues[taxonItem.taxonName]}
-                  //     {...props}
-                  //   />
-                  // ),
-                  startAdornment: <Taxon iconName={taxonItem.taxonIconName} />,
-                  endAdornment: <EA />,
-                }}
-              />
+              <Stack
+                key={taxonItem.taxonName}
+                direction="row"
+                alignItems="center"
+              >
+                <Controller
+                  name={taxonItem.taxonName}
+                  control={control}
+                  rules={{ required: true }}
+                  render={({ field }) => (
+                    <Stack direction="row" alignItems="center" spacing={0.5}>
+                      <Taxon iconName={taxonItem.taxonIconName} />
+                      <Box sx={{ width: 75 }}>
+                        <NumericFormat
+                          {...field}
+                          customInput={InputEAType}
+                          thousandSeparator
+                          onValueChange={(values, sourceInfo) => {
+                            // console.log(values, sourceInfo);
+                            field.onChange(values.value);
+                          }}
+                        />
+                      </Box>
+                    </Stack>
+                  )}
+                />
+                {errors[taxonItem.taxonName] && (
+                  <Typography
+                    variant="body2"
+                    color={cjbsTheme.palette.warning.main}
+                    sx={{ pl: 0.5 }}
+                  >
+                    {taxonItem.taxonIconName} 개수를 입력해 주세요.
+                  </Typography>
+                )}
+              </Stack>
             );
           })}
         </Stack>
