@@ -50,6 +50,7 @@ import RemainingAmount from "./RemainingAmount";
 import EtcContainer from "./EtcContainer";
 import SettlementContainer from "./SettlementContainer";
 import SubmitContainer from "./SubmitContainer";
+import RmnPrePymPrice from "./RmnPrePymPrice";
 
 const LazyOrderSearchModal = dynamic(
   () => import("../../../../../components/OrderSearchModal"),
@@ -58,13 +59,13 @@ const LazyOrderSearchModal = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
-const LazyAnalysisListModal = dynamic(
-  () => import("../../../../../components/AnalysisListModal"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
-);
+// const LazyAnalysisListModal = dynamic(
+//   () => import("../../../../../components/AnalysisListModal"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   },
+// );
 
 const LazySalesManagerSelectbox = dynamic(
   () => import("../../../../../components/SalesManagerSelectbox"),
@@ -95,9 +96,7 @@ const AnalysisRegView = () => {
   const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
     useState<boolean>(false);
   // [고객 검색] 모달
-  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(
-    orderUkey !== null ? false : true,
-  );
+  const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [orderSelectChk, setOrderSelectChk] = useState<boolean>(false);
   const [ukeyValue, setUkeyValue] = useState<string>(null);
@@ -483,15 +482,16 @@ const AnalysisRegView = () => {
                     </TD>
                     <TH sx={{ width: "15%" }}>선결제 금액</TH>
                     <TD sx={{ width: "35%" }}>
-                      <InputValidation
-                        inputName="rmnPrePymtPrice"
-                        required={true}
-                        errorMessage="선결제 금액 입력해 주세요."
-                        sx={{ width: "100%" }}
-                        InputProps={{
-                          readOnly: true,
-                        }}
-                      />
+                      <RmnPrePymPrice />
+                      {/*<InputValidation*/}
+                      {/*  inputName="rmnPrePymtPrice"*/}
+                      {/*  required={true}*/}
+                      {/*  errorMessage="선결제 금액 입력해 주세요."*/}
+                      {/*  sx={{ width: "100%" }}*/}
+                      {/*  InputProps={{*/}
+                      {/*    readOnly: true,*/}
+                      {/*  }}*/}
+                      {/*/>*/}
                     </TD>
                   </TableRow>
                 </TableBody>
@@ -830,17 +830,17 @@ const AnalysisRegView = () => {
           />
         </ErrorContainer>
         {/* 분석내역 검색 모달 */}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAnalysisListModal
-            onClose={analysisSearchModalClose}
-            // handleSelectedRowChange={handleSelectedRowChange}
-            handleAddSampleList={handleAddSampleList}
-            open={showAnalysisSearchModal}
-            getOrderUkey={ukeyValue}
-            selectSampleList={selectSampleList}
-            modalWidth={1400}
-          />
-        </ErrorContainer>
+        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*  <LazyAnalysisListModal*/}
+        {/*    onClose={analysisSearchModalClose}*/}
+        {/*    // handleSelectedRowChange={handleSelectedRowChange}*/}
+        {/*    handleAddSampleList={handleAddSampleList}*/}
+        {/*    open={showAnalysisSearchModal}*/}
+        {/*    getOrderUkey={ukeyValue}*/}
+        {/*    selectSampleList={selectSampleList}*/}
+        {/*    modalWidth={1400}*/}
+        {/*  />*/}
+        {/*</ErrorContainer>*/}
       </>
     </Form>
   );

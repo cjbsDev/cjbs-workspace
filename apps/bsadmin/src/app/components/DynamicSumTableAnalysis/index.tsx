@@ -15,11 +15,11 @@ import TotalPrice from "./TotalPrice";
 
 const Index = () => {
   const { control, setValue, getValues, watch } = useFormContext();
-  const rmnPrePymtPrice = Number(
-    getValues("rmnPrePymtPrice").replaceAll(",", ""),
-  );
-
-  console.log("rmnPrePymtPrice", rmnPrePymtPrice);
+  // const rmnPrePymtPrice = Number(
+  //   getValues("rmnPrePymtPrice").replaceAll(",", ""),
+  // );
+  // console.log("rmnPrePymtPrice", rmnPrePymtPrice);
+  const rmnPrePymtPrice = getValues("rmnPrePymtPrice");
 
   const fieldArrayName = "costList";
   const productValue =

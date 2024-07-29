@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { InputAdornment, Typography } from "@mui/material";
 import { formatNumberWithCommas, InputValidation } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
+import DisplayMoney from "../../../../../components/DisplayMoney";
 
 const RemainingAmount = () => {
   const { control, getValues, setValue, watch } = useFormContext();
@@ -13,19 +14,19 @@ const RemainingAmount = () => {
   // const totalVat = watch("vat");
 
   console.log("totalPrice", totalPrice);
-  console.log("rmnPrePymtPrice", Number(rmnPrePymtPrice.replaceAll(",", "")));
+  // console.log("rmnPrePymtPrice", Number(rmnPrePymtPrice.replaceAll(",", "")));
 
   // const getSupplyTotalValue = watch("totalSupplyPrice");
   // const getVat = watch("vat");
   // console.log("getVat^^^^", getVat);
-  const remainingAmount =
-    totalPrice - Number(rmnPrePymtPrice.replaceAll(",", ""));
+  const remainingAmount = totalPrice - rmnPrePymtPrice;
+  // totalPrice - Number(rmnPrePymtPrice.replaceAll(",", ""));
 
   const isRemainingAmount = remainingAmount > 0 ? remainingAmount : 0;
 
-  useEffect(() => {
-    setValue("remainingAmount", formatNumberWithCommas(isRemainingAmount));
-  }, [setValue, totalPrice, isRemainingAmount]);
+  // useEffect(() => {
+  //   setValue("remainingAmount", formatNumberWithCommas(isRemainingAmount));
+  // }, [setValue, totalPrice, isRemainingAmount]);
 
   // console.log("totalSupplyPrice", totalSupplyPrice);
   // console.log("totalVat", totalVat);
@@ -125,29 +126,30 @@ const RemainingAmount = () => {
 
   return (
     <>
-      <InputValidation
-        inputName="remainingAmount"
-        required={true}
-        sx={{
-          width: "100%",
-          ".MuiOutlinedInput-input": {
-            textAlign: "end",
-          },
-          "&.MuiTextField-root": {
-            backgroundColor: "#F1F3F5",
-          },
-        }}
-        InputProps={{
-          readOnly: true,
-          endAdornment: (
-            <InputAdornment position="end">
-              <Typography variant="body2" sx={{ color: "black" }}>
-                원
-              </Typography>
-            </InputAdornment>
-          ),
-        }}
-      />
+      <DisplayMoney price={isRemainingAmount} />
+      {/*<InputValidation*/}
+      {/*  inputName="remainingAmount"*/}
+      {/*  required={true}*/}
+      {/*  sx={{*/}
+      {/*    width: "100%",*/}
+      {/*    ".MuiOutlinedInput-input": {*/}
+      {/*      textAlign: "end",*/}
+      {/*    },*/}
+      {/*    "&.MuiTextField-root": {*/}
+      {/*      backgroundColor: "#F1F3F5",*/}
+      {/*    },*/}
+      {/*  }}*/}
+      {/*  InputProps={{*/}
+      {/*    readOnly: true,*/}
+      {/*    endAdornment: (*/}
+      {/*      <InputAdornment position="end">*/}
+      {/*        <Typography variant="body2" sx={{ color: "black" }}>*/}
+      {/*          원*/}
+      {/*        </Typography>*/}
+      {/*      </InputAdornment>*/}
+      {/*    ),*/}
+      {/*  }}*/}
+      {/*/>*/}
     </>
   );
 };

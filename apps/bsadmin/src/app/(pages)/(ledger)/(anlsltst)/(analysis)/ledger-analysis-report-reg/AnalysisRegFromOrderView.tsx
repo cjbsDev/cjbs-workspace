@@ -49,6 +49,7 @@ import RemainingAmount from "./RemainingAmount";
 import EtcContainer from "./EtcContainer";
 import SettlementContainer from "./SettlementContainer";
 import SubmitContainer from "./SubmitContainer";
+import RmnPrePymPrice from "./RmnPrePymPrice";
 
 const LazyOrderSearchModal = dynamic(
   () => import("../../../../../components/OrderSearchModal"),
@@ -65,7 +66,7 @@ const LazyAnalysisListModal = dynamic(
   },
 );
 
-const AnalysisRegView = () => {
+const AnalysisRegFromOrderView = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const orderUkey = searchParams.get("orderUkey");
@@ -112,7 +113,7 @@ const AnalysisRegView = () => {
     sampleUkey: [],
     // srvcTypeMc: "",
     stndCode: "",
-    stndPrice: "0",
+    stndPrice: "N/A",
     supplyPrice: 0,
     unitPrice: 0,
     vat: 0,
@@ -511,15 +512,16 @@ const AnalysisRegView = () => {
                 </TD>
                 <TH sx={{ width: "15%" }}>선결제 금액</TH>
                 <TD sx={{ width: "35%" }}>
-                  <InputValidation
-                    inputName="rmnPrePymtPrice"
-                    required={true}
-                    errorMessage="선결제 금액 입력해 주세요."
-                    sx={{ width: "100%" }}
-                    InputProps={{
-                      readOnly: true,
-                    }}
-                  />
+                  <RmnPrePymPrice />
+                  {/*<InputValidation*/}
+                  {/*  inputName="rmnPrePymtPrice"*/}
+                  {/*  required={true}*/}
+                  {/*  errorMessage="선결제 금액 입력해 주세요."*/}
+                  {/*  sx={{ width: "100%" }}*/}
+                  {/*  InputProps={{*/}
+                  {/*    readOnly: true,*/}
+                  {/*  }}*/}
+                  {/*/>*/}
                 </TD>
               </TableRow>
             </TableBody>
@@ -527,6 +529,10 @@ const AnalysisRegView = () => {
         </TableContainer>
 
         <DynamicTableAnalysis />
+        <DynamicSumTableAnalysis />
+        <SettlementContainer />
+        <EtcContainer />
+        <SubmitContainer />
 
         {orderSelectChk == true && (
           <>
@@ -590,11 +596,11 @@ const AnalysisRegView = () => {
             {/*  </Table>*/}
             {/*</TableContainer>*/}
 
-            <DynamicTableAnalysis />
-            <DynamicSumTableAnalysis />
-            <SettlementContainer />
-            <EtcContainer />
-            <SubmitContainer />
+            {/*<DynamicTableAnalysis />*/}
+            {/*<DynamicSumTableAnalysis />*/}
+            {/*<SettlementContainer />*/}
+            {/*<EtcContainer />*/}
+            {/*<SubmitContainer />*/}
           </>
         )}
         {/* 오더 검색 모달*/}
@@ -608,23 +614,23 @@ const AnalysisRegView = () => {
           />
         </ErrorContainer>
         {/* 분석내역 검색 모달 */}
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazyAnalysisListModal
-            onClose={analysisSearchModalClose}
-            // handleSelectedRowChange={handleSelectedRowChange}
-            handleAddSampleList={handleAddSampleList}
-            open={showAnalysisSearchModal}
-            getOrderUkey={ukeyValue}
-            selectSampleList={selectSampleList}
-            modalWidth={1400}
-          />
-        </ErrorContainer>
+        {/*<ErrorContainer FallbackComponent={Fallback}>*/}
+        {/*  <LazyAnalysisListModal*/}
+        {/*    onClose={analysisSearchModalClose}*/}
+        {/*    // handleSelectedRowChange={handleSelectedRowChange}*/}
+        {/*    handleAddSampleList={handleAddSampleList}*/}
+        {/*    open={showAnalysisSearchModal}*/}
+        {/*    getOrderUkey={ukeyValue}*/}
+        {/*    selectSampleList={selectSampleList}*/}
+        {/*    modalWidth={1400}*/}
+        {/*  />*/}
+        {/*</ErrorContainer>*/}
       </>
     </Form>
   );
 };
 
-export default AnalysisRegView;
+export default AnalysisRegFromOrderView;
 
 const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
   color: "#666666",

@@ -13,9 +13,10 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 const SettlementContainer = () => {
   const { control, setValue, getValues, watch } = useFormContext();
-  const rmnPrePymtPrice = Number(
-    getValues("rmnPrePymtPrice").replaceAll(",", ""),
-  );
+  // const rmnPrePymtPrice = Number(
+  //   getValues("rmnPrePymtPrice").replaceAll(",", ""),
+  // );
+  const rmnPrePymtPrice = getValues("rmnPrePymtPrice");
   const fieldArrayName = "costList";
   const productValue =
     useWatch({
