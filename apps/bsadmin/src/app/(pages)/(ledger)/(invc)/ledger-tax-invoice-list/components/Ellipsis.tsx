@@ -20,8 +20,25 @@ const Ellipsis = ({ text, line = 2 }: EllipsisProps) => {
   return (
     text !== null &&
     text !== "" && (
-      <Tooltip title={text} arrow>
-        <Box>
+      <Tooltip
+        data-tag="allowRowEvents"
+        title={text}
+        arrow
+        sx={{ width: "100%" }}
+        slotProps={{
+          popper: {
+            modifiers: [
+              {
+                name: "offset",
+                options: {
+                  offset: [0, -10],
+                },
+              },
+            ],
+          },
+        }}
+      >
+        <Box data-tag="allowRowEvents" sx={{ width: "100%" }}>
           <LinesEllipsis
             text={text}
             maxLine={line}

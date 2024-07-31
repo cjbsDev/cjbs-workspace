@@ -34,7 +34,7 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
-import SampleTotal from "./SampleTotal";
+import SampleTotal from "../components/SampleTotal";
 import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
@@ -54,7 +54,7 @@ import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
 import MyIcon from "icon/MyIcon";
 import ProjectSection from "./ProjectSection";
-import TaxonRow from "./TaxonRow";
+import TaxonRow from "../components/TaxonRow";
 import { LoadingButton } from "@mui/lab";
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {

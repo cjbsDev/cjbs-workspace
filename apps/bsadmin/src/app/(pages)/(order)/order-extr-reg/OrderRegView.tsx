@@ -32,7 +32,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
-import SampleTotal from "./SampleTotal";
+import SampleTotal from "../components/SampleTotal";
 import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
@@ -47,8 +47,9 @@ import TaxonCntFormat from "../../../components/NumberFormat/TaxonCntFormat";
 import AmountFormat from "../../../components/NumberFormat/AmountFormat";
 import LoadingWhiteSvg from "../../../components/LoadingWhiteSvg";
 import ResearcherMngInfo from "./researcherMngInfo";
-import TaxonRow from "./TaxonRow";
+import TaxonRow from "../components/TaxonRow";
 import { NumericFormat, NumericFormatProps } from "react-number-format";
+import { LoadingButton } from "@mui/lab";
 
 const LazyQuickCopy = dynamic(() => import("./QuickCopy"), {
   ssr: false,
@@ -371,12 +372,21 @@ const OrderRegView = () => {
             <OutlinedButton size="small" buttonName="목록" />
           </Link>
 
-          <ContainedButton
-            size="small"
+          <LoadingButton
+            loading={isLoading}
+            variant="contained"
             type="submit"
-            buttonName="저장"
-            endIcon={isLoading ? <LoadingWhiteSvg /> : null}
-          />
+            size="small"
+          >
+            저장
+          </LoadingButton>
+
+          {/*<ContainedButton*/}
+          {/*  size="small"*/}
+          {/*  type="submit"*/}
+          {/*  buttonName="저장"*/}
+          {/*  endIcon={isLoading ? <LoadingWhiteSvg /> : null}*/}
+          {/*/>*/}
         </Stack>
       </Form>
     </>

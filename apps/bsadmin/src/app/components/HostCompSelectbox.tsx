@@ -9,10 +9,10 @@ export default function HostCompSelectbox(props) {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <SelectBox
