@@ -288,7 +288,9 @@ const OrderRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>샘플개수</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  <SampleTotal />
+                  <Box sx={{ width: 100 }}>
+                    <SampleTotal />
+                  </Box>
                 </TD>
               </TableRow>
               <TableRow>
