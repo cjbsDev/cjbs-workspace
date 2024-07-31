@@ -72,15 +72,24 @@ const ExperimentProgressChangeModal = ({
   };
 
   const onSubmit = async (data: {
+    statusCc;
     compDttm: string | number | Date | dayjs.Dayjs | null | undefined;
   }) => {
     setIsLoading(true);
     console.log("FORM DATA ==>>", data);
     console.log("SampleUkeyList", sampleUkeyList);
 
-    const convertedDate = dayjs(data.compDttm).format("YYYY-MM-DD");
+    const statusCcCondition =
+      data.statusCc === "BS_0902004" ||
+      data.statusCc === "BS_0902005" ||
+      data.statusCc === "BS_0902006" ||
+      data.statusCc === "BS_0902007";
 
-    const bodyData = {
+    const convertedDate = statusCcCondition
+      ? dayjs(data.compDttm).format("YYYY-MM-DD")
+      : null;
+
+    const reqBody = {
       ...data,
       compDttm: convertedDate,
       sampleUkeyList: sampleUkeyList,
@@ -89,9 +98,9 @@ const ExperimentProgressChangeModal = ({
       // isSendEmail: data.isSendEmail,
     };
 
-    console.log("BODYDATA ==>", bodyData);
+    console.log("REQBODY ==>", reqBody);
 
-    await PUT(apiUrl, bodyData)
+    await PUT(apiUrl, reqBody)
       .then((response) => {
         console.log("POST request successful:", response.success);
         if (response.success) {
