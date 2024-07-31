@@ -3,7 +3,8 @@ import { Stack, Typography, Chip, Box, IconButton } from "@mui/material";
 import MyIcon from "icon/MyIcon";
 import { formatNumberWithCommas } from "cjbsDSTM/commonFunc";
 import { cjbsTheme } from "cjbsDSTM";
-import Ellipsis from "./Ellipsis";
+// import Ellipsis from "./Ellipsis";
+import Ellipsis from "../../../../../components/Ellipsis";
 import ReportModifyBtn from "./ReportModify/reportModifyBtn";
 import MemoModifyBtn from "./MemoModify/memoModifyBtn";
 
@@ -166,7 +167,7 @@ export const getColumns = () => [
           justifyContent="center"
           spacing={1}
         >
-          <Ellipsis text={memo} />
+          <Ellipsis text={memo} line={1} />
           <MemoModifyBtn memo={memo} invcUkey={invcUkey} />
           {/*<IconButton onClick={() => console.log("Click! Memo")}>*/}
           {/*  <MyIcon icon="pencil-alt" size={18} />*/}
@@ -193,7 +194,7 @@ export const getColumns = () => [
             justifyContent="center"
             spacing={1}
           >
-            <Ellipsis text={report} />
+            <Ellipsis text={report} line={1} />
             <ReportModifyBtn report={report} invcUkey={invcUkey} />
           </Stack>
         </>

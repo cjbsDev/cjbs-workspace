@@ -13,7 +13,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
-import Ellipsis from "../../../../(ledger)/(invc)/ledger-tax-invoice-list/components/Ellipsis";
+import Ellipsis from "../../../../../components/Ellipsis";
 
 const SampleDataTable = (props) => {
   const {
