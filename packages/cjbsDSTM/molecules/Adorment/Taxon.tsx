@@ -8,7 +8,7 @@ interface TaxonProps {
 export const Taxon = (props: TaxonProps) => {
   const { iconName } = props;
   return (
-    <InputAdornment position="start" sx={{ ml: -1 }}>
+    <InputAdornment position="start" sx={{}}>
       <MyIcon icon={iconName} size={20} />
     </InputAdornment>
   );

@@ -13,6 +13,7 @@ import {
   Typography,
   TypographyProps,
 } from "@mui/material";
+import Ellipsis from "../../../../../components/Ellipsis";
 
 const SampleDataTable = (props) => {
   const {
@@ -81,32 +82,24 @@ const SampleDataTable = (props) => {
       },
       {
         name: "샘플명",
-        minWidth: "300px",
+        minWidth: "250px",
         sortable: false,
         // center: true,
-        allowOverflow: true,
+        // allowOverflow: true,
+        // grow: 2,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
         cell: (row) => {
-          return (
-            <Tooltip
-              title={row.sampleNm}
-              arrow
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -10],
-                      },
-                    },
-                  ],
-                },
-              }}
-            >
-              {row.sampleNm}
-            </Tooltip>
-          );
+          return <Ellipsis text={row.sampleNm} line={1} />;
+        },
+      },
+      {
+        name: "대체명",
+        minWidth: "250px",
+        // allowOverflow: true,
+        // sortable: true,
+        selector: (row) => (row.altrNm === null ? "-" : row.altrNm),
+        cell: (row) => {
+          return <Ellipsis text={row.altrNm} line={1} />;
         },
       },
       {
@@ -120,8 +113,9 @@ const SampleDataTable = (props) => {
         name: "Source",
         sortable: false,
         center: true,
-        // allowOverflow: true,
-        // grow: 2,
+        allowOverflow: true,
+        wrap: true,
+        // grow: 3,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
@@ -140,34 +134,42 @@ const SampleDataTable = (props) => {
       },
       {
         name: "RUN",
-        minWidth: "200px",
+        width: "250px",
+        // maxWidth: "200px",
+        // minWidth: "300px",
         sortable: false,
         center: true,
+        // allowOverflow: true,
+        // glow: 10,
         // wrap: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
         cell: (row) => {
           return (
-            <Tooltip
-              title={row.runList.length === 0 ? "-" : row.runList.join(", ")}
-              arrow
-              slotProps={{
-                popper: {
-                  modifiers: [
-                    {
-                      name: "offset",
-                      options: {
-                        offset: [0, -10],
-                      },
-                    },
-                  ],
-                },
-              }}
-            >
-              <Typography variant="body2">
-                {row.runList.length === 0 ? "-" : row.runList.join(", ")}
-              </Typography>
-            </Tooltip>
+            <>
+              <Ellipsis text={row.runList.join(", ")} line={1} />
+              {/*<Tooltip*/}
+              {/*  title={row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
+              {/*  arrow*/}
+              {/*  slotProps={{*/}
+              {/*    popper: {*/}
+              {/*      modifiers: [*/}
+              {/*        {*/}
+              {/*          name: "offset",*/}
+              {/*          options: {*/}
+              {/*            offset: [0, -10],*/}
+              {/*          },*/}
+              {/*        },*/}
+              {/*      ],*/}
+              {/*    },*/}
+              {/*  }}*/}
+              {/*  sx={{ width: "100%" }}*/}
+              {/*>*/}
+              {/*  <Typography variant="body2">*/}
+              {/*    {row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
+              {/*  </Typography>*/}
+              {/*</Tooltip>*/}
+            </>
           );
         },
       },

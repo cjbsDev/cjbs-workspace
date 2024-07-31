@@ -293,7 +293,7 @@ const SampleTab = () => {
         <LazyExperimentProgressChangeModal
           onClose={handleExPrgsChngModalClose}
           open={showExPrgsChngModal}
-          modalWidth={600}
+          modalWidth={450}
           sampleUkeyList={sampleUkeyList}
         />
       )}

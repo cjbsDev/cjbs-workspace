@@ -171,12 +171,18 @@ const StockOutModal = ({
         </Form>
       </DialogContent>
       <ModalAction>
-        <OutlinedButton buttonName="취소" onClick={onClose} color="secondary" />
+        <OutlinedButton
+          buttonName="취소"
+          onClick={onClose}
+          color="secondary"
+          size="small"
+        />
         <LoadingButton
           loading={isLoading}
           variant="contained"
           type="submit"
           form="stockOutForm"
+          size="small"
         >
           저장
         </LoadingButton>

@@ -142,21 +142,11 @@ export const InputDefaultType = ({ ...props }: TextFieldProps) => {
 
 export const InputPriceNewType = forwardRef((props, ref) => {
   const {
-    register,
     control,
     formState: { errors },
   } = useFormContext();
   return (
     <Stack>
-      {/*<NumericFormat*/}
-      {/*  {...register("price")}*/}
-      {/*  customInput={InputPriceType}*/}
-      {/*  thousandSeparator*/}
-      {/*  onValueChange={(values, sourceInfo) => {*/}
-      {/*    console.log(values, sourceInfo);*/}
-      {/*    field.onChange(values.value);*/}
-      {/*  }}*/}
-      {/*/>*/}
       <Controller
         name="price"
         control={control}
@@ -168,7 +158,7 @@ export const InputPriceNewType = forwardRef((props, ref) => {
             customInput={InputPriceType2}
             thousandSeparator
             onValueChange={(values, sourceInfo) => {
-              console.log(values, sourceInfo);
+              // console.log(values, sourceInfo);
               field.onChange(values.value);
             }}
           />
@@ -236,6 +226,42 @@ export const InputPriceType = ({ ...props }: TextFieldProps) => {
         }}
       />
     </ThemeProvider>
+  );
+};
+
+export const InputValidEANewType = ({ name }) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+  return (
+    <Stack>
+      <Controller
+        name="sampleCnt"
+        control={control}
+        rules={{ required: true }}
+        render={({ field }) => (
+          <NumericFormat
+            {...field}
+            customInput={InputEAType}
+            thousandSeparator
+            onValueChange={(values, sourceInfo) => {
+              // console.log(values, sourceInfo);
+              field.onChange(values.value);
+            }}
+          />
+        )}
+      />
+      {errors.sampleCnt && (
+        <Typography
+          variant="body2"
+          color={cjbsTheme.palette.warning.main}
+          sx={{ pl: 0.5 }}
+        >
+          샘플개수를 입력해 주세요.
+        </Typography>
+      )}
+    </Stack>
   );
 };
 

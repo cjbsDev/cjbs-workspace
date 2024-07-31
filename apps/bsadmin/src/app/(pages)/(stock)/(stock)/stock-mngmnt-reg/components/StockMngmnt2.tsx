@@ -18,6 +18,8 @@ const StockMngmnt2 = () => {
     },
   );
 
+  console.log("담당자 ==>>", data);
+
   return (
     <SelectBox
       required={true}

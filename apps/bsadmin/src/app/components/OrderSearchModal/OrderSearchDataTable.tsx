@@ -179,9 +179,9 @@ const OrderSearchDataTable = (props: {
                 // setValue("bsnsMngrUkey", bsnsMngrUkey);
                 setValue(
                   "rmnPrePymtPrice",
-                  rmnPrePymtPrice
-                    .toString()
-                    .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                  rmnPrePymtPrice,
+                  // .toString()
+                  // .replace(/\B(?=(\d{3})+(?!\d))/g, ","),
                 );
                 setValue("anlsTypeMc", anlsTypeMc);
                 setValue("costList", []);

@@ -12,6 +12,7 @@ import {
 import MyIcon from "icon/MyIcon";
 import { cjbsTheme } from "cjbsDSTM";
 import Link from "next/link";
+import Ellipsis from "../../../components/Ellipsis";
 
 export const getColumns = () => [
   {
@@ -53,9 +54,13 @@ export const getColumns = () => [
   {
     name: "샘플명",
     width: "200px",
-    allowOverflow: true,
+    // allowOverflow: true,
     // sortable: true,
     selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
+    cell: (row) => {
+      const { sampleNm } = row;
+      return sampleNm === null ? "-" : <Ellipsis text={sampleNm} line={1} />;
+    },
   },
   {
     name: "대체명",
@@ -344,16 +349,25 @@ export const getColumns = () => [
   },
   {
     name: "RUN",
-    // width: "120px",
+    width: "150px",
     sortable: false,
+    center: true,
     // right: true,
-    allowOverflow: true,
+    // allowOverflow: true,
     selector: (row) => (row.runList === null ? "-" : row.runList.join(", ")),
+    cell: (row) => {
+      const { runList } = row;
+      return runList === null ? (
+        "-"
+      ) : (
+        <Ellipsis text={runList.join(", ")} line={1} />
+      );
+    },
   },
   {
     name: "Project uid",
     width: "160px",
-    right: true,
+    center: true,
     selector: (row) => (row.projectUid === null ? "-" : row.projectUid),
     cell: (row) => {
       const { projectUid, projectUidLink, orderUkey } = row;
