@@ -17,6 +17,7 @@ export const getDefaultValues = (orshType: any, orshExtrData: any) => {
       // 주문 정보
       mailRcpnList: orshExtrData.orderInfo.mailRcpnList,
       addEmailList: orshExtrData.orderInfo.addEmailList,
+      sampleCnt: orshExtrData.orderInfo.sampleCnt,
       srvcTypeMc: orshExtrData.orderInfo.srvcTypeMc,
       anlsTypeMc: orshExtrData.orderInfo.anlsTypeMc,
       platformMc: orshExtrData.orderInfo.pltfMc,
