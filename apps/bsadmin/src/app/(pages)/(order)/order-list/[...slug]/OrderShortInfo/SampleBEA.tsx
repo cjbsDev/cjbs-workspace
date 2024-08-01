@@ -11,11 +11,11 @@ import {
 import { cjbsTheme, grey } from "cjbsDSTM";
 
 const SampleBEA = (props) => {
-  const { bcount, ecount, acount } = props;
+  const { bcount, ecount, acount, sampleCount } = props;
   return (
     <Box>
       <Typography variant="subtitle1" sx={{ mb: 0.5 }}>
-        샘플 {bcount + ecount + acount}개
+        샘플 {sampleCount}개
       </Typography>
 
       <Stack direction="row" spacing={1}>

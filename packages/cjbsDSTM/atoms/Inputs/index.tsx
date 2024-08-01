@@ -229,7 +229,7 @@ export const InputPriceType = ({ ...props }: TextFieldProps) => {
   );
 };
 
-export const InputValidEANewType = ({ name }) => {
+export const InputValidEANewType = ({ name, displayType = "input" }) => {
   const {
     control,
     formState: { errors },
@@ -241,15 +241,19 @@ export const InputValidEANewType = ({ name }) => {
         control={control}
         rules={{ required: true }}
         render={({ field }) => (
-          <NumericFormat
-            {...field}
-            customInput={InputEAType}
-            thousandSeparator
-            onValueChange={(values, sourceInfo) => {
-              // console.log(values, sourceInfo);
-              field.onChange(values.value);
-            }}
-          />
+          <Stack direction="row" spacing={0.5} alignItems="center">
+            <NumericFormat
+              {...field}
+              displayType={displayType}
+              customInput={InputEAType}
+              thousandSeparator
+              onValueChange={(values, sourceInfo) => {
+                // console.log(values, sourceInfo);
+                field.onChange(values.value);
+              }}
+            />
+            {displayType === "text" && <Typography>개</Typography>}
+          </Stack>
         )}
       />
       {errors.sampleCnt && (

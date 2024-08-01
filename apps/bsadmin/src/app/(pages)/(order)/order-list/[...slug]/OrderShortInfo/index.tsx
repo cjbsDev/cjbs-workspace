@@ -121,7 +121,12 @@ const OrderShortInfo = () => {
           orderStatusVal={orderStatusVal}
         />
 
-        <SampleBEA bcount={bcount} ecount={ecount} acount={acount} />
+        <SampleBEA
+          sampleCount={sampleCount}
+          bcount={bcount}
+          ecount={ecount}
+          acount={acount}
+        />
 
         <AnalysisStatus
           pcrLibComp={pcrLibComp}

@@ -34,7 +34,7 @@ import * as React from "react";
 import { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next-nprogress-bar";
 import PlatformSelectbox from "./PlatformSelectbox";
-import SampleTotal from "./SampleTotal";
+import SampleTotal from "../components/SampleTotal";
 import SixteenCheck from "./SixteenCheck";
 import {
   emailReceiveSettingData,
@@ -625,7 +625,9 @@ const OrderRegView = () => {
               <TableRow>
                 <TH sx={{ width: "15%" }}>샘플개수</TH>
                 <TD sx={{ width: "85%" }} colSpan={5}>
-                  <SampleTotal />
+                  <Box sx={{ width: 100 }}>
+                    <SampleTotal displayType={"text"} />
+                  </Box>
                 </TD>
               </TableRow>
               <TableRow>
