@@ -2,6 +2,7 @@ import { formatNumberWithCommas, formatPhoneNumber } from "cjbsDSTM";
 import React from "react";
 import { IconButton, Tooltip } from "@mui/material";
 import MyIcon from "icon/MyIcon";
+import Ellipsis from "../../../../components/Ellipsis";
 
 export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   {
@@ -46,9 +47,13 @@ export const getColumns = (goModifyPage: (esPrMngUkey: string) => void) => [
   },
   {
     name: "오더정보",
+    minWidth: "200px",
     selector: (row: { orderInfo: string }) =>
       row.orderInfo !== null ? row.orderInfo : "-",
-    allowOverflow: true,
+    cell: (row) => {
+      const { orderInfo } = row;
+      return <Ellipsis text={orderInfo} line={1} />;
+    },
     // center: true,
   },
   {
