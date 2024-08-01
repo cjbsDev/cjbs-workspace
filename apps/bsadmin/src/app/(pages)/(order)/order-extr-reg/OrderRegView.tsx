@@ -106,6 +106,7 @@ const OrderRegView = () => {
     mailRcpnList: ["agncLeaderRcpn", "ordrAplcRcpn"],
     orderTypeCc: "BS_0800001",
     isCheck16s: "N",
+    sampleCnt: "0",
   };
   console.log("DefaultValues ==>>", defaultValues);
 
