@@ -13,7 +13,7 @@ export default function PrepSelectbox() {
     },
   );
 
-  console.log("prepMngrUkey", data);
+  // console.log("prepMngrUkey", data);
 
   return <SelectBox inputName="prepMngrUkey" options={data} />;
 }

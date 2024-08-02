@@ -39,6 +39,7 @@ import {
 } from "../../../../../data/inputDataLists";
 import { PUT, fetcher } from "api";
 import AddEmailListValidation from "./AddEmailListValidation";
+import SrvcTypeChangeWarning from "../../components/SrvcTypeChangeWarning";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -52,6 +53,27 @@ const LazyOrderType = dynamic(() => import("./OrderType"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
+const LazyAnalysisTypeSelctbox = dynamic(
+  () => import("../../../components/AnalysisTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyServiceTypeSelctbox = dynamic(
+  () => import("../../../components/ServiceTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyPlatformSelectbox = dynamic(
+  () => import("../../../components/PlatformSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 const dataRadioGVTest = [
   { value: "dnaReturnReq", optionName: "DNA 반송 요청" },
@@ -80,12 +102,16 @@ ModalContainerProps) => {
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(`/order/sales/${orderUkey}`, fetcher, {
-    suspense: true,
-  });
+  const { data: orderSalesData } = useSWR(
+    `/order/sales/${orderUkey}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
   const { mutate } = useSWRConfig();
 
-  console.log("오더 Sales 정보 변경 InitData ==>>", data);
+  console.log("오더 Sales 정보 변경 InitData ==>>", orderSalesData);
 
   const handleClose = () => {
     onClose();
@@ -93,7 +119,7 @@ ModalContainerProps) => {
   };
 
   const defaultValues = {
-    ...data,
+    ...orderSalesData,
     // is16S: data.is16S,
     // mailRcpnList: data.mailRcpnList,
     // reqReturnCompList: data.reqReturnCompList,
@@ -114,7 +140,7 @@ ModalContainerProps) => {
       setAddEmailChck(true);
     }
 
-    const body = {
+    const reqBody = {
       ...data,
       // check16sAt: newDateValue,
       // mailRcpnList: data.mailRcpnList,
@@ -129,13 +155,13 @@ ModalContainerProps) => {
     };
 
     try {
-      const res = await PUT(`/order/sales/${orderUkey}`, body);
+      const res = await PUT(`/order/sales/${orderUkey}`, reqBody);
       console.log("오더 Sales 정보 변경 성고 ==>>", res.success);
 
       if (res.success) {
+        mutate(`/order/${orderUkey}/sample/list`);
         mutate(`/order/${orderUkey}`);
         mutate(`/order/detail/${orderUkey}`);
-        // mutate(`/order/analysis/${orderUkey}`);
         mutate(`/order/sales/${orderUkey}`);
         handleClose();
       }
@@ -161,6 +187,37 @@ ModalContainerProps) => {
           <TableContainer>
             <Table>
               <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>분석종류</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyAnalysisTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>서비스 타입</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyServiceTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+
+                <SrvcTypeChangeWarning
+                  prevSrvcTypeMc={orderSalesData.srvcTypeMc}
+                />
+
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>
+                    플랫폼<NotRequired>[선택]</NotRequired>
+                  </TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyPlatformSelectbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
                 <TableRow>
                   <TH sx={{ width: "35%" }}>
                     진행상황<NotRequired>[선택]</NotRequired>

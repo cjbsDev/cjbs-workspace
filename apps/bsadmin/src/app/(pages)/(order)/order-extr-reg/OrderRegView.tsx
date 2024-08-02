@@ -65,14 +65,14 @@ const LazySalesManagerSelctbox = dynamic(
 );
 
 const LazyServiceTypeSelctbox = dynamic(
-  () => import("./ServiceTypeSelectbox"),
+  () => import("../components/ServiceTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
 const LazyAnalysisTypeSelctbox = dynamic(
-  () => import("./AnalysisTypeSelectbox"),
+  () => import("../components/AnalysisTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
@@ -84,10 +84,13 @@ const LazyOrderType = dynamic(() => import("../../../components/OrderType"), {
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
 
-const LazyPlatformSelectbox = dynamic(() => import("./PlatformSelectbox"), {
-  ssr: false,
-  loading: () => <Typography variant="body2">Loading...</Typography>,
-});
+const LazyPlatformSelectbox = dynamic(
+  () => import("../components/PlatformSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 const OrderRegView = () => {
   const router = useRouter();

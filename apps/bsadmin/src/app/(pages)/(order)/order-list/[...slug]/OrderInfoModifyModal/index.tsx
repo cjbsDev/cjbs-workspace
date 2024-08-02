@@ -37,6 +37,7 @@ import {
 import { PUT, fetcher } from "api";
 import AddEmailListValidation from "./AddEmailListValidation";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
+import SrvcTypeChangeWarning from "../../components/SrvcTypeChangeWarning";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -61,6 +62,27 @@ const LazyOrderType = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
+const LazyAnalysisTypeSelctbox = dynamic(
+  () => import("../../../components/AnalysisTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyServiceTypeSelctbox = dynamic(
+  () => import("../../../components/ServiceTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyPlatformSelectbox = dynamic(
+  () => import("../../../components/PlatformSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 const dataRadioGVTest = [
   { value: "dnaReturnComp", optionName: "DNA 반송 완료" },
@@ -70,28 +92,28 @@ interface ModalContainerProps {
   onClose: () => void;
   open: boolean;
   modalWidth: number;
-  // data: object;
 }
 
 const OrderInfoModifyModal = ({
   onClose,
   open,
   modalWidth,
-}: // data,
-ModalContainerProps) => {
-  // const methods = useFormContext();
-  // const { setValue, getValues, watch, clearErrors, control } = methods;
+}: ModalContainerProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [addEmailChck, setAddEmailChck] = useState<boolean>(false);
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(`/order/analysis/${orderUkey}`, fetcher, {
-    suspense: true,
-  });
+  const { data: orderAnalysisData } = useSWR(
+    `/order/analysis/${orderUkey}`,
+    fetcher,
+    {
+      suspense: true,
+    },
+  );
   const { mutate } = useSWRConfig();
   const [resultObject, result] = useResultObject();
 
-  console.log("오더 정보 변경 InitData ==>>", data);
+  console.log("오더 정보 변경 InitData ==>>", orderAnalysisData);
 
   const handleClose = () => {
     onClose();
@@ -99,17 +121,27 @@ ModalContainerProps) => {
   };
 
   const defaultValues = {
-    check16sAt: data.check16sAt === null ? null : new Date(data.check16sAt),
-    isFastTrack: data.isFastTrack === "N" ? false : data.isFastTrack,
-    mailRcpnList: data.mailRcpnList,
-    reqReturnCompList: data.reqReturnCompList,
-    orderStatusCc: data.orderStatusCc,
-    orderTypeCc: data.orderTypeCc,
-    addEmailList: data.addEmailList,
-    libMngrUkey: data.libMngrUkey,
-    prepMngrUkey: data.prepMngrUkey,
-    seqMngrUkey: data.seqMngrUkey,
-    memo: data.memo,
+    ...orderAnalysisData,
+    check16sAt:
+      orderAnalysisData.check16sAt === null
+        ? null
+        : new Date(orderAnalysisData.check16sAt),
+    isFastTrack:
+      orderAnalysisData.isFastTrack === "N"
+        ? false
+        : orderAnalysisData.isFastTrack,
+    // anlsTypeMc: data.anlsTypeMc,
+    // srvcTypeMc: data.srvcTypeMc,
+    // pltfMc: data.pltfMc,
+    // mailRcpnList: data.mailRcpnList,
+    // reqReturnCompList: data.reqReturnCompList,
+    // orderStatusCc: data.orderStatusCc,
+    // orderTypeCc: data.orderTypeCc,
+    // addEmailList: data.addEmailList,
+    // libMngrUkey: data.libMngrUkey,
+    // prepMngrUkey: data.prepMngrUkey,
+    // seqMngrUkey: data.seqMngrUkey,
+    // memo: data.memo,
   };
 
   const onSubmit = async (data: any) => {
@@ -123,27 +155,29 @@ ModalContainerProps) => {
       ? dayjs(data.check16sAt).format("YYYY-MM-DD")
       : null;
 
-    const body = {
+    const reqBody = {
+      ...data,
       check16sAt: newDateValue,
       isFastTrack: data.isFastTrack !== "Y" ? "N" : "Y",
-      mailRcpnList: data.mailRcpnList,
-      reqReturnCompList: data.reqReturnCompList,
-      orderStatusCc: data.orderStatusCc,
-      orderTypeCc: data.orderTypeCc,
-      addEmailList: data.addEmailList,
-      libMngrUkey: data.libMngrUkey,
-      prepMngrUkey: data.prepMngrUkey,
-      seqMngrUkey: data.seqMngrUkey,
-      memo: data.memo,
+      // mailRcpnList: data.mailRcpnList,
+      // reqReturnCompList: data.reqReturnCompList,
+      // orderStatusCc: data.orderStatusCc,
+      // orderTypeCc: data.orderTypeCc,
+      // addEmailList: data.addEmailList,
+      // libMngrUkey: data.libMngrUkey,
+      // prepMngrUkey: data.prepMngrUkey,
+      // seqMngrUkey: data.seqMngrUkey,
+      // memo: data.memo,
     };
 
-    console.log("reqBody ==>>", body);
+    console.log("reqBody ==>>", reqBody);
 
     try {
-      const res = await PUT(`/order/analysis/${orderUkey}`, body);
+      const res = await PUT(`/order/analysis/${orderUkey}`, reqBody);
       console.log("오더 정보 변경 성고 ==>>", res.success);
 
       if (res.success) {
+        mutate(`/order/${orderUkey}/sample/list`);
         mutate(`/order/${orderUkey}${result}`);
         mutate(`/order/detail/${orderUkey}`);
         mutate(`/order/analysis/${orderUkey}`);
@@ -172,6 +206,37 @@ ModalContainerProps) => {
             <Table>
               <TableBody>
                 <TableRow>
+                  <TH sx={{ width: "35%" }}>분석종류</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyAnalysisTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>서비스 타입</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyServiceTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+
+                <SrvcTypeChangeWarning
+                  prevSrvcTypeMc={orderAnalysisData.srvcTypeMc}
+                />
+
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>
+                    플랫폼<NotRequired>[선택]</NotRequired>
+                  </TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyPlatformSelectbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+                <TableRow>
                   <TH sx={{ width: "35%" }}>진행상황</TH>
                   <TD>
                     <ErrorContainer FallbackComponent={Fallback}>
@@ -182,7 +247,7 @@ ModalContainerProps) => {
                 <TableRow>
                   <TH sx={{ width: "35%" }}>메일 수신 설정</TH>
                   <TD>
-                    <Stack spacing={1}>
+                    <Stack spacing={0.3}>
                       <CheckboxGV
                         data={emailReceiveSettingData}
                         inputName="mailRcpnList"
