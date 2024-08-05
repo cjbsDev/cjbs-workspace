@@ -181,6 +181,8 @@ const OrderInfoModifyModal = ({
         mutate(`/order/${orderUkey}${result}`);
         mutate(`/order/detail/${orderUkey}`);
         mutate(`/order/analysis/${orderUkey}`);
+        mutate(`/order/sales/${orderUkey}`);
+        mutate(`/order/bi/${orderUkey}`);
         handleClose();
       }
     } catch (error) {
