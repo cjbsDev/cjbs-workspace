@@ -300,8 +300,8 @@ const InstAddPage = () => {
                 <Stack direction="row" spacing={0.5} alignItems="center">
                   <InputValidation
                     inputName="ftr"
-                    required={true}
-                    errorMessage="특성은 필수 값입니다."
+                    // required={true}
+                    // errorMessage="특성은 필수 값입니다."
                     maxLength={20}
                     maxLengthErrMsg="20자 이내로 입력해주세요."
                     sx={{ width: 600 }}
