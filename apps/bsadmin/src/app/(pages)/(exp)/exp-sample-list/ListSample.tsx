@@ -16,7 +16,7 @@ import SubHeader from "./SubHeader";
 
 const ListSample = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
 
   const pathname = usePathname();
@@ -89,7 +89,7 @@ const ListSample = () => {
         onChangePage={handlePageChange}
         noDataComponent={<NoDataView />}
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+        paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />
     </Box>
   );

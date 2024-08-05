@@ -26,6 +26,7 @@ import useSWR, { useSWRConfig } from "swr";
 import { useParams } from "next/navigation";
 import dynamic from "next/dynamic";
 import { PUT, fetcher } from "api";
+import SrvcTypeChangeWarning from "../../components/SrvcTypeChangeWarning";
 
 const LazyStatusCcSelctbox = dynamic(() => import("./StatusCcSelectbox"), {
   ssr: false,
@@ -35,6 +36,28 @@ const LazyBIMngrSelectbox = dynamic(() => import("./BIMngrSelectbox"), {
   ssr: false,
   loading: () => <Typography variant="body2">Loading...</Typography>,
 });
+
+const LazyAnalysisTypeSelctbox = dynamic(
+  () => import("../../../components/AnalysisTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyServiceTypeSelctbox = dynamic(
+  () => import("../../../components/ServiceTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+const LazyPlatformSelectbox = dynamic(
+  () => import("../../../components/PlatformSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
 
 interface ModalContainerProps {
   onClose: () => void;
@@ -54,11 +77,11 @@ ModalContainerProps) => {
   const { mutate } = useSWRConfig();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const { data } = useSWR(`/order/bi/${orderUkey}`, fetcher, {
+  const { data: orderBIData } = useSWR(`/order/bi/${orderUkey}`, fetcher, {
     suspense: true,
   });
 
-  console.log("BI오더 정보 변경 InitData ==>>", data);
+  console.log("BI오더 정보 변경 InitData ==>>", orderBIData);
 
   const handleClose = () => {
     onClose();
@@ -66,26 +89,31 @@ ModalContainerProps) => {
   };
 
   const defaultValues = {
-    orderStatusCc: data.orderStatusCc,
-    biMngrUkey: data.biMngrUkey,
+    ...orderBIData,
+    // orderStatusCc: data.orderStatusCc,
+    // biMngrUkey: data.biMngrUkey,
   };
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
 
-    const body = {
-      orderStatusCc: data.orderStatusCc,
-      biMngrUkey: data.biMngrUkey,
+    const reqBody = {
+      ...data,
+      // orderStatusCc: data.orderStatusCc,
+      // biMngrUkey: data.biMngrUkey,
     };
 
     try {
-      const res = await PUT(`/order/bi/${orderUkey}`, body);
+      const res = await PUT(`/order/bi/${orderUkey}`, reqBody);
       console.log("오더 BI 정보 변경 성고 ==>>", res.success);
 
       if (res.success) {
+        mutate(`/order/${orderUkey}/sample/list`);
         mutate(`/order/${orderUkey}`);
         mutate(`/order/detail/${orderUkey}`);
         mutate(`/order/analysis/${orderUkey}`);
+        mutate(`/order/sales/${orderUkey}`);
+        mutate(`/order/bi/${orderUkey}`);
         handleClose();
       }
     } catch (error) {
@@ -112,6 +140,37 @@ ModalContainerProps) => {
           <TableContainer>
             <Table>
               <TableBody>
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>분석종류</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyAnalysisTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>서비스 타입</TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyServiceTypeSelctbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
+
+                <SrvcTypeChangeWarning
+                  prevSrvcTypeMc={orderBIData.srvcTypeMc}
+                />
+
+                <TableRow>
+                  <TH sx={{ width: "35%" }}>
+                    플랫폼<NotRequired>[선택]</NotRequired>
+                  </TH>
+                  <TD>
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazyPlatformSelectbox />
+                    </ErrorContainer>
+                  </TD>
+                </TableRow>
                 <TableRow>
                   <TH sx={{ width: "35%" }}>
                     진행상황<NotRequired>[선택]</NotRequired>

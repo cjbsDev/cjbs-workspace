@@ -98,7 +98,7 @@ const List = () => {
           onChangePage={handlePageChange}
           noDataComponent={<NoDataView />}
           paginationPerPage={100}
-          paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+          paginationRowsPerPageOptions={[100, 200, 300, 400]}
         />
       </Box>
     </>

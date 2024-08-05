@@ -22,7 +22,7 @@ const ListRun = () => {
   const [showRunAddModal, setShowRunAddModal] = useState(false);
   // const [showBIReqModal, setShowBIReqModal] = useState(false);
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
 
   const url = useMemo(() => {
@@ -102,7 +102,7 @@ const ListRun = () => {
           onChangePage={handlePageChange}
           noDataComponent={<NoDataView />}
           paginationPerPage={100}
-          paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+          paginationRowsPerPageOptions={[100, 200, 300, 400]}
         />
       </Box>
 
