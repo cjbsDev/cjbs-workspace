@@ -19,7 +19,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import KeywordSearch from "../../components/KeywordSearch";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -27,6 +27,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
 import SampleActionBtns from "./SampleActionBtns";
 import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
+import SubHeader from "./SubHeader";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
@@ -47,7 +48,7 @@ const SampleDataTable = () => {
   const params = useParams();
   const ukey = params.slug;
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
-
+  const currentPath = usePathname();
   const searchParams = useSearchParams();
 
   const resultObject = {};
@@ -408,27 +409,10 @@ const SampleDataTable = () => {
     [],
   );
 
-  const subHeaderComponentMemo = React.useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <KeywordSearch />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [totalElements]);
+  const subHeaderComponentMemo = useMemo(
+    () => <SubHeader totalElements={totalElements} result={result} />,
+    [totalElements, result],
+  );
 
   const handleSelectedRowChange = useCallback(
     ({ selectedRows }: any) => {
@@ -473,7 +457,9 @@ const SampleDataTable = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={
+          <NoDataView resetPath={currentPath + `?uKey=${resultObject.uKey}`} />
+        }
         paginationPerPage={10}
         paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
       />

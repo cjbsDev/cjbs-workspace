@@ -18,17 +18,17 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
 
-const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
-  ssr: false,
-  loading: () => (
-    <Backdrop
-      open={true}
-      sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-    >
-      <CircularProgress color="inherit" />
-    </Backdrop>
-  ),
-});
+// const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
+//   ssr: false,
+//   loading: () => (
+//     <Backdrop
+//       open={true}
+//       sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+//     >
+//       <CircularProgress color="inherit" />
+//     </Backdrop>
+//   ),
+// });
 
 const SampleAddSection = () => {
   const [state, setState] = useState<boolean>(false);
@@ -37,8 +37,8 @@ const SampleAddSection = () => {
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
-    1642,
-    557
+    1000,
+    690,
   );
 
   const sampleAllListModalClose = () => {
@@ -71,15 +71,15 @@ const SampleAddSection = () => {
         />
       </Stack>
 
-      {state && (
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazySampleAllListModal
-            onClose={sampleAllListModalClose}
-            open={state}
-            modalWidth={1200}
-          />
-        </ErrorContainer>
-      )}
+      {/*{state && (*/}
+      {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+      {/*    <LazySampleAllListModal*/}
+      {/*      onClose={sampleAllListModalClose}*/}
+      {/*      open={state}*/}
+      {/*      modalWidth={1200}*/}
+      {/*    />*/}
+      {/*  </ErrorContainer>*/}
+      {/*)}*/}
     </>
   );
 };

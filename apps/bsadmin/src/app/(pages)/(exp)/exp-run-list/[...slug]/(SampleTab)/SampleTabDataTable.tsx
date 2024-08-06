@@ -82,7 +82,7 @@ const SampleTabDataTable = (props) => {
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
     1000,
-    700,
+    557,
   );
 
   const resultObject = {};
