@@ -9,7 +9,7 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import NoDataView from "../../../../components/NoDataView";
 import { Box } from "@mui/material";
 import { Columns } from "./columns";
-import SubHeader from "./subHeader";
+import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
 
 const List = () => {
