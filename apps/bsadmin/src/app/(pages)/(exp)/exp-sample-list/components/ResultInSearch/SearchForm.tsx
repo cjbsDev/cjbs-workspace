@@ -136,49 +136,98 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
         </Section>
 
         <Section>
-          <SectionLabel variant="subtitle2">담당자</SectionLabel>
-          <Grid container spacing={1} sx={{ mb: 1 }}>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex" }}
-              alignItems="center"
-              justifyContent="flex-end"
-            >
-              <Typography variant="body2">영업</Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={1.3}>
+              <SectionLabel variant="subtitle2">담당자</SectionLabel>
             </Grid>
-            <Grid item xs={10} sx={{}}>
-              <InputValidation inputName="bsnsMngrList" fullWidth />
+            <Grid item xs={10.7}>
+              <Grid container spacing={1} sx={{ mb: 1 }}>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="flex-end"
+                >
+                  <Typography variant="body2">영업</Typography>
+                </Grid>
+                <Grid item xs={11}>
+                  <InputValidation inputName="bsnsMngrList" fullWidth />
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} sx={{ mb: 1 }}>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="flex-end"
+                >
+                  <Typography variant="body2">실험</Typography>
+                </Grid>
+                <Grid item xs={11}>
+                  <InputValidation inputName="expMngrList" fullWidth />
+                </Grid>
+              </Grid>
+              <Grid container spacing={1} sx={{ mb: 1 }}>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="flex-end"
+                >
+                  <Typography variant="body2">분석</Typography>
+                </Grid>
+                <Grid item xs={11}>
+                  <InputValidation inputName="anlsMngrList" fullWidth />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid container spacing={1} sx={{ mb: 1 }}>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex" }}
-              alignItems="center"
-              justifyContent="flex-end"
-            >
-              <Typography variant="body2">실험</Typography>
-            </Grid>
-            <Grid item xs={10}>
-              <InputValidation inputName="expMngrList" fullWidth />
-            </Grid>
-          </Grid>
-          <Grid container spacing={1} sx={{ mb: 1 }}>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex" }}
-              alignItems="center"
-              justifyContent="flex-end"
-            >
-              <Typography variant="body2">분석</Typography>
-            </Grid>
-            <Grid item xs={10}>
-              <InputValidation inputName="anlsMngrList" fullWidth />
-            </Grid>
-          </Grid>
+          {/*<SectionLabel variant="subtitle2">담당자</SectionLabel>*/}
+          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
+          {/*  <Grid*/}
+          {/*    item*/}
+          {/*    xs={2}*/}
+          {/*    sx={{ display: "flex" }}*/}
+          {/*    alignItems="center"*/}
+          {/*    justifyContent="flex-end"*/}
+          {/*  >*/}
+          {/*    <Typography variant="body2">영업</Typography>*/}
+          {/*  </Grid>*/}
+          {/*  <Grid item xs={10} sx={{}}>*/}
+          {/*    <InputValidation inputName="bsnsMngrList" fullWidth />*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
+          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
+          {/*  <Grid*/}
+          {/*    item*/}
+          {/*    xs={2}*/}
+          {/*    sx={{ display: "flex" }}*/}
+          {/*    alignItems="center"*/}
+          {/*    justifyContent="flex-end"*/}
+          {/*  >*/}
+          {/*    <Typography variant="body2">실험</Typography>*/}
+          {/*  </Grid>*/}
+          {/*  <Grid item xs={10}>*/}
+          {/*    <InputValidation inputName="expMngrList" fullWidth />*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
+          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
+          {/*  <Grid*/}
+          {/*    item*/}
+          {/*    xs={2}*/}
+          {/*    sx={{ display: "flex" }}*/}
+          {/*    alignItems="center"*/}
+          {/*    justifyContent="flex-end"*/}
+          {/*  >*/}
+          {/*    <Typography variant="body2">분석</Typography>*/}
+          {/*  </Grid>*/}
+          {/*  <Grid item xs={10}>*/}
+          {/*    <InputValidation inputName="anlsMngrList" fullWidth />*/}
+          {/*  </Grid>*/}
+          {/*</Grid>*/}
         </Section>
 
         <Section>
@@ -248,6 +297,83 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Grid item xs={10} sx={{ mb: 1 }}>
               <InputValidation inputName="source" fullWidth />
             </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="center"
+                >
+                  <Typography variant="body2">QC</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyStatusSampleTypeSelctbox name={"qcStatusCc"} />
+                  </ErrorContainer>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="center"
+                >
+                  <Typography variant="body2">Lib</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyStatusSampleTypeSelctbox name={"libStatusCc"} />
+                  </ErrorContainer>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="center"
+                >
+                  <Typography variant="body2">Seq</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyStatusSampleTypeSelctbox name={"seqStatusCc"} />
+                  </ErrorContainer>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid item xs={6}>
+              <Grid container>
+                <Grid
+                  item
+                  xs={1.5}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="center"
+                >
+                  <Typography variant="body2">BI</Typography>
+                </Grid>
+                <Grid item xs={10.5}>
+                  <ErrorContainer FallbackComponent={Fallback}>
+                    <LazyStatusSampleTypeSelctbox name={"biStatusCc"} />
+                  </ErrorContainer>
+                </Grid>
+              </Grid>
+            </Grid>
 
             {/*<Grid*/}
             {/*  item*/}
@@ -256,71 +382,58 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             {/*  alignItems="center"*/}
             {/*  // justifyContent="center"*/}
             {/*>*/}
-            {/*  <Typography variant="body2">Run</Typography>*/}
+            {/*  <Typography variant="body2">QC</Typography>*/}
             {/*</Grid>*/}
             {/*<Grid item xs={10} sx={{ mb: 1 }}>*/}
-            {/*  <InputValidation inputName="runId" fullWidth />*/}
+            {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*    <LazyStatusSampleTypeSelctbox name={"qcStatusCc"} />*/}
+            {/*  </ErrorContainer>*/}
             {/*</Grid>*/}
 
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              // justifyContent="center"
-            >
-              <Typography variant="body2">QC</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyStatusSampleTypeSelctbox name={"qcStatusCc"} />
-              </ErrorContainer>
-            </Grid>
+            {/*<Grid*/}
+            {/*  item*/}
+            {/*  xs={2}*/}
+            {/*  sx={{ display: "flex", mb: 1 }}*/}
+            {/*  alignItems="center"*/}
+            {/*  // justifyContent="center"*/}
+            {/*>*/}
+            {/*  <Typography variant="body2">Lib</Typography>*/}
+            {/*</Grid>*/}
+            {/*<Grid item xs={10} sx={{ mb: 1 }}>*/}
+            {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*    <LazyStatusSampleTypeSelctbox name={"libStatusCc"} />*/}
+            {/*  </ErrorContainer>*/}
+            {/*</Grid>*/}
 
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              // justifyContent="center"
-            >
-              <Typography variant="body2">Lib</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyStatusSampleTypeSelctbox name={"libStatusCc"} />
-              </ErrorContainer>
-            </Grid>
+            {/*<Grid*/}
+            {/*  item*/}
+            {/*  xs={2}*/}
+            {/*  sx={{ display: "flex", mb: 1 }}*/}
+            {/*  alignItems="center"*/}
+            {/*  // justifyContent="center"*/}
+            {/*>*/}
+            {/*  <Typography variant="body2">Seq</Typography>*/}
+            {/*</Grid>*/}
+            {/*<Grid item xs={10} sx={{ mb: 1 }}>*/}
+            {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*    <LazyStatusSampleTypeSelctbox name={"seqStatusCc"} />*/}
+            {/*  </ErrorContainer>*/}
+            {/*</Grid>*/}
 
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              // justifyContent="center"
-            >
-              <Typography variant="body2">Seq</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyStatusSampleTypeSelctbox name={"seqStatusCc"} />
-              </ErrorContainer>
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              // justifyContent="center"
-            >
-              <Typography variant="body2">BI</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <ErrorContainer FallbackComponent={Fallback}>
-                <LazyStatusSampleTypeSelctbox name={"biStatusCc"} />
-              </ErrorContainer>
-            </Grid>
+            {/*<Grid*/}
+            {/*  item*/}
+            {/*  xs={2}*/}
+            {/*  sx={{ display: "flex", mb: 1 }}*/}
+            {/*  alignItems="center"*/}
+            {/*  // justifyContent="center"*/}
+            {/*>*/}
+            {/*  <Typography variant="body2">BI</Typography>*/}
+            {/*</Grid>*/}
+            {/*<Grid item xs={10} sx={{ mb: 1 }}>*/}
+            {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+            {/*    <LazyStatusSampleTypeSelctbox name={"biStatusCc"} />*/}
+            {/*  </ErrorContainer>*/}
+            {/*</Grid>*/}
           </Grid>
         </Section>
       </Box>
