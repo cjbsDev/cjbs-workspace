@@ -19,7 +19,7 @@ const ListSample = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
-  const height = useCalculatedHeight(278);
+  const height = useCalculatedHeight(268);
 
   const pathname = usePathname();
   const url = useMemo(() => {

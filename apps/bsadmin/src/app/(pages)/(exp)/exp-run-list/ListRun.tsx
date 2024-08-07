@@ -13,6 +13,7 @@ import dynamic from "next/dynamic";
 import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -24,6 +25,7 @@ const ListRun = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(268);
 
   const url = useMemo(() => {
     const base = "/run/list";
@@ -93,6 +95,8 @@ const ListRun = () => {
           customStyles={dataTableCustomStyles}
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
+          fixedHeader={true}
+          fixedHeaderScrollHeight={`${height}px`}
           paginationResetDefaultPage={resetPaginationToggle}
           selectableRows={false}
           pagination

@@ -11,6 +11,7 @@ import { Box } from "@mui/material";
 import { Columns } from "./columns";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const List = () => {
   const [page, setPage] = useState<number>(1);
@@ -18,6 +19,7 @@ const List = () => {
   const [loading, setLoading] = useState(false);
   // const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(268);
   const router = useRouter();
 
   // console.log("resultOBJ", resultObject);
@@ -89,6 +91,8 @@ const List = () => {
           customStyles={dataTableCustomStyles}
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
+          fixedHeader={true}
+          fixedHeaderScrollHeight={`${height}px`}
           // paginationResetDefaultPage={resetPaginationToggle}
           selectableRows={false}
           pagination
