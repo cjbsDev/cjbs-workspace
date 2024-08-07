@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { dateTypeCcData } from "../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
 import ResetBtn from "./resetBtn";
+import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 
 const LazyAnlsTypeChck = dynamic(() => import("./AnlsTypeChck"), {
   ssr: false,
@@ -49,27 +50,36 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  let defaultValues;
+  const [resultObject, result] = useResultObject();
+  // let defaultValues;
 
   // console.log("PATHNAME", pathname);
 
-  const resultObject = {};
-  for (const [key, value] of searchParams.entries()) {
-    resultObject[key] = value;
-  }
+  const defaultValues = {
+    ...resultObject,
+    anlsTypeMcList:
+      resultObject?.anlsTypeMcList !== undefined
+        ? resultObject?.anlsTypeMcList.split(",")
+        : [],
+  };
 
-  if (resultObject.typeCcList === undefined) {
-    defaultValues = resultObject;
-  } else {
-    const typeCcList = resultObject.typeCcList.split(",");
-    const newResultObject = {
-      ...resultObject,
-      typeCcList: typeCcList,
-    };
-
-    // console.log("NEW DEFAULTVALUES", newResultObject);
-    defaultValues = newResultObject;
-  }
+  // const resultObject = {};
+  // for (const [key, value] of searchParams.entries()) {
+  //   resultObject[key] = value;
+  // }
+  //
+  // if (resultObject.typeCcList === undefined) {
+  //   defaultValues = resultObject;
+  // } else {
+  //   const typeCcList = resultObject.typeCcList.split(",");
+  //   const newResultObject = {
+  //     ...resultObject,
+  //     typeCcList: typeCcList,
+  //   };
+  //
+  //   console.log("NEW DEFAULTVALUES", newResultObject);
+  //   defaultValues = newResultObject;
+  // }
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   // console.log("currentQueryString", currentQueryString);
