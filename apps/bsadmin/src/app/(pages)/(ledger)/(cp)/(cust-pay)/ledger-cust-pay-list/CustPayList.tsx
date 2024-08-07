@@ -13,10 +13,12 @@ import NoDataView from "../../../../../components/NoDataView";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
 import { getColumns } from "./components/Columns/CustPayListColumns";
 import SubHeader from "./components/SubHeader/CustPayListSubHeader";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const CustPayList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
+  const height = useCalculatedHeight(370);
   const router = useRouter();
 
   const [resultObject, result] = useResultObject();
@@ -79,6 +81,8 @@ const CustPayList = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination

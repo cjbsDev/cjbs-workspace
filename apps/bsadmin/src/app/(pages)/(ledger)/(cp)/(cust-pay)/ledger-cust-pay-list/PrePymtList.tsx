@@ -41,12 +41,14 @@ import Checkbox from "@mui/material/Checkbox";
 import DisplayMoney from "../../../../../components/DisplayMoney";
 import { getColumns } from "./components/Columns/PrePymtListColumns";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const PrePymtList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [checked, setChecked] = useState(false);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(370);
 
   const url = useMemo(() => {
     const base = "/agnc/prePymt/list";
@@ -264,6 +266,8 @@ const PrePymtList = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination

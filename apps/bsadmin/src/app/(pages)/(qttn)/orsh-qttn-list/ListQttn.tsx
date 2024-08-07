@@ -25,6 +25,7 @@ import Checkbox from "@mui/material/Checkbox";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { useSession } from "next-auth/react";
 import NoDataView from "../../../components/NoDataView";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListQttn = () => {
   const { data: session, status } = useSession();
@@ -33,6 +34,7 @@ const ListQttn = () => {
   const [checked, setChecked] = useState(false);
   const currentPath = usePathname();
   const searchParams = useSearchParams();
+  const height = useCalculatedHeight(268);
   const resultObject: any = {};
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
@@ -318,6 +320,8 @@ const ListQttn = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         pagination
         paginationServer

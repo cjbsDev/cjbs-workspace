@@ -36,6 +36,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { currentMonthAtom, currentYearAtom } from "./atom";
 import { getColumns } from "./components/Columns/LicenseListColumns";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 // const currentYear = dayjs().year();
 // const currentMonth = dayjs().get("month");
 
@@ -45,6 +46,7 @@ const LicenseList = () => {
   const year = useRecoilValue(currentYearAtom);
   const month = useRecoilValue(currentMonthAtom);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(370);
 
   const url = useMemo(() => {
     const base = "/agnc/license/list";
@@ -180,6 +182,8 @@ const LicenseList = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination
