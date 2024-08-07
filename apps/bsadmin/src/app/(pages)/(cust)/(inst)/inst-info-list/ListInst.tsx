@@ -13,6 +13,7 @@ import NoDataView from "../../../../components/NoDataView";
 import SubHeader from "./SubHeader";
 import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 import { getColumns } from "./Columns";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 interface InstData {
   instId?: any;
@@ -41,6 +42,7 @@ const ListInst = () => {
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(268);
 
   const url = useMemo(() => {
     const base = "/inst/list";
@@ -201,6 +203,8 @@ const ListInst = () => {
       customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
+      fixedHeader={true}
+      fixedHeaderScrollHeight={`${height}px`}
       paginationResetDefaultPage={resetPaginationToggle}
       selectableRows={false}
       noDataComponent={<NoDataView />}

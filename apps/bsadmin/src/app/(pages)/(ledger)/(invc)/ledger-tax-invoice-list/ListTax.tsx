@@ -24,6 +24,7 @@ import {
 } from "./atom";
 import ReportModifyModal from "./components/ReportModify/ReportModifyModal";
 import MemoModifyModal from "./components/MemoModify/MemoModifyModal";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const ListTax = () => {
   const [page, setPage] = useState<number>(1);
@@ -31,6 +32,7 @@ const ListTax = () => {
   // const setReportIs = useSetRecoilState(reportModify);
   const [reportModifyIs, setReportModifyIs] = useRecoilState(reportModifyAtom);
   const [memoModifyIs, setMemoModifyIs] = useRecoilState(memoModifyAtom);
+  const height = useCalculatedHeight(318);
   // const [startYear, setStartYear] = useState(dayjs().year());
   // const [startMonth, setStartMonth] = useState(
   //   dayjs().month(0).get("month") + 1,
@@ -156,6 +158,8 @@ const ListTax = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination
         paginationServer

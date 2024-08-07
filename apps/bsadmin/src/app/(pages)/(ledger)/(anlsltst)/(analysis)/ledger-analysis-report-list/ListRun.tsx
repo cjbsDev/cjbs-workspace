@@ -42,6 +42,7 @@ import CategorySelectModal from "./CategorySelectModal";
 import { bold } from "next/dist/lib/picocolors";
 import SubHeader from "./components/SubHeader";
 import dayjs from "dayjs";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -57,6 +58,7 @@ const ListRun = () => {
   const [endYear, setEndYear] = useState(dayjs().year());
   const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
   const searchParams = useSearchParams();
+  const height = useCalculatedHeight(268);
 
   const resultObject: any = {};
 
@@ -675,6 +677,8 @@ const ListRun = () => {
         customStyles={dataTableCustomStyles3}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination

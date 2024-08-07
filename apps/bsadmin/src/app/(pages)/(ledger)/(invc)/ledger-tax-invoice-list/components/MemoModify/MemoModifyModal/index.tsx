@@ -45,6 +45,7 @@ const Index = ({ onClose, open, modalWidth }) => {
         : `?page=1&size=100&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`;
     return `${base}${params}`;
   }, [resultObject, result, startYear, startMonth, endYear, endMonth]);
+  console.log("URL@@@@@@@@@", url);
 
   const onSubmit = async (data: any) => {
     setIsLoading(true);
