@@ -173,10 +173,34 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
                   alignItems="center"
                   // justifyContent="flex-end"
                 >
-                  <Typography variant="body2">실험</Typography>
+                  <Typography variant="body2">Prep</Typography>
                 </Grid>
-                <Grid item xs={11}>
-                  <InputValidation inputName="expMngrList" fullWidth />
+                <Grid item xs={3}>
+                  <InputValidation inputName="prepMngrList" fullWidth />
+                </Grid>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="flex-end"
+                >
+                  <Typography variant="body2">Lib</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <InputValidation inputName="libMngrList" fullWidth />
+                </Grid>
+                <Grid
+                  item
+                  xs={1}
+                  sx={{ display: "flex" }}
+                  alignItems="center"
+                  // justifyContent="flex-end"
+                >
+                  <Typography variant="body2">Seq</Typography>
+                </Grid>
+                <Grid item xs={3}>
+                  <InputValidation inputName="seqMngrList" fullWidth />
                 </Grid>
               </Grid>
               <Grid container spacing={1} sx={{ mb: 1 }}>
@@ -195,49 +219,6 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               </Grid>
             </Grid>
           </Grid>
-          {/*<SectionLabel variant="subtitle2">담당자</SectionLabel>*/}
-          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
-          {/*  <Grid*/}
-          {/*    item*/}
-          {/*    xs={2}*/}
-          {/*    sx={{ display: "flex" }}*/}
-          {/*    alignItems="center"*/}
-          {/*    justifyContent="flex-end"*/}
-          {/*  >*/}
-          {/*    <Typography variant="body2">영업</Typography>*/}
-          {/*  </Grid>*/}
-          {/*  <Grid item xs={10} sx={{}}>*/}
-          {/*    <InputValidation inputName="bsnsMngrList" fullWidth />*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
-          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
-          {/*  <Grid*/}
-          {/*    item*/}
-          {/*    xs={2}*/}
-          {/*    sx={{ display: "flex" }}*/}
-          {/*    alignItems="center"*/}
-          {/*    justifyContent="flex-end"*/}
-          {/*  >*/}
-          {/*    <Typography variant="body2">실험</Typography>*/}
-          {/*  </Grid>*/}
-          {/*  <Grid item xs={10}>*/}
-          {/*    <InputValidation inputName="expMngrList" fullWidth />*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
-          {/*<Grid container spacing={1} sx={{ mb: 1 }}>*/}
-          {/*  <Grid*/}
-          {/*    item*/}
-          {/*    xs={2}*/}
-          {/*    sx={{ display: "flex" }}*/}
-          {/*    alignItems="center"*/}
-          {/*    justifyContent="flex-end"*/}
-          {/*  >*/}
-          {/*    <Typography variant="body2">분석</Typography>*/}
-          {/*  </Grid>*/}
-          {/*  <Grid item xs={10}>*/}
-          {/*    <InputValidation inputName="anlsMngrList" fullWidth />*/}
-          {/*  </Grid>*/}
-          {/*</Grid>*/}
         </Section>
 
         <Section>
@@ -252,7 +233,12 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">오더번호</Typography>
             </Grid>
             <Grid item xs={4}>
-              <InputValidation inputName="orderId" fullWidth />
+              <InputValidation
+                inputName="orderId"
+                fullWidth
+                pattern={/^[0-9]+$/}
+                patternErrMsg="숫자만 입력해주세요."
+              />
             </Grid>
 
             <Grid
@@ -265,7 +251,12 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">Run</Typography>
             </Grid>
             <Grid item xs={4}>
-              <InputValidation inputName="runId" fullWidth />
+              <InputValidation
+                inputName="runId"
+                fullWidth
+                pattern={/^[0-9]+$/}
+                patternErrMsg="숫자만 입력해주세요."
+              />
             </Grid>
           </Grid>
           <Grid container>
