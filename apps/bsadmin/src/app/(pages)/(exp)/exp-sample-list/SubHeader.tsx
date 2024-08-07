@@ -3,7 +3,7 @@ import { Stack, Grid } from "@mui/material";
 import { DataCountResultInfo, FileDownloadBtn } from "cjbsDSTM";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { SubHeaderProps } from "../../../types/subHeader-props";
-import ResultInSearch from "./components/resultInSearch";
+import ResultInSearch from "./components/ResultInSearch";
 
 const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
   <Grid container>

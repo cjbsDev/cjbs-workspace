@@ -13,14 +13,15 @@ import NoDataView from "../../../components/NoDataView";
 import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListSample = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(278);
 
   const pathname = usePathname();
-
   const url = useMemo(() => {
     const base = "/sample/list";
     const params =
@@ -29,7 +30,6 @@ const ListSample = () => {
         : `?page=${page}&size=${size}`;
     return `${base}${params}`;
   }, [resultObject, result, page, size]);
-
   const { data } = useSWR(url, fetcher, { suspense: true });
 
   console.log("SAMPLE LIST DATA", data);
@@ -80,6 +80,8 @@ const ListSample = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination
@@ -87,7 +89,7 @@ const ListSample = () => {
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={<NoDataView resetPath={pathname} />}
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />

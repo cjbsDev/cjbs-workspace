@@ -1,19 +1,19 @@
-"use client";
-
 import React from "react";
 import {
-  CheckboxSV,
   cjbsTheme,
   ContainedButton,
   ErrorContainer,
   Fallback,
   Form,
   InputValidation,
-  OutlinedButton,
+  SingleDatePicker,
+  SelectBox,
+  CheckboxSV,
 } from "cjbsDSTM";
 import {
   Box,
   BoxProps,
+  Divider,
   Grid,
   Stack,
   styled,
@@ -23,55 +23,61 @@ import {
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
-import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
+import dayjs from "dayjs";
+import { dateTypeCcData } from "../../../../../data/inputDataLists";
+import { toast } from "react-toastify";
+import ResetBtn from "./resetBtn";
 
+const LazyAnlsTypeChck = dynamic(() => import("./AnlsTypeChck"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 const LazyStatusSampleTypeSelctbox = dynamic(
-  () => import("../../../components/StatusSampleTypeSelectbox"),
+  () => import("../../../../../components/StatusSampleTypeSelectbox"),
   {
     ssr: false,
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
 
-const SearchForm = ({ onClose }) => {
+interface SearchFormProps {
+  onClose: () => void;
+}
+
+const SearchForm = ({ onClose }: SearchFormProps) => {
   const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [resultObject, result] = useResultObject();
-  console.log("resultObject", resultObject);
+  let defaultValues;
 
-  // let defaultValues;
-  //
-  // if (
-  //   resultObject?.typeCcList === undefined ||
-  //   resultObject?.anlsTypeMcList === undefined
-  // ) {
-  //   defaultValues = resultObject;
-  // } else {
-  //   const typeCcList = resultObject.typeCcList.split(",");
-  //   const anlsTypeMcList = resultObject.anlsTypeMcList.split(",");
-  //
-  //   console.log(typeCcList);
-  //
-  //   const newResultObject = {
-  //     ...resultObject,
-  //     typeCcList: typeCcList,
-  //     anlsTypeMcList: anlsTypeMcList,
-  //   };
-  //   defaultValues = newResultObject;
-  // }
+  // console.log("PATHNAME", pathname);
 
-  const defaultValues = {
-    ...resultObject,
-  };
+  const resultObject = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
 
-  // console.log("SEARCH FORM DEFAULTVALUES", resultObject);
+  if (resultObject.typeCcList === undefined) {
+    defaultValues = resultObject;
+  } else {
+    const typeCcList = resultObject.typeCcList.split(",");
+    const newResultObject = {
+      ...resultObject,
+      typeCcList: typeCcList,
+    };
+
+    // console.log("NEW DEFAULTVALUES", newResultObject);
+    defaultValues = newResultObject;
+  }
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   // console.log("currentQueryString", currentQueryString);
   const keywordQueryString = currentQueryString.split("&", 1);
   // console.log("OnlyKeyword ==>>", keywordQueryString);
+
+  const newkeywordQueryString = currentQueryString.indexOf("keyword");
+  // console.log("NewkeywordQueryString", newkeywordQueryString);
 
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
@@ -83,6 +89,7 @@ const SearchForm = ({ onClose }) => {
       if (
         value !== "" &&
         value !== undefined &&
+        value !== null &&
         value !== false &&
         !(Array.isArray(value) && value.length === 0)
       ) {
@@ -97,7 +104,7 @@ const SearchForm = ({ onClose }) => {
     console.log("filteredObject", filteredObject);
 
     if (JSON.stringify(resultObject) === "{}") {
-      console.log("키워드 미포함 검색!");
+      // console.log("키워드 포함 검색!");
       if (JSON.stringify(filteredObject) === "{}") {
         return onClose();
       } else {
@@ -105,9 +112,10 @@ const SearchForm = ({ onClose }) => {
         router.push(`${pathname}${result}`);
       }
     } else {
-      console.log("keyword 포함 검색!");
+      // console.log("키워트 미포함 검색!");
       result = new URLSearchParams(filteredObject).toString();
       console.log("HERE RESULT", result);
+
       if (result === "&") {
         router.push(`${pathname}?${keywordQueryString}`);
       }
@@ -117,42 +125,91 @@ const SearchForm = ({ onClose }) => {
     onClose();
   };
 
-  const handleKeywordClear = () => {
-    router.push(pathname + `?uKey=${resultObject?.uKey}`);
-    onClose();
-  };
-
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 450, p: 3, pb: 1 }}>
+      <Box sx={{ width: 580, p: 3, pb: 1 }}>
         <Section>
-          <Grid container>
+          <SectionLabel variant="subtitle2">분석종류</SectionLabel>
+          <ErrorContainer FallbackComponent={Fallback}>
+            <LazyAnlsTypeChck />
+          </ErrorContainer>
+        </Section>
+
+        <Section>
+          <SectionLabel variant="subtitle2">담당자</SectionLabel>
+          <Grid container spacing={1} sx={{ mb: 1 }}>
             <Grid
               item
               xs={2}
-              sx={{ display: "flex", mb: 1 }}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography variant="body2">영업</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{}}>
+              <InputValidation inputName="bsnsMngrList" fullWidth />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} sx={{ mb: 1 }}>
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography variant="body2">실험</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <InputValidation inputName="expMngrList" fullWidth />
+            </Grid>
+          </Grid>
+          <Grid container spacing={1} sx={{ mb: 1 }}>
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              <Typography variant="body2">분석</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <InputValidation inputName="anlsMngrList" fullWidth />
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={1} sx={{ mb: 1 }}>
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex" }}
               alignItems="center"
               // justifyContent="center"
             >
               <Typography variant="body2">오더번호</Typography>
             </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
+            <Grid item xs={4}>
               <InputValidation inputName="orderId" fullWidth />
             </Grid>
 
             <Grid
               item
               xs={2}
-              sx={{ display: "flex", mb: 1 }}
+              sx={{ display: "flex" }}
               alignItems="center"
               // justifyContent="center"
             >
               <Typography variant="body2">Run</Typography>
             </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
+            <Grid item xs={4}>
               <InputValidation inputName="runId" fullWidth />
             </Grid>
-
+          </Grid>
+          <Grid container>
             <Grid
               item
               xs={2}
@@ -165,6 +222,45 @@ const SearchForm = ({ onClose }) => {
             <Grid item xs={10} sx={{ mb: 1 }}>
               <InputValidation inputName="sampleNm" fullWidth />
             </Grid>
+
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+              // justifyContent="center"
+            >
+              <Typography variant="body2">샘플상태</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ mb: 1 }}>
+              <InputValidation inputName="sampleTypeCc" fullWidth />
+            </Grid>
+
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+              // justifyContent="center"
+            >
+              <Typography variant="body2">샘플출처</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ mb: 1 }}>
+              <InputValidation inputName="source" fullWidth />
+            </Grid>
+
+            {/*<Grid*/}
+            {/*  item*/}
+            {/*  xs={2}*/}
+            {/*  sx={{ display: "flex", mb: 1 }}*/}
+            {/*  alignItems="center"*/}
+            {/*  // justifyContent="center"*/}
+            {/*>*/}
+            {/*  <Typography variant="body2">Run</Typography>*/}
+            {/*</Grid>*/}
+            {/*<Grid item xs={10} sx={{ mb: 1 }}>*/}
+            {/*  <InputValidation inputName="runId" fullWidth />*/}
+            {/*</Grid>*/}
 
             <Grid
               item
@@ -231,7 +327,7 @@ const SearchForm = ({ onClose }) => {
       <Box
         sx={{
           backgroundColor: cjbsTheme.palette.grey["50"],
-          p: 2,
+          p: 1.5,
           textAlign: "center",
         }}
       >
@@ -247,11 +343,8 @@ const SearchForm = ({ onClose }) => {
             alignItems="center"
             spacing={1}
           >
-            <OutlinedButton
-              onClick={handleKeywordClear}
-              buttonName="초기화"
-              size="small"
-            />
+            <ResetBtn onClose={onClose} />
+
             <ContainedButton buttonName="검색" type="submit" size="small" />
           </Stack>
         </Stack>
@@ -264,7 +357,7 @@ export default SearchForm;
 
 const Section = styled(Box)<BoxProps>(({ theme }) => ({
   color: theme.palette.common.black,
-  marginBottom: 10,
+  marginBottom: 18,
 }));
 const SectionLabel = styled(Typography)<TypographyProps>(({ theme }) => ({
   marginBottom: 4,
