@@ -24,7 +24,10 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
-import { dateTypeCcData } from "../../../../../data/inputDataLists";
+import {
+  dateSampleTypeCcData,
+  dateTypeCcData,
+} from "../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
 import ResetBtn from "./resetBtn";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
@@ -196,7 +199,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Stack>
               <SelectBox
                 inputName="dateTypeCc"
-                options={dateTypeCcData}
+                options={dateSampleTypeCcData}
                 sx={{ width: 130 }}
               />
             </Stack>
