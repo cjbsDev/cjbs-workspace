@@ -53,7 +53,7 @@ const SampleDataTable = () => {
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
   const currentPath = usePathname();
   const searchParams = useSearchParams();
-  const height = useCalculatedHeight(268);
+  const height = useCalculatedHeight(238);
 
   const resultObject = {};
 
@@ -447,7 +447,7 @@ const SampleDataTable = () => {
         data={sampleListData}
         columns={columns}
         // onRowClicked={goDetailPage}
-        pointerOnHover
+        // pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles}
         subHeader
@@ -460,6 +460,7 @@ const SampleDataTable = () => {
         selectableRowsComponentProps={selectProps}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={toggledClearRows}
+        selectableRowsHighlight
         pagination
         paginationServer
         paginationTotalRows={totalElements}

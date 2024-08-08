@@ -67,12 +67,14 @@ const SampleActionBtns = () => {
         buttonName="취소"
         onClick={handleClose}
         color="secondary"
+        size="small"
       />
       <LoadingButton
         loading={isLoading}
         variant="contained"
         onClick={sampleAdd}
         disabled={getSampleUkeyList.length === 0 ? true : false}
+        size="small"
       >
         샘플 추가
       </LoadingButton>

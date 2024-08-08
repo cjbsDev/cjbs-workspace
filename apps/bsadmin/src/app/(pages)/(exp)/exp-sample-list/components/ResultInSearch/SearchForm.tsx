@@ -63,23 +63,28 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
         : [],
   };
 
-  // const resultObject = {};
-  // for (const [key, value] of searchParams.entries()) {
-  //   resultObject[key] = value;
-  // }
-  //
-  // if (resultObject.typeCcList === undefined) {
-  //   defaultValues = resultObject;
-  // } else {
-  //   const typeCcList = resultObject.typeCcList.split(",");
-  //   const newResultObject = {
-  //     ...resultObject,
-  //     typeCcList: typeCcList,
-  //   };
-  //
-  //   console.log("NEW DEFAULTVALUES", newResultObject);
-  //   defaultValues = newResultObject;
-  // }
+  if (resultObject.dateTypeCc !== undefined) {
+    console.log("<MMMMMMMMMMMMM", resultObject);
+    // 변환할 날짜 문자열 가져오기
+    const { startDttm, endDttm } = resultObject;
+    // console.log("@@@@@@@@@", typeof endDttm);
+
+    if (startDttm == undefined) {
+      delete resultObject.startDttm;
+    } else {
+      resultObject.startDttm = new Date(startDttm);
+    }
+
+    if (endDttm == undefined) {
+      delete resultObject.endDttm;
+    } else {
+      resultObject.endDttm = new Date(endDttm);
+    }
+
+    // 날짜 문자열을 Date 객체로 변환
+    // resultObject.startDttm = new Date(startDttm);
+    // resultObject.endDttm = new Date(endDttm);
+  }
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   // console.log("currentQueryString", currentQueryString);
@@ -92,6 +97,34 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   const onSubmit = async (data: any) => {
     console.log("결과내 검색 Data ==>>", data);
     let result;
+
+    // 날짜
+    if (
+      data.dateTypeCc === "" &&
+      (data.startDttm != null || data.endDttm != null)
+    ) {
+      console.log("날짜 타입을 선택해 주세요");
+      toast("날짜 타입을 선택해 주세요");
+      return;
+    } else if (
+      data.dateTypeCc !== "" &&
+      data.startDttm == null &&
+      data.endDttm == null
+    ) {
+      console.log("날짜를 선택해 주세요");
+      toast("날짜를 선택해 주세요");
+      return;
+    } else {
+      // 변환할 날짜 문자열 가져오기
+      const { startDttm, endDttm } = data;
+
+      // 날짜 문자열을 Date 객체로 변환하고 포맷 변경
+      if (startDttm && endDttm) {
+        // startDttm과 endDttm이 유효한 경우에만 변환을 진행합니다.
+        data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
+        data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
+      }
+    }
 
     const filteredObject = {};
 
@@ -109,6 +142,24 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
           filteredObject[key] = value;
         }
       }
+    }
+
+    // startDttm
+    if (filteredObject.startDttm == undefined) {
+      delete filteredObject.startDttm;
+    } else {
+      filteredObject.startDttm = dayjs(filteredObject.startDttm).format(
+        "YYYY-MM-DD",
+      );
+    }
+
+    // endDttm
+    if (filteredObject.endDttm == undefined) {
+      delete filteredObject.endDttm;
+    } else {
+      filteredObject.endDttm = dayjs(filteredObject.endDttm).format(
+        "YYYY-MM-DD",
+      );
     }
 
     console.log("filteredObject", filteredObject);
@@ -138,6 +189,22 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ width: 580, p: 3, pb: 1 }}>
+        <Section>
+          <SectionLabel variant="subtitle2">날짜</SectionLabel>
+
+          <Stack direction="row" spacing={1}>
+            <Stack>
+              <SelectBox
+                inputName="dateTypeCc"
+                options={dateTypeCcData}
+                sx={{ width: 130 }}
+              />
+            </Stack>
+
+            <SingleDatePicker inputName="startDttm" />
+            <SingleDatePicker inputName="endDttm" />
+          </Stack>
+        </Section>
         <Section>
           <SectionLabel variant="subtitle2">분석종류</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>
