@@ -24,10 +24,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import { useParams, usePathname, useSearchParams } from "next/navigation";
 import dayjs from "dayjs";
-import {
-  dateSampleTypeCcData,
-  dateTypeCcData,
-} from "../../../../../data/inputDataLists";
+import { dateSampleTypeCcData } from "../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
 import ResetBtn from "./resetBtn";
 import { useResultObject } from "../../../../../components/KeywordSearch/useResultObject";
