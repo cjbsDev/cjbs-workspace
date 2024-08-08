@@ -53,18 +53,36 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   const params = useParams();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [resultObject, result] = useResultObject();
-  // let defaultValues;
+  // const [resultObject, result] = useResultObject();
+  let defaultValues;
 
   // console.log("PATHNAME", pathname);
 
-  const defaultValues = {
-    ...resultObject,
-    anlsTypeMcList:
-      resultObject?.anlsTypeMcList !== undefined
-        ? resultObject?.anlsTypeMcList.split(",")
-        : [],
-  };
+  const resultObject = {};
+  for (const [key, value] of searchParams.entries()) {
+    resultObject[key] = value;
+  }
+
+  if (resultObject.typeCcList === undefined) {
+    defaultValues = resultObject;
+  } else {
+    const typeCcList = resultObject.typeCcList.split(",");
+    const newResultObject = {
+      ...resultObject,
+      typeCcList: typeCcList,
+    };
+
+    // console.log("NEW DEFAULTVALUES", newResultObject);
+    defaultValues = newResultObject;
+  }
+
+  // const defaultValues = {
+  //   ...resultObject,
+  //   anlsTypeMcList:
+  //     resultObject?.anlsTypeMcList !== undefined
+  //       ? resultObject?.anlsTypeMcList.split(",")
+  //       : [],
+  // };
 
   if (resultObject.dateTypeCc !== undefined) {
     console.log("<MMMMMMMMMMMMM", resultObject);
