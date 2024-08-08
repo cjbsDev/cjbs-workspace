@@ -11,6 +11,7 @@ import NoDataView from "../../components/NoDataView";
 import {
   Box,
   Chip,
+  Checkbox,
   Grid,
   Stack,
   styled,
@@ -19,7 +20,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import KeywordSearch from "../../components/KeywordSearch";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -27,16 +28,19 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
 import SampleActionBtns from "./SampleActionBtns";
 import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
+import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../hooks/useCalculatedHeight";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(100);
   // const [filterText, setFilterText] = useState("");
   // const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // const [isClear, setIsClear] = useState<boolean>(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
+  const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
   // useEffect(() => {
   //   // isClear 상태 변경 이슈
@@ -47,8 +51,9 @@ const SampleDataTable = () => {
   const params = useParams();
   const ukey = params.slug;
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
-
+  const currentPath = usePathname();
   const searchParams = useSearchParams();
+  const height = useCalculatedHeight(238);
 
   const resultObject = {};
 
@@ -408,27 +413,10 @@ const SampleDataTable = () => {
     [],
   );
 
-  const subHeaderComponentMemo = React.useMemo(() => {
-    return (
-      <Grid container>
-        <Grid item xs={5} sx={{ pt: 0 }}>
-          <Stack direction="row" spacing={1.5} alignItems="center">
-            <DataCountResultInfo totalCount={totalElements} />
-          </Stack>
-        </Grid>
-        <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            sx={{ mb: 1.5 }}
-            alignItems="center"
-          >
-            <KeywordSearch />
-          </Stack>
-        </Grid>
-      </Grid>
-    );
-  }, [totalElements]);
+  const subHeaderComponentMemo = useMemo(
+    () => <SubHeader totalElements={totalElements} result={result} />,
+    [totalElements, result],
+  );
 
   const handleSelectedRowChange = useCallback(
     ({ selectedRows }: any) => {
@@ -459,23 +447,30 @@ const SampleDataTable = () => {
         data={sampleListData}
         columns={columns}
         // onRowClicked={goDetailPage}
-        pointerOnHover
+        // pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows
+        selectableRowsComponent={Checkbox}
+        selectableRowsComponentProps={selectProps}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={toggledClearRows}
+        selectableRowsHighlight
         pagination
         paginationServer
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
-        paginationPerPage={10}
-        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+        noDataComponent={
+          <NoDataView resetPath={currentPath + `?uKey=${resultObject.uKey}`} />
+        }
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[100, 200, 300, 400, 500]}
       />
       <SampleActionBtns />
     </Box>

@@ -23,6 +23,7 @@ import { useSearchParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
 import KeywordSearch from "../../../../components/KeywordSearch";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const ListCust = () => {
   // const [page, setPage] = useState<number>(0);
@@ -38,6 +39,7 @@ const ListCust = () => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
+  const height = useCalculatedHeight(268);
   const searchParams = useSearchParams();
   const resultObject = {};
 
@@ -247,6 +249,8 @@ const ListCust = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         pagination
         paginationServer

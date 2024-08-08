@@ -31,8 +31,8 @@ export const getColumns = () => [
   },
   {
     name: "거래처(기관)",
-    width: "200px",
-    allowOverflow: true,
+    width: "220px",
+    // allowOverflow: true,
     cell: (row) => {
       const { instNm, agncNm } = row;
       return (
@@ -76,10 +76,54 @@ export const getColumns = () => [
   },
   {
     name: "샘플출처",
+    width: "200px",
+    center: true,
+    // allowOverflow: true,
+    wrap: true,
+    selector: (row) => row.source,
+  },
+  {
+    name: "분석종류",
     width: "160px",
+    wrap: true,
+    center: true,
+    // allowOverflow: true,
+    selector: (row) => row.anlsTypeVal,
+  },
+  {
+    name: "영업담당자",
+    minWidth: "120px",
     center: true,
     allowOverflow: true,
-    selector: (row) => row.source,
+    selector: (row) => row.bsnsMngrVal,
+  },
+  {
+    name: "Prep담당자",
+    minWidth: "120px",
+    center: true,
+    allowOverflow: true,
+    selector: (row) => row.prepMngrVal,
+  },
+  {
+    name: "Lib담당자",
+    minWidth: "120px",
+    center: true,
+    allowOverflow: true,
+    selector: (row) => row.libMngrVal,
+  },
+  {
+    name: "seq담당자",
+    minWidth: "120px",
+    center: true,
+    allowOverflow: true,
+    selector: (row) => row.seqMngrVal,
+  },
+  {
+    name: "분석담당자",
+    minWidth: "120px",
+    center: true,
+    allowOverflow: true,
+    selector: (row) => row.anlsMngrVal,
   },
   {
     name: "Depth",

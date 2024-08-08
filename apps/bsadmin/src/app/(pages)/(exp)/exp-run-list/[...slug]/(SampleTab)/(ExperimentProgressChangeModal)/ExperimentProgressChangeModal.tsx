@@ -103,7 +103,7 @@ const ExperimentProgressChangeModal = (
         if (response.success) {
           // mutate(`/order/${orderUkey}`);
           // mutate(`/order/${orderUkey}/sample/list`);
-          mutate(`/run/sample/${orderUkey}?page=1&size=20`);
+          mutate(`/run/sample/${orderUkey}`);
           setIsLoading(false);
           handleClose();
         } else {

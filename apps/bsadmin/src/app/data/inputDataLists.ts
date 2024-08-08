@@ -66,6 +66,14 @@ export const dateTypeCcData = [
   { value: "BS_0811005", optionName: "완료 통보일" },
 ];
 
+export const dateSampleTypeCcData = [
+  { value: "BS_0911001", optionName: "샘플 접수일" },
+  { value: "BS_0911002", optionName: "Prep 완료일" },
+  { value: "BS_0911003", optionName: "Lib 완료일" },
+  { value: "BS_0911004", optionName: "Seq 완료일" },
+  { value: "BS_0911005", optionName: "분석 완료일" },
+];
+
 // 2021년 부터 올해까지 연도 리스트
 const startYear = 2021;
 const currentYear = dayjs().year();

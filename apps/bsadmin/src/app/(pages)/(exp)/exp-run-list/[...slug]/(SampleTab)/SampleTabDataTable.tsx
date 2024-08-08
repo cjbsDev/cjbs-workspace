@@ -21,6 +21,7 @@ import {
   Backdrop,
   Box,
   Chip,
+  Checkbox,
   CircularProgress,
   Grid,
   Stack,
@@ -72,7 +73,7 @@ const SampleTabDataTable = (props) => {
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(20);
+  const [size, setSize] = useState<number>(100);
   const router = useRouter();
   const searchParams = useSearchParams();
   const params = useParams();
@@ -82,10 +83,16 @@ const SampleTabDataTable = (props) => {
     `/sampleListPopup?uKey=${ukey}`,
     "샘플 검색",
     1000,
-    700,
+    800,
   );
 
+  // useEffect(() => {
+  //   console.log("isOpen ==>>", isOpen);
+  // }, [isOpen]);
+
   const resultObject = {};
+
+  const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
@@ -102,6 +109,7 @@ const SampleTabDataTable = (props) => {
     fetcher,
     {
       suspense: true,
+      // refreshInterval: 1000,
     },
   );
   console.log("Sample TAb RUN LIST DATA", data);
@@ -469,7 +477,7 @@ const SampleTabDataTable = (props) => {
       console.log("Delete 성공 여부", res.success);
 
       if (res.success) {
-        mutate(`/run/sample/${ukey}?page=1&size=20`);
+        mutate(`/run/sample/${ukey}`);
         handleAlertClose();
         toast("삭제 되었습니다.");
       } else {
@@ -523,7 +531,7 @@ const SampleTabDataTable = (props) => {
       if (sampleUkeyList.length !== 0) handleExPrgsChngModalOpen();
       if (sampleUkeyList.length === 0) toast("샘플을 선택해 주세요.");
       // setIsClear(false);
-      setToggleClearRows(!toggledClearRows);
+      // setToggleClearRows(!toggledClearRows);
     };
 
     const handleClear = () => {
@@ -671,6 +679,8 @@ const SampleTabDataTable = (props) => {
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
           selectableRows
+          selectableRowsComponent={Checkbox}
+          selectableRowsComponentProps={selectProps}
           onSelectedRowsChange={handleSelectedRowChange}
           clearSelectedRows={toggledClearRows}
           selectableRowsVisibleOnly={true}
@@ -681,19 +691,21 @@ const SampleTabDataTable = (props) => {
           // paginationResetDefaultPage={resetPaginationToggle}
           // onChangeRowsPerPage={handlePerRowsChange}
           // onChangePage={handlePageChange}
+          paginationPerPage={100}
+          paginationRowsPerPageOptions={[100, 200, 300, 400, 500]}
         />
       </Box>
 
       {/* 샘플 추가 */}
-      {showSampleAddModal && (
-        <ErrorContainer FallbackComponent={Fallback}>
-          <LazySampleAllListModal
-            onClose={sampleAllListModalClose}
-            open={showSampleAddModal}
-            modalWidth={1200}
-          />
-        </ErrorContainer>
-      )}
+      {/*{showSampleAddModal && (*/}
+      {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
+      {/*    <LazySampleAllListModal*/}
+      {/*      onClose={sampleAllListModalClose}*/}
+      {/*      open={showSampleAddModal}*/}
+      {/*      modalWidth={1000}*/}
+      {/*    />*/}
+      {/*  </ErrorContainer>*/}
+      {/*)}*/}
 
       {/*/!* 실험 진행 단계 변경 *!/*/}
       {showExPrgsChngModal && (

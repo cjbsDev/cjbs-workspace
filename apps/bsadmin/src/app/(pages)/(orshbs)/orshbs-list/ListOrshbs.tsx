@@ -46,6 +46,7 @@ import { styled } from "@mui/material/styles";
 import NoDataView from "../../../components/NoDataView";
 import OrderRegChckNgsAnalysis from "./components/OrderRegChckNgsAnalysis";
 import dynamic from "next/dynamic";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const LazyOrderRegChckNgsAnalysis = dynamic(
   () => import("./components/OrderRegChckNgsAnalysis"),
@@ -87,7 +88,7 @@ export default function ListOrshbs() {
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   const [serviceSelectModalOpen, setServiceSelectModalOpen] =
     useState<boolean>(false);
-
+  const height = useCalculatedHeight(268);
   const searchParams = useSearchParams();
   const resultObject = {};
 
@@ -380,6 +381,8 @@ export default function ListOrshbs() {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination

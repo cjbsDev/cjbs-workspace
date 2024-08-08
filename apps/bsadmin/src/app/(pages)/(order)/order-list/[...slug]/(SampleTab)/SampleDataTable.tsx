@@ -7,6 +7,7 @@ import { fetcher } from "api";
 import {
   Box,
   Chip,
+  Checkbox,
   Stack,
   styled,
   Tooltip,
@@ -31,6 +32,8 @@ const SampleDataTable = (props) => {
   const sampleList = Array.from(data);
 
   // console.log(sampleList);
+
+  const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
   const filteredItems = sampleList.filter((item) => {
     const filterPattern = new RegExp(
@@ -450,6 +453,8 @@ const SampleDataTable = (props) => {
         subHeaderComponent={subHeaderComponentMemo}
         // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows
+        selectableRowsComponent={Checkbox}
+        selectableRowsComponentProps={selectProps}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
         selectableRowsVisibleOnly={true}

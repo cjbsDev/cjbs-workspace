@@ -12,6 +12,7 @@ import NoDataView from "../../../../components/NoDataView";
 import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 import SubHeader from "./SubHeader";
 import { getColumns } from "./Columns";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const ListAgnc = () => {
   // init
@@ -24,6 +25,7 @@ const ListAgnc = () => {
   const [selectedRows, setSelectedRows] = useState([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(268);
 
   const url = useMemo(() => {
     const base = "/agnc/list";
@@ -125,6 +127,8 @@ const ListAgnc = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         // paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         noDataComponent={<NoDataView />}

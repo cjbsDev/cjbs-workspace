@@ -45,6 +45,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { fetcher } from "api";
 import Link from "next/link";
 import NoDataView from "../../../components/NoDataView";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -77,6 +78,8 @@ export default function ListOrshbs() {
   // const [toggledClearRows, setToggleClearRows] = React.useState(false);
 
   const currentPath = usePathname();
+
+  const height = useCalculatedHeight(268);
 
   const searchParams = useSearchParams();
   const resultObject = {};
@@ -153,7 +156,7 @@ export default function ListOrshbs() {
         }) => (
           <Stack
             direction="row"
-            justifyContent="space-between"
+            // justifyContent="space-between"
             alignItems="center"
             spacing={2}
             width={"100%"}
@@ -336,6 +339,8 @@ export default function ListOrshbs() {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination

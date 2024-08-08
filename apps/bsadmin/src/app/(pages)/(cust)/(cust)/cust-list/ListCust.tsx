@@ -19,6 +19,7 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import SubHeader from "./SubHeader";
 import { getColumns } from "./Columns";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const ListCust = () => {
   const router = useRouter();
@@ -28,6 +29,7 @@ const ListCust = () => {
   const [sort, setSort] = useState<string>("custId,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
   const [resultObject, result] = useResultObject();
+  const height = useCalculatedHeight(268);
 
   const url = useMemo(() => {
     const base = "/cust/list";
@@ -126,6 +128,8 @@ const ListCust = () => {
       customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponentMemo}
+      fixedHeader={true}
+      fixedHeaderScrollHeight={`${height}px`}
       paginationResetDefaultPage={resetPaginationToggle}
       pagination
       paginationServer
