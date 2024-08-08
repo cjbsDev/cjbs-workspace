@@ -11,6 +11,7 @@ import NoDataView from "../../components/NoDataView";
 import {
   Box,
   Chip,
+  Checkbox,
   Grid,
   Stack,
   styled,
@@ -28,16 +29,18 @@ import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
 import SampleActionBtns from "./SampleActionBtns";
 import { toggledClearRowsAtom } from "../../recoil/atoms/toggled-clear-rows-atom";
 import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../hooks/useCalculatedHeight";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(10);
+  const [size, setSize] = useState<number>(100);
   // const [filterText, setFilterText] = useState("");
   // const [checked, setChecked] = useState(false);
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   // const [isClear, setIsClear] = useState<boolean>(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
+  const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
   // useEffect(() => {
   //   // isClear 상태 변경 이슈
@@ -50,6 +53,7 @@ const SampleDataTable = () => {
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
   const currentPath = usePathname();
   const searchParams = useSearchParams();
+  const height = useCalculatedHeight(268);
 
   const resultObject = {};
 
@@ -449,7 +453,11 @@ const SampleDataTable = () => {
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         paginationResetDefaultPage={resetPaginationToggle}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows
+        selectableRowsComponent={Checkbox}
+        selectableRowsComponentProps={selectProps}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={toggledClearRows}
         pagination
@@ -460,8 +468,8 @@ const SampleDataTable = () => {
         noDataComponent={
           <NoDataView resetPath={currentPath + `?uKey=${resultObject.uKey}`} />
         }
-        paginationPerPage={10}
-        paginationRowsPerPageOptions={[10, 20, 30, 40, 50]}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[100, 200, 300, 400, 500]}
       />
       <SampleActionBtns />
     </Box>

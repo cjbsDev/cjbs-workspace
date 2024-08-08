@@ -8,6 +8,7 @@ import { useParams, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useSWRConfig } from "swr";
 import { Box, Stack } from "@mui/material";
+import useCenteredPopup from "../../hooks/useCenteredPopup";
 
 const SampleActionBtns = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,9 +20,16 @@ const SampleActionBtns = () => {
   const uKey = searchParams.get("uKey");
 
   const { mutate } = useSWRConfig();
+  // const { isOpen, openPopup, closePopup } = useCenteredPopup(
+  //   `/sampleListPopup?uKey=${uKey}`,
+  //   "샘플 검색",
+  //   1000,
+  //   800,
+  // );
 
   const handleClose = () => {
     window.close();
+    // closePopup();
   };
 
   const sampleAdd = async () => {
@@ -38,7 +46,7 @@ const SampleActionBtns = () => {
       console.log("RUN 샘플 추가 성공 여부>>>> ==>>", res.success);
 
       if (res.success) {
-        mutate(`/run/sample/${uKey}?page=1&size=20`);
+        mutate(`/run/sample/${uKey}`);
         handleClose();
       } else {
         toast(res.message);
