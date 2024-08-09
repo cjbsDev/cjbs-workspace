@@ -23,7 +23,7 @@ import Row from "./components/Row";
 import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const MtldMngmntList = () => {
-  const height = useCalculatedHeight(268);
+  const height = useCalculatedHeight(212);
   const year = useRecoilValue(currentYearAtom);
   const month = useRecoilValue(currentMonthAtom);
 
@@ -34,7 +34,7 @@ const MtldMngmntList = () => {
       suspense: true,
     },
   );
-  // console.log("MTLD", data);
+  console.log("MTLD", data);
 
   const {
     mtldDetailList,
@@ -56,10 +56,16 @@ const MtldMngmntList = () => {
 
       <SubHeader />
 
-      <TableContainer>
-        <Table stickyHeader>
+      <TableContainer
+        sx={{
+          position: "relative",
+          height: height,
+          // pb: 56,
+        }}
+      >
+        <Table>
           <TableHeader />
-          <TableBody>
+          <TableBody sx={{ height: 300, overflowY: "auto" }}>
             {mtldDetailList.map(
               (
                 item: {

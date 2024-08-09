@@ -7,6 +7,7 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
+import DisplayMoney from "../../../../../components/DisplayMoney";
 
 interface TableSumFooterProps {
   closingStockTotalAmt: number;
@@ -30,7 +31,13 @@ const TableSumFooter = ({
   openingStockTotalAmt,
 }: TableSumFooterProps) => {
   return (
-    <TableFooter sx={{ backgroundColor: cjbsTheme.palette.grey["100"] }}>
+    <TableFooter
+      sx={{
+        backgroundColor: cjbsTheme.palette.grey["100"],
+        position: "sticky",
+        bottom: 0,
+      }}
+    >
       <TableRow>
         <TableCell
           colSpan={3}
@@ -40,60 +47,43 @@ const TableSumFooter = ({
           <Typography variant="body1">합계</Typography>
         </TableCell>
         <TableCell align="right">
-          <Typography>
+          <Typography variant="body2">
             {formatNumberWithCommas(openingStockTotalCnt)}
           </Typography>
         </TableCell>
         <TableCell align="right">
-          <Stack
-            direction="row"
-            justifyContent="right"
-            alignItems="center"
-            spacing={0.2}
-          >
-            <Typography>
-              {formatNumberWithCommas(openingStockTotalAmt)}
-            </Typography>
-            <Typography>원</Typography>
-          </Stack>
+          <DisplayMoney price={openingStockTotalAmt} />
+          {/*<Stack*/}
+          {/*  direction="row"*/}
+          {/*  justifyContent="right"*/}
+          {/*  alignItems="center"*/}
+          {/*  spacing={0.2}*/}
+          {/*>*/}
+          {/*  <Typography>*/}
+          {/*    {formatNumberWithCommas(openingStockTotalAmt)}*/}
+          {/*  </Typography>*/}
+          {/*  <Typography>원</Typography>*/}
+          {/*</Stack>*/}
         </TableCell>
         <TableCell align="right">
           <Typography>{formatNumberWithCommas(stockInTotalCnt)}</Typography>
         </TableCell>
         <TableCell align="right">
-          <Typography>{formatNumberWithCommas(stockInTotalAmt)}</Typography>
+          <DisplayMoney price={stockInTotalAmt} />
         </TableCell>
         <TableCell align="right">
           <Typography>{formatNumberWithCommas(stockOutTotalCnt)}</Typography>
         </TableCell>
         <TableCell align="right">
-          <Stack
-            direction="row"
-            justifyContent="right"
-            alignItems="center"
-            spacing={0.2}
-          >
-            <Typography>{formatNumberWithCommas(stockOutTotalAmt)}</Typography>
-            <Typography>원</Typography>
-          </Stack>
+          <DisplayMoney price={stockOutTotalAmt} />
         </TableCell>
         <TableCell align="right">
-          <Typography>
+          <Typography variant="body2">
             {formatNumberWithCommas(closingStockTotalCnt)}
           </Typography>
         </TableCell>
         <TableCell align="right">
-          <Stack
-            direction="row"
-            justifyContent="right"
-            alignItems="center"
-            spacing={0.2}
-          >
-            <Typography>
-              {formatNumberWithCommas(closingStockTotalAmt)}
-            </Typography>
-            <Typography>원</Typography>
-          </Stack>
+          <DisplayMoney price={closingStockTotalAmt} />
         </TableCell>
       </TableRow>
     </TableFooter>
