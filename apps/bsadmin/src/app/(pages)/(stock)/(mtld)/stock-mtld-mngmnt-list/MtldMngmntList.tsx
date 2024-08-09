@@ -20,8 +20,10 @@ import { currentMonthAtom, currentYearAtom } from "./atom";
 import SubHeader from "./components/SubHeader";
 import TableSumFooter from "./components/TableSumFooter";
 import Row from "./components/Row";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
-const MngmntList = () => {
+const MtldMngmntList = () => {
+  const height = useCalculatedHeight(268);
   const year = useRecoilValue(currentYearAtom);
   const month = useRecoilValue(currentMonthAtom);
 
@@ -55,7 +57,7 @@ const MngmntList = () => {
       <SubHeader />
 
       <TableContainer>
-        <Table>
+        <Table stickyHeader>
           <TableHeader />
           <TableBody>
             {mtldDetailList.map(
@@ -127,4 +129,4 @@ const MngmntList = () => {
   );
 };
 
-export default MngmntList;
+export default MtldMngmntList;

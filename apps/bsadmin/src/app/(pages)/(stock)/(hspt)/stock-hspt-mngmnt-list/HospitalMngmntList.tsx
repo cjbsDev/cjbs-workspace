@@ -11,12 +11,14 @@ import NoDataView from "../../../../components/NoDataView";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
 import { usePathname } from "next/navigation";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const HospitalMngmntList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
   const [resultObject, result] = useResultObject();
   const router = useRouter();
+  const height = useCalculatedHeight(268);
   const currentPath = usePathname();
 
   const url = useMemo(() => {
@@ -70,6 +72,8 @@ const HospitalMngmntList = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination
         paginationServer

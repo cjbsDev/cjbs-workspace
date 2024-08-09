@@ -10,18 +10,18 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import NoDataView from "../../../../components/NoDataView";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
-import { usePathname } from "next/navigation";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
-const MngmntList = () => {
+const OtsMngmntList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
   const [resultObject, result] = useResultObject();
   const router = useRouter();
-  const currentPath = usePathname();
+  const height = useCalculatedHeight(268);
   const { mutate } = useSWRConfig();
 
   const url = useMemo(() => {
-    const base = "/stock/agnc/list";
+    const base = "/ots/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
         ? `${result}&page=${page}&size=${size}`
@@ -31,10 +31,10 @@ const MngmntList = () => {
 
   const { data } = useSWR(url, fetcher, { suspense: true });
 
-  const { stockAgncList, pageInfo } = data;
+  const { otsList, pageInfo } = data;
   const { totalElements } = pageInfo;
 
-  console.log("Agnc Data List ==>>", stockAgncList);
+  console.log("Ots Data List ==>>", otsList);
 
   const columns = useMemo(() => getColumns(totalElements), [totalElements]);
 
@@ -55,16 +55,15 @@ const MngmntList = () => {
   );
 
   const goDetailPage = useCallback((row: any) => {
-    const { stockAgncUkey } = row;
-    mutate(`/stock/agnc/${stockAgncUkey}`);
-    router.push(`/stock-agnc-mngmnt-list/${stockAgncUkey}`);
+    const { otsUkey } = row;
+    router.push(`/stock-ots-mngmnt-list/${otsUkey}`);
   }, []);
 
   return (
     <Box sx={{ display: "grid" }}>
       <DataTableBase
-        title={<Title1 titleName="주문처 관리" />}
-        data={stockAgncList}
+        title={<Title1 titleName="아웃소싱 관리" />}
+        data={otsList}
         columns={columns}
         onRowClicked={goDetailPage}
         pointerOnHover
@@ -72,18 +71,18 @@ const MngmntList = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination
         paginationServer
         paginationTotalRows={totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView resetPath={currentPath} />}
-        // defaultSortFieldId={1}
-        // defaultSortAsc={false}
+        noDataComponent={<NoDataView />}
       />
     </Box>
   );
 };
 
-export default MngmntList;
+export default OtsMngmntList;

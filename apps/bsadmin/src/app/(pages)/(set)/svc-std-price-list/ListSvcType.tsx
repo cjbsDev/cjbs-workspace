@@ -11,9 +11,11 @@ import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import NoDataView from "../../../components/NoDataView";
 import { Box } from "@mui/material";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const LazySvcStdPrice = () => {
   const router = useRouter();
+  const height = useCalculatedHeight(268);
   const apiUrl = `/mngr/stndPrice/list`;
   const { data } = useSWR(apiUrl, fetcher, {
     suspense: true,
@@ -54,6 +56,8 @@ const LazySvcStdPrice = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         noDataComponent={<NoDataView />}
       />

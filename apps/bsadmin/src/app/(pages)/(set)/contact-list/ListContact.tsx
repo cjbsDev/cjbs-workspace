@@ -21,13 +21,14 @@ import { PUT } from "api";
 import { toast } from "react-toastify";
 import { formatPhoneNumber } from "cjbsDSTM/commonFunc";
 import { getColumns } from "./Columns";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 export default function ListContact() {
   const [page, setPage] = useState<number>(0);
   const [perPage, setPerPage] = useState<number>(20);
   // ListAPI Call
   const { data } = useList("user", page, perPage);
-
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<any[]>([]);
   const [selectedRowCnt, setSelectedRowCnt] = useState(0);
@@ -290,6 +291,8 @@ export default function ListContact() {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         paginationResetDefaultPage={resetPaginationToggle}
         pagination
         paginationServer

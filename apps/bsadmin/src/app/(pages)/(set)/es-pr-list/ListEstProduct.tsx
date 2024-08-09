@@ -10,8 +10,10 @@ import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import NoDataView from "../../../components/NoDataView";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListEstProduct = () => {
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const apiUrl = `/mngr/esPrMng`;
   const { data } = useSWR(apiUrl, fetcher, {
@@ -51,6 +53,8 @@ const ListEstProduct = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         noDataComponent={<NoDataView />}
       />

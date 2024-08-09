@@ -10,8 +10,10 @@ import { fetcher } from "api";
 import SubHeader from "./SubHeader";
 import { getColumns } from "./Columns";
 import { usePathname } from "next/navigation";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListMachine = () => {
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const currentURL = usePathname();
   const enumMngrCode = "MCHN_KIT";
@@ -47,6 +49,8 @@ const ListMachine = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
       />
     </Box>

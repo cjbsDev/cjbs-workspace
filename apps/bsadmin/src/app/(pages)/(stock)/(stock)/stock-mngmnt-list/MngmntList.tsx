@@ -15,9 +15,11 @@ import { usePathname } from "next/navigation";
 import StockCtgryRadio from "./components/StockCtgryRadio";
 import { useRecoilValue } from "recoil";
 import { stockCategoryAtom } from "./atom";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
 const MngmntList = () => {
   const router = useRouter();
+  const height = useCalculatedHeight(268);
   const currentPath = usePathname();
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
@@ -129,6 +131,8 @@ const MngmntList = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination
         paginationServer

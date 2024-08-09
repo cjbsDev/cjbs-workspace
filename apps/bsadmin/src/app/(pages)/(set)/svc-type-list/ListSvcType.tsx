@@ -8,8 +8,10 @@ import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTa
 import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListSvcType = () => {
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const enumMngrCode = "SRVC_TYPE";
   let apiUrl = `/mngr/list?enumMngrCode=${enumMngrCode}`;
@@ -42,6 +44,8 @@ const ListSvcType = () => {
       customStyles={dataTableCustomStyles}
       subHeader
       subHeaderComponent={subHeaderComponent}
+      fixedHeader={true}
+      fixedHeaderScrollHeight={`${height}px`}
       selectableRows={false}
     />
   );

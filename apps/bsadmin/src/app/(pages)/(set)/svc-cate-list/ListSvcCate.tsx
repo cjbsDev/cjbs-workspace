@@ -16,8 +16,10 @@ import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import { usePathname } from "next/navigation";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListSvcCate = () => {
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const currentUrl = usePathname();
   const enumMngrCode = "SRVC_CTGR";
@@ -58,6 +60,8 @@ const ListSvcCate = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         onRowClicked={handleOnRowClicked}
       />

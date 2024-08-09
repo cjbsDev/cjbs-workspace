@@ -4,7 +4,7 @@ import { ErrorContainer, Fallback } from "cjbsDSTM";
 import { RecoilRoot } from "recoil";
 import RecoilRootProvider from "../../../../recoilRootProvider";
 
-const LazyList = dynamic(() => import("./MngmntList"), {
+const LazyList = dynamic(() => import("./MtldMngmntList"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });
