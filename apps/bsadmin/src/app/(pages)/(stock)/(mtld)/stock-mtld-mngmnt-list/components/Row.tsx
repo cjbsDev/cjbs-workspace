@@ -1,6 +1,6 @@
 import React from "react";
 import { formatNumberWithCommas, TD2 } from "cjbsDSTM";
-import { Stack, Typography } from "@mui/material";
+import DisplayMoney from "../../../../../components/DisplayMoney";
 
 interface RowProps {
   stockId: number;
@@ -34,61 +34,23 @@ const Row = ({
       <TD2 align="center">{stockId}</TD2>
       <TD2>{stockNm}</TD2>
       <TD2 align="right">
-        <Stack
-          direction="row"
-          justifyContent="right"
-          alignItems="center"
-          spacing={0.2}
-        >
-          <Typography variant="body2">
-            {formatNumberWithCommas(unpr)}
-          </Typography>
-          <Typography variant="body2">원</Typography>
-        </Stack>
+        <DisplayMoney price={unpr} />
       </TD2>
       <TD2 align="right">{formatNumberWithCommas(openingStockCnt)}</TD2>
       <TD2 align="right">
-        <Stack
-          direction="row"
-          justifyContent="right"
-          alignItems="center"
-          spacing={0.2}
-        >
-          <Typography variant="body2">
-            {formatNumberWithCommas(openingStockAmt)}
-          </Typography>
-          <Typography variant="body2">원</Typography>
-        </Stack>
+        <DisplayMoney price={openingStockAmt} />
       </TD2>
       <TD2 align="right">{formatNumberWithCommas(stockInCnt)}</TD2>
-      <TD2 align="right">{formatNumberWithCommas(stockInAmt)}</TD2>
+      <TD2 align="right">
+        <DisplayMoney price={stockInAmt} />
+      </TD2>
       <TD2 align="right">{formatNumberWithCommas(stockOutCnt)}</TD2>
       <TD2 align="right">
-        <Stack
-          direction="row"
-          justifyContent="right"
-          alignItems="center"
-          spacing={0.2}
-        >
-          <Typography variant="body2">
-            {formatNumberWithCommas(stockOutAmt)}
-          </Typography>
-          <Typography variant="body2">원</Typography>
-        </Stack>
+        <DisplayMoney price={stockOutAmt} />
       </TD2>
       <TD2 align="right">{formatNumberWithCommas(closingStockCnt)}</TD2>
       <TD2 align="right">
-        <Stack
-          direction="row"
-          justifyContent="right"
-          alignItems="center"
-          spacing={0.2}
-        >
-          <Typography variant="body2">
-            {formatNumberWithCommas(closingStockAmt)}
-          </Typography>
-          <Typography variant="body2">원</Typography>
-        </Stack>
+        <DisplayMoney price={closingStockAmt} />
       </TD2>
     </>
   );

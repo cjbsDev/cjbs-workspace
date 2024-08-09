@@ -4,7 +4,7 @@ import { TH2 } from "cjbsDSTM";
 
 const TableHeader = () => {
   return (
-    <TableHead>
+    <TableHead sx={{ position: "sticky", top: 0 }}>
       <TableRow>
         <TH2 width={80} align="center">
           재고 ID
