@@ -11,13 +11,14 @@ import NoDataView from "../../../../components/NoDataView";
 import { Box } from "@mui/material";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
-const MngmntList = () => {
+const InOutMngmntList = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(15);
   const [resultObject, result] = useResultObject();
   const router = useRouter();
-
+  const height = useCalculatedHeight(268);
   const url = useMemo(() => {
     const base = "/stock/inout/list";
     const params =
@@ -64,6 +65,8 @@ const MngmntList = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination
         paginationServer
@@ -77,4 +80,4 @@ const MngmntList = () => {
   );
 };
 
-export default MngmntList;
+export default InOutMngmntList;

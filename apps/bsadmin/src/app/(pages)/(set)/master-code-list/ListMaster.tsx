@@ -9,9 +9,11 @@ import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import { Box } from "@mui/material";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListMaster = () => {
   const router = useRouter();
+  const height = useCalculatedHeight(268);
   let tempUrl = `/mngr/masterCode`;
   const { data } = useSWR(tempUrl, fetcher, {
     suspense: true,
@@ -48,6 +50,8 @@ const ListMaster = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
         pagination={false}
       />

@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../components/SkeletonLoading";
 import { ErrorContainer, Fallback } from "cjbsDSTM";
 
-const LazyList = dynamic(() => import("./MngmntList"), {
+const LazyList = dynamic(() => import("./OtsMngmntList"), {
   ssr: false,
   loading: () => <SkeletonLoading />,
 });

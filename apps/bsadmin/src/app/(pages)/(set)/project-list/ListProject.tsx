@@ -9,8 +9,10 @@ import { fetcher } from "api";
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import { Box } from "@mui/material";
+import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const ListProject = () => {
+  const height = useCalculatedHeight(268);
   const router = useRouter();
   const tempUrl = `/mngr/prjt/list`;
   const { data } = useSWR(tempUrl, fetcher, {
@@ -45,6 +47,8 @@ const ListProject = () => {
         customStyles={dataTableCustomStyles}
         subHeader
         subHeaderComponent={subHeader}
+        fixedHeader={true}
+        fixedHeaderScrollHeight={`${height}px`}
         selectableRows={false}
       />
     </Box>
