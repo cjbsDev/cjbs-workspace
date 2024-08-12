@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import InfoIcon from "@mui/icons-material/Info";
+import HelpIcon from "@mui/icons-material/Help";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import { snbMenuListData } from "./data/snbMenuListData";
@@ -31,7 +33,6 @@ import PasswordChangeModal from "./components/PasswordChangeModal";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import useArrayContainsCharacter from "./hooks/useArrayContainsCharacter";
-
 interface ContextProps {
   children: React.ReactNode;
 }
@@ -152,8 +153,6 @@ export default function DrawerProvider({ children }: ContextProps) {
     setOpen(true);
   }, []);
 
-  // if () {}
-
   return (
     <>
       <Box sx={{ display: "flex" }}>
@@ -188,7 +187,7 @@ export default function DrawerProvider({ children }: ContextProps) {
               sx={{ width: "100%" }}
             >
               <Link
-                href="/"
+                href="/dashboard"
                 replace={true}
                 onClick={() => setSelectedIndex(-1)}
               >
@@ -199,16 +198,12 @@ export default function DrawerProvider({ children }: ContextProps) {
                 )}
               </Link>
               <IconButton
-                // onClick={!open ? handleDrawerOpen : handleDrawerClose}
                 onClick={handleDrawerClose}
                 sx={{
                   color: "white",
                   mr: 2,
-                  // minWidth: "fit-content",
-                  // ...(open && { ml: -3 }),
                 }}
               >
-                {/*{!open ? <ChevronRightIcon /> : <ChevronLeftIcon />}*/}
                 <ChevronLeftIcon />
               </IconButton>
             </Stack>
@@ -232,9 +227,6 @@ export default function DrawerProvider({ children }: ContextProps) {
                     onClick={() => {
                       handleMenuOpenClick();
                       handleClick(index);
-                      // item.menuPath.nestedPath.length === 0
-                      //   ? handleHomeClick(item)
-                      //   : handleClick(index);
                     }}
                     selected={currentPathname.includes(depthOne.split("/")[1])}
                     disabled={
@@ -280,11 +272,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                   </ListItemButton>
 
                   <Collapse
-                    in={
-                      index === selectedIndex
-                      // index === selectedIndex ||
-                      // currentPathname.includes(depthOne.split("/")[1])
-                    }
+                    in={index === selectedIndex}
                     timeout="auto"
                     unmountOnExit
                   >
@@ -293,42 +281,6 @@ export default function DrawerProvider({ children }: ContextProps) {
                       sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
                       disablePadding
                     >
-                      {/*{depthOne === "/order" && (*/}
-                      {/*  <>*/}
-                      {/*    <Link*/}
-                      {/*      key="/order-intn-reg"*/}
-                      {/*      href="/order-intn-reg"*/}
-                      {/*      className={*/}
-                      {/*        "navLink" +*/}
-                      {/*        (currentPathname === "/order-intn-reg"*/}
-                      {/*          ? " activeLinkColor"*/}
-                      {/*          : " normalLinkColor")*/}
-                      {/*      }*/}
-                      {/*      style={{*/}
-                      {/*        display: containsChar2 ? "block" : "none",*/}
-                      {/*      }}*/}
-                      {/*    >*/}
-                      {/*      내부 오더 등록*/}
-                      {/*    </Link>*/}
-
-                      {/*    <Link*/}
-                      {/*      key="/order-extr-reg"*/}
-                      {/*      href="/order-extr-reg"*/}
-                      {/*      className={*/}
-                      {/*        "navLink" +*/}
-                      {/*        (currentPathname === "/order-extr-reg"*/}
-                      {/*          ? " activeLinkColor"*/}
-                      {/*          : " normalLinkColor")*/}
-                      {/*      }*/}
-                      {/*      style={{*/}
-                      {/*        display: containsChar1 ? "block" : "none",*/}
-                      {/*      }}*/}
-                      {/*    >*/}
-                      {/*      고객 오더 등록*/}
-                      {/*    </Link>*/}
-                      {/*  </>*/}
-                      {/*)}*/}
-
                       {item.menuPath.nestedPath.map((item) => {
                         const isActive = currentPathname.startsWith(
                           item.menuPath,
@@ -355,13 +307,6 @@ export default function DrawerProvider({ children }: ContextProps) {
                                     : "block",
                             }}
                           >
-                            {/*{item.menuLabel === "내부 오더 등록" &&*/}
-                            {/*!containsChar2*/}
-                            {/*  ? null*/}
-                            {/*  : item.menuLabel === "고객 오더 등록" &&*/}
-                            {/*      !containsChar1*/}
-                            {/*    ? null*/}
-                            {/*    : item.menuLabel}*/}
                             {item.menuLabel}
                           </Link>
                         );
@@ -372,23 +317,40 @@ export default function DrawerProvider({ children }: ContextProps) {
               );
             })}
           </List>
-          {/*<List>*/}
-          {/*  <ListItem sx={{ color: "white" }}>*/}
-          {/*    <Link href="/code-box" onClick={() => setSelectedIndex(-1)}>*/}
-          {/*      <Stack direction="row" spacing={2}>*/}
-          {/*        <MyIcon icon="lightning" size={20} color={yellow["300"]} />*/}
-          {/*        <Box component="span">CodeBox</Box>*/}
-          {/*      </Stack>*/}
-          {/*    </Link>*/}
-          {/*  </ListItem>*/}
-          {/*</List>*/}
+
+          <List sx={{ position: "absolute", bottom: 0 }}>
+            <ListItem sx={{ color: "white" }}>
+              <a
+                href="https://good-mimosa-0a8.notion.site/BS-Admin-6395fe45810d4062b4c4942d3e85bdf3?pvs=4"
+                target="_blank"
+              >
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <InfoIcon sx={{ fontSize: 20 }} />
+                  <Box component="span">Notice</Box>
+                </Stack>
+              </a>
+            </ListItem>
+            <ListItem sx={{ color: "white" }}>
+              <a
+                href="https://good-mimosa-0a8.notion.site/CJBS-Admin-612ec603475d4aa8a3518b8d9ca97128?pvs=4"
+                target="_blank"
+              >
+                <Stack direction="row" spacing={2} alignItems="center">
+                  <HelpIcon sx={{ fontSize: 20 }} />
+                  <Box component="span">User Guide</Box>
+                </Stack>
+              </a>
+            </ListItem>
+          </List>
         </Drawer>
 
         <Box
           component="main"
           sx={{
             backgroundColor:
-              currentPathname === "/" ? cjbsTheme.palette.grey["100"] : "white",
+              currentPathname === "/dashboard"
+                ? cjbsTheme.palette.grey["100"]
+                : "white",
 
             flexGrow: 1,
             p: currentPathname === "/sign-in" ? 0 : 2.5,
