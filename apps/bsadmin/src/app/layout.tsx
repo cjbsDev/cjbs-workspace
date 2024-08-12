@@ -6,7 +6,7 @@ import DrawerProvider from "./DrawerProvider";
 import { NextProgressBar } from "./NextProgressBar";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import RecoilRootProvider from "./recoilRootProvider";
-import SProviders from "./SessionProvider";
+import SProviders from "./sessionProvider";
 // import { Inter } from "next/font/google";
 // const inter = Inter({
 //   weight: ["400", "600", "700"],
