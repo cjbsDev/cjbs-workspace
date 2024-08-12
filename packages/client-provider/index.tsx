@@ -2,7 +2,7 @@
 import "react-toastify/dist/ReactToastify.css";
 import * as React from "react";
 import { ToastContainer } from "react-toastify";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import CssBaseline from "@mui/material/CssBaseline";
 import { SWRConfig } from "swr";
 import StyledJsxRegistry from "./styled-ssr/styledRegistry";

@@ -6,6 +6,8 @@ import DrawerProvider from "./DrawerProvider";
 import { NextProgressBar } from "./NextProgressBar";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v14-appRouter";
 import RecoilRootProvider from "./recoilRootProvider";
+import SessionProvider from "./SessionProvider";
+import SProviders from "./SessionProvider";
 // import { Inter } from "next/font/google";
 // const inter = Inter({
 //   weight: ["400", "600", "700"],
@@ -35,11 +37,13 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <JeJuProvider>
             <RecoilRootProvider>
-              <Provider>
-                {/*<DrawerProvider>{children}</DrawerProvider>*/}
-                {children}
-                <NextProgressBar />
-              </Provider>
+              <SProviders>
+                <Provider>
+                  {/*<DrawerProvider>{children}</DrawerProvider>*/}
+                  {children}
+                  <NextProgressBar />
+                </Provider>
+              </SProviders>
             </RecoilRootProvider>
           </JeJuProvider>
         </AppRouterCacheProvider>

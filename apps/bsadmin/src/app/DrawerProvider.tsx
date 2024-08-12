@@ -165,21 +165,21 @@ export default function DrawerProvider({ children }: ContextProps) {
         <Drawer
           variant="permanent"
           open={open}
-          sx={{
-            // display:
-            //   currentPathname === "/sign-in" ||
-            //   currentPathname === "/sampleListPopup" ||
-            //   currentPathname === "/sampleSimpleListPopup" ||
-            //   currentPathname === "/agncListPopup" ||
-            //   currentPathname === "/tnsfAgncListPopup" ||
-            //   currentPathname === "/custListPopup" ||
-            //   currentPathname === "/instListPopup" ||
-            //   currentPathname === "/hsptListPopup" ||
-            //   currentPathname === "/projectListPopup"
-            //     ? "none"
-            //     : "block",
-            zIndex: 1000,
-          }}
+          // sx={{
+          //   display:
+          //     currentPathname === "/sign-in" ||
+          //     currentPathname === "/sampleListPopup" ||
+          //     currentPathname === "/sampleSimpleListPopup" ||
+          //     currentPathname === "/agncListPopup" ||
+          //     currentPathname === "/tnsfAgncListPopup" ||
+          //     currentPathname === "/custListPopup" ||
+          //     currentPathname === "/instListPopup" ||
+          //     currentPathname === "/hsptListPopup" ||
+          //     currentPathname === "/projectListPopup"
+          //       ? "none"
+          //       : "block",
+          //   zIndex: 1000,
+          // }}
         >
           <DrawerHeader>
             <Stack
@@ -397,22 +397,20 @@ export default function DrawerProvider({ children }: ContextProps) {
           }}
         >
           <DrawerHeader
-            sx={
-              {
-                // display:
-                //   currentPathname === "/custListPopup" ||
-                //   currentPathname === "/sampleListPopup" ||
-                //   currentPathname === "/sampleSimpleListPopup" ||
-                //   currentPathname === "/agncListPopup" ||
-                //   currentPathname === "/tnsfAgncListPopup" ||
-                //   currentPathname === "/projectListPopup" ||
-                //   currentPathname === "/instListPopup" ||
-                //   currentPathname === "/hsptListPopup" ||
-                //   currentPathname === "/sign-in"
-                //     ? "none"
-                //     : "block",
-              }
-            }
+          // sx={{
+          //   display:
+          //     currentPathname === "/custListPopup" ||
+          //     currentPathname === "/sampleListPopup" ||
+          //     currentPathname === "/sampleSimpleListPopup" ||
+          //     currentPathname === "/agncListPopup" ||
+          //     currentPathname === "/tnsfAgncListPopup" ||
+          //     currentPathname === "/projectListPopup" ||
+          //     currentPathname === "/instListPopup" ||
+          //     currentPathname === "/hsptListPopup" ||
+          //     currentPathname === "/sign-in"
+          //       ? "none"
+          //       : "block",
+          // }}
           />
           {children}
         </Box>
