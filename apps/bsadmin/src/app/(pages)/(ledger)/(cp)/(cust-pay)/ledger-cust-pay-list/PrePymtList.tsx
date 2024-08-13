@@ -50,6 +50,8 @@ const PrePymtList = () => {
   const [resultObject, result] = useResultObject();
   const height = useCalculatedHeight(370);
 
+  console.log("result", result);
+
   const url = useMemo(() => {
     const base = "/agnc/prePymt/list";
     const params =
@@ -67,7 +69,7 @@ const PrePymtList = () => {
   const columns = useMemo(() => getColumns(), []);
 
   const handleChange1 = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // console.log("123123123123"+ event.target.checked);
+    console.log("123123123123" + event.target.checked);
     setChecked(event.target.checked);
   };
 
@@ -91,7 +93,11 @@ const PrePymtList = () => {
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <FileDownloadBtn
-                exportUrl={`/agnc/prePymt/list/download${result}&chkAll=${checked}`}
+                exportUrl={
+                  JSON.stringify(resultObject) !== "{}"
+                    ? `/agnc/prePymt/list/download${result}&chkAll=${checked}`
+                    : `/agnc/prePymt/list/download?chkAll=${checked}`
+                }
                 iconName="xls3"
               />
               <KeywordSearch />
@@ -117,7 +123,7 @@ const PrePymtList = () => {
         </Grid>
       </Grid>
     );
-  }, [totalElements, result]);
+  }, [totalElements, rmpPrePymtPrice, result]);
 
   const handlePageChange = (page: number) => {
     console.log("Page", page);
@@ -284,7 +290,7 @@ const PrePymtList = () => {
         }}
         // expandOnRowDoubleClicked={true}
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[50, 100, 200, 300, 400]}
+        paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />
     </Box>
   );
