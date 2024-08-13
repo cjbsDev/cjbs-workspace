@@ -3,6 +3,7 @@ import React from "react";
 import DrawerProvider from "./DrawerProvider";
 import dynamic from "next/dynamic";
 import { FullHeightLoading } from "cjbsDSTM";
+import DashboardPage from "./(pages)/(dashboard)/dashboard/page";
 
 const LazyDashboard = dynamic(() => import("./components/Dashboard"), {
   ssr: false,
@@ -11,8 +12,9 @@ const LazyDashboard = dynamic(() => import("./components/Dashboard"), {
 
 export default function Page() {
   return (
-    <DrawerProvider>
-      <LazyDashboard />
-    </DrawerProvider>
+    <div>Root Page!</div>
+    // <DrawerProvider>
+    // <LazyDashboard />
+    // </DrawerProvider>
   );
 }

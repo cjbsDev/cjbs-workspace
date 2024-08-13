@@ -6,7 +6,7 @@ import { Box } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import useSWR from "swr";
+import useSWR, { preload } from "swr";
 import { fetcher } from "api";
 import NoDataView from "../../../components/NoDataView";
 import { useResultObject } from "../../../components/KeywordSearch/useResultObject";
@@ -14,17 +14,21 @@ import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
+const base = "/order/list";
+
+// preload(base, fetcher).then((r) => console.log("RRRRRRRR ==>>", r));
+
 const ListOrder = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [sort, setSort] = useState<string>("orderId,DESC");
   const [hideDirector, setHideDirector] = useState<boolean>(true);
-
   const [resultObject, result] = useResultObject();
   const height = useCalculatedHeight(268);
+  const router = useRouter();
 
   const url = useMemo(() => {
-    const base = "/order/list";
+    // const base = "/order/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
         ? `${result}&page=${page}&size=${size}&sort=${sort}`
@@ -37,7 +41,6 @@ const ListOrder = () => {
   console.log("ORDER LIST DATA", data);
   const orderListData = data.orderList;
   const totalElements = data.pageInfo.totalElements;
-  const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const columns = useMemo(
@@ -100,15 +103,21 @@ const ListOrder = () => {
         pagination
         paginationServer
         paginationTotalRows={totalElements}
-        onChangeRowsPerPage={handlePerRowsChange}
+        // progressPending={!orderListData}
+        // progressComponent={<p>Loading...</p>}
         onChangePage={handlePageChange}
+        // onChangePage={(page) => setPage(page)}
+        onChangeRowsPerPage={handlePerRowsChange}
+        // onChangeRowsPerPage={(currentRowsPerPage) =>
+        //   setSize(currentRowsPerPage)
+        // }
         noDataComponent={<NoDataView resetPath={"/order-list"} />}
         sortServer
         onSort={handleSort}
         defaultSortFieldId={1}
         defaultSortAsc={false}
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[50, 100, 200, 300, 400, 600, 800, 1000]}
+        paginationRowsPerPageOptions={[100, 200, 300, 400, 600, 800, 1000]}
       />
     </Box>
   );

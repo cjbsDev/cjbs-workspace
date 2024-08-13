@@ -1,6 +1,6 @@
 import DrawerProvider from "../../DrawerProvider";
 
-export default function QttnLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;

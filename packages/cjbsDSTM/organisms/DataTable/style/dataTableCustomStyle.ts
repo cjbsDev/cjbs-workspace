@@ -10,6 +10,7 @@ export const dataTableCustomStyles = {
     style: {
       backgroundColor: "white",
       padding: 0,
+      zIndex: 100,
     },
   },
   head: {
@@ -21,8 +22,6 @@ export const dataTableCustomStyles = {
       backgroundColor: cjbsTheme.palette.grey["800"],
       borderTop: "1px solid #000",
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
-      // paddingTop: 3,
-      // paddingBottom: 3,
       minHeight: "36px",
     },
   },
@@ -82,6 +81,7 @@ export const dataTableCustomStyles = {
       // paddingBottom: 5,
       // paddingLeft: 15,
       // paddingRight: 15,
+      zIndex: 0,
     },
   },
   pagination: {
@@ -175,6 +175,7 @@ export const dataTableCustomStyles2 = {
     style: {
       backgroundColor: cjbsTheme.palette.common.white,
       borderLeft: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      zIndex: 0,
     },
   },
   pagination: {
@@ -266,6 +267,7 @@ export const dataTableCustomStyles3 = {
       // paddingRight: 24,
       borderRight: `1px solid ${cjbsTheme.palette.grey["400"]}`,
       borderBottom: `1px solid ${cjbsTheme.palette.grey["400"]}`,
+      zIndex: 0,
     },
     highlightOnHoverStyle: {
       backgroundColor: cjbsTheme.palette.grey["200"],

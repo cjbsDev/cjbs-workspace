@@ -89,7 +89,11 @@ const LicenseList = () => {
             </Stack>
             <Stack direction="row" spacing={1} alignItems="center">
               <FileDownloadBtn
-                exportUrl={`/agnc/license/list/download${result}&year=${year}&month=${month}`}
+                exportUrl={
+                  JSON.stringify(resultObject) !== "{}"
+                    ? `/agnc/license/list/download${result}&year=${year}&month=${month}`
+                    : `/agnc/license/list/download?year=${year}&month=${month}`
+                }
                 iconName="xls3"
               />
               <KeywordSearch />
