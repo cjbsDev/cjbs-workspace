@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import SectionHeader from "../SectionHeader";
 import { useRecoilState } from "recoil";
 import { idleDurationValueAtom } from "./idleAtom";
-import { dashboardIdleData } from "../../../../data/inputDataLists";
+import { dashboardIdleData } from "../../../../../data/inputDataLists";
 import { SelectBox2, SelectBox3 } from "cjbsDSTM";
 
 const IdleHeader = () => {

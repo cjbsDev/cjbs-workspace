@@ -92,7 +92,7 @@ const Drawer = styled(MuiDrawer, {
 
 export default function DrawerProvider({ children }: ContextProps) {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(true);
   const [nestedOpen, setNestedOpen] = React.useState(false);
   const [selectedIndex, setSelectedIndex] = React.useState<number>();
   const [currentIndex, setCurrentIndex] = React.useState<number>();
@@ -117,11 +117,21 @@ export default function DrawerProvider({ children }: ContextProps) {
   // console.log("NGS_BI or NGS_SALES 체크 ==>>", containsChar1);
 
   const containsChar2 = useArrayContainsCharacter(authority, [
-    "IT",
-    "NGS_BI",
+    // "IT",
+    // "NGS_BI",
     "NGS_ANALYSIS",
   ]);
   // console.log("NGS_BI or NGS_ANALYSIS 체크 ==>>", containsChar2);
+
+  const containsChar3 = useArrayContainsCharacter(authority, [
+    // "IT",
+    "NGS_BI",
+  ]);
+
+  const containsChar4 = useArrayContainsCharacter(authority, [
+    "DISCOVERY",
+    "CLINICAL",
+  ]);
 
   // 3개월 후 계산
   const currentDate = dayjs();
@@ -221,7 +231,22 @@ export default function DrawerProvider({ children }: ContextProps) {
                 <ListItem
                   key={item.menuIcon + index.toString()}
                   disablePadding
-                  sx={{ display: "block" }}
+                  sx={{
+                    display:
+                      (item.menuPath.name === "/ledger" ||
+                        item.menuPath.name === "/customer") &&
+                      containsChar2
+                        ? "none"
+                        : (item.menuPath.name === "/stock" ||
+                              item.menuPath.name === "/ledger") &&
+                            containsChar3
+                          ? "none"
+                          : item.menuPath.name !== "/orsh" &&
+                              item.menuPath.name !== "/order" &&
+                              containsChar4
+                            ? "none"
+                            : "block",
+                  }}
                 >
                   <ListItemButton
                     onClick={() => {

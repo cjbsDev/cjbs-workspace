@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { ErrorContainer, Fallback, FullHeightLoading } from "cjbsDSTM";
 
-const LazyDashboard = dynamic(() => import("./../../../components/Dashboard"), {
+const LazyDashboard = dynamic(() => import("./components/Dashboard"), {
   ssr: false,
   loading: () => <FullHeightLoading />,
 });

@@ -42,7 +42,7 @@ const Legend = (props: LegendProps) => {
                 key={label}
                 sx={{
                   color: salesColors[index],
-                  mb: 0.5,
+                  // mb: 0.5,
                   width: "50%",
                   float: "left",
                 }}

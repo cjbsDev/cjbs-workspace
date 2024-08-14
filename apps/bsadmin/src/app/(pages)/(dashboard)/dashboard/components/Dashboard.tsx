@@ -1,16 +1,17 @@
 "use client";
 import React, { useEffect } from "react";
-import { Grid, Stack, Typography } from "@mui/material";
-import DashboardHeader from "./components/DashboardHeader";
-import Total from "./components/Total";
-import SrvcSales from "./components/SrvcSales";
-import SalesByItem from "./components/SalesByItem";
-import SalesByItem2 from "./components/SalesByItem2";
-import InstTop from "./components/InstTop";
-import AgncTop from "./components/AgncTop";
-import Idle from "./components/Idle";
+import { Grid, Paper, Stack, styled, Typography } from "@mui/material";
+import DashboardHeader from "./DashboardHeader";
+import Total from "./Total";
+import SrvcSales from "./SrvcSales";
+import SalesByItem from "./SalesByItem";
+import SalesByItem2 from "./SalesByItem2";
+import InstTop from "./InstTop";
+import AgncTop from "./AgncTop";
+import Idle from "./Idle";
 import { useSession } from "next-auth/react";
-import useArrayContainsCharacter from "../../hooks/useArrayContainsCharacter";
+import useArrayContainsCharacter from "../../../../hooks/useArrayContainsCharacter";
+import Dashboard2 from "./Dashboard2";
 
 const Index = () => {
   const { data: session, status } = useSession();
@@ -23,23 +24,9 @@ const Index = () => {
     "NGS_SALES",
     "TOTAL_MANAGER",
   ]);
-  // console.log("IT or NGS_SALES 체크 ==>>", containsChar);
-  // console.log(">>>>>>>>>>>>>>>>>>>>>>>", process.env.NEXTAUTH_URL);
-
-  useEffect(() => {
-    console.log(process.env.NEXTAUTH_URL);
-  }, []);
 
   if (!containsChar) {
-    return (
-      <Grid container sx={{ mb: 2 }}>
-        <Grid item xs={12}>
-          <Stack justifyContent="center" alignItems="center">
-            <Typography variant="body2"></Typography>
-          </Stack>
-        </Grid>
-      </Grid>
-    );
+    return <Dashboard2 />;
   }
 
   return (

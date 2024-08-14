@@ -2,7 +2,7 @@ import React from "react";
 import { useRecoilState } from "recoil";
 import { dashboardQuarterAtom } from "../../../../recoil/dashboardAtom";
 import { SelectBox2 } from "cjbsDSTM";
-import { quarterListData } from "../../../../../../data/inputDataLists";
+import { quarterListData } from "../../../../../../../data/inputDataLists";
 
 const QuarterSelect = () => {
   const [quarter, setQuarter] = useRecoilState(dashboardQuarterAtom);
