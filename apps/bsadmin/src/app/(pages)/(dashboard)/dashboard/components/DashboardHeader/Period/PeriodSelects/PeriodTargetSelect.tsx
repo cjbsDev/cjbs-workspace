@@ -8,7 +8,7 @@ import {
   dashboardMonthData,
   quarterListData,
   halfListData,
-} from "../../../../../../data/inputDataLists";
+} from "../../../../../../../data/inputDataLists";
 import { SelectBox2 } from "cjbsDSTM";
 
 const PeriodTargetSelect = () => {
