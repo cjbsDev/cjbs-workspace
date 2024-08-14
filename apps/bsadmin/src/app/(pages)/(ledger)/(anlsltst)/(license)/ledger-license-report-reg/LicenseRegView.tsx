@@ -1,7 +1,6 @@
 "use client";
 import * as React from "react";
 import { useCallback, useState, useRef } from "react";
-
 import dynamic from "next/dynamic";
 import {
   Box,
@@ -21,34 +20,19 @@ import {
   Fallback,
   Form,
   InputValidation,
-  LinkButton,
   OutlinedButton,
-  SingleDatePicker,
   TD,
   TH,
   Title1,
 } from "cjbsDSTM";
-import LoadingWhiteSvg from "../../../../../components/LoadingWhiteSvg";
 import { useRouter } from "next-nprogress-bar";
-import { GET, POST } from "api";
+import { POST } from "api";
 import { useSearchParams } from "next/navigation";
 import { useSWRConfig } from "swr";
-import Link from "next/link";
 import { toast } from "react-toastify";
-import { getDefaultValues } from "./getDefaultValues";
 import { cjbsTheme } from "cjbsDSTM/themes";
-
-import { useRecoilState } from "recoil";
-import { groupListDataAtom } from "../../../../../recoil/atoms/groupListDataAtom";
-import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import dayjs from "dayjs";
-import { useFormContext } from "react-hook-form";
 import MonthlyList from "./MonthlyList";
-import { addDays, subDays } from "date-fns";
-import DynamicLiceseSumTable from "./DynamicLicenseSumTable";
-import SalesManagerSelectbox from "../../../../../components/SalesManagerSelectbox";
-import TotalPrice from "./TotalPrice";
-import AnalysisSampleDynamicTable from "./LicenseSampleDynamicTable";
 import DynamicTableLicense from "../../../../../components/DynamicTableLicense";
 import RemainingAmount from "./RemainingAmount";
 import DynamicSumTableLicense from "../../../../../components/DynamicSumTableLicense";
@@ -72,13 +56,13 @@ const LazyAgncSearchAnlsltstModal = dynamic(
   },
 );
 
-const LazyAnalysisListModal = dynamic(
-  () => import("../../../../../components/AnalysisListModal"),
-  {
-    ssr: false,
-    loading: () => <Typography variant="body2">Loading...</Typography>,
-  },
-);
+// const LazyAnalysisListModal = dynamic(
+//   () => import("../../../../../components/AnalysisListModal"),
+//   {
+//     ssr: false,
+//     loading: () => <Typography variant="body2">Loading...</Typography>,
+//   },
+// );
 
 const LazySalesManagerSelectbox = dynamic(
   () => import("../../../../../components/SalesManagerSelectbox"),
@@ -94,8 +78,8 @@ const LicenseRegView = () => {
   const { mutate } = useSWRConfig();
   // const { getValues, setValue} = useFormContext();
 
-  const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
-    useState<boolean>(false);
+  // const [showAnalysisSearchModal, setShowAnalysisSearchModal] =
+  //   useState<boolean>(false);
   // [고객 검색] 모달
   const [custSearchModalOpen, setCustSearchModalOpen] = useState<boolean>(true);
   const [isLoading, setIsLoading] = useState<boolean>(false);
