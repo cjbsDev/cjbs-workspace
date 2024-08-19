@@ -285,8 +285,7 @@ const MngSrchModal = ({
   }, [filteredItems, selectedRows, memeberData, toggleCleared]);
 
   const rowDisabled = (row) => {
-    console.log("Disabled ==>>", row.ukey);
-    if (resEmailList.find((list) => list.ukey.includes(row.ukey))) return true;
+    return resEmailList.some((list) => list.ukey === row.ukey);
   };
 
   return (
