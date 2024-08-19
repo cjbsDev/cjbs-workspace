@@ -282,7 +282,7 @@ const MngSrchModal = ({
         />
       </Stack>
     );
-  }, [filteredItems, selectedRows, memeberData, toggleCleared]);
+  }, [filteredItems, selectedRows, toggleCleared]);
 
   const rowDisabled = (row) => {
     return resEmailList.some((list) => list.ukey === row.ukey);
