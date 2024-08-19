@@ -231,6 +231,10 @@ const MngSrchModal = ({
     setSelectedMemberRows([]);
   };
 
+  const handelAllDeleteRows = () => {
+    setMemberData([]);
+  };
+
   // 멤버 데이터 확인
   const handleMembersInfo = () => {
     console.log("memeberData", typeof memeberData);
@@ -299,6 +303,7 @@ const MngSrchModal = ({
               clearSelectedRows={toggleCleared}
               pointerOnHover
               highlightOnHover
+              selectableRowsHighlight
               customStyles={dataTableCustomStyles}
               subHeader
               subHeaderComponent={subHeaderComponentMemo}
@@ -319,21 +324,37 @@ const MngSrchModal = ({
 
           <Grid item xs={5}>
             <Box>
-              <Box sx={{ pt: 8.2, pb: 2, textAlign: "right" }}>
-                <OutlinedButton
-                  buttonName="삭제"
-                  size="small"
-                  color="warning"
-                  startIcon={<MyIcon icon="trash" size={16} />}
-                  onClick={handleDeleteRows}
-                />
+              <Box sx={{ pt: 7.8, pb: 2.5, textAlign: "right" }}>
+                <Stack direction="row" spacing={1} justifyContent="flex-end">
+                  <OutlinedButton
+                    buttonName="삭제"
+                    size="small"
+                    color="warning"
+                    startIcon={<MyIcon icon="trash" size={16} />}
+                    onClick={handleDeleteRows}
+                    disabled={memeberData.length === 0}
+                  />
+                  <ContainedButton
+                    buttonName="전체 삭제"
+                    size="small"
+                    color="warning"
+                    startIcon={<MyIcon icon="trash" size={16} />}
+                    onClick={handelAllDeleteRows}
+                    disabled={memeberData.length === 0}
+                  />
+                </Stack>
               </Box>
-              <TableContainer>
-                <Table>
+              <TableContainer
+                sx={{
+                  maxHeight: 380,
+                  backgroundColor: cjbsTheme.palette.grey.A100,
+                }}
+              >
+                <Table stickyHeader>
                   <TableHead
                     sx={{
                       borderTop: "1px solid black",
-                      backgroundColor: cjbsTheme.palette.grey["50"],
+                      backgroundColor: cjbsTheme.palette.grey["200"],
                       // "&.MuiTableHead-root": {
                       //   p: 0,
                       // },
@@ -342,6 +363,11 @@ const MngSrchModal = ({
                         pt: 1.0,
                         pb: 1.0,
                         fontWeight: 600,
+                      },
+                      ".MuiTableCell-stickyHeader": {
+                        backgroundColor: cjbsTheme.palette.grey[800],
+                        color: "white",
+                        height: 44,
                       },
                     }}
                   >
@@ -357,6 +383,16 @@ const MngSrchModal = ({
                       },
                     }}
                   >
+                    {memeberData.length === 0 && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={2}
+                          sx={{ height: 350, textAlign: "center" }}
+                        >
+                          추가된 담당자가 없습니다.
+                        </TableCell>
+                      </TableRow>
+                    )}
                     {memeberData.map((row: any) => (
                       <TableRow key={row.ukey}>
                         <TableCell padding="checkbox">
@@ -385,7 +421,7 @@ const MngSrchModal = ({
       </DialogContent>
       <DialogActions
         sx={{
-          pt: 3,
+          pt: 0,
           pb: 3,
           justifyContent: "center",
         }}

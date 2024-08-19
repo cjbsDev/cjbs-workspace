@@ -57,7 +57,7 @@ const CommentWrite = () => {
         코멘트 작성
       </Typography>
       <Form onSubmit={onSubmit}>
-        <Grid container spacing={1.5}>
+        <Grid container spacing={1}>
           <Grid item xs={10.8}>
             <Grid container>
               <Grid item xs={12}>
