@@ -1,15 +1,17 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   cjbsTheme,
   ContainedButton,
   DataTableBase,
   DataTableFilter,
   ModalContainer,
+  ModalNoneTextTitle,
   ModalTitle,
   OutlinedButton,
 } from "cjbsDSTM";
 import {
   Box,
+  Checkbox,
   DialogActions,
   DialogContent,
   Grid,
@@ -20,16 +22,14 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Checkbox,
+  Typography,
 } from "@mui/material";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import useSWR from "swr";
-import axios from "axios";
 import MyIcon from "icon/MyIcon";
-import { toast } from "react-toastify";
 import { useFormContext } from "react-hook-form";
 import { fetcher } from "api";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { mngEmailListAtom } from "../../../../../recoil/atoms/mngEmailListAtom";
 
 interface Member {
@@ -50,7 +50,7 @@ interface ModalContainerProps {
   // onMemberSelection: (memeberData: Member[]) => void; // 새로 추가 0627
 }
 
-const APIPATH = "/user/search/list";
+// const APIPATH = "/user/search/list";
 
 const MngSrchModal = ({
   onClose,
@@ -61,14 +61,9 @@ const MngSrchModal = ({
   const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
-  /**
-   * 고객 ( 왼쪽 테이블 )
-   * 멤버 거래처의 구성원 ( 오른쪽 테이블 )
-   *
-   */
-
   // [고객] row 세팅
   const [selectedRows, setSelectedRows] = useState<any>([]);
+  const [toggleCleared, setToggleCleared] = React.useState(false);
   const [key, setKey] = useState<number>(0); // 특정 조건에서 checkbox 해제 할 때 필요
 
   //console.log("모달 selectedMembers", selectedMembers);
@@ -77,30 +72,27 @@ const MngSrchModal = ({
     selectedMembers ?? initialData,
   );
   const [selectedMemberRows, setSelectedMemberRows] = useState<number[]>([]);
-  const { data } = useSWR(APIPATH, fetcher, {
+
+  const { data } = useSWR("/user/search/list", fetcher, {
     suspense: true,
   });
-
   console.log("담당자 조회 DATA", data);
 
   const { setValue, formState } = useFormContext();
-  const setResEmailList = useSetRecoilState(mngEmailListAtom);
+  const [resEmailList, setResEmailList] = useRecoilState(mngEmailListAtom);
+
+  console.log("이미 선택된 리스트 ==>>", resEmailList);
 
   // [고객] 컬럼세팅
   const columns = useMemo(
     () => [
       {
         name: "담당자",
-        allowOverflow: true,
+        // allowOverflow: true,
+        selector: (row) => row.nm,
         cell: (row) => (
           <>
-            <Stack
-              // direction="row"
-              // spacing={0.4}
-              // alignItems="center"
-              useFlexGap
-              flexWrap="wrap"
-            >
+            <Stack useFlexGap flexWrap="wrap">
               <Box>{row.nm}</Box>
               <Box>{row.email}</Box>
             </Stack>
@@ -109,7 +101,8 @@ const MngSrchModal = ({
       },
       {
         name: "부서",
-        width: "150px",
+        // width: "150px",
+        selector: (row) => row.departVal,
         cell: (row) => (
           <>
             <Stack
@@ -128,11 +121,13 @@ const MngSrchModal = ({
     [],
   );
 
-  const filteredData = data;
-
-  const filteredItems = filteredData.filter(
+  const filteredItems = data.filter(
     (item) =>
-      item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase()),
+      (item.nm && item.nm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.departVal &&
+        item.departVal.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.email &&
+        item.email.toLowerCase().includes(filterText.toLowerCase())),
   );
 
   const subHeaderComponentMemo = React.useMemo(() => {
@@ -163,13 +158,13 @@ const MngSrchModal = ({
         //   return;
         // }
 
-        let newRow: Member = {
+        let newRow: { ukey: any; email: any; nm: any } = {
           ukey: row.ukey,
           email: row.email,
           nm: row.nm,
         };
 
-        newMemberDataList.push(newRow);
+        newMemberDataList.push(newRow as Member);
         clearSelectedRows(); // 추가 후에 datatable 에 선택된 checkbox 해제
       });
 
@@ -195,12 +190,12 @@ const MngSrchModal = ({
           </Stack>
         </Grid>
         <Grid item xs={5} sx={{ pt: 0, textAlign: "right" }}>
-          <OutlinedButton
-            buttonName="추가"
-            size="small"
-            endIcon={<MyIcon icon="plus" size={16} />}
-            onClick={handleAddRow}
-          />
+          {/*<OutlinedButton*/}
+          {/*  buttonName="추가"*/}
+          {/*  size="small"*/}
+          {/*  endIcon={<MyIcon icon="plus" size={16} />}*/}
+          {/*  onClick={handleAddRow}*/}
+          {/*/>*/}
           {/*<Stack direction="row" spacing={2} alignItems="center">*/}
           {/*  <DataCountResultInfo*/}
           {/*    totalCount={data.pageInfo.totalElements}*/}
@@ -209,7 +204,7 @@ const MngSrchModal = ({
         </Grid>
       </Grid>
     );
-  }, [filterText, resetPaginationToggle, selectedRows, memeberData]);
+  }, [filterText, selectedRows]);
 
   // [멤버 관리] - 멤버 선택
   const handleCheckboxChange = (
@@ -248,9 +243,9 @@ const MngSrchModal = ({
   };
 
   // 고객 선택된 row 정보 확인
-  const handleRowSelected = (rows: any) => {
-    console.log("EREREER", rows);
-    setSelectedRows(rows);
+  const handleRowSelected = (selectedRows: any) => {
+    console.log("고객 선택된 row 정보 확인", selectedRows);
+    setSelectedRows(selectedRows);
   };
 
   // 고객 추가 후 clear
@@ -259,38 +254,77 @@ const MngSrchModal = ({
     setKey((prevKey) => prevKey + 1);
   };
 
+  const contextActions = React.useMemo(() => {
+    const handleSelectedAdd = () => {
+      setMemberData(selectedRows.selectedRows);
+    };
+
+    const handleSelectedClear = () => {
+      setToggleCleared(!toggleCleared);
+    };
+
+    return (
+      <Stack direction="row" spacing={1}>
+        <ContainedButton
+          buttonName="추가"
+          size="small"
+          onClick={handleSelectedAdd}
+          startIcon={<MyIcon icon="plus" size={16} />}
+        />
+        <OutlinedButton
+          buttonName="초기화"
+          size="small"
+          onClick={handleSelectedClear}
+        />
+      </Stack>
+    );
+  }, [filteredItems, selectedRows, memeberData, toggleCleared]);
+
+  const rowDisabled = (row) => {
+    console.log("Disabled ==>>", row.ukey);
+    if (resEmailList.find((list) => list.ukey.includes(row.ukey))) return true;
+  };
+
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>담당자 검색</ModalTitle>
+      <ModalNoneTextTitle onClose={onClose} />
       <DialogContent>
         <Grid container spacing={2}>
           <Grid item xs={7}>
             <DataTableBase
+              title={<Typography variant="title3">담당자 검색</Typography>}
               data={filteredItems}
               columns={columns}
+              contextActions={contextActions}
+              clearSelectedRows={toggleCleared}
               pointerOnHover
               highlightOnHover
               customStyles={dataTableCustomStyles}
-              onSelectedRowsChange={handleRowSelected}
               subHeader
               subHeaderComponent={subHeaderComponentMemo}
+              fixedHeader
+              fixedHeaderScrollHeight={`380px`}
               paginationResetDefaultPage={resetPaginationToggle}
-              selectableRows={true}
-              paginationPerPage={5}
-              paginationRowsPerPageOptions={[5, 10, 15]}
-              keyField="uniqueKey"
-              key={key}
+              selectableRows
+              selectableRowsComponent={Checkbox}
+              selectableRowDisabled={rowDisabled}
+              onSelectedRowsChange={handleRowSelected}
+              pagination
+              paginationPerPage={15}
+              paginationRowsPerPageOptions={[10, 15, 25]}
+              // keyField="uniqueKey"
+              // key={key}
             />
           </Grid>
 
           <Grid item xs={5}>
             <Box>
-              <Box sx={{ pt: 0.7, pb: 2, textAlign: "right" }}>
+              <Box sx={{ pt: 8.2, pb: 2, textAlign: "right" }}>
                 <OutlinedButton
                   buttonName="삭제"
                   size="small"
                   color="warning"
-                  endIcon={<MyIcon icon="trash" size={16} />}
+                  startIcon={<MyIcon icon="trash" size={16} />}
                   onClick={handleDeleteRows}
                 />
               </Box>
@@ -327,7 +361,7 @@ const MngSrchModal = ({
                       <TableRow key={row.ukey}>
                         <TableCell padding="checkbox">
                           <Checkbox
-                            size="small"
+                            // size="small"
                             checked={selectedMemberRows.includes(row.ukey)}
                             onChange={(event) =>
                               handleCheckboxChange(event, row)
@@ -357,11 +391,12 @@ const MngSrchModal = ({
         }}
       >
         <Stack direction="row" spacing={0.5}>
-          <OutlinedButton buttonName="취소" onClick={onClose} />
+          <OutlinedButton buttonName="취소" onClick={onClose} size="small" />
           <ContainedButton
             buttonName="확인"
             disabled={memeberData.length <= 0}
             onClick={handleMembersInfo}
+            size="small"
           />
         </Stack>
       </DialogActions>

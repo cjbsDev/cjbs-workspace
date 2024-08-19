@@ -5,20 +5,20 @@ import dynamic from "next/dynamic";
 import SkeletonLoading from "../../../../../components/SkeletonLoading";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { mngEmailListAtom } from "../../../../../recoil/atoms/mngEmailListAtom";
-const LazyMngSrchModal = dynamic(() => import("./MngSrchModal"), {
-  ssr: false,
-  // loading: () => <SkeletonLoading height={270} />,
-});
+import MngSrchBtn from "./MngSrchBtn";
+// const LazyMngSrchModal = dynamic(() => import("./MngSrchModal"), {
+//   ssr: false,
+//   // loading: () => <SkeletonLoading height={270} />,
+// });
 const MngAddList = () => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  // const [isOpen, setIsOpen] = useState<boolean>(false);
   const [resEamilList, setResEmailList] = useRecoilState(mngEmailListAtom);
-  const handleModalOpen = () => {
-    setIsOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsOpen(false);
-  };
+  // const handleModalOpen = () => {
+  //   setIsOpen(true);
+  // };
+  // const handleModalClose = () => {
+  //   setIsOpen(false);
+  // };
   const handleMngDelete = (ukey) => {
     console.info("Delete ukey ==>.", ukey);
     const currentRcpnEmailList = resEamilList || []; // 현재 rcpnEmailList 가져오기
@@ -38,12 +38,13 @@ const MngAddList = () => {
         }}
       >
         <Stack direction="row" spacing={1} alignItems="flex-start">
-          <OutlinedButton
-            buttonName="담당자 조회"
-            size="small"
-            onClick={handleModalOpen}
-            sx={{ mr: 1.5 }}
-          />
+          <MngSrchBtn />
+          {/*<OutlinedButton*/}
+          {/*  buttonName="담당자 조회"*/}
+          {/*  size="small"*/}
+          {/*  onClick={handleModalOpen}*/}
+          {/*  sx={{ mr: 1.5 }}*/}
+          {/*/>*/}
           {resEamilList.length === 0 ? (
             <Typography
               variant="body2"
@@ -73,13 +74,13 @@ const MngAddList = () => {
         </Stack>
       </Box>
 
-      {isOpen && (
-        <LazyMngSrchModal
-          open={isOpen}
-          onClose={handleModalClose}
-          modalWidth={800}
-        />
-      )}
+      {/*{isOpen && (*/}
+      {/*  <LazyMngSrchModal*/}
+      {/*    open={isOpen}*/}
+      {/*    onClose={handleModalClose}*/}
+      {/*    modalWidth={1000}*/}
+      {/*  />*/}
+      {/*)}*/}
     </>
   );
 };
