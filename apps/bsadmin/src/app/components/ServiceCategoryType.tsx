@@ -20,7 +20,7 @@ const ServiceCategoryType = (props: any) => {
       suspense: true,
     },
   );
-  console.log("ServiceCategoryType List", data);
+  // console.log("ServiceCategoryType List", data);
   const serviceCategoryTypeData = data;
 
   return (

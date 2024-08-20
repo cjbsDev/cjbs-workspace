@@ -12,7 +12,7 @@ const OrderTypeChck = () => {
     },
   );
 
-  console.log("분석종류 리스트", data);
+  // console.log("분석종류 리스트", data);
 
   return <CheckboxGV data={data} inputName="anlsTypeMcList" />;
 };

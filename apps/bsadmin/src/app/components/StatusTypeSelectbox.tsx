@@ -9,10 +9,10 @@ export default function StatusTypeSelectbox() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  console.log("진행상황 리스트", data);
+  // console.log("진행상황 리스트", data);
 
   return (
     <SelectBox

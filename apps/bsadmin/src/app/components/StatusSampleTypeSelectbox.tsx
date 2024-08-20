@@ -16,7 +16,7 @@ export default function StatusSampleTypeSelectbox({ name }: StatusSampleType) {
     },
   );
 
-  console.log("Sample 진행상황 리스트", data);
+  // console.log("Sample 진행상황 리스트", data);
 
   return (
     <SelectBox

@@ -334,6 +334,37 @@ const SearchForm = ({ onClose }) => {
           </Grid>
         </Grid>
 
+        <Section>
+          <SectionLabel variant="subtitle2">과제 / 연구</SectionLabel>
+          <Grid container>
+            <Grid
+              item
+              xs={1}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Typography variant="body2">과제</Typography>
+            </Grid>
+            <Grid item xs={11} sx={{ mb: 1 }}>
+              <InputValidation inputName="prjtCodeVal" fullWidth />
+            </Grid>
+
+            <Grid
+              item
+              xs={1}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Typography variant="body2">연구</Typography>
+            </Grid>
+            <Grid item xs={11} sx={{ mb: 1 }}>
+              <InputValidation inputName="prjtDetailCodeVal" fullWidth />
+            </Grid>
+          </Grid>
+        </Section>
+
         <Grid container spacing={1}>
           <Grid item xs={12}>
             <Section>
@@ -350,12 +381,18 @@ const SearchForm = ({ onClose }) => {
               </Stack>
             </Section>
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={5}>
             <Section>
               <SectionLabel variant="subtitle2">오더타입</SectionLabel>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyOrderTypeChck />
               </ErrorContainer>
+            </Section>
+          </Grid>
+          <Grid item xs={7}>
+            <Section>
+              <SectionLabel variant="subtitle2">메모</SectionLabel>
+              <InputValidation inputName="memo" fullWidth />
             </Section>
           </Grid>
         </Grid>

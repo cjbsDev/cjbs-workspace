@@ -9,10 +9,10 @@ export default function TaxonTypeSelectbox() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <SelectBox

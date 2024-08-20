@@ -12,7 +12,7 @@ export default function PlatformCategorySelectbox() {
     },
   );
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <SelectBox
