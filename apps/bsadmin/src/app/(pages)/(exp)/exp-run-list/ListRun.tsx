@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -38,11 +38,17 @@ const ListRun = () => {
     return `${base}${params}`;
   }, [resultObject, result, page, size]);
 
-  const { data } = useSWR(url, fetcher, { suspense: true });
+  const { data, error, isLoading } = useSWR(url, fetcher, {
+    // suspense: true,
+    keepPreviousData: true,
+  });
+
+  // if (error) return <div>failed to load</div>;
+  // if (isLoading) return <div>loading...</div>;
 
   // console.log("RUN LIST DATA", data);
-  const { runDetailList, pageInfo } = data;
-  const { totalElements } = pageInfo;
+  // const { runDetailList, pageInfo } = data;
+  // const { totalElements } = pageInfo;
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
@@ -54,12 +60,12 @@ const ListRun = () => {
     };
     return (
       <SubHeader
-        totalElements={totalElements}
+        totalElements={data?.pageInfo?.totalElements}
         result={result}
         handleRunAddModalOpen={handleRunAddModalOpen}
       />
     );
-  }, [totalElements, result]);
+  }, [data?.pageInfo?.totalElements, result]);
 
   const goDetailPage = (row: any) => {
     const path = row.runUkey;
@@ -89,7 +95,7 @@ const ListRun = () => {
       <Box sx={{ display: "grid" }}>
         <DataTableBase
           title={<Title1 titleName="All RUN" />}
-          data={runDetailList}
+          data={data?.runDetailList ?? []}
           columns={columns}
           onRowClicked={goDetailPage}
           pointerOnHover
@@ -103,12 +109,14 @@ const ListRun = () => {
           selectableRows={false}
           pagination
           paginationServer
-          paginationTotalRows={totalElements}
+          paginationTotalRows={data?.pageInfo?.totalElements}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
           noDataComponent={<NoDataView resetPath={currentPath} />}
           paginationPerPage={100}
           paginationRowsPerPageOptions={[100, 200, 300, 400]}
+          progressPending={isLoading}
+          progressComponent={<CircularProgress size={30} />}
         />
       </Box>
 
