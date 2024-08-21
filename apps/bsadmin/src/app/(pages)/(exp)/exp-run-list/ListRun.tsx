@@ -116,7 +116,7 @@ const ListRun = () => {
         <LazyRunAddModal
           onClose={handleRunAddModalClose}
           open={showRunAddModal}
-          modalWidth={800}
+          modalWidth={600}
         />
       )}
     </>

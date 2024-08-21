@@ -195,6 +195,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                       <LazyExpMngSelctbox
                         required={true}
                         errorMessage="실험담당자를 선택해 주세요."
+                        sx={{ width: "100%" }}
                       />
                     </ErrorContainer>
                   </TD>
