@@ -64,6 +64,14 @@ const LazyPlatformCategorySelectbox = dynamic(
   },
 );
 
+const LazyOrderDateTypeSelectbox = dynamic(
+  () => import("./OrderDateTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
 const SearchForm = ({ onClose }) => {
   const router = useRouter();
   const params = useParams();
@@ -370,11 +378,14 @@ const SearchForm = ({ onClose }) => {
             <Section>
               <SectionLabel variant="subtitle2">날짜</SectionLabel>
               <Stack direction="row" spacing={1}>
-                <SelectBox
-                  inputName="dateTypeCc"
-                  options={dateTypeCcData}
-                  sx={{ width: 250 }}
-                />
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyOrderDateTypeSelectbox />
+                </ErrorContainer>
+                {/*<SelectBox*/}
+                {/*  inputName="dateTypeCc"*/}
+                {/*  options={dateTypeCcData}*/}
+                {/*  sx={{ width: 250 }}*/}
+                {/*/>*/}
 
                 <SingleDatePicker inputName="startDttm" />
                 <SingleDatePicker inputName="endDttm" />
