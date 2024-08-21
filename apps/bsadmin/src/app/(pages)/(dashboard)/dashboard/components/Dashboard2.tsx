@@ -15,7 +15,7 @@ import useArrayContainsCharacter from "../../../../hooks/useArrayContainsCharact
 const Dashboard2 = () => {
   const { data: session, status } = useSession();
   const authority = session?.authorities;
-  console.log("AUTHORITY ==>>", authority);
+  // console.log("AUTHORITY ==>>", authority);
 
   const isContainsNgsAnalysis = useArrayContainsCharacter(authority, [
     "NGS_ANALYSIS",
