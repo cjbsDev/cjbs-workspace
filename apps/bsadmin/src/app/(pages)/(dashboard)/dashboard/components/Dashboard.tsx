@@ -22,6 +22,7 @@ const Index = () => {
   const containsChar = useArrayContainsCharacter(authority, [
     "IT",
     "NGS_SALES",
+    "BIZ_MANAGE",
     "TOTAL_MANAGER",
   ]);
 
