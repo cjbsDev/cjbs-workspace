@@ -14,6 +14,7 @@ import { useResultObject } from "../../../components/KeywordSearch/useResultObje
 import { getColumns } from "./Columns";
 import SubHeader from "./SubHeader";
 import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
+import { usePathname } from "next/navigation";
 
 const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
@@ -26,6 +27,7 @@ const ListRun = () => {
   const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
   const height = useCalculatedHeight(268);
+  const currentPath = usePathname();
 
   const url = useMemo(() => {
     const base = "/run/list";
@@ -38,9 +40,9 @@ const ListRun = () => {
 
   const { data } = useSWR(url, fetcher, { suspense: true });
 
-  console.log("RUN LIST DATA", data);
-  const runListData = data.runDetailList;
-  const totalElements = data.pageInfo.totalElements;
+  // console.log("RUN LIST DATA", data);
+  const { runDetailList, pageInfo } = data;
+  const { totalElements } = pageInfo;
   const router = useRouter();
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
@@ -69,13 +71,13 @@ const ListRun = () => {
   };
 
   const handlePageChange = useCallback((page: number) => {
-    console.log("Page", page);
+    // console.log("Page", page);
     setPage(page);
   }, []);
 
   const handlePerRowsChange = useCallback(
     (newPerPage: number, page: number) => {
-      console.log("Row change.....", newPerPage, page);
+      // console.log("Row change.....", newPerPage, page);
       setPage(page);
       setSize(newPerPage);
     },
@@ -87,7 +89,7 @@ const ListRun = () => {
       <Box sx={{ display: "grid" }}>
         <DataTableBase
           title={<Title1 titleName="All RUN" />}
-          data={runListData}
+          data={runDetailList}
           columns={columns}
           onRowClicked={goDetailPage}
           pointerOnHover
@@ -104,7 +106,7 @@ const ListRun = () => {
           paginationTotalRows={totalElements}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
-          noDataComponent={<NoDataView />}
+          noDataComponent={<NoDataView resetPath={currentPath} />}
           paginationPerPage={100}
           paginationRowsPerPageOptions={[100, 200, 300, 400]}
         />
@@ -114,7 +116,7 @@ const ListRun = () => {
         <LazyRunAddModal
           onClose={handleRunAddModalClose}
           open={showRunAddModal}
-          modalWidth={800}
+          modalWidth={600}
         />
       )}
     </>

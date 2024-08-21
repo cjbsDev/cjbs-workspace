@@ -15,6 +15,7 @@ import {
   TypographyProps,
 } from "@mui/material";
 import Ellipsis from "../../../../../components/Ellipsis";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const SampleDataTable = (props) => {
   const {
@@ -24,6 +25,7 @@ const SampleDataTable = (props) => {
     isClear,
     filterText,
   } = props;
+  const height = useCalculatedHeight(728);
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
@@ -449,6 +451,8 @@ const SampleDataTable = (props) => {
         pointerOnHover
         highlightOnHover
         customStyles={dataTableCustomStyles3}
+        fixedHeader
+        fixedHeaderScrollHeight={`${height}px`}
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         // paginationResetDefaultPage={resetPaginationToggle}
@@ -457,7 +461,7 @@ const SampleDataTable = (props) => {
         selectableRowsComponentProps={selectProps}
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
-        selectableRowsVisibleOnly={true}
+        // selectableRowsVisibleOnly={true}
         pagination
         paginationPerPage={100}
         paginationRowsPerPageOptions={[20, 50, 100]}

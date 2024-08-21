@@ -18,7 +18,7 @@ const AnlsTypeSelectbox = ({
   const { watch } = useFormContext();
 
   const srvcCategory = watch(inputName2);
-  console.log(">>>NNNNNN>>>>", srvcCategory);
+  // console.log(">>>NNNNNN>>>>", srvcCategory);
 
   // /code/list/shortly/value?topValue=Analaysis Type&midValue=none
 

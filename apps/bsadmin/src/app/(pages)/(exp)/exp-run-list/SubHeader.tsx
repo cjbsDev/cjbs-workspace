@@ -7,6 +7,7 @@ import {
 } from "cjbsDSTM";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { SubHeaderProps } from "../../../types/subHeader-props";
+import ResultInSearch from "./components/resultInSearch";
 
 interface SubHeaderExtndProps extends SubHeaderProps {
   handleRunAddModalOpen: () => void;
@@ -36,6 +37,7 @@ const SubHeader = ({
         />
 
         <KeywordSearch />
+        <ResultInSearch />
       </Stack>
     </Grid>
   </Grid>

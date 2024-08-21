@@ -22,8 +22,13 @@ const Index = () => {
   const containsChar = useArrayContainsCharacter(authority, [
     "IT",
     "NGS_SALES",
+    "BIZ_MANAGE",
     "TOTAL_MANAGER",
   ]);
+
+  if (authority === undefined) {
+    return <Typography variant="body1">권한 확인중...</Typography>;
+  }
 
   if (!containsChar) {
     return <Dashboard2 />;

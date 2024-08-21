@@ -14,7 +14,7 @@ const SubmitBtn = (props: SubmitBtnProps) => {
       loadingIndicator="등록중…"
       variant="contained"
       type="submit"
-      sx={{ height: 135 }}
+      sx={{ height: 105 }}
       fullWidth
       disabled={
         watch("memo") === undefined || watch("memo") === "" ? true : false

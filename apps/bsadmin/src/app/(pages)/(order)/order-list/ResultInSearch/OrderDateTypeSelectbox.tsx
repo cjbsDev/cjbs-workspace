@@ -5,22 +5,16 @@ import { fetcher } from "api";
 
 export default function StatusTypeSelectbox() {
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=order&midValue=status`,
+    `/code/list/shortly/value?topValue=order&midValue=date`,
     fetcher,
     {
       suspense: true,
     },
   );
 
-  // console.log("진행상황 리스트", data);
+  console.log("ORDER DATE ==>>", data);
 
   return (
-    <SelectBox
-      // required={true}
-      // errorMessage="샘플 종류를 선택헤 주세요."
-      inputName="orderStatusCc"
-      options={data}
-      sx={{ width: "100%" }}
-    />
+    <SelectBox inputName="dateTypeCc" options={data} sx={{ width: "100%" }} />
   );
 }

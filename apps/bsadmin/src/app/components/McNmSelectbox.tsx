@@ -11,10 +11,10 @@ export default function McNmSelectbox(props) {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
-  // console.log(data);
+  console.log("SSSSSSSSS", data);
 
   return (
     <SelectBox

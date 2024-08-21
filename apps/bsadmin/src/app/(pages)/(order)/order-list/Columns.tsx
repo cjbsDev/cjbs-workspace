@@ -173,6 +173,20 @@ export const getColumns = (hideDirector: boolean, totalElements: any) => [
       row.pltfVal === null ? "-" : row.pltfVal,
   },
   {
+    name: "과제",
+    minWidth: "280px",
+    wrap: true,
+    selector: (row: { prjtCodeVal: null | string }) =>
+      row.prjtCodeVal === null ? "-" : row.prjtCodeVal,
+  },
+  {
+    name: "연구",
+    minWidth: "280px",
+    wrap: true,
+    selector: (row: { prjtDetailCodeVal: null | string }) =>
+      row.prjtDetailCodeVal === null ? "-" : row.prjtDetailCodeVal,
+  },
+  {
     name: "영업담당",
     center: true,
     selector: (row: { bsnsMngrVal: null | string }) =>

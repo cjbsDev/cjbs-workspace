@@ -64,6 +64,7 @@ export const dateTypeCcData = [
   { value: "BS_0811003", optionName: "Lib 완료일" },
   { value: "BS_0811004", optionName: "분석 완료일" },
   { value: "BS_0811005", optionName: "완료 통보일" },
+  { value: "BS_0811006", optionName: "Seq 완료일" },
 ];
 
 export const dateSampleTypeCcData = [

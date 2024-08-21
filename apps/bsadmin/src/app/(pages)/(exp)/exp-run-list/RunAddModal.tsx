@@ -16,6 +16,7 @@ import {
   Box,
   BoxProps,
   DialogContent,
+  Stack,
   styled,
   Table,
   TableBody,
@@ -31,6 +32,9 @@ import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
+import { useFormContext } from "react-hook-form";
+import Submit from "./components/Submit";
+import { toast } from "react-toastify";
 
 const LazyMcNameSelctbox = dynamic(
   () => import("../../../components/McNmSelectbox"),
@@ -50,7 +54,7 @@ const LazyKitSelctbox = dynamic(
   () => import("../../../components/KitSelectbox"),
   {
     ssr: false,
-    loading: () => <Typography variant="body2">장비를 선택하세요.</Typography>,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
 const LazyHostCompSelctbox = dynamic(
@@ -76,7 +80,7 @@ const RunAddModal = (props: ModalContainerProps) => {
   const apiUrl = "/run/add";
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { mutate } = useSWRConfig();
-
+  // const { watch, getValues } = useFormContext();
   const handleClose = () => {
     setIsLoading(false);
     onClose();
@@ -108,9 +112,10 @@ const RunAddModal = (props: ModalContainerProps) => {
       .then((response) => {
         console.log("POST request successful:", response);
         if (response.success) {
-          // mutate(`/order/${orderUkey}`);
-          mutate(`/run/list?page=1&size=20`);
+          mutate(`/run/list?page=1&size=100`);
           handleClose();
+        } else {
+          toast(response.message);
         }
       })
       .catch((error) => {
@@ -123,7 +128,7 @@ const RunAddModal = (props: ModalContainerProps) => {
       <ModalTitle onClose={handleClose}>RUN 등록</ModalTitle>
       <DialogContent>
         <Form onSubmit={onSubmit} id="runAddForm">
-          <TableContainer>
+          <TableContainer sx={{ mb: 3 }}>
             <Table>
               <TableBody>
                 <TableRow>
@@ -148,6 +153,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                     </ErrorContainer>
                   </TD>
                 </TableRow>
+
                 <TableRow>
                   <TH>
                     Kit<NotRequired>[선택]</NotRequired>
@@ -189,6 +195,7 @@ const RunAddModal = (props: ModalContainerProps) => {
                       <LazyExpMngSelctbox
                         required={true}
                         errorMessage="실험담당자를 선택해 주세요."
+                        sx={{ width: "100%" }}
                       />
                     </ErrorContainer>
                   </TD>
@@ -212,23 +219,36 @@ const RunAddModal = (props: ModalContainerProps) => {
               </TableBody>
             </Table>
           </TableContainer>
+
+          <Stack direction="row" spacing={1} justifyContent="center">
+            <OutlinedButton
+              buttonName="취소"
+              onClick={handleClose}
+              color="secondary"
+              size="small"
+            />
+            <Submit />
+          </Stack>
         </Form>
       </DialogContent>
-      <ModalAction>
-        <OutlinedButton
-          buttonName="취소"
-          onClick={handleClose}
-          color="secondary"
-        />
-        <LoadingButton
-          loading={isLoading}
-          variant="contained"
-          type="submit"
-          form="runAddForm"
-        >
-          저장
-        </LoadingButton>
-      </ModalAction>
+      {/*<ModalAction>*/}
+      {/*  <OutlinedButton*/}
+      {/*    buttonName="취소"*/}
+      {/*    onClick={handleClose}*/}
+      {/*    color="secondary"*/}
+      {/*    size="small"*/}
+      {/*  />*/}
+
+      {/*  <LoadingButton*/}
+      {/*    loading={isLoading}*/}
+      {/*    variant="contained"*/}
+      {/*    type="submit"*/}
+      {/*    form="runAddForm"*/}
+      {/*    size="small"*/}
+      {/*  >*/}
+      {/*    저장*/}
+      {/*  </LoadingButton>*/}
+      {/*</ModalAction>*/}
     </ModalContainer>
   );
 };

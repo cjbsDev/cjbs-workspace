@@ -31,6 +31,7 @@ import { LoadingButton } from "@mui/lab";
 import dynamic from "next/dynamic";
 import { useRouter } from "next-nprogress-bar";
 import dayjs from "dayjs";
+import { toast } from "react-toastify";
 
 const LazySampleCategorySelctbox = dynamic(
   () => import("../../../../../../components/SampleCategorySelectbox"),
@@ -98,30 +99,25 @@ const SampleAddModal = (props: ModalContainerProps) => {
     setIsLoading(true);
     console.log("onSubmit DATA ==>", data);
 
-    const convertedDate = dayjs(data.rcptDttm).format("YYYY-MM-DD");
+    const convertedDate =
+      data.rcptDttm === null ? null : dayjs(data.rcptDttm).format("YYYY-MM-DD");
 
-    const bodyData = {
+    const reqBody = {
       ...data,
       rcptDttm: convertedDate,
-      // depthMc: data.depthMc,
-      // memo: data.memo,
-      // prgrAgncNmCc: data.prgrAgncNmCc,
-      //
-      // sampleNm: data.sampleNm,
-      // sampleTypeCc: data.sampleTypeCc,
-      // source: data.source,
-      // taxonCc: data.taxonCc,
     };
 
-    console.log("BODYDATA ==>", bodyData);
+    console.log("REQ BODY ==>", reqBody);
 
-    await POST(apiUrl, bodyData)
+    await POST(apiUrl, reqBody)
       .then((response) => {
         console.log("POST request successful:", response);
         if (response.success) {
           mutate(`/order/${orderUkey}`);
           mutate(`/order/${orderUkey}/sample/list`);
           handleClose();
+        } else {
+          toast(response.message);
         }
       })
       .catch((error) => {

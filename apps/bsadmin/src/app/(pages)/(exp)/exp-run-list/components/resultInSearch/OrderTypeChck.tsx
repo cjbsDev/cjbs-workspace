@@ -5,16 +5,18 @@ import { fetcher } from "api";
 
 const OrderTypeChck = () => {
   const { data } = useSWR(
-    `/code/list/shortly/value?topValue=Analaysis Type&midValue=`,
+    `/code/list/shortly/value?topValue=order&midValue=type`,
     fetcher,
     {
       suspense: true,
     },
   );
 
-  // console.log("분석종류 리스트", data);
+  const orderTypeValue = data.data;
 
-  return <CheckboxGV data={data} inputName="anlsTypeMcList" />;
+  console.log("실험정보 리스트", orderTypeValue);
+
+  return <CheckboxGV data={orderTypeValue} inputName="typeCcList" />;
 };
 
 export default OrderTypeChck;

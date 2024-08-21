@@ -48,6 +48,30 @@ const LazyStatusTypeSelctbox = dynamic(
   },
 );
 
+const LazySampleCategorySelectbox = dynamic(
+  () => import("../../../../components/SampleCategorySelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
+const LazyPlatformCategorySelectbox = dynamic(
+  () => import("../../../../components/PlatformCategorySelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
+const LazyOrderDateTypeSelectbox = dynamic(
+  () => import("./OrderDateTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
 const SearchForm = ({ onClose }) => {
   const router = useRouter();
   const params = useParams();
@@ -197,122 +221,192 @@ const SearchForm = ({ onClose }) => {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 580, p: 3, pb: 1 }}>
+      <Box sx={{ width: 620, p: 3, pb: 1 }}>
         {/*<Stack direction="row">*/}
         {/*  <Typography variant="subtitle2">진행사항</Typography>*/}
         {/*  <ErrorContainer FallbackComponent={Fallback}>*/}
         {/*    <LazyStatusTypeSelctbox />*/}
         {/*  </ErrorContainer>*/}
         {/*</Stack>*/}
-        <Section>
-          <SectionLabel variant="subtitle2">진행사항</SectionLabel>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyStatusTypeSelctbox />
-          </ErrorContainer>
-        </Section>
+        <Grid container spacing={1}>
+          <Grid item xs={2}>
+            <Section>
+              <SectionLabel variant="subtitle2">진행사항</SectionLabel>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyStatusTypeSelctbox />
+              </ErrorContainer>
+            </Section>
+          </Grid>
+          <Grid item xs={3}>
+            <Section>
+              <SectionLabel variant="subtitle2">샘플종류</SectionLabel>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySampleCategorySelectbox />
+              </ErrorContainer>
+            </Section>
+          </Grid>
+          <Grid item xs={7}>
+            <Section>
+              <SectionLabel variant="subtitle2">플랫폼종류</SectionLabel>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyPlatformCategorySelectbox />
+              </ErrorContainer>
+            </Section>
+          </Grid>
+        </Grid>
+
         <Section>
           <SectionLabel variant="subtitle2">분석종류</SectionLabel>
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyAnlsTypeChck />
           </ErrorContainer>
         </Section>
+
+        <Grid container spacing={1}>
+          <Grid item xs={6}>
+            <Section>
+              <SectionLabel variant="subtitle2">담당자</SectionLabel>
+              <Grid container>
+                <Grid
+                  item
+                  xs={2}
+                  sx={{ display: "flex", mb: 1 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="body2">영업</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ mb: 1 }}>
+                  <InputValidation inputName="bsnsMngrList" fullWidth />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={2}
+                  sx={{ display: "flex", mb: 1 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="body2">실험</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ mb: 1 }}>
+                  <InputValidation inputName="expMngrList" fullWidth />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={2}
+                  sx={{ display: "flex", mb: 1 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="body2">분석</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ mb: 1 }}>
+                  <InputValidation inputName="anlsMngrList" fullWidth />
+                </Grid>
+              </Grid>
+            </Section>
+          </Grid>
+          <Grid item xs={6}>
+            <Section>
+              <SectionLabel variant="subtitle2">거래처 / 기관</SectionLabel>
+              <Grid container>
+                <Grid
+                  item
+                  xs={2}
+                  sx={{ display: "flex", mb: 1 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="body2">거래처</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ mb: 1 }}>
+                  <InputValidation inputName="agncNmList" fullWidth />
+                </Grid>
+
+                <Grid
+                  item
+                  xs={2}
+                  sx={{ display: "flex", mb: 1 }}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Typography variant="body2">기관</Typography>
+                </Grid>
+                <Grid item xs={10} sx={{ mb: 1 }}>
+                  <InputValidation inputName="instNmList" fullWidth />
+                </Grid>
+              </Grid>
+            </Section>
+          </Grid>
+        </Grid>
+
         <Section>
-          <SectionLabel variant="subtitle2">담당자</SectionLabel>
+          <SectionLabel variant="subtitle2">과제 / 연구</SectionLabel>
           <Grid container>
             <Grid
               item
-              xs={2}
+              xs={1}
               sx={{ display: "flex", mb: 1 }}
               alignItems="center"
               justifyContent="center"
             >
-              <Typography variant="body2">영업</Typography>
+              <Typography variant="body2">과제</Typography>
             </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="bsnsMngrList" fullWidth />
+            <Grid item xs={11} sx={{ mb: 1 }}>
+              <InputValidation inputName="prjtCodeVal" fullWidth />
             </Grid>
 
             <Grid
               item
-              xs={2}
+              xs={1}
               sx={{ display: "flex", mb: 1 }}
               alignItems="center"
               justifyContent="center"
             >
-              <Typography variant="body2">실험</Typography>
+              <Typography variant="body2">연구</Typography>
             </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="expMngrList" fullWidth />
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">분석</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="anlsMngrList" fullWidth />
+            <Grid item xs={11} sx={{ mb: 1 }}>
+              <InputValidation inputName="prjtDetailCodeVal" fullWidth />
             </Grid>
           </Grid>
         </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">거래처 / 기관</SectionLabel>
-          <Grid container>
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">거래처</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="agncNmList" fullWidth />
-            </Grid>
 
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex", mb: 1 }}
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Typography variant="body2">기관</Typography>
-            </Grid>
-            <Grid item xs={10} sx={{ mb: 1 }}>
-              <InputValidation inputName="instNmList" fullWidth />
-            </Grid>
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Section>
+              <SectionLabel variant="subtitle2">날짜</SectionLabel>
+              <Stack direction="row" spacing={1}>
+                <ErrorContainer FallbackComponent={Fallback}>
+                  <LazyOrderDateTypeSelectbox />
+                </ErrorContainer>
+                {/*<SelectBox*/}
+                {/*  inputName="dateTypeCc"*/}
+                {/*  options={dateTypeCcData}*/}
+                {/*  sx={{ width: 250 }}*/}
+                {/*/>*/}
+
+                <SingleDatePicker inputName="startDttm" />
+                <SingleDatePicker inputName="endDttm" />
+              </Stack>
+            </Section>
           </Grid>
-        </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">날짜</SectionLabel>
-
-          <Stack direction="row" spacing={1}>
-            {/*<ErrorContainer FallbackComponent={Fallback}>*/}
-            {/*  <LazyDateTypeSelctbox />*/}
-            {/*</ErrorContainer>*/}
-            {/*<DateRangePicker inputName="dateRange" />*/}
-            <SelectBox
-              inputName="dateTypeCc"
-              options={dateTypeCcData}
-              sx={{ width: 250 }}
-            />
-
-            <SingleDatePicker inputName="startDttm" />
-            <SingleDatePicker inputName="endDttm" />
-          </Stack>
-        </Section>
-        <Section>
-          <SectionLabel variant="subtitle2">오더타입</SectionLabel>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyOrderTypeChck />
-          </ErrorContainer>
-        </Section>
+          <Grid item xs={5}>
+            <Section>
+              <SectionLabel variant="subtitle2">오더타입</SectionLabel>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyOrderTypeChck />
+              </ErrorContainer>
+            </Section>
+          </Grid>
+          <Grid item xs={7}>
+            <Section>
+              <SectionLabel variant="subtitle2">메모</SectionLabel>
+              <InputValidation inputName="memo" fullWidth />
+            </Section>
+          </Grid>
+        </Grid>
       </Box>
       <Box
         sx={{
