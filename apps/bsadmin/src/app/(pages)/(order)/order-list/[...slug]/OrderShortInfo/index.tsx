@@ -29,6 +29,7 @@ const OrderShortInfo = () => {
   const searchParams = useSearchParams();
   const orderUkey = params.slug;
   const [resultObject, result] = useResultObject();
+  const from = searchParams.get("from");
 
   // const resultObject = {};
   //
@@ -283,6 +284,9 @@ const OrderShortInfo = () => {
 
       <Box sx={{ position: "absolute", top: -42, right: 0 }}>
         <Stack direction="row" spacing={1}>
+          <Link href={from !== null ? from : `/order-list${result}`}>
+            <OutlinedButton size="small" buttonName="목록" />
+          </Link>
           <OutlinedButton
             disabled={preOrderUkey === ""}
             onClick={prevOrderInfo}

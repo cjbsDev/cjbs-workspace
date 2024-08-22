@@ -25,7 +25,7 @@ const SampleDataTable = (props) => {
     isClear,
     filterText,
   } = props;
-  const height = useCalculatedHeight(728);
+  const height = useCalculatedHeight(128);
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
