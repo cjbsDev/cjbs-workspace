@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
-import { Box, CircularProgress } from "@mui/material";
+import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -29,7 +29,7 @@ const ListRun = () => {
   const height = useCalculatedHeight(268);
   const currentPath = usePathname();
 
-  const url = useMemo(() => {
+  const key = useMemo(() => {
     const base = "/run/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
@@ -38,10 +38,12 @@ const ListRun = () => {
     return `${base}${params}`;
   }, [resultObject, result, page, size]);
 
-  const { data, error, isLoading } = useSWR(url, fetcher, {
+  const { data, isLoading } = useSWR(key, fetcher, {
     // suspense: true,
     keepPreviousData: true,
   });
+
+  console.log("data ==??", data);
 
   // if (error) return <div>failed to load</div>;
   // if (isLoading) return <div>loading...</div>;
@@ -92,10 +94,39 @@ const ListRun = () => {
 
   return (
     <>
-      <Box sx={{ display: "grid" }}>
+      <Box
+        sx={{
+          display: "grid",
+          position: "relative",
+          // height: height,
+        }}
+      >
+        {isLoading && (
+          // <CircularProgress
+          //   color="success"
+          //   size={30}
+          //   sx={{
+          //     position: "absolute",
+          //     top: "50%",
+          //     left: "50%",
+          //     transform: "translate(-50%, -50%)",
+          //     zIndex: 9999,
+          //   }}
+          // />
+          <Backdrop
+            sx={{
+              color: "#fff",
+              zIndex: (theme) => theme.zIndex.drawer + 1,
+              // position: "absolute",
+            }}
+            open={isLoading}
+          >
+            <CircularProgress color="inherit" size={30} />
+          </Backdrop>
+        )}
         <DataTableBase
           title={<Title1 titleName="All RUN" />}
-          data={data?.runDetailList ?? []}
+          data={data?.runDetailList}
           columns={columns}
           onRowClicked={goDetailPage}
           pointerOnHover
@@ -112,11 +143,17 @@ const ListRun = () => {
           paginationTotalRows={data?.pageInfo?.totalElements}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
-          noDataComponent={<NoDataView resetPath={currentPath} />}
+          noDataComponent={
+            data === undefined ? (
+              <Typography variant="body1">Loading...</Typography>
+            ) : (
+              <NoDataView resetPath={currentPath} />
+            )
+          }
           paginationPerPage={100}
           paginationRowsPerPageOptions={[100, 200, 300, 400]}
-          progressPending={isLoading}
-          progressComponent={<CircularProgress size={30} />}
+          // progressPending={isLoading}
+          // progressComponent={<CircularProgress size={30} />}
         />
       </Box>
 

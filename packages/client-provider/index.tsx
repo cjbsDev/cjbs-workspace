@@ -41,15 +41,17 @@ export default function Providers({ children }: ContextProps) {
       />
       <SessionProvider>
         <SWRConfig
-          value={{
-            revalidateOnFocus: true,
-            revalidateOnReconnect: false,
-            shouldRetryOnError: false,
-            // onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
-            //   // 404에서 재시도 안함
-            //   if (error.status === 404) return;
-            // },
-          }}
+          value={
+            {
+              // revalidateOnFocus: true,
+              // revalidateOnReconnect: false,
+              // shouldRetryOnError: false,
+              // onErrorRetry: (error, key, config, revalidate, { retryCount }) => {
+              //   // 404에서 재시도 안함
+              //   if (error.status === 404) return;
+              // },
+            }
+          }
         >
           <StyledJsxRegistry>
             <RecoilRootWrapper>{children}</RecoilRootWrapper>
