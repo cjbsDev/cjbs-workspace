@@ -4,7 +4,7 @@ import { ErrorContainer, Fallback } from "cjbsDSTM";
 
 const LazyDataList = dynamic(() => import("./ListOrder"), {
   ssr: false,
-  loading: () => <SkeletonLoading />,
+  // loading: () => <SkeletonLoading />,
 });
 const OrderListPage = () => {
   return (

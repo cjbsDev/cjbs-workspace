@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
-import { Box } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -36,11 +36,11 @@ const ListOrder = () => {
     return `${base}${params}`;
   }, [resultObject, result, page, size, sort]);
 
-  const { data } = useSWR(url, fetcher, { suspense: true });
+  const { data, isLoading } = useSWR(url, fetcher, { keepPreviousData: true });
 
-  console.log("ORDER LIST DATA", data);
-  const orderListData = data.orderList;
-  const totalElements = data.pageInfo.totalElements;
+  // console.log("ORDER LIST DATA", data);
+  const orderListData = data?.orderList;
+  const totalElements = data?.pageInfo.totalElements;
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const columns = useMemo(
@@ -85,7 +85,30 @@ const ListOrder = () => {
   );
 
   return (
-    <Box sx={{ display: "grid" }}>
+    <Box sx={{ display: "grid", position: "relative" }}>
+      {isLoading && (
+        <CircularProgress
+          color="success"
+          size={30}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 9999,
+          }}
+        />
+        // <Backdrop
+        //   sx={{
+        //     color: "#fff",
+        //     zIndex: (theme) => theme.zIndex.drawer + 1,
+        //     position: "absolute",
+        //   }}
+        //   open={isLoading}
+        // >
+        //   <CircularProgress color="inherit" size={30} />
+        // </Backdrop>
+      )}
       <DataTableBase
         title={<Title1 titleName="오더 관리" />}
         data={orderListData}
@@ -111,7 +134,13 @@ const ListOrder = () => {
         // onChangeRowsPerPage={(currentRowsPerPage) =>
         //   setSize(currentRowsPerPage)
         // }
-        noDataComponent={<NoDataView resetPath={"/order-list"} />}
+        noDataComponent={
+          data === undefined ? (
+            <Typography variant="body1">Loading...</Typography>
+          ) : (
+            <NoDataView resetPath={"/order-list"} />
+          )
+        }
         sortServer
         onSort={handleSort}
         defaultSortFieldId={1}

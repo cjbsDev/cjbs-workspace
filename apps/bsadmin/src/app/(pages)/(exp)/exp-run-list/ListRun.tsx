@@ -43,7 +43,7 @@ const ListRun = () => {
     keepPreviousData: true,
   });
 
-  console.log("data ==??", data);
+  // console.log("data ==??", data);
 
   // if (error) return <div>failed to load</div>;
   // if (isLoading) return <div>loading...</div>;
@@ -102,27 +102,27 @@ const ListRun = () => {
         }}
       >
         {isLoading && (
-          // <CircularProgress
-          //   color="success"
-          //   size={30}
-          //   sx={{
-          //     position: "absolute",
-          //     top: "50%",
-          //     left: "50%",
-          //     transform: "translate(-50%, -50%)",
-          //     zIndex: 9999,
-          //   }}
-          // />
-          <Backdrop
+          <CircularProgress
+            color="success"
+            size={30}
             sx={{
-              color: "#fff",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-              // position: "absolute",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
             }}
-            open={isLoading}
-          >
-            <CircularProgress color="inherit" size={30} />
-          </Backdrop>
+          />
+          // <Backdrop
+          //   sx={{
+          //     color: "#fff",
+          //     zIndex: (theme) => theme.zIndex.drawer + 1,
+          //     position: "absolute",
+          //   }}
+          //   open={isLoading}
+          // >
+          //   <CircularProgress color="inherit" size={30} />
+          // </Backdrop>
         )}
         <DataTableBase
           title={<Title1 titleName="All RUN" />}
