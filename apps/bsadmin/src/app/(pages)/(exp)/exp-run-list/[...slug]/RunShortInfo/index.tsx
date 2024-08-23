@@ -2,11 +2,13 @@ import React from "react";
 import { useParams } from "next/navigation";
 import { fetcher } from "api";
 import useSWR from "swr";
-import { grey } from "cjbsDSTM";
+import { grey, OutlinedButton } from "cjbsDSTM";
 import { Box, Stack } from "@mui/material";
 import TrackingProgress from "./TrackingProgress";
 import SampleBEA from "../../../../(order)/order-list/[...slug]/OrderShortInfo/SampleBEA";
 import RunMemo from "./RunMemo";
+import Link from "next/link";
+import MyIcon from "icon/MyIcon";
 
 const RunShortInfo = () => {
   const params = useParams();

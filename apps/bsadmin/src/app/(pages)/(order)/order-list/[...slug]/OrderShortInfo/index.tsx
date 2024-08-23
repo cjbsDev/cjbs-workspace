@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Stack, Typography } from "@mui/material";
 import useSWR from "swr";
 import { useParams, useSearchParams } from "next/navigation";
 import { grey } from "cjbsDSTM/themes/color";
@@ -30,17 +20,6 @@ const OrderShortInfo = () => {
   const orderUkey = params.slug;
   const [resultObject, result] = useResultObject();
   const from = searchParams.get("from");
-
-  // const resultObject = {};
-  //
-  // for (const [key, value] of searchParams.entries()) {
-  //   resultObject[key] = value;
-  // }
-  // console.log(">>>>>>>>>", resultObject);
-  //
-  // const result = "?" + new URLSearchParams(resultObject).toString();
-  // console.log("RESULT@#@#@#", JSON.stringify(result));
-
   const { data } = useSWR(
     JSON.stringify(resultObject) !== "{}"
       ? `/order/${orderUkey}${result}`
@@ -50,7 +29,7 @@ const OrderShortInfo = () => {
       suspense: true,
     },
   );
-  console.log("ORDER Info Detail DATA", data);
+  // console.log("ORDER Info Detail DATA", data);
 
   // console.log("OrderShortInfo Value ==>>", data.data);
 
@@ -93,13 +72,11 @@ const OrderShortInfo = () => {
   const { preOrderUkey, postOrderUkey } = getOrderPrevPost;
 
   const prevOrderInfo = () => {
-    // console.log("PREV$%$%$%$%$%$$%", result);
-    router.push("/order-list/" + preOrderUkey + result);
+    router.push(`/order-list/${preOrderUkey}${result}`);
   };
 
   const postOrderInfo = () => {
-    // console.log("POST$%$%$%$%$%$$%", result);
-    router.push("/order-list/" + postOrderUkey + result);
+    router.push(`/order-list/${postOrderUkey}${result}`);
   };
 
   return (

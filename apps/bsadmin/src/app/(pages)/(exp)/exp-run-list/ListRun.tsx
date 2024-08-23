@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
-import { Backdrop, Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -20,17 +20,18 @@ const LazyRunAddModal = dynamic(() => import("./RunAddModal"), {
   ssr: false,
 });
 
+const base = "/run/list";
+
 const ListRun = () => {
   const [showRunAddModal, setShowRunAddModal] = useState(false);
-  // const [showBIReqModal, setShowBIReqModal] = useState(false);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [resultObject, result] = useResultObject();
   const height = useCalculatedHeight(268);
   const currentPath = usePathname();
+  const router = useRouter();
 
   const key = useMemo(() => {
-    const base = "/run/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
         ? `${result}&page=${page}&size=${size}`
@@ -45,47 +46,45 @@ const ListRun = () => {
 
   // console.log("data ==??", data);
 
-  // if (error) return <div>failed to load</div>;
-  // if (isLoading) return <div>loading...</div>;
-
-  // console.log("RUN LIST DATA", data);
   // const { runDetailList, pageInfo } = data;
   // const { totalElements } = pageInfo;
-  const router = useRouter();
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   const columns = useMemo(() => getColumns(), []);
 
-  const subHeaderComponentMemo = useMemo(() => {
-    const handleRunAddModalOpen = () => {
-      setShowRunAddModal(true);
-    };
-    return (
-      <SubHeader
-        totalElements={data?.pageInfo?.totalElements}
-        result={result}
-        handleRunAddModalOpen={handleRunAddModalOpen}
-      />
-    );
-  }, [data?.pageInfo?.totalElements, result]);
-
-  const goDetailPage = (row: any) => {
-    const path = row.runUkey;
-    router.push("/exp-run-list/" + path);
+  const handleRunAddModalOpen = () => {
+    setShowRunAddModal(true);
   };
 
   const handleRunAddModalClose = () => {
     setShowRunAddModal(false);
   };
 
+  // const subHeaderComponentMemo = useMemo(() => {
+  //   const handleRunAddModalOpen = () => {
+  //     setShowRunAddModal(true);
+  //   };
+  //   return (
+  //     <SubHeader
+  //       totalElements={data?.pageInfo?.totalElements}
+  //       result={result}
+  //       handleRunAddModalOpen={handleRunAddModalOpen}
+  //     />
+  //   );
+  // }, [data?.pageInfo?.totalElements, result]);
+
+  const goDetailPage = useCallback(
+    (row: any) => {
+      router.push(`/exp-run-list/${row.runUkey}`);
+    },
+    [router],
+  );
+
   const handlePageChange = useCallback((page: number) => {
-    // console.log("Page", page);
     setPage(page);
   }, []);
 
   const handlePerRowsChange = useCallback(
     (newPerPage: number, page: number) => {
-      // console.log("Row change.....", newPerPage, page);
       setPage(page);
       setSize(newPerPage);
     },
@@ -97,8 +96,6 @@ const ListRun = () => {
       <Box
         sx={{
           display: "grid",
-          position: "relative",
-          // height: height,
         }}
       >
         {isLoading && (
@@ -113,16 +110,6 @@ const ListRun = () => {
               zIndex: 9999,
             }}
           />
-          // <Backdrop
-          //   sx={{
-          //     color: "#fff",
-          //     zIndex: (theme) => theme.zIndex.drawer + 1,
-          //     position: "absolute",
-          //   }}
-          //   open={isLoading}
-          // >
-          //   <CircularProgress color="inherit" size={30} />
-          // </Backdrop>
         )}
         <DataTableBase
           title={<Title1 titleName="All RUN" />}
@@ -133,10 +120,16 @@ const ListRun = () => {
           highlightOnHover
           customStyles={dataTableCustomStyles}
           subHeader
-          subHeaderComponent={subHeaderComponentMemo}
-          fixedHeader={true}
+          // subHeaderComponent={subHeaderComponentMemo}
+          subHeaderComponent={
+            <SubHeader
+              totalElements={data?.pageInfo?.totalElements}
+              result={result}
+              handleRunAddModalOpen={handleRunAddModalOpen}
+            />
+          }
+          fixedHeader
           fixedHeaderScrollHeight={`${height}px`}
-          paginationResetDefaultPage={resetPaginationToggle}
           selectableRows={false}
           pagination
           paginationServer
@@ -144,16 +137,10 @@ const ListRun = () => {
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
           noDataComponent={
-            data === undefined ? (
-              <Typography variant="body1">Loading...</Typography>
-            ) : (
-              <NoDataView resetPath={currentPath} />
-            )
+            data === undefined ? null : <NoDataView resetPath={currentPath} />
           }
           paginationPerPage={100}
           paginationRowsPerPageOptions={[100, 200, 300, 400]}
-          // progressPending={isLoading}
-          // progressComponent={<CircularProgress size={30} />}
         />
       </Box>
 
