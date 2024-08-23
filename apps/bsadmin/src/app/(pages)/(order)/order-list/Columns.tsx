@@ -315,7 +315,7 @@ export const getColumns = (hideDirector: boolean) => [
   {
     name: "오더생성일",
     right: true,
-    // width: "120px",
+    width: "120px",
     sortable: true,
     sortField: "createDttm",
     selector: (row: { createDttm: null | string }) =>
@@ -324,7 +324,7 @@ export const getColumns = (hideDirector: boolean) => [
   {
     name: "샘플 접수일",
     right: true,
-    // width: "120px",
+    width: "120px",
     sortable: true,
     sortField: "rcptDttm",
     selector: (row: { rcptDttm: null | string }) =>
@@ -343,7 +343,7 @@ export const getColumns = (hideDirector: boolean) => [
   {
     name: "Seq완료일",
     right: true,
-    // width: "120px",
+    width: "120px",
     sortable: true,
     sortField: "seqCompDttm",
     selector: (row: { seqCompDttm: null | string }) =>
@@ -352,7 +352,7 @@ export const getColumns = (hideDirector: boolean) => [
   {
     name: "분석 완료일",
     right: true,
-    // width: "120px",
+    width: "120px",
     sortable: true,
     sortField: "biCompDttm",
     selector: (row: { biCompDttm: null | string }) =>
@@ -361,7 +361,7 @@ export const getColumns = (hideDirector: boolean) => [
   {
     name: "완료 통보일",
     right: true,
-    // width: "120px",
+    width: "120px",
     sortable: true,
     sortField: "ntfcCompDttm",
     selector: (row: { ntfcCompDttm: null | string }) =>
