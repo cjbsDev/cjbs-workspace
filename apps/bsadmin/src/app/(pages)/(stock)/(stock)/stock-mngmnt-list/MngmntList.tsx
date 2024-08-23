@@ -3,7 +3,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 import { fetcher } from "api";
 import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
-import { Box, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import { DataTableBase, Title1 } from "cjbsDSTM";
 import dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -22,7 +22,8 @@ const MngmntList = () => {
   const height = useCalculatedHeight(268);
   const currentPath = usePathname();
   const [page, setPage] = useState<number>(1);
-  const [size, setSize] = useState<number>(15);
+  const [size, setSize] = useState<number>(100);
+  // const [sort, setSort] = useState<string>("stockId,DESC");
   const [startYear, setStartYear] = useState(dayjs().year());
   const [startMonth, setStartMonth] = useState(
     dayjs().month(0).get("month") + 1,
@@ -48,17 +49,17 @@ const MngmntList = () => {
     size,
     startYear,
     startMonth,
+    // sort,
     endYear,
     endMonth,
     getStockCategoryVal,
   ]);
 
-  const { data } = useSWR(url, fetcher, { suspense: true });
+  const { data, isLoading } = useSWR(url, fetcher, { keepPreviousData: true });
 
-  const { stockList, pageInfo } = data;
-  const { totalElements } = pageInfo;
-
-  console.log("Stock Data List ==>>", stockList);
+  // const { stockList, pageInfo } = data;
+  // const { totalElements } = pageInfo;
+  // console.log("Stock Data List ==>>", data);
 
   const handleStartYear = (event: { target: { value: any } }) => {
     const { value } = event.target;
@@ -88,7 +89,7 @@ const MngmntList = () => {
   const subHeaderComponentMemo = useMemo(
     () => (
       <SubHeader
-        totalElements={totalElements}
+        totalElements={data?.pageInfo.totalElements}
         result={result}
         startMonth={startMonth}
         startYear={startYear}
@@ -100,7 +101,14 @@ const MngmntList = () => {
         handleStartYear={handleStartYear}
       />
     ),
-    [totalElements, result, startYear, startMonth, endYear, endMonth],
+    [
+      data?.pageInfo.totalElements,
+      result,
+      startYear,
+      startMonth,
+      endYear,
+      endMonth,
+    ],
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
@@ -119,11 +127,34 @@ const MngmntList = () => {
     router.push(`${currentPath}/${stockUkey}`);
   };
 
+  // const handleSort = useCallback(
+  //   (selectedColumn: { sortField: any }, sortDirection: string) => {
+  //     const sortValue = `${
+  //       selectedColumn.sortField
+  //     },${sortDirection.toUpperCase()}`;
+  //     setSort(sortValue);
+  //   },
+  //   [],
+  // );
+
   return (
     <Box sx={{ display: "grid" }}>
+      {isLoading && (
+        <CircularProgress
+          color="success"
+          size={30}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 9999,
+          }}
+        />
+      )}
       <DataTableBase
         title={<StockCtgryRadio />}
-        data={stockList}
+        data={data?.stockList}
         columns={columns}
         onRowClicked={goDetailPage}
         pointerOnHover
@@ -136,10 +167,16 @@ const MngmntList = () => {
         selectableRows={false}
         pagination
         paginationServer
-        paginationTotalRows={totalElements}
+        paginationTotalRows={data?.pageInfo.totalElements}
         onChangeRowsPerPage={handlePerRowsChange}
         onChangePage={handlePageChange}
-        noDataComponent={<NoDataView />}
+        noDataComponent={
+          data === undefined ? null : <NoDataView resetPath={currentPath} />
+        }
+        // sortServer
+        // onSort={handleSort}
+        paginationPerPage={100}
+        paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />
     </Box>
   );
