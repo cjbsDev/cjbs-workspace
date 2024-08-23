@@ -371,6 +371,8 @@ export const getColumns = (hideDirector: boolean) => [
     name: "메모",
     width: "80px",
     center: true,
+    sortable: true,
+    sortField: "memo",
     cell: (row: { memo: string }) => {
       const { memo } = row;
       return (
