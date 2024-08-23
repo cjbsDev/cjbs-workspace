@@ -39,10 +39,7 @@ const ListOrder = () => {
   const orderListData = data?.orderList;
   const totalElements = data?.pageInfo.totalElements;
 
-  const columns = useMemo(
-    () => getColumns(hideDirector, totalElements),
-    [hideDirector, totalElements],
-  );
+  const columns = useMemo(() => getColumns(hideDirector), [hideDirector]);
 
   const goDetailPage = useCallback(
     (row: any) => {
