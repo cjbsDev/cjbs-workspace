@@ -220,7 +220,7 @@ const SearchForm = ({ onClose }) => {
   };
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <Form onSubmit={onSubmit} defaultValues={resultObject}>
       <Box sx={{ width: 620, p: 3, pb: 1 }}>
         {/*<Stack direction="row">*/}
         {/*  <Typography variant="subtitle2">진행사항</Typography>*/}
