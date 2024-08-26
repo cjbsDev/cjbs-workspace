@@ -64,15 +64,34 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     resultObject[key] = value;
   }
 
-  if (resultObject.typeCcList === undefined) {
-    defaultValues = resultObject;
+  defaultValues = resultObject;
+
+  // if (resultObject.typeCcList === undefined) {
+  //   defaultValues = resultObject;
+  // } else {
+  //   const typeCcList = resultObject.typeCcList.split(",");
+  //   const newResultObject = {
+  //     ...resultObject,
+  //     typeCcList: typeCcList,
+  //   };
+  //   defaultValues = newResultObject;
+  // }
+
+  console.log("defaultValues ==>>", defaultValues);
+
+  const { startDttm, endDttm } = resultObject;
+  // console.log("@@@@@@@@@", typeof endDttm);
+
+  if (startDttm === undefined) {
+    delete resultObject.startDttm;
   } else {
-    const typeCcList = resultObject.typeCcList.split(",");
-    const newResultObject = {
-      ...resultObject,
-      typeCcList: typeCcList,
-    };
-    defaultValues = newResultObject;
+    resultObject.startDttm = new Date(startDttm);
+  }
+
+  if (endDttm === undefined) {
+    delete resultObject.endDttm;
+  } else {
+    resultObject.endDttm = new Date(endDttm);
   }
 
   // if (resultObject.dateTypeCc !== undefined) {
@@ -81,18 +100,20 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   //   const { startDttm, endDttm } = resultObject;
   //   // console.log("@@@@@@@@@", typeof endDttm);
   //
-  //   if (startDttm == undefined) {
+  //   if (startDttm === undefined) {
   //     delete resultObject.startDttm;
   //   } else {
   //     resultObject.startDttm = new Date(startDttm);
   //   }
   //
-  //   if (endDttm == undefined) {
+  //   if (endDttm === undefined) {
   //     delete resultObject.endDttm;
   //   } else {
   //     resultObject.endDttm = new Date(endDttm);
   //   }
   // }
+
+  console.log(resultObject);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
 
@@ -104,7 +125,15 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     console.log("결과내 검색 Data ==>>", data);
     let result;
 
-    // 날짜
+    // 날짜;
+    const { startDttm, endDttm } = data;
+
+    // 날짜 문자열을 Date 객체로 변환하고 포맷 변경
+    if (startDttm && endDttm) {
+      // startDttm과 endDttm이 유효한 경우에만 변환을 진행합니다.
+      data.startDttm = dayjs(startDttm).format("YYYY-MM-DD");
+      data.endDttm = dayjs(endDttm).format("YYYY-MM-DD");
+    }
     // if (
     //   data.dateTypeCc === "" &&
     //   (data.startDttm !== null || data.endDttm !== null)
@@ -151,22 +180,22 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     }
 
     // startDttm
-    // if (filteredObject.startDttm === undefined) {
-    //   delete filteredObject.startDttm;
-    // } else {
-    //   filteredObject.startDttm = dayjs(filteredObject.startDttm).format(
-    //     "YYYY-MM-DD",
-    //   );
-    // }
+    if (filteredObject.startDttm === undefined) {
+      delete filteredObject.startDttm;
+    } else {
+      filteredObject.startDttm = dayjs(filteredObject.startDttm).format(
+        "YYYY-MM-DD",
+      );
+    }
 
     // endDttm
-    // if (filteredObject.endDttm === undefined) {
-    //   delete filteredObject.endDttm;
-    // } else {
-    //   filteredObject.endDttm = dayjs(filteredObject.endDttm).format(
-    //     "YYYY-MM-DD",
-    //   );
-    // }
+    if (filteredObject.endDttm === undefined) {
+      delete filteredObject.endDttm;
+    } else {
+      filteredObject.endDttm = dayjs(filteredObject.endDttm).format(
+        "YYYY-MM-DD",
+      );
+    }
 
     console.log("filteredObject", filteredObject);
 
@@ -195,22 +224,23 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ width: 480, p: 3, pb: 1 }}>
-        {/*<Section>*/}
-        {/*  <SectionLabel variant="subtitle2">날짜</SectionLabel>*/}
+        <Section>
+          <SectionLabel variant="subtitle2">날짜</SectionLabel>
 
-        {/*  <Stack direction="row" spacing={1}>*/}
-        {/*    <Stack>*/}
-        {/*      <SelectBox*/}
-        {/*        inputName="dateTypeCc"*/}
-        {/*        options={dateSampleTypeCcData}*/}
-        {/*        sx={{ width: 130 }}*/}
-        {/*      />*/}
-        {/*    </Stack>*/}
+          <Stack direction="row" spacing={1}>
+            {/*<Stack>*/}
+            {/*  <SelectBox*/}
+            {/*    inputName="dateTypeCc"*/}
+            {/*    options={dateSampleTypeCcData}*/}
+            {/*    sx={{ width: 130 }}*/}
+            {/*  />*/}
+            {/*</Stack>*/}
 
-        {/*    <SingleDatePicker inputName="startDttm" />*/}
-        {/*    <SingleDatePicker inputName="endDttm" />*/}
-        {/*  </Stack>*/}
-        {/*</Section>*/}
+            <SingleDatePicker inputName="startDttm" />
+            <SingleDatePicker inputName="endDttm" />
+          </Stack>
+        </Section>
+
         {/*<Section>*/}
         {/*  <SectionLabel variant="subtitle2">분석종류</SectionLabel>*/}
         {/*  <ErrorContainer FallbackComponent={Fallback}>*/}

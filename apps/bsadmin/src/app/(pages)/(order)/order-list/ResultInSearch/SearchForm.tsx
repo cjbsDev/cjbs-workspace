@@ -81,7 +81,7 @@ const SearchForm = ({ onClose }) => {
   console.log("resultObject", resultObject);
 
   // let defaultValues;
-  //
+
   // if (
   //   resultObject?.typeCcList === undefined ||
   //   resultObject?.anlsTypeMcList === undefined
@@ -122,7 +122,7 @@ const SearchForm = ({ onClose }) => {
     resultObject.endDttm = new Date(endDttm);
   }
 
-  console.log("SEARCH FORM DEFAULTVALUES", resultObject);
+  console.log("SEARCH FORM DEFAULTVALUES ==>>", defaultValues);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   console.log("currentQueryString", currentQueryString);
@@ -220,7 +220,7 @@ const SearchForm = ({ onClose }) => {
   };
 
   return (
-    <Form onSubmit={onSubmit} defaultValues={defaultValues}>
+    <Form onSubmit={onSubmit} defaultValues={resultObject}>
       <Box sx={{ width: 620, p: 3, pb: 1 }}>
         {/*<Stack direction="row">*/}
         {/*  <Typography variant="subtitle2">진행사항</Typography>*/}
