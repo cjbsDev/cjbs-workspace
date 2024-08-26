@@ -47,8 +47,8 @@ interface SearchFormProps {
 }
 
 const stockCtgrValData = [
-  { value: "main", optionName: "main" },
-  { value: "소모품", optionName: "소모품" },
+  { value: "BS_3005001", optionName: "Main" },
+  { value: "BS_3005002", optionName: "소모품" },
 ];
 
 const isAstnPriceData = [
