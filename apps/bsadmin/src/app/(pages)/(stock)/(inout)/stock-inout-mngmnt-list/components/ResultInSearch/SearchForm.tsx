@@ -46,6 +46,11 @@ interface SearchFormProps {
   onClose: () => void;
 }
 
+const stockCtgrValData = [
+  { value: "main", optionName: "main" },
+  { value: "소모품", optionName: "소모품" },
+];
+
 const isAstnPriceData = [
   { value: "Y", optionName: "Y" },
   { value: "N", optionName: "N" },
@@ -353,10 +358,10 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               alignItems="center"
               // justifyContent="center"
             >
-              <Typography variant="body2">보조금</Typography>
+              <Typography variant="body2">종류</Typography>
             </Grid>
             <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
+              <RadioGV data={stockCtgrValData} inputName="stockCtgrCc" />
             </Grid>
             <Grid
               item
