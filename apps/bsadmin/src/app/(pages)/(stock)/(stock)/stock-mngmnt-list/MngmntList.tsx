@@ -17,13 +17,15 @@ import { useRecoilValue } from "recoil";
 import { stockCategoryAtom } from "./atom";
 import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
 
+const base = `/stock/list`;
+
 const MngmntList = () => {
   const router = useRouter();
   const height = useCalculatedHeight(268);
   const currentPath = usePathname();
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
-  // const [sort, setSort] = useState<string>("stockId,DESC");
+  const [sort, setSort] = useState<string>("stockId,DESC");
   const [startYear, setStartYear] = useState(dayjs().year());
   const [startMonth, setStartMonth] = useState(
     dayjs().month(0).get("month") + 1,
@@ -33,14 +35,13 @@ const MngmntList = () => {
   const [resultObject, result] = useResultObject();
   const getStockCategoryVal = useRecoilValue(stockCategoryAtom);
 
-  console.log("getStockCategoryVal", getStockCategoryVal);
+  // console.log("getStockCategoryVal", getStockCategoryVal);
 
   const url = useMemo(() => {
-    const base = `/stock/list`;
     const params =
       JSON.stringify(resultObject) !== "{}"
-        ? `${result}&stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`
-        : `?stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}`;
+        ? `${result}&stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}&sort=${sort}`
+        : `?stockCtgrCc=${getStockCategoryVal}&page=${page}&size=${size}&startYear=${startYear}&startMonth=${startMonth}&endYear=${endYear}&endMonth=${endMonth}&sort=${sort}`;
     return `${base}${params}`;
   }, [
     resultObject,
@@ -49,7 +50,7 @@ const MngmntList = () => {
     size,
     startYear,
     startMonth,
-    // sort,
+    sort,
     endYear,
     endMonth,
     getStockCategoryVal,
@@ -59,7 +60,7 @@ const MngmntList = () => {
 
   // const { stockList, pageInfo } = data;
   // const { totalElements } = pageInfo;
-  // console.log("Stock Data List ==>>", data);
+  console.log("Stock Data List ==>>", data);
 
   const handleStartYear = (event: { target: { value: any } }) => {
     const { value } = event.target;
@@ -127,15 +128,15 @@ const MngmntList = () => {
     router.push(`${currentPath}/${stockUkey}`);
   };
 
-  // const handleSort = useCallback(
-  //   (selectedColumn: { sortField: any }, sortDirection: string) => {
-  //     const sortValue = `${
-  //       selectedColumn.sortField
-  //     },${sortDirection.toUpperCase()}`;
-  //     setSort(sortValue);
-  //   },
-  //   [],
-  // );
+  const handleSort = useCallback(
+    (selectedColumn: { sortField: any }, sortDirection: string) => {
+      const sortValue = `${
+        selectedColumn.sortField
+      },${sortDirection.toUpperCase()}`;
+      setSort(sortValue);
+    },
+    [],
+  );
 
   return (
     <Box sx={{ display: "grid" }}>
@@ -173,8 +174,10 @@ const MngmntList = () => {
         noDataComponent={
           data === undefined ? null : <NoDataView resetPath={currentPath} />
         }
-        // sortServer
-        // onSort={handleSort}
+        sortServer
+        onSort={handleSort}
+        defaultSortFieldId={1}
+        defaultSortAsc={false}
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />
