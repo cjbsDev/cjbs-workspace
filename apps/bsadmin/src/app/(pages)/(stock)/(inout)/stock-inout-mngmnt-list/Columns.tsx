@@ -97,6 +97,13 @@ export const getColumns = () => [
     center: true,
   },
   {
+    name: "실제 처리자",
+    selector: (row: { creatorNm: string }) =>
+      row.creatorNm !== null ? row.creatorNm : "-",
+    // width: "100px",
+    center: true,
+  },
+  {
     name: "메모",
     width: "80px",
     center: true,
