@@ -81,7 +81,7 @@ const SearchForm = ({ onClose }) => {
   console.log("resultObject", resultObject);
 
   // let defaultValues;
-  //
+
   // if (
   //   resultObject?.typeCcList === undefined ||
   //   resultObject?.anlsTypeMcList === undefined
@@ -122,7 +122,7 @@ const SearchForm = ({ onClose }) => {
     resultObject.endDttm = new Date(endDttm);
   }
 
-  console.log("SEARCH FORM DEFAULTVALUES", resultObject);
+  console.log("SEARCH FORM DEFAULTVALUES ==>>", defaultValues);
 
   const currentQueryString = new URLSearchParams(resultObject).toString();
   console.log("currentQueryString", currentQueryString);

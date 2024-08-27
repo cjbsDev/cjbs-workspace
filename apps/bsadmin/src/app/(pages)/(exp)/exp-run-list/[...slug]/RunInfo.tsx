@@ -83,20 +83,20 @@ const RunInfo = () => {
               <Link href="/exp-run-list">
                 <OutlinedButton size="small" buttonName="목록" />
               </Link>
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="이전"
-                startIcon={<MyIcon icon="cheveron-left" size={20} />}
-              />
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="다음"
-                endIcon={<MyIcon icon="cheveron-right" size={20} />}
-              />
+              {/*<OutlinedButton*/}
+              {/*  disabled={true}*/}
+              {/*  size="small"*/}
+              {/*  color="secondary"*/}
+              {/*  buttonName="이전"*/}
+              {/*  startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
+              {/*/>*/}
+              {/*<OutlinedButton*/}
+              {/*  disabled={true}*/}
+              {/*  size="small"*/}
+              {/*  color="secondary"*/}
+              {/*  buttonName="다음"*/}
+              {/*  endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+              {/*/>*/}
             </Stack>
           </Stack>
 

@@ -16,6 +16,7 @@ import {
 } from "../../../../data/inputDataLists";
 import { useRecoilValue } from "recoil";
 import { stockCategoryAtom } from "./atom";
+import ResultInSearch from "./components/ResultInSearch";
 
 interface ExtentSubHeaderProps extends SubHeaderProps {
   startYear: number;
@@ -92,7 +93,7 @@ const SubHeader = ({
               iconName="xls3"
             />
             <KeywordSearch />
-            {/*<ResultInSearch />*/}
+            <ResultInSearch />
           </Stack>
         </Stack>
       </Grid>
