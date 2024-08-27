@@ -62,25 +62,25 @@ const Dashboard2 = () => {
             </Link>
           </Item>
         </Grid>
+        <Grid item xs={3}>
+          <Item>
+            <Link href="/exp-info-list" style={{ display: "block" }}>
+              <Stack direction="row" spacing={2} alignItems="center">
+                <MyIcon icon="experiment" size={30} />
+                <div>
+                  <Typography variant="subtitle1">실험</Typography>
+                  <Typography variant="body2">
+                    실험 정보, RUN, Sample 관리
+                  </Typography>
+                </div>
+              </Stack>
+            </Link>
+          </Item>
+        </Grid>
         {isContainsDiscoveryClinical ? (
           ""
         ) : (
           <>
-            <Grid item xs={3}>
-              <Item>
-                <Link href="/exp-info-list" style={{ display: "block" }}>
-                  <Stack direction="row" spacing={2} alignItems="center">
-                    <MyIcon icon="experiment" size={30} />
-                    <div>
-                      <Typography variant="subtitle1">실험</Typography>
-                      <Typography variant="body2">
-                        실험 정보, RUN, Sample 관리
-                      </Typography>
-                    </div>
-                  </Stack>
-                </Link>
-              </Item>
-            </Grid>
             <Grid
               item
               xs={3}

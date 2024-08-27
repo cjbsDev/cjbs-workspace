@@ -51,9 +51,9 @@ const stockCtgrValData = [
   { value: "BS_3005002", optionName: "소모품" },
 ];
 
-const isAstnPriceData = [
-  { value: "Y", optionName: "Y" },
-  { value: "N", optionName: "N" },
+const inOutData = [
+  { value: "입고", optionName: "입고" },
+  { value: "출고", optionName: "출고" },
 ];
 
 const SearchForm = ({ onClose }: SearchFormProps) => {
@@ -228,23 +228,23 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 480, p: 3, pb: 1 }}>
-        <Section>
-          <SectionLabel variant="subtitle2">날짜</SectionLabel>
+      <Box sx={{ width: 520, p: 4, pb: 1 }}>
+        {/*<Section>*/}
+        {/*  <SectionLabel variant="subtitle2">날짜</SectionLabel>*/}
 
-          <Stack direction="row" spacing={1}>
-            {/*<Stack>*/}
-            {/*  <SelectBox*/}
-            {/*    inputName="dateTypeCc"*/}
-            {/*    options={dateSampleTypeCcData}*/}
-            {/*    sx={{ width: 130 }}*/}
-            {/*  />*/}
-            {/*</Stack>*/}
+        {/*  <Stack direction="row" spacing={1}>*/}
+        {/*    <Stack>*/}
+        {/*      <SelectBox*/}
+        {/*        inputName="dateTypeCc"*/}
+        {/*        options={dateSampleTypeCcData}*/}
+        {/*        sx={{ width: 130 }}*/}
+        {/*      />*/}
+        {/*    </Stack>*/}
 
-            <SingleDatePicker inputName="startDttm" />
-            <SingleDatePicker inputName="endDttm" />
-          </Stack>
-        </Section>
+        {/*    <SingleDatePicker inputName="startDttm" />*/}
+        {/*    <SingleDatePicker inputName="endDttm" />*/}
+        {/*  </Stack>*/}
+        {/*</Section>*/}
 
         {/*<Section>*/}
         {/*  <SectionLabel variant="subtitle2">분석종류</SectionLabel>*/}
@@ -370,23 +370,10 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               alignItems="center"
               // justifyContent="center"
             >
-              <Typography variant="body2">GutInside</Typography>
+              <Typography variant="body2">구분</Typography>
             </Grid>
             <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
-            </Grid>
-
-            <Grid
-              item
-              xs={2}
-              sx={{ display: "flex" }}
-              alignItems="center"
-              // justifyContent="center"
-            >
-              <Typography variant="body2">사용중</Typography>
-            </Grid>
-            <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
+              <RadioGV data={inOutData} inputName="inOut" />
             </Grid>
           </Grid>
 
@@ -435,12 +422,50 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               xs={2}
               sx={{ display: "flex", mb: 1 }}
               alignItems="center"
-              // justifyContent="center"
+            >
+              <Typography variant="body2">처리일</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ mb: 1 }}>
+              <Stack direction="row" spacing={1}>
+                <SingleDatePicker inputName="startDttm" />
+                <SingleDatePicker inputName="endDttm" />
+              </Stack>
+            </Grid>
+
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+            >
+              <Typography variant="body2">처리자</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ mb: 1 }}>
+              <InputValidation inputName="creatorNm" fullWidth />
+            </Grid>
+
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
             >
               <Typography variant="body2">담당자</Typography>
             </Grid>
             <Grid item xs={10} sx={{ mb: 1 }}>
               <InputValidation inputName="mngrNm" fullWidth />
+            </Grid>
+
+            <Grid
+              item
+              xs={2}
+              sx={{ display: "flex", mb: 1 }}
+              alignItems="center"
+            >
+              <Typography variant="body2">메모</Typography>
+            </Grid>
+            <Grid item xs={10} sx={{ mb: 1 }}>
+              <InputValidation inputName="memo" fullWidth />
             </Grid>
           </Grid>
         </Section>
