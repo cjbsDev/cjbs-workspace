@@ -88,7 +88,7 @@ const MngmntReg = () => {
 
   const defaultValues = {
     ...data,
-    isUsed: "Y",
+    isUsed: ukey === null ? "Y" : data.isUsed,
   };
 
   const onSubmit = async (data: any) => {
