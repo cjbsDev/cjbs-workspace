@@ -54,6 +54,7 @@ const DetailView = () => {
     departMngrVal,
     isAstnPrice,
     isGutinside,
+    isUsed,
     mchnMc,
     mchnVal,
     memo,
@@ -93,9 +94,9 @@ const DetailView = () => {
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>것인사이드 여부</TH>
-              <TD sx={{ width: "85%" }} colSpan={3}>
-                {isGutinside}
-              </TD>
+              <TD>{isGutinside}</TD>
+              <TH sx={{ width: "15%" }}>사용중</TH>
+              <TD>{isUsed}</TD>
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>주문처</TH>
