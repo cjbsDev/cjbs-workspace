@@ -88,6 +88,7 @@ const MngmntReg = () => {
 
   const defaultValues = {
     ...data,
+    isUsed: "Y",
   };
 
   const onSubmit = async (data: any) => {
@@ -154,12 +155,21 @@ const MngmntReg = () => {
             </TableRow>
             <TableRow>
               <TH sx={{ width: "15%" }}>것인사이드 여부</TH>
-              <TD sx={{ width: "85%" }} colSpan={3}>
+              <TD>
                 <RadioGV
                   data={dataRadioGVAstnPriceCodeCc}
                   inputName="isGutinside"
                   required={true}
                   errorMessage="것인사이드 선택입니다."
+                />
+              </TD>
+              <TH sx={{ width: "15%" }}>사용중</TH>
+              <TD>
+                <RadioGV
+                  data={dataRadioGVAstnPriceCodeCc}
+                  inputName="isUsed"
+                  required={true}
+                  errorMessage="값을 선택하세요."
                 />
               </TD>
             </TableRow>
