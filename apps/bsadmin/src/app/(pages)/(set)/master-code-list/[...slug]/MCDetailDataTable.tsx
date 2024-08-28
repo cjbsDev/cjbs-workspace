@@ -11,29 +11,30 @@ import MCItemAddModifyModal from "./MCItemAddModifyModal";
 import { router } from "next/client";
 import { useRouter } from "next-nprogress-bar";
 import MyIcon from "icon/MyIcon";
+import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
+import { useRecoilValue } from "recoil";
+import { filterTextAtom } from "./atom";
 
 const McDetailDataTable = () => {
   const router = useRouter();
   const currentPath = usePathname();
   const params = useParams();
   const { slug } = params;
+  const height = useCalculatedHeight(830);
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(50);
   const [selectItem, setSelectItem] = useState({});
   const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
+  const filterText = useRecoilValue(filterTextAtom);
 
-  const { data } = useSWR(
-    `/mngr/masterCode/detail/${slug}?page=${page}&size=${size}`,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
-
-  console.log("tytyty", data);
+  const { data } = useSWR(`/mngr/masterCode/detail/${slug}`, fetcher, {
+    suspense: true,
+  });
 
   const { masterCodeDetailList, pageInfo } = data;
   const { totalElements } = pageInfo;
+
+  console.log("masterCodeDetailList", masterCodeDetailList);
 
   const columns = useMemo(() => getColumns(), []);
 
@@ -52,11 +53,24 @@ const McDetailDataTable = () => {
     setMcCodeModifyModal(true);
   };
 
+  const filteredItems = masterCodeDetailList.filter(
+    (item) =>
+      (item.douzoneCode &&
+        item.douzoneCode.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.codeNm &&
+        item.codeNm.toLowerCase().includes(filterText.toLowerCase())) ||
+      (item.codeValue &&
+        item.codeValue.toLowerCase().includes(filterText.toLowerCase())),
+  );
+
   const subHeaderComponentMemo = useMemo(
     () => (
-      <SubHeader totalElements={totalElements} handleAddRow={handleAddRow} />
+      <SubHeader
+        totalElements={filteredItems.length}
+        handleAddRow={handleAddRow}
+      />
     ),
-    [totalElements, handleAddRow],
+    [filteredItems.length, handleAddRow],
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
@@ -102,19 +116,21 @@ const McDetailDataTable = () => {
         {/*/>*/}
         <DataTableBase
           title={<Title1 titleName="마스터 코드" />}
-          data={masterCodeDetailList}
+          data={filteredItems}
           columns={columns}
           onRowClicked={handleOnRowClicked}
           highlightOnHover
           customStyles={dataTableCustomStyles2}
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
+          fixedHeader={true}
+          fixedHeaderScrollHeight={`${height}px`}
           selectableRows={false}
-          paginationServer
-          paginationTotalRows={totalElements}
-          onChangeRowsPerPage={handlePerRowsChange}
-          onChangePage={handlePageChange}
-          paginationPerPage={50}
+          paginationServer={false}
+          // paginationTotalRows={totalElements}
+          // onChangeRowsPerPage={handlePerRowsChange}
+          // onChangePage={handlePageChange}
+          // paginationPerPage={50}
           paginationRowsPerPageOptions={[15, 20, 50, 100]}
         />
       </Box>
