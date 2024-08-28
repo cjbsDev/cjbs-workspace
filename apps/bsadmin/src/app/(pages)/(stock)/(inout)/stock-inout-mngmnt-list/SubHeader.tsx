@@ -6,9 +6,9 @@ import {
   FileDownloadBtn,
 } from "cjbsDSTM";
 import KeywordSearch from "../../../../components/KeywordSearch";
-// import ResultInSearch from "./ResultInSearch";
 import IconDescBar from "../../../../components/IconDescBar";
 import { SubHeaderProps } from "../../../../types/subHeader-props";
+import ResultInSearch from "./components/ResultInSearch";
 
 const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
   <Grid container>
@@ -27,7 +27,7 @@ const SubHeader = ({ totalElements, result }: SubHeaderProps) => (
           {/*  iconName="xls3"*/}
           {/*/>*/}
           <KeywordSearch />
-          {/*<ResultInSearch />*/}
+          <ResultInSearch />
         </Stack>
       </Stack>
     </Grid>

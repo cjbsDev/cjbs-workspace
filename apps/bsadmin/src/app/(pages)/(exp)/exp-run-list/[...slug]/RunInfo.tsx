@@ -68,28 +68,81 @@ const RunInfo = () => {
     <>
       <Container maxWidth={false} sx={{ width: "100%" }}>
         <Box sx={{ mb: 1 }}>
-          <Grid container gap={1.5} alignItems="center">
-            <Grid item>
+          <Stack direction="row" justifyContent="space-between">
+            <Stack direction="row" spacing={1} alignItems="center">
               <Typography variant="h4">RUN 정보</Typography>
-            </Grid>
-            <Grid item>
               <ContainedButton
                 size="small"
                 buttonName="RUN 정보 변경"
                 onClick={() => setShowRunInfoModifyModal(true)}
                 endIcon={<MyIcon icon="cheveron-right" size={18} />}
               />
-            </Grid>
-            {/*<Grid item>*/}
-            {/*  <ContainedButton*/}
-            {/*    size="small"*/}
-            {/*    buttonName="BI분석 요청"*/}
-            {/*    onClick={handleBIReqModalOpen}*/}
-            {/*    endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
-            {/*  />*/}
-            {/*</Grid>*/}
-          </Grid>
+            </Stack>
+
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Link href="/exp-run-list">
+                <OutlinedButton size="small" buttonName="목록" />
+              </Link>
+              {/*<OutlinedButton*/}
+              {/*  disabled={true}*/}
+              {/*  size="small"*/}
+              {/*  color="secondary"*/}
+              {/*  buttonName="이전"*/}
+              {/*  startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
+              {/*/>*/}
+              {/*<OutlinedButton*/}
+              {/*  disabled={true}*/}
+              {/*  size="small"*/}
+              {/*  color="secondary"*/}
+              {/*  buttonName="다음"*/}
+              {/*  endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+              {/*/>*/}
+            </Stack>
+          </Stack>
+
+          {/*<Grid container gap={1.5} alignItems="center">*/}
+          {/*  <Grid item>*/}
+          {/*    <Typography variant="h4">RUN 정보</Typography>*/}
+          {/*  </Grid>*/}
+          {/*  <Grid item>*/}
+          {/*    <ContainedButton*/}
+          {/*      size="small"*/}
+          {/*      buttonName="RUN 정보 변경"*/}
+          {/*      onClick={() => setShowRunInfoModifyModal(true)}*/}
+          {/*      endIcon={<MyIcon icon="cheveron-right" size={18} />}*/}
+          {/*    />*/}
+          {/*  </Grid>*/}
+          {/*  /!*<Grid item>*!/*/}
+          {/*  /!*  <ContainedButton*!/*/}
+          {/*  /!*    size="small"*!/*/}
+          {/*  /!*    buttonName="BI분석 요청"*!/*/}
+          {/*  /!*    onClick={handleBIReqModalOpen}*!/*/}
+          {/*  /!*    endIcon={<MyIcon icon="cheveron-right" size={18} />}*!/*/}
+          {/*  /!*  />*!/*/}
+          {/*  /!*</Grid>*!/*/}
+          {/*</Grid>*/}
         </Box>
+        {/*<Box sx={{}}>*/}
+        {/*  <Stack direction="row" spacing={1}>*/}
+        {/*    <Link href="/exp-run-list">*/}
+        {/*      <OutlinedButton size="small" buttonName="목록" />*/}
+        {/*    </Link>*/}
+        {/*    <OutlinedButton*/}
+        {/*      disabled={true}*/}
+        {/*      size="small"*/}
+        {/*      color="secondary"*/}
+        {/*      buttonName="이전"*/}
+        {/*      startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
+        {/*    />*/}
+        {/*    <OutlinedButton*/}
+        {/*      disabled={true}*/}
+        {/*      size="small"*/}
+        {/*      color="secondary"*/}
+        {/*      buttonName="다음"*/}
+        {/*      endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+        {/*    />*/}
+        {/*  </Stack>*/}
+        {/*</Box>*/}
         <Box sx={{ mb: 5 }}>
           <ErrorContainer FallbackComponent={Fallback}>
             <LazyRunShortInfo />
@@ -137,33 +190,33 @@ const RunInfo = () => {
       )}
 
       {/* 목록, 이전, 다음 버튼 */}
-      <Container maxWidth={false} sx={{ width: "100%" }}>
-        <Grid container justifyContent="space-between">
-          <Grid item>
-            <Link href="/exp-run-list">
-              <OutlinedButton size="small" buttonName="목록" />
-            </Link>
-          </Grid>
-          <Grid item>
-            <Stack direction="row" spacing={1}>
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="이전"
-                startIcon={<MyIcon icon="cheveron-left" size={20} />}
-              />
-              <OutlinedButton
-                disabled={true}
-                size="small"
-                color="secondary"
-                buttonName="다음"
-                endIcon={<MyIcon icon="cheveron-right" size={20} />}
-              />
-            </Stack>
-          </Grid>
-        </Grid>
-      </Container>
+      {/*<Container maxWidth={false} sx={{ width: "100%" }}>*/}
+      {/*  <Grid container justifyContent="space-between">*/}
+      {/*    <Grid item>*/}
+      {/*      <Link href="/exp-run-list">*/}
+      {/*        <OutlinedButton size="small" buttonName="목록" />*/}
+      {/*      </Link>*/}
+      {/*    </Grid>*/}
+      {/*    <Grid item>*/}
+      {/*      <Stack direction="row" spacing={1}>*/}
+      {/*        <OutlinedButton*/}
+      {/*          disabled={true}*/}
+      {/*          size="small"*/}
+      {/*          color="secondary"*/}
+      {/*          buttonName="이전"*/}
+      {/*          startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
+      {/*        />*/}
+      {/*        <OutlinedButton*/}
+      {/*          disabled={true}*/}
+      {/*          size="small"*/}
+      {/*          color="secondary"*/}
+      {/*          buttonName="다음"*/}
+      {/*          endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
+      {/*        />*/}
+      {/*      </Stack>*/}
+      {/*    </Grid>*/}
+      {/*  </Grid>*/}
+      {/*</Container>*/}
     </>
   );
 };

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import { DataTableBase, Title1 } from "cjbsDSTM";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { useRouter } from "next-nprogress-bar";
 import { useState } from "react";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
@@ -16,8 +16,6 @@ import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 
 const base = "/order/list";
 
-// preload(base, fetcher).then((r) => console.log("RRRRRRRR ==>>", r));
-
 const ListOrder = () => {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
@@ -28,7 +26,6 @@ const ListOrder = () => {
   const router = useRouter();
 
   const url = useMemo(() => {
-    // const base = "/order/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
         ? `${result}&page=${page}&size=${size}&sort=${sort}`
@@ -36,31 +33,22 @@ const ListOrder = () => {
     return `${base}${params}`;
   }, [resultObject, result, page, size, sort]);
 
-  const { data } = useSWR(url, fetcher, { suspense: true });
+  const { data, isLoading } = useSWR(url, fetcher, { keepPreviousData: true });
 
-  console.log("ORDER LIST DATA", data);
-  const orderListData = data.orderList;
-  const totalElements = data.pageInfo.totalElements;
-  const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
+  // console.log("ORDER LIST DATA", data);
+  const orderListData = data?.orderList;
+  const totalElements = data?.pageInfo.totalElements;
 
-  const columns = useMemo(
-    () => getColumns(hideDirector, totalElements),
-    [hideDirector, totalElements],
-  );
-
-  const subHeaderComponentMemo = useMemo(
-    () => <SubHeader totalElements={totalElements} result={result} />,
-    [totalElements, result],
-  );
+  const columns = useMemo(() => getColumns(hideDirector), [hideDirector]);
 
   const goDetailPage = useCallback(
     (row: any) => {
       const { orderUkey } = row;
-      console.log("Go To Detail ===>>>>", orderUkey, result);
-      console.log("/order-list/" + orderUkey + result);
-      router.push("/order-list/" + orderUkey + result);
+      // console.log("Go To Detail ===>>>>", orderUkey, result);
+      // console.log("/order-list/" + orderUkey + result);
+      router.push(`/order-list/${orderUkey}${result}`);
     },
-    [result],
+    [result, router],
   );
 
   const handlePageChange = useCallback((page: React.SetStateAction<number>) => {
@@ -79,13 +67,25 @@ const ListOrder = () => {
         selectedColumn.sortField
       },${sortDirection.toUpperCase()}`;
       setSort(sortValue);
-      setResetPaginationToggle(!resetPaginationToggle);
     },
     [],
   );
 
   return (
     <Box sx={{ display: "grid" }}>
+      {isLoading && (
+        <CircularProgress
+          color="success"
+          size={30}
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            zIndex: 9999,
+          }}
+        />
+      )}
       <DataTableBase
         title={<Title1 titleName="오더 관리" />}
         data={orderListData}
@@ -95,23 +95,20 @@ const ListOrder = () => {
         highlightOnHover
         customStyles={dataTableCustomStyles}
         subHeader
-        subHeaderComponent={subHeaderComponentMemo}
+        subHeaderComponent={
+          <SubHeader totalElements={totalElements} result={result} />
+        }
         fixedHeader={true}
         fixedHeaderScrollHeight={`${height}px`}
-        paginationResetDefaultPage={resetPaginationToggle}
         selectableRows={false}
         pagination
         paginationServer
         paginationTotalRows={totalElements}
-        // progressPending={!orderListData}
-        // progressComponent={<p>Loading...</p>}
         onChangePage={handlePageChange}
-        // onChangePage={(page) => setPage(page)}
         onChangeRowsPerPage={handlePerRowsChange}
-        // onChangeRowsPerPage={(currentRowsPerPage) =>
-        //   setSize(currentRowsPerPage)
-        // }
-        noDataComponent={<NoDataView resetPath={"/order-list"} />}
+        noDataComponent={
+          data === undefined ? null : <NoDataView resetPath="/order-list" />
+        }
         sortServer
         onSort={handleSort}
         defaultSortFieldId={1}

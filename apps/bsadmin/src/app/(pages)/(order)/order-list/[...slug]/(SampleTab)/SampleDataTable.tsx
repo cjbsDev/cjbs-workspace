@@ -25,7 +25,7 @@ const SampleDataTable = (props) => {
     isClear,
     filterText,
   } = props;
-  const height = useCalculatedHeight(728);
+  const height = useCalculatedHeight(128);
   const params = useParams();
   const orderUkey = params.slug;
   const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
@@ -88,6 +88,7 @@ const SampleDataTable = (props) => {
       {
         name: "샘플명",
         minWidth: "250px",
+        wrap: true,
         sortable: false,
         // center: true,
         // allowOverflow: true,
@@ -100,6 +101,7 @@ const SampleDataTable = (props) => {
       {
         name: "대체명",
         minWidth: "250px",
+        wrap: true,
         // allowOverflow: true,
         // sortable: true,
         selector: (row) => (row.altrNm === null ? "-" : row.altrNm),
@@ -117,9 +119,9 @@ const SampleDataTable = (props) => {
       {
         name: "Source",
         sortable: false,
-        center: true,
-        allowOverflow: true,
+        // center: true,
         wrap: true,
+        minWidth: "250px",
         // grow: 3,
         selector: (row) => (row.source === null ? "-" : row.source),
       },

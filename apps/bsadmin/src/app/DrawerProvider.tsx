@@ -243,6 +243,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                           ? "none"
                           : item.menuPath.name !== "/orsh" &&
                               item.menuPath.name !== "/order" &&
+                              item.menuPath.name !== "/exp" &&
                               containsChar4
                             ? "none"
                             : "block",

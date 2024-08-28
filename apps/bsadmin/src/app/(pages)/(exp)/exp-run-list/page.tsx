@@ -4,7 +4,7 @@ import { ErrorContainer, Fallback } from "cjbsDSTM";
 
 const LazyDataList = dynamic(() => import("./ListRun"), {
   ssr: false,
-  loading: () => <SkeletonLoading />,
+  // loading: () => <SkeletonLoading />,
 });
 const RunListPage = () => {
   return (

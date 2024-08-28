@@ -238,33 +238,33 @@ export default function OrderInfo() {
       )}
 
       {/* 목록, 이전, 다음 버튼 */}
-      <Container maxWidth={false} sx={{ width: "100%" }}>
-        <Grid container justifyContent="space-between">
-          <Grid item>
-            <Link href={from !== null ? from : `/order-list${result}`}>
-              <OutlinedButton size="small" buttonName="목록" />
-            </Link>
-          </Grid>
-          {/*<Grid item>*/}
-          {/*  <Stack direction="row" spacing={1}>*/}
-          {/*    <OutlinedButton*/}
-          {/*      // disabled={true}*/}
-          {/*      size="small"*/}
-          {/*      color="secondary"*/}
-          {/*      buttonName="이전"*/}
-          {/*      startIcon={<MyIcon icon="cheveron-left" size={20} />}*/}
-          {/*    />*/}
-          {/*    <OutlinedButton*/}
-          {/*      // disabled={true}*/}
-          {/*      size="small"*/}
-          {/*      color="secondary"*/}
-          {/*      buttonName="다음"*/}
-          {/*      endIcon={<MyIcon icon="cheveron-right" size={20} />}*/}
-          {/*    />*/}
-          {/*  </Stack>*/}
-          {/*</Grid>*/}
-        </Grid>
-      </Container>
+      {/*<Container maxWidth={false} sx={{ width: "100%" }}>*/}
+      {/*  <Grid container justifyContent="space-between">*/}
+      {/*    <Grid item>*/}
+      {/*      <Link href={from !== null ? from : `/order-list${result}`}>*/}
+      {/*        <OutlinedButton size="small" buttonName="목록" />*/}
+      {/*      </Link>*/}
+      {/*    </Grid>*/}
+      {/*    /!*<Grid item>*!/*/}
+      {/*    /!*  <Stack direction="row" spacing={1}>*!/*/}
+      {/*    /!*    <OutlinedButton*!/*/}
+      {/*    /!*      // disabled={true}*!/*/}
+      {/*    /!*      size="small"*!/*/}
+      {/*    /!*      color="secondary"*!/*/}
+      {/*    /!*      buttonName="이전"*!/*/}
+      {/*    /!*      startIcon={<MyIcon icon="cheveron-left" size={20} />}*!/*/}
+      {/*    /!*    />*!/*/}
+      {/*    /!*    <OutlinedButton*!/*/}
+      {/*    /!*      // disabled={true}*!/*/}
+      {/*    /!*      size="small"*!/*/}
+      {/*    /!*      color="secondary"*!/*/}
+      {/*    /!*      buttonName="다음"*!/*/}
+      {/*    /!*      endIcon={<MyIcon icon="cheveron-right" size={20} />}*!/*/}
+      {/*    /!*    />*!/*/}
+      {/*    /!*  </Stack>*!/*/}
+      {/*    /!*</Grid>*!/*/}
+      {/*  </Grid>*/}
+      {/*</Container>*/}
     </>
   );
 }

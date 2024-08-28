@@ -24,6 +24,7 @@ import { fetcher } from "api";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { sampleUkeyAtom } from "../../../../../recoil/atoms/sampleUkeyAtom";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const SampleDataTable = () => {
   const [page, setPage] = useState<number>(1);
@@ -34,17 +35,10 @@ const SampleDataTable = () => {
   const [isClear, setIsClear] = useState<boolean>(false);
   const [toggledClearRows, setToggleClearRows] =
     useRecoilState(toggledClearRowsAtom);
-
-  // useEffect(() => {
-  //   // isClear 상태 변경 이슈
-  //   setIsClear(false);
-  // }, [isClear]);
-
   const searchParams = useSearchParams();
   const router = useRouter();
   const params = useParams();
   const setSampleUkeyList = useSetRecoilState(sampleUkeyAtom);
-
   const resultObject = {};
 
   for (const [key, value] of searchParams.entries()) {

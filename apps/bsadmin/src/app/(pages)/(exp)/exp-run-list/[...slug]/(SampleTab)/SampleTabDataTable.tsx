@@ -38,6 +38,7 @@ import useCenteredPopup from "../../../../../hooks/useCenteredPopup";
 import { useRecoilState } from "recoil";
 import { toggledClearRowsAtom } from "../../../../../recoil/atoms/toggled-clear-rows-atom";
 import NoDataView from "../../../../../components/NoDataView";
+import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 
 const LazySampleAllListModal = dynamic(() => import("./SampleAllList"), {
   ssr: false,
@@ -85,6 +86,7 @@ const SampleTabDataTable = (props) => {
     1000,
     800,
   );
+  const height = useCalculatedHeight(128);
 
   // useEffect(() => {
   //   console.log("isOpen ==>>", isOpen);
@@ -109,14 +111,9 @@ const SampleTabDataTable = (props) => {
     fetcher,
     {
       suspense: true,
-      // refreshInterval: 1000,
     },
   );
-  console.log("Sample TAb RUN LIST DATA", data);
-
-  // const runSampleListData = data.runSamplesList;
-  // const totalElements = data.pageInfo.totalElements;
-
+  // console.log("Sample TAb RUN LIST DATA", data);
   const { runSamplesList, pageInfo } = data;
   const { totalElements } = pageInfo;
 
@@ -149,21 +146,24 @@ const SampleTabDataTable = (props) => {
       },
       {
         name: "샘플명",
-        sortable: false,
-        center: true,
+        sortable: true,
+        minWidth: "250px",
+        wrap: true,
         selector: (row) => (row.sampleNm === null ? "-" : row.sampleNm),
       },
       {
         name: "샘플종류",
-        sortable: false,
-        center: true,
+        sortable: true,
+        minWidth: "200px",
+        wrap: true,
         selector: (row) =>
           row.sampleTypeVal === null ? "-" : row.sampleTypeVal,
       },
       {
         name: "Source",
-        sortable: false,
-        center: true,
+        sortable: true,
+        minWidth: "250px",
+        wrap: true,
         selector: (row) => (row.source === null ? "-" : row.source),
       },
       {
@@ -182,11 +182,9 @@ const SampleTabDataTable = (props) => {
       },
       {
         name: "RUN",
-        // width: "120px",
-        sortable: false,
-        center: true,
-        // wrap: true,
-        allowOverflow: true,
+        sortable: true,
+        minWidth: "250px",
+        wrap: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
         cell: (row) => {
@@ -657,14 +655,6 @@ const SampleTabDataTable = (props) => {
     setShowSampleAddModal(false);
   };
 
-  // if (runSampleListData.length === 0) {
-  //   return (
-  //     <>
-  //       <SampleAddSection />
-  //     </>
-  //   );
-  // }
-
   return (
     <>
       <Box sx={{ mt: -5, display: "grid" }}>
@@ -676,6 +666,8 @@ const SampleTabDataTable = (props) => {
           pointerOnHover
           highlightOnHover
           customStyles={dataTableCustomStyles3}
+          fixedHeader
+          fixedHeaderScrollHeight={`${height}px`}
           subHeader
           subHeaderComponent={subHeaderComponentMemo}
           selectableRows
