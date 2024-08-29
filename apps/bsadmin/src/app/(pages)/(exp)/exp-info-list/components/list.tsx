@@ -7,11 +7,14 @@ import { fetcher } from "api";
 import { DataTableBase, Title1 } from "cjbsDSTM";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../../../components/NoDataView";
-import { Box } from "@mui/material";
+import { Box, CircularProgress } from "@mui/material";
 import { Columns } from "./columns";
 import SubHeader from "./SubHeader";
 import { useRouter } from "next-nprogress-bar";
 import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
+import { usePathname } from "next/navigation";
+
+const base = "/expt/info/list";
 
 const List = () => {
   const [page, setPage] = useState<number>(1);
@@ -21,12 +24,12 @@ const List = () => {
   const [resultObject, result] = useResultObject();
   const height = useCalculatedHeight(268);
   const router = useRouter();
+  const currentPath = usePathname();
 
   // console.log("resultOBJ", resultObject);
   // console.log("result", result);
 
   const url = useMemo(() => {
-    const base = "/expt/info/list";
     const params =
       JSON.stringify(resultObject) !== "{}"
         ? `${result}&page=${page}&size=${size}`
@@ -34,8 +37,9 @@ const List = () => {
     return `${base}${params}`;
   }, [resultObject, result, page, size]);
 
-  const { data } = useSWR(url, fetcher, {
-    suspense: true,
+  const { data, isLoading } = useSWR(url, fetcher, {
+    // suspense: true,
+    keepPreviousData: true,
   });
   // console.log("EXPT INFO LIST DATA", data);
 
@@ -44,14 +48,19 @@ const List = () => {
   //   setLoading(true);
   // }, [result]);
 
-  const { exptInfoList, pageInfo } = data;
-  const totalElements = pageInfo.totalElements;
+  // const { exptInfoList, pageInfo } = data;
+  // const totalElements = pageInfo.totalElements;
 
   const columns = useMemo(() => Columns(), []);
 
   const subHeaderComponentMemo = useMemo(
-    () => <SubHeader totalElements={totalElements} result={result} />,
-    [totalElements, result],
+    () => (
+      <SubHeader
+        totalElements={data?.pageInfo?.totalElements}
+        result={result}
+      />
+    ),
+    [data?.pageInfo?.totalElements, result],
   );
 
   const goDetailPage = (row: any) => {
@@ -81,9 +90,22 @@ const List = () => {
   return (
     <>
       <Box sx={{ display: "grid" }}>
+        {isLoading && (
+          <CircularProgress
+            color="success"
+            size={30}
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 9999,
+            }}
+          />
+        )}
         <DataTableBase
           title={<Title1 titleName="실험정보" />}
-          data={exptInfoList}
+          data={data?.exptInfoList}
           columns={columns}
           onRowClicked={goDetailPage}
           pointerOnHover
@@ -97,10 +119,12 @@ const List = () => {
           selectableRows={false}
           pagination
           paginationServer
-          paginationTotalRows={totalElements}
+          paginationTotalRows={data?.pageInfo?.totalElements}
           onChangeRowsPerPage={handlePerRowsChange}
           onChangePage={handlePageChange}
-          noDataComponent={<NoDataView />}
+          noDataComponent={
+            data === undefined ? null : <NoDataView resetPath={currentPath} />
+          }
           paginationPerPage={100}
           paginationRowsPerPageOptions={[100, 200, 300, 400]}
         />
