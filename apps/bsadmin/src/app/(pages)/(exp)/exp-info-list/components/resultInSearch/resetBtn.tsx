@@ -42,12 +42,12 @@ const ResetBtn = ({ onClose }: ResetBtnProps) => {
     const params = new URLSearchParams(searchParams.toString());
     strArr.map((item) => params.delete(`${item}`));
 
-    resetField("dateTypeCc", { defaultValue: "" });
-    resetField("startDttm", { defaultValue: null });
-    resetField("endDttm", { defaultValue: null });
-    resetField("orderId", { defaultValue: "" });
-    resetField("keyword", { defaultValue: "" });
-    resetField("orderStatusCc", { defaultValue: "" });
+    // resetField("dateTypeCc", { defaultValue: "" });
+    // resetField("startDttm", { defaultValue: null });
+    // resetField("endDttm", { defaultValue: null });
+    // resetField("orderId", { defaultValue: "" });
+    // resetField("keyword", { defaultValue: "" });
+    // resetField("orderStatusCc", { defaultValue: "" });
 
     router.push(`${pathname}?${params.toString()}`);
 

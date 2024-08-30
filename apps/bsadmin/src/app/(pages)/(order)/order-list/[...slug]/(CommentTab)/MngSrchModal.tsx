@@ -58,6 +58,7 @@ const MngSrchModal = ({
   modalWidth,
   selectedMembers,
 }: ModalContainerProps) => {
+  const [filterText, setFilterText] = useState("");
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
 
   // [고객] row 세팅
