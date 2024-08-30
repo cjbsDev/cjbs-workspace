@@ -13,6 +13,6 @@ export default function AnlsTypeSelectbox() {
   );
 
   return (
-    <SelectBox inputName="anlsTypcMc" options={data} sx={{ width: "100%" }} />
+    <SelectBox inputName="anlsTypeMc" options={data} sx={{ width: "100%" }} />
   );
 }

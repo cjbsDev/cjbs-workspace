@@ -15,6 +15,6 @@ export default function SeqKitSelectbox() {
   // console.log("진행상황 리스트", data);
 
   return (
-    <SelectBox inputName="seqUsedKit" options={data} sx={{ width: "100%" }} />
+    <SelectBox inputName="seqUsedKitMc" options={data} sx={{ width: "100%" }} />
   );
 }

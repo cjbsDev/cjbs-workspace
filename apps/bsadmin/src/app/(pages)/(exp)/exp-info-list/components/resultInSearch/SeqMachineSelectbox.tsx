@@ -15,6 +15,6 @@ export default function SeqMachineSelectbox() {
   // console.log("진행상황 리스트", data);
 
   return (
-    <SelectBox inputName="seqMchn" options={data} sx={{ width: "100%" }} />
+    <SelectBox inputName="seqMchnMc" options={data} sx={{ width: "100%" }} />
   );
 }
