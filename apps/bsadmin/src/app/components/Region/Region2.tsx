@@ -2,8 +2,6 @@ import { SelectBox } from "cjbsDSTM";
 import { useFormContext } from "react-hook-form";
 import React from "react";
 import useSWR from "swr";
-
-import axios from "axios";
 import { fetcher } from "api";
 
 export default function Region2() {
@@ -18,7 +16,7 @@ export default function Region2() {
     fetcher,
     {
       suspense: true,
-    }
+    },
   );
 
   // Only render the SelectBox if the API call has successfully fetched the data

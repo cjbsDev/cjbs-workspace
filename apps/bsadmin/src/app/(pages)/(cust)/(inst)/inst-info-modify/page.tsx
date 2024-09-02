@@ -135,7 +135,7 @@ export default function InstModifyPage() {
       }
     } catch (error) {
       console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
+      toast(error?.message);
     }
   };
 
