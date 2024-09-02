@@ -293,7 +293,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
               <Typography variant="body2">Type</Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={10}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyServiceTypeSelctbox />
               </ErrorContainer>
@@ -301,7 +301,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
               <Typography variant="body2">분석타입</Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={10}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazyAnlsTypeSelctbox />
               </ErrorContainer>
@@ -409,7 +409,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
               <Typography variant="body2">Seq kit 정보</Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={10}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazySeqKitSelectbox />
               </ErrorContainer>
@@ -417,7 +417,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
             <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
               <Typography variant="body2">Seq 장비</Typography>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={10}>
               <ErrorContainer FallbackComponent={Fallback}>
                 <LazySeqMachineSelectbox />
               </ErrorContainer>
