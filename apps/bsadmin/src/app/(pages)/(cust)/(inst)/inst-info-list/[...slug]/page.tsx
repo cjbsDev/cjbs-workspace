@@ -164,7 +164,7 @@ export default function InstPage({ params }: CustViewProps) {
 
         <Link
           href={{
-            pathname: "/inst-info-modify",
+            pathname: "/inst-info-add",
             query: { instUkey: instDetail.instUkey },
           }}
         >

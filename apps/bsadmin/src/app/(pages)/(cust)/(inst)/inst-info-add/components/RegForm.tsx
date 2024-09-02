@@ -1,14 +1,13 @@
 "use client";
-import React from "react";
-import { useRouter } from "next/navigation";
-import { POST } from "api";
+import React, { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { fetcher, POST, PUT } from "api";
 import { toast } from "react-toastify";
 import {
   ContainedButton,
   Form,
   InputValidation,
   OutlinedButton,
-  PostCodeBtn,
   RadioGV,
   SelectBox,
   TD,
@@ -27,19 +26,12 @@ import {
   Typography,
 } from "@mui/material";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import BusinessNumberRow from "./BusinessNumberRow";
 import InstAddRow from "./InstAddRow";
 import AddressRow from "./AddressRow";
 import RegionRow from "./RegionRow";
-
-// const LazyRegion1 = dynamic(
-//   () => import("../../../../../components/Region/Region1"),
-//   {
-//     ssr: false,
-//     loading: () => <p>Loading...</p>,
-//   },
-// );
+import useSWR from "swr";
+import { LoadingButton } from "@mui/lab";
 
 const dataRadioGVstatusCodeCc = [
   { value: "BS_0602001", optionName: "운영" },
@@ -51,16 +43,32 @@ const dataRadioGVlctnTypeCcCodeCc = [
 ];
 
 const RegForm = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const searchParams = useSearchParams();
+  const instUkey = searchParams.get("instUkey");
+  console.log("instUkey ==>>", instUkey);
   const router = useRouter();
-  const defaultValues = {
-    lctnTypeCc: "BS_0200002", // 국내
-    region1Gc: "11000", // 서울
-    region1GcOverseas: "",
-    statusCodeCc: "BS_0602001", // 운영
-  };
+
+  const { data } = useSWR(instUkey ? `/inst/${instUkey}` : null, fetcher, {
+    suspense: true,
+  });
+
+  // console.log("RTRTRTRTRTRTR ==>>", data);
+
+  const defaultValues = instUkey
+    ? {
+        ...data,
+      }
+    : {
+        lctnTypeCc: "BS_0200002", // 국내
+        region1Gc: "11000", // 서울
+        region1GcOverseas: "",
+        statusCodeCc: "BS_0602001", // 운영
+      };
 
   const onSubmit = async (data: any) => {
-    let saveObj = {
+    setIsLoading(true);
+    const reqBody = {
       ...data,
       zip: data.zip ?? "",
       addr: data.addr ?? "",
@@ -74,14 +82,15 @@ const RegForm = () => {
       region2Gc: data.lctnTypeCc === "BS_0200001" ? null : data.lctnTypeCc,
     };
 
-    console.log("SAVE ==>>", saveObj);
+    console.log("SAVE ==>>", reqBody);
     // console.log("saveObj stringify", JSON.stringify(saveObj));
 
-    const apiUrl = `/inst`; // Replace with your API URL
+    const apiUrl = `/inst`;
 
     try {
-      const response = await POST(apiUrl, saveObj); // API 요청
-      // setIsLoading(false);
+      const response = instUkey
+        ? await PUT(apiUrl, reqBody)
+        : await POST(apiUrl, reqBody);
       if (response.success) {
         router.push("/inst-info-list");
       } else {
@@ -91,13 +100,14 @@ const RegForm = () => {
       console.error("request failed:", error);
       toast(error?.message);
     } finally {
+      setIsLoading(false);
     }
   };
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
       <Box sx={{ mb: 4 }}>
-        <Title1 titleName="기관 등록" />
+        <Title1 titleName={instUkey ? "기관 수정" : "기관 등록"} />
       </Box>
 
       <Typography variant="subtitle1">기본 정보</Typography>
@@ -107,13 +117,16 @@ const RegForm = () => {
             <TableRow>
               <TH sx={{ width: "15%" }}>위치</TH>
               <TD sx={{ width: "85%" }} colSpan={5}>
-                {/*국내,해외*/}
-                <RadioGV
-                  data={dataRadioGVlctnTypeCcCodeCc}
-                  inputName="lctnTypeCc"
-                  required={true}
-                  errorMessage="필수 선택입니다."
-                />
+                {instUkey ? (
+                  data.lctnTypeVal
+                ) : (
+                  <RadioGV
+                    data={dataRadioGVlctnTypeCcCodeCc}
+                    inputName="lctnTypeCc"
+                    required={true}
+                    errorMessage="필수 선택입니다."
+                  />
+                )}
               </TD>
             </TableRow>
 
@@ -236,7 +249,15 @@ const RegForm = () => {
           <OutlinedButton buttonName="목록" size="small" />
         </Link>
 
-        <ContainedButton type="submit" buttonName="저장" size="small" />
+        <LoadingButton
+          loading={isLoading}
+          variant="contained"
+          type="submit"
+          size="small"
+        >
+          저장
+        </LoadingButton>
+        {/*<ContainedButton type="submit" buttonName="저장" size="small" />*/}
       </Stack>
     </Form>
   );

@@ -80,7 +80,7 @@ export default function InstModifyPage() {
     suspense: true,
   });
 
-  console.log("OOOOOOOOOOOO", data);
+  console.log("기관 수정 초기 Data ==>>", data);
 
   const defaultValues = {
     ...data,
