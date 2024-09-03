@@ -265,10 +265,10 @@ const DynamicTableAnalysis = ({}) => {
                 />
               </TH>
 
-              <TH align="center">서비스 타입</TH>
-              <TH sx={{ width: 180 }} align="center">
-                기준가
+              <TH sx={{ width: 170 }} align="center">
+                서비스 타입
               </TH>
+              <TH align="center">기준가</TH>
               {/*<TH>품명</TH>*/}
               <TH sx={{ width: 150 }} align="center">
                 수량

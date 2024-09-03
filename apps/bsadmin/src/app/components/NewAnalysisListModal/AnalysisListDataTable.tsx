@@ -28,28 +28,30 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { analysisAtom } from "./analysisAtom";
 import { toast } from "react-toastify";
 
-const AnalysisListDataTable = (props: {
+const AnalysisListDataTable = ({
+  append,
+  replace,
+  onClose,
+  handleAddSampleList,
+  viewType,
+}: {
   append: any;
-  // update: any;
   replace: any;
-  // remove: any;
-  // selectSampleList: any;
   onClose: any;
-  // getOrderUkey: string;
-  // handleSelectedRowChange: any;
   handleAddSampleList: any;
+  viewType?: string;
 }) => {
-  const {
-    append,
-    // update,
-    replace,
-    // remove,
-    // selectSampleList,
-    onClose,
-    // getOrderUkey,
-    handleAddSampleList,
-    viewType,
-  } = props;
+  // const {
+  //   append,
+  //   // update,
+  //   replace,
+  //   // remove,
+  //   // selectSampleList,
+  //   onClose,
+  //   // getOrderUkey,
+  //   handleAddSampleList,
+  //   viewType,
+  // } = props;
 
   const selectSampleList = useRecoilValue(analysisAtom);
   // console.log("selectSampleList ==>>", selectSampleList);
@@ -71,6 +73,24 @@ const AnalysisListDataTable = (props: {
   // const {} = data;
   const totCnt = data.length;
   // console.log("!@#!@#!@#!@#!@#!@#!@#!@#", data);
+
+  const determineChipStyle = (statusCode: string) => ({
+    border: `1px solid ${
+      statusCode === "BS_0902003"
+        ? cjbsTheme.palette.primary.main
+        : statusCode === "BS_0902004"
+          ? cjbsTheme.palette.warning.main
+          : undefined
+    }`,
+    color: `${
+      statusCode === "BS_0902003"
+        ? cjbsTheme.palette.primary.main
+        : statusCode === "BS_0902004"
+          ? cjbsTheme.palette.warning.main
+          : undefined
+    }`,
+  });
+
   const columns = useMemo(
     () => [
       {
@@ -367,49 +387,71 @@ const AnalysisListDataTable = (props: {
     [],
   );
 
-  const rowSelectCritera = useCallback((row) => {
-    const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
-    console.log("sampleUkeys ==>>", sampleUkeys);
-    return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
-  }, []);
+  // const rowSelectCritera = useCallback((row) => {
+  //   const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+  //   console.log("sampleUkeys ==>>", sampleUkeys);
+  //   return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
+  // }, []);
 
-  const rowSelectDisabled = useCallback((row) => {
-    // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
-    // console.log("!!selectSampleList : ", selectSampleList);
-    // 수정화면에선 기존에 선택했던 항목에 대해서도 재수정이 될수있기 때문에 disable처리 하지않는다.
-    if (viewType === "update") {
-      if (
-        selectSampleList.find((list) =>
-          Object.keys(list).includes("sampleUkeyList"),
-        )
-      ) {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkeyList.includes(row.sampleUkey),
-          )
-        )
-          return false;
-      } else {
-        if (
-          selectSampleList.find((list) =>
-            list.sampleUkey.includes(row.sampleUkey),
-          )
-        )
-          return false;
-      }
-      if (row.isAnlsItst === "Y") {
-        // console.log("!!row data : ", row);
-        // row에 isAnlsItst 값이 Y면 true
-        return true;
-      }
-    } else {
-      if (row.isAnlsItst === "Y") {
-        // console.log("!!row data : ", row);
-        // row에 isAnlsItst 값이 Y면 true
-        return true;
-      }
-    }
-  }, []);
+  const rowSelectCritera = useCallback(
+    (row) => {
+      const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+      return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
+    },
+    [productValue],
+  );
+
+  const rowSelectDisabled = useCallback(
+    (row) => {
+      const isSelectedInView = (list) =>
+        viewType === "update" &&
+        (list.sampleUkeyList?.includes(row.sampleUkey) ||
+          list.sampleUkey?.includes(row.sampleUkey));
+
+      if (selectSampleList.some(isSelectedInView)) return false;
+
+      return row.isAnlsItst === "Y";
+    },
+    [viewType, selectSampleList],
+  );
+
+  // const rowSelectDisabled = useCallback((row) => {
+  //   // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)
+  //   // console.log("!!selectSampleList : ", selectSampleList);
+  //   // 수정화면에선 기존에 선택했던 항목에 대해서도 재수정이 될수있기 때문에 disable처리 하지않는다.
+  //   if (viewType === "update") {
+  //     if (
+  //       selectSampleList.find((list) =>
+  //         Object.keys(list).includes("sampleUkeyList"),
+  //       )
+  //     ) {
+  //       if (
+  //         selectSampleList.find((list) =>
+  //           list.sampleUkeyList.includes(row.sampleUkey),
+  //         )
+  //       )
+  //         return false;
+  //     } else {
+  //       if (
+  //         selectSampleList.find((list) =>
+  //           list.sampleUkey.includes(row.sampleUkey),
+  //         )
+  //       )
+  //         return false;
+  //     }
+  //     if (row.isAnlsItst === "Y") {
+  //       // console.log("!!row data : ", row);
+  //       // row에 isAnlsItst 값이 Y면 true
+  //       return true;
+  //     }
+  //   } else {
+  //     if (row.isAnlsItst === "Y") {
+  //       // console.log("!!row data : ", row);
+  //       // row에 isAnlsItst 값이 Y면 true
+  //       return true;
+  //     }
+  //   }
+  // }, []);
 
   const callStndPrice = async (index, sampleSize, srvcTypeMc) => {
     const reqBody = [
@@ -417,95 +459,170 @@ const AnalysisListDataTable = (props: {
         anlsTypeMc: getValues("anlsTypeMc"),
         depthMc: "BS_0100010001",
         pltfMc: getValues("pltfMc"),
-        sampleSize: sampleSize,
+        sampleSize,
         srvcCtgrMc: getValues("srvcCtgrMc"),
-        srvcTypeMc: srvcTypeMc,
+        srvcTypeMc,
       },
     ];
 
-    console.log("StndPrice BodyData ==>>", reqBody);
-
     try {
       const res = await POST(`/anls/itst/stnd/price`, reqBody);
-      const resData = res.data;
+      const resData = res.data[0] || {};
 
-      console.log("기준가 조회 ==>", resData);
-
-      const stndPriceResult = {
-        ...resData[0],
+      return {
+        ...resData,
         addType: "modal",
         isExc: "N",
         dscntRasnCc: "",
       };
-
-      console.log("result ^&&^ ==>", stndPriceResult);
-
-      return stndPriceResult;
     } catch (error) {
-      console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
-    } finally {
+      toast(error.message);
+      throw error;
     }
   };
 
-  const handleSelectedRowChange = useCallback(
-    async ({ selectedRows }: any) => {
-      console.log("선택된 분석내역 row ==>>", selectedRows);
+  // const callStndPrice = async (index, sampleSize, srvcTypeMc) => {
+  //   const reqBody = [
+  //     {
+  //       anlsTypeMc: getValues("anlsTypeMc"),
+  //       depthMc: "BS_0100010001",
+  //       pltfMc: getValues("pltfMc"),
+  //       sampleSize: sampleSize,
+  //       srvcCtgrMc: getValues("srvcCtgrMc"),
+  //       srvcTypeMc: srvcTypeMc,
+  //     },
+  //   ];
+  //
+  //   console.log("StndPrice BodyData ==>>", reqBody);
+  //
+  //   try {
+  //     const res = await POST(`/anls/itst/stnd/price`, reqBody);
+  //     const resData = res.data;
+  //
+  //     console.log("기준가 조회 ==>", resData);
+  //
+  //     const stndPriceResult = {
+  //       ...resData[0],
+  //       addType: "modal",
+  //       isExc: "N",
+  //       dscntRasnCc: "",
+  //     };
+  //
+  //     console.log("result ^&&^ ==>", stndPriceResult);
+  //
+  //     return stndPriceResult;
+  //   } catch (error) {
+  //     console.error("request failed:", error);
+  //     toast("문제가 발생했습니다. 02");
+  //   } finally {
+  //   }
+  // };
 
+  // const handleSelectedRowChange = useCallback(
+  //   async ({ selectedRows }: any) => {
+  //     console.log("선택된 분석내역 row ==>>", selectedRows);
+  //
+  //     const groupedByServiceType = selectedRows.reduce((acc, sample) => {
+  //       const { srvcTypeMc } = sample;
+  //       if (!acc[srvcTypeMc]) {
+  //         acc[srvcTypeMc] = [];
+  //       }
+  //       acc[srvcTypeMc].push(sample);
+  //       return acc;
+  //     }, {});
+  //
+  //     console.log("groupedByServiceType", groupedByServiceType);
+  //
+  //     const results = await Promise.all(
+  //       Object.keys(groupedByServiceType).map(async (srvcTypeMc, index) => {
+  //         const samples = groupedByServiceType[srvcTypeMc];
+  //         const sampleUkeys = samples.map((sample) => sample.sampleUkey);
+  //         const sampleSize = samples.length;
+  //
+  //         let stndPriceResult = {};
+  //         try {
+  //           stndPriceResult = await callStndPrice(
+  //             index,
+  //             sampleSize,
+  //             srvcTypeMc,
+  //           );
+  //           console.log("CALL STND PRICE RETURN ==>>", stndPriceResult);
+  //         } catch (error) {
+  //           console.error("Failed to fetch standard price:", error);
+  //         }
+  //
+  //         return {
+  //           sampleUkey: sampleUkeys,
+  //           srvcTypeMc: srvcTypeMc,
+  //           sampleSize: sampleSize,
+  //           addType: "modal",
+  //           unitPrice: 0,
+  //           supplyPrice: 0,
+  //           vat: 0,
+  //           stndPrice: stndPriceResult.stndPrice
+  //             ? stndPriceResult.stndPrice
+  //                 .toString()
+  //                 .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  //             : "0",
+  //           stndCode: stndPriceResult.stndCode || "",
+  //           isExc: "N",
+  //           dscntRasnCc: "",
+  //           stndDscntPctg: stndPriceResult.stndDscntPctg || "",
+  //         };
+  //       }),
+  //     );
+  //
+  //     console.log("@@@@results", results);
+  //     setSelectSampleIdArray(results);
+  //   },
+  //   [productValue, callStndPrice],
+  // );
+
+  const handleSelectedRowChange = useCallback(
+    async ({ selectedRows }) => {
       const groupedByServiceType = selectedRows.reduce((acc, sample) => {
         const { srvcTypeMc } = sample;
-        if (!acc[srvcTypeMc]) {
-          acc[srvcTypeMc] = [];
-        }
+        acc[srvcTypeMc] = acc[srvcTypeMc] || [];
         acc[srvcTypeMc].push(sample);
         return acc;
       }, {});
 
-      console.log("groupedByServiceType", groupedByServiceType);
-
       const results = await Promise.all(
-        Object.keys(groupedByServiceType).map(async (srvcTypeMc, index) => {
-          const samples = groupedByServiceType[srvcTypeMc];
-          const sampleUkeys = samples.map((sample) => sample.sampleUkey);
-          const sampleSize = samples.length;
-
-          let stndPriceResult = {};
-          try {
-            stndPriceResult = await callStndPrice(
+        Object.entries(groupedByServiceType).map(
+          async ([srvcTypeMc, samples], index) => {
+            const sampleUkeys = samples.map((sample) => sample.sampleUkey);
+            const sampleSize = samples.length;
+            const stndPriceResult = await callStndPrice(
               index,
               sampleSize,
               srvcTypeMc,
             );
-            console.log("CALL STND PRICE RETURN ==>>", stndPriceResult);
-          } catch (error) {
-            console.error("Failed to fetch standard price:", error);
-          }
 
-          return {
-            sampleUkey: sampleUkeys,
-            srvcTypeMc: srvcTypeMc,
-            sampleSize: sampleSize,
-            addType: "modal",
-            unitPrice: 0,
-            supplyPrice: 0,
-            vat: 0,
-            stndPrice: stndPriceResult.stndPrice
-              ? stndPriceResult.stndPrice
-                  .toString()
-                  .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-              : "0",
-            stndCode: stndPriceResult.stndCode || "",
-            isExc: "N",
-            dscntRasnCc: "",
-            stndDscntPctg: stndPriceResult.stndDscntPctg || "",
-          };
-        }),
+            return {
+              sampleUkey: sampleUkeys,
+              srvcTypeMc,
+              sampleSize,
+              addType: "modal",
+              unitPrice: 0,
+              supplyPrice: 0,
+              vat: 0,
+              stndPrice: stndPriceResult.stndPrice
+                ? stndPriceResult.stndPrice
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                : "0",
+              stndCode: stndPriceResult.stndCode || "",
+              isExc: "N",
+              dscntRasnCc: "",
+              stndDscntPctg: stndPriceResult.stndDscntPctg || "",
+            };
+          },
+        ),
       );
 
-      console.log("@@@@results", results);
       setSelectSampleIdArray(results);
     },
-    [productValue, setSelectSampleIdArray, callStndPrice],
+    [productValue, callStndPrice],
   );
 
   const setSampleData = () => {
@@ -520,10 +637,10 @@ const AnalysisListDataTable = (props: {
     // append(selectSampleIdArray);
   };
 
-  const subHeaderComponentMemo = React.useMemo(() => {
+  const subHeaderComponentMemo = useMemo(() => {
     const handleClear = () => {
       if (filterText) {
-        setResetPaginationToggle(!resetPaginationToggle);
+        setResetPaginationToggle((prev) => !prev);
         setFilterText("");
       }
     };
@@ -532,7 +649,7 @@ const AnalysisListDataTable = (props: {
       <Grid container>
         <Grid item xs={5} sx={{ pt: 0 }}>
           <Stack direction="row" spacing={2} alignItems="center">
-            <DataCountResultInfo totalCount={totCnt} />
+            <DataCountResultInfo totalCount={data.length} />
           </Stack>
         </Grid>
         <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -543,9 +660,7 @@ const AnalysisListDataTable = (props: {
             alignItems="center"
           >
             <DataTableFilter
-              onFilter={(e: {
-                target: { value: React.SetStateAction<string> };
-              }) => setFilterText(e.target.value)}
+              onFilter={(e) => setFilterText(e.target.value)}
               onClear={handleClear}
               filterText={filterText}
             />
@@ -553,12 +668,12 @@ const AnalysisListDataTable = (props: {
         </Grid>
       </Grid>
     );
-    // }, [filterText, resetPaginationToggle, data.pageInfo.totalElements]);
-  }, [filterText, resetPaginationToggle]);
+  }, [filterText, resetPaginationToggle, data.length]);
 
   return (
     <>
       <DataTableBase
+        title={<Typography variant="title3">분석내역</Typography>}
         data={data}
         columns={columns}
         pointerOnHover
@@ -573,14 +688,12 @@ const AnalysisListDataTable = (props: {
         selectableRowDisabled={rowSelectDisabled}
         onSelectedRowsChange={handleSelectedRowChange}
         selectableRowsComponent={Checkbox}
-        pagination={false}
+        pagination
       />
       <Stack direction="row" spacing={0.5} justifyContent="center" mt={5}>
         <OutlinedButton size="small" buttonName="닫기" onClick={onClose} />
-
         <ContainedButton
           size="small"
-          // type="submit"
           buttonName="등록"
           onClick={setSampleData}
         />
@@ -591,8 +704,8 @@ const AnalysisListDataTable = (props: {
 
 export default AnalysisListDataTable;
 
-const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
-  lineHeight: 1,
-  fontSize: 12,
-  textAlign: "center",
-}));
+// const Caption = styled(Typography)<TypographyProps>(({ className, theme }) => ({
+//   lineHeight: 1,
+//   fontSize: 12,
+//   textAlign: "center",
+// }));

@@ -4,6 +4,7 @@ import {
   ErrorContainer,
   Fallback,
   ModalContainer,
+  ModalNoneTextTitle,
   ModalTitle,
   SkeletonTableModalLoading,
 } from "cjbsDSTM";
@@ -50,7 +51,8 @@ const NewAnalysisListModal = ({
 }: ModalContainerProps) => {
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>분석내역</ModalTitle>
+      {/*<ModalTitle onClose={onClose}>분석내역</ModalTitle>*/}
+      <ModalNoneTextTitle onClose={onClose} />
       <DialogContent>
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAnalysisListDataTable
