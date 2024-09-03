@@ -26,14 +26,21 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
     productValue[index].stndPrice !== "N/A"
       ? Number(productValue[index].stndPrice.replaceAll(",", ""))
       : "N/A";
-  // console.log("stndPrice ==>>", stndPrice);
+
+  console.log("stndPrice ==>>", stndPrice);
   // console.log("기준$$$$가!!@!@!@!", stndPrice - unitPrice);
   const stndDscntPctg = productValue[index].stndDscntPctg;
 
+  // const dscntPctg =
+  //   stndPrice !== "N/A"
+  //     ? Math.round(((stndPrice - unitPrice) / stndPrice) * 100)
+  //     : "N/A";
+
   const dscntPctg =
-    stndPrice !== "N/A"
+    stndPrice !== "N/A" && stndPrice !== 0
       ? Math.round(((stndPrice - unitPrice) / stndPrice) * 100)
       : "N/A";
+
   // console.log("사용할인율####", dscntPctg);
   const isExc = dscntPctg > stndDscntPctg ? "Y" : "N";
   const watchIsExc = productValue[index].isExc;
@@ -42,6 +49,9 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
 
   useEffect(() => {
     setValue(`costList[${index}].stndDscntPctg`, stndDscntPctg);
+    // if (typeof dscntPctg === "number") {
+    //   setValue(`costList[${index}].dscntPctg`, dscntPctg);
+    // }
     setValue(`costList[${index}].dscntPctg`, dscntPctg);
     setValue(`costList[${index}].isExc`, isExc);
   }, [

@@ -7,6 +7,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import {
   Box,
   Chip,
+  Checkbox,
   Grid,
   Stack,
   styled,
@@ -437,7 +438,7 @@ const AnalysisListDataTable = (props: {
         dscntRasnCc: "",
       };
 
-      // console.log("result ^&&^ ==>", stndPriceEesult);
+      console.log("result ^&&^ ==>", stndPriceResult);
 
       return stndPriceResult;
     } catch (error) {
@@ -571,6 +572,7 @@ const AnalysisListDataTable = (props: {
         selectableRowSelected={rowSelectCritera}
         selectableRowDisabled={rowSelectDisabled}
         onSelectedRowsChange={handleSelectedRowChange}
+        selectableRowsComponent={Checkbox}
         pagination={false}
       />
       <Stack direction="row" spacing={0.5} justifyContent="center" mt={5}>

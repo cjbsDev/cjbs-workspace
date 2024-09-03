@@ -94,7 +94,7 @@ const DynamicTableAnalysis = ({}) => {
     formState: { errors },
   } = useFormContext();
   const getOrderUkey = getValues("orderUkey");
-  console.log("getOrderUkey", getOrderUkey);
+  // console.log("getOrderUkey", getOrderUkey);
   const fieldArrayName = "costList";
 
   const { fields, append, update, replace, remove } = useFieldArray({
@@ -103,7 +103,7 @@ const DynamicTableAnalysis = ({}) => {
   });
   // const paymentInfoValue = watch("pymtInfoCc");
 
-  console.log("FIELDS ==>>", fields);
+  // console.log("FIELDS ==>>", fields);
 
   const watchFieldArray = watch("costList");
   const controlledFields = fields.map((field, index) => {
@@ -113,7 +113,7 @@ const DynamicTableAnalysis = ({}) => {
     };
   });
 
-  console.log("controlledFields", controlledFields);
+  // console.log("controlledFields", controlledFields);
 
   // useEffect(() => {
   //   console.log("Hmmmmmm!", controlledFields);
