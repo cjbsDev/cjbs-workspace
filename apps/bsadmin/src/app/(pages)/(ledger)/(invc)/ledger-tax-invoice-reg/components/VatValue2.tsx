@@ -44,7 +44,9 @@ const VatValue2 = () => {
       <Controller
         name="vat2"
         control={control}
-        rules={{ required: "입금액을 입력하세요." }}
+        rules={{
+          required: true,
+        }}
         render={({ field: { onChange, value }, fieldState: { error } }) => (
           <NumericFormat
             defaultValue={0}
@@ -57,6 +59,7 @@ const VatValue2 = () => {
           />
         )}
       />
+      {errors.vat2 && <p>This is required.</p>}
     </>
   );
 };

@@ -54,6 +54,8 @@ const LegView = () => {
       }
     : null;
 
+  console.log("defaultValues ==>>", defaultValues);
+
   const onSubmit = async (formData: any) => {
     setIsLoading(true);
     console.log("SubmitData ==>>", formData);
@@ -146,8 +148,6 @@ const LegView = () => {
       setIsLoading(false);
     }
   };
-
-  console.log("^&^&^&^&^&^&^&^&", defaultValues);
 
   return (
     <Form

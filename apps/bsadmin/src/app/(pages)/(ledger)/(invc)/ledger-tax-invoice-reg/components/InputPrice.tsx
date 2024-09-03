@@ -19,7 +19,7 @@ const InputPrice = ({ inputName, unit = "EA" }: InputPriceProps) => {
     <Controller
       name={inputName}
       control={control}
-      rules={{ required: "수량을 입력하세요." }}
+      rules={{ required: "필수값 입니다." }}
       render={({ field: { onChange, value }, fieldState: { error } }) => (
         <NumericFormat
           disabled={getPymtInfoCc === "BS_1914002"}
