@@ -19,9 +19,11 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
     watch,
     formState: { errors },
   } = useFormContext();
+
   // useEffect(() => {
   //   callStndPrice();
   // }, []);
+
   const getAddType = getValues(`${fieldName}[${index}].addType`);
   // const productValue = useWatch({ name: fieldName, control });
   const callStndPrice = async () => {
@@ -36,7 +38,7 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
       },
     ];
 
-    console.log("StndPrice BodyData ==>>", bodyData);
+    // console.log("StndPrice BodyData ==>>", bodyData);
 
     try {
       const response = await POST(`/anls/itst/stnd/price`, bodyData);
@@ -66,11 +68,11 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
       } else if (response.code == "STND_PRICE_NOT_EXIST") {
         toast(response.message);
       } else {
-        toast("문제가 발생했습니다. 01");
+        toast(response.message);
       }
     } catch (error) {
       console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
+      toast(error.message);
     } finally {
     }
   };
@@ -122,7 +124,7 @@ const SampleSize = ({ fieldName, index }: SampleSizeProps) => {
             onValueChange={(values) => {
               onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
             }}
-            onBlur={callStndPrice}
+            onBlur={() => callStndPrice()}
             customInput={InputEAType}
           />
         )}

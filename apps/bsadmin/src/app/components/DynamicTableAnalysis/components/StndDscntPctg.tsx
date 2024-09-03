@@ -17,16 +17,16 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
     formState: { errors },
   } = useFormContext();
   const productValue = useWatch({ name: fieldName, control });
-  console.log("##########", productValue);
+  // console.log("##########", productValue);
 
   const sampleSize = productValue[index].sampleSize;
   const unitPrice = productValue[index].unitPrice;
-  console.log("unitPrice ==>>", unitPrice);
+  // console.log("unitPrice ==>>", unitPrice);
   const stndPrice =
     productValue[index].stndPrice !== "N/A"
       ? Number(productValue[index].stndPrice.replaceAll(",", ""))
       : "N/A";
-  console.log("stndPrice ==>>", stndPrice);
+  // console.log("stndPrice ==>>", stndPrice);
   // console.log("기준$$$$가!!@!@!@!", stndPrice - unitPrice);
   const stndDscntPctg = productValue[index].stndDscntPctg;
 
@@ -34,7 +34,7 @@ const StndDscntPctg = ({ fieldName, index }: StndDscntPctgProps) => {
     stndPrice !== "N/A"
       ? Math.round(((stndPrice - unitPrice) / stndPrice) * 100)
       : "N/A";
-  console.log("사용할인율####", dscntPctg);
+  // console.log("사용할인율####", dscntPctg);
   const isExc = dscntPctg > stndDscntPctg ? "Y" : "N";
   const watchIsExc = productValue[index].isExc;
 

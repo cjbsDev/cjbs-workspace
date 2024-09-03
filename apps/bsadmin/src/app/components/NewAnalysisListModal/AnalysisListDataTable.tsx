@@ -51,7 +51,7 @@ const AnalysisListDataTable = (props: {
   } = props;
 
   const selectSampleList = useRecoilValue(analysisAtom);
-  console.log("selectSampleList ==>>", selectSampleList);
+  // console.log("selectSampleList ==>>", selectSampleList);
 
   const { getValues, setValue, control } = useFormContext();
   const orderUkey = getValues("orderUkey");
@@ -62,7 +62,7 @@ const AnalysisListDataTable = (props: {
   const setSelectedSampleList = useSetRecoilState(analysisAtom);
 
   const productValue = useWatch({ name: "costList", control });
-  console.log("current productValue ==>>", productValue);
+  // console.log("current productValue ==>>", productValue);
 
   const { data } = useSWR(APIPATH, fetcher, {
     suspense: true,
@@ -366,14 +366,11 @@ const AnalysisListDataTable = (props: {
     [],
   );
 
-  const rowSelectCritera = useCallback(
-    (row) => {
-      const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
-      console.log("sampleUkeys ==>>", sampleUkeys);
-      return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
-    },
-    [productValue],
-  );
+  const rowSelectCritera = useCallback((row) => {
+    const sampleUkeys = productValue?.flatMap((item) => item.sampleUkey);
+    console.log("sampleUkeys ==>>", sampleUkeys);
+    return Array.isArray(sampleUkeys) && sampleUkeys.includes(row.sampleUkey);
+  }, []);
 
   const rowSelectDisabled = useCallback((row) => {
     // console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%123123123123", row.isAnlsItst)

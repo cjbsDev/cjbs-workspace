@@ -50,7 +50,7 @@ const NewAnalysisListModal = ({
 }: ModalContainerProps) => {
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
-      <ModalTitle onClose={onClose}>NEW분석내역</ModalTitle>
+      <ModalTitle onClose={onClose}>분석내역</ModalTitle>
       <DialogContent>
         <ErrorContainer FallbackComponent={Fallback}>
           <LazyAnalysisListDataTable

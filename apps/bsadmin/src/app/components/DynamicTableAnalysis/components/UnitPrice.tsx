@@ -43,7 +43,8 @@ const UnitPrice = ({ fieldArrayName, index }) => {
             onValueChange={(values) => {
               onChange(values.floatValue); // 또는 `values.value`를 사용하여 문자열로 처리
             }}
-            onBlur={params.slug !== undefined ? handleOnBlurSupplyPrice : null}
+            // onBlur={params.slug !== undefined ? handleOnBlurSupplyPrice : null}
+            onBlur={() => handleOnBlurSupplyPrice()}
             customInput={InputPriceType}
           />
         )}
