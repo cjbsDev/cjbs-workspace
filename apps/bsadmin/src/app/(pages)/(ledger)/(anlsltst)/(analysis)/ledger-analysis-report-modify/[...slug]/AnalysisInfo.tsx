@@ -56,6 +56,14 @@ const LazyAnalysisListModal = dynamic(
   },
 );
 
+const LazySalesManagerSelectbox = dynamic(
+  () => import("../../../../../../components/SalesManagerSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
 const AnalysisInfo = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -498,15 +506,18 @@ const AnalysisInfo = () => {
                 <TableRow>
                   <TH sx={{ width: "15%" }}>영업 담당자</TH>
                   <TD sx={{ width: "35%" }}>
-                    <InputValidation
-                      inputName="bsnsMngrVal"
-                      required={true}
-                      errorMessage="아이디(이메일) 입력해 주세요."
-                      sx={{ width: "100%" }}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
+                    <ErrorContainer FallbackComponent={Fallback}>
+                      <LazySalesManagerSelectbox />
+                    </ErrorContainer>
+                    {/*<InputValidation*/}
+                    {/*  inputName="bsnsMngrVal"*/}
+                    {/*  required={true}*/}
+                    {/*  errorMessage="아이디(이메일) 입력해 주세요."*/}
+                    {/*  sx={{ width: "100%" }}*/}
+                    {/*  InputProps={{*/}
+                    {/*    readOnly: true,*/}
+                    {/*  }}*/}
+                    {/*/>*/}
                   </TD>
                   <TH sx={{ width: "15%" }}>선결제 금액</TH>
                   <TD sx={{ width: "35%" }}>
