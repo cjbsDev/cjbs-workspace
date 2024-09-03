@@ -466,7 +466,7 @@ const SampleDataTable = (props) => {
         // selectableRowsVisibleOnly={true}
         pagination
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[20, 50, 100]}
+        paginationRowsPerPageOptions={[100, 200, 300, 400]}
       />
     </Box>
   );
