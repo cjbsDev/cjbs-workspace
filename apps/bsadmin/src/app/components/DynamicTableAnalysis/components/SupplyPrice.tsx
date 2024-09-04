@@ -23,7 +23,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
   const [count, setCount] = useState<number>(0);
 
   const params = useParams<{ tag: string; item: string }>();
-  console.log("RRRRRRRRR", params.slug);
+  // console.log("RRRRRRRRR", params.slug);
   const {
     control,
     setValue,
@@ -32,7 +32,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
     formState: { errors },
   } = useFormContext();
   const productValue = useWatch({ name: fieldName, control });
-  console.log("ProductValue {}{} ==>>", productValue);
+  // console.log("ProductValue {}{} ==>>", productValue);
   const sampleSize =
     productValue[index]?.sampleSize === undefined
       ? 0
@@ -42,7 +42,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
       ? 0
       : productValue[index]?.unitPrice;
 
-  console.log("UNIT PRICE ==>>", unitPrice);
+  // console.log("UNIT PRICE ==>>", unitPrice);
 
   // const anlsItstUkey = getValues("anlsItstUkey");
 
@@ -51,7 +51,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
   // const getAddType = getValues(`${fieldName}[${index}].addType`);
 
   const getAddType = productValue[index].addType;
-  console.log("getAddType ==>>", getAddType);
+  // console.log("getAddType ==>>", getAddType);
 
   const getSupplyPrice =
     productValue[index].supplyPrice === undefined
@@ -60,29 +60,27 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
 
   const minus = sampleSize * unitPrice - getSupplyPrice;
 
-  console.log("MINUS ==>>", minus);
+  // console.log("MINUS ==>>", minus);
 
-  const watchSupplyPrice = sampleSize * unitPrice;
+  // const watchSupplyPrice = sampleSize * unitPrice;
 
-  // const supplyPrice = sampleSize * unitPrice - watchSupplyPrice;
-
-  useEffect(() => {
-    console.log("공급가액 Render~~!!");
-
-    if (params.slug !== undefined) {
-      setValue(inputName, getSupplyPrice);
-    } else {
-      if (unitPrice > 0 && sampleSize > 0) {
-        setValue(inputName, watchSupplyPrice);
-      }
-      if (unitPrice === 0 && sampleSize > 0) {
-        setValue(inputName, 0);
-      }
-      if (unitPrice > 0 && sampleSize === 0) {
-        setValue(inputName, 0);
-      }
-    }
-  }, [sampleSize, unitPrice, minus, getSupplyPrice, setValue]);
+  // useEffect(() => {
+  //   console.log("공급가액 Render~~!!");
+  //
+  //   if (params.slug !== undefined) {
+  //     setValue(inputName, getSupplyPrice);
+  //   } else {
+  //     if (unitPrice > 0 && sampleSize > 0) {
+  //       setValue(inputName, watchSupplyPrice);
+  //     }
+  //     if (unitPrice === 0 && sampleSize > 0) {
+  //       setValue(inputName, 0);
+  //     }
+  //     if (unitPrice > 0 && sampleSize === 0) {
+  //       setValue(inputName, 0);
+  //     }
+  //   }
+  // }, [sampleSize, unitPrice, minus, getSupplyPrice, setValue]);
 
   const incrementSupplyPrice = useCallback(() => {
     const currentValue = getValues(inputName);
@@ -99,29 +97,6 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
   return (
     <>
       <Stack direction="row" spacing={1} justifyContent="flex-end">
-        {/*<InputValidation*/}
-        {/*  inputName={`${fieldName}[${index}].supplyPrice`}*/}
-        {/*  disabled={true}*/}
-        {/*  sx={{*/}
-        {/*    ".MuiOutlinedInput-input": {*/}
-        {/*      textAlign: "end",*/}
-        {/*    },*/}
-        {/*    "&.MuiTextField-root": {*/}
-        {/*      backgroundColor: "#F1F3F5",*/}
-        {/*    },*/}
-        {/*  }}*/}
-        {/*  InputProps={{*/}
-        {/*    readOnly: true,*/}
-        {/*    endAdornment: (*/}
-        {/*      <InputAdornment position="end">*/}
-        {/*        <Typography variant="body2" sx={{ color: "black" }}>*/}
-        {/*          원*/}
-        {/*        </Typography>*/}
-        {/*      </InputAdornment>*/}
-        {/*    ),*/}
-        {/*  }}*/}
-        {/*/>*/}
-
         <Stack direction="row" spacing={0.5} justifyContent="flex-end">
           <Typography variant="body2">
             {formatNumberWithCommas(getSupplyPrice)}

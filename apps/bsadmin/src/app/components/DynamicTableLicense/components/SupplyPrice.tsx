@@ -134,6 +134,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
 
         <Stack direction="row">
           <IconButton
+            color="primary"
             onClick={incrementSupplyPrice}
             size="small"
             disabled={watchSupplyPrice === 0 || count === 10}
@@ -141,6 +142,7 @@ const SupplyPrice = ({ fieldName, index, inputName }: SupplyPriceProps) => {
             <MyIcon icon="plus" size={18} />
           </IconButton>
           <IconButton
+            color="primary"
             onClick={decrementSupplyPrice}
             size="small"
             disabled={watchSupplyPrice === 0 || count === -10}

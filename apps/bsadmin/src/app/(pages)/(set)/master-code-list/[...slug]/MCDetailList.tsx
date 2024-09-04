@@ -34,15 +34,16 @@ import { useParams } from "next/navigation";
 
 const LazyDataTable = dynamic(() => import("./MCDetailDataTable"), {
   ssr: false,
+  loading: () => <SkeletonLoading height={400} />,
 });
 
-const LazyMCCodeModifyModal = dynamic(() => import("./MCItemAddModifyModal"), {
-  ssr: false,
-});
-
-interface MCDetailListProps {
-  slug: string;
-}
+// const LazyMCCodeModifyModal = dynamic(() => import("./MCItemAddModifyModal"), {
+//   ssr: false,
+// });
+//
+// interface MCDetailListProps {
+//   slug: string;
+// }
 
 interface DataItem {
   detailUniqueCode: string;
@@ -59,21 +60,21 @@ const MCDetailList = () => {
   const [mcCodeModifyModal, setMcCodeModifyModal] = useState<boolean>(false);
   const [selectItem, setSelectItem] = useState<DataItem>();
 
-  const { data: msCodeDetailTempData } = useSWR(
-    `/mngr/masterCode/detail/${slug}`,
-    fetcher,
-    {
-      suspense: true,
-    },
-  );
+  // const { data: msCodeDetailTempData } = useSWR(
+  //   `/mngr/masterCode/detail/${slug}`,
+  //   fetcher,
+  //   {
+  //     suspense: true,
+  //   },
+  // );
 
-  const msCodeDetail = msCodeDetailTempData?.masterCodeDetailList || [];
+  // const msCodeDetail = msCodeDetailTempData?.masterCodeDetailList || [];
+  //
+  // console.log("hhhhh", msCodeDetailTempData);
 
-  console.log("hhhhh", msCodeDetailTempData);
-
-  const renderList = () => {
-    mutate(`/mngr/masterCode/detail/${slug}`);
-  };
+  // const renderList = () => {
+  //   mutate(`/mngr/masterCode/detail/${slug}`);
+  // };
 
   // [ 코드 추가 ] 모달 오픈
   // const handleAddRow = () => {
@@ -119,52 +120,6 @@ const MCDetailList = () => {
       {/*    />*/}
       {/*  </Grid>*/}
       {/*</Grid>*/}
-
-      {/*<TableContainer component={Box} sx={{ mb: 5 }}>*/}
-      {/*  <Table>*/}
-      {/*    <TableHead>*/}
-      {/*      <TableRow>*/}
-      {/*        <TH sx={{ width: "5%" }}></TH>*/}
-      {/*        <TH sx={{ width: "15" }}>상세코드 ID</TH>*/}
-      {/*        <TH sx={{ width: "22.5%" }}>상세코드명(국문)</TH>*/}
-      {/*        <TH sx={{ width: "22.5%" }}>상세코드명(영문)</TH>*/}
-      {/*        <TH sx={{ width: "10%" }}>주문서 노출</TH>*/}
-      {/*        <TH sx={{ width: "10%" }}>사용여부</TH>*/}
-      {/*        <TH sx={{ width: "10%" }}>수정</TH>*/}
-      {/*      </TableRow>*/}
-      {/*    </TableHead>*/}
-
-      {/*    <TableBody>*/}
-      {/*      {msCodeDetail.length === 0 ? (*/}
-      {/*        <TableRow>*/}
-      {/*          <TD colSpan={7}>*/}
-      {/*            <Box sx={{ textAlign: "center" }}>*/}
-      {/*              등록된 코드가 없습니다.*/}
-      {/*            </Box>*/}
-      {/*          </TD>*/}
-      {/*        </TableRow>*/}
-      {/*      ) : (*/}
-      {/*        msCodeDetail.map((dataItem: DataItem, index: number) => (*/}
-      {/*          <TableRow key={dataItem.detailUniqueCode}>*/}
-      {/*            <TD>{index + 1}</TD>*/}
-      {/*            <TD>{dataItem.douzoneCode}</TD>*/}
-      {/*            <TD>{dataItem.codeNm}</TD>*/}
-      {/*            <TD>{dataItem.codeValue}</TD>*/}
-      {/*            <TD>{dataItem.isExpsOrsh}</TD>*/}
-      {/*            <TD>{dataItem.isRls}</TD>*/}
-      {/*            <TD>*/}
-      {/*              <OutlinedButton*/}
-      {/*                buttonName="수정"*/}
-      {/*                size="small"*/}
-      {/*                onClick={() => mcItemModifyModalOpen(dataItem)}*/}
-      {/*              />*/}
-      {/*            </TD>*/}
-      {/*          </TableRow>*/}
-      {/*        ))*/}
-      {/*      )}*/}
-      {/*    </TableBody>*/}
-      {/*  </Table>*/}
-      {/*</TableContainer>*/}
 
       <ErrorContainer FallbackComponent={Fallback}>
         <LazyDataTable />

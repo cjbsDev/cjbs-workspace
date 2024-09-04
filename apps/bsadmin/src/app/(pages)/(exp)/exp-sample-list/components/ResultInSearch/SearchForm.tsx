@@ -82,7 +82,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   // };
 
   if (resultObject.dateTypeCc !== undefined) {
-    console.log("<MMMMMMMMMMMMM", resultObject);
+    // console.log("<MMMMMMMMMMMMM", resultObject);
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
     // console.log("@@@@@@@@@", typeof endDttm);
@@ -119,7 +119,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     // 날짜
     if (
       data.dateTypeCc === "" &&
-      (data.startDttm != null || data.endDttm != null)
+      (data.startDttm !== null || data.endDttm !== null)
     ) {
       console.log("날짜 타입을 선택해 주세요");
       toast("날짜 타입을 선택해 주세요");
@@ -163,7 +163,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     }
 
     // startDttm
-    if (filteredObject.startDttm == undefined) {
+    if (filteredObject.startDttm === undefined) {
       delete filteredObject.startDttm;
     } else {
       filteredObject.startDttm = dayjs(filteredObject.startDttm).format(
@@ -172,7 +172,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
     }
 
     // endDttm
-    if (filteredObject.endDttm == undefined) {
+    if (filteredObject.endDttm === undefined) {
       delete filteredObject.endDttm;
     } else {
       filteredObject.endDttm = dayjs(filteredObject.endDttm).format(

@@ -31,7 +31,7 @@ import {
 import * as React from "react";
 import { useState } from "react";
 import { useRouter } from "next-nprogress-bar";
-import PlatformSelectbox from "./PlatformSelectbox";
+// import PlatformSelectbox from "./PlatformSelectbox";
 import SampleTotal from "../components/SampleTotal";
 import SixteenCheck from "./SixteenCheck";
 import {

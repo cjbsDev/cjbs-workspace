@@ -52,6 +52,7 @@ export default function MasterCodePage() {
       <Stack direction="row" spacing={0.5} justifyContent="center">
         <OutlinedButton
           buttonName="목록"
+          size="small"
           onClick={() => router.push("/master-code-list")}
         />
       </Stack>

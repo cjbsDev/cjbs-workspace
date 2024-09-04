@@ -80,7 +80,7 @@ export default function InstModifyPage() {
     suspense: true,
   });
 
-  console.log("OOOOOOOOOOOO", data);
+  console.log("기관 수정 초기 Data ==>>", data);
 
   const defaultValues = {
     ...data,
@@ -135,7 +135,7 @@ export default function InstModifyPage() {
       }
     } catch (error) {
       console.error("request failed:", error);
-      toast("문제가 발생했습니다. 02");
+      toast(error?.message);
     }
   };
 

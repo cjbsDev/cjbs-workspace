@@ -1,15 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack, Grid } from "@mui/material";
-import { ContainedButton, DataCountResultInfo } from "cjbsDSTM";
-// import KeywordSearch from "../../../components/KeywordSearch";
+import {
+  ContainedButton,
+  DataCountResultInfo,
+  DataTableFilter,
+} from "cjbsDSTM";
 import { SubHeaderProps } from "../../../../types/subHeader-props";
 import MyIcon from "icon/MyIcon";
+import { useRecoilState } from "recoil";
+import { filterTextAtom } from "./atom";
 
 interface ExtendSubHeaderProps extends SubHeaderProps {
   handleAddRow: () => void;
 }
 
 const SubHeader = ({ totalElements, handleAddRow }: ExtendSubHeaderProps) => {
+  // const [filterText, setFilterText] = useState("");
+  const [filterText, setFilterText] = useRecoilState(filterTextAtom);
+  const handleClear = () => {
+    if (filterText) {
+      setFilterText("");
+    }
+  };
+
   return (
     <Grid container>
       <Grid item xs={6} sx={{ pt: 0 }}>
@@ -25,6 +38,14 @@ const SubHeader = ({ totalElements, handleAddRow }: ExtendSubHeaderProps) => {
             size="small"
             startIcon={<MyIcon icon="plus" size={16} />}
             onClick={handleAddRow}
+          />
+
+          <DataTableFilter
+            onFilter={(e: {
+              target: { value: React.SetStateAction<string> };
+            }) => setFilterText(e.target.value)}
+            onClear={handleClear}
+            filterText={filterText}
           />
         </Stack>
       </Grid>

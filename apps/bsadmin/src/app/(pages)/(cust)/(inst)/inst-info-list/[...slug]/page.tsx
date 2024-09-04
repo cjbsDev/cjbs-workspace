@@ -83,7 +83,7 @@ export default function InstPage({ params }: CustViewProps) {
               <TH sx={{ width: "15%" }}>위치</TH>
 
               <TD sx={{ width: "35%" }} colSpan={2}>
-                {instDetail.region1Val ?? "-"}
+                {instDetail.lctnTypeVal ?? "-"}
               </TD>
               <TH sx={{ width: "15%" }}>기관명</TH>
               <TD sx={{ width: "35%" }} colSpan={2}>
@@ -153,17 +153,22 @@ export default function InstPage({ params }: CustViewProps) {
         <LazyListInst instUkey={slug} />
       </ErrorContainer>
       <Stack direction="row" spacing={0.5} justifyContent="center">
-        <OutlinedButton
-          buttonName="목록"
-          onClick={() => router.push("/inst-info-list")}
-        />
+        <Link href="/inst-info-list">
+          <OutlinedButton buttonName="목록" size="small" />
+        </Link>
+        {/*<OutlinedButton*/}
+        {/*  buttonName="목록"*/}
+        {/*  onClick={() => router.push("/inst-info-list")}*/}
+        {/*  size="small"*/}
+        {/*/>*/}
+
         <Link
           href={{
-            pathname: "/inst-info-modify",
+            pathname: "/inst-info-add",
             query: { instUkey: instDetail.instUkey },
           }}
         >
-          <ContainedButton buttonName="수정" />
+          <ContainedButton buttonName="수정" size="small" />
         </Link>
       </Stack>
     </Container>

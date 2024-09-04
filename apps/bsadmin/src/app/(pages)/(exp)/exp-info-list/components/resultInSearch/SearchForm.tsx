@@ -12,6 +12,7 @@ import {
 import {
   Box,
   BoxProps,
+  Grid,
   Stack,
   styled,
   Typography,
@@ -24,18 +25,10 @@ import dayjs from "dayjs";
 import { dateSampleTypeCcData } from "../../../../../data/inputDataLists";
 import { toast } from "react-toastify";
 import ResetBtn from "./resetBtn";
-
-// const LazyOrderTypeChck = dynamic(() => import("./OrderTypeChck"), {
-//   ssr: false,
-// });
-
-// const LazyDateTypeSelctbox = dynamic(
-//   () => import("../../../../components/DateTypeSelectbox"),
-//   {
-//     ssr: false,
-//     loading: () => <Typography variant="body2">Loading...</Typography>,
-//   },
-// );
+const LazyAnlsTypeSelctbox = dynamic(() => import("./AnlsTypeSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 const LazyStatusTypeSelctbox = dynamic(
   () => import("../../../../../components/StatusTypeSelectbox"),
@@ -44,6 +37,29 @@ const LazyStatusTypeSelctbox = dynamic(
     loading: () => <Typography variant="body2">Loading...</Typography>,
   },
 );
+
+const LazyServiceTypeSelctbox = dynamic(
+  () => import("./ServiceTypeSelectbox"),
+  {
+    ssr: false,
+    loading: () => <Typography variant="body2">Loading...</Typography>,
+  },
+);
+
+const LazyTaxonTypeSelctbox = dynamic(() => import("./TaxonTypeSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
+
+const LazySeqKitSelectbox = dynamic(() => import("./SeqKitSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
+
+const LazySeqMachineSelectbox = dynamic(() => import("./SeqMachineSelectbox"), {
+  ssr: false,
+  loading: () => <Typography variant="body2">Loading...</Typography>,
+});
 
 interface SearchFormProps {
   onClose: () => void;
@@ -77,7 +93,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   }
 
   if (resultObject.dateTypeCc !== undefined) {
-    console.log("<MMMMMMMMMMMMM", resultObject);
+    // console.log("<MMMMMMMMMMMMM", resultObject);
     // 변환할 날짜 문자열 가져오기
     const { startDttm, endDttm } = resultObject;
     // console.log("@@@@@@@@@", typeof endDttm);
@@ -110,7 +126,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
   // console.log("NewkeywordQueryString", newkeywordQueryString);
 
   const onSubmit = async (data: any) => {
-    console.log("결과내 검색 Data ==>>", data);
+    // console.log("결과내 검색 Data ==>>", data);
     let result;
 
     // 날짜
@@ -203,7 +219,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
 
   return (
     <Form onSubmit={onSubmit} defaultValues={defaultValues}>
-      <Box sx={{ width: 539, p: 3.5, pb: 1 }}>
+      <Box sx={{ width: 570, p: 3.5, pb: 1 }}>
         <Section>
           <SectionLabel variant="subtitle2">날짜</SectionLabel>
 
@@ -222,20 +238,205 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
         </Section>
 
         <Section>
-          <SectionLabel variant="subtitle2">진행사항</SectionLabel>
-          <ErrorContainer FallbackComponent={Fallback}>
-            <LazyStatusTypeSelctbox />
-          </ErrorContainer>
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Order</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <InputValidation
+                inputName="orderId"
+                fullWidth
+                pattern={/^[0-9]+$/}
+                patternErrMsg="숫자만 입력해주세요."
+              />
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Run No</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <InputValidation
+                inputName="runId"
+                fullWidth
+                pattern={/^[0-9]+$/}
+                patternErrMsg="숫자만 입력해주세요."
+              />
+            </Grid>
+          </Grid>
         </Section>
 
         <Section>
-          <SectionLabel variant="subtitle2">오더번호</SectionLabel>
-          <InputValidation inputName="orderId" />
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">샘플번호</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <InputValidation
+                inputName="sampleId"
+                fullWidth
+                pattern={/^[0-9]+$/}
+                patternErrMsg="숫자만 입력해주세요."
+              />
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">상태</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyStatusTypeSelctbox />
+              </ErrorContainer>
+            </Grid>
+          </Grid>
         </Section>
 
         <Section>
-          <SectionLabel variant="subtitle2">키워드</SectionLabel>
-          <InputValidation inputName="keyword" />
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Type</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyServiceTypeSelctbox />
+              </ErrorContainer>
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">분석타입</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyAnlsTypeSelctbox />
+              </ErrorContainer>
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">거래처(PI)</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <InputValidation inputName="agncNm" />
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">샘플명</Typography>
+            </Grid>
+            <Grid item xs={4}>
+              <InputValidation inputName="sampleNm" />
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Taxon</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazyTaxonTypeSelctbox />
+              </ErrorContainer>
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Source</Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <InputValidation inputName="source" />
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <SectionLabel variant="subtitle2">담당자</SectionLabel>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <Grid
+              item
+              xs={1}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              // justifyContent="flex-end"
+            >
+              <Typography variant="body2">Prep</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <InputValidation inputName="prepExpMngrVal" fullWidth />
+            </Grid>
+            <Grid
+              item
+              xs={1}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              // justifyContent="flex-end"
+            >
+              <Typography variant="body2">Lib</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <InputValidation inputName="libExpMngrVal" fullWidth />
+            </Grid>
+            <Grid
+              item
+              xs={1}
+              sx={{ display: "flex" }}
+              alignItems="center"
+              // justifyContent="flex-end"
+            >
+              <Typography variant="body2">Seq</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <InputValidation inputName="seqExpMngrVal" fullWidth />
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={1} sx={{ mb: 2 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">QC 사용 kit</Typography>
+            </Grid>
+            <Grid item xs={3}>
+              <InputValidation inputName="seqExpMngrVal" fullWidth />
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">PCR type</Typography>
+            </Grid>
+            <Grid item xs={5}>
+              <InputValidation inputName="libPcrType" />
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Seq kit 정보</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySeqKitSelectbox />
+              </ErrorContainer>
+            </Grid>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">Seq 장비</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <ErrorContainer FallbackComponent={Fallback}>
+                <LazySeqMachineSelectbox />
+              </ErrorContainer>
+            </Grid>
+          </Grid>
+        </Section>
+
+        <Section>
+          {/*<SectionLabel variant="subtitle2">키워드</SectionLabel>*/}
+          {/*<InputValidation inputName="keyword" />*/}
+
+          <Grid container spacing={2} sx={{ mb: 1 }}>
+            <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
+              <Typography variant="body2">키워드</Typography>
+            </Grid>
+            <Grid item xs={10}>
+              <InputValidation inputName="keyword" />
+            </Grid>
+          </Grid>
         </Section>
       </Box>
       <Box

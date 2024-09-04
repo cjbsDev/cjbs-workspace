@@ -1,6 +1,9 @@
 import React from "react";
 import {
+  Box,
+  BoxProps,
   Stack,
+  styled,
   Table,
   TableBody,
   TableContainer,
@@ -33,7 +36,9 @@ const PblshrInst = () => {
         <Table>
           <TableBody>
             <TableRow>
-              <TH sx={{ width: "15%" }}>기관명(상호)</TH>
+              <TH sx={{ width: "15%" }}>
+                기관명(상호)<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "85%" }} colSpan={3}>
                 <Stack direction="row" spacing={0.2} alignItems="center">
                   <InputValidation
@@ -60,17 +65,23 @@ const PblshrInst = () => {
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>대표자명</TH>
+              <TH sx={{ width: "15%" }}>
+                대표자명<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "35%" }}>
                 <RepresentName />
               </TD>
-              <TH sx={{ width: "15%" }}>사업자등록번호</TH>
+              <TH sx={{ width: "15%" }}>
+                사업자등록번호<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "35%" }} align="right">
                 <BusinessRegNo />
               </TD>
             </TableRow>
             <TableRow>
-              <TH sx={{ width: "15%" }}>결제담당자</TH>
+              <TH sx={{ width: "15%" }}>
+                결제담당자<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "35%" }}>
                 <InputValidation
                   inputName="pymtMngrNm"
@@ -78,7 +89,9 @@ const PblshrInst = () => {
                   // errorMessage="결제담당자를 입력해 주세요"
                 />
               </TD>
-              <TH sx={{ width: "15%" }}>이메일</TH>
+              <TH sx={{ width: "15%" }}>
+                이메일<NotRequired>[선택]</NotRequired>
+              </TH>
               <TD sx={{ width: "35%" }}>
                 <InputValidation
                   inputName="rcvEmail"
@@ -98,3 +111,9 @@ const PblshrInst = () => {
 };
 
 export default PblshrInst;
+
+const NotRequired = styled(Box)<BoxProps>(({ theme }) => ({
+  color: "#666666",
+  display: "inline-block",
+  marginLeft: 5,
+}));
