@@ -395,6 +395,12 @@ export const Columns = () => [
       row.seqOutputValidReads === null ? "-" : row.seqOutputValidReads,
   },
   {
+    name: "기준 생산량",
+    width: "100px",
+    center: true,
+    selector: (row) => row.seqDepthVal ?? "-",
+  },
+  {
     name: "재런 여부",
     width: "120px",
     center: true,

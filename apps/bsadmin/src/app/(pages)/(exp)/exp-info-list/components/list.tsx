@@ -41,7 +41,7 @@ const List = () => {
     // suspense: true,
     keepPreviousData: true,
   });
-  // console.log("EXPT INFO LIST DATA", data?.exptInfoList);
+  console.log("EXPT INFO LIST DATA", data?.exptInfoList);
 
   // useEffect(() => {
   //   console.log("RRRRRRRRRRRR");
