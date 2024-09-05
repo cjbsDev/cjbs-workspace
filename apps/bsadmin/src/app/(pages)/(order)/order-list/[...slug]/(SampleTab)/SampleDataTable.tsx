@@ -33,7 +33,7 @@ const SampleDataTable = (props) => {
   });
   const sampleList = Array.from(data);
 
-  // console.log(sampleList);
+  console.log(data);
 
   const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
@@ -141,44 +141,44 @@ const SampleDataTable = (props) => {
       },
       {
         name: "RUN",
-        width: "250px",
+        minWidth: "250px",
         // maxWidth: "200px",
         // minWidth: "300px",
         sortable: false,
         center: true,
         // allowOverflow: true,
         // glow: 10,
-        // wrap: true,
+        wrap: true,
         selector: (row) =>
           row.runList.length === 0 ? "-" : row.runList.join(", "),
-        cell: (row) => {
-          return (
-            <>
-              <Ellipsis text={row.runList.join(", ")} line={1} />
-              {/*<Tooltip*/}
-              {/*  title={row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
-              {/*  arrow*/}
-              {/*  slotProps={{*/}
-              {/*    popper: {*/}
-              {/*      modifiers: [*/}
-              {/*        {*/}
-              {/*          name: "offset",*/}
-              {/*          options: {*/}
-              {/*            offset: [0, -10],*/}
-              {/*          },*/}
-              {/*        },*/}
-              {/*      ],*/}
-              {/*    },*/}
-              {/*  }}*/}
-              {/*  sx={{ width: "100%" }}*/}
-              {/*>*/}
-              {/*  <Typography variant="body2">*/}
-              {/*    {row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
-              {/*  </Typography>*/}
-              {/*</Tooltip>*/}
-            </>
-          );
-        },
+        // cell: (row) => {
+        //   return (
+        //     <>
+        //       <Ellipsis text={row.runList.join(", ")} line={1} />
+        //       {/*<Tooltip*/}
+        //       {/*  title={row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
+        //       {/*  arrow*/}
+        //       {/*  slotProps={{*/}
+        //       {/*    popper: {*/}
+        //       {/*      modifiers: [*/}
+        //       {/*        {*/}
+        //       {/*          name: "offset",*/}
+        //       {/*          options: {*/}
+        //       {/*            offset: [0, -10],*/}
+        //       {/*          },*/}
+        //       {/*        },*/}
+        //       {/*      ],*/}
+        //       {/*    },*/}
+        //       {/*  }}*/}
+        //       {/*  sx={{ width: "100%" }}*/}
+        //       {/*>*/}
+        //       {/*  <Typography variant="body2">*/}
+        //       {/*    {row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
+        //       {/*  </Typography>*/}
+        //       {/*</Tooltip>*/}
+        //     </>
+        //   );
+        // },
       },
       {
         name: "접수",
@@ -438,6 +438,20 @@ const SampleDataTable = (props) => {
         sortable: false,
         center: true,
         selector: (row) => (row.isAnlsItst === "Y" ? "생성" : "-"),
+      },
+      {
+        name: "검증",
+        // width: "100px",
+        sortable: false,
+        center: true,
+        selector: (row) => row.isVrfc ?? "-",
+      },
+      {
+        name: "메모",
+        width: "150px",
+        sortable: false,
+        center: true,
+        selector: (row) => row.memo ?? "-",
       },
     ],
     [],
