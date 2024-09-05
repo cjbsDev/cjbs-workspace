@@ -114,6 +114,8 @@ export const Columns = () => [
   {
     name: "분석타입",
     center: true,
+    minWidth: "150px",
+    wrap: true,
     selector: (row) => formatValue(row.anlsTypeVal),
   },
   {

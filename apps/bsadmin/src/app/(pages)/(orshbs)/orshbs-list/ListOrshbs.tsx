@@ -148,7 +148,19 @@ export default function ListOrshbs() {
         width: "90px",
         center: true,
       },
-
+      {
+        name: "과제명",
+        selector: (row: { prjtCodeNm: string }) => row.prjtCodeNm ?? "-",
+        minWidth: "300px",
+        wrap: true,
+      },
+      {
+        name: "신청인",
+        selector: (row: { ordrAplcNm: string }) => row.ordrAplcNm ?? "-",
+        minWidth: "120px",
+        wrap: true,
+        center: true,
+      },
       {
         name: "거래처(기관)",
         cell: (row: { agncNm: string; instNm: string }) => (
