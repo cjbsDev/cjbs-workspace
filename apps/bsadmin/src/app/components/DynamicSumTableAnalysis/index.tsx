@@ -148,7 +148,7 @@ const Index = () => {
               <SingleDatePicker
                 inputName="anlsDttm"
                 required={true}
-                includeDateIntervals={standDate()}
+                // includeDateIntervals={standDate()}
               />
             </TD>
             <TH sx={{ width: "15%" }}>총 수량</TH>
