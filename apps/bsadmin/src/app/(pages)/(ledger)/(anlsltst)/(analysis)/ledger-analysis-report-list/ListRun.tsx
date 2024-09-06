@@ -121,6 +121,20 @@ const ListRun = () => {
             alignItems="center"
             sx={{ width: "100%" }}
           >
+            <Typography variant="body2">오더번호</Typography>
+          </Stack>
+        ),
+        center: true,
+        // sortable: true,
+        selector: (row) => row.orderId,
+      },
+      {
+        name: (
+          <Stack
+            justifyContent="center"
+            alignItems="center"
+            sx={{ width: "100%" }}
+          >
             <Typography variant="body2">거래처(PI)</Typography>
           </Stack>
         ),

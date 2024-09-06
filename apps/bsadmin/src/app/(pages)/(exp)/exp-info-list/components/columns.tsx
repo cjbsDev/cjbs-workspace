@@ -114,6 +114,8 @@ export const Columns = () => [
   {
     name: "분석타입",
     center: true,
+    minWidth: "150px",
+    wrap: true,
     selector: (row) => formatValue(row.anlsTypeVal),
   },
   {
@@ -393,6 +395,12 @@ export const Columns = () => [
     center: true,
     selector: (row) =>
       row.seqOutputValidReads === null ? "-" : row.seqOutputValidReads,
+  },
+  {
+    name: "기준 생산량",
+    width: "100px",
+    center: true,
+    selector: (row) => row.seqDepthVal ?? "-",
   },
   {
     name: "재런 여부",

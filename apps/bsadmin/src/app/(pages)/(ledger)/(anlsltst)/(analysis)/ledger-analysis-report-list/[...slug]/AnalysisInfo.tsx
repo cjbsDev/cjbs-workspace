@@ -843,13 +843,18 @@ const AnalysisInfo = () => {
                 <Link href="/ledger-analysis-report-list">
                   <OutlinedButton size="small" buttonName="목록" />
                 </Link>
-                {isEdit === "Y" && (
-                  <ContainedButton
-                    size="small"
-                    buttonName="수정" // 수정 가능 페이지로 이동
-                    onClick={goModifyPage}
-                  />
-                )}
+                <ContainedButton
+                  size="small"
+                  buttonName="수정" // 수정 가능 페이지로 이동
+                  onClick={goModifyPage}
+                />
+                {/*{isEdit === "Y" && (*/}
+                {/*  <ContainedButton*/}
+                {/*    size="small"*/}
+                {/*    buttonName="수정"*/}
+                {/*    onClick={goModifyPage}*/}
+                {/*  />*/}
+                {/*)}*/}
               </Stack>
             </Box>
           </>
