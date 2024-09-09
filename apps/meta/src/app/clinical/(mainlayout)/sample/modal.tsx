@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ModalAction,
   ModalContainer,
@@ -7,6 +7,7 @@ import {
 import { ErrorContainer, Fallback } from '@components/molecules/ErrorBoundary';
 import { ContainedButton, OutlinedButton } from '@components/atoms/Buttons';
 import {
+  Backdrop,
   CircularProgress,
   DialogContent,
   Table,
@@ -20,6 +21,7 @@ import useSWRMutation from 'swr/mutation';
 import { Search } from '../../types';
 import { fetcherPost } from 'api';
 import ExcelDownloadButton from '@components/molecules/ExcelDownloadButton';
+import { FileDownloadBtn } from '@components/molecules/FileDownloadBtn';
 
 async function getSampleList(url: string, { arg }: { arg: Search }) {
   return await fetcherPost([url, arg]);
@@ -30,6 +32,7 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
     '/sample/profiles',
     getSampleList,
   );
+  const [isDsb, setIsDsb] = useState(false);
 
   useEffect(() => {
     trigger(search);
@@ -66,21 +69,17 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.data.groups.map((item) => {
+                {data.data.groups.map((item, index) => {
                   return (
-                    <TableRow>
+                    <TableRow key={index.toString()}>
                       <TableCell align="center">{item.group}</TableCell>
                       <TableCell align="center">{item.count}</TableCell>
                       <TableCell align="center">
-                        {/*<OutlinedButton*/}
-                        {/*  buttonName="Download Dataset"*/}
-                        {/*  size="small"*/}
-                        {/*/>*/}
-                        <ExcelDownloadButton
+                        <FileDownloadBtn
                           buttonName="Dataset"
-                          data={item.profiles}
-                          downloadUrl="/sample/metadata/download"
-                          size="small"
+                          exportUrl={`/sample/metadata/download?ukey=${item.ukey}`}
+                          iconName="xls3"
+                          onClose={onClose}
                         />
                       </TableCell>
                     </TableRow>
