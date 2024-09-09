@@ -21,13 +21,25 @@ import {
   selectedFilterState,
 } from 'src/recoil/SearchState';
 import { POST } from 'api';
-import { DataTableBase, DataTableFilter, DataTableMetaFilter } from 'cjbsDSTM';
+import {
+  DataTableBase,
+  DataTableFilter,
+  DataTableMetaFilter,
+  OutlinedButton,
+  ModalAction,
+  ModalContainer,
+  ModalTitle,
+  UnStyledButton,
+} from 'cjbsDSTM';
+
 import SelectedFilterChip from 'src/component/molecules/chip/SelectedFilterChip';
 import { useDebounce } from 'src/util/event';
 import { PAGE_SIZE, TABLE_HEIGHT } from 'src/const/common';
 import ExcelDownloadButton from 'cjbsDSTM/molecules/ExcelDownloadButton';
 import { dataTableEzcxCustomStyles } from '@components/organisms/DataTable/style/dataTableEzcxCustomStyle';
 import NoDataView from '../../../../component/molecules/NoDataView';
+import Modal from './modal';
+import ForExMxSVG from '../../../../component/ForExMxSVG';
 interface SubjectTableType {
   postData: Search;
   data: SampleData[];
@@ -201,6 +213,11 @@ const HeaderComponent = ({
 }) => {
   const [filterText, setFilterText] = useState('');
   const setResultKeyword = useSetRecoilState(subjectSearchInputState);
+  const [isModal, setIsModal] = useState<boolean>(false);
+
+  const handleModalClose = () => {
+    setIsModal(false);
+  };
 
   const clearFilterText = () => {
     setFilterText('');
@@ -238,25 +255,42 @@ const HeaderComponent = ({
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12} mb={'10px'}>
-        <SelectedFilterChip />
+    <>
+      <Grid container>
+        <Grid item xs={12} mb={'10px'}>
+          <SelectedFilterChip />
+        </Grid>
+        <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
+            <UnStyledButton
+              buttonName="For Ez-Mx"
+              size="small"
+              onClick={() => setIsModal(true)}
+              startIcon={<ForExMxSVG />}
+              color="secondary"
+            />
+            <ExcelDownloadButton
+              data={search}
+              downloadUrl="/sample/list/download"
+              size="small"
+            />
+            <DataTableMetaFilter
+              onFilter={onChangeFilterText}
+              onClear={clearFilterText}
+              filterText={filterText}
+            />
+          </Stack>
+        </Grid>
       </Grid>
-      <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-        <Stack direction="row" spacing={1} sx={{ mb: 1.5 }}>
-          <ExcelDownloadButton
-            data={search}
-            downloadUrl="/sample/list/download"
-            size="small"
-          />
-          <DataTableMetaFilter
-            onFilter={onChangeFilterText}
-            onClear={clearFilterText}
-            filterText={filterText}
-          />
-        </Stack>
-      </Grid>
-    </Grid>
+      {isModal && (
+        <Modal
+          open={isModal}
+          modalWidth={500}
+          onClose={handleModalClose}
+          search={search}
+        />
+      )}
+    </>
   );
 };
 
