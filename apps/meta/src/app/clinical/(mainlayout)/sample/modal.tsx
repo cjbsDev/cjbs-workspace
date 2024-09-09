@@ -79,6 +79,7 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
                           buttonName="Dataset"
                           exportUrl={`/sample/metadata/download?ukey=${item.ukey}`}
                           iconName="xls3"
+                          index={index}
                           onClose={onClose}
                         />
                       </TableCell>
