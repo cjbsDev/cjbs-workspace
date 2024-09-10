@@ -1,12 +1,10 @@
+import axios from "axios";
 import FileSaver from "file-saver";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { GET_BLOB } from "api";
 import { toast } from "react-toastify";
 
-export const useFileDownload = (
-  exportUrl: string,
-  keyword: string | undefined,
-) => {
+export const useFileDownload = (exportUrl: string, keyword: string | undefined) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [fileName, setFileName] = useState<string>("");
   const saverFile = async () => {
@@ -22,7 +20,7 @@ export const useFileDownload = (
         const resFileName = decodeURI(
           disposition
             .match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/)[1]
-            .replace(/['"]/g, ""),
+            .replace(/['"]/g, "")
         );
 
         setFileName(resFileName);

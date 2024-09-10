@@ -5,9 +5,8 @@ import {
   ModalTitle,
 } from '@components/molecules/CModal';
 import { ErrorContainer, Fallback } from '@components/molecules/ErrorBoundary';
-import { ContainedButton, OutlinedButton } from '@components/atoms/Buttons';
+import { OutlinedButton } from '@components/atoms/Buttons';
 import {
-  Backdrop,
   CircularProgress,
   DialogContent,
   Table,
@@ -20,8 +19,7 @@ import {
 import useSWRMutation from 'swr/mutation';
 import { Search } from '../../types';
 import { fetcherPost } from 'api';
-import ExcelDownloadButton from '@components/molecules/ExcelDownloadButton';
-import { FileDownloadBtn } from '@components/molecules/FileDownloadBtn';
+import { FileDownload2Btn } from '@components/molecules/FileDownload2Btn';
 
 async function getSampleList(url: string, { arg }: { arg: Search }) {
   return await fetcherPost([url, arg]);
@@ -32,13 +30,11 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
     '/sample/profiles',
     getSampleList,
   );
-  const [isDsb, setIsDsb] = useState(false);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   useEffect(() => {
     trigger(search);
   }, []);
-
-  console.log('Profiles Data ==>>', data);
 
   if (data === undefined) {
     return (
@@ -75,12 +71,14 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
                       <TableCell align="center">{item.group}</TableCell>
                       <TableCell align="center">{item.count}</TableCell>
                       <TableCell align="center">
-                        <FileDownloadBtn
+                        <FileDownload2Btn
                           buttonName="Dataset"
                           exportUrl={`/sample/metadata/download?ukey=${item.ukey}`}
                           iconName="xls3"
                           index={index}
                           onClose={onClose}
+                          activeIndex={activeIndex}
+                          setActiveIndex={setActiveIndex}
                         />
                       </TableCell>
                     </TableRow>
@@ -89,7 +87,6 @@ const Modal = ({ onClose, open, modalWidth, search }) => {
               </TableBody>
             </Table>
           </TableContainer>
-          {/*{JSON.stringify(data.data.groups)}*/}
         </ErrorContainer>
       </DialogContent>
       <ModalAction>

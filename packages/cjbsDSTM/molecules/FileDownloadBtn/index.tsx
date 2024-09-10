@@ -11,36 +11,22 @@ interface FileDownloadBtnProps {
   iconName?: string;
   buttonName?: string;
   onClose?: () => void;
-  index?: number;
 }
 
 export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
-  const {
-    buttonName = "Excel",
-    exportUrl,
-    keyword,
-    iconName,
-    onClose,
-    index,
-  } = props;
+  const { buttonName = "Excel", exportUrl, keyword, iconName, onClose } = props;
   const { isLoading, fileName, saverFile } = useFileDownload(
     exportUrl,
     keyword,
   );
 
-  const [isDis, setIsDis] = useState(false);
-
-  const handleSaveFile = useCallback(async () => {
-    // console.log("INDEX ==>>", !!index);
+  const handleSaveFile = useCallback(() => {
     if (exportUrl !== "") {
-      await saverFile();
-      if (onClose) {
-        onClose();
-      }
+      saverFile();
     } else {
       toast("준비 중입니다.");
     }
-  }, []);
+  }, [exportUrl, saverFile]);
 
   return (
     <>
@@ -57,7 +43,6 @@ export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
           )
         }
         onClick={handleSaveFile}
-        // disabled={!!index}
         disabled={isLoading}
       />
     </>
