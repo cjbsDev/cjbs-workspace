@@ -1,6 +1,7 @@
 import Providers from 'client-provider';
 import './globals.css';
 import JeJuProvider from './jejuProvider';
+import RecoilRootProvider from './recoilRootProvider';
 export default function RootLayout({
   children,
 }: {
@@ -13,7 +14,9 @@ export default function RootLayout({
       <head />
       <body>
         <JeJuProvider>
-          <Providers>{children}</Providers>
+          <RecoilRootProvider>
+            <Providers>{children}</Providers>
+          </RecoilRootProvider>
         </JeJuProvider>
       </body>
     </html>

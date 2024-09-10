@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import MyIcon from "icon/MyIcon";
 import { OutlinedButton } from "../../atoms/Buttons";
 import { CircularProgress } from "@mui/material";
@@ -10,22 +10,23 @@ interface FileDownloadBtnProps {
   keyword?: string | undefined;
   iconName?: string;
   buttonName?: string;
+  onClose?: () => void;
 }
 
 export const FileDownloadBtn = (props: FileDownloadBtnProps) => {
-  const { buttonName = "Excel", exportUrl, keyword, iconName } = props;
+  const { buttonName = "Excel", exportUrl, keyword, iconName, onClose } = props;
   const { isLoading, fileName, saverFile } = useFileDownload(
     exportUrl,
     keyword,
   );
 
-  const handleSaveFile = () => {
+  const handleSaveFile = useCallback(() => {
     if (exportUrl !== "") {
       saverFile();
     } else {
       toast("준비 중입니다.");
     }
-  };
+  }, [exportUrl, saverFile]);
 
   return (
     <>
