@@ -53,6 +53,18 @@ const TrackingProgress = (props) => {
           <Box>
             <Grid container gap={1}>
               <Grid item>
+                <Typography variant="body2">진행 상황</Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="subtitle2">
+                  {orderStatusVal ?? "-"}
+                </Typography>
+              </Grid>
+            </Grid>
+          </Box>
+          <Box>
+            <Grid container gap={1}>
+              <Grid item>
                 <Typography variant="body2">분석 종류</Typography>
               </Grid>
               <Grid item>
