@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import Ellipsis from "../../../../../components/Ellipsis";
 import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
+import NoDataView from "../../../../../components/NoDataView";
 
 const SampleDataTable = (props) => {
   const {
@@ -47,6 +48,8 @@ const SampleDataTable = (props) => {
       (item.sampleId && filterPattern.test(item.sampleId)) ||
       (item.sampleNm &&
         filterPattern.test(item.sampleNm.toLowerCase().normalize("NFC"))) ||
+      (item.altrNm &&
+        filterPattern.test(item.altrNm.toLowerCase().normalize("NFC"))) ||
       (item.sampleTypeVal &&
         filterPattern.test(
           item.sampleTypeVal.toLowerCase().normalize("NFC"),
@@ -150,35 +153,7 @@ const SampleDataTable = (props) => {
         // glow: 10,
         wrap: true,
         selector: (row) =>
-          row.runList.length === 0 ? "-" : row.runList.join(", "),
-        // cell: (row) => {
-        //   return (
-        //     <>
-        //       <Ellipsis text={row.runList.join(", ")} line={1} />
-        //       {/*<Tooltip*/}
-        //       {/*  title={row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
-        //       {/*  arrow*/}
-        //       {/*  slotProps={{*/}
-        //       {/*    popper: {*/}
-        //       {/*      modifiers: [*/}
-        //       {/*        {*/}
-        //       {/*          name: "offset",*/}
-        //       {/*          options: {*/}
-        //       {/*            offset: [0, -10],*/}
-        //       {/*          },*/}
-        //       {/*        },*/}
-        //       {/*      ],*/}
-        //       {/*    },*/}
-        //       {/*  }}*/}
-        //       {/*  sx={{ width: "100%" }}*/}
-        //       {/*>*/}
-        //       {/*  <Typography variant="body2">*/}
-        //       {/*    {row.runList.length === 0 ? "-" : row.runList.join(", ")}*/}
-        //       {/*  </Typography>*/}
-        //       {/*</Tooltip>*/}
-        //     </>
-        //   );
-        // },
+          row.runList.length === 0 ? "-" : row.runList.join(),
       },
       {
         name: "접수",
@@ -478,6 +453,7 @@ const SampleDataTable = (props) => {
         onSelectedRowsChange={handleSelectedRowChange}
         clearSelectedRows={isClear}
         // selectableRowsVisibleOnly={true}
+        noDataComponent={<NoDataView />}
         pagination
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}

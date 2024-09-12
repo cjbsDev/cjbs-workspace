@@ -90,7 +90,7 @@ export default function OrderInfo() {
   const [tabValue, setTabValue] = useState(0);
   const [resultObject, result] = useResultObject();
 
-  console.log("^&^&^&^&^&^&^&^&^&", result);
+  // console.log("^&^&^&^&^&^&^&^&^&", result);
 
   // const resultObject = {};
   //
