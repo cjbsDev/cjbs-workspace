@@ -179,6 +179,7 @@ export default function OrdererInfo() {
                     // errorMessage="이름을 입력해 주세요."
                     pattern={/^[0-9,]*$/}
                     patternErrMsg="숫자, ,(콤마)만 입력 가능합니다."
+                    placeholder="숫자만 입력해 주세요."
                     sx={{ width: 306 }}
                     defaultValue={custData.custAgnc.rhpiTel ?? ""}
                   />
