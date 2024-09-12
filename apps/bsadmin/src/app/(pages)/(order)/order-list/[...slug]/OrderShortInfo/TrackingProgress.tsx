@@ -3,43 +3,53 @@ import { Box, Chip, Grid, Stack, Typography } from "@mui/material";
 import { cjbsTheme } from "cjbsDSTM";
 import MyIcon from "icon/MyIcon";
 
-const TrackingProgress = (props) => {
-  const {
-    orderId,
-    isFastTrack,
-    intnExtrClVal,
-    anlsTypeVal,
-    srvcTypeVal,
-    pltfVal,
-    orderStatusVal,
-  } = props;
+const getOrderStatusStyles = (status: string) => {
+  const statusStyles = {
+    진행중: cjbsTheme.palette.primary.light,
+    완료: cjbsTheme.palette.success.light,
+    취소: cjbsTheme.palette.error.light,
+  };
+
+  return {
+    backgroundColor: statusStyles[status] || cjbsTheme.palette.grey["600"],
+    color: "white",
+    padding: "0 12px",
+    borderRadius: 2,
+  };
+};
+
+const InfoRow = ({ label, value }: { label: string; value: string }) => (
+  <Box>
+    <Grid container gap={1}>
+      <Grid item>
+        <Typography variant="body2">{label}</Typography>
+      </Grid>
+      <Grid item>
+        <Typography variant="subtitle2">{value ?? "-"}</Typography>
+      </Grid>
+    </Grid>
+  </Box>
+);
+
+const TrackingProgress = ({
+  orderId,
+  isFastTrack,
+  intnExtrClVal,
+  anlsTypeVal,
+  srvcTypeVal,
+  pltfVal,
+  orderStatusVal,
+}) => {
   return (
     <Box>
       <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-        <Typography
-          variant="h4"
-          sx={{
-            backgroundColor:
-              orderStatusVal === "진행중"
-                ? cjbsTheme.palette.primary.light
-                : orderStatusVal === "완료"
-                  ? cjbsTheme.palette.success.light
-                  : orderStatusVal === "취소"
-                    ? cjbsTheme.palette.error.light
-                    : cjbsTheme.palette.grey["600"],
-            color: "white",
-            pl: "12px",
-            pr: "12px",
-            // pt: "2px",
-            borderRadius: 2,
-          }}
-        >
+        <Typography variant="h4" sx={getOrderStatusStyles(orderStatusVal)}>
           No.{orderId}
         </Typography>
         <Box>
           <Stack>
             {isFastTrack === "Y" && (
-              <Stack direction="row">
+              <Stack direction="row" spacing={0.5}>
                 <MyIcon icon="fast" size={18} />
                 <Typography variant="caption">Fast Track</Typography>
               </Stack>
@@ -50,42 +60,10 @@ const TrackingProgress = (props) => {
       </Stack>
       <Box>
         <Stack spacing={0.5}>
-          <Box>
-            <Grid container gap={1}>
-              <Grid item>
-                <Typography variant="body2">분석 종류</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">
-                  {anlsTypeVal === null ? "-" : anlsTypeVal}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box>
-            <Grid container gap={1}>
-              <Grid item>
-                <Typography variant="body2">서비스 타입</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">
-                  {srvcTypeVal === null ? "-" : srvcTypeVal}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
-          <Box>
-            <Grid container gap={1}>
-              <Grid item>
-                <Typography variant="body2">분석 방법</Typography>
-              </Grid>
-              <Grid item>
-                <Typography variant="subtitle2">
-                  {pltfVal === null ? "-" : pltfVal}
-                </Typography>
-              </Grid>
-            </Grid>
-          </Box>
+          <InfoRow label="진행 상황" value={orderStatusVal} />
+          <InfoRow label="분석 종류" value={anlsTypeVal} />
+          <InfoRow label="서비스 타입" value={srvcTypeVal} />
+          <InfoRow label="분석 방법" value={pltfVal} />
         </Stack>
       </Box>
     </Box>

@@ -97,7 +97,10 @@ const SampleInfoTable1 = ({ sampleInfoData }: any) => {
               <InputValidation inputName="sampleNm" />
             </TD>
             <TH sx={{ width: "15%" }}>대체명</TH>
-            <TD sx={{ width: "35%" }}>{altrNm}</TD>
+            <TD sx={{ width: "35%" }}>
+              <InputValidation inputName="altrNm" />
+              {/*{altrNm}*/}
+            </TD>
           </TableRow>
           <TableRow>
             <TH sx={{ width: "15%" }}>샘플종류</TH>

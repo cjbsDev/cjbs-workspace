@@ -63,23 +63,24 @@ const SampleInfoModal = (props: SampleInfoModalProps) => {
   const onSubmit = async (data: any) => {
     console.log("sampleInfoModify Add", data);
 
-    const bodyData = {
-      depthMc: data.depthMc,
-      isVrfc: data.isVrfc,
-      mcNmCc: data.mcNmCc,
-      memo: data.memo,
-      prgrAgncNmCc: data.prgrAgncNmCc,
-      sampleNm: data.sampleNm,
-      sampleTypeCc: data.sampleTypeCc,
-      source: data.source,
-      taxonCc: data.taxonCc,
+    const reqBody = {
+      ...data,
+      // depthMc: data.depthMc,
+      // isVrfc: data.isVrfc,
+      // mcNmCc: data.mcNmCc,
+      // memo: data.memo,
+      // prgrAgncNmCc: data.prgrAgncNmCc,
+      // sampleNm: data.sampleNm,
+      // sampleTypeCc: data.sampleTypeCc,
+      // source: data.source,
+      // taxonCc: data.taxonCc,
     };
 
-    console.log("BODYDATA ==>", bodyData);
+    console.log("BODYDATA ==>", reqBody);
 
-    await PUT(apiUrl, bodyData)
+    await PUT(apiUrl, reqBody)
       .then((response) => {
-        console.log("POST request successful:", response.success);
+        console.log("PUT successful:", response.success);
         if (response.success) {
           mutate(`/order/${orderUkey}/sample/list`);
           handleClose();

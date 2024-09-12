@@ -35,8 +35,8 @@ const ListOrder = () => {
 
   const { data, isLoading } = useSWR(url, fetcher, { keepPreviousData: true });
 
-  // console.log("ORDER LIST DATA", data);
   const orderListData = data?.orderList;
+  console.log("ORDER LIST DATA", orderListData);
   const totalElements = data?.pageInfo.totalElements;
 
   const columns = useMemo(() => getColumns(hideDirector), [hideDirector]);

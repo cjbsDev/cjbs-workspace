@@ -279,7 +279,7 @@ export const getColumns = (hideDirector: boolean) => [
     sortable: true,
     sortField: "runList",
     selector: (row: { runList: null | string[] }) =>
-      row.runList === null ? "-" : row.runList,
+      row.runList === null ? "-" : row.runList.join(),
   },
   {
     name: "과제명",
