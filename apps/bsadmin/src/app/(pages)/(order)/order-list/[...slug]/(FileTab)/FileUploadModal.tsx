@@ -112,6 +112,7 @@ const FileUploadModal = (props) => {
             buttonName="닫기"
             onClick={handleClose}
             color="secondary"
+            size="small"
           />
           <LoadingButton
             loading={isLoading}
@@ -119,6 +120,7 @@ const FileUploadModal = (props) => {
             type="submit"
             form={formId}
             disabled={isDis}
+            size="small"
           >
             등록
           </LoadingButton>

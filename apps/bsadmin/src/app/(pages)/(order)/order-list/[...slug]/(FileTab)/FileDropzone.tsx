@@ -121,8 +121,30 @@ const FileDropzone = () => {
     noKeyboard: true,
   });
 
-  const handleDelete = (path) => {
-    setFiles(files.filter((file) => file.path !== path));
+  // const handleDelete = (path) => {
+  //   setFiles(files.filter((file) => file.path !== path));
+  // };
+
+  const handleDelete = (name) => {
+    // Filter out the file that matches the name
+    const updatedFiles = files.filter((file) => file.name !== name);
+
+    // Update the state with the new files array
+    setFiles(updatedFiles);
+
+    // Update the form value after deleting a file
+    setValue("uploadFile", updatedFiles);
+
+    // If no files remain, disable any related state or actions
+    if (updatedFiles.length === 0) {
+      setIsDis(true);
+    }
+
+    // Update the state for file size and count
+    setState({
+      totalFileSize: updatedFiles.reduce((acc, file) => acc + file.size, 0),
+      totalFileLen: updatedFiles.length,
+    });
   };
 
   return (
@@ -205,6 +227,8 @@ const FileDropzone = () => {
                       }}
                     >
                       {files.map((item: File) => {
+                        // console.log("ITEM ==>>", item);
+                        // const { path, name, size } = item;
                         return (
                           <ListItem
                             disablePadding
@@ -233,7 +257,7 @@ const FileDropzone = () => {
                                   </Typography>
 
                                   <IconButton
-                                    onClick={() => handleDelete(item.path)}
+                                    onClick={() => handleDelete(item.name)}
                                   >
                                     <MyIcon icon="trash" size={20} />
                                   </IconButton>
