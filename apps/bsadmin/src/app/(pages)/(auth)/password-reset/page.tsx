@@ -23,7 +23,7 @@ export default function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const rawKey = searchParams.get("key");
-  const key = encodeURIComponent(rawKey).replace("%20", "+");
+  const key = encodeURIComponent(rawKey).replace(/%20/g, "+");
 
   const [keyChck, setKeyChck] = useState<boolean>(true);
   const [keyChckMsg, setKeyChckMsg] = useState("Key값을 확인중 입니다.");
