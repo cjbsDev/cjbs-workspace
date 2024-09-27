@@ -86,6 +86,12 @@ const Index = () => {
         toast(response.data.message);
       } else if (response.data.code === "FILE_ENCRYPTED") {
         toast(response.data.message);
+      }  else if (response.data.code === "DUPLICATED_SAMPLE_ID") {
+        toast(response.data.message);
+      }  else if (response.data.code === "SAMPLE_ORDER_NOT_MAPPED") {
+        toast(response.data.message);
+      }  else if (response.data.code === "EXPT_INFO_DATA_EMPTY") {
+        toast(response.data.message);
       } else {
         toast("문제가 발생했습니다.");
       }
