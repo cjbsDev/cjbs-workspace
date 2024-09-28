@@ -760,15 +760,801 @@ export function EzTable<TData, TValue>({
                     "flex-wrap gap-y-1 flex-shrink-0 py-2",
                 )}
             >
+                <div>
+                    {customTopBarWithData
+                    ? customTopBarWithData(editableData)
+                    : customTopBar
+                    ? customTopBar
+                    : undefined
+                    }
+                </div>
 
+                <div className="grow min-w-1"/>
+
+                <EzTableTopBar
+					enableFilter={enableFilter}
+					enableMultiFilter={enableMultiFilter}
+					enableTableOption={enableTableOption}
+					options={options}
+					customFilter={customFilter}
+					columnFilters={filterState ?? columnFilters}
+					setColumnFilters={setFilterState ?? setColumnFilters}
+					globalFilters={globalFilterState ?? globalFilters}
+					setGlobalFilters={setGlobalFilterState ?? setGlobalFilters}
+					columns={columns}
+					table={table}
+					selectedCol={selectedCol}
+					setSelectedCol={setSelectedCol}
+				/>
             </div>
             }
 
             {/* Table Tabs */}
-
+			{enableTabs&&tabsKey&&
+			<Tabs
+				defaultValue={activeTab}
+				value={activeTab}
+				onValueChange={(val)=>setActiveTab(val)}
+				className="pb-2"
+			>
+				<TabsList size="sm" className="p-0">
+				<TabsTrigger size="sm" value="">{`All (${table.getRowModel().rows.length})`}</TabsTrigger>
+				{[...new Set(data.map((v:any)=>v[tabsKey]))].map((v:string)=>(
+				<TabsTrigger key={`tab-${tabsKey}-${v}`} size="sm" value={v}>{`${capitalise(v)} (${table.getRowModel().rows.filter((row)=>{
+					if(!enableTabs||!tabsKey) return true;
+					else {
+						if(v==="") return true;
+						return row.original[tabsKey]===v;
+					}
+				}).length})`}</TabsTrigger>
+				))}
+				</TabsList>
+			</Tabs>
+			}
+			
             {/* Table */}
 
             {/* Table Bottom */}
+			{enableTablePageInfo&&<EzTablePagination
+				table={table}
+				colFilters={filterState ?? columnFilters}
+				globalFilters={globalFilterState ?? globalFilters}
+				paginationState={paginationState ?? pagination}
+				setPaginationState={setPaginationState ?? setPagination}
+				siblingCounts={options.paginationSibling}
+				boundaryCounts={options.paginationBoundary}
+			/>}
         </div>
     )
+}
+
+interface EzTableTopBarProps<TData,TValue> {
+	enableFilter?: boolean;
+	enableMultiFilter?: boolean;
+	enableTableOption?: boolean;
+	options?: {
+		useMultiFilter?: boolean;
+		useColumnVisibility?: boolean;
+		usePinning?: boolean;
+	},
+	customFilter?: {
+		useOriginalFilter: boolean;
+		renderCustomFilter?: (
+			setSelectedCol?: Dispatch<SetStateAction<string>>,
+			setColumnFilterState?: Dispatch<SetStateAction<any>>,
+			setGlobalFilterState?: Dispatch<SetStateAction<any>>,
+			columns?: ColumnDef<TData,TValue>[],
+			table?: TableType<any>,
+		) => ReactElement;
+	};
+	table: TableType<TData>;
+	columns: ColumnDef<TData, TValue>[];
+	selectedCol: string;
+	setSelectedCol: Dispatch<SetStateAction<string>>;
+	columnFilters: ColumnFiltersState;
+	setColumnFilters: Dispatch<SetStateAction<ColumnFiltersState>>;
+	globalFilters: any;
+	setGlobalFilters: Dispatch<SetStateAction<any>>;
+}
+
+function EzTableTopBar<TData,TValue>({
+	enableFilter=true,
+	enableMultiFilter=false,
+	enableTableOption=false,
+	options={
+		useMultiFilter: false,
+		useColumnVisibility: false,
+		usePinning: false,
+	},
+	customFilter={
+		useOriginalFilter: false,
+		renderCustomFilter: undefined,
+	},
+	table,
+	columns,
+	selectedCol,
+	setSelectedCol,
+	columnFilters,
+	setColumnFilters,
+	globalFilters,
+	setGlobalFilters
+}:EzTableTopBarProps<TData,TValue>) {
+	const allCols = table.getAllLeafColumns();
+
+	return(
+		<div className="flex flex-row items-center gap-2 w-auto portrait:mdm:w-full">
+			{/* No Original Filters */}
+			{!enableFilter&&customFilter.renderCustomFilter&&customFilter?.renderCustomFilter(
+				setSelectedCol,
+				setColumnFilters,
+				setGlobalFilters,
+				columns,
+				table
+			)}
+
+			{/* Original + Custom or Just Original */}
+			{(
+				enableFilter ||
+				(!enableFilter&&customFilter.useOriginalFilter)
+			)&&!enableMultiFilter&&
+			<>
+			<Select
+				onValueChange={(val)=>{
+					if(val==="unassigned") setSelectedCol("")
+					else setSelectedCol(val);
+					setColumnFilters([]);
+					setGlobalFilters("");
+				}}
+				value={selectedCol}
+				defaultValue={selectedCol}
+			>
+				<SelectTrigger>
+					<SelectValue placeholder="Column"/>
+				</SelectTrigger>
+				<SelectContent
+					container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
+				>
+					<SelectItem value={"unassigned"} className="italic">
+						None
+					</SelectItem>
+					{columns.filter((v)=>v.enableColumnFilter!==false).filter((v)=>v.meta?.isVisible!==false).map((v)=>(
+					<SelectItem key={v.id} value={v.id as string}>
+						{v.meta?.header ?? v.header as string}
+					</SelectItem>
+					))}
+				</SelectContent>
+			</Select>
+			<EzFilterInputs
+				dataType={selectedCol ? table.getColumn(selectedCol)?.columnDef.meta?.dataType : "string"}
+				column={selectedCol ? table.getColumn(selectedCol) : undefined}
+				initialValue={
+					selectedCol
+					? (
+						table.getColumn(selectedCol)?.columnDef.meta?.dataType==="string" ? "" :
+						table.getColumn(selectedCol)?.columnDef.meta?.dataType==="enum" ? (table.getColumn(selectedCol)?.columnDef.meta?.enumObject?.map((v)=>v.name) ?? table.getColumn(selectedCol)?.columnDef.meta?.enum) :
+						table.getColumn(selectedCol)?.columnDef.meta?.dataType==="number" ? ["",""] :
+						table.getColumn(selectedCol)?.columnDef.meta?.dataType==="date" ? {from: undefined, to: undefined} :
+						table.getColumn(selectedCol)?.columnDef.meta?.dataType==="tag" ? {isAnd: false, value: []} :
+						[]
+					)
+					: ""
+				}
+				onChange={(value)=>{
+					if(selectedCol) {
+						const exist = columnFilters.find((v)=>v.id===selectedCol);
+
+						if(exist) {
+							const idx = columnFilters.indexOf(exist);
+							if(value==="") setColumnFilters([
+								...columnFilters.filter((v,i)=>i!==idx)
+							]);
+							else setColumnFilters([
+								...columnFilters.slice(0,idx),
+								{
+									id: selectedCol,
+									value: value
+								},
+								...columnFilters.slice(idx+1)
+							]) ;
+						}
+						else {
+							setColumnFilters([
+								...columnFilters,
+								{
+									id: selectedCol,
+									value: value
+								}
+							])
+						}
+					}
+					else {
+						setGlobalFilters(value)
+					}
+				}}
+			/>
+			</>
+			}
+
+			{/* Multifilter Enabled */}
+			{(enableFilter||(!enableFilter&&customFilter.useOriginalFilter))&&enableMultiFilter&&
+			<Popover>
+				<PopoverTrigger asChild>
+					<Button
+						variant="outline"
+						size="sm"
+						className="text-theme-text border-theme-text"
+					>
+						Open Filter
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent
+					align="end"
+					className="max-w-[600px] max-h-[600px] min-w-[400px]"
+					container={typeof window !== "undefined" ? document.getElementById("appWrapper") : undefined}
+				>
+					<div className={cn(
+						"w-full h-auto grid grid-cols-4 gap-2"
+					)}>
+						<span className="col-span-full">
+							<EzButton
+								size="sm"
+								variant="ghost"
+								onClick={()=>table.resetColumnFilters()}
+							>
+								Reset
+							</EzButton>
+						</span>
+						{allCols.map((col,i)=>{
+							// console.log(col.getCanFilter())
+						if(col.id==="selectRow"||!col.getCanFilter()) return;
+						const headerName = typeof col.columnDef.header==="string"
+							? col.columnDef.header
+							: col.columnDef.meta?.header
+						;
+						const dataType = col.columnDef.meta?.dataType;
+
+
+
+						return(
+							<Fragment key={col.id}>
+								<span className="col-span-1 flex items-center text-tall">
+									{headerName}
+								</span>
+								<span className="col-span-3 flex items-center">
+									<EzFilterInputs
+										className={cn(
+											dataType==="number"
+											? "!w-auto"
+											: dataType==="date"
+											? "!w-full"
+											: dataType==="tag"
+											? "!min-w-0"
+											: ""
+										)}
+										dataType={dataType}
+										column={table.getColumn(col.id)}
+										initialValue={
+											columnFilters.find((v)=>v.id===col.id)
+											? columnFilters.find((v)=>v.id===col.id)?.value
+											: (
+												dataType==="string"
+												? ""
+												: dataType==="tag"
+												? {isAnd: false, value: []}
+												: dataType==="number"
+												? ["",""]
+												: dataType==="date"
+												? {from:undefined, to:undefined}
+												: dataType==="enum"
+												? table.getColumn(col.id)?.columnDef.meta?.enumObject
+													? table.getColumn(col.id)?.columnDef.meta?.enumObject
+														? table.getColumn(col.id)?.columnDef.meta?.enumObject?.map((v)=>v.value)
+														: table.getColumn(col.id)?.columnDef.meta?.enum
+													: []
+												: ""
+											)
+										}
+										onChange={(value)=>{
+											const exist = columnFilters.find((v)=>v.id===col.id);
+											if(exist) {
+												const idx = columnFilters.indexOf(exist);
+												if(value==="") setColumnFilters([
+													...columnFilters.filter((v,i)=>i!==idx)
+												]);
+												else setColumnFilters([
+													...columnFilters.slice(0,idx),
+													{
+														id: col.id,
+														value: value
+													},
+													...columnFilters.slice(idx+1)
+												]);
+											}
+											else {
+												setColumnFilters([
+													...columnFilters,
+													{
+														id: col.id,
+														value: value
+													}
+												])
+											}
+										}}
+									/>
+								</span>
+							</Fragment>
+						)
+						})}
+					</div>
+				</PopoverContent>
+			</Popover>
+			}
+
+			{/* Table Options */}
+			{enableTableOption&&<EzTableOptions
+				table={table}
+				useColumnPinning={options.usePinning}
+				useMultiFilter={options.useMultiFilter}
+				useVisibilityControl={options.useColumnVisibility}
+			/>}
+		</div>
+	)
+}
+
+interface EzTablePaginationProps<TData> {
+	table: TableType<TData>;
+	enableDynamic?: boolean;
+	siblingCounts?:number;
+	boundaryCounts?:number;
+	refetchData?: () => void;
+	colFilters: ColumnFiltersState;
+	globalFilters: any;
+	paginationState: {
+		pageIndex: number;
+		pageSize: number;
+	};
+	setPaginationState: Dispatch<SetStateAction<{pageIndex:number;pageSize:number}>>;
+}
+
+export function EzTablePagination<TData>({
+	table,
+	enableDynamic=false,
+	siblingCounts=2,
+	boundaryCounts=1,
+	refetchData,
+	colFilters,
+	globalFilters,
+	paginationState,
+	setPaginationState
+}:EzTablePaginationProps<TData>) {
+
+	const range = (start:number, end:number) => {
+		const len = end - start + 1;
+		return Array.from({length: len},(_,i)=> start+i);
+	};
+
+	const getDynamicPageCount = useCallback(()=>{
+		if(colFilters.length>0||globalFilters) {
+			const allItems = table.getFilteredRowModel().rows.length;
+			const allPageSize = paginationState.pageSize;
+			const final = Math.ceil(allItems/allPageSize);
+			return final;
+		}
+		return table.getPageCount();
+	},[]);
+
+	const siblingCount = siblingCounts;
+	const boundaryCount = boundaryCounts;
+	const startRange = useMemo(()=>range(
+		1,
+		Math.min(
+			boundaryCount,
+			getDynamicPageCount()
+		)
+	),[getDynamicPageCount(),paginationState]);
+	const endRange = useMemo(()=>range(
+		Math.max(
+			getDynamicPageCount() - boundaryCount + 1,
+			boundaryCount +1
+		),
+		getDynamicPageCount()
+	),[getDynamicPageCount(),paginationState]);
+	const preEllipsis = useMemo(()=>Math.max(
+		Math.min(
+			paginationState.pageIndex - siblingCount,
+			getDynamicPageCount() - boundaryCount - siblingCount * 2 -1
+		),
+		boundaryCount + 2
+	),[getDynamicPageCount(),paginationState]);
+	const postEllipsis = useMemo(()=>Math.min(
+		Math.max(
+			paginationState.pageIndex + siblingCount,
+			boundaryCount + siblingCount * 2 + 2
+		),
+		endRange.length > 0 ? endRange[0] - 2 : getDynamicPageCount() - 1
+	),[getDynamicPageCount(),paginationState]);
+	const midRange = useMemo(()=>range(
+		preEllipsis,
+		postEllipsis
+	),[getDynamicPageCount(),paginationState]);
+	const pageRangeStart = useMemo(()=>
+		1 + paginationState.pageIndex * paginationState.pageSize
+	,[getDynamicPageCount(),paginationState]);
+	const pageRangeEnd = useMemo(()=>
+		paginationState.pageSize * (paginationState.pageIndex + 1)
+	,[getDynamicPageCount(),paginationState]);
+	const finalList = useMemo(()=>[
+		"first",
+		"previous",
+		...startRange,
+		...(preEllipsis > boundaryCount + 2
+			? ["pre-ellipsis"]
+			: boundaryCount + 1 < getDynamicPageCount() - boundaryCount
+				? [boundaryCount + 1]
+				: []
+		),
+		...midRange,
+		...(postEllipsis < getDynamicPageCount() - boundaryCount - 1
+			? ["post-ellipsis"]
+			: getDynamicPageCount() - boundaryCount > boundaryCount
+				? [getDynamicPageCount() - boundaryCount]
+				: []
+		),
+		...endRange,
+		"next",
+		"last"
+	],[getDynamicPageCount(),paginationState, startRange, endRange, preEllipsis, postEllipsis, midRange, pageRangeEnd, pageRangeStart]);
+
+	const renderRowInfo = useCallback(()=>{
+		const printRowCount = () => {
+			const selected = table.getSelectedRowModel().rows.length;
+			const firstPrint = selected>0
+				? `Selected ${selected} row(s) | `
+				: ""
+			;
+			const filtered = table.getFilteredRowModel().rows.length;
+			const startRange = filtered===0
+				? 0
+				: pageRangeStart
+			;
+			const endRange = pageRangeEnd<filtered
+				? pageRangeEnd
+				: filtered
+			;
+			const printRange = `Showing ${startRange} - ${endRange} of ${filtered}  `;
+			const hasFilter = (globalFilters || colFilters.length>0 )
+				? "filtered"
+				: ""
+			;
+
+
+			const fin = `${firstPrint}${printRange}${hasFilter} rows ${(globalFilters || colFilters.length>0)?`| Originally ${table.getRowCount()} rows`:""}`;
+			return fin;
+		}
+
+		return(
+			<div className="flex flex-row gap-4">
+				<div className="text-tall flex items-center text-theme-text mdm:text-short">
+					{printRowCount()}
+				</div>
+				<div className="flex flex-row items-center gap-2">
+					<Select
+						onValueChange={(val)=>{
+							setPaginationState({
+								...paginationState,
+								pageSize: Number(val)
+							})
+						}}
+						value={paginationState.pageSize.toString()}
+					>
+						<SelectTrigger className="pl-2 pr-1">
+							<SelectValue asChild placeholder="Rows">
+								<span className="text-theme-text text-tall mdm:text-short">
+									{paginationState.pageSize}
+								</span>
+							</SelectValue>
+						</SelectTrigger>
+						<SelectContent
+							container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
+						>
+							<SelectItem className="mdm:text-short" value={"25"}>25</SelectItem>
+							<SelectItem className="mdm:text-short" value={"50"}>50</SelectItem>
+							<SelectItem className="mdm:text-short" value={"100"}>100</SelectItem>
+						</SelectContent>
+					</Select>
+				</div>
+			</div>
+		)
+	},[table,paginationState,colFilters, globalFilters, pageRangeStart, pageRangeEnd,getDynamicPageCount()]);
+
+	const renderPagination = useCallback(()=>finalList.map((v,i)=>{
+		switch(v){
+			case "first":
+				return(
+					<Button
+						key={i}
+						onClick={() => {
+							table.firstPage()
+							if(enableDynamic&&refetchData) {
+								refetchData();
+							}
+						}}
+						variant={"ghost"}
+						size="sm"
+						className="mdm:px-0"
+						disabled={!table.getCanPreviousPage()}
+					>
+						<LuChevronsLeft className="h-4 w-4"/>
+					</Button>
+				);
+			case "previous":
+				return(
+					<Button
+						key={i}
+						onClick={() => {
+							table.previousPage()
+							if(enableDynamic&&refetchData) {
+								refetchData();
+							}
+						}}
+						variant={"ghost"}
+						size="sm"
+						className="mdm:px-0"
+						// className="rounded-full"
+						disabled={!table.getCanPreviousPage()}
+					>
+						<LuChevronLeft className="h-4 w-4"/>
+					</Button>
+				);
+			case "next":
+				return(
+					<Button
+						key={i}
+						onClick={() => {
+							table.nextPage()
+							if(enableDynamic&&refetchData) {
+								refetchData();
+							}
+						}}
+						variant={"ghost"}
+						size="sm"
+						className="mdm:px-0"
+						// className="rounded-full"
+						disabled={!table.getCanNextPage()}
+					>
+						<LuChevronRight className="h-4 w-4"/>
+					</Button>
+				);
+			case "last":
+				return(
+					<Button
+						key={i}
+						onClick={() => {
+							table.lastPage()
+							if(enableDynamic&&refetchData) {
+								refetchData();
+							}
+						}}
+						variant={"ghost"}
+						size="sm"
+						className="mdm:px-0"
+						// className="rounded-full"
+						disabled={!table.getCanNextPage()}
+					>
+						<LuChevronsRight className="h-4 w-4"/>
+					</Button>
+				);
+			case "pre-ellipsis":
+				return(
+					<span
+						key={i}
+						className="text-theme-text text-short"
+					>
+						...
+					</span>
+				);
+			case "post-ellipsis":
+				return(
+					<span
+						key={i}
+						className="text-theme-text text-short"
+					>
+						...
+					</span>
+				);
+			default:
+				return(
+					<Button
+						key={i}
+						onClick={() => table.setPageIndex(v as number - 1)}
+						variant={"ghost"}
+						size="sm"
+						className={cn(
+							"w-8 mdm:w-4 mdm:px-0",
+							enableDynamic&&paginationState.pageIndex===(Number(v)-1)
+							? "font-bold text-theme-primary"
+							: !enableDynamic&&paginationState.pageIndex===(Number(v)-1)
+							? "font-bold text-theme-primary"
+							: ""
+						)}
+						// disabled={paginationState ? paginationState.pageIndex===(Number(v)-1):pagination.pageIndex===(v as number - 1)}
+					>
+						{v}
+					</Button>
+				);
+		}
+	}),[table,paginationState,colFilters, globalFilters, pageRangeStart, pageRangeEnd,getDynamicPageCount()])
+
+	return(
+		<div
+			className={cn(
+				"w-full flex flex-row items-center justify-end flex-wrap",
+				"gap-y-1 flex-shrink-0 py-2 @container"
+			)}
+		>
+			{renderRowInfo()}
+			<div className="grow min-w-1"/>
+			<div className="flex flex-row flex-grow-0 flex-shrink @xs:gap-0 @lg:gap-2 text-tall mdm:gap-1">
+				{renderPagination()}
+			</div>
+		</div>
+	)
+}
+
+interface EzTableOptionsProps<TData> {
+	table: TableType<TData>;
+	useMultiFilter?: boolean;
+	useVisibilityControl?: boolean;
+	useColumnPinning?: boolean;
+}
+
+export function EzTableOptions<TData,TValue>({
+	table,
+	useMultiFilter=false,
+	useVisibilityControl=false,
+	useColumnPinning=false,
+}:EzTableOptionsProps<TData>) {
+
+	const {
+		enableMultiFilter, setEnableMultiFilter,
+		enablePinning, setEnablePinning,
+		enableVisibility, setEnableVisibility
+	} = table.options.meta as TableMeta<TData,TValue>;
+
+	const visibleCols = table.getAllColumns().filter((col)=>{
+		// const { meta } = col.columnDef;
+		// if(!meta||(meta&&meta.isVisible)||(meta&&meta.isVisible===undefined)) return col;
+		return [undefined,null,true].includes(col.columnDef.enableHiding);
+	}).map((col)=>{
+		const { meta, id, header } = col.columnDef;
+		return {
+			...meta,
+			id: id,
+			header: typeof header==="string" ? header : meta?.header ? meta.header : id,
+			visibility: col.getIsVisible()
+		}
+	});
+
+	const pinnableCols = table.getAllColumns().filter((col)=>{
+		if(col.columnDef.enablePinning!==false) return col;
+	}).map((col)=>{
+		const { meta, id, header } = col.columnDef;
+		return {
+			...meta,
+			id: id,
+			header: typeof header==="string" ? header : meta?.header ? meta.header : id,
+			visibility: col.getIsVisible()
+		}
+	});
+
+	return(
+		<DropdownMenu>
+			<TooltipProvider
+				delayDuration={200}
+				skipDelayDuration={200}
+			>
+				<Tooltip>
+					<TooltipTrigger asChild>
+					<DropdownMenuTrigger asChild>
+						<Button
+							variant="ghost"
+							size="sm"
+							className="ml-auto h-8 lg:flex"
+						>
+							<LuSlidersHorizontal className="h-4 w-4"/>
+						</Button>
+					</DropdownMenuTrigger>
+					</TooltipTrigger>
+					<TooltipPortal container={typeof window!=='undefined' ? document.getElementById("appWrapper") : undefined}>
+					<TooltipContent>
+						Table options
+					</TooltipContent>
+					</TooltipPortal>
+				</Tooltip>
+			</TooltipProvider>
+
+			<DropdownMenuContent
+				align="end"
+				className="w-max"
+				container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
+				onCloseAutoFocus={(e)=>e.preventDefault()}
+			>
+				{useMultiFilter&&<DropdownMenuItem
+					className="flex flex-row gap-1 h-10"
+					onSelect={(e)=>{
+						e.preventDefault();
+					}}
+				>
+					<Switch
+						id="multiFilter"
+						checked={enableMultiFilter}
+						onCheckedChange={(checked)=>{
+							setEnableMultiFilter(checked);
+							table.resetColumnFilters();
+							table.resetGlobalFilter();
+						}}
+					/>
+					<Label htmlFor="multiFilter">
+						{/* Enable Multi-Filter */}
+						Enable Advanced Search
+					</Label>
+				</DropdownMenuItem>}
+				{/* {useColumnPinning&&
+				<DropdownMenuSub>
+					<DropdownMenuSubTrigger className="h-10">
+						<span>Pin column(s)</span>
+					</DropdownMenuSubTrigger>
+					<DropdownMenuPortal
+						container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
+					>
+						<DropdownMenuSubContent className="max-h-[600px] overflow-auto">
+							{pinnableCols.map((v,i:number)=>(
+							<DropdownMenuItem
+								key={`table-option-vis-${v.id}`}
+								className="flex flex-row gap-1 items-center cursor-pointer justify-between h-10"
+								onSelect={(e)=>{
+									e.preventDefault();
+									if(table.getColumn(v.id!)?.getIsPinned()) table.getColumn(v.id!)?.pin(false)
+									else table.getColumn(v.id!)?.pin("left")
+								}}
+							>
+								<span title={v.header} className="max-w-[250px] overflow-x-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
+								{table.getColumn(v.id!)?.getIsPinned() ?
+								<LuPinOff className="h-4 w-4" />
+								:
+								<LuPin className="h-4 w-4" />}
+							</DropdownMenuItem>
+							))}
+						</DropdownMenuSubContent>
+					</DropdownMenuPortal>
+				</DropdownMenuSub>} */}
+				{useVisibilityControl&&<DropdownMenuSub>
+					<DropdownMenuSubTrigger className="h-10">
+						<span>Hide column(s)</span>
+					</DropdownMenuSubTrigger>
+					<DropdownMenuPortal
+						container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
+					>
+						<DropdownMenuSubContent className="max-h-[600px] overflow-y-auto">
+							{visibleCols.map((v,i:number)=>(
+								<DropdownMenuItem
+									key={`table-option-vis-${v.id}`}
+									className="flex flex-row gap-1 items-center cursor-pointer justify-between h-10"
+									onSelect={(e)=>{
+										e.preventDefault();
+										table.getColumn(v.id!)?.toggleVisibility(
+											v.visibility ? false : true
+										)
+									}}
+								>
+								<span title={v.header} className="max-w-[250px] overflow-x-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
+								{v.visibility ? <LuEye className="h-4 w-4"/> : <LuEyeOff className="h-4 w-4"/>}
+							</DropdownMenuItem>
+							))}
+						</DropdownMenuSubContent>
+					</DropdownMenuPortal>
+				</DropdownMenuSub>}
+			</DropdownMenuContent>
+		</DropdownMenu>
+	)
 }
