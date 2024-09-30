@@ -3,7 +3,7 @@ import type { HTMLAttributes, ForwardedRef, TdHTMLAttributes } from "react";
 import { forwardRef } from "react";
 import { cn } from "./mergeStyle";
 
-const Table = forwardRef<
+export const Table = forwardRef<
     HTMLTableElement,
     HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableElement>) => (
@@ -17,7 +17,7 @@ const Table = forwardRef<
 ));
 Table.displayName = "Table";
 
-const TableHeader = forwardRef<
+export const TableHeader = forwardRef<
     HTMLTableSectionElement,
     HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableSectionElement>) => (
@@ -31,7 +31,7 @@ const TableHeader = forwardRef<
 ));
 TableHeader.displayName = "TableHeader";
 
-const TableBody = forwardRef<
+export const TableBody = forwardRef<
     HTMLTableSectionElement,
     HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableSectionElement>) => (
@@ -45,7 +45,7 @@ const TableBody = forwardRef<
 ));
 TableBody.displayName = "TableBody";
 
-const TableFooter = forwardRef<
+export const TableFooter = forwardRef<
     HTMLTableSectionElement,
     HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableSectionElement>) => (
@@ -60,7 +60,7 @@ const TableFooter = forwardRef<
 ));
 TableFooter.displayName = "TableFooter";
 
-const TableRow = forwardRef<
+export const TableRow = forwardRef<
     HTMLTableRowElement,
     HTMLAttributes<HTMLTableRowElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableRowElement>) => (
@@ -77,7 +77,7 @@ const TableRow = forwardRef<
 ))
 TableRow.displayName = "TableRow";
 
-const TableHead = forwardRef<
+export const TableHead = forwardRef<
     HTMLTableCellElement,
     HTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableCellElement>) => (
@@ -94,7 +94,7 @@ const TableHead = forwardRef<
 ))
 TableHead.displayName = "TableHead";
 
-const TableCell = forwardRef<
+export const TableCell = forwardRef<
     HTMLTableCellElement,
     TdHTMLAttributes<HTMLTableCellElement>
 >(({ className, ...props }, ref: ForwardedRef<HTMLTableCellElement>) => (
@@ -111,7 +111,7 @@ const TableCell = forwardRef<
 ));
 TableCell.displayName = "TableCell";
 
-const TableCaption = forwardRef<
+export const TableCaption = forwardRef<
 	HTMLTableCaptionElement,
 	HTMLAttributes<HTMLTableCaptionElement>
 >(({ className, ...props }, ref:ForwardedRef<HTMLTableCaptionElement>)=>(

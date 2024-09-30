@@ -7,7 +7,8 @@ import type {
     Table as TableType,
     VisibilityState,
     Row,
-    Column
+    Column,
+	TableMeta
 } from "@tanstack/react-table";
 import type { 
     Dispatch, 
@@ -22,7 +23,8 @@ import {
     useState,
     useEffect,
     useCallback,
-    useRef
+    useRef,
+	Fragment
 } from "react";
 import {
     useReactTable,
@@ -36,9 +38,33 @@ import {
 	flexRender,
 } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { LuSlidersHorizontal } from "@react-icons/all-files/lu/LuSlidersHorizontal";
+import { LuEye } from "@react-icons/all-files/lu/LuEye";
+import { LuEyeOff } from "@react-icons/all-files/lu/LuEyeOff";
+import { LuChevronsRight } from "@react-icons/all-files/lu/LuChevronsRight";
+import { LuChevronRight } from "@react-icons/all-files/lu/LuChevronRight";
+import { LuChevronLeft } from "@react-icons/all-files/lu/LuChevronLeft";
+import { LuChevronsLeft } from "@react-icons/all-files/lu/LuChevronsLeft";
+import { LuArrowUp } from "@react-icons/all-files/lu/LuArrowUp";
+import { LuArrowDown } from "@react-icons/all-files/lu/LuArrowDown";
+import { LuX } from "@react-icons/all-files/lu/LuX";
+import { LuPlus } from "@react-icons/all-files/lu/LuPlus";
 
 import { useDebounce } from "./useDebounce";
 import { cn } from "./mergeStyle";
+import { Checkbox } from "./checkbox";
+import { Tabs, TabsList, TabsTrigger } from "./tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
+import { Button, EzButton } from "./button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from "./dropdown";
+import { Tooltip, TooltipContent, TooltipPortal, TooltipProvider, TooltipTrigger } from "./tooltip";
+import { Label } from "./label";
+import { Switch } from "./switch";
+import { EzFilterInputs } from "./input";
+import { ScrollArea } from "./scrollarea";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
+import { tablePaginationClasses } from "@mui/material";
 
 interface EzTableProps<TData, TValue> {
     columns: ColumnDef<TData,TValue>[];
@@ -813,6 +839,346 @@ export function EzTable<TData, TValue>({
 			}
 			
             {/* Table */}
+			<ScrollArea
+				id={`table-container-${id}`}
+				type="hover"
+				orientation="both"
+				className={cn(
+					"flex-grow pr-2.5"
+				)}
+				ref={containerRef}
+			>
+				<Table
+					className={cn(
+						"h-full grow",
+						"w-full caption-bottom text-tall",
+						customCard&&
+						(
+							(typeof customCardThreshold==="number"&&Number(containerRef.current?.clientWidth)<customCardThreshold) ||
+							(typeof customCardThreshold==="boolean"&&customCardThreshold)
+						) ? `hidden` : "",
+						enableVirtualization && "table-fixed"
+					)}
+				>
+					<TableHeader>
+					{table.getHeaderGroups().map((headerGroup,headerGroupIdx)=>(
+						<TableRow
+							key={`ez-adv-table-header-${headerGroup.id}`}
+							className="rounded-tl-md rounded-tr-md border-t-0 hover:bg-transparent"
+						>
+							{/* Pre-Padding When Virtualised */}
+							{enableVirtualization&&virtualPaddingLeft ? (
+								<th style={{width:virtualPaddingLeft}}/>
+							) : null}
+
+							{( enableVirtualization ? virtualCols : headerGroup.headers).map((vc:any,vci:number)=>{
+							const header = enableVirtualization ? headerGroup.headers[vc.index] : vc;
+							const isAsc = header.column.getIsSorted()==="asc";
+							const isDesc = header.column.getIsSorted()==="desc";
+							return(
+							<TableHead
+								key={`header-${header.id}-${vci}`}
+								id={`header-${header.id}-${vci}`}
+								className={cn(
+									"sticky top-0 font-bold text-tall py-1",
+									"[&:has([role=checkbox])>span]:justify-center",
+									"[&:has([role=checkbox])>span>span]:justify-center",
+									header.column.getIndex()===1 ? "pl-0" : "",
+									"bg-theme-box",
+									[false,null,undefined].includes(header.column.columnDef.meta?.isEditable) &&
+									[false,null,undefined].includes(header.column.columnDef.meta?.isDeletable) && "!cursor-default"&&(
+									header.column.getCanSort() ||
+									header.column.getCanMultiSort())
+									? "cursor-pointer"
+									: "cursor-default",
+									header.column.getIsPinned() ? "bg-theme-box" : "",
+									enableVirtualization && "!w-[150px] text-left"
+								)}
+								style={{
+									// width: enableVirtualization ? 150 : undefined,
+									maxWidth: header.column.columnDef.maxSize ?? "auto",
+									...getCommonPinningStyles(header.column,true),
+								}}
+							>
+								<span
+									className={cn(
+										"flex flex-row gap-2 w-full h-full items-center",
+										enableVirtualization && "justify-start"
+									)}
+									onClick={()=>{
+										if(
+												[false,null,undefined].includes(header.column.columnDef.meta?.isEditable) &&
+												[false,null,undefined].includes(header.column.columnDef.meta?.isDeletable) &&
+												(header.column.getCanSort()||
+												header.column.getCanMultiSort())
+										) {
+											if(isAsc) header.column.toggleSorting(true, true);
+											else if(isDesc) header.column.clearSorting();
+											else header.column.toggleSorting(false, true);
+										}
+										else return;
+									}}
+								>
+									{header.isPlaceholder
+									? null
+									: flexRender(
+										header.column.columnDef.header,
+										header.getContext()
+									)}
+									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isAsc&&<LuArrowUp className="h-4 w-4"/>}
+									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isDesc&&<LuArrowDown className="h-4 w-4"/>}
+									{header.column.columnDef.meta?.isEditable&&
+									header.column.columnDef.meta?.isMetadata&&
+									header.column.columnDef.meta?.isDeletable&&
+									<LuX
+										className={cn(
+											"h-4 w-4 text-theme-danger hover:text-theme-danger-hover cursor-pointer",
+										)}
+										onClick={(()=>{
+											// console.log(header.column)
+											const isMetadata = header.column.columnDef.meta?.isMetadata;
+
+											const newData = [...editableData].map((dat:any)=>{
+												if(isMetadata&&metaKey) {
+													const { [header.column.id.replace("*","")]:colId, ...rest } = dat[metaKey];
+													// console.log("DELETE COLUMN",colId, dat.metadata, rest)
+													return {
+														...dat,
+														[metaKey]: { ...rest }
+													}
+												}
+												else {
+													const { [header.column.id]:colId, ...rest } = dat;
+													return {
+														...rest
+													}
+												}
+											});
+											// console.log(newData);
+											setEditableData(newData);
+											setEditableColumns((_prev)=>[..._prev.filter((prevCol)=>prevCol.id!==header.column.id)])
+										})}
+									/>}
+									{header.column.columnDef.meta?.isEditable&&
+									header.column.columnDef.meta?.isMetadata&&
+									vci===headerGroup.headers.length-1&&
+									<LuPlus
+										className={cn(
+											"h-4 w-4 text-theme-primary hover:text-theme-primary-hover cursor-pointer"
+										)}
+										onClick={()=>{
+											const isMetadata = header.column.columnDef.meta?.isMetadata;
+
+											const newData = [...editableData].map((dat:any)=>{
+												if(isMetadata&&metaKey) {
+													return {
+														...dat,
+														[metaKey]: {
+															...dat[metaKey],
+															[`newMeta_${vci}`]: ""
+														}
+													}
+												}
+												else {
+													return {
+														...dat,
+														[`newColumn_${vci}`]: ""
+													}
+												}
+											})
+
+
+											const newCols:any = [
+												...editableColumns,
+												{
+													id: isMetadata&&metaKey ? `*newMeta_${vci}` : `newColumn_${vci}`,
+													// accessorKey:`newMeta_${vci}`,
+													accessorFn: (d:any)=> isMetadata&&metaKey ? d.meta?.[`newMeta_${vci}`] : d.meta?.[`newColumn_${vci}`],
+													// header: (
+													// 	<div title={`*newMeta_${vci}`} className={cn("min-w-16 line-clamp-2")}>
+													// 		<MdCategory className="inline" title="Categorical"/>
+													// 		{` newMeta_${vci}`}
+													// 	</div>
+													// ),
+													header: ({table,header,column}:any)=>{
+														// console.log("Meta Header",table,header,column)
+														return(
+															<div title={isMetadata&&metaKey ? `newMeta_${vci}` : `newColumn_${vci}`} className={cn("min-w-16 line-clamp-2")}>
+																{/* {isNumber
+																? <TbNumbers className="inline" title="Numberical"/>
+																: <MdCategory className="inline" title="Categorical"/>
+																} */}
+
+																{table&&header&&column?<EzEditableHeader
+																	table={table}
+																	header={header}
+																	column={column}
+																	nestKey={metaKey}
+																/>:
+																isMetadata&&metaKey ? ` newMeta_${vci}` : ` newColumn_${vci}`}
+														</div>
+														)
+													},
+													// cell: ({row, cell, renderValue, getValue}:any) => {
+													// 	return row.original.metadata?.[`newMeta_${vci}`]?.toString()
+													// },
+													cell: ({table, row, column, cell, renderValue, getValue}:any) => {
+														return <EzEditableCell
+															table={table}
+															row={row}
+															column={column}
+															cell={cell}
+															getValue={getValue}
+															renderValue={renderValue}
+															nestKey={metaKey}
+														/>
+													},
+													filterFn: "includesString",
+													meta: {
+														dataType: "string",
+														isEditable: true,
+														isMetadata: true,
+														isDeletable: true,
+														header: isMetadata&&metaKey ? `newMeta_${vci}` : `newColumn_${vci}`
+													}
+												}
+											];
+											// console.log("Adding Data and Columns",newData, newCols)
+											setEditableColumns(newCols)
+											// setEditableData(newData);
+											if(table.options.meta?.updateMeta) {
+												table.options.meta?.updateMeta(0,"",null,newData);
+											}
+											// if(table.options.meta?.updateColumn) {
+											// 	table.options.meta?.updateColumn(vci,`newMeta_${vci}`,newCols)
+											// }
+										}}
+									/>
+									}
+								</span>
+							</TableHead>
+							)})}
+
+							{/* Post-Padding When Virtualised */}
+							{enableVirtualization&&virtualPaddingRight ? (
+								<th style={{width:virtualPaddingRight}}/>
+							) : null}
+						</TableRow>
+					))}
+					</TableHeader>
+					<TableBody className="min-h-24">
+						{/* Data */}
+						{!isLoading&&table.getRowModel().rows?.length>0&&table.getRowModel().rows.filter((row)=>{
+						if(!enableTabs||!tabsKey) return true;
+						else {
+							if(activeTab==="") return true;
+							return row.original[tabsKey]===activeTab;
+						}
+						}).map((row,idx)=>{
+						const visibleCells = row.getVisibleCells();
+						return(
+						<TableRow
+							// key={row.id}
+							key={`ez-adv-table-body-${row.id}`}
+							data-state={row.getIsSelected() && "selected"}
+							className={cn(
+								"relative group/tablerow",
+								!highlightStyle&&highlightOn&&highlightOn(row.original)
+								? "!bg-theme-warning-mild/15"
+								: ""
+							)}
+						>
+							{/* Pre-Padding When Virtualised */}
+							{enableVirtualization&&virtualPaddingLeft ? (
+								<th style={{width:virtualPaddingLeft}}/>
+							) : null}
+
+							{/* Table Cells */}
+							{(enableVirtualization ? virtualCols : row.getVisibleCells()).map((vc:any)=>{
+							const cell = enableVirtualization ? visibleCells[vc.index] : vc;
+							// console.log("Table Cell ID",cell.id)
+							return(
+								<TableCell
+									// key={`${row.id}-${cell.id}`}
+									id={`cell-${cell.id}-${row.index}`}
+									key={`cell-${cell.id}-${row.index}`}
+									className={cn(
+										"text-tall group-hover/tablerow:bg-theme-transparent-hover transition-colors",
+										cell.column.columnDef.meta?.enableMultiline
+										? "whitespace-normal"
+										: "whitespace-nowrap text-ellipsis overflow-hidden",
+										cell.column.getIndex()===1 ? "pl-0" : "",
+										cell.column.getIsPinned()&&row.getIsSelected()
+										? "bg-theme-text-hover"
+										: cell.column.getIsPinned()
+										? "bg-theme-box" : "",
+										enableVirtualization && "!w-[150px] text-left"
+									)}
+									style={{
+										maxWidth: cell.column.columnDef.maxSize ?? "auto",
+										...getCommonPinningStyles(cell.column,false)
+									}}
+									// ref={enableVirtualization ? vc.measureElement : null}
+									// data-index={enableVirtualization ? vc.index : null}
+									data-index={enableVirtualization ? cell.id : null}
+								>
+									{flexRender(
+										// cell.column.columnDef.meta?.isEditable
+										// ? EditableCell.cell
+										// :
+										cell.column.columnDef.cell,
+										cell.getContext()
+									)}
+								</TableCell>
+							)
+							})}
+
+							{/* Post-Padding When Virtualised */}
+							{enableVirtualization&&virtualPaddingRight ? (
+								<th style={{width:virtualPaddingRight}}/>
+							) : null}
+						</TableRow>
+						)})}
+
+						{/* No Data */}
+						{!isLoading&&table.getRowModel().rows?.length===0&&
+						<TableRow>
+							<TableCell
+								colSpan={table.getAllLeafColumns().length}
+								rowSpan={10}
+								className="row-span-full w-full h-full min-h-24 text-center pointer-events-none py-2 text-tall text-theme-perma-grey font-semibold"
+							>
+								No Results
+							</TableCell>
+						</TableRow>
+						}
+
+						{/* Loading State */}
+						{isLoading&&
+						<TableRow>
+							<TableCell
+								colSpan={table.getAllLeafColumns().length}
+								rowSpan={10}
+								className="w-full h-full text-center col-span-full row-span-full min-h-24"
+							>
+								Loading...
+							</TableCell>
+						</TableRow>
+						}
+					</TableBody>
+				</Table>
+				{customCard&&
+				(
+					(typeof customCardThreshold==="number"&&Number(containerRef.current?.clientWidth)<customCardThreshold) ||
+					(typeof customCardThreshold==="boolean"&&customCardThreshold)
+				)&&customCard(columns, table.getRowModel().rows.filter((row)=>{
+					if(!enableTabs||!tabsKey) return true;
+					else {
+						if(activeTab==="") return true;
+						return row.original[tabsKey]===activeTab;
+					}
+				}), containerRef.current?.clientWidth)}
+			</ScrollArea>
 
             {/* Table Bottom */}
 			{enableTablePageInfo&&<EzTablePagination
