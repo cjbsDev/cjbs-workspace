@@ -15,6 +15,7 @@ export * from "./atoms/SelectBox";
 export * from "./atoms/Checkbox";
 export * from "./atoms/Radio";
 export * from "./atoms/Form";
+export * from "./atoms/shadcn";
 
 //Molecules
 export * from "./molecules/DataTableFilter";

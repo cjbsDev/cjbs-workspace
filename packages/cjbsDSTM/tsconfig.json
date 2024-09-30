@@ -6,6 +6,6 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "**/*.d.ts"
-  ],
+, ],
   "exclude": ["dist", "build", "node_modules"]
 }

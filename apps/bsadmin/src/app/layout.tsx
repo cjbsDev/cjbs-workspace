@@ -1,5 +1,6 @@
 import * as React from "react";
 import "./globals.css";
+import "./tailwind.scss";
 import Provider from "client-provider";
 import JeJuProvider from "./jejuProvider";
 import DrawerProvider from "./DrawerProvider";

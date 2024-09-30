@@ -10,6 +10,7 @@ import type {
     Column,
 	TableMeta
 } from "@tanstack/react-table";
+
 import type { 
     Dispatch, 
     SetStateAction,
@@ -74,7 +75,7 @@ interface EzTableProps<TData, TValue> {
     disableSelectOn?: (row: TData) => boolean;
     enableMultiSelect?: boolean;
     idKey?: string;
-    metaKey: string;
+    metaKey?: string;
     id?: string;
 
     /*

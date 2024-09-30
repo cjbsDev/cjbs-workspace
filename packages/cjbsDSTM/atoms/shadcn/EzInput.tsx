@@ -8,6 +8,7 @@ import { motion } from "framer-motion";
 import { Fragment, useState, useRef, useEffect, useLayoutEffect } from "react";
 import { Badge } from "./badge";
 
+
 const useEffectCustom = typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
 const separateThousands = (value: string | number) => {

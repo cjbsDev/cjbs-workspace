@@ -1,0 +1,1 @@
+export { EzTable } from "./EzTable"

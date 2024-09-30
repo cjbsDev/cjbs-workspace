@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
-import { cjbsTheme, DataTableBase } from "cjbsDSTM";
+import { cjbsTheme, DataTableBase, EzTable } from "cjbsDSTM";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import { fetcher } from "api";
@@ -29,12 +29,13 @@ const SampleDataTable = (props) => {
   const height = useCalculatedHeight(128);
   const params = useParams();
   const orderUkey = params.slug;
-  const { data } = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
+  const fetched = useSWR(`/order/${orderUkey}/sample/list`, fetcher, {
     suspense: true,
   });
-  const sampleList = Array.from(data);
 
-  console.log(data);
+  const sampleList = Array.from(fetched.data);
+
+  console.log(fetched.data);
 
   const selectProps = { indeterminate: (isIndeterminate) => isIndeterminate };
 
@@ -432,9 +433,102 @@ const SampleDataTable = (props) => {
     [],
   );
 
+  const cols:any = useMemo(()=>[
+    {
+      accessorKey: "sampleId",
+      id:"sampleId",
+      header: "샘플번호"
+    },
+    {
+      id: "rowIndex",
+      header: "번호",
+      accessorFn: (row, rowIndex) => rowIndex+1
+    },
+    {
+      accessorKey: "sampleNm",
+      id: "sampleNm",
+      header: "샘플명"
+    },
+    {
+      accessorKey: "altrNm",
+      id: "altrNm",
+      header: "대체명"
+    },
+    {
+      accessorKey: "sampleTypeVal",
+      id: "sampleTypeVal",
+      header: "샘플종류"
+    },
+    {
+      accessorKey: "source",
+      id: "source",
+      header: "Source"
+    },
+    {
+      accessorKey: "depthVal",
+      id: "depthVal",
+      header: "Depth"
+    },
+    {
+      accessorKey: "taxonVal",
+      id: "taxonVal",
+      header: "Taxon"
+    },
+    {
+      accessorKey: "isVrfc",
+      id: "isVrfc",
+      header: "검증"
+    },
+    {
+      accessorKey: "memo",
+      id: "memo",
+      header: "메모"
+    },
+    {
+      accessorKey: "runList",
+      id: "runList",
+      header: "RUN",
+      accessorFn: (row) => row.runList.length===0 ? "-" : row.runList.join()
+    },
+    {
+      accessorKey: "sampleStatusRes.rcptStatusVal",
+      id: "sampleStatusRes.rcptStatusVal",
+      header: "접수"
+    },
+    {
+      accessorKey: "sampleStatusRes.qcStatusVal",
+      id: "sampleStatusRes.qcStatusVal",
+      header: "QC"
+    },
+    {
+      accessorKey: "sampleStatusRes.libStatusVal",
+      id: "sampleStatusRes.libStatusVal",
+      header: "LIB"
+    },
+    {
+      accessorKey: "sampleStatusRes.seqStatusVal",
+      id: "sampleStatusRes.seqStatusVal",
+      header: "Seq"
+    },
+    {
+      accessorKey: "sampleStatusRes.biStatusVal",
+      id: "sampleStatusRes.biStatusVal",
+      header: "BI"
+    },
+    {
+      accessorKey: "sampleStatusRes.ntfcStatusVal",
+      id: "sampleStatusRes.ntfcStatusVal",
+      header: "통보"
+    },
+    {
+      accessorKey: "isAnlsItst",
+      id: "isAnlsItst",
+      header: "분석내역서"
+    }
+  ],[])
   return (
     <Box sx={{ mt: -5, display: "grid" }}>
-      <DataTableBase
+      {/* <DataTableBase
         title={<Typography variant="subtitle1">목록</Typography>}
         data={filteredItems}
         columns={columns}
@@ -457,6 +551,12 @@ const SampleDataTable = (props) => {
         pagination
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
+      /> */}
+      <EzTable
+        data={filteredItems ?? []}
+        columns={cols}
+        isLoading={fetched.isLoading}
+        
       />
     </Box>
   );
