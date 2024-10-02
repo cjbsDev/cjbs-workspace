@@ -44,11 +44,10 @@ const SampleActionBtns = () => {
     try {
       const res = await POST(`/run/add/${uKey}`, body);
       console.log("RUN 샘플 추가 성공 여부>>>> ==>>", res.success);
-      setIsLoading(false);
       if (res.success) {
         mutate(`/run/sample/${uKey}`);
-        setSampleUkeyList([])
-     //   handleClose();
+        //setSampleUkeyList([])
+        handleClose();
       } else {
         toast(res.message);
       }

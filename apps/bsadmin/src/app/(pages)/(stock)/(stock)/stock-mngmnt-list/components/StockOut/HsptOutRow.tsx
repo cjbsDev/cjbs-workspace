@@ -7,7 +7,7 @@ import useCenteredPopup from "../../../../../../hooks/useCenteredPopup";
 const HsptOutRow = () => {
   const { setValue, clearErrors } = useFormContext();
   const { isOpen, openPopup, closePopup } = useCenteredPopup(
-    `/hsptListPopup`,
+    `/hsptListOutPopup`,
     "병원 거래 검색",
     800,
     620,
@@ -17,11 +17,11 @@ const HsptOutRow = () => {
     window.addEventListener("myHsptData", function (e) {
       console.log("myHsptData Received data:", e.detail);
 
-      const { hsptCode, hsptNm, hsptUniqueCodeMc } = e.detail;
+      const { hsptCode, hsptNm, stockHsptUkey } = e.detail;
 
       setValue("stockHsptNm", hsptNm);
       setValue("hsptCode", hsptCode);
-      setValue("stockHsptUkey", hsptUniqueCodeMc);
+      setValue("stockHsptUkey", stockHsptUkey);
 
       clearErrors(["stockHsptNm", "hsptCode", "stockHsptUkey"]);
     });

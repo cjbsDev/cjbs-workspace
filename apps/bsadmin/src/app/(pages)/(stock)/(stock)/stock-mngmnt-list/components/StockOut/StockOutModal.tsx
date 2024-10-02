@@ -68,6 +68,10 @@ const StockOutModal = ({
     //   "stockHsptUkey": "string",
     //   "stockUkey": "string"
     // }
+
+    console.log('data>>>> ', data);
+    
+
     setIsLoading(true);
     const reqBody = {
       ...data,
@@ -77,7 +81,6 @@ const StockOutModal = ({
     };
 
     console.log("REQ BODY", reqBody);
-
     try {
       const res = await POST(`/stock/out`, reqBody);
       if (res.success) {

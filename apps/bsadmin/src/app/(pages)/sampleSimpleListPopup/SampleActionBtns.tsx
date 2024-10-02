@@ -50,13 +50,12 @@ const SampleActionBtns = () => {
           .filter((value, index, self) => self.indexOf(value) === index)
           .toString(); // 중복 제거하고 문자열로 변환
 
-    console.log("upDateSampleUkeyList", upDateSampleUkeyList);
+    //console.log("upDateSampleUkeyList", upDateSampleUkeyList);
 
     try {
       const res = await GET(
         `/ots/sample/info?sampleUkeyList=${upDateSampleUkeyList}`,
       );
-      console.log("SSSSSSSSS", res.data);
       const { orderInfo, sampleInfo, sampleUkeyList } = res.data;
       const event = new CustomEvent("mySampleSimpleData", {
         detail: {
