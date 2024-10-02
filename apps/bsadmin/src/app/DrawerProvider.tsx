@@ -37,7 +37,7 @@ interface ContextProps {
   children: React.ReactNode;
 }
 
-const drawerWidth = 228;
+const drawerWidth = 173;
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -304,7 +304,7 @@ export default function DrawerProvider({ children }: ContextProps) {
                   >
                     <List
                       component="div"
-                      sx={{ mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
+                      sx={{ ml: -2, mt: 2, mb: 2, mr: 2, opacity: open ? 1 : 0 }}
                       disablePadding
                     >
                       {item.menuPath.nestedPath.map((item) => {

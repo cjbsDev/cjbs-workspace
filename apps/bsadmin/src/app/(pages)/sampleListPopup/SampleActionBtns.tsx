@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ModalAction, OutlinedButton } from "cjbsDSTM";
 import { LoadingButton } from "@mui/lab";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { sampleUkeyAtom } from "../../recoil/atoms/sampleUkeyAtom";
 import { POST, PUT } from "api";
 import { useParams, useSearchParams } from "next/navigation";
@@ -12,7 +12,7 @@ import useCenteredPopup from "../../hooks/useCenteredPopup";
 
 const SampleActionBtns = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const getSampleUkeyList = useRecoilValue(sampleUkeyAtom);
+  const [getSampleUkeyList, setSampleUkeyList] = useRecoilState(sampleUkeyAtom);
   // const params = useParams();
   // const ukey = params.slug;
 
@@ -44,10 +44,11 @@ const SampleActionBtns = () => {
     try {
       const res = await POST(`/run/add/${uKey}`, body);
       console.log("RUN 샘플 추가 성공 여부>>>> ==>>", res.success);
-
+      setIsLoading(false);
       if (res.success) {
         mutate(`/run/sample/${uKey}`);
-        handleClose();
+        setSampleUkeyList([])
+     //   handleClose();
       } else {
         toast(res.message);
       }
