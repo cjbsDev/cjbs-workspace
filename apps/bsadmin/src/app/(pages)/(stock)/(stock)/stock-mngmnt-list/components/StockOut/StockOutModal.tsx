@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import {
   ContainedButton,
   EA,
@@ -59,6 +59,8 @@ const StockOutModal = ({
     outDttm: new Date(),
   };
 
+
+
   const onSubmit = async (data: FormDataProps) => {
     // console.log("입고 전송폼 데이타 ==>>", data);
     // {
@@ -71,7 +73,6 @@ const StockOutModal = ({
 
     console.log('data>>>> ', data);
     
-
     setIsLoading(true);
     const reqBody = {
       ...data,
@@ -88,6 +89,8 @@ const StockOutModal = ({
         toast("출고가 완료되었습니다.");
         onClose();
       } else {
+        console.log('res >> ', res);
+        
         toast.error(res.message);
       }
     } catch (error) {
@@ -97,6 +100,42 @@ const StockOutModal = ({
       setIsLoading(false);
     }
   };
+
+  const QntyInput = useCallback(() => {
+    const [qnty, setQnty] = useState(null);
+
+    const onChangeQnty = (e: any) => {
+      setQnty(e.target.value)
+    }
+
+    return (
+      <InputValidation
+        autoFocus={true}
+        inputName="qnty"
+        required={true}
+        value={qnty}
+        errorMessage="수량를 입력해 주세요."
+        sx={{
+          width: 160,
+          ".MuiOutlinedInput-input": {
+            textAlign: "end",
+          },
+        }}
+        onChange={onChangeQnty}
+        inputMode="numeric"
+        InputProps={{
+          inputComponent: (props) => (
+            <AmountFormat
+              name={"qnty"}
+              priceValue={qnty}
+              {...props}
+            />
+          ),
+          endAdornment: <EA />,
+        }}
+      />
+    )
+  }, [])
 
   return (
     <ModalContainer onClose={onClose} open={open} modalWidth={modalWidth}>
@@ -125,28 +164,7 @@ const StockOutModal = ({
                 <TableRow>
                   <TH>수량</TH>
                   <TD>
-                    <InputValidation
-                      inputName="qnty"
-                      required={true}
-                      errorMessage="수량를 입력해 주세요."
-                      sx={{
-                        width: 160,
-                        ".MuiOutlinedInput-input": {
-                          textAlign: "end",
-                        },
-                      }}
-                      inputMode="numeric"
-                      InputProps={{
-                        inputComponent: (props) => (
-                          <AmountFormat
-                            name={"qnty"}
-                            priceValue={defaultValues.qnty}
-                            {...props}
-                          />
-                        ),
-                        endAdornment: <EA />,
-                      }}
-                    />
+                    <QntyInput/>
                   </TD>
                 </TableRow>
 
