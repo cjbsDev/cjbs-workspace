@@ -79,6 +79,7 @@ interface RadioGVProps {
   errorMessage?: string;
   defaultValue?: any;
   rowIs?: boolean;
+  type?: string;
 }
 export const RadioGV = (props: RadioGVProps) => {
   const {
@@ -88,6 +89,7 @@ export const RadioGV = (props: RadioGVProps) => {
     errorMessage,
     rowIs = true,
     defaultValue = null,
+    type,
     ...rest
   } = props;
   const methods = useFormContext();
@@ -111,7 +113,7 @@ export const RadioGV = (props: RadioGVProps) => {
                 const { value, optionName } = item;
                 return (
                   <FormControlLabel
-                    key={value}
+                    key={type ? `${type}-${value}` : value}
                     value={value}
                     control={<Radio size="small" />}
                     label={optionName}

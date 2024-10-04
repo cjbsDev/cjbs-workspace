@@ -150,6 +150,8 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
       }
     }
 
+    console.log('filteredObject >> ', filteredObject);
+    
     // startDttm
     // if (filteredObject.startDttm === undefined) {
     //   delete filteredObject.startDttm;
@@ -326,7 +328,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">보조금</Typography>
             </Grid>
             <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
+              <RadioGV type="보조금" data={isAstnPriceData} inputName="isAstnPrice" />
             </Grid>
             <Grid
               item
@@ -338,7 +340,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">GutInside</Typography>
             </Grid>
             <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
+              <RadioGV type="GutInside" data={isAstnPriceData} inputName="isGutInside" />
             </Grid>
 
             <Grid
@@ -351,7 +353,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">사용중</Typography>
             </Grid>
             <Grid item xs={10}>
-              <RadioGV data={isAstnPriceData} inputName="isAstnPrice" />
+              <RadioGV type="사용중" data={isAstnPriceData} inputName="isUsed" />
             </Grid>
           </Grid>
 

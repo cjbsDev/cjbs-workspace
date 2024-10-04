@@ -4,7 +4,7 @@ import useSWR from "swr";
 import { fetcher } from "api";
 import { useResultObject } from "../../../../components/KeywordSearch/useResultObject";
 import { Box, CircularProgress, Stack } from "@mui/material";
-import { DataTableBase, Title1 } from "cjbsDSTM";
+import { DataTableBase, grey, Title1 } from "cjbsDSTM";
 import dayjs from "dayjs";
 import { dataTableCustomStyles } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import NoDataView from "../../../../components/NoDataView";
@@ -16,6 +16,8 @@ import StockCtgryRadio from "./components/StockCtgryRadio";
 import { useRecoilValue } from "recoil";
 import { stockCategoryAtom } from "./atom";
 import useCalculatedHeight from "../../../../hooks/useCalculatedHeight";
+import { gray } from "next/dist/lib/picocolors";
+import { lightBlue } from "@mui/material/colors";
 
 const base = `/stock/list`;
 
@@ -34,8 +36,6 @@ const MngmntList = () => {
   const [endMonth, setEndMonth] = useState(dayjs().month() + 1);
   const [resultObject, result] = useResultObject();
   const getStockCategoryVal = useRecoilValue(stockCategoryAtom);
-
-  // console.log("getStockCategoryVal", getStockCategoryVal);
 
   const url = useMemo(() => {
     const params =
@@ -138,6 +138,21 @@ const MngmntList = () => {
     [],
   );
 
+  const conditionalRowStyles = useMemo(() => [
+    {
+      when: (row) => data?.stockList.indexOf(row) % 2 === 0, // 짝수 행
+      style: {
+        backgroundColor: 'white',
+      },
+    },
+    {
+      when: (row) => data?.stockList.indexOf(row) % 2 !== 0, // 짝수 행
+      style: {
+        backgroundColor: grey[50],
+      },
+    },
+  ], [data])
+
   return (
     <Box sx={{ display: "grid" }}>
       {isLoading && (
@@ -158,9 +173,9 @@ const MngmntList = () => {
         data={data?.stockList}
         columns={columns}
         onRowClicked={goDetailPage}
-        pointerOnHover
+     //   pointerOnHover
         highlightOnHover
-        customStyles={dataTableCustomStyles}
+        
         subHeader
         subHeaderComponent={subHeaderComponentMemo}
         fixedHeader={true}
@@ -180,6 +195,8 @@ const MngmntList = () => {
         defaultSortAsc={false}
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
+        customStyles={dataTableCustomStyles}
+        conditionalRowStyles={conditionalRowStyles}
       />
     </Box>
   );
