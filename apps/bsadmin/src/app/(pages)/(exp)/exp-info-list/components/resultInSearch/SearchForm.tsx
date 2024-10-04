@@ -382,7 +382,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">Seq</Typography>
             </Grid>
             <Grid item xs={3}>
-              <InputValidation inputName="seqExpMngrVal" fullWidth />
+              <InputValidation inputName="seqMngrNm" fullWidth />
             </Grid>
           </Grid>
         </Section>
@@ -393,7 +393,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">QC 사용 kit</Typography>
             </Grid>
             <Grid item xs={3}>
-              <InputValidation inputName="seqExpMngrVal" fullWidth />
+              <InputValidation inputName="prepUsedKit" fullWidth />
             </Grid>
             <Grid item xs={2} sx={{ display: "flex" }} alignItems="center">
               <Typography variant="body2">PCR type</Typography>
