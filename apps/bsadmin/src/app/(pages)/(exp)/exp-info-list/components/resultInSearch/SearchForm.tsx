@@ -358,7 +358,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">Prep</Typography>
             </Grid>
             <Grid item xs={3}>
-              <InputValidation inputName="prepExpMngrVal" fullWidth />
+              <InputValidation inputName="prepMngrNm" fullWidth />
             </Grid>
             <Grid
               item
@@ -370,7 +370,7 @@ const SearchForm = ({ onClose }: SearchFormProps) => {
               <Typography variant="body2">Lib</Typography>
             </Grid>
             <Grid item xs={3}>
-              <InputValidation inputName="libExpMngrVal" fullWidth />
+              <InputValidation inputName="libMngrNm" fullWidth />
             </Grid>
             <Grid
               item
