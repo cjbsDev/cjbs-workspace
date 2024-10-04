@@ -138,20 +138,6 @@ const MngmntList = () => {
     [],
   );
 
-  const conditionalRowStyles = useMemo(() => [
-    {
-      when: (row) => data?.stockList.indexOf(row) % 2 === 0, // 짝수 행
-      style: {
-        backgroundColor: 'white',
-      },
-    },
-    {
-      when: (row) => data?.stockList.indexOf(row) % 2 !== 0, // 짝수 행
-      style: {
-        backgroundColor: grey[50],
-      },
-    },
-  ], [data])
 
   return (
     <Box sx={{ display: "grid" }}>
@@ -196,7 +182,6 @@ const MngmntList = () => {
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
         customStyles={dataTableCustomStyles}
-        conditionalRowStyles={conditionalRowStyles}
       />
     </Box>
   );
