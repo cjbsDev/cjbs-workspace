@@ -32,16 +32,16 @@ export const DropdownMenuSubTrigger = forwardRef<
 	<SubTrigger
 		ref={ref}
 		className={cn(
-			"flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-tall outline-none",
+			"twcss-flex twcss-cursor-default twcss-select-none twcss-items-center twcss-rounded-sm twcss-px-2 twcss-py-1.5 twcss-text-tall twcss-outline-none",
 			// "focus:bg-accent data-[state=open]:bg-accent",
 			inset && "pl-8",
-			"focus:bg-theme-text-hover data-[state=open]:bg-theme-text-hover",
+			"focus:twcss-bg-theme-text-hover data-[state=open]:twcss-bg-theme-text-hover",
 			className
 		)}
 		{...props}
 	>
 		{children}
-		<LuChevronRight className="ml-auto h-4 w-4" />
+		<LuChevronRight className="twcss-ml-auto twcss-h-4 twcss-w-4" />
 	</SubTrigger>
 ));
 DropdownMenuSubTrigger.displayName = SubTrigger.displayName;
@@ -53,9 +53,9 @@ export const DropdownMenuSubContent = forwardRef<
 	<SubContent
 		ref={ref}
 		className={cn(
-			"z-50 min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
+			"twcss-z-50 twcss-min-w-[8rem] twcss-overflow-hidden twcss-rounded-md twcss-border twcss-p-1 twcss-shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
 			// "bg-popover text-popover-foreground",
-			"bg-theme-box text-theme-text",
+			"twcss-bg-theme-box twcss-text-theme-text",
 			className
 		)}
 		{...props}
@@ -77,8 +77,8 @@ export const DropdownMenuContent = forwardRef<
 				"data-[state=open]:animate-in data-[state=closed]:animate-out",
 				"data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95",
 				"data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
-				"z-50 min-w-[8rem] overflow-hidden rounded-md border p-1 shadow-md",
-				"bg-theme-box text-theme-text",
+				"twcss-z-50 twcss-min-w-[8rem] twcss-overflow-hidden twcss-rounded-md twcss-border twcss-p-1 twcss-shadow-md",
+				"twcss-bg-theme-box twcss-text-theme-text",
 				// "bg-popover text-popover-foreground",
 				className
 			)}
@@ -97,10 +97,10 @@ export const DropdownMenuItem = forwardRef<
 	<Item
 		ref={ref}
 		className={cn(
-			"relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-tall outline-none transition-colors data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+			"twcss-relative twcss-flex twcss-cursor-default twcss-select-none twcss-items-center twcss-rounded-sm twcss-px-2 twcss-py-1.5 twcss-text-tall twcss-outline-none twcss-transition-colors data-[disabled]:twcss-pointer-events-none data-[disabled]:twcss-opacity-50",
 			inset && "pl-8",
 			// "focus:bg-accent focus:text-accent-foreground",
-			"focus:bg-theme-text-hover",
+			"focus:twcss-bg-theme-text-hover",
 			className
 		)}
 		{...props}
@@ -115,13 +115,13 @@ export const DropdownMenuCheckboxItem = forwardRef<
 	<CheckboxItem
 		ref={ref}
 		className={cn(
-			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-tall outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+			"twcss-relative twcss-flex twcss-cursor-default twcss-select-none twcss-items-center twcss-rounded-sm twcss-py-1.5 twcss-pl-8 twcss-pr-2 twcss-text-tall twcss-outline-none twcss-transition-colors focus:twcss-bg-accent focus:twcss-text-accent-foreground data-[disabled]:twcss-pointer-events-none data-[disabled]:twcss-opacity-50",
 			className
 		)}
 		checked={checked}
 		{...props}
 	>
-		<span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+		<span className="twcss-absolute twcss-left-2 twcss-flex twcss-h-3.5 twcss-w-3.5 twcss-items-center twcss-justify-center">
 			<ItemIndicator>
 				<LuCheck className="h-4 w-4" />
 			</ItemIndicator>
@@ -138,14 +138,14 @@ export const DropdownMenuRadioItem = forwardRef<
 	<RadioItem
 		ref={ref}
 		className={cn(
-			"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-tall outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+			"twcss-relative twcss-flex twcss-cursor-default twcss-select-none twcss-items-center twcss-rounded-sm twcss-py-1.5 twcss-pl-8 twcss-pr-2 twcss-text-tall twcss-outline-none twcss-transition-colors focus:twcss-bg-accent focus:twcss-text-accent-foreground data-[disabled]:twcss-pointer-events-none data-[disabled]:twcss-opacity-50",
 			className
 		)}
 		{...props}
 	>
-		<span className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+		<span className="twcss-absolute twcss-left-2 twcss-flex twcss-h-3.5 twcss-w-3.5 twcss-items-center twcss-justify-center">
 			<ItemIndicator>
-				<LuCircle className="h-2 w-2 fill-current" />
+				<LuCircle className="twcss-h-2 twcss-w-2 twcss-fill-current" />
 			</ItemIndicator>
 		</span>
 		{children}
@@ -162,8 +162,8 @@ export const DropdownMenuLabel = forwardRef<
 	<Label
 		ref={ref}
 		className={cn(
-			"px-2 py-1.5 text-tall font-semibold",
-			inset && "pl-8",
+			"twcss-px-2 twcss-py-1.5 twcss-text-tall twcss-font-semibold",
+			inset && "twcss-pl-8",
 			className
 		)}
 		{...props}
@@ -179,8 +179,8 @@ export const DropdownMenuSeparator = forwardRef<
 		ref={ref}
 		className={cn(
 			// "bg-muted"
-			"bg-theme-border",
-			"-mx-1 my-1 h-px",
+			"twcss-bg-theme-border",
+			"-twcss-mx-1 twcss-my-1 twcss-h-px",
 			className
 		)}
 		{...props}
@@ -195,7 +195,7 @@ export const DropdownMenuShortcut = ({
 	return(
 		<span
 			className={cn(
-				"ml-auto text-short tracking-widest opacity-60",
+				"twcss-ml-auto twcss-text-short twcss-tracking-widest twcss-opacity-60",
 				className
 			)}
 			{...props}

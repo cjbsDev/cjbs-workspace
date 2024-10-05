@@ -19,11 +19,11 @@ export const TabsList = forwardRef<
 	<List
 		ref={ref}
 		className={cn(
-			"inline-flex items-center justify-center rounded-md bg-theme-bg",
-			"p-1 text-theme-subtext",
-			size==="lg"&&"h-12",
-			size==="md"&&"h-10",
-			size==="sm"&&"h-8",
+			"twcss-inline-flex twcss-items-center twcss-justify-center twcss-rounded-md twcss-bg-theme-bg",
+			"twcss-p-1 twcss-text-theme-subtext",
+			size==="lg"&&"twcss-h-12",
+			size==="md"&&"twcss-h-10",
+			size==="sm"&&"twcss-h-8",
 			className
 		)}
 		{...props}
@@ -38,14 +38,14 @@ export const TabsTrigger = forwardRef<
 	<Trigger
 		ref={ref}
 		className={cn(
-			"inline-flex items-center justify-center whitespace-nowrap rounded-sm px-2 py-1 font-medium",
-			"ring-offset-background transition-all disabled:opacity-50",
-			"focus-visible:outline-none disabled:pointer-events-none",
-			"data-[state=active]:bg-theme-box data-[state=active]:text-theme-text data-[state=active]:shadow-sm",
+			"twcss-inline-flex twcss-items-center twcss-justify-center twcss-whitespace-nowrap twcss-rounded-sm twcss-px-2 twcss-py-1 twcss-font-medium",
+			"twcss-ring-offset-background twcss-transition-all disabled:twcss-opacity-50",
+			"focus-visible:twcss-outline-none disabled:twcss-pointer-events-none",
+			"data-[state=active]:twcss-bg-theme-box data-[state=active]:twcss-text-theme-text data-[state=active]:twcss-shadow-sm",
 			// "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-			size==="lg"&&"text-[1.2rem]",
-			size==="md"&&"text-[1rem]",
-			size==="sm"&&"text-tall",
+			size==="lg"&&"twcss-text-[1.2rem]",
+			size==="md"&&"twcss-text-[1rem]",
+			size==="sm"&&"twcss-text-tall",
 			className
 		)}
 		{...props}
@@ -60,7 +60,7 @@ export const TabsContent = forwardRef<
 	<Content
 		ref={ref}
 		className={cn(
-			"mt-2 focus-visible:outline-none",
+			"twcss-mt-2 focus-visible:twcss-outline-none",
 			// "ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 			className
 		)}

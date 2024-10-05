@@ -10,7 +10,7 @@ export const Table = forwardRef<
     <table
         ref={ref}
         className={cn(
-            "twcss-w-full twcss-caption-bottom text-tall"
+            "twcss-w-full twcss-caption-bottom twcss-text-tall"
         )}
         {...props}
     />
@@ -52,7 +52,7 @@ export const TableFooter = forwardRef<
     <tfoot
         ref={ref}
         className={cn(
-            "twcss-border-t bg-muted/50 twcss-font-medium [&>tr]:last:twcss-border-b-0",
+            "twcss-border-t twcss-bg-muted/50 twcss-font-medium [&>tr]:last:twcss-border-b-0",
             className
         )}
         {...props}
@@ -67,9 +67,9 @@ export const TableRow = forwardRef<
     <tr
         ref={ref}
         className={cn(
-            "twcss-border-t border-theme-border",
+            "twcss-border-t twcss-border-theme-border",
             "twcss-transition-colors",
-            "hover:bg-theme-transparent-hover data-[state=selected]:bg-theme-text-hover",
+            "hover:twcss-bg-theme-transparent-hover data-[state=selected]:twcss-bg-theme-text-hover",
             className
         )}
         {...props}
@@ -85,7 +85,7 @@ export const TableHead = forwardRef<
         ref={ref}
         className={cn(
             "twcss-transition-colors",
-            "text-theme-text bg-theme-box hover:bg-theme-text-hover",
+            "twcss-text-theme-text twcss-bg-theme-box hover:twcss-bg-theme-text-hover",
             "twcss-h-8 twcss-px-2 twcss-text-left twcss-align-middle twcss-font-medium",
             className
         )}
@@ -103,7 +103,7 @@ export const TableCell = forwardRef<
         role="cell"
         className={cn(
             "twcss-h-auto twcss-px-2 twcss-py-1 twcss-align-middle",
-            "text-theme-text",
+            "twcss-text-theme-text",
             className
         )}
         {...props}
@@ -118,7 +118,7 @@ export const TableCaption = forwardRef<
 	<caption
 		ref={ref}
 		className={cn(
-			"twcss-mt-4 text-tall text-muted-foreground",
+			"twcss-mt-4 text-tall twcss-text-muted-foreground",
 			className
 		)}
 		{...props}

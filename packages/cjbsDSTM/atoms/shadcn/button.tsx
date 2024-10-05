@@ -10,7 +10,7 @@ import { cn } from "./mergeStyle";
 
 export const buttonVariants = cva(
 	[
-		"twcss-inline-flex twcss-items-center twcss-justify-center twcss-whitespace-nowrap twcss-rounded-md text-tall twcss-font-medium",
+		"twcss-inline-flex twcss-items-center twcss-justify-center twcss-whitespace-nowrap twcss-rounded-md twcss-text-tall twcss-font-medium",
 		"twcss-transition-colors",
 		// "focus-visible:outline-none",
 		// "ring-offset-background focus-visible:ring focus-visible:ring-ring focus-visible:ring-offset",
@@ -21,20 +21,20 @@ export const buttonVariants = cva(
 			variant: {
 				default:
 					// "bg-primary text-primary-foreground hover:bg-primary/90",
-					"bg-theme-primary twcss-text-white hover:bg-theme-primary-hover",
+					"twcss-bg-theme-primary twcss-text-white hover:twcss-bg-theme-primary-hover",
 				destructive:
 					// "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-					"bg-theme-danger twcss-text-white hover:bg-theme-danger-hover",
+					"twcss-bg-theme-danger twcss-text-white hover:twcss-bg-theme-danger-hover",
 				outline:
-					"twcss-border twcss-border-solid text-theme-primary border-theme-primary twcss-bg-transparent hover:bg-theme-transparent-hover",
+					"twcss-border twcss-border-solid twcss-text-theme-primary twcss-border-theme-primary twcss-bg-transparent hover:twcss-bg-theme-transparent-hover",
 				"outline-danger":
-					"twcss-border twcss-border-solid text-theme-danger border-theme-danger twcss-bg-transparent hover:bg-theme-transparent-hover",
+					"twcss-border twcss-border-solid twcss-text-theme-danger twcss-border-theme-danger twcss-bg-transparent hover:twcss-bg-theme-transparent-hover",
 				secondary:
-					"bg-theme-secondary twcss-text-white hover:bg-theme-secondary-hover",
+					"twcss-bg-theme-secondary twcss-text-white hover:twcss-bg-theme-secondary-hover",
 				// ghost: "hover:bg-accent hover:text-accent-foreground",
-				ghost: "hover:bg-theme-transparent-hover text-theme-text",
+				ghost: "hover:twcss-bg-theme-transparent-hover twcss-text-theme-text",
 				invertedGhost: "twcss-text-white hover:border-theme-primary twcss-border twcss-border-transparent twcss-border-solid",
-				link: "text-theme-primary hover:text-theme-primary-hover !px-0",
+				link: "twcss-text-theme-primary hover:text-theme-primary-hover !twcss-px-0",
 			},
 			size: {
 				default: "twcss-h-10 twcss-px-4 twcss-py-2",

@@ -4,7 +4,7 @@ import { cva } from "class-variance-authority";
 import { Root } from "@radix-ui/react-label";
 
 const labelVariants = cva(
-	"text-tall font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+	"twcss-text-tall twcss-font-medium twcss-leading-none peer-disabled:twcss-cursor-not-allowed peer-disabled:twcss-opacity-70",
 );
 
 
@@ -21,7 +21,7 @@ export const Label = forwardRef<
 		ref={ref}
 		className={cn(
 			labelVariants(),
-			"text-theme-text",
+			"twcss-text-theme-text",
 			className
 		)}
 		{...props}
