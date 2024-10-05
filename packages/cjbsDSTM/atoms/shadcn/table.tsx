@@ -10,7 +10,7 @@ export const Table = forwardRef<
     <table
         ref={ref}
         className={cn(
-            "w-full caption-bottom text-tall"
+            "twcss-w-full twcss-caption-bottom text-tall"
         )}
         {...props}
     />
@@ -52,7 +52,7 @@ export const TableFooter = forwardRef<
     <tfoot
         ref={ref}
         className={cn(
-            "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
+            "twcss-border-t bg-muted/50 twcss-font-medium [&>tr]:last:twcss-border-b-0",
             className
         )}
         {...props}
@@ -67,8 +67,8 @@ export const TableRow = forwardRef<
     <tr
         ref={ref}
         className={cn(
-            "border-t border-theme-border",
-            "transition-colors",
+            "twcss-border-t border-theme-border",
+            "twcss-transition-colors",
             "hover:bg-theme-transparent-hover data-[state=selected]:bg-theme-text-hover",
             className
         )}
@@ -84,9 +84,9 @@ export const TableHead = forwardRef<
     <th
         ref={ref}
         className={cn(
-            "transition-colors",
+            "twcss-transition-colors",
             "text-theme-text bg-theme-box hover:bg-theme-text-hover",
-            "h-8 px-2 text-left align-middle font-medium",
+            "twcss-h-8 twcss-px-2 twcss-text-left twcss-align-middle twcss-font-medium",
             className
         )}
         {...props}
@@ -102,7 +102,7 @@ export const TableCell = forwardRef<
         ref={ref}
         role="cell"
         className={cn(
-            "h-auto px-2 py-1 align-middle",
+            "twcss-h-auto twcss-px-2 twcss-py-1 twcss-align-middle",
             "text-theme-text",
             className
         )}
@@ -118,7 +118,7 @@ export const TableCaption = forwardRef<
 	<caption
 		ref={ref}
 		className={cn(
-			"mt-4 text-tall text-muted-foreground",
+			"twcss-mt-4 text-tall text-muted-foreground",
 			className
 		)}
 		{...props}

@@ -23,13 +23,13 @@ export const SelectTrigger = forwardRef<
 	<Trigger
 		ref={ref}
 		className={cn(
-			"flex h-8 w-full items-center justify-between rounded-md border-solid border",
-			"border-theme-border bg-theme-box px-2 py-1 text-tall",
-			"text-theme-text",
-			"placeholder:text-muted-foreground",
-			"data-[placeholder]:text-muted-foreground",
-			"hover:border-theme-text focus:border-theme-text data-[state=open]:border-theme-primary",
-			"focus:outline-none disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+			"twcss-flex twcss-h-8 twcss-w-full twcss-items-center twcss-justify-between twcss-rounded-md twcss-border-solid twcss-border",
+			"twcss-border-theme-border twcss-bg-theme-box twcss-px-2 twcss-py-1 text-tall",
+			"twcss-text-theme-text",
+			"placeholder:twcss-text-muted-foreground",
+			"data-[placeholder]:twcss-text-muted-foreground",
+			"hover:twcss-border-theme-text focus:twcss-border-theme-text data-[state=open]:twcss-border-theme-primary",
+			"focus:twcss-outline-none disabled:twcss-cursor-not-allowed disabled:twcss-opacity-50 [&>span]:twcss-line-clamp-1",
 			// "ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2",
 			className
 		)}
@@ -37,7 +37,7 @@ export const SelectTrigger = forwardRef<
 	>
 		{children}
 		<Icon asChild>
-			<LuChevronDown className="h-4 w-4 opacity-50 text-theme-text"/>
+			<LuChevronDown className="twcss-h-4 twcss-w-4 twcss-opacity-50 text-theme-text"/>
 		</Icon>
 	</Trigger>
 ));
@@ -50,12 +50,12 @@ export const SelectScrollUpButton = forwardRef<
 	<ScrollUpButton
 		ref={ref}
 		className={cn(
-			"flex cursor-default items-center justify-center py-1",
+			"twcss-flex twcss-cursor-default twcss-items-center twcss-justify-center twcss-py-1",
 			className
 		)}
 		{...props}
 	>
-		<LuChevronUp className="h-4 w-4"/>
+		<LuChevronUp className="twcss-h-4 twcss-w-4"/>
 	</ScrollUpButton>
 ));
 SelectScrollUpButton.displayName = ScrollUpButton.displayName;
@@ -67,12 +67,12 @@ export const SelectScrollDownButton = forwardRef<
 	<ScrollDownButton
 		ref={ref}
 		className={cn(
-			"flex cursor-default items-center justify-center py-1",
+			"twcss-flex twcss-cursor-default twcss-items-center twcss-justify-center twcss-py-1",
 			className
 		)}
 		{...props}
 	>
-		<LuChevronDown className="h-4 w-4"/>
+		<LuChevronDown className="twcss-h-4 twcss-w-4"/>
 	</ScrollDownButton>
 ));
 SelectScrollDownButton.displayName = ScrollDownButton.displayName;
@@ -87,12 +87,12 @@ export const SelectContent = forwardRef<
 		<Content
 			ref={ref}
 			className={cn(
-				"relative z-50 max-h-96 min-w-[8rem] overflow-hidden rounded-md border shadow-md",
+				"twcss-relative twcss-z-50 twcss-max-h-96 twcss-min-w-[8rem] twcss-overflow-hidden twcss-rounded-md twcss-border twcss-shadow-md",
 				"data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2",
 				// "bg-popover text-popover-foreground",
-				"bg-theme-box text-theme-text border-theme-border",
+				"twcss-bg-theme-box twcss-text-theme-text twcss-border-theme-border",
 				position === "popper" &&
-				"data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
+				"data-[side=bottom]:twcss-translate-y-1 data-[side=left]:-twcss-translate-x-1 data-[side=right]:twcss-translate-x-1 data-[side=top]:-twcss-translate-y-1",
 				className
 			)}
 			position={position}
@@ -101,9 +101,9 @@ export const SelectContent = forwardRef<
 			<SelectScrollUpButton/>
 			<Viewport
 				className={cn(
-					"p-1",
+					"twcss-p-1",
 					position === "popper" &&
-					"h-[var(--radix-select-trigger-height)] w-full min-w-[var(--radix-select-trigger-width)]",
+					"twcss-h-[var(--radix-select-trigger-height)] twcss-w-full twcss-min-w-[var(--radix-select-trigger-width)]",
 				)}
 			>
 				{children}
@@ -121,7 +121,7 @@ export const SelectLabel = forwardRef<
 	<Label
 		ref={ref}
 		className={cn(
-			"py-1.5 pl-8 pr-2 text-tall font-semibold",
+			"twcss-py-1.5 twcss-pl-8 twcss-pr-2 twcss-text-tall twcss-font-semibold",
 			className
 		)}
 		{...props}
@@ -136,17 +136,17 @@ export const SelectItem = forwardRef<
 	<Item
 		ref={ref}
 		className={cn(
-			"relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-tall outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
-			"focus:bg-theme-text-hover focus:text-accent-foreground",
+			"twcss-relative twcss-flex twcss-w-full twcss-cursor-default twcss-select-none twcss-items-center twcss-rounded-sm twcss-py-1.5 twcss-pl-8 twcss-pr-2 text-tall twcss-outline-none data-[disabled]:twcss-pointer-events-none data-[disabled]:twcss-opacity-50",
+			"focus:twcss-bg-theme-text-hover focus:twcss-text-accent-foreground",
 			className
 		)}
 		{...props}
 	>
 		<span
-			className="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"
+			className="twcss-absolute twcss-left-2 twcss-flex twcss-h-3.5 twcss-w-3.5 twcss-items-center twcss-justify-center"
 		>
 			<ItemIndicator>
-				<LuCheck className="h-4 w-4"/>
+				<LuCheck className="twcss-h-4 twcss-w-4"/>
 			</ItemIndicator>
 		</span>
 
@@ -161,7 +161,7 @@ export const SelectSeparator = forwardRef<
 >(({ className, ...props }, ref: ForwardedRef<ElementRef<typeof Separator>>)=>(
 	<Separator
 		ref={ref}
-		className={cn("-mx-1 my-1 h-px bg-muted", className)}
+		className={cn("-twcss-mx-1 twcss-my-1 twcss-h-px twcss-bg-muted", className)}
 		{...props}
 	/>
 ));

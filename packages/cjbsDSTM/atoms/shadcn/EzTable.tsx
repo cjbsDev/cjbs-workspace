@@ -67,6 +67,7 @@ import { ScrollArea } from "./scrollarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { tablePaginationClasses } from "@mui/material";
 
+import "./tailwind.scss";
 interface EzTableProps<TData, TValue> {
     columns: ColumnDef<TData,TValue>[];
     data: TData[];
@@ -777,14 +778,14 @@ export function EzTable<TData, TValue>({
     return(
         <div
             id="ezTable"
-            className={"flex flex-col overflow-hidden w-full h-full @container/table"}
+            className={"twcss-flex twcss-flex-col twcss-overflow-hidden twcss-w-full twcss-h-full @container/table"}
         >
             {/* Table Top Bar */}
             {enableTopBar&&
             <div
                 className={cn(
-                    "w-full flex flex-row items-center jusitfy-end",
-                    "flex-wrap gap-y-1 flex-shrink-0 py-2",
+                    "twcss-w-full twcss-flex twcss-flex-row twcss-items-center twcss-jusitfy-end",
+                    "twcss-flex-wrap twcss-gap-y-1 twcss-flex-shrink-0 twcss-py-2",
                 )}
             >
                 <div>
@@ -796,7 +797,7 @@ export function EzTable<TData, TValue>({
                     }
                 </div>
 
-                <div className="grow min-w-1"/>
+                <div className="twcss-grow twcss-min-w-1"/>
 
                 <EzTableTopBar
 					enableFilter={enableFilter}
@@ -1083,7 +1084,7 @@ export function EzTable<TData, TValue>({
 							key={`ez-adv-table-body-${row.id}`}
 							data-state={row.getIsSelected() && "selected"}
 							className={cn(
-								"relative group/tablerow",
+								"twcss-relative group/tablerow",
 								!highlightStyle&&highlightOn&&highlightOn(row.original)
 								? "!bg-theme-warning-mild/15"
 								: ""
@@ -1104,16 +1105,16 @@ export function EzTable<TData, TValue>({
 									id={`cell-${cell.id}-${row.index}`}
 									key={`cell-${cell.id}-${row.index}`}
 									className={cn(
-										"text-tall group-hover/tablerow:bg-theme-transparent-hover transition-colors",
+										"text-tall group-hover/tablerow:bg-theme-transparent-hover twcss-transition-colors",
 										cell.column.columnDef.meta?.enableMultiline
-										? "whitespace-normal"
-										: "whitespace-nowrap text-ellipsis overflow-hidden",
+										? "twcss-whitespace-normal"
+										: "twcss-whitespace-nowrap twcss-text-ellipsis twcss-overflow-hidden",
 										cell.column.getIndex()===1 ? "pl-0" : "",
 										cell.column.getIsPinned()&&row.getIsSelected()
 										? "bg-theme-text-hover"
 										: cell.column.getIsPinned()
 										? "bg-theme-box" : "",
-										enableVirtualization && "!w-[150px] text-left"
+										enableVirtualization && "!twcss-w-[150px] twcss-text-left"
 									)}
 									style={{
 										maxWidth: cell.column.columnDef.maxSize ?? "auto",
@@ -1249,7 +1250,7 @@ function EzTableTopBar<TData,TValue>({
 	const allCols = table.getAllLeafColumns();
 
 	return(
-		<div className="flex flex-row items-center gap-2 w-auto portrait:mdm:w-full">
+		<div className="twcss-flex twcss-flex-row twcss-items-center twcss-gap-2 twcss-w-auto portrait:mdm:twcss-w-full">
 			{/* No Original Filters */}
 			{!enableFilter&&customFilter.renderCustomFilter&&customFilter?.renderCustomFilter(
 				setSelectedCol,

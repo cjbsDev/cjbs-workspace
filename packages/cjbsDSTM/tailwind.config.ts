@@ -3,7 +3,7 @@ module.exports = {
     prefix: 'twcss-',
     important: true,
     content: [
-      "./src/**/*.{ts,tsx,js,jsx}"
+      "./atoms/**/*.{ts,tsx,js,jsx}"
       // "./atoms/**/*.{ts,tsx,js,jsx}",
     //   "../../packages/cjbsDSTM/**/*.{ts,tsx,js,jsx}",
     ],

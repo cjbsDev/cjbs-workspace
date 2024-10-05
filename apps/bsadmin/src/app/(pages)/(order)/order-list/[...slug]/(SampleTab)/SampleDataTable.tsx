@@ -552,6 +552,7 @@ const SampleDataTable = (props) => {
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
       /> */}
+      
       <EzTable
         data={filteredItems ?? []}
         columns={cols}

@@ -4,29 +4,29 @@ import { cn } from "./mergeStyle";
 
 export const badgeVariants = cva(
 	[
-		"inline-flex items-center border px-2 py-0.5 text-tall font-normal",
-		"transition-colors focus:outline-none",
+		"twcss-inline-flex twcss-items-center twcss-border twcss-px-2 twcss-py-0.5 text-tall twcss-font-normal",
+		"twcss-transition-colors focus:twcss-outline-none",
 		// "focus:ring-2 focus:ring-ring focus:ring-offset-2"
 	].join(" "),
 	{
 		variants: {
 			variant: {
-				default: "border-transparent bg-theme-primary text-white shadow",
-				secondary: "border-transparent bg-theme-secondary-bg text-theme-secondary shadow dark:bg-theme-secondary dark:text-theme-secondary-bg",
-				destructive: "border-transparent bg-theme-danger text-white shadow",
-				outline: "border-theme-border text-theme-text shadow",
+				default: "twcss-border-transparent bg-theme-primary twcss-text-white twcss-shadow",
+				secondary: "twcss-border-transparent bg-theme-secondary-bg text-theme-secondary twcss-shadow dark:bg-theme-secondary dark:text-theme-secondary-bg",
+				destructive: "twcss-border-transparent bg-theme-danger twcss-text-white twcss-shadow",
+				outline: "border-theme-border text-theme-text twcss-shadow",
 				success: "bg-theme-success-bg text-theme-success dark:bg-theme-success dark:text-theme-success-bg",
 				danger: "bg-theme-danger-bg text-theme-danger dark:bg-theme-danger dark:text-theme-danger-bg",
 				grey: "bg-theme-grey-bg text-theme-grey dark:bg-theme-grey dark:text-theme-grey-bg",
 			},
 			shape: {
-				square: "rounded-none",
-				rounded: "rounded-md",
-				ellipse: "rounded-l-full rounded-r-full"
+				square: "twcss-rounded-none",
+				rounded: "twcss-rounded-md",
+				ellipse: "twcss-rounded-l-full twcss-rounded-r-full"
 			},
 			border: {
-				none: "border-none",
-				border: "border border-solid"
+				none: "twcss-border-none",
+				border: "twcss-border twcss-border-solid"
 			}
 		},
 		defaultVariants: {
