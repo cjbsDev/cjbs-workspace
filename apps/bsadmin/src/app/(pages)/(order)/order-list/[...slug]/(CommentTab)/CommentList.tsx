@@ -2,6 +2,7 @@ import React, { useState, useMemo, useCallback } from "react";
 import useSWR, { useSWRConfig } from "swr";
 import { DELETE, fetcher, PUT } from "api";
 import { useParams } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { Box, Divider, Grid, Stack, Typography } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
 import {
@@ -16,6 +17,9 @@ import CommentModify from "./CommentModify";
 import MyIcon from "icon/MyIcon";
 
 const CommentList = () => {
+  const { data: session, status } = useSession();
+  const userId = session?.uid;
+
   const params = useParams();
   const orderUkey = params.slug;
   const { mutate } = useSWRConfig();
@@ -56,23 +60,23 @@ const CommentList = () => {
   //     });
   // }, []);
   //
-  // const handleCommentModify = useCallback((index) => {
-  //   console.log("Modify Index", index);
-  //   setIsModifyShow((prev) => [
-  //     ...prev.slice(0, index),
-  //     true,
-  //     ...prev.slice(index + 1),
-  //   ]);
-  // }, []);
-  //
-  // const handleCommentModifyCancel = useCallback((index) => {
-  //   console.log("Modify Index", index);
-  //   setIsModifyShow((prev) => [
-  //     ...prev.slice(0, index),
-  //     false,
-  //     ...prev.slice(index + 1),
-  //   ]);
-  // }, []);
+  const handleCommentModify = useCallback((index) => {
+    console.log("Modify Index", index);
+    setIsModifyShow((prev) => [
+      ...prev.slice(0, index),
+      true,
+      ...prev.slice(index + 1),
+    ]);
+  }, []);
+
+  const handleCommentModifyCancel = useCallback((index) => {
+    console.log("Modify Index", index);
+    setIsModifyShow((prev) => [
+      ...prev.slice(0, index),
+      false,
+      ...prev.slice(index + 1),
+    ]);
+  }, []);
 
   // const onSubmit = (data: any) => {
   //   console.log("MODIFY DATA", data);
@@ -109,6 +113,7 @@ const CommentList = () => {
           const {
             totalCmntUkey,
             writerNm,
+            writerId,
             writerDepartVal,
             createdDttm,
             modifiedDttm,
@@ -144,23 +149,24 @@ const CommentList = () => {
                       작성일 {createdDttm}
                     </Typography>
 
-                    {/*{modifiedDttm !== null && (*/}
-                    {/*  <Typography variant="body2">*/}
-                    {/*    최종 수정일 {modifiedDttm}*/}
-                    {/*  </Typography>*/}
-                    {/*)}*/}
+                    {modifiedDttm !== null && (
+                      <Typography variant="body2">
+                        최종 수정일 {modifiedDttm}
+                      </Typography>
+                    )}
                   </Stack>
                 </Stack>
 
-                {/*<Box>*/}
-                {/*  <Stack direction="row">*/}
-                {/*    <LinkButton*/}
-                {/*      size="small"*/}
-                {/*      buttonName="수정"*/}
-                {/*      sx={{ color: "black" }}*/}
-                {/*      startIcon={<MyIcon icon="pen-fill" size={20} />}*/}
-                {/*      onClick={() => handleCommentModify(index)}*/}
-                {/*    />*/}
+                <Box>
+                  <Stack direction="row">
+                  {userId === writerId && (
+                    <LinkButton
+                      size="small"
+                      buttonName="수정"
+                      sx={{ color: "black" }}
+                      startIcon={<MyIcon icon="pen-fill" size={20} />}
+                      onClick={() => handleCommentModify(index)}
+                    />)}
 
                 {/*    <LinkButton*/}
                 {/*      size="small"*/}
@@ -169,8 +175,8 @@ const CommentList = () => {
                 {/*      startIcon={<MyIcon icon="trash" size={20} />}*/}
                 {/*      onClick={() => handleCommentDelete(totalCmntUkey, index)}*/}
                 {/*    />*/}
-                {/*  </Stack>*/}
-                {/*</Box>*/}
+                  </Stack>
+                </Box>
               </Stack>
 
               <Box
