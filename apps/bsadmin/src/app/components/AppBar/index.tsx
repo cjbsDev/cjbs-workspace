@@ -28,7 +28,7 @@ import Skeleton from "@mui/material/Skeleton";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 
-const drawerWidth = 228;
+const drawerWidth = 175;
 
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
