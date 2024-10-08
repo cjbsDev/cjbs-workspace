@@ -300,10 +300,12 @@ export default function ListOrshbs() {
     srvcTypeAbb: string;
     isOrderStatus: string;
     anlsTypeAbb: string;
+    isCancel: string;
   }) => {
     const orshUkey = row.orshUkey;
     const srvcTypeAbb = row.srvcTypeAbb;
-    const isOrderStatus = row.isOrderStatus;
+    // const isOrderStatus = row.isOrderStatus;
+    const isOrderStatus = row.isCancel === "Y" ? "Y" : row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
     router.push(
       "/orshbs-list/" +

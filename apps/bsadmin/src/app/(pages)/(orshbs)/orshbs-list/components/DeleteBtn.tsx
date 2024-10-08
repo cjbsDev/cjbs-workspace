@@ -18,7 +18,7 @@ const DeleteBtn = ( {orshUkey} : { orshUkey:string; }) => {
       console.log("Response", res);
       if (res.success) {
         mutate(`/orshbs-list/`);
-        toast("삭제 되었습니다.");
+        toast("취소 되었습니다.");
         handleAlertClose();
       } else {
         setSubAlertMsg(res.message);
