@@ -559,7 +559,7 @@ const SampleDataTable = (props) => {
         const code = row.original.sampleStatusRes.rcptStatusCc;
         return(
           <div
-            className="flex flex-col justify-center items-center gap-1"
+            className="flex flex-col items-center gap-1"
           >
             <Badge
               shape="ellipse"
@@ -796,6 +796,7 @@ const SampleDataTable = (props) => {
         isLoading={fetched.isLoading}
         enableSelect
         enableTableOption
+        highlightOdd
         options={{
           useMultiFilter: true,
           useColumnVisibility: true,

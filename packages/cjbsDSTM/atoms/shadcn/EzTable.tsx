@@ -112,6 +112,7 @@ interface EzTableProps<TData, TValue> {
 	tabsKey?: string;
 	highlightOn?: (row:TData) => boolean;
 	highlightStyle?: (row:TData, refs:any) => ReactElement | ReactElement[] | ReactNode;
+	highlightOdd?: boolean;
 	selectType?: "all" | "page";
 	options?: {
 		useMultiFilter?: boolean;
@@ -181,6 +182,7 @@ export function EzTable<TData, TValue>({
     tabsKey,
     highlightOn,
     highlightStyle,
+	highlightOdd=false,
     selectType="all",
     options={
 		useMultiFilter: false,
@@ -1085,6 +1087,7 @@ export function EzTable<TData, TValue>({
 							data-state={row.getIsSelected() && "selected"}
 							className={cn(
 								"relative group/tablerow",
+								highlightOdd&&"group",
 								!highlightStyle&&highlightOn&&highlightOn(row.original)
 								? "!bg-theme-warning-mild/15"
 								: ""
@@ -1114,6 +1117,7 @@ export function EzTable<TData, TValue>({
 										? "bg-theme-text-hover"
 										: cell.column.getIsPinned()
 										? "bg-theme-box" : "",
+										highlightOdd&&"group-odd:bg-muted",
 										enableVirtualization && "!w-[150px] text-left"
 									)}
 									style={{
