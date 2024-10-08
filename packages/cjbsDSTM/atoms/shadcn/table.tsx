@@ -10,7 +10,7 @@ export const Table = forwardRef<
     <table
         ref={ref}
         className={cn(
-            "twcss-w-full twcss-caption-bottom twcss-text-tall"
+            "w-full caption-bottom text-tall"
         )}
         {...props}
     />
@@ -52,7 +52,7 @@ export const TableFooter = forwardRef<
     <tfoot
         ref={ref}
         className={cn(
-            "twcss-border-t twcss-bg-muted/50 twcss-font-medium [&>tr]:last:twcss-border-b-0",
+            "border-t bg-muted/50 font-medium [&>tr]:last:border-b-0",
             className
         )}
         {...props}
@@ -67,9 +67,9 @@ export const TableRow = forwardRef<
     <tr
         ref={ref}
         className={cn(
-            "twcss-border-t twcss-border-theme-border",
-            "twcss-transition-colors",
-            "hover:twcss-bg-theme-transparent-hover data-[state=selected]:twcss-bg-theme-text-hover",
+            "border-t border-theme-border",
+            "transition-colors",
+            "hover:bg-theme-transparent-hover data-[state=selected]:bg-theme-text-hover",
             className
         )}
         {...props}
@@ -84,9 +84,9 @@ export const TableHead = forwardRef<
     <th
         ref={ref}
         className={cn(
-            "twcss-transition-colors",
-            "twcss-text-theme-text twcss-bg-theme-box hover:twcss-bg-theme-text-hover",
-            "twcss-h-8 twcss-px-2 twcss-text-left twcss-align-middle twcss-font-medium",
+            "transition-colors",
+            "text-theme-text bg-theme-box hover:bg-theme-text-hover",
+            "h-8 px-2 text-left align-middle font-medium",
             className
         )}
         {...props}
@@ -102,8 +102,8 @@ export const TableCell = forwardRef<
         ref={ref}
         role="cell"
         className={cn(
-            "twcss-h-auto twcss-px-2 twcss-py-1 twcss-align-middle",
-            "twcss-text-theme-text",
+            "h-auto px-2 py-1 align-middle",
+            "text-theme-text",
             className
         )}
         {...props}
@@ -118,7 +118,7 @@ export const TableCaption = forwardRef<
 	<caption
 		ref={ref}
 		className={cn(
-			"twcss-mt-4 text-tall twcss-text-muted-foreground",
+			"mt-4 text-tall text-muted-foreground",
 			className
 		)}
 		{...props}

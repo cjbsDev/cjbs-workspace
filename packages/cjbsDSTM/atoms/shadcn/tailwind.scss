@@ -162,11 +162,12 @@
 
 @layer base {
 	* {
-		@apply twcss-border-border;
+		@apply border-border;
+		@apply font-sans;
 	}
 
 	body {
-		@apply twcss-bg-background twcss-text-foreground;
+		@apply bg-background text-foreground;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 

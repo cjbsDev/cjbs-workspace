@@ -1,9 +1,14 @@
 /** @type {import('tailwindcss').Config} */
+// console.log("✅✅Tailwind App Config",__dirname)
 module.exports = {
-    prefix: 'twcss-',
-    important: true,
+    // prefix: '',
+    // important: true,
     content: [
-      "./src/**/*.{ts,tsx,js,jsx}"
+      // "./**/*.{ts,tsx,js,jsx}"
+      './src/app/**/*.{ts,tsx,js,jsx,html}',
+      '../../packages/cjbsDSTM/atoms/**/*.{ts,tsx,js,jsx,html}'
+      // './public/**/*.{html,js,tsx}'
+      // "apps/bsadmin/src/**/*.{ts,tsx,js,jsx}"
       // "./atoms/**/*.{ts,tsx,js,jsx}",
     //   "../../packages/cjbsDSTM/**/*.{ts,tsx,js,jsx}",
     ],
@@ -64,8 +69,8 @@ module.exports = {
         },
         extend: {
         fontSize: {
-        short: ["0.6rem","1rem"],
-        tall: ["0.8rem","1.25rem"],
+        short: ["0.8rem","1rem"],
+        tall: ["1rem","1.25rem"],
         },
           colors: {
             "cj-red": "#ef151e",

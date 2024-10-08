@@ -28,17 +28,17 @@ interface InputProps extends
 
 export const inputVariant = cva(
 	[
-		"twcss-w-full twcss-flex twcss-flex-row twcss-gap-4 twcss-items-center twcss-z-[2] twcss-bg-theme-box",
-		"twcss-rounded-md twcss-border-solid twcss-border twcss-border-theme-border",
-		"hover:twcss-border-theme-text focus-within:!twcss-border-theme-primary focus:!twcss-border-theme-primary",
-		"focus-visible:twcss-outline-none disabled:twcss-cursor-not-allowed disabled:twcss-opacity-50"
+		"w-full flex flex-row gap-4 items-center z-[2] bg-theme-box",
+		"rounded-md border-solid border border-theme-border",
+		"hover:border-theme-text focus-within:!border-theme-primary focus:!border-theme-primary",
+		"focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 	].join(" "),
 	{
 		variants: {
 			height: {
-				default: "twcss-h-10 twcss-px-4 twcss-py-2",
-				sm: "twcss-h-8 twcss-px-2 twcss-py-1",
-				lg: "twcss-h-12 twcss-px-4 twcss-py-2"
+				default: "h-10 px-4 py-2",
+				sm: "h-8 px-2 py-1",
+				lg: "h-12 px-4 py-2"
 			}
 		}
 	}
@@ -60,7 +60,7 @@ export const EzInput = forwardRef<HTMLInputElement, InputProps>(({
 			onKeyDown={props.onKeyDown}
 		>
 			{icon&&<span
-				className="twcss-h-full twcss-flex twcss-items-center"
+				className="h-full flex items-center"
 			>
 				{icon}
 			</span>}
@@ -68,11 +68,11 @@ export const EzInput = forwardRef<HTMLInputElement, InputProps>(({
 				ref={ref}
 				type={type}
 				className={cn(
-					"twcss-flex twcss-h-full twcss-w-full twcss-rounded-md",
-					"twcss-text-theme-text twcss-bg-theme-box focus-visible:twcss-outline-none",
+					"flex h-full w-full rounded-md",
+					"text-theme-text bg-theme-box focus-visible:outline-none",
 					// "placeholder:text-muted-foreground"
-					"placeholder:twcss-text-theme-subtext placeholder:twcss-text-tall",
-					height==="lg" ? "twcss-text-[1rem]" : "twcss-text-tall"
+					"placeholder:text-theme-subtext placeholder:text-tall",
+					height==="lg" ? "text-[1rem]" : "text-tall"
 				)}
 				{...props}
 			/>
@@ -90,17 +90,17 @@ export const EzTagInput = forwardRef<HTMLInputElement, InputProps>(({
 		<div
 			className={cn(
 				inputVariant({height}),
-				"peer twcss-overflow-hidden twcss-min-w-[300px]",
+				"peer overflow-hidden min-w-[300px]",
 				className
 			)}
 			onKeyDown={props.onKeyDown}
 		>
-			{icon&&<span className="twcss-h-full twcss-flex twcss-items-center">{icon}</span>}
+			{icon&&<span className="h-full flex items-center">{icon}</span>}
 			{tags&&tags.value.length>0&&<span
-				className="twcss-w-auto twcss-h-full twcss-flex twcss-flex-row twcss-gap-1"
+				className="w-auto h-full flex flex-row gap-1"
 			>
 				{tags.value.map((v,i)=>(
-				<Badge key={`${v}-${i}`} variant={"outline"} className="twcss-bg-theme-box">
+				<Badge key={`${v}-${i}`} variant={"outline"} className="bg-theme-box">
 					{v}
 				</Badge>
 				))}
@@ -109,10 +109,10 @@ export const EzTagInput = forwardRef<HTMLInputElement, InputProps>(({
 				ref={ref}
 				type={type}
 				className={cn(
-					"twcss-flex twcss-h-full twcss-w-full twcss-rounded-md",
-					"twcss-text-theme-text twcss-bg-theme-box focus-visible:twcss-outline-none",
+					"flex h-full w-full rounded-md",
+					"text-theme-text bg-theme-box focus-visible:outline-none",
 					// "placeholder:text-muted-foreground"
-					"placeholder:twcss-text-theme-subtext"
+					"placeholder:text-theme-subtext"
 				)}
 				{...props}
 			/>
@@ -192,7 +192,7 @@ export const EzAutoComplete = forwardRef<HTMLInputElement, EzAutoCompleteProps>(
 	}
 
 	return (
-    <div className="twcss-z-[2] twcss-flex twcss-flex-col twcss-relative" ref={container}>
+    <div className="z-[2] flex flex-col relative" ref={container}>
       {!isSearching && (
         <EzInput
           type={type}
@@ -213,14 +213,14 @@ export const EzAutoComplete = forwardRef<HTMLInputElement, EzAutoCompleteProps>(
         <span
           className={cn(
             inputVariant({height}),
-            "twcss-w-full twcss-rounded-l-full twcss-rounded-r-full twcss-flex",
-            "twcss-items-center twcss-justify-center twcss-border twcss-border-solid twcss-border-theme-border twcss-pointer-events-none twcss-gap-2",
+            "w-full rounded-l-full rounded-r-full flex",
+            "items-center justify-center border border-solid border-theme-border pointer-events-none gap-2",
           )}
         >
-          <span className="twcss-h-full twcss-flex twcss-items-center animate-text-flash">
-            <LuLoader2 className="twcss-w-6 twcss-h-6 animate-spin twcss-text-theme-text" />
+          <span className="h-full flex items-center animate-text-flash">
+            <LuLoader2 className="w-6 h-6 animate-spin text-theme-text" />
           </span>
-          <span className="twcss-text-theme-text twcss-text-[1rem] animate-text-flash">
+          <span className="text-theme-text text-[1rem] animate-text-flash">
             {props.value}
           </span>
         </span>
@@ -231,14 +231,14 @@ export const EzAutoComplete = forwardRef<HTMLInputElement, EzAutoCompleteProps>(
           <motion.div
             id={`${props.id}-autocomplete`}
             className={cn(
-              "twcss-absolutetwcss- w-full twcss-rounded-md twcss-shadow-md twcss-bg-theme-box twcss-h-auto twcss-z-[2]",
-              "twcss-border twcss-border-theme-border twcss-border-solid twcss-p-6 smm:twcss-p-4",
-              "twcss-flex twcss-flex-col twcss-opacity-0",
-              "peer-focus-within:twcss-opacity-100 twcss-ransition-opacity twcss-duration-200 peer-focus-within:twcss-translate-y-[1rem]",
+              "absolute w-full rounded-md shadow-md bg-theme-box h-auto z-[2]",
+              "border border-theme-border border-solid p-6 smm:p-4",
+              "flex flex-col opacity-0",
+              "peer-focus-within:opacity-100 ransition-opacity duration-200 peer-focus-within:translate-y-[1rem]",
               data.length === 0
-                ? "twcss-items-center twcss-justify-center"
-                : "twcss-justify-center",
-              isFocused ? "twcss-pointer-events-auto" : "twcss-pointer-events-none",
+                ? "items-center justify-center"
+                : "justify-center",
+              isFocused ? "pointer-events-auto" : "pointer-events-none",
             )}
             animate={{
               opacity: isFocused ? 1 : 0,
@@ -255,16 +255,16 @@ export const EzAutoComplete = forwardRef<HTMLInputElement, EzAutoCompleteProps>(
             }}
           >
             {isLoading ? (
-              <LuLoader2 className="twcss-h-6 twcss-w-6 animate-spin twcss-text-theme-text" />
+              <LuLoader2 className="h-6 w-6 animate-spin text-theme-text" />
             ) : (
               <>
                 {error && (
-                  <span className="twcss-h-8 twcss-text-[1rem] twcss-text-theme-danger twcss-flex twcss-items-center twcss-justify-center">
+                  <span className="h-8 text-[1rem] text-theme-danger flex items-center justify-center">
                     {error}
                   </span>
                 )}
                 {data.length === 0 && (
-                  <span className="twcss-h-8 twcss-text-[1rem] twcss-text-theme-subtext twcss-flex twcss-items-center twcss-justify-center">
+                  <span className="h-8 text-[1rem] text-theme-subtext flex items-center justify-center">
                     No results found
                   </span>
                 )}
@@ -283,7 +283,7 @@ export const EzAutoComplete = forwardRef<HTMLInputElement, EzAutoCompleteProps>(
                 {data.length > 0 &&
                   more &&
                   Number(more.replace(/\,/g, "")) > 1 && (
-                    <span className="twcss-h-8 twcss-text-tall twcss-flex twcss-items-center twcss-italic twcss-px-2 twcss-py-1 twcss-text-theme-text">
+                    <span className="h-8 text-tall flex items-center italic px-2 py-1 text-theme-text">
                       {more} more...
                     </span>
                   )}

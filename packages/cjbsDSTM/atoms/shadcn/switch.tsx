@@ -10,8 +10,8 @@ export const Switch = forwardRef<
 		ref={ref}
 		className={cn(
 			// "data-[state=checked]:bg-primary data-[state=unchecked]:bg-input",
-			"peer twcss-inline-flex twcss-h-5 twcss-w-9 twcss-shrink-0 twcss-cursor-pointer twcss-items-center twcss-rounded-full twcss-border-2 twcss-border-transparent twcss-shadow-sm twcss-transition-colors focus-visible:twcss-outline-none focus-visible:twcss-ring-2 focus-visible:twcss-ring-ring focus-visible:twcss-ring-offset-2 focus-visible:twcss-ring-offset-background disabled:twcss-cursor-not-allowed disabled:twcss-opacity-50",
-			"data-[state=checked]:twcss-bg-theme-border data-[state=unchecked]:twcss-bg-muted",
+			"peer inline-flex h-5 w-9 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:opacity-50",
+			"data-[state=checked]:bg-theme-border data-[state=unchecked]:bg-muted",
 			className
 		)}
 		{...props}
@@ -19,9 +19,9 @@ export const Switch = forwardRef<
 		<Thumb
 			className={cn(
 				// "bg-background",
-				"data-[state=checked]:twcss-bg-theme-primary",
-				"data-[state=unchecked]:twcss-bg-theme-text-hover",
-				"twcss-pointer-events-none twcss-block twcss-h-4 twcss-w-4 twcss-rounded-full twcss-shadow-lg twcss-ring-0 twcss-transition-transform data-[state=checked]:twcss-translate-x-[calc(1rem+2px)] data-[state=unchecked]:twcss-translate-x-0.5"
+				"data-[state=checked]:bg-theme-primary",
+				"data-[state=unchecked]:bg-theme-text-hover",
+				"pointer-events-none block h-4 w-4 rounded-full shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-[calc(1rem+2px)] data-[state=unchecked]:translate-x-0.5"
 			)}
 		/>
 	</Root>
@@ -36,18 +36,18 @@ export const SquareSwitch = forwardRef<
 	<Root
 		ref={ref}
 		className={cn(
-			"peer twcss-inline-flex twcss-h-8 twcss-w-16 twcss-shrink-0 twcss-cursor-pointer twcss-items-center twcss-rounded-md",
-			"twcss-transition-colors disabled:twcss-cursor-not-allowed disabled:twcss-opacity-50",
-			"twcss-bg-theme-border twcss-p-1",
+			"peer inline-flex h-8 w-16 shrink-0 cursor-pointer items-center rounded-md",
+			"transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+			"bg-theme-border p-1",
 			className
 		)}
 		{...props}
 	>
 		<Thumb
 			className={cn(
-				"twcss-flex twcss-items-center twcss-justify-center",
-				"twcss-bg-theme-box twcss-pointer-evenets-none twcss-h-6twcss- w-7 twcss-rounded-md twcss-shadow-lg twcss-ring-0",
-				"twcss-transition-transform data-[state=checked]:twcss-translate-x-[calc(1.75rem)] twcss-text-short"
+				"flex items-center justify-center",
+				"bg-theme-box pointer-evenets-none h-6 w-7 rounded-md shadow-lg ring-0",
+				"transition-transform data-[state=checked]:translate-x-[calc(1.75rem)] text-short"
 			)}
 		>
 			{props.title}

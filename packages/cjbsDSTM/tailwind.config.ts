@@ -1,10 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+console.log("✅✅Tailwind Package Config")
 module.exports = {
-    prefix: 'twcss-',
-    important: true,
+    prefix: '',
+    // important: true,
     content: [
-      "./atoms/**/*.{ts,tsx,js,jsx}"
-      // "./atoms/**/*.{ts,tsx,js,jsx}",
+      // "./**/*.{ts,tsx,js,jsx}"
+      "./atoms/**/*.{ts,tsx,js,jsx}",
+      // "packages/cjbsDSTM/atoms/**/*.{ts,tsx,js,jsx}",
     //   "../../packages/cjbsDSTM/**/*.{ts,tsx,js,jsx}",
     ],
     theme: {

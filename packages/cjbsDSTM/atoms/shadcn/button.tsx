@@ -10,37 +10,37 @@ import { cn } from "./mergeStyle";
 
 export const buttonVariants = cva(
 	[
-		"twcss-inline-flex twcss-items-center twcss-justify-center twcss-whitespace-nowrap twcss-rounded-md twcss-text-tall twcss-font-medium",
-		"twcss-transition-colors",
+		"inline-flex items-center justify-center whitespace-nowrap rounded-md text-tall font-medium",
+		"transition-colors",
 		// "focus-visible:outline-none",
 		// "ring-offset-background focus-visible:ring focus-visible:ring-ring focus-visible:ring-offset",
-		"disabled:twcss-pointer-events-none disabled:twcss-opacity-50",
+		"disabled:pointer-events-none disabled:opacity-50",
 	].join(" "),
 	{
 		variants: {
 			variant: {
 				default:
 					// "bg-primary text-primary-foreground hover:bg-primary/90",
-					"twcss-bg-theme-primary twcss-text-white hover:twcss-bg-theme-primary-hover",
+					"bg-theme-primary text-white hover:bg-theme-primary-hover",
 				destructive:
 					// "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-					"twcss-bg-theme-danger twcss-text-white hover:twcss-bg-theme-danger-hover",
+					"bg-theme-danger text-white hover:bg-theme-danger-hover",
 				outline:
-					"twcss-border twcss-border-solid twcss-text-theme-primary twcss-border-theme-primary twcss-bg-transparent hover:twcss-bg-theme-transparent-hover",
+					"border border-solid text-theme-primary border-theme-primary bg-transparent hover:bg-theme-transparent-hover",
 				"outline-danger":
-					"twcss-border twcss-border-solid twcss-text-theme-danger twcss-border-theme-danger twcss-bg-transparent hover:twcss-bg-theme-transparent-hover",
+					"border border-solid text-theme-danger border-theme-danger bg-transparent hover:bg-theme-transparent-hover",
 				secondary:
-					"twcss-bg-theme-secondary twcss-text-white hover:twcss-bg-theme-secondary-hover",
+					"bg-theme-secondary text-white hover:bg-theme-secondary-hover",
 				// ghost: "hover:bg-accent hover:text-accent-foreground",
-				ghost: "hover:twcss-bg-theme-transparent-hover twcss-text-theme-text",
-				invertedGhost: "twcss-text-white hover:border-theme-primary twcss-border twcss-border-transparent twcss-border-solid",
-				link: "twcss-text-theme-primary hover:text-theme-primary-hover !twcss-px-0",
+				ghost: "hover:bg-theme-transparent-hover text-theme-text",
+				invertedGhost: "text-white hover:border-theme-primary border border-transparent border-solid",
+				link: "text-theme-primary hover:text-theme-primary-hover !px-0",
 			},
 			size: {
-				default: "twcss-h-10 twcss-px-4 twcss-py-2",
-				sm: "twcss-h-8 twcss-rounded-md twcss-px-2",
-				lg: "twcss-h-12 twcss-rounded-md twcss-px-8",
-				icon: "twcss-h-10 twcss-w-10",
+				default: "h-10 px-4 py-2",
+				sm: "h-8 rounded-md px-2",
+				lg: "h-12 rounded-md px-8",
+				icon: "h-10 w-10",
 			},
 		},
 		defaultVariants: {
@@ -88,15 +88,15 @@ export const EzButton = forwardRef<HTMLButtonElement, ButtonProps>(({
 			className={cn(
 				"font-manrope",
 				buttonVariants({ variant, size, className }),
-				isLoading ? "twcss-items-center twcss-justify-center twcss-pointer-events-none twcss-opacity-50" : ""
+				isLoading ? "items-center justify-center pointer-events-none opacity-50" : ""
 			)}
 			ref={ref}
 			{...props}
 		>
-			{isLoading&&<LuLoader2 className="twcss-animate-spin twcss-h-6 twcss-w-6 twcss-absolute"/>}
+			{isLoading&&<LuLoader2 className="animate-spin h-6 w-6 absolute"/>}
 			<span className={cn(
-				isLoading ? "twcss-opacity-0" :
-				props.disabled ? "twcss-opacity-50" : "",
+				isLoading ? "opacity-0" :
+				props.disabled ? "opacity-50" : "",
 				wrapperStyle
 			)}>
 				{props.children}

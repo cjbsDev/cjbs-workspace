@@ -67,7 +67,7 @@ import { ScrollArea } from "./scrollarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { tablePaginationClasses } from "@mui/material";
 
-import "./tailwind.scss";
+// import "./tailwind.scss";
 interface EzTableProps<TData, TValue> {
     columns: ColumnDef<TData,TValue>[];
     data: TData[];
@@ -778,14 +778,14 @@ export function EzTable<TData, TValue>({
     return(
         <div
             id="ezTable"
-            className={"twcss-flex twcss-flex-col twcss-overflow-hidden twcss-w-full twcss-h-full @container/table"}
+            className={"flex flex-col overflow-hidden w-full h-full @container/table"}
         >
             {/* Table Top Bar */}
             {enableTopBar&&
             <div
                 className={cn(
-                    "twcss-w-full twcss-flex twcss-flex-row twcss-items-center twcss-jusitfy-end",
-                    "twcss-flex-wrap twcss-gap-y-1 twcss-flex-shrink-0 twcss-py-2",
+                    "w-full flex flex-row items-center jusitfy-end",
+                    "flex-wrap gap-y-1 flex-shrink-0 py-2",
                 )}
             >
                 <div>
@@ -797,7 +797,7 @@ export function EzTable<TData, TValue>({
                     }
                 </div>
 
-                <div className="twcss-grow twcss-min-w-1"/>
+                <div className="grow min-w-1"/>
 
                 <EzTableTopBar
 					enableFilter={enableFilter}
@@ -846,27 +846,27 @@ export function EzTable<TData, TValue>({
 				type="hover"
 				orientation="both"
 				className={cn(
-					"twcss-flex-grow twcss-pr-2.5"
+					"flex-grow pr-2.5"
 				)}
 				ref={containerRef}
 			>
 				<Table
 					className={cn(
-						"twcss-h-full twcss-grow",
-						"twcss-w-full twcss-caption-bottom twcss-text-tall",
+						"h-full grow",
+						"w-full caption-bottom text-tall",
 						customCard&&
 						(
 							(typeof customCardThreshold==="number"&&Number(containerRef.current?.clientWidth)<customCardThreshold) ||
 							(typeof customCardThreshold==="boolean"&&customCardThreshold)
-						) ? `twcss-hidden` : "",
-						enableVirtualization && "twcss-table-fixed"
+						) ? `hidden` : "",
+						enableVirtualization && "table-fixed"
 					)}
 				>
 					<TableHeader>
 					{table.getHeaderGroups().map((headerGroup,headerGroupIdx)=>(
 						<TableRow
 							key={`ez-adv-table-header-${headerGroup.id}`}
-							className="twcss-rounded-tl-md twcss-rounded-tr-md twcss-border-t-0 hover:twcss-bg-transparent"
+							className="rounded-tl-md rounded-tr-md border-t-0 hover:bg-transparent"
 						>
 							{/* Pre-Padding When Virtualised */}
 							{enableVirtualization&&virtualPaddingLeft ? (
@@ -882,19 +882,19 @@ export function EzTable<TData, TValue>({
 								key={`header-${header.id}-${vci}`}
 								id={`header-${header.id}-${vci}`}
 								className={cn(
-									"twcss-sticky twcss-top-0 twcss-font-bold twcss-text-tall twcss-py-1",
-									"[&:has([role=checkbox])>span]:twcss-justify-center",
-									"[&:has([role=checkbox])>span>span]:twcss-justify-center",
-									header.column.getIndex()===1 ? "twcss-pl-0" : "",
-									"twcss-bg-theme-box",
+									"sticky top-0 font-bold text-tall py-1",
+									"[&:has([role=checkbox])>span]:justify-center",
+									"[&:has([role=checkbox])>span>span]:justify-center",
+									header.column.getIndex()===1 ? "pl-0" : "",
+									"bg-theme-box",
 									[false,null,undefined].includes(header.column.columnDef.meta?.isEditable) &&
-									[false,null,undefined].includes(header.column.columnDef.meta?.isDeletable) && "!twcss-cursor-default"&&(
+									[false,null,undefined].includes(header.column.columnDef.meta?.isDeletable) && "!cursor-default"&&(
 									header.column.getCanSort() ||
 									header.column.getCanMultiSort())
-									? "twcss-cursor-pointer"
-									: "twcss-cursor-default",
-									header.column.getIsPinned() ? "twcss-bg-theme-box" : "",
-									enableVirtualization && "twcss-!w-[150px] twcss-text-left"
+									? "cursor-pointer"
+									: "cursor-default",
+									header.column.getIsPinned() ? "bg-theme-box" : "",
+									enableVirtualization && "!w-[150px] text-left"
 								)}
 								style={{
 									// width: enableVirtualization ? 150 : undefined,
@@ -904,8 +904,8 @@ export function EzTable<TData, TValue>({
 							>
 								<span
 									className={cn(
-										"twcss-flex twcss-flex-row twcss-gap-2 twcss-w-full twcss-h-full twcss-items-center",
-										enableVirtualization && "twcss-justify-start"
+										"flex flex-row gap-2 w-full h-full items-center",
+										enableVirtualization && "justify-start"
 									)}
 									onClick={()=>{
 										if(
@@ -927,14 +927,14 @@ export function EzTable<TData, TValue>({
 										header.column.columnDef.header,
 										header.getContext()
 									)}
-									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isAsc&&<LuArrowUp className="twcss-h-4 twcss-w-4"/>}
-									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isDesc&&<LuArrowDown className="twcss-h-4 twcss-w-4"/>}
+									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isAsc&&<LuArrowUp className="h-4 w-4"/>}
+									{[false,null,undefined].includes(header.column.columnDef.meta?.isEditable)&&isDesc&&<LuArrowDown className="h-4 w-4"/>}
 									{header.column.columnDef.meta?.isEditable&&
 									header.column.columnDef.meta?.isMetadata&&
 									header.column.columnDef.meta?.isDeletable&&
 									<LuX
 										className={cn(
-											"twcss-h-4 twcss-w-4 twcss-text-theme-danger hover:twcss-text-theme-danger-hover twcss-cursor-pointer",
+											"h-4 w-4 text-theme-danger hover:text-theme-danger-hover cursor-pointer",
 										)}
 										onClick={(()=>{
 											// console.log(header.column)
@@ -966,7 +966,7 @@ export function EzTable<TData, TValue>({
 									vci===headerGroup.headers.length-1&&
 									<LuPlus
 										className={cn(
-											"twcss-h-4 twcss-w-4 twcss-text-theme-primary hover:twcss-text-theme-primary-hover twcss-cursor-pointer"
+											"h-4 w-4 text-theme-primary hover:text-theme-primary-hover cursor-pointer"
 										)}
 										onClick={()=>{
 											const isMetadata = header.column.columnDef.meta?.isMetadata;
@@ -1068,7 +1068,7 @@ export function EzTable<TData, TValue>({
 						</TableRow>
 					))}
 					</TableHeader>
-					<TableBody className="twcss-min-h-24">
+					<TableBody className="min-h-24">
 						{/* Data */}
 						{!isLoading&&table.getRowModel().rows?.length>0&&table.getRowModel().rows.filter((row)=>{
 						if(!enableTabs||!tabsKey) return true;
@@ -1084,9 +1084,9 @@ export function EzTable<TData, TValue>({
 							key={`ez-adv-table-body-${row.id}`}
 							data-state={row.getIsSelected() && "selected"}
 							className={cn(
-								"twcss-relative group/tablerow",
+								"relative group/tablerow",
 								!highlightStyle&&highlightOn&&highlightOn(row.original)
-								? "!twcss-bg-theme-warning-mild/15"
+								? "!bg-theme-warning-mild/15"
 								: ""
 							)}
 						>
@@ -1105,16 +1105,16 @@ export function EzTable<TData, TValue>({
 									id={`cell-${cell.id}-${row.index}`}
 									key={`cell-${cell.id}-${row.index}`}
 									className={cn(
-										"twcss-text-tall group-hover/tablerow:twcss-bg-theme-transparent-hover twcss-transition-colors",
+										"text-tall group-hover/tablerow:bg-theme-transparent-hover transition-colors",
 										cell.column.columnDef.meta?.enableMultiline
-										? "twcss-whitespace-normal"
-										: "twcss-whitespace-nowrap twcss-text-ellipsis twcss-overflow-hidden",
+										? "whitespace-normal"
+										: "whitespace-nowrap text-ellipsis overflow-hidden",
 										cell.column.getIndex()===1 ? "pl-0" : "",
 										cell.column.getIsPinned()&&row.getIsSelected()
-										? "twcss-bg-theme-text-hover"
+										? "bg-theme-text-hover"
 										: cell.column.getIsPinned()
-										? "twcss-bg-theme-box" : "",
-										enableVirtualization && "!twcss-w-[150px] twcss-text-left"
+										? "bg-theme-box" : "",
+										enableVirtualization && "!w-[150px] text-left"
 									)}
 									style={{
 										maxWidth: cell.column.columnDef.maxSize ?? "auto",
@@ -1148,7 +1148,7 @@ export function EzTable<TData, TValue>({
 							<TableCell
 								colSpan={table.getAllLeafColumns().length}
 								rowSpan={10}
-								className="twcss-row-span-full twcss-w-full twcss-h-full twcss-min-h-24 twcss-text-center twcss-pointer-events-none twcss-py-2 twcss-text-tall twcss-text-theme-perma-grey twcss-font-semibold"
+								className="row-span-full w-full h-full min-h-24 text-center pointer-events-none py-2 text-tall text-theme-perma-grey font-semibold"
 							>
 								No Results
 							</TableCell>
@@ -1161,7 +1161,7 @@ export function EzTable<TData, TValue>({
 							<TableCell
 								colSpan={table.getAllLeafColumns().length}
 								rowSpan={10}
-								className="twcss-w-full twcss-h-full twcss-text-center twcss-col-span-full twcss-row-span-full twcss-min-h-24"
+								className="w-full h-full text-center col-span-full row-span-full min-h-24"
 							>
 								Loading...
 							</TableCell>
@@ -1250,7 +1250,7 @@ function EzTableTopBar<TData,TValue>({
 	const allCols = table.getAllLeafColumns();
 
 	return(
-		<div className="twcss-flex twcss-flex-row twcss-items-center twcss-gap-2 twcss-w-auto portrait:mdm:twcss-w-full">
+		<div className="flex flex-row items-center gap-2 w-auto portrait:mdm:w-full">
 			{/* No Original Filters */}
 			{!enableFilter&&customFilter.renderCustomFilter&&customFilter?.renderCustomFilter(
 				setSelectedCol,
@@ -1756,13 +1756,13 @@ export function EzTablePagination<TData>({
 	return(
 		<div
 			className={cn(
-				"twcss-w-full twcss-flex twcss-flex-row twcss-items-center twcss-justify-end twcss-flex-wrap",
-				"twcss-gap-y-1 twcss-flex-shrink-0 twcss-py-2 @container"
+				"w-full flex flex-row items-center justify-end flex-wrap",
+				"gap-y-1 flex-shrink-0 py-2 @container"
 			)}
 		>
 			{renderRowInfo()}
-			<div className="twcss-grow twcss-min-w-1"/>
-			<div className="twcss-flex twcss-flex-row twcss-flex-grow-0 twcss-flex-shrink @xs:twcss-gap-0 @lg:twcss-gap-2 twcss-text-tall mdm:twcss-gap-1">
+			<div className="grow min-w-1"/>
+			<div className="flex flex-row flex-grow-0 flex-shrink @xs:gap-0 @lg:gap-2 text-tall mdm:gap-1">
 				{renderPagination()}
 			</div>
 		</div>
@@ -1827,9 +1827,9 @@ export function EzTableOptions<TData,TValue>({
 						<Button
 							variant="ghost"
 							size="sm"
-							className="twcss-ml-auto twcss-h-8 lg:twcss-flex"
+							className="ml-auto h-8 lg:flex"
 						>
-							<LuSlidersHorizontal className="twcss-h-4 twcss-w-4"/>
+							<LuSlidersHorizontal className="h-4 w-4"/>
 						</Button>
 					</DropdownMenuTrigger>
 					</TooltipTrigger>
@@ -1843,12 +1843,12 @@ export function EzTableOptions<TData,TValue>({
 
 			<DropdownMenuContent
 				align="end"
-				className="twcss-w-max"
+				className="w-max"
 				container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
 				onCloseAutoFocus={(e)=>e.preventDefault()}
 			>
 				{useMultiFilter&&<DropdownMenuItem
-					className="twcss-flex twcss-flex-row twcss-gap-1 twcss-h-10"
+					className="flex flex-row gap-1 h-10"
 					onSelect={(e)=>{
 						e.preventDefault();
 					}}
@@ -1897,17 +1897,17 @@ export function EzTableOptions<TData,TValue>({
 					</DropdownMenuPortal>
 				</DropdownMenuSub>} */}
 				{useVisibilityControl&&<DropdownMenuSub>
-					<DropdownMenuSubTrigger className="twcss-h-10">
+					<DropdownMenuSubTrigger className="h-10">
 						<span>Hide column(s)</span>
 					</DropdownMenuSubTrigger>
 					<DropdownMenuPortal
 						container={typeof window!=="undefined" ? document.getElementById("appWrapper") : undefined}
 					>
-						<DropdownMenuSubContent className="twcss-max-h-[600px] twcss-overflow-y-auto">
+						<DropdownMenuSubContent className="max-h-[600px] overflow-y-auto">
 							{visibleCols.map((v,i:number)=>(
 								<DropdownMenuItem
 									key={`table-option-vis-${v.id}`}
-									className="twcss-flex twcss-flex-row twcss-gap-1 twcss-items-center twcss-cursor-pointer twcss-justify-between twcss-h-10"
+									className="flex flex-row gap-1 items-center cursor-pointer justify-between h-10"
 									onSelect={(e)=>{
 										e.preventDefault();
 										table.getColumn(v.id!)?.toggleVisibility(
@@ -1915,8 +1915,8 @@ export function EzTableOptions<TData,TValue>({
 										)
 									}}
 								>
-								<span title={v.header} className="twcss-max-w-[250px] twcss-overflow-x-hidden twcss-text-ellipsis twcss-whitespace-nowrap">{v.header}</span>
-								{v.visibility ? <LuEye className="twcss-h-4 twcss-w-4"/> : <LuEyeOff className="twcss-h-4 twcss-w-4"/>}
+								<span title={v.header} className="max-w-[250px] overflow-x-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
+								{v.visibility ? <LuEye className="h-4 w-4"/> : <LuEyeOff className="h-4 w-4"/>}
 							</DropdownMenuItem>
 							))}
 						</DropdownMenuSubContent>

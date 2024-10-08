@@ -1,6 +1,26 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@font-face {
+	font-family: 'NotoSansKR';
+	src: url('/fonts/NotoSansKR-Regular.ttf');
+	font-weight: 400;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'NotoSansKR';
+	src: url('/fonts/NotoSansKR-SemiBold.ttf');
+	font-weight: 600;
+	font-style: normal;
+  }
+  
+  @font-face {
+	font-family: 'NotoSansKR';
+	src: url('/fonts/NotoSansKR-Bold.ttf');
+	font-weight: 700;
+	font-style: normal;
+  }
 
 .popover-content-width-same-as-its-trigger {
 	width: "var(--radix-popover-trigger-width)";
@@ -162,11 +182,12 @@
 
 @layer base {
 	* {
-		@apply twcss-border-border;
+		@apply border-border;
+		font-family: "NotoSansKR"
 	}
 
 	body {
-		@apply twcss-bg-background twcss-text-foreground;
+		@apply bg-background text-foreground;
 		font-feature-settings: "rlig" 1, "calt" 1;
 	}
 

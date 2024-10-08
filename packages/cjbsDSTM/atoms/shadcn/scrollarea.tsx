@@ -13,18 +13,18 @@ export const ScrollBar = forwardRef<
 		orientation={orientation}
 		forceMount={disableScroll ? undefined : true}
 		className={cn(
-			"twcss-flex twcss-touch-none twcss-select-none twcss-transition-colors twcss-z-[5]",
+			"flex touch-none select-none transition-colors z-[5]",
 			orientation === "vertical" &&
-			"twcss-h-full twcss-w-2.5 twcss-border-l twcss-border-l-transparent twcss-pl-[3px]", //"p-[1px]"
+			"h-full w-2.5 border-l border-l-transparent pl-[3px]", //"p-[1px]"
 			orientation === "horizontal" &&
-			"twcss-h-2.5 twcss-flex-col twcss-border-t twcss-border-t-transparent twcss-pt-[3px]", //"p-[1px]"
-			"[&[data-state=hidden]>div]:!twcss-opacity-50",
+			"h-2.5 flex-col border-t border-t-transparent pt-[3px]", //"p-[1px]"
+			"[&[data-state=hidden]>div]:!opacity-50",
 			className
 		)}
 		{...props}
 	>
 		<ScrollAreaThumb className={cn(
-			"twcss-relative twcss-flex-1 twcss-rounded-full twcss-bg-theme-scroll twcss-transition-opacity",
+			"relative flex-1 rounded-full bg-theme-scroll transition-opacity",
 		)}/>
 	</ScrollAreaScrollbar>
 ))
@@ -40,11 +40,11 @@ export const ScrollArea = forwardRef<
 >(({ className, children, onScroll, viewportClass, orientation="vertical", disableScroll=false, ...props }, ref: ForwardedRef<ElementRef<typeof Root>>)=>(
 	<Root
 		ref={ref}
-		className={cn("twcss-relative twcss-overflow-hidden", className)}
+		className={cn("relative overflow-hidden", className)}
 		{...props}
 	>
 		<Viewport id={`viewport-${props.id}`} onScroll={onScroll} className={cn(
-			"twcss-h-full twcss-w-full twcss-rounded-[inherit]",
+			"h-full w-full rounded-[inherit]",
 			viewportClass
 		)}>
 			{children}

@@ -1,10 +1,16 @@
 /** @type {import('tailwindcss').Config} */
+console.log("✅✅Tailwind Root Config")
+
 module.exports = {
   // prefix: 'tw-',
+  prefix:"",
   content: [
-    "./apps/bsadmin/**/*.{ts,tsx,js,jsx}",
-    // "./packages/cjbsDSTM/**/*.{ts,tsx,js,jsx}",
-    "./**/*.{ts,tsx,js,jsx}",
+    "./atoms/**/*.{ts,tsx,js,jsx}",
+    "./src/**/*.{ts,tsx,js,jsx}",
+    // "./apps/bsadmin/**/*.{ts,tsx,js,jsx}",
+    // "./packages/cjbsDSTM/atoms/**/*.{ts,tsx,js,jsx}",
+    // "apps/bsadmin/src/**/*.{ts,tsx,js,jsx}",
+    // "packages/cjbsDSTM/atoms/**/*.{ts,tsx,js,jsx}"
   ],
   theme: {
     fontSize: {
