@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from "react";
 import { DELETE } from "api";
 import { useRouter } from "next-nprogress-bar";
-import { AlertModal, ContainedButton } from "cjbsDSTM";
+import {AlertModal, ContainedButton, DeletedButton} from "cjbsDSTM";
 import { useParams } from "next/navigation";
 import {mutate} from "swr";
 import {toast} from "react-toastify";
 
-const DeleteBtn = ( {orshUkey} : { orshUkey:string; }) => {
+const CancelBtn = ({orshUkey} : { orshUkey:string; }) => {
   console.log("orshUkey : {}", orshUkey);
   const params = useParams();
   const router = useRouter();
@@ -19,13 +19,13 @@ const DeleteBtn = ( {orshUkey} : { orshUkey:string; }) => {
       if (res.success) {
         mutate(`/orshbs-list/`);
         toast("취소 되었습니다.");
-        handleAlertClose();
       } else {
         setSubAlertMsg(res.message);
       }
     } catch (error) {
       console.error("Error submitting form", error);
     } finally {
+      handleAlertClose();
     }
   };
 
@@ -40,9 +40,8 @@ const DeleteBtn = ( {orshUkey} : { orshUkey:string; }) => {
 
   return (
     <>
-      <ContainedButton
+      <DeletedButton
           buttonName="취소"
-          color="error"
           onClick={handleAlertOpen}
           size="small"
       />
@@ -58,4 +57,4 @@ const DeleteBtn = ( {orshUkey} : { orshUkey:string; }) => {
   );
 };
 
-export default DeleteBtn;
+export default CancelBtn;

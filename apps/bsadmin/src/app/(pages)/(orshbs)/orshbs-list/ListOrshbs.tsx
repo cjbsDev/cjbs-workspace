@@ -48,7 +48,7 @@ import OrderRegChckNgsAnalysis from "./components/OrderRegChckNgsAnalysis";
 import dynamic from "next/dynamic";
 import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
 import {useSession} from "next-auth/react";
-import DeleteBtn from "./components/DeleteBtn";
+import CancelBtn from "./components/CancelBtn";
 
 const LazyOrderRegChckNgsAnalysis = dynamic(
   () => import("./components/OrderRegChckNgsAnalysis"),
@@ -263,7 +263,7 @@ export default function ListOrshbs() {
                         />
 
                         {/* userId와 createdBy가 일치할 때 취소 버튼 표시 */}
-                        {userId === row.createdBy && <DeleteBtn orshUkey={row.orshUkey}/>}
+                        {userId === row.createdBy && <CancelBtn orshUkey={row.orshUkey}/>}
 
                         {/* isMastered가 'Y'일 때 LazyOrderRegChckNgsAnalysis 실행 */}
                         {row.isMastered === "Y" && (
