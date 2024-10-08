@@ -70,7 +70,7 @@ module.exports = {
         extend: {
         fontSize: {
         short: ["0.8rem","1rem"],
-        tall: ["1rem","1.25rem"],
+        tall: ["0.9rem","1rem"],
         },
           colors: {
             "cj-red": "#ef151e",

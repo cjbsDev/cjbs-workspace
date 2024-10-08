@@ -885,7 +885,7 @@ export function EzTable<TData, TValue>({
 									"sticky top-0 font-bold text-tall py-1",
 									"[&:has([role=checkbox])>span]:justify-center",
 									"[&:has([role=checkbox])>span>span]:justify-center",
-									header.column.getIndex()===1 ? "pl-0" : "",
+									// header.column.getIndex()===1 ? "pl-0" : "",
 									"bg-theme-box",
 									[false,null,undefined].includes(header.column.columnDef.meta?.isEditable) &&
 									[false,null,undefined].includes(header.column.columnDef.meta?.isDeletable) && "!cursor-default"&&(
@@ -1109,7 +1109,7 @@ export function EzTable<TData, TValue>({
 										cell.column.columnDef.meta?.enableMultiline
 										? "whitespace-normal"
 										: "whitespace-nowrap text-ellipsis overflow-hidden",
-										cell.column.getIndex()===1 ? "pl-0" : "",
+										// cell.column.getIndex()===1 ? "pl-0" : "",
 										cell.column.getIsPinned()&&row.getIsSelected()
 										? "bg-theme-text-hover"
 										: cell.column.getIsPinned()
@@ -1357,7 +1357,7 @@ function EzTableTopBar<TData,TValue>({
 				</PopoverTrigger>
 				<PopoverContent
 					align="end"
-					className="max-w-[600px] max-h-[600px] min-w-[400px]"
+					className="max-w-[600px] max-h-[600px] min-w-[400px] overflow-y-auto"
 					container={typeof window !== "undefined" ? document.getElementById("appWrapper") : undefined}
 				>
 					<div className={cn(
@@ -1915,7 +1915,7 @@ export function EzTableOptions<TData,TValue>({
 										)
 									}}
 								>
-								<span title={v.header} className="max-w-[250px] overflow-x-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
+								<span title={v.header} className="max-w-[250px] overflow-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
 								{v.visibility ? <LuEye className="h-4 w-4"/> : <LuEyeOff className="h-4 w-4"/>}
 							</DropdownMenuItem>
 							))}

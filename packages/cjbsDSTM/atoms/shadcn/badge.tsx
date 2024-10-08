@@ -4,7 +4,7 @@ import { cn } from "./mergeStyle";
 
 export const badgeVariants = cva(
 	[
-		"inline-flex items-center border px-2 py-0.5 text-tall font-normal",
+		"inline-flex items-center border px-2 py-0.5 text-short font-normal",
 		"transition-colors focus:outline-none",
 		// "focus:ring-2 focus:ring-ring focus:ring-offset-2"
 	].join(" "),

@@ -17,6 +17,8 @@ import {
 import Ellipsis from "../../../../../components/Ellipsis";
 import useCalculatedHeight from "../../../../../hooks/useCalculatedHeight";
 import NoDataView from "../../../../../components/NoDataView";
+import { Badge } from "cjbsDSTM/atoms/shadcn/badge";
+import { cn } from "cjbsDSTM/atoms/shadcn/mergeStyle";
 
 const SampleDataTable = (props) => {
   const {
@@ -437,93 +439,329 @@ const SampleDataTable = (props) => {
     {
       accessorKey: "sampleId",
       id:"sampleId",
-      header: "샘플번호"
+      header: "샘플번호",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "number"
+      }
     },
     {
       id: "rowIndex",
       header: "번호",
-      accessorFn: (row, rowIndex) => rowIndex+1
+      accessorFn: (row, rowIndex) => rowIndex+1,
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "sampleNm",
       id: "sampleNm",
-      header: "샘플명"
+      header: "샘플명",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "altrNm",
       id: "altrNm",
-      header: "대체명"
+      header: "대체명",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "sampleTypeVal",
       id: "sampleTypeVal",
-      header: "샘플종류"
+      header: "샘플종류",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "source",
       id: "source",
-      header: "Source"
+      header: "Source",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "depthVal",
       id: "depthVal",
-      header: "Depth"
+      header: "Depth",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "taxonVal",
       id: "taxonVal",
-      header: "Taxon"
+      header: "Taxon",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "isVrfc",
       id: "isVrfc",
-      header: "검증"
+      header: "검증",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "memo",
       id: "memo",
-      header: "메모"
+      header: "메모",
+      enableMultiSort: true,
+      accessorFn:(row) => row.memo ?? "-",
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "runList",
       id: "runList",
       header: "RUN",
-      accessorFn: (row) => row.runList.length===0 ? "-" : row.runList.join()
+      accessorFn: (row) => row.runList.length===0 ? "-" : row.runList.join(),
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "number"
+      }
     },
     {
       accessorKey: "sampleStatusRes.rcptStatusVal",
       id: "sampleStatusRes.rcptStatusVal",
-      header: "접수"
+      header: "접수",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.rcptStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.rcptDttm}
+            </span>
+          </div>
+        )
+      },
+      meta: {
+        dataType: "string"
+      }
     },
     {
       accessorKey: "sampleStatusRes.qcStatusVal",
       id: "sampleStatusRes.qcStatusVal",
-      header: "QC"
+      header: "QC",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      },
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.qcStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.qcCompDttm}
+            </span>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "sampleStatusRes.libStatusVal",
       id: "sampleStatusRes.libStatusVal",
-      header: "LIB"
+      header: "LIB",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      },
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.libStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.libCompDttm}
+            </span>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "sampleStatusRes.seqStatusVal",
       id: "sampleStatusRes.seqStatusVal",
-      header: "Seq"
+      header: "Seq",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      },
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.seqStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.seqCompDttm}
+            </span>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "sampleStatusRes.biStatusVal",
       id: "sampleStatusRes.biStatusVal",
-      header: "BI"
+      header: "BI",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      },
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.biStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.biCompDttm}
+            </span>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "sampleStatusRes.ntfcStatusVal",
       id: "sampleStatusRes.ntfcStatusVal",
-      header: "통보"
+      header: "통보",
+      enableMultiSort: true,
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      },
+      cell: ({cell, row}) => {
+        const val = cell.getValue() as string;
+        const code = row.original.sampleStatusRes.ntfcStatusCc;
+        return(
+          <div
+            className="flex flex-col justify-center items-center gap-1"
+          >
+            <Badge
+              shape="ellipse"
+              variant="outline"
+              className={cn(
+                // "text-theme-box border-theme-box",
+                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+              )}
+            >
+              {val}
+            </Badge>
+            <span className="text-[.8rem]">
+              {row.original.sampleStatusRes.ntfcCompDttm}
+            </span>
+          </div>
+        )
+      },
     },
     {
       accessorKey: "isAnlsItst",
       id: "isAnlsItst",
-      header: "분석내역서"
+      header: "분석내역서",
+      enableMultiSort: true,
+      accessorFn: (row) => row.isAnlsItst==="Y" ? "생성" : "-",
+      filterFn: "includesString",
+      meta: {
+        dataType: "string"
+      }
     }
   ],[])
   return (
@@ -557,6 +795,12 @@ const SampleDataTable = (props) => {
         columns={cols}
         isLoading={fetched.isLoading}
         enableSelect
+        enableTableOption
+        options={{
+          useMultiFilter: true,
+          useColumnVisibility: true,
+          usePinning: false,
+        }}
       />
     </Box>
   );
