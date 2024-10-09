@@ -69,7 +69,7 @@ export const TableRow = forwardRef<
         className={cn(
             "border-t border-theme-border",
             "transition-colors",
-            "hover:bg-theme-transparent-hover data-[state=selected]:bg-theme-text-hover",
+            "hover:bg-theme-transparent-hover data-[state=selected]:bg-theme-text-hover group",
             className
         )}
         {...props}
@@ -102,7 +102,7 @@ export const TableCell = forwardRef<
         ref={ref}
         role="cell"
         className={cn(
-            "h-auto px-2 py-1 align-middle",
+            "h-auto px-2 py-1 align-middle group-data-[state=selected]:bg-theme-text-hover",
             "text-theme-text",
             className
         )}
