@@ -39,6 +39,8 @@ import {
 	flexRender,
 } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
+import { LuPin } from "@react-icons/all-files/lu/LuPin";
+import { LuPinOff } from "@react-icons/all-files/lu/LuPinOff";
 import { LuSlidersHorizontal } from "@react-icons/all-files/lu/LuSlidersHorizontal";
 import { LuEye } from "@react-icons/all-files/lu/LuEye";
 import { LuEyeOff } from "@react-icons/all-files/lu/LuEyeOff";
@@ -66,6 +68,7 @@ import { EzFilterInputs } from "./input";
 import { ScrollArea } from "./scrollarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./table";
 import { tablePaginationClasses } from "@mui/material";
+import { useResizeObserver } from "./useResizeObserver";
 
 // import "./tailwind.scss";
 interface EzTableProps<TData, TValue> {
@@ -218,6 +221,7 @@ export function EzTable<TData, TValue>({
 	const [ activeTab, setActiveTab ] = useState<string>("");
 	const [ editableData, setEditableData ] = useState<TData[]>([]);
 	const [ editableColumns, setEditableColumns ] = useState<ColumnDef<TData,TValue>[]>([]);
+	const [ dynamicColumnSize, setDynamicColumnSize ] = useState<{[key:string]:number}>({});
 
     useEffect(()=>{
 		setEditableData(data)
@@ -227,7 +231,8 @@ export function EzTable<TData, TValue>({
 	},[columns])
 
     const containerRef = useRef<HTMLDivElement>(null);
-
+	const isResizing = useResizeObserver({ref:containerRef})
+	
     /*
 	* Pagination
 	*/
@@ -764,18 +769,83 @@ export function EzTable<TData, TValue>({
 			isPinned === 'left' && column.getIsLastColumn('left')
 		const isFirstRightPinnedColumn =
 			isPinned === 'right' && column.getIsFirstColumn('right')
+		// console.log(
+		// 	typeof column.columnDef.header==="string" ? column.columnDef.header : column.columnDef.meta.header,
+		// 	isPinned,
+		// 	column.getStart("left"),
+		// 	column.getAfter("right")
+		// )
+		// console.log(
+		// 	column.id,
+		// 	column.getSize()
+		// )
+		// console.log(columnPinning.left)
+		// console.log(column)
+		const currentOrder = table.getHeaderGroups()[0].headers
+		const currentIdx = currentOrder.findIndex((v)=>v.id===column.id);
+
+		// let dynamicLeft = 0;
+
+		// for(let i=0;i<currentIdx;i++) {
+		// 	if(i===0) dynamicLeft=0;
+		// 	else {
+		// 		const prevId:string = columnPinning.left?.[i-1] || "";
+		// 		dynamicLeft+=dynamicColumnSize[prevId]
+		// 	}
+		// }
+		// if(isHeader) console.log(column.id,currentIdx,currentOrder.slice(0,currentIdx),dynamicLeft)
+		const dynamicLeft = currentOrder.slice(0,currentIdx).reduce((acc:number,cur,curIdx:number)=>{
+			// const currentOrder = table.getHeaderGroups()[0].headers;
+			// const currentTargetIdx = currentOrder.findIndex((v)=>v.id===cur);
+			// console.log(column.columns)
+			const prevId:string = cur.id;
+			return acc+dynamicColumnSize[prevId]
+		},0);
+
+		// // console.log(column.id, dynamicLeft)
+		// if(isHeader) console.log(column.id,currentOrder.slice(0,currentIdx),dynamicLeft)
+
 		return {
-			left: isPinned === 'left' ? `${column.columnDef.id==="selectRow" ? 0 : column.getAfter("left")}px` : undefined,
+			// boxShadow: isLastLeftPinnedColumn
+				// ? '-4px 0 4px -4px gray inset'
+				// : isFirstRightPinnedColumn
+				// ? '4px 0 4px -4px gray inset'
+				// : undefined,
+			left: isPinned === 'left'
+				? `${column.columnDef.id==="selectRow"||columnPinning.left?.indexOf(column.columnDef.id as string)===0
+					? 0
+					// : column.getAfter("left")}px`
+					: dynamicLeft}px`
+				: undefined,
+			// right: isPinned === 'right' ? `${column.getAfter('right')-150}px` : undefined,
 			opacity: isPinned ? 0.95 : 1,
 			position: isPinned || isHeader ? 'sticky' : 'relative',
 			// width: column.getSize(),
+			// zIndex: isHeader ? 2 : isPinned ? 1 : 0,
 			zIndex: isHeader&&isPinned
-				? 3
+				// ? 55 - (column.columns.length-column.getIndex())
+				? 5
 				: isPinned || isHeader
-				? 2
+				? 3
+				// ? 53 - (column.columns.length-column.getIndex())
 				: 1
 		}
 	}
+
+	useEffect(()=>{
+		if(containerRef.current) {
+			const headers = containerRef.current.querySelectorAll('th');
+			const newWidths:any = {};
+			headers.forEach((header,idx)=>{
+				const colId = table.getHeaderGroups()[0].headers[idx].id as string;
+				newWidths[colId] = header.offsetWidth;
+			})
+			// console.log(headers, newWidths, table.getHeaderGroups())
+			setDynamicColumnSize(newWidths);
+		}
+	},[
+		data,columns,isResizing.width, isResizing.height
+	])
 
     return(
         <div
@@ -1871,7 +1941,7 @@ export function EzTableOptions<TData,TValue>({
 						Enable Advanced Search
 					</Label>
 				</DropdownMenuItem>}
-				{/* {useColumnPinning&&
+				{useColumnPinning&&
 				<DropdownMenuSub>
 					<DropdownMenuSubTrigger className="h-10">
 						<span>Pin column(s)</span>
@@ -1899,7 +1969,7 @@ export function EzTableOptions<TData,TValue>({
 							))}
 						</DropdownMenuSubContent>
 					</DropdownMenuPortal>
-				</DropdownMenuSub>} */}
+				</DropdownMenuSub>}
 				{useVisibilityControl&&<DropdownMenuSub>
 					<DropdownMenuSubTrigger className="h-10">
 						<span>Hide column(s)</span>

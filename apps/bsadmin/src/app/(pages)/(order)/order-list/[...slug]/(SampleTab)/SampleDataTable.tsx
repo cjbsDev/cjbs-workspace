@@ -800,7 +800,7 @@ const SampleDataTable = (props) => {
         options={{
           useMultiFilter: true,
           useColumnVisibility: true,
-          usePinning: false,
+          usePinning: true,
         }}
       />
     </Box>
