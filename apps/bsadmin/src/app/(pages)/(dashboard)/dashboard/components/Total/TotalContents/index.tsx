@@ -53,7 +53,7 @@ const Index = () => {
         </Grid>
         <Grid item xs={12}>
           <Stack direction="row" justifyContent="flex-end">
-            <Typography variant="body2">단위: 만 원</Typography>
+            <Typography variant="body2">단위: 천 원</Typography>
           </Stack>
           <Stack sx={{ height: 340 }}>
             <Charts
