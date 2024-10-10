@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import dayjs from "dayjs";
 
 // 유틸리티 함수
 const getCurrentDateInfo = () => {
@@ -16,12 +17,12 @@ const { year, month, quarter, half } = getCurrentDateInfo();
 // 대시보드 상태 정의
 export const startYearAtom = atom({
   key: "startYearAtom",
-  default: 2023,
+  default: dayjs().year(),
 });
 
 export const endYearAtom = atom({
   key: "endYearAtom",
-  default: 2023,
+  default: dayjs().year(),
 });
 
 export const dashboardYearAtom = atom({

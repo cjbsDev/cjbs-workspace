@@ -17,7 +17,7 @@ const Legend = (props: LegendProps) => {
   return (
     <Box>
       <Typography variant="body2" sx={{ textAlign: "right", pb: 5 }}>
-        단위: 만 원
+        단위: 천 원
       </Typography>
       <Grid container columnSpacing={5}>
         {salesLabels.map(

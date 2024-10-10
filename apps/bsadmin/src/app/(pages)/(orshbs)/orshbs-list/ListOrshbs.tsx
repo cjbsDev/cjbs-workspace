@@ -1,19 +1,19 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, {useCallback, useMemo} from "react";
 import {
-  DataCountResultInfo,
-  DataTableBase,
-  DataTableFilter,
-  Title1,
-  LeaderCip,
-  ContainedButton,
-  SelectBox,
-  Form,
-  OutlinedButton,
-  cjbsTheme,
-  FileDownloadBtn,
-  FullHeightLoading,
+    DataCountResultInfo,
+    DataTableBase,
+    DataTableFilter,
+    Title1,
+    LeaderCip,
+    ContainedButton,
+    SelectBox,
+    Form,
+    OutlinedButton,
+    cjbsTheme,
+    FileDownloadBtn,
+    FullHeightLoading, AlertModal,
 } from "cjbsDSTM";
 import {
   Stack,
@@ -41,12 +41,14 @@ import { toast } from "react-toastify";
 import ServiceSelectModal from "./ServiceSelectModal";
 import KeywordSearch from "../../../components/KeywordSearch";
 import { usePathname, useSearchParams } from "next/navigation";
-import { fetcher } from "api";
+import {DELETE, fetcher} from "api";
 import { styled } from "@mui/material/styles";
 import NoDataView from "../../../components/NoDataView";
 import OrderRegChckNgsAnalysis from "./components/OrderRegChckNgsAnalysis";
 import dynamic from "next/dynamic";
 import useCalculatedHeight from "../../../hooks/useCalculatedHeight";
+import {useSession} from "next-auth/react";
+import CancelBtn from "./components/CancelBtn";
 
 const LazyOrderRegChckNgsAnalysis = dynamic(
   () => import("./components/OrderRegChckNgsAnalysis"),
@@ -72,12 +74,12 @@ const LightTooltip = styled(({ className, ...props }: TooltipProps) => (
 export default function ListOrshbs() {
   //const tableRef = React.useRef<any>(null);
   const table = useRef(null);
+  const { data: session, status } = useSession();
+  const userId = session?.uid;
 
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [filters, setFilters] = useState("");
-
-  const { mutate } = useSWRConfig();
 
   // ListAPI Call
   // const { data } = useFiltersList("orsh/bs/intn", filters);
@@ -95,12 +97,11 @@ export default function ListOrshbs() {
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
-  console.log(">>>>>>>>>", resultObject);
 
   const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
 
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     JSON.stringify(resultObject) !== "{}"
       ? `/orsh/bs/intn/list${result}&page=${page}&size=${size}`
       : `/orsh/bs/intn/list?page=${page}&size=${size}`,
@@ -109,11 +110,11 @@ export default function ListOrshbs() {
       suspense: true,
     },
   );
-  console.log("고객주문서 LIST DATA", data);
+  // console.log("고객주문서 LIST DATA", data);
 
-  console.log("data >>>>>>> : ", data);
+  // console.log("data >>>>>>> : ", data);
   const totalElements = data.pageInfo.totalElements;
-  console.log("totalElements >>>>>>> : ", totalElements);
+  // console.log("totalElements >>>>>>> : ", totalElements);
   // const handleRowSelected = (rows: any) => {
   //   setSelectedOption(rows.selectedRows);
   //   setSelectedRowCnt(rows.selectedCount);
@@ -232,42 +233,53 @@ export default function ListOrshbs() {
       },
       {
         name: "주문상태",
-        cell: (row: { isOrderStatus: string; isMastered: string }) => {
-          return row.isOrderStatus == "N" ? (
-            <Stack direction="row" spacing={1} alignItems="center">
-              <Typography
-                variant="subtitle2"
-                color={cjbsTheme.palette.info.main}
-              >
-                주문대기
-              </Typography>
-              <Divider orientation="vertical" variant="middle" flexItem />
-              <OutlinedButton
-                buttonName="수정"
-                size="small"
-                onClick={() => goDetailPage(row)}
-              />
+        cell: (row: { isOrderStatus: string; isMastered: string; isCancel: string; createdBy: number; orshUkey: string}) => {
+            // isCancel이 'Y'인 경우 '주문취소' 표시
+            if (row.isCancel === "Y") {
+                return (
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                        <Typography variant="subtitle2">
+                            주문취소
+                        </Typography>
+                    </Stack>
+                );
+            }
+            // isOrderStatus가 'N'이고 isCancel이 'N'인 경우 '주문대기'와 버튼들 표시
+            if (row.isOrderStatus === "N" && row.isCancel === "N") {
+                return (
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <Typography variant="subtitle2" color={cjbsTheme.palette.info.main}>
+                            주문대기
+                        </Typography>
+                        <Divider orientation="vertical" variant="middle" flexItem />
 
-              {row.isMastered == "Y" ? (
-                <>
-                  {/*<Divider orientation="vertical" variant="middle" flexItem />*/}
-                  {/*<ContainedButton*/}
-                  {/*  buttonName="+오더등록"*/}
-                  {/*  size="small"*/}
-                  {/*  onClick={() => goLinkOrderPage(row)}*/}
-                  {/*/>*/}
-                  <LazyOrderRegChckNgsAnalysis row={row} />
-                </>
-              ) : (
-                ""
-              )}
-            </Stack>
-          ) : (
-            <Stack direction="row" spacing={0.5} alignItems="center">
-              {/*<Box data-tag="allowRowEvents">주문완료</Box>*/}
-              <Typography variant="subtitle2">주문완료</Typography>
-            </Stack>
-          );
+                        {/* 수정 버튼 */}
+                        <OutlinedButton
+                            buttonName="수정"
+                            size="small"
+                            onClick={() => goDetailPage(row)}
+                        />
+
+                        {/* userId와 createdBy가 일치할 때 취소 버튼 표시 */}
+                        {userId === row.createdBy &&
+                            <CancelBtn mutate={mutate} orshUkey={row.orshUkey}/>}
+
+                        {/* isMastered가 'Y'일 때 LazyOrderRegChckNgsAnalysis 실행 */}
+                        {row.isMastered === "Y" && (
+                            <LazyOrderRegChckNgsAnalysis row={row} />
+                        )}
+                    </Stack>
+                );
+            }
+
+            // isOrderStatus가 'Y'인 경우 '주문완료' 표시
+            if (row.isOrderStatus === "Y") {
+                return (
+                    <Stack direction="row" spacing={0.5} alignItems="center">
+                        <Typography variant="subtitle2">주문완료</Typography>
+                    </Stack>
+                );
+            }
         },
         width: "260px",
       },
@@ -287,10 +299,12 @@ export default function ListOrshbs() {
     srvcTypeAbb: string;
     isOrderStatus: string;
     anlsTypeAbb: string;
+    isCancel: string;
   }) => {
     const orshUkey = row.orshUkey;
     const srvcTypeAbb = row.srvcTypeAbb;
-    const isOrderStatus = row.isOrderStatus;
+    // const isOrderStatus = row.isOrderStatus;
+    const isOrderStatus = row.isCancel === "Y" ? "Y" : row.isOrderStatus;
     const anlsTypeAbb = row.anlsTypeAbb;
     router.push(
       "/orshbs-list/" +
