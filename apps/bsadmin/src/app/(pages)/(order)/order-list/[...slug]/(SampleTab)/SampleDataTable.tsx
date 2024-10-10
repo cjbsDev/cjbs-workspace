@@ -765,7 +765,7 @@ const SampleDataTable = (props) => {
     }
   ],[])
   return (
-    <Box sx={{ mt: -5, display: "grid" }}>
+    <Box sx={{ mt: -5, display: "grid",position:"relative" }}>
       {/* <DataTableBase
         title={<Typography variant="subtitle1">목록</Typography>}
         data={filteredItems}
@@ -790,19 +790,23 @@ const SampleDataTable = (props) => {
         paginationPerPage={100}
         paginationRowsPerPageOptions={[100, 200, 300, 400]}
       /> */}
-      <EzTable
-        data={filteredItems ?? []}
-        columns={cols}
-        isLoading={fetched.isLoading}
-        enableSelect
-        enableTableOption
-        highlightOdd
-        options={{
-          useMultiFilter: true,
-          useColumnVisibility: true,
-          usePinning: true,
-        }}
-      />
+      <div className="relative w-full h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)]">
+        <div className="sticky left-0 top-0 w-full h-full max-h-full">
+        <EzTable
+          data={filteredItems ?? []}
+          columns={cols}
+          isLoading={fetched.isLoading}
+          enableSelect
+          enableTableOption
+          highlightOdd
+          options={{
+            useMultiFilter: true,
+            useColumnVisibility: true,
+            usePinning: true,
+          }}
+        />
+        </div>
+      </div>
     </Box>
   );
 };

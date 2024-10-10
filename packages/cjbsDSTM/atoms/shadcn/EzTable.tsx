@@ -918,10 +918,14 @@ export function EzTable<TData, TValue>({
 				type="hover"
 				orientation="both"
 				className={cn(
-					"flex-grow pr-2.5"
+					"flex-grow pr-2.5 max-w-full"
 				)}
 				ref={containerRef}
 			>
+				<div className={cn(
+					"w-full h-auto",
+					(isLoading||table.getRowModel().rows?.length===0)&&"h-full flex-shrink flex-grow-0"
+				)}>
 				<Table
 					className={cn(
 						"h-full grow",
@@ -954,7 +958,7 @@ export function EzTable<TData, TValue>({
 								key={`header-${header.id}-${vci}`}
 								id={`header-${header.id}-${vci}`}
 								className={cn(
-									"sticky top-0 font-bold text-tall py-1",
+									"sticky top-0 font-bold text-tall py-1 whitespace-nowrap",
 									"[&:has([role=checkbox])>span]:justify-center",
 									"[&:has([role=checkbox])>span>span]:justify-center",
 									// header.column.getIndex()===1 ? "pl-0" : "",
@@ -1243,6 +1247,7 @@ export function EzTable<TData, TValue>({
 						}
 					</TableBody>
 				</Table>
+				</div>
 				{customCard&&
 				(
 					(typeof customCardThreshold==="number"&&Number(containerRef.current?.clientWidth)<customCardThreshold) ||
@@ -1960,7 +1965,7 @@ export function EzTableOptions<TData,TValue>({
 									else table.getColumn(v.id!)?.pin("left")
 								}}
 							>
-								<span title={v.header} className="max-w-[250px] overflow-x-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
+								<span title={v.header} className="max-w-[250px] overflow-hidden text-ellipsis whitespace-nowrap">{v.header}</span>
 								{table.getColumn(v.id!)?.getIsPinned() ?
 								<LuPinOff className="h-4 w-4" />
 								:
