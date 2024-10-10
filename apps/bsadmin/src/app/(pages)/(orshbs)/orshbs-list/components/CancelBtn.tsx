@@ -3,21 +3,21 @@ import { DELETE } from "api";
 import { useRouter } from "next-nprogress-bar";
 import {AlertModal, ContainedButton, DeletedButton} from "cjbsDSTM";
 import { useParams } from "next/navigation";
-import {mutate} from "swr";
 import {toast} from "react-toastify";
+import {mutate, useSWRConfig} from "swr";
+import {CanceledError} from "axios";
 
-const CancelBtn = ({orshUkey} : { orshUkey:string; }) => {
-  console.log("orshUkey : {}", orshUkey);
+const CancelBtn = ({orshUkey, mutate} : { orshUkey:string; mutate:any}) => {
   const params = useParams();
   const router = useRouter();
   const [alertModalOpen, setAlertModalOpen] = useState<boolean>(false);
   const [subAlertMsg, setSubAlertMsg] = useState("");
-  const handleOrshDelete = async (orshUkey: string) => {
+  const handleOrshCancel = async (orshUkey: string) => {
     try {
       const res = await DELETE(`/orsh/bs/${orshUkey}`);
       console.log("Response", res);
       if (res.success) {
-        mutate(`/orshbs-list/`);
+        mutate();
         toast("취소 되었습니다.");
       } else {
         setSubAlertMsg(res.message);
@@ -47,7 +47,7 @@ const CancelBtn = ({orshUkey} : { orshUkey:string; }) => {
       />
       <AlertModal
           onClose={handleAlertClose}
-          alertMainFunc={() => handleOrshDelete(orshUkey)}
+          alertMainFunc={() => handleOrshCancel(orshUkey)}
           open={alertModalOpen}
           mainMessage="취소를 진행하시겠습니까?"
           subMessage={subAlertMsg}

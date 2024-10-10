@@ -80,7 +80,6 @@ export default function ListOrshbs() {
   const [page, setPage] = useState<number>(1);
   const [size, setSize] = useState<number>(100);
   const [filters, setFilters] = useState("");
-  const { mutate } = useSWRConfig();
 
   // ListAPI Call
   // const { data } = useFiltersList("orsh/bs/intn", filters);
@@ -98,12 +97,11 @@ export default function ListOrshbs() {
   for (const [key, value] of searchParams.entries()) {
     resultObject[key] = value;
   }
-  console.log(">>>>>>>>>", resultObject);
 
   const result = "?" + new URLSearchParams(resultObject).toString();
-  console.log("RESULT@#@#@#", JSON.stringify(result));
+  // console.log("RESULT@#@#@#", JSON.stringify(result));
 
-  const { data } = useSWR(
+  const { data, mutate } = useSWR(
     JSON.stringify(resultObject) !== "{}"
       ? `/orsh/bs/intn/list${result}&page=${page}&size=${size}`
       : `/orsh/bs/intn/list?page=${page}&size=${size}`,
@@ -112,11 +110,11 @@ export default function ListOrshbs() {
       suspense: true,
     },
   );
-  console.log("고객주문서 LIST DATA", data);
+  // console.log("고객주문서 LIST DATA", data);
 
-  console.log("data >>>>>>> : ", data);
+  // console.log("data >>>>>>> : ", data);
   const totalElements = data.pageInfo.totalElements;
-  console.log("totalElements >>>>>>> : ", totalElements);
+  // console.log("totalElements >>>>>>> : ", totalElements);
   // const handleRowSelected = (rows: any) => {
   //   setSelectedOption(rows.selectedRows);
   //   setSelectedRowCnt(rows.selectedCount);
@@ -263,7 +261,8 @@ export default function ListOrshbs() {
                         />
 
                         {/* userId와 createdBy가 일치할 때 취소 버튼 표시 */}
-                        {userId === row.createdBy && <CancelBtn orshUkey={row.orshUkey}/>}
+                        {userId === row.createdBy &&
+                            <CancelBtn mutate={mutate} orshUkey={row.orshUkey}/>}
 
                         {/* isMastered가 'Y'일 때 LazyOrderRegChckNgsAnalysis 실행 */}
                         {row.isMastered === "Y" && (
