@@ -788,16 +788,18 @@ const SampleDataTable = (props) => {
         noDataComponent={<NoDataView />}
         pagination
         paginationPerPage={100}
-        paginationRowsPerPageOptions={[100, 200, 300, 400]}
+        paginationRowsPerPageOptions={[100, 200, 300, 400]}  max-w-[calc(100vw-307px)] 
       /> */}
       <div className="relative w-full h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)]">
-        <div className="sticky left-0 top-0 w-full h-full max-h-full">
+        <div className="absolute left-0 top-0 w-full h-full max-h-full">
         <EzTable
+          idKey="sampleId"
           data={filteredItems ?? []}
           columns={cols}
           isLoading={fetched.isLoading}
           enableSelect
           enableTableOption
+          customTopBar={subHeaderComponentMemo}
           highlightOdd
           options={{
             useMultiFilter: true,
