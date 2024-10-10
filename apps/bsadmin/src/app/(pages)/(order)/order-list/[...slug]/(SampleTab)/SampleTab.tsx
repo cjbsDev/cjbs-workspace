@@ -51,6 +51,7 @@ const SampleTab = () => {
   const [isClear, setIsClear] = useState<boolean>(false);
   const [sampleUkeyList, setSampleUkeyList] = useState<string[]>([]);
   const [sampleIdList, setSampleIdList] = useState<number[]>([]);
+  const [rowSelection, setRowSelection ] = useState<any>({});
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false);
   useEffect(() => {
     // isClear 상태 변경 이슈
@@ -194,6 +195,17 @@ const SampleTab = () => {
     [sampleUkeyList],
   );
 
+  const handleRowSelection = (data:any) => {
+    console.log(data)
+    const idArray = Object.keys(rowSelection);
+    const targetArray = data.filter((v:any)=>idArray.includes(v.sampleId.toString()));
+    const selectedSampleUkeys = targetArray.map((v:any)=>v.sampleUkey.toString());
+    const selectedSampleIds = targetArray.map((v:any)=>v.sampleId.toString());
+    setSampleUkeyList(selectedSampleUkeys);
+    setSampleIdList(selectedSampleIds);
+    console.log("selectedSamples ==>>", idArray, targetArray, selectedSampleIds, selectedSampleUkeys);
+  }
+
   const handleSampleInfoModalClose = () => {
     setShowSampleInfoModal({
       ...showSampleInfoModal,
@@ -215,6 +227,8 @@ const SampleTab = () => {
     setShowExPrgsChngModal(false);
     if (success) {
       setSampleUkeyList([]);
+      setRowSelection({});
+      setSampleIdList([]);
       setIsClear(true);
     }
   };
@@ -224,6 +238,7 @@ const SampleTab = () => {
     if (success) {
       setSampleUkeyList([]);
       setSampleIdList([]);
+      setRowSelection({});
       setIsClear(true);
     }
   };
@@ -244,6 +259,9 @@ const SampleTab = () => {
           goDetailModal={goDetailModal}
           filterText={filterText}
           isClear={isClear}
+          rowSelection={rowSelection}
+          setRowSelection={setRowSelection}
+          handleRowSelection={handleRowSelection}
         />
       </ErrorContainer>
 

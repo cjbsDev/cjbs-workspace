@@ -40,7 +40,7 @@ const SubHeader = (props: SubHeaderProps) => {
     <Grid container>
       <Grid item xs={5} sx={{ pt: 0 }}>
         <Stack direction="row" spacing={1.5} alignItems="center">
-          <DataCountResultInfo totalCount={totalCount} />
+          {/* <DataCountResultInfo totalCount={totalCount} /> */}
           <ContainedButton
             buttonName="샘플 추가"
             size="small"
@@ -67,9 +67,10 @@ const SubHeader = (props: SubHeaderProps) => {
             sx={{ color: "black" }}
             onClick={handleExPrgrsPhsOpen}
           />
+          <FileDownloadBtn exportUrl={exportUrl} iconName="xls3" />
         </Stack>
       </Grid>
-      <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
+      {/* <Grid item xs={7} sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Stack direction="row" spacing={1} sx={{ mb: 1.5 }} alignItems="center">
           <FileDownloadBtn exportUrl={exportUrl} iconName="xls3" />
 
@@ -79,7 +80,7 @@ const SubHeader = (props: SubHeaderProps) => {
             filterText={filterText}
           />
         </Stack>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo } from "react";
 import { dataTableCustomStyles3 } from "cjbsDSTM/organisms/DataTable/style/dataTableCustomStyle";
 import { cjbsTheme, DataTableBase, EzTable } from "cjbsDSTM";
 import { useParams } from "next/navigation";
@@ -27,6 +27,9 @@ const SampleDataTable = (props) => {
     handleSelectedRowChange,
     isClear,
     filterText,
+    rowSelection,
+    setRowSelection,
+    handleRowSelection
   } = props;
   const height = useCalculatedHeight(128);
   const params = useParams();
@@ -566,8 +569,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -603,8 +608,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -637,8 +644,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -671,8 +680,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -705,8 +716,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -739,8 +752,10 @@ const SampleDataTable = (props) => {
               variant="outline"
               className={cn(
                 // "text-theme-box border-theme-box",
-                code==="BS_0902003"&&"text-theme-primary border-theme-primary",
-                code==="BS_0902004"&&"text-theme-danger border-theme-danger",
+                ["BS_0902007"].includes(code)&&"text-theme-warning border-theme-warning",
+                code==="BS_0902005"&&"text-theme-primary border-theme-primary",
+                code==="BS_0902003"&&"text-theme-secondary border-theme-secondary",
+                ["BS_0902004","BS_0902006"].includes(code)&&"text-theme-danger border-theme-danger",
               )}
             >
               {val}
@@ -764,6 +779,11 @@ const SampleDataTable = (props) => {
       }
     }
   ],[])
+
+  useEffect(()=>{
+    handleRowSelection(filteredItems);
+    console.log("useEffect")
+  },[rowSelection])
   return (
     <Box sx={{ mt: -5, display: "grid",position:"relative" }}>
       {/* <DataTableBase
@@ -806,6 +826,8 @@ const SampleDataTable = (props) => {
             useColumnVisibility: true,
             usePinning: true,
           }}
+          rowSelectionState={rowSelection}
+          setRowSelectionState={setRowSelection}
         />
         </div>
       </div>
